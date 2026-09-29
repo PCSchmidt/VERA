@@ -49,7 +49,7 @@ means *not determined*. The difference drives the code-availability rate (R1).
 |---|---|
 | `gen_paper_id` | `<domain key>/<PDF file stem>` from the site listing, e.g. `applications/Health_Cartan-DEC-MiAE` (may contain spaces) |
 | `domain`, `subdomain`, `method_name` | as the site lists them |
-| `gen_pdf_url` | URL the PDF was fetched from, or `unknown` if no PDF was found. **Links to `provenance.jsonl`**, which alone holds the hash and retrieval date |
+| `gen_pdf_url` | URL the PDF was fetched from, or `unknown` if no PDF was found. **Links to `provenance.jsonl`**, which alone holds the hash and retrieval date. Filled by `scripts/fetch_corpus.py` |
 | `gen_code_url` | URL, `none`, or `unknown` |
 | `parent_title`, `parent_venue` | the human paper whose problem and baseline the generated paper uses |
 | `parent_id_arxiv_or_doi` | arXiv id (`2401.01234`) or DOI; identifies the **parent problem** |

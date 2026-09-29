@@ -45,6 +45,7 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
 |------|------|--------|----|
 | 2026-09-29 | `confirmed` | passed (3/3 checks) | Chris (approval recorded) |
 | 2026-09-29 | `scaffold_ready` | passed first try (ruff clean, 68 tests, schema 0.2 = docs/03) | agent (automated gate; `mark-passed` re-ran the checks) |
+| 2026-09-29 | `corpus_fetched` | passed first try (86 discovered = 86 stated; 86 files with matching provenance; 87 tests) | agent (automated gate; `mark-passed` re-ran the checks) |
 
 ## Observations
 
@@ -57,3 +58,9 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
   rule). Chris chose to fix it now rather than in Increment 4: docs/03 → v0.3,
   tests named for RSH-F-03. It also chose provenance as the single source for
   download facts, removing two duplicated inventory columns before any data existed.
+- `corpus_fetched` blocked nothing, but its discovery check did its job before
+  the gate ran: requiring an explanation of the count made the stated 86 worth
+  a second look. It equals the headline "beats SOTA on 86 of 107 problems", so
+  the gallery probably lists only successful papers (an inference, for the
+  Increment 0 review). The traceability check only needs *a* `test_FND_C_02_*`
+  test; it can't tell whether the test exercises the real writer.
