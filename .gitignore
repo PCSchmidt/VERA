@@ -19,3 +19,4 @@ __pycache__/
 .meridian/session.json
 .meridian/hooks.log
 .meridian/drift/
+.claude/hooks/.meridian/
