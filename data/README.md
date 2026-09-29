@@ -19,6 +19,12 @@ problems) are recorded in `corpus_discovery.json`, not assumed.
 | `site_stated_count` | number of generated papers the site states, or `null` if it states none |
 | `discovered_count` | number of generated papers the script found |
 | `explanation` | required when the counts differ or `site_stated_count` is `null` |
+| `crosscheck_url` | second listing compared against (the site repo's file tree), or `null` if skipped |
+| `papers` | one object per paper: `gen_paper_id`, `domain`, `subdomain`, `method_name`, `file` (site-relative path), `pdf_url` |
+
+The site publishes no data file; the listing is the `paperData` object in its
+`index.html`. The script also seeds `corpus_inventory.csv` with one row per paper,
+keeping rows that already exist.
 
 ## `provenance.jsonl` (FND-C-02; one JSON object per downloaded file)
 
@@ -41,7 +47,7 @@ means *not determined*. The difference drives the code-availability rate (R1).
 
 | Column | Allowed values / meaning |
 |---|---|
-| `gen_paper_id` | stable id from the site (slug or index) |
+| `gen_paper_id` | `<domain key>/<PDF file stem>` from the site listing, e.g. `applications/Health_Cartan-DEC-MiAE` (may contain spaces) |
 | `domain`, `subdomain`, `method_name` | as the site lists them |
 | `gen_pdf_url` | URL the PDF was fetched from, or `unknown` if no PDF was found. **Links to `provenance.jsonl`**, which alone holds the hash and retrieval date |
 | `gen_code_url` | URL, `none`, or `unknown` |

@@ -1,0 +1,698 @@
+{
+  "source_url": "https://scientist-two.github.io/index.html#gallery (const paperData)",
+  "retrieved": "2026-09-29",
+  "site_stated_count": 86,
+  "discovered_count": 86,
+  "explanation": "The gallery's stated total (86) matches its listing. Separately, the site headline reports beating human SOTA on 86 of 107 research problems; that counts problems, not listed papers, so it is not the corpus size. Cross-check: the site's GitHub repo holds exactly these 86 PDFs.",
+  "crosscheck_url": "https://api.github.com/repos/scientist-two/scientist-two.github.io/git/trees/HEAD?recursive=1",
+  "papers": [
+    {
+      "gen_paper_id": "applications/Health_Cartan-DEC-MiAE",
+      "domain": "Applications",
+      "subdomain": "Health",
+      "method_name": "Cartan-DEC-MiAE",
+      "file": "generated-papers/applications/Health_Cartan-DEC-MiAE.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Health_Cartan-DEC-MiAE.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Neuroscience_FCD-Engram",
+      "domain": "Applications",
+      "subdomain": "Neuroscience",
+      "method_name": "FCD-Engram",
+      "file": "generated-papers/applications/Neuroscience_FCD-Engram.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Neuroscience_FCD-Engram.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Neuroscience_Simplified DWGR-SVL",
+      "domain": "Applications",
+      "subdomain": "Neuroscience",
+      "method_name": "Simplified DWGR-SVL",
+      "file": "generated-papers/applications/Neuroscience_Simplified DWGR-SVL.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Neuroscience_Simplified%20DWGR-SVL.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Neuroscience_ST-FacRNN",
+      "domain": "Applications",
+      "subdomain": "Neuroscience",
+      "method_name": "ST-FacRNN",
+      "file": "generated-papers/applications/Neuroscience_ST-FacRNN.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Neuroscience_ST-FacRNN.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Neuroscience_TA-FATA-CSBrain",
+      "domain": "Applications",
+      "subdomain": "Neuroscience",
+      "method_name": "TA-FATA-CSBrain",
+      "file": "generated-papers/applications/Neuroscience_TA-FATA-CSBrain.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Neuroscience_TA-FATA-CSBrain.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Robotics_KinemaAnchor-Manifold",
+      "domain": "Applications",
+      "subdomain": "Robotics",
+      "method_name": "KinemaAnchor-Manifold",
+      "file": "generated-papers/applications/Robotics_KinemaAnchor-Manifold.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Robotics_KinemaAnchor-Manifold.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Sciences_ErtelHodge-STELLA",
+      "domain": "Applications",
+      "subdomain": "Sciences",
+      "method_name": "ErtelHodge-STELLA",
+      "file": "generated-papers/applications/Sciences_ErtelHodge-STELLA.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Sciences_ErtelHodge-STELLA.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Sciences_SYMP-MONGE",
+      "domain": "Applications",
+      "subdomain": "Sciences",
+      "method_name": "SYMP-MONGE",
+      "file": "generated-papers/applications/Sciences_SYMP-MONGE.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Sciences_SYMP-MONGE.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Speech_CHAMPS-RAG",
+      "domain": "Applications",
+      "subdomain": "Speech",
+      "method_name": "CHAMPS-RAG",
+      "file": "generated-papers/applications/Speech_CHAMPS-RAG.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Speech_CHAMPS-RAG.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Time Series_PG-CDIG",
+      "domain": "Applications",
+      "subdomain": "Time Series",
+      "method_name": "PG-CDIG",
+      "file": "generated-papers/applications/Time Series_PG-CDIG.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Time%20Series_PG-CDIG.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Others_AnisoSPD",
+      "domain": "Applications",
+      "subdomain": "Others",
+      "method_name": "AnisoSPD",
+      "file": "generated-papers/applications/Others_AnisoSPD.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Others_AnisoSPD.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Others_DiffTrop-Bitween",
+      "domain": "Applications",
+      "subdomain": "Others",
+      "method_name": "DiffTrop-Bitween",
+      "file": "generated-papers/applications/Others_DiffTrop-Bitween.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Others_DiffTrop-Bitween.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Others_DR-LEF",
+      "domain": "Applications",
+      "subdomain": "Others",
+      "method_name": "DR-LEF",
+      "file": "generated-papers/applications/Others_DR-LEF.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Others_DR-LEF.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Others_SAVVY-Vortex",
+      "domain": "Applications",
+      "subdomain": "Others",
+      "method_name": "SAVVY-Vortex",
+      "file": "generated-papers/applications/Others_SAVVY-Vortex.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Others_SAVVY-Vortex.pdf"
+    },
+    {
+      "gen_paper_id": "applications/Others_TVCS-IF",
+      "domain": "Applications",
+      "subdomain": "Others",
+      "method_name": "TVCS-IF",
+      "file": "generated-papers/applications/Others_TVCS-IF.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/applications/Others_TVCS-IF.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Algorithms_RMTS",
+      "domain": "Deep Learning",
+      "subdomain": "Algorithms",
+      "method_name": "RMTS",
+      "file": "generated-papers/deep_learning/Algorithms_RMTS.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Algorithms_RMTS.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Foundation_TABHARMONY",
+      "domain": "Deep Learning",
+      "subdomain": "Foundation",
+      "method_name": "TABHARMONY",
+      "file": "generated-papers/deep_learning/Foundation_TABHARMONY.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Foundation_TABHARMONY.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Foundation_UNI-XDLM",
+      "domain": "Deep Learning",
+      "subdomain": "Foundation",
+      "method_name": "UNI-XDLM",
+      "file": "generated-papers/deep_learning/Foundation_UNI-XDLM.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Foundation_UNI-XDLM.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/LLMs_CS-HLA",
+      "domain": "Deep Learning",
+      "subdomain": "LLMs",
+      "method_name": "CS-HLA",
+      "file": "generated-papers/deep_learning/LLMs_CS-HLA.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/LLMs_CS-HLA.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/LLMs_DNLP-LCBC",
+      "domain": "Deep Learning",
+      "subdomain": "LLMs",
+      "method_name": "DNLP-LCBC",
+      "file": "generated-papers/deep_learning/LLMs_DNLP-LCBC.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/LLMs_DNLP-LCBC.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/LLMs_Mem-MaxRL",
+      "domain": "Deep Learning",
+      "subdomain": "LLMs",
+      "method_name": "Mem-MaxRL",
+      "file": "generated-papers/deep_learning/LLMs_Mem-MaxRL.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/LLMs_Mem-MaxRL.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/LLMs_Poisson-Top-W",
+      "domain": "Deep Learning",
+      "subdomain": "LLMs",
+      "method_name": "Poisson-Top-W",
+      "file": "generated-papers/deep_learning/LLMs_Poisson-Top-W.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/LLMs_Poisson-Top-W.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/LLMs_RES-TRACE",
+      "domain": "Deep Learning",
+      "subdomain": "LLMs",
+      "method_name": "RES-TRACE",
+      "file": "generated-papers/deep_learning/LLMs_RES-TRACE.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/LLMs_RES-TRACE.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/LLMs_SDDF-RKHS",
+      "domain": "Deep Learning",
+      "subdomain": "LLMs",
+      "method_name": "SDDF-RKHS",
+      "file": "generated-papers/deep_learning/LLMs_SDDF-RKHS.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/LLMs_SDDF-RKHS.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/LLMs_SymCrooks-Steering",
+      "domain": "Deep Learning",
+      "subdomain": "LLMs",
+      "method_name": "SymCrooks-Steering",
+      "file": "generated-papers/deep_learning/LLMs_SymCrooks-Steering.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/LLMs_SymCrooks-Steering.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/LLMs_TPH-Lock",
+      "domain": "Deep Learning",
+      "subdomain": "LLMs",
+      "method_name": "TPH-Lock",
+      "file": "generated-papers/deep_learning/LLMs_TPH-Lock.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/LLMs_TPH-Lock.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/LLMs_VD-STrans",
+      "domain": "Deep Learning",
+      "subdomain": "LLMs",
+      "method_name": "VD-STrans",
+      "file": "generated-papers/deep_learning/LLMs_VD-STrans.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/LLMs_VD-STrans.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Robustness_ResoKoopman",
+      "domain": "Deep Learning",
+      "subdomain": "Robustness",
+      "method_name": "ResoKoopman",
+      "file": "generated-papers/deep_learning/Robustness_ResoKoopman.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Robustness_ResoKoopman.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Others_BF-DFN",
+      "domain": "Deep Learning",
+      "subdomain": "Others",
+      "method_name": "BF-DFN",
+      "file": "generated-papers/deep_learning/Others_BF-DFN.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Others_BF-DFN.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Others_DynaSpec-RAG",
+      "domain": "Deep Learning",
+      "subdomain": "Others",
+      "method_name": "DynaSpec-RAG",
+      "file": "generated-papers/deep_learning/Others_DynaSpec-RAG.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Others_DynaSpec-RAG.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Others_Fed-LanczosSAM",
+      "domain": "Deep Learning",
+      "subdomain": "Others",
+      "method_name": "Fed-LanczosSAM",
+      "file": "generated-papers/deep_learning/Others_Fed-LanczosSAM.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Others_Fed-LanczosSAM.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Others_HARMONIC-MoP",
+      "domain": "Deep Learning",
+      "subdomain": "Others",
+      "method_name": "HARMONIC-MoP",
+      "file": "generated-papers/deep_learning/Others_HARMONIC-MoP.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Others_HARMONIC-MoP.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Others_InfoOptim",
+      "domain": "Deep Learning",
+      "subdomain": "Others",
+      "method_name": "InfoOptim",
+      "file": "generated-papers/deep_learning/Others_InfoOptim.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Others_InfoOptim.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Others_Koopman-DMD",
+      "domain": "Deep Learning",
+      "subdomain": "Others",
+      "method_name": "Koopman-DMD",
+      "file": "generated-papers/deep_learning/Others_Koopman-DMD.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Others_Koopman-DMD.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Others_Neural-MMA",
+      "domain": "Deep Learning",
+      "subdomain": "Others",
+      "method_name": "Neural-MMA",
+      "file": "generated-papers/deep_learning/Others_Neural-MMA.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Others_Neural-MMA.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Others_NSK",
+      "domain": "Deep Learning",
+      "subdomain": "Others",
+      "method_name": "NSK",
+      "file": "generated-papers/deep_learning/Others_NSK.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Others_NSK.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Others_PhySense-AdjointFlow",
+      "domain": "Deep Learning",
+      "subdomain": "Others",
+      "method_name": "PhySense-AdjointFlow",
+      "file": "generated-papers/deep_learning/Others_PhySense-AdjointFlow.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Others_PhySense-AdjointFlow.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Others_Soft-VSM",
+      "domain": "Deep Learning",
+      "subdomain": "Others",
+      "method_name": "Soft-VSM",
+      "file": "generated-papers/deep_learning/Others_Soft-VSM.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Others_Soft-VSM.pdf"
+    },
+    {
+      "gen_paper_id": "deep_learning/Others_TKFS-Attention",
+      "domain": "Deep Learning",
+      "subdomain": "Others",
+      "method_name": "TKFS-Attention",
+      "file": "generated-papers/deep_learning/Others_TKFS-Attention.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/deep_learning/Others_TKFS-Attention.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Algorithms_Flash-Newton",
+      "domain": "General ML",
+      "subdomain": "Algorithms",
+      "method_name": "Flash-Newton",
+      "file": "generated-papers/general_ml/Algorithms_Flash-Newton.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Algorithms_Flash-Newton.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Causality_SPECTRA-HET SPLIT UP",
+      "domain": "General ML",
+      "subdomain": "Causality",
+      "method_name": "SPECTRA-HET SPLIT UP",
+      "file": "generated-papers/general_ml/Causality_SPECTRA-HET SPLIT UP.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Causality_SPECTRA-HET%20SPLIT%20UP.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Evaluation_DR-Schervish",
+      "domain": "General ML",
+      "subdomain": "Evaluation",
+      "method_name": "DR-Schervish",
+      "file": "generated-papers/general_ml/Evaluation_DR-Schervish.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Evaluation_DR-Schervish.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Infrastructure_RDF-VG",
+      "domain": "General ML",
+      "subdomain": "Infrastructure",
+      "method_name": "RDF-VG",
+      "file": "generated-papers/general_ml/Infrastructure_RDF-VG.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Infrastructure_RDF-VG.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Others_BAM-Val",
+      "domain": "General ML",
+      "subdomain": "Others",
+      "method_name": "BAM-Val",
+      "file": "generated-papers/general_ml/Others_BAM-Val.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Others_BAM-Val.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Others_CIQS-PC",
+      "domain": "General ML",
+      "subdomain": "Others",
+      "method_name": "CIQS-PC",
+      "file": "generated-papers/general_ml/Others_CIQS-PC.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Others_CIQS-PC.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Others_ECTS-HFD",
+      "domain": "General ML",
+      "subdomain": "Others",
+      "method_name": "ECTS-HFD",
+      "file": "generated-papers/general_ml/Others_ECTS-HFD.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Others_ECTS-HFD.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Others_FR-MSH-GGAD",
+      "domain": "General ML",
+      "subdomain": "Others",
+      "method_name": "FR-MSH-GGAD",
+      "file": "generated-papers/general_ml/Others_FR-MSH-GGAD.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Others_FR-MSH-GGAD.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Others_NEM-SPKN",
+      "domain": "General ML",
+      "subdomain": "Others",
+      "method_name": "NEM-SPKN",
+      "file": "generated-papers/general_ml/Others_NEM-SPKN.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Others_NEM-SPKN.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Others_Procrustes-DS",
+      "domain": "General ML",
+      "subdomain": "Others",
+      "method_name": "Procrustes-DS",
+      "file": "generated-papers/general_ml/Others_Procrustes-DS.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Others_Procrustes-DS.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Others_QAMT-Transfer",
+      "domain": "General ML",
+      "subdomain": "Others",
+      "method_name": "QAMT-Transfer",
+      "file": "generated-papers/general_ml/Others_QAMT-Transfer.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Others_QAMT-Transfer.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Others_SD-TTC",
+      "domain": "General ML",
+      "subdomain": "Others",
+      "method_name": "SD-TTC",
+      "file": "generated-papers/general_ml/Others_SD-TTC.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Others_SD-TTC.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Others_Sheaf-PartialTSW",
+      "domain": "General ML",
+      "subdomain": "Others",
+      "method_name": "Sheaf-PartialTSW",
+      "file": "generated-papers/general_ml/Others_Sheaf-PartialTSW.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Others_Sheaf-PartialTSW.pdf"
+    },
+    {
+      "gen_paper_id": "general_ml/Others_TBOC-ANOVA",
+      "domain": "General ML",
+      "subdomain": "Others",
+      "method_name": "TBOC-ANOVA",
+      "file": "generated-papers/general_ml/Others_TBOC-ANOVA.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/general_ml/Others_TBOC-ANOVA.pdf"
+    },
+    {
+      "gen_paper_id": "optimization/Convex_OFP-Shadow",
+      "domain": "Optimization",
+      "subdomain": "Convex",
+      "method_name": "OFP-Shadow",
+      "file": "generated-papers/optimization/Convex_OFP-Shadow.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/optimization/Convex_OFP-Shadow.pdf"
+    },
+    {
+      "gen_paper_id": "optimization/Discrete_LD-RPB-OM",
+      "domain": "Optimization",
+      "subdomain": "Discrete",
+      "method_name": "LD-RPB-OM",
+      "file": "generated-papers/optimization/Discrete_LD-RPB-OM.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/optimization/Discrete_LD-RPB-OM.pdf"
+    },
+    {
+      "gen_paper_id": "optimization/Non-Convex_ALOT-DRO",
+      "domain": "Optimization",
+      "subdomain": "Non-Convex",
+      "method_name": "ALOT-DRO",
+      "file": "generated-papers/optimization/Non-Convex_ALOT-DRO.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/optimization/Non-Convex_ALOT-DRO.pdf"
+    },
+    {
+      "gen_paper_id": "optimization/Others_ANSE",
+      "domain": "Optimization",
+      "subdomain": "Others",
+      "method_name": "ANSE",
+      "file": "generated-papers/optimization/Others_ANSE.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/optimization/Others_ANSE.pdf"
+    },
+    {
+      "gen_paper_id": "optimization/Others_LC-FTT",
+      "domain": "Optimization",
+      "subdomain": "Others",
+      "method_name": "LC-FTT",
+      "file": "generated-papers/optimization/Others_LC-FTT.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/optimization/Others_LC-FTT.pdf"
+    },
+    {
+      "gen_paper_id": "probabilistic/Bayesian_DAGP-HDP-HMM",
+      "domain": "Probabilistic",
+      "subdomain": "Bayesian",
+      "method_name": "DAGP-HDP-HMM",
+      "file": "generated-papers/probabilistic/Bayesian_DAGP-HDP-HMM.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/probabilistic/Bayesian_DAGP-HDP-HMM.pdf"
+    },
+    {
+      "gen_paper_id": "probabilistic/Sampling_SMBTT-CCDB",
+      "domain": "Probabilistic",
+      "subdomain": "Sampling",
+      "method_name": "SMBTT-CCDB",
+      "file": "generated-papers/probabilistic/Sampling_SMBTT-CCDB.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/probabilistic/Sampling_SMBTT-CCDB.pdf"
+    },
+    {
+      "gen_paper_id": "probabilistic/Sampling_SpecAttn-Div",
+      "domain": "Probabilistic",
+      "subdomain": "Sampling",
+      "method_name": "SpecAttn-Div",
+      "file": "generated-papers/probabilistic/Sampling_SpecAttn-Div.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/probabilistic/Sampling_SpecAttn-Div.pdf"
+    },
+    {
+      "gen_paper_id": "probabilistic/Others_AD-LSVI",
+      "domain": "Probabilistic",
+      "subdomain": "Others",
+      "method_name": "AD-LSVI",
+      "file": "generated-papers/probabilistic/Others_AD-LSVI.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/probabilistic/Others_AD-LSVI.pdf"
+    },
+    {
+      "gen_paper_id": "probabilistic/Others_AWF-CP",
+      "domain": "Probabilistic",
+      "subdomain": "Others",
+      "method_name": "AWF-CP",
+      "file": "generated-papers/probabilistic/Others_AWF-CP.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/probabilistic/Others_AWF-CP.pdf"
+    },
+    {
+      "gen_paper_id": "probabilistic/Others_BTV-RDRO",
+      "domain": "Probabilistic",
+      "subdomain": "Others",
+      "method_name": "BTV-RDRO",
+      "file": "generated-papers/probabilistic/Others_BTV-RDRO.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/probabilistic/Others_BTV-RDRO.pdf"
+    },
+    {
+      "gen_paper_id": "probabilistic/Others_COFM-SIB",
+      "domain": "Probabilistic",
+      "subdomain": "Others",
+      "method_name": "COFM-SIB",
+      "file": "generated-papers/probabilistic/Others_COFM-SIB.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/probabilistic/Others_COFM-SIB.pdf"
+    },
+    {
+      "gen_paper_id": "probabilistic/Others_DosePFN",
+      "domain": "Probabilistic",
+      "subdomain": "Others",
+      "method_name": "DosePFN",
+      "file": "generated-papers/probabilistic/Others_DosePFN.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/probabilistic/Others_DosePFN.pdf"
+    },
+    {
+      "gen_paper_id": "probabilistic/Others_PH-CNR-OLLA",
+      "domain": "Probabilistic",
+      "subdomain": "Others",
+      "method_name": "PH-CNR-OLLA",
+      "file": "generated-papers/probabilistic/Others_PH-CNR-OLLA.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/probabilistic/Others_PH-CNR-OLLA.pdf"
+    },
+    {
+      "gen_paper_id": "probabilistic/Others_ScaleMode-NeuralSurv",
+      "domain": "Probabilistic",
+      "subdomain": "Others",
+      "method_name": "ScaleMode-NeuralSurv",
+      "file": "generated-papers/probabilistic/Others_ScaleMode-NeuralSurv.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/probabilistic/Others_ScaleMode-NeuralSurv.pdf"
+    },
+    {
+      "gen_paper_id": "rl/Others_CSX-MoE",
+      "domain": "RL",
+      "subdomain": "Others",
+      "method_name": "CSX-MoE",
+      "file": "generated-papers/rl/Others_CSX-MoE.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/rl/Others_CSX-MoE.pdf"
+    },
+    {
+      "gen_paper_id": "rl/Others_DisCoRe-IQA",
+      "domain": "RL",
+      "subdomain": "Others",
+      "method_name": "DisCoRe-IQA",
+      "file": "generated-papers/rl/Others_DisCoRe-IQA.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/rl/Others_DisCoRe-IQA.pdf"
+    },
+    {
+      "gen_paper_id": "rl/Others_Exact-CPWL CvaR",
+      "domain": "RL",
+      "subdomain": "Others",
+      "method_name": "Exact-CPWL CvaR",
+      "file": "generated-papers/rl/Others_Exact-CPWL CvaR.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/rl/Others_Exact-CPWL%20CvaR.pdf"
+    },
+    {
+      "gen_paper_id": "social_aspects/Alignment_CHVA",
+      "domain": "Social Aspects",
+      "subdomain": "Alignment",
+      "method_name": "CHVA",
+      "file": "generated-papers/social_aspects/Alignment_CHVA.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/social_aspects/Alignment_CHVA.pdf"
+    },
+    {
+      "gen_paper_id": "social_aspects/Interpretability_CP-GRASSMANN",
+      "domain": "Social Aspects",
+      "subdomain": "Interpretability",
+      "method_name": "CP-GRASSMANN",
+      "file": "generated-papers/social_aspects/Interpretability_CP-GRASSMANN.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/social_aspects/Interpretability_CP-GRASSMANN.pdf"
+    },
+    {
+      "gen_paper_id": "social_aspects/Interpretability_Flex-Dot",
+      "domain": "Social Aspects",
+      "subdomain": "Interpretability",
+      "method_name": "Flex-Dot",
+      "file": "generated-papers/social_aspects/Interpretability_Flex-Dot.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/social_aspects/Interpretability_Flex-Dot.pdf"
+    },
+    {
+      "gen_paper_id": "social_aspects/Interpretability_Overdamped DAVE",
+      "domain": "Social Aspects",
+      "subdomain": "Interpretability",
+      "method_name": "Overdamped DAVE",
+      "file": "generated-papers/social_aspects/Interpretability_Overdamped DAVE.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/social_aspects/Interpretability_Overdamped%20DAVE.pdf"
+    },
+    {
+      "gen_paper_id": "social_aspects/Interpretability_SHEAF-SAE",
+      "domain": "Social Aspects",
+      "subdomain": "Interpretability",
+      "method_name": "SHEAF-SAE",
+      "file": "generated-papers/social_aspects/Interpretability_SHEAF-SAE.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/social_aspects/Interpretability_SHEAF-SAE.pdf"
+    },
+    {
+      "gen_paper_id": "social_aspects/Interpretability_SLT-MDA",
+      "domain": "Social Aspects",
+      "subdomain": "Interpretability",
+      "method_name": "SLT-MDA",
+      "file": "generated-papers/social_aspects/Interpretability_SLT-MDA.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/social_aspects/Interpretability_SLT-MDA.pdf"
+    },
+    {
+      "gen_paper_id": "social_aspects/Privacy_DP-EBS-BB",
+      "domain": "Social Aspects",
+      "subdomain": "Privacy",
+      "method_name": "DP-EBS-BB",
+      "file": "generated-papers/social_aspects/Privacy_DP-EBS-BB.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/social_aspects/Privacy_DP-EBS-BB.pdf"
+    },
+    {
+      "gen_paper_id": "social_aspects/Robusntess_IMD-GV",
+      "domain": "Social Aspects",
+      "subdomain": "Robustness",
+      "method_name": "IMD-GV",
+      "file": "generated-papers/social_aspects/Robusntess_IMD-GV.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/social_aspects/Robusntess_IMD-GV.pdf"
+    },
+    {
+      "gen_paper_id": "social_aspects/Others_VIGN-SDA-PMSVM",
+      "domain": "Social Aspects",
+      "subdomain": "Others",
+      "method_name": "VIGN-SDA-PMSVM",
+      "file": "generated-papers/social_aspects/Others_VIGN-SDA-PMSVM.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/social_aspects/Others_VIGN-SDA-PMSVM.pdf"
+    },
+    {
+      "gen_paper_id": "theory/Bandits_FVTG-CP",
+      "domain": "Theory",
+      "subdomain": "Bandits",
+      "method_name": "FVTG-CP",
+      "file": "generated-papers/theory/Bandits_FVTG-CP.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/theory/Bandits_FVTG-CP.pdf"
+    },
+    {
+      "gen_paper_id": "theory/Game Theory_NTW-KPA",
+      "domain": "Theory",
+      "subdomain": "Game Theory",
+      "method_name": "NTW-KPA",
+      "file": "generated-papers/theory/Game Theory_NTW-KPA.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/theory/Game%20Theory_NTW-KPA.pdf"
+    },
+    {
+      "gen_paper_id": "theory/Optimization_PLL-ICE",
+      "domain": "Theory",
+      "subdomain": "Optimization",
+      "method_name": "PLL-ICE",
+      "file": "generated-papers/theory/Optimization_PLL-ICE.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/theory/Optimization_PLL-ICE.pdf"
+    },
+    {
+      "gen_paper_id": "theory/Optimization_SSH-ED-SDP",
+      "domain": "Theory",
+      "subdomain": "Optimization",
+      "method_name": "SSH-ED-SDP",
+      "file": "generated-papers/theory/Optimization_SSH-ED-SDP.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/theory/Optimization_SSH-ED-SDP.pdf"
+    },
+    {
+      "gen_paper_id": "theory/Probabilistic_DRO-ROCP",
+      "domain": "Theory",
+      "subdomain": "Probabilistic",
+      "method_name": "DRO-ROCP",
+      "file": "generated-papers/theory/Probabilistic_DRO-ROCP.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/theory/Probabilistic_DRO-ROCP.pdf"
+    },
+    {
+      "gen_paper_id": "theory/Others_DR-COCO",
+      "domain": "Theory",
+      "subdomain": "Others",
+      "method_name": "DR-COCO",
+      "file": "generated-papers/theory/Others_DR-COCO.pdf",
+      "pdf_url": "https://scientist-two.github.io/generated-papers/theory/Others_DR-COCO.pdf"
+    }
+  ]
+}
