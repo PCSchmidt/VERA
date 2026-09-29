@@ -11,6 +11,9 @@ dependencies = [
 ]
 
 [dependency-groups]
+corpus = [
+    "pymupdf>=1.28.2",
+]
 dev = [
     "pytest>=8",
     "ruff>=0.6",

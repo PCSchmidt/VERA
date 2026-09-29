@@ -1,5 +1,7 @@
 # Corpus PDFs are evaluation data: store locally, never commit (CLAUDE.md data rules)
 data/raw/
+# Text and other derivatives of corpus papers: also never committed
+data/cache/
 
 # Secrets
 .env

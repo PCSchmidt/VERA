@@ -52,7 +52,7 @@ means *not determined*. The difference drives the code-availability rate (R1).
 | `gen_pdf_url` | URL the PDF was fetched from, or `unknown` if no PDF was found. **Links to `provenance.jsonl`**, which alone holds the hash and retrieval date. Filled by `scripts/fetch_corpus.py` |
 | `gen_code_url` | URL, `none`, or `unknown` |
 | `parent_title`, `parent_venue` | the human paper whose problem and baseline the generated paper uses |
-| `parent_id_arxiv_or_doi` | arXiv id (`2401.01234`) or DOI; identifies the **parent problem** |
+| `parent_id_arxiv_or_doi` | arXiv id (`2401.01234`), DOI, or `openreview:<forum id>` when the paper has neither (e.g. ICML 2026 papers not on arXiv; PMLR issues no DOIs); identifies the **parent problem** |
 | `parent_code_url` | URL, `none`, or `unknown` |
 | `reported_gain_pct` | improvement over the parent baseline **as the generated paper reports it**, in percent; `unknown` if not stated as a single number |
 | `compute_class` | `cpu`, `single_gpu`, `multi_gpu`, or `unknown`, from the **parent** paper's experimental setup; rows sharing a parent problem share the value |
@@ -60,6 +60,25 @@ means *not determined*. The difference drives the code-availability rate (R1).
 | `notes` | free text; may be empty |
 
 Checked by `tools/checks/check_inventory.py`.
+
+## Parent papers
+
+ScientistTwo's paper ([arXiv 2609.19644](https://arxiv.org/abs/2609.19644),
+Appendix A.1, Tables 12–14) lists the 107 accepted papers whose problems and
+codebases were its inputs (38 NeurIPS 2025, 5 ICLR 2026, 64 ICML 2026
+spotlights). It does not say which generated paper came from which input.
+
+- `parent_candidates.csv` (`scripts/map_parents.py`): those 107 titles with
+  venue and short citation, parsed from the appendix. A `#` line records the
+  source and retrieval date.
+- `parent_papers.csv` (`scripts/resolve_parents.py`): each candidate resolved
+  to an arXiv id or `openreview:<forum id>`, with the venue OpenReview reports
+  and the local PDF under `data/raw/parents/` (which has a provenance record).
+- `data/cache/` (git-ignored) holds extracted text and ranked parent
+  suggestions per generated paper; derived from the corpus, so never committed.
+
+A generated paper's parent is set in the inventory only after its text is
+read against the suggestion; the `notes` column says what the evidence was.
 
 ## `inventory_spotcheck.csv`
 
