@@ -175,3 +175,5 @@
 {"path": "data/raw/parents/2602.03160.pdf", "url": "https://arxiv.org/pdf/2602.03160", "retrieved": "2026-09-29", "sha256": "30d46dfee3ebf4797a904afb6a049dfdef290a0614b39e4083d34ba3fb2784e6"}
 {"path": "data/raw/parents/2509.22879.pdf", "url": "https://arxiv.org/pdf/2509.22879", "retrieved": "2026-09-29", "sha256": "7683fa8cfc2a12b2dac3dbc44446b5a06c24140ae7b1d52f4979588c82c5a095"}
 {"path": "data/raw/parents/2606.02435.pdf", "url": "https://arxiv.org/pdf/2606.02435", "retrieved": "2026-09-29", "sha256": "7671522004bedd62d9051e848cccf360d6fd4f17ecc681edfeb33990677c1f6a"}
+{"path": "data/raw/parents/2602.09153.pdf", "url": "https://arxiv.org/pdf/2602.09153", "retrieved": "2026-09-29", "sha256": "dd1520f8b54825e05f73edea3a4ccf0b2a661bfacab9242e1079cc3e3d2ce2c7"}
+{"path": "data/raw/parents/2510.14961.pdf", "url": "https://arxiv.org/pdf/2510.14961", "retrieved": "2026-09-29", "sha256": "74e7985abe41ee2a75914a65e3778a15353fb0c0964d6ea34e7bfeb1f18312c8"}

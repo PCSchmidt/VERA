@@ -80,6 +80,20 @@ spotlights). It does not say which generated paper came from which input.
 A generated paper's parent is set in the inventory only after its text is
 read against the suggestion; the `notes` column says what the evidence was.
 
+- `parent_arxiv_hints.csv`: arXiv ids the title search misses, each with its
+  source (e.g. cited by id in a generated paper). A hint is used only if the
+  arXiv title matches.
+- `inventory_flags.json`: the review record behind the inventory: per row,
+  confidence in the parent choice, reviewer flags (citation problems, missing
+  parent PDFs, compute judgment calls) and P3 hints, plus counts of generated
+  papers whose header falsely claims ICLR 2025 publication.
+
+Rows were filled per domain (`data/inventory_task.md` holds the shared
+instructions) and merged by `scripts/merge_inventory_rows.py`, which rejects
+unknown parents, a parent claimed twice, id or venue mismatches, and values
+outside this dictionary. Code URLs hidden behind link text are read from the
+PDFs' link annotations (`scripts/pdf_links.py`).
+
 ## `inventory_spotcheck.csv`
 
 Drawn by `check_inventory.py --sample 10` (seeded, recorded). Chris fills

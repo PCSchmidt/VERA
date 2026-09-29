@@ -13,6 +13,9 @@ to data/parent_papers.csv:
 
   parent_title, parent_venue, cite, paper_id, source, matched_title, venue_seen, pdf_path
 
+Known arXiv ids the title search misses can be listed, with their source, in
+data/parent_arxiv_hints.csv; a hint is used only if its arXiv title matches.
+
 `paper_id` is an arXiv id, `openreview:<forum id>`, or `unknown` (needs a
 manual lookup). Polite: arXiv asks for one request per 3 s (--delay 3.5).
 Resumable: resolved rows whose PDF still matches its record are skipped, and
@@ -45,6 +48,7 @@ from vera import provenance
 ROOT = Path(__file__).resolve().parents[1]
 CANDIDATES = ROOT / "data" / "parent_candidates.csv"
 OUT = ROOT / "data" / "parent_papers.csv"
+HINTS = ROOT / "data" / "parent_arxiv_hints.csv"
 RAW = ROOT / "data" / "raw" / "parents"
 ARXIV_API = "https://export.arxiv.org/api/query?"
 OPENREVIEW_API = "https://api2.openreview.net/notes/search?"
@@ -121,6 +125,13 @@ def search_arxiv(title: str) -> Hit | None:
     return arxiv_id, matched, "", f"https://arxiv.org/pdf/{arxiv_id}"
 
 
+def lookup_arxiv_id(title: str, arxiv_id: str) -> Hit | None:
+    """A known arXiv id (data/parent_arxiv_hints.csv), accepted only if its title matches."""
+    query = urllib.parse.urlencode({"id_list": arxiv_id})
+    hit = best_match(title, parse_feed(get(ARXIV_API + query)))
+    return (hit[0], hit[1], "", f"https://arxiv.org/pdf/{hit[0]}") if hit else None
+
+
 def search_openreview(title: str) -> Hit | None:
     query = urllib.parse.urlencode({"term": title, "type": "terms", "content": "title", "limit": 5})
     notes = [n for n in parse_openreview(get(OPENREVIEW_API + query)) if n["pdf"]]
@@ -170,6 +181,10 @@ def main() -> None:
         with OUT.open(encoding="utf-8", newline="") as f:
             done = {r["parent_title"]: r for r in csv.DictReader(f) if "paper_id" in r}
     records = provenance.load(ROOT)
+    hints: dict[str, str] = {}
+    if HINTS.exists():
+        with HINTS.open(encoding="utf-8", newline="") as f:
+            hints = {r["parent_title"]: r["arxiv_id"] for r in csv.DictReader(f)}
     candidates = read_candidates()
     rows: list[dict[str, str]] = []
     new = 0
@@ -185,7 +200,13 @@ def main() -> None:
         row, title = unresolved(cand), cand["parent_title"]
         try:
             time.sleep(args.delay)
-            hit, source = search_arxiv(title), "arxiv"
+            hit, source = None, "arxiv"
+            if title in hints:
+                hit = lookup_arxiv_id(title, hints[title])
+            if hit is None:
+                if title in hints:
+                    time.sleep(args.delay)
+                hit = search_arxiv(title)
             if hit is None:
                 time.sleep(args.delay)
                 hit, source = search_openreview(title), "openreview"

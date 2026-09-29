@@ -1,0 +1,511 @@
+{
+ "note": "Review record for data/corpus_inventory.csv (Increment 0). Rows 1-5 of the Optimization domain were filled directly and are not listed. Headers counted from each generated paper's first page.",
+ "header_counts": {
+  "under review": 73,
+  "published ICLR 2025": 13
+ },
+ "placeholder_author_count": 13,
+ "claims_published_iclr_2025": [
+  "applications/Others_TVCS-IF",
+  "deep_learning/LLMs_DNLP-LCBC",
+  "deep_learning/LLMs_SymCrooks-Steering",
+  "deep_learning/LLMs_TPH-Lock",
+  "deep_learning/Others_HARMONIC-MoP",
+  "deep_learning/Others_NSK",
+  "deep_learning/Others_TKFS-Attention",
+  "general_ml/Others_CIQS-PC",
+  "optimization/Non-Convex_ALOT-DRO",
+  "optimization/Others_ANSE",
+  "social_aspects/Privacy_DP-EBS-BB",
+  "social_aspects/Robusntess_IMD-GV",
+  "theory/Game Theory_NTW-KPA"
+ ],
+ "rows": [
+  {
+   "gen_paper_id": "applications/Health_Cartan-DEC-MiAE",
+   "confidence": "medium",
+   "flags": "Parent never cited; TEDBench misattributed to Lau et al. 2024 (citation-check candidate). Main comparison is a re-trained vanilla MAE, not the published MiAE, which scores far higher. Suggestions ranked this parent only tier 0 (#2). Compute class inferred.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "applications/Neuroscience_FCD-Engram",
+   "confidence": "high",
+   "flags": "Suggestions ranked this parent tier 0 (#1) but the title is cited verbatim in the references.",
+   "p3_hint": "single A100; closed-form edits take seconds to minutes (TOFU Llama-3.2-1B about 2 min, CIFAR-100 engrams under 2 min); larger 7B/8B runs need 80 GB VRAM."
+  },
+  {
+   "gen_paper_id": "applications/Neuroscience_Simplified DWGR-SVL",
+   "confidence": "high",
+   "flags": "The +1.65/+1.37 gains are absolute points. Paper frames itself as a simplification of its own earlier 4-module iteration. Compute class inferred.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "applications/Neuroscience_ST-FacRNN",
+   "confidence": "high",
+   "flags": "Compute class inferred; no hardware in either paper.",
+   "p3_hint": "Small low-rank RNNs on modest neural datasets; likely single GPU or CPU, but 5000 epochs x 10 seeds per config, so runtime per experiment is unclear (minutes to hours)."
+  },
+  {
+   "gen_paper_id": "applications/Neuroscience_TA-FATA-CSBrain",
+   "confidence": "high",
+   "flags": "Generated paper only trains adapters on the pretrained CSBrain (cheap), but the parent as published needed 4xA100 pretraining.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "applications/Robotics_KinemaAnchor-Manifold",
+   "confidence": "medium",
+   "flags": "Parent PDF unresolved (paper_id unknown). Citation is anonymous with different title wording. Compute class inferred for the post-processing stage only; the full SceneSmith pipeline may be GPU/API-heavy.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "applications/Sciences_ErtelHodge-STELLA",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "single RTX 4090 (also runs on CPU); STELLA-10k has about 10k parameters and trains in about 30 s GPU / 141 s CPU per reported timing - strong P3 candidate."
+  },
+  {
+   "gen_paper_id": "applications/Sciences_SYMP-MONGE",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "applications/Speech_CHAMPS-RAG",
+   "confidence": "medium",
+   "flags": "Parent PDF unresolved (paper_id unknown). TG-RAG named but never cited (citation-check candidate). Filed under Speech but the paper is about LLM procedural steering. Compute class inferred.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "applications/Time Series_PG-CDIG",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "single V100; small time-series classifiers plus integrated-gradients attribution at about 15 ms/sample - probably minutes to an hour per dataset."
+  },
+  {
+   "gen_paper_id": "applications/Others_AnisoSPD",
+   "confidence": "high",
+   "flags": "Generated paper reports MissForest beats it on raw MAE on the main UCI tables.",
+   "p3_hint": "single RTX 4090; small UCI tables (7 datasets, 4 missing ratios), kernel imputation - likely minutes per configuration."
+  },
+  {
+   "gen_paper_id": "applications/Others_DiffTrop-Bitween",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "cpu; generated paper's full evaluation takes under 20 min on one CPU; parent's non-LLM Bitween backends are CPU-only but its full sweep is about 12 h (1800 s timeouts)."
+  },
+  {
+   "gen_paper_id": "applications/Others_DR-LEF",
+   "confidence": "high",
+   "flags": "Gains measured against a controlled MDReID baseline about 10 mAP below the published MDReID numbers.",
+   "p3_hint": "single RTX 4090; about 40 min per 50-epoch training run on RGBNT201 per the generated paper."
+  },
+  {
+   "gen_paper_id": "applications/Others_SAVVY-Vortex",
+   "confidence": "high",
+   "flags": "State-of-the-art claim is against the reproduced baseline (56.3); SAVVY paper-reported 58.0 exceeds SAVVY-Vortex 57.6.",
+   "p3_hint": "Generated method is deterministic geometric post-processing over cached SAVVY tracks (1,522 QA) - likely minutes on CPU, but depends on the parent's single-A100 AV-LLM track extraction."
+  },
+  {
+   "gen_paper_id": "applications/Others_TVCS-IF",
+   "confidence": "high",
+   "flags": "Resolved the two verbatim candidates: parent is Implicit Decoding (IF baseline); Neural MJD is related-work only, so it stays free for another paper. Parent PDF unresolved (paper_id unknown). Generated PDF carries placeholder authors (Ambitious AI Researcher, AI Research Institute) and a Published at ICLR 2025 header.",
+   "p3_hint": "single RTX 4090 (inferred); long-term forecasting benchmarks (ETT, Weather, ILI, PEMS) with small decoders, typically minutes per dataset-horizon."
+  },
+  {
+   "gen_paper_id": "deep_learning/Algorithms_RMTS",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/Foundation_TABHARMONY",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/Foundation_UNI-XDLM",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/LLMs_CS-HLA",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/LLMs_DNLP-LCBC",
+   "confidence": "high",
+   "flags": "Generated PDF header reads Published as a conference paper at ICLR 2025 with a placeholder author (template artifact).",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/LLMs_Mem-MaxRL",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/LLMs_Poisson-Top-W",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/LLMs_RES-TRACE",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/LLMs_SDDF-RKHS",
+   "confidence": "high",
+   "flags": "Parent unresolved in parent_papers.csv (paper_id unknown, no text); the generated paper cites it as arXiv:2510.14961, which may resolve it. Suggestions were tier-0 only and all wrong.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/LLMs_SymCrooks-Steering",
+   "confidence": "high",
+   "flags": "Generated PDF header reads Published as a conference paper at ICLR 2025 with a placeholder author (template artifact).",
+   "p3_hint": "TinyStories-8M rare-event TPS; generated paper reports the baseline annealed TPS at 2038 s on one A100-40GB."
+  },
+  {
+   "gen_paper_id": "deep_learning/LLMs_TPH-Lock",
+   "confidence": "high",
+   "flags": "Generated PDF header reads Published as a conference paper at ICLR 2025 with a placeholder author (template artifact).",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/LLMs_VD-STrans",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "CPU-only tokenizer throughput benchmarks; parent reports end-to-end CPU times in seconds."
+  },
+  {
+   "gen_paper_id": "deep_learning/Robustness_ResoKoopman",
+   "confidence": "medium",
+   "flags": "Parent named Thought-in-Flight with no reference entry (citation missing); parent PDF unresolved (paper_id unknown), so code and hardware not checked; suggester gave only tier-0 matches.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/Others_BF-DFN",
+   "confidence": "medium",
+   "flags": "Citation problem: DFN attributed to Goldberg and Tarjan 1990 / Ahuja 1993 instead of Candogan and Foussoul 2026; parent PDF unresolved (paper_id unknown).",
+   "p3_hint": "cpu (inferred); small MCF surrogates trained on a laptop CPU (Apple M4 Max) in the generated paper; parent PDF not available to confirm runtime"
+  },
+  {
+   "gen_paper_id": "deep_learning/Others_DynaSpec-RAG",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "single_gpu; parent reports ~1 hour training on one A6000 (frozen TSFM, lightweight module)"
+  },
+  {
+   "gen_paper_id": "deep_learning/Others_Fed-LanczosSAM",
+   "confidence": "medium",
+   "flags": "Parent PDF unresolved (paper_id unknown); parent is one of several FL baselines, chosen as the most direct (momentum-guided federated SAM) and the only one with paper-reported rows; compute could be multi_gpu if one follows the generated paper 4x RTX 3090.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/Others_HARMONIC-MoP",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/Others_InfoOptim",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/Others_Koopman-DMD",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/Others_Neural-MMA",
+   "confidence": "high",
+   "flags": "Neural MJD is also suggested for applications/Others_TVCS-IF, but that paper only cites it in passing (its baseline is the Implicit Forecaster), so no real shared parent. Parent hardware says A40 and A100 GPUs without count; single_gpu assumed.",
+   "p3_hint": "single_gpu (probable); small S&P 500 / synthetic jump-diffusion models, ms-scale step times in parent runtime table"
+  },
+  {
+   "gen_paper_id": "deep_learning/Others_NSK",
+   "confidence": "high",
+   "flags": "Parent PDF unresolved (paper_id unknown); compute inferred. Generated paper header falsely says Published as a conference paper at ICLR 2025.",
+   "p3_hint": "cpu (inferred); Cube balanced sampling and PPI estimators on small tabular data, likely minutes"
+  },
+  {
+   "gen_paper_id": "deep_learning/Others_PhySense-AdjointFlow",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/Others_Soft-VSM",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "deep_learning/Others_TKFS-Attention",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "single_gpu; parent reports 2.5-45 min per model on one V100 (1-layer, width-64 transformers)"
+  },
+  {
+   "gen_paper_id": "general_ml/Algorithms_Flash-Newton",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "general_ml/Causality_SPECTRA-HET SPLIT UP",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "Parent problem is CPU-only statistical estimation (closed-form TS-IV/GMM on simulated data); runs likely take minutes."
+  },
+  {
+   "gen_paper_id": "general_ml/Evaluation_DR-Schervish",
+   "confidence": "high",
+   "flags": "Gain 47 is RMSE reduction vs the plug-in estimator of the parent metric, averaged over adequately powered subgroups; reviewer may prefer unknown.",
+   "p3_hint": "Parent problem is metric evaluation on tabular clinical scores (eICU); CPU, likely minutes."
+  },
+  {
+   "gen_paper_id": "general_ml/Infrastructure_RDF-VG",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "Parent routing experiments are training-free and CPU-only on precomputed RouterBench/SPROUT scores; likely minutes."
+  },
+  {
+   "gen_paper_id": "general_ml/Others_BAM-Val",
+   "confidence": "high",
+   "flags": "Parent also has a GPU LLM (DATE-LM) extension; cpu reflects the tabular problem the generated paper uses.",
+   "p3_hint": "Parent tabular data-valuation experiments run on CPU; likely minutes to an hour."
+  },
+  {
+   "gen_paper_id": "general_ml/Others_CIQS-PC",
+   "confidence": "high",
+   "flags": "Generated paper header says Published as a conference paper at ICLR 2025 with placeholder author Ambitious AI Researcher (template artifact).",
+   "p3_hint": "MedLFQA FDR-control part runs on CPU in about 14 min in the generated paper; Pythia-14M part needs at most one small GPU."
+  },
+  {
+   "gen_paper_id": "general_ml/Others_ECTS-HFD",
+   "confidence": "high",
+   "flags": "Also cites the Ferrere et al. 2026 title (shared with Others_TBOC-ANOVA); resolved: TreeHFD is this paper parent, Ferrere is the TBOC-ANOVA parent.",
+   "p3_hint": "Parent is CPU-only tree-ensemble decomposition on UCI data; analytical cases take seconds."
+  },
+  {
+   "gen_paper_id": "general_ml/Others_FR-MSH-GGAD",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "general_ml/Others_NEM-SPKN",
+   "confidence": "high",
+   "flags": "Parent PDF unavailable (paper_id unknown).",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "general_ml/Others_Procrustes-DS",
+   "confidence": "high",
+   "flags": "Parent PDF unavailable (paper_id unknown).",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "general_ml/Others_QAMT-Transfer",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "Parent problem is statistical Frechet/Wasserstein regression on simulations; CPU, likely minutes."
+  },
+  {
+   "gen_paper_id": "general_ml/Others_SD-TTC",
+   "confidence": "medium",
+   "flags": "Citation problem: baseline method never named or cited; parent identified from method description.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "general_ml/Others_Sheaf-PartialTSW",
+   "confidence": "medium",
+   "flags": "Citation problem: PartialTSW used as baseline without citation; parent PDF unavailable (paper_id unknown).",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "general_ml/Others_TBOC-ANOVA",
+   "confidence": "high",
+   "flags": "Also cites the TreeHFD title (shared with Others_ECTS-HFD); resolved: Ferrere et al. 2026 is this paper parent.",
+   "p3_hint": "Parent runs on a laptop CPU; largest dataset (67,000 rows) decomposes in under 40 minutes."
+  },
+  {
+   "gen_paper_id": "probabilistic/Bayesian_DAGP-HDP-HMM",
+   "confidence": "medium",
+   "flags": "Parent PDF unresolved (paper_id unknown). Citation problem: RED-HDP-HMM attributed to Slupinski & Lipinski 2024a (REDSLDS arXiv 2411.04280); parent title absent.",
+   "p3_hint": "CPU-scale Gibbs sampler (300 sweeps x 5 seeds on small time series; generated paper reports 32-563 s per 100 sweeps); parent PDF unresolved so unconfirmed"
+  },
+  {
+   "gen_paper_id": "probabilistic/Sampling_SMBTT-CCDB",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "parent training ~15 min per experiment on one RTX 2080Ti (JAX); low-dim SDE bridges"
+  },
+  {
+   "gen_paper_id": "probabilistic/Sampling_SpecAttn-Div",
+   "confidence": "high",
+   "flags": "compute_class judgment: parent says NVIDIA A100 GPUs (plural) for inference-only SD sampling; chose single_gpu.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "probabilistic/Others_AD-LSVI",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "parent runtimes 1.6-290 s per experiment (Table 1) on one A100; generated paper reproduces on CPU"
+  },
+  {
+   "gen_paper_id": "probabilistic/Others_AWF-CP",
+   "confidence": "high",
+   "flags": "Parent PDF unresolved (paper_id unknown); paper also cites the earlier FFCP preprint Tang et al. 2024 (arXiv 2412.00653).",
+   "p3_hint": "post-hoc conformal calibration on 11 small regression datasets; generated paper runs on CPU in sub-second runtimes; parent PDF unresolved"
+  },
+  {
+   "gen_paper_id": "probabilistic/Others_BTV-RDRO",
+   "confidence": "high",
+   "flags": "Citation problem: parent cited with arXiv id 2501.21324 (actual 2601.21324) and year 2025.",
+   "p3_hint": "parent newsvendor runs take ~1.3 s (LV) to ~28 s (KL-BAS) per replication on CPU"
+  },
+  {
+   "gen_paper_id": "probabilistic/Others_COFM-SIB",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "parent ACIA trains in ~3-16 min on a laptop with a single GPU"
+  },
+  {
+   "gen_paper_id": "probabilistic/Others_DosePFN",
+   "confidence": "high",
+   "flags": "Parent compute statements conflict (four A100s in appendix vs single A100 in checklist); chose multi_gpu.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "probabilistic/Others_PH-CNR-OLLA",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "CPU-only Langevin samplers (d<=700 stress tests, polymer, BLR) reported in CPU seconds"
+  },
+  {
+   "gen_paper_id": "probabilistic/Others_ScaleMode-NeuralSurv",
+   "confidence": "high",
+   "flags": "compute_class judgment: parent runs folds in parallel across multiple A6000s but each run is single-GPU; chose single_gpu.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "rl/Others_CSX-MoE",
+   "confidence": "high",
+   "flags": "compute_class multi_gpu rests on the parent saying V100 GPUs (plural) without a count; the generated paper fine-tunes on a single V100 on top of pretrained MoSES checkpoints.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "rl/Others_DisCoRe-IQA",
+   "confidence": "high",
+   "flags": "Generated paper cites RALI as Zhao et al. (2025); candidate list has Zhao et al., 2026a (arXiv 2025 vs ICLR 2026), minor.",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "rl/Others_Exact-CPWL CvaR",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "Parent is tabular static-CVaR dynamic programming / Q-learning on small MDPs (cpu, inferred); likely minutes per run, public code."
+  },
+  {
+   "gen_paper_id": "theory/Bandits_FVTG-CP",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "Parent experiments are online conformal prediction over univariate time series with Prophet/AR base forecasters (cpu, inferred); minutes-scale."
+  },
+  {
+   "gen_paper_id": "theory/Game Theory_NTW-KPA",
+   "confidence": "medium",
+   "flags": "No verbatim title match: parent cited only in related work and for the Myerson lemma, not named as the baseline; identified from matching setup and baselines. Generated paper carries a fake Published as a conference paper at ICLR 2025 header and placeholder author block.",
+   "p3_hint": "Parent experiments are SVM / k-NN accuracy auctions on synthetic Gaussian and ACSIncome data (cpu, inferred); likely minutes, public code."
+  },
+  {
+   "gen_paper_id": "theory/Optimization_PLL-ICE",
+   "confidence": "high",
+   "flags": "Generated paper cites Abe et al. (2025); candidate list has Abe et al., 2026 (arXiv 2025 vs ICML 2026), minor.",
+   "p3_hint": "Parent experiments are first-order saddle-point solvers on small extensive-form games on an Apple M2 Max laptop; minutes-scale, public code."
+  },
+  {
+   "gen_paper_id": "theory/Optimization_SSH-ED-SDP",
+   "confidence": "high",
+   "flags": "No verbatim title match only because the reference title wraps across lines; parent explicitly cited (as 2025) and named as the prior moment-SOS approach.",
+   "p3_hint": "Parent experiments are small moment-SOS SDPs solved in Julia on a laptop CPU; minutes-scale (may need a Mosek license)."
+  },
+  {
+   "gen_paper_id": "theory/Probabilistic_DRO-ROCP",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "theory/Others_DR-COCO",
+   "confidence": "high",
+   "flags": "No verbatim title match only because the reference title wraps across lines; parent explicitly cited and SSV is the main baseline. compute_class cpu reflects API-based LLM calls (API cost, no local GPU).",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "social_aspects/Alignment_CHVA",
+   "confidence": "high",
+   "flags": "compute_class single_gpu is a soft inference; parent evaluates 24-32B open models, could be multi_gpu",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "social_aspects/Interpretability_CP-GRASSMANN",
+   "confidence": "medium",
+   "flags": "parent not cited (tier-0 suggestions were wrong); RelP baseline credited to Jafari et al. 2025",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "social_aspects/Interpretability_Flex-Dot",
+   "confidence": "medium",
+   "flags": "citation problem: M-CBE described but parent not cited; parent code link lost in text extraction",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "social_aspects/Interpretability_Overdamped DAVE",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "social_aspects/Interpretability_SHEAF-SAE",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "social_aspects/Interpretability_SLT-MDA",
+   "confidence": "medium",
+   "flags": "citation problem: MDA credited to Grosse et al. 2023, parent never cited (tier-0 suggestions were wrong); parent code link lost in text extraction",
+   "p3_hint": ""
+  },
+  {
+   "gen_paper_id": "social_aspects/Privacy_DP-EBS-BB",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "parent runs DP linear regression on 33 UCI datasets on a laptop i7 CPU; likely minutes"
+  },
+  {
+   "gen_paper_id": "social_aspects/Robusntess_IMD-GV",
+   "confidence": "medium",
+   "flags": "parent PDF unresolved (paper_id unknown); parent not cited (tier-0 suggestions were wrong); OC-space credited to Devos et al. 2020; gen_paper_id keeps the Robusntess misspelling",
+   "p3_hint": "possibly CPU-light tree-ensemble verification on 16 tabular datasets, but parent PDF unavailable so runtime unverified"
+  },
+  {
+   "gen_paper_id": "social_aspects/Others_VIGN-SDA-PMSVM",
+   "confidence": "high",
+   "flags": "",
+   "p3_hint": "parent DP-SVM experiments on small UCI datasets with one RTX 4090; generated sweep 79.6 min on one GPU"
+  }
+ ]
+}
