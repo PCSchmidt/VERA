@@ -121,6 +121,8 @@ Write `docs/reviews/incr-0.md` against the exit criteria in docs/07. It must:
 - set only the TBDs the inventory informs: **RSH-P-02** (number of parent
   problems). JDG-P and AUD-P targets stay TBD until the Increment 1–2
   benchmarks; don't invent them;
+- **choose the one parent problem for the Increment 2 loop** from the P3
+  candidates, preferring experiments that finish in minutes;
 - confirm Increment 1 and note what changes in the next SPEC.
 
 **Acceptance:** the review passes the independent Evaluator (`run-evaluator.sh`).

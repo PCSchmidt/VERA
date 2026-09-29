@@ -15,7 +15,10 @@ Make AI-generated research **verifiable** and **affordable**:
 - **P3 Budgeted research agent** — a ScientistTwo-style loop under a hard
   budget, gated by P2 and audited by P1.
 
-Build order: P2 → P1 → P3. Details: [docs/01-conops.md](docs/01-conops.md).
+Headline product: P3, a ScientistTwo-style research loop at a small fraction
+of its cost, with P2 critics gating every stage and P1 as the final gate.
+Build order: P2 first, a thin P3 loop on one problem in Increment 2, then P1
+and P3 deepen together (docs/07). Details: [docs/01-conops.md](docs/01-conops.md).
 
 ## Users
 

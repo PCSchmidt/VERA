@@ -45,8 +45,9 @@ budget-gated.
 **S3 — Batch audit (P1).** Run the auditor over the 86 ScientistTwo papers
 and a sample of their parent papers; produce a public results table.
 
-**S4 — Budgeted research run (P3).** A researcher selects a parent problem and
-sets a budget ("$30, 6 h"). The agent reproduces the baseline on a subset,
+**S4 — Budgeted research run (P3, the headline product).** A researcher selects a
+parent problem, gives output guidance (target format, length, emphasis,
+constraints), and sets a budget ("$30, 6 h"). The agent reproduces the baseline on a subset,
 screens ideas, runs ablations, drafts a write-up, and passes it through the
 auditor. On budget exhaustion it stops and reports best-so-far honestly.
 
@@ -58,6 +59,8 @@ thresholds; publish agreement, calibration, consistency, cost, latency curves.
 - Single developer, local Windows workstation + optional cloud GPU on demand.
 - Model access via API (frontier + cheap tiers) and optional local models.
 - Monthly spend ceiling: **$20.00** (set 2026-09-29; revisit at each increment review).
+  Months with loop runs (Increment 2 onward) may need a deliberate, temporary
+  increase, set from the Increment 1 cost measurements (risk R10).
 - Model access for spend under that ceiling: one OpenRouter API key, with
   cheap, capable models as defaults (e.g. MiMo-V2.6-Pro, GLM-5.3 Flash,
   DeepSeek V4.1 Flash), chosen with the OpenRouter rankings

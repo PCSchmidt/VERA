@@ -20,7 +20,12 @@ layered projects.
 | P1 | **Integrity auditor** | Takes a paper (+ repo if available) and produces an audit: citations, numeric claims, method–code alignment, spec violations / leakage, novelty. Built on P2. | Reviewers, workshop organizers, researchers adopting published methods |
 | P3 | **Budgeted research agent** | Meridian extended into a ScientistTwo-style loop (ideas → subset experiments → ablations → write-up) under a hard budget. Uses P2 for every critic gate and P1 as the final gate. | Independent researchers and small labs |
 
-Numbering follows the original discussion; **build order is P2 → P1 → P3.**
+Numbering follows the original discussion. **Build order:** P2 first (cheap
+critics make a cheap loop possible), then a thin end-to-end P3 loop on one
+problem (Increment 2) gated by P2 critics with a minimal P1 as its final gate.
+P1 and P3 then deepen together. The headline product is P3: a
+ScientistTwo-style research loop at a small fraction of the cost, whose
+every step is checked by something other than the step that produced it.
 
 ## Architecture (layers)
 

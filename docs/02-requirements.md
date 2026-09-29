@@ -42,30 +42,31 @@ Suggested starting values are in brackets.
 
 | ID | Requirement | Verify | Incr |
 |----|-------------|--------|------|
-| AUD-F-01 | Ingest a paper PDF (and optionally a repo URL) and produce an `AuditReport`. | T | 2 |
-| AUD-F-02 | Extract numeric claims with location (section, table, page). | T | 2 |
-| AUD-F-03 | Flag every reference that cannot be matched in a bibliographic source (e.g. Crossref, arXiv, Semantic Scholar). | T (seeded) | 2 |
-| AUD-F-04 | Check each numeric claim for internal consistency (text vs. tables vs. figures) and, when logs exist, against logged outputs. | T (seeded) | 2 |
-| AUD-F-05 | Check method–code alignment: each method component described in the paper maps to code, and vice versa. | T (seeded) | 3 |
-| AUD-F-06 | Detect specification violations / leakage patterns (test-set use in training or tuning, metric changes, baseline misconfiguration). | T (seeded) | 3 |
-| AUD-F-07 | Assess novelty: retrieve closest prior work and judge whether the core method is materially distinct. | A (gold set) | 3 |
-| AUD-F-08 | Optionally re-run reported experiments in the sandbox within a per-audit budget. | D | 3 |
+| AUD-F-01 | Ingest a paper PDF (and optionally a repo URL) and produce an `AuditReport`. | T | 3 |
+| AUD-F-02 | Extract numeric claims with location (section, table, page). | T | 3 |
+| AUD-F-03 | Flag every reference that cannot be matched in a bibliographic source (e.g. Crossref, arXiv, Semantic Scholar). | T (seeded) | 2–3 |
+| AUD-F-04 | Check each numeric claim for internal consistency (text vs. tables vs. figures) and, when logs exist, against logged outputs. | T (seeded) | 2–3 |
+| AUD-F-05 | Check method–code alignment: each method component described in the paper maps to code, and vice versa. | T (seeded) | 4 |
+| AUD-F-06 | Detect specification violations / leakage patterns (test-set use in training or tuning, metric changes, baseline misconfiguration). | T (seeded) | 4 |
+| AUD-F-07 | Assess novelty: retrieve closest prior work and judge whether the core method is materially distinct. | A (gold set) | 4 |
+| AUD-F-08 | Optionally re-run reported experiments in the sandbox within a per-audit budget. | D | 4 |
 | AUD-F-09 | Every finding shall link to its evidence (quote location, source record, code path, log line). | I | 2 |
-| AUD-P-01 | Detection rate on seeded faults ≥ **TBD** [90%] per check type; false-positive rate ≤ **TBD** [10%]. | T | 2–3 |
-| AUD-P-02 | Non-rerun audit cost ≤ **TBD** [$1] and wall time ≤ **TBD** [15 min] per paper. | A | 2 |
+| AUD-P-01 | Detection rate on seeded faults ≥ **TBD** [90%] per check type; false-positive rate ≤ **TBD** [10%]. | T | 3–4 |
+| AUD-P-02 | Non-rerun audit cost ≤ **TBD** [$1] and wall time ≤ **TBD** [15 min] per paper. | A | 3 |
 
 ## P3 — Research agent
 
 | ID | Requirement | Verify | Incr |
 |----|-------------|--------|------|
-| RSH-F-01 | Accept a problem spec (parent paper + baseline code) and a `Budget`. | T | 4 |
-| RSH-F-02 | Reproduce the baseline on a subset before testing any idea. | T | 4 |
-| RSH-F-03 | Every stage transition shall be gated by a `Verdict` from a component other than the producer (no self-grading). | T, I | 4 |
-| RSH-F-04 | Run ablations on the best idea before write-up. | D | 4 |
-| RSH-F-05 | Pass the final write-up through the P1 auditor; failing audits block "success". | T | 4 |
-| RSH-F-06 | On budget exhaustion, stop and emit a best-so-far report stating the stop reason. | T | 4 |
-| RSH-P-01 | A run shall never exceed its configured budget. | T | 4 |
-| RSH-P-02 | Report cost/quality results on ≥ **TBD** [2] parent problems also attempted by ScientistTwo. | A | 4 |
+| RSH-F-01 | Accept a problem spec (parent paper + baseline code), output guidance (e.g. target format, length, emphasis, constraints), and a `Budget`. | T | 2 |
+| RSH-F-02 | Reproduce the baseline on a subset before testing any idea. | T | 2 |
+| RSH-F-03 | Every stage transition shall be gated by a `Verdict` from a component other than the producer (no self-grading). | T, I | 2 |
+| RSH-F-04 | Run ablations on the best idea before write-up. | D | 5 |
+| RSH-F-05 | Pass the final write-up through the P1 auditor (minimal in Increment 2: citations + numbers vs run logs); failing audits block "success". | T | 2 |
+| RSH-F-06 | On budget exhaustion, stop and emit a best-so-far report stating the stop reason. | T | 2 |
+| RSH-F-07 | The write-up shall follow the run's output guidance; the final gate checks it. | T | 2 |
+| RSH-P-01 | A run shall never exceed its configured budget. | T | 2 |
+| RSH-P-02 | Report cost/quality results on ≥ **TBD** [2] parent problems also attempted by ScientistTwo. | A | 5 |
 
 ## Traceability
 

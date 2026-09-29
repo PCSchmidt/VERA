@@ -47,3 +47,22 @@ Keep each to one short section. Status: **open** until decided.
 
 - **Options:** LangSmith; OpenTelemetry + local store; ledger-only.
 - **Criteria:** cost, lock-in, ability to publish traces with results.
+
+## T7 — Loop context management (open, decide in Increment 2)
+
+- **Options:** (a) plain LangGraph state plus summarisation; (b) prime-agent
+  style Recursive Language Model patterns: papers, logs, and code held as REPL
+  variables instead of in the context window, recursive sub-calls, bounded
+  autonomy within turn/token/time budgets, durable sessions
+  (PrimeIntellect-ai/prime-agent, MIT; a clone is in the workspace); (c)
+  LangChain Deep Agents' filesystem and context management.
+- **Criteria:** tokens and cost per loop run, reliability over multi-hour runs,
+  implementation effort, fit with the `Budget`/ledger, Windows support.
+- **Leaning:** borrow (b)'s prompt-as-variable pattern inside VERA's own
+  LangGraph nodes rather than adopting prime-agent wholesale; measure token
+  savings against (a) on the Increment 2 problem.
+- **Constraint:** prime-agent's worker and kernel processes are explicitly not
+  a security sandbox. Agent-generated code still runs only in the T4 sandbox
+  (FND-F-03).
+- **Reverse if:** the measured token savings are small on CPU-scale problems,
+  or the pattern fights LangGraph checkpointing.
