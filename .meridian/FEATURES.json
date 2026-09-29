@@ -1,0 +1,98 @@
+[
+  {
+    "id": "repo-scaffold-and-v01-schemas",
+    "name": "Repo scaffold and v0.1 schemas",
+    "source_section": "Repo scaffold and v0.1 schemas",
+    "lifecycle": {
+      "happy_path": false,
+      "integration": false,
+      "edge_cases": false,
+      "error_handling": false,
+      "hardening": false
+    }
+  },
+  {
+    "id": "corpus-discovery",
+    "name": "Corpus discovery",
+    "source_section": "Corpus discovery",
+    "lifecycle": {
+      "happy_path": false,
+      "integration": false,
+      "edge_cases": false,
+      "error_handling": false,
+      "hardening": false
+    }
+  },
+  {
+    "id": "corpus-download-with-provenance",
+    "name": "Corpus download with provenance",
+    "source_section": "Corpus download with provenance",
+    "lifecycle": {
+      "happy_path": false,
+      "integration": false,
+      "edge_cases": false,
+      "error_handling": false,
+      "hardening": false
+    }
+  },
+  {
+    "id": "parent-papers-and-code-availability",
+    "name": "Parent papers and code availability",
+    "source_section": "Parent papers and code availability",
+    "lifecycle": {
+      "happy_path": false,
+      "integration": false,
+      "edge_cases": false,
+      "error_handling": false,
+      "hardening": false
+    }
+  },
+  {
+    "id": "compute-estimates-and-p3-candidates",
+    "name": "Compute estimates and P3 candidates",
+    "source_section": "Compute estimates and P3 candidates",
+    "lifecycle": {
+      "happy_path": false,
+      "integration": false,
+      "edge_cases": false,
+      "error_handling": false,
+      "hardening": false
+    }
+  },
+  {
+    "id": "inventory-verified-by-spot-check",
+    "name": "Inventory verified by spot-check",
+    "source_section": "Inventory verified by spot-check",
+    "lifecycle": {
+      "happy_path": false,
+      "integration": false,
+      "edge_cases": false,
+      "error_handling": false,
+      "hardening": false
+    }
+  },
+  {
+    "id": "pdf-parser-decision",
+    "name": "PDF parser decision",
+    "source_section": "PDF parser decision",
+    "lifecycle": {
+      "happy_path": false,
+      "integration": false,
+      "edge_cases": false,
+      "error_handling": false,
+      "hardening": false
+    }
+  },
+  {
+    "id": "increment-0-review",
+    "name": "Increment 0 review",
+    "source_section": "Increment 0 review",
+    "lifecycle": {
+      "happy_path": false,
+      "integration": false,
+      "edge_cases": false,
+      "error_handling": false,
+      "hardening": false
+    }
+  }
+]

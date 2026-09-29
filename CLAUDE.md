@@ -12,7 +12,22 @@ Read `README.md` first, then the doc relevant to your task in `docs/`.
   (`pathlib`), no bash-only scripts unless also provided for PowerShell.
   **Exception:** Meridian's harness files (`scripts/*.sh` installed by Meridian,
   `.claude/hooks/`, the git `pre-commit` hook) are Bash and run under Git Bash.
-  VERA's own scripts are Python (`scripts/*.py`); don't add new `.sh` files.
+  VERA's own scripts are Python (`scripts/*.py`). The only VERA `.sh` files are
+  one-line gate wrappers (`scripts/gate-*.sh`) that call the Python checks in
+  `tools/checks/`, because Meridian runs gate hooks with bash.
+
+## Meridian (build harness)
+
+- Gates: `.meridian/gates.yaml`. Scope contract: `CONTRACT.md`; current
+  increment features: `SPEC.md`. `docs/` stays the source of truth.
+- Check where you are: `bash scripts/gate-engine.sh current`, then
+  `bash scripts/gate-engine.sh verify <gate>`.
+- Automated gates: `bash scripts/gate-engine.sh mark-passed <gate>` (it re-runs
+  the checks). **Human approval gates are Chris's to approve** in his own
+  terminal; report readiness instead of trying to approve.
+- Never edit `.meridian/gate-state.json` directly.
+- Dogfood log: when a gate blocks, note it; Chris labels stops with
+  `bash scripts/dogfood.sh label <n> real|false_alarm|unclear`.
 
 ## Source of truth
 

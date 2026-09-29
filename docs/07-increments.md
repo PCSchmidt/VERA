@@ -14,9 +14,9 @@ Tasks (suggested order for Claude Code):
    (including `data/raw/`), package skeleton `vera/` with `schemas/`,
    `backends/`, `ledger/`. Implement the v0.1 schemas from
    `03-interfaces.md` as Pydantic models, with round-trip tests.
-2. **Corpus discovery.** Work out how the ScientistTwo site lists its papers
-   (inspect the site's page source/network requests to find the gallery data
-   and PDF paths). Write `scripts/discover_corpus.py` to enumerate all
+2. **Corpus discovery.** Work out how the ScientistTwo site lists its papers.
+   Prefer a published listing or data file; fall back to the page source or
+   network requests only if none exists. Write `scripts/discover_corpus.py` to enumerate all
    generated papers with domain, sub-domain, and method name.
 3. **Download with provenance.** `scripts/fetch_corpus.py` downloads PDFs to
    `data/raw/scientisttwo/`, recording URL, retrieval date, SHA-256

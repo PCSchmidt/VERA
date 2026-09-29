@@ -5,7 +5,9 @@
 **Thesis:** make AI-generated research *verifiable* and *affordable*.
 
 Autonomous research agents now write papers that clear automated review bars
-(e.g. ScientistTwo: 86 generated papers, ~$3,800 and 2–3 days per task). Two
+(e.g. [ScientistTwo](https://scientist-two.github.io/), Google Cloud AI
+Research: 86 generated papers, ~$3,800 and 2–3 days per task, as stated on
+the site when retrieved 2026-09-29). Two
 gaps follow: nobody independent checks whether those papers are true, and
 almost nobody can afford to run such systems. VERA addresses both with three
 layered projects.

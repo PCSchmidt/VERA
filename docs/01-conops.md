@@ -57,7 +57,12 @@ thresholds; publish agreement, calibration, consistency, cost, latency curves.
 
 - Single developer, local Windows workstation + optional cloud GPU on demand.
 - Model access via API (frontier + cheap tiers) and optional local models.
-- Monthly spend ceiling: **TBD** (suggest setting one before Increment 1).
+- Monthly spend ceiling: **$20.00** (set 2026-09-29; revisit at each increment review).
+- Model access for spend under that ceiling: one OpenRouter API key, with
+  cheap, capable models as defaults (e.g. MiMo-V2.6-Pro, GLM-5.3 Flash,
+  DeepSeek V4.1 Flash), chosen with the OpenRouter rankings
+  (<https://openrouter.ai/rankings#benchmarks>) and confirmed by VERA's own
+  benchmarks. The key lives in a git-ignored `.env`.
 - Inputs: PDFs, public Git repos. Outputs: JSON reports + rendered HTML/MD.
 
 ## 5. Out of scope (for now)

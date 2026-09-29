@@ -1,0 +1,111 @@
+# VERA gate DAG: Increment 0 only. Add the next increment's gates at each
+# increment review; don't pre-build gates for work that isn't planned yet.
+#
+#   confirmed ─► scaffold_ready ─► corpus_fetched ─┬─► inventory_verified ─┐
+#   (human)       (automated)       (automated)     │   (human)             ├─► incr0_review
+#                                                   └─► parser_decided ─────┘   (human + Evaluator)
+#                                                       (human)
+#
+# Human approval gates are approved by Chris in his own terminal:
+#   bash scripts/gate-engine.sh mark-passed <gate> --approve "<approval_token>"
+# Every pre-hook exits 2 to block. VERA's checks: tools/checks/*.py via scripts/gate-*.sh.
+
+version: "1.0"
+
+project:
+  name: "vera"
+  recipe: "custom"
+  description: "Verifiable, Economical Research Agents. Increment 0: know your data"
+
+gates:
+  - id: confirmed
+    label: "Scope confirmed"
+    type: human_approval
+    required: true
+    approval_token: "CONFIRMED"
+    requires: []
+    requires_artifacts:
+      - CONTRACT.md
+      - SPEC.md
+      - docs/01-conops.md
+      - docs/02-requirements.md
+      - docs/03-interfaces.md
+      - docs/07-increments.md
+    hooks:
+      pre:
+        - validate-contract.sh      # Meridian: Purpose + Scope sections present
+        - validate-spec.sh          # Meridian: SPEC.md is structured
+        - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount, not TBD
+
+  - id: scaffold_ready
+    label: "Repo scaffold and v0.1 schemas"
+    type: automated
+    required: true
+    requires:
+      - confirmed
+    requires_artifacts:
+      - pyproject.toml
+      - vera/schemas/__init__.py
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + pytest (schema round-trip tests)
+        - gate-schema-version.sh    # code SCHEMA_VERSION == docs/03 version
+
+  - id: corpus_fetched
+    label: "Corpus discovered and downloaded with provenance"
+    type: automated
+    required: true
+    requires:
+      - scaffold_ready
+    requires_artifacts:
+      - scripts/discover_corpus.py
+      - scripts/fetch_corpus.py
+      - data/corpus_discovery.json
+      - data/provenance.jsonl
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-discovery.sh         # source + count recorded; mismatch explained
+        - gate-provenance.sh        # FND-C-02: hashes match, nothing in data/raw committed
+        - gate-traceability.sh      # every due T-requirement has a test_<ID>_ test
+
+  - id: inventory_verified
+    label: "Inventory complete and spot-checked by a human"
+    type: human_approval
+    required: true
+    approval_token: "INVENTORY VERIFIED"
+    requires:
+      - corpus_fetched
+    requires_artifacts:
+      - data/corpus_inventory.csv
+      - data/inventory_spotcheck.csv
+    hooks:
+      pre:
+        - gate-inventory.sh         # no blanks/template rows; every sampled row has a human verdict
+
+  - id: parser_decided
+    label: "PDF parser chosen (trade T3)"
+    type: human_approval
+    required: true
+    approval_token: "PARSER DECIDED"
+    requires:
+      - corpus_fetched
+    hooks:
+      pre:
+        - gate-parser-decided.sh    # T3 decided, with **Decision:** and **Reverse if:**
+
+  - id: incr0_review
+    label: "Increment 0 review"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 0 COMPLETE"
+    requires:
+      - inventory_verified
+      - parser_decided
+    requires_artifacts:
+      - docs/reviews/incr-0.md
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-traceability.sh
+        - run-evaluator.sh          # Meridian: independent Evaluator verdict on the review

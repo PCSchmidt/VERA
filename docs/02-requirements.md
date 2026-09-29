@@ -9,8 +9,10 @@ ID format: `<AREA>-<TYPE>-<NN>`. Areas: `FND` foundation, `JDG` judge library
 Verification methods: **T** test · **A** analysis · **I** inspection ·
 **D** demonstration.
 
-Values marked **TBD** are set at the end of Increment 0 (baseline numbers
-are needed first). Suggested starting values are in brackets.
+Values marked **TBD** are set once the data that informs them exists:
+inventory-driven values at the end of Increment 0 (e.g. RSH-P-02), judge
+and auditor performance targets from the Increment 1–2 benchmarks.
+Suggested starting values are in brackets.
 
 ## Foundation
 

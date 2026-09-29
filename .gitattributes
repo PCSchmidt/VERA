@@ -1,0 +1,2 @@
+# Bash (Meridian hooks, gate wrappers) fails on CRLF
+*.sh text eol=lf
