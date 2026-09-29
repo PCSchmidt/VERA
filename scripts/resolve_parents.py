@@ -20,6 +20,9 @@ data/parent_arxiv_hints.csv; a hint is used only if its arXiv title matches.
 manual lookup). Polite: arXiv asks for one request per 3 s (--delay 3.5).
 Resumable: resolved rows whose PDF still matches its record are skipped, and
 a PDF already on disk with a matching record is not downloaded again.
+OpenReview refuses scripted PDF downloads, so an OpenReview-only paper is
+saved by hand as data/raw/parents/openreview_<forum id>.pdf; the next run
+checks it is a PDF and records its provenance with the OpenReview URL.
 
 Usage: uv run python scripts/resolve_parents.py [--delay 3.5] [--limit N]
 """
@@ -145,9 +148,17 @@ def search_openreview(title: str) -> Hit | None:
 
 def fetch(url: str, dest: Path, records: dict[str, dict[str, str]]) -> None:
     """Download with a provenance record, unless the file is already on disk and recorded."""
-    if provenance.is_current(ROOT, dest, records) and records[dest.relative_to(ROOT).as_posix()]["url"] == url:
+    rel = dest.relative_to(ROOT).as_posix()
+    if provenance.is_current(ROOT, dest, records) and records[rel]["url"] == url:
         return
-    download(url, dest)
+    if dest.is_file() and rel not in records:
+        # Saved by hand from a browser (OpenReview refuses scripted PDF downloads): check it, then record it.
+        with dest.open("rb") as fh:
+            if fh.read(5) != b"%PDF-":
+                raise ValueError(f"{rel} is not a PDF")
+        print(f"    adopted manually downloaded {rel}", flush=True)
+    else:
+        download(url, dest)
     records[dest.relative_to(ROOT).as_posix()] = provenance.record(ROOT, dest, url)
 
 
