@@ -52,10 +52,11 @@ def main() -> None:
     increment = current_increment(args.root)
     due = due_test_requirements(requirements, increment)
     names = test_names(args.root)
-    missing = [
-        req for req in due
-        if not any(name.startswith(f"test_{req.replace('-', '_')}_") or name == f"test_{req.replace('-', '_')}" for name in names)
-    ]
+    def tested(req: str) -> bool:
+        stem = f"test_{req.replace('-', '_')}"
+        return any(name == stem or name.startswith(f"{stem}_") for name in names)
+
+    missing = [req for req in due if not tested(req)]
     if missing:
         block(f"increment {increment}: no test for {', '.join(missing)} (name tests test_<ID>_...)")
     ok(f"increment {increment}: all {len(due)} test-verified requirement(s) due have tests")

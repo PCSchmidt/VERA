@@ -141,7 +141,8 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=None, help="sample seed (default: random, recorded)")
     args = parser.parse_args()
     if args.sample:
-        draw_sample(args.root, args.sample, args.seed if args.seed is not None else random.SystemRandom().randrange(10**6))
+        seed = args.seed if args.seed is not None else random.SystemRandom().randrange(10**6)
+        draw_sample(args.root, args.sample, seed)
     else:
         check(args.root)
 

@@ -14,14 +14,14 @@ human gates, verifies the inventory spot-check, and scores the parser trade.
 ## Repo scaffold and v0.1 schemas
 
 `uv` project (Python 3.11+), pytest, ruff; package `vera/` with `schemas/`,
-`backends/`, `ledger/`. All v0.1 models from docs/03 in Pydantic v2, including
+`backends/`, `ledger/`. All docs/03 models (now v0.2) in Pydantic v2, including
 `Budget.charge()` raising `BudgetExceeded` when any limit would be crossed.
 `JudgeBackend` is a `Protocol` and has no round-trip test.
 
 **Acceptance:** every docs/03 `BaseModel` round-trips (model → JSON → model) in
 a test; `Verdict` with `judge_id == producer_id` raises; `Budget.charge()`
-raises on each limit; `vera/schemas/__init__.py` contains a literal
-`SCHEMA_VERSION = "0.1"` equal to the docs/03 version
+raises on each limit; `vera/schemas/version.py` contains a literal
+`SCHEMA_VERSION = "X.Y"` equal to the docs/03 version
 (`tools/checks/check_schema_version.py`); ruff and pytest pass.
 **Gate:** `scaffold_ready`.
 

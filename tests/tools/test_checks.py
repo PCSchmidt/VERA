@@ -59,13 +59,13 @@ def test_schema_version_blocks_without_package(tmp_path: Path) -> None:
 
 def test_schema_version_matches(tmp_path: Path) -> None:
     write(tmp_path, "docs/03-interfaces.md", DOC03)
-    write(tmp_path, "vera/schemas/__init__.py", 'SCHEMA_VERSION = "0.1"\n')
+    write(tmp_path, "vera/schemas/version.py", 'SCHEMA_VERSION = "0.1"\n')
     assert run("check_schema_version.py", tmp_path).returncode == 0
 
 
 def test_schema_version_mismatch_blocks(tmp_path: Path) -> None:
     write(tmp_path, "docs/03-interfaces.md", DOC03)
-    write(tmp_path, "vera/schemas/__init__.py", 'SCHEMA_VERSION = "0.2"\n')
+    write(tmp_path, "vera/schemas/version.py", 'SCHEMA_VERSION = "0.2"\n')
     result = run("check_schema_version.py", tmp_path)
     assert result.returncode == 2
     assert "mismatch" in result.stderr
@@ -73,7 +73,7 @@ def test_schema_version_mismatch_blocks(tmp_path: Path) -> None:
 
 def test_schema_version_needs_changelog_line(tmp_path: Path) -> None:
     write(tmp_path, "docs/03-interfaces.md", "Version 0.2\n\n## Changelog\n\n- 0.1 — initial draft.\n")
-    write(tmp_path, "vera/schemas/__init__.py", 'SCHEMA_VERSION = "0.2"\n')
+    write(tmp_path, "vera/schemas/version.py", 'SCHEMA_VERSION = "0.2"\n')
     assert run("check_schema_version.py", tmp_path).returncode == 2
 
 
@@ -259,7 +259,8 @@ def test_inventory_refuses_to_redraw_after_verdicts(tmp_path: Path) -> None:
 # ── trade decided ─────────────────────────────────────────────────────────────
 
 def test_trade_open_blocks(tmp_path: Path) -> None:
-    write(tmp_path, "docs/04-trade-studies.md", "## T3 — PDF parsing (open, decide in Increment 0)\n\n- **Options:** a, b\n")
+    write(tmp_path, "docs/04-trade-studies.md",
+          "## T3 — PDF parsing (open, decide in Increment 0)\n\n- **Options:** a, b\n")
     assert run("check_trade_decided.py", tmp_path, "T3").returncode == 2
 
 

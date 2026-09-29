@@ -1,6 +1,6 @@
 # 03 — Interfaces (core schemas)
 
-Version 0.1 · Draft · Changes require a version bump and a changelog line.
+Version 0.2 · Draft · Changes require a version bump and a changelog line.
 
 These are the contracts between layers. Implement as Pydantic v2 models in
 `vera/schemas/`. Field lists are normative; the Python below is a sketch.
@@ -76,7 +76,9 @@ class Budget(BaseModel):
     max_model_calls: int | None = None
     spent_usd: float = 0.0
     elapsed_seconds: int = 0
-    # charge() raises BudgetExceeded when any limit would be crossed
+    model_calls_used: int = 0
+    # charge(usd, seconds, calls=1) raises BudgetExceeded when any limit would
+    # be crossed, and leaves the budget unchanged when it raises
 ```
 
 ## Auditor (P1)
@@ -120,7 +122,7 @@ class AuditReport(BaseModel):
     checks_skipped: dict[str, str]   # check -> reason
     total_cost_usd: float
     wall_seconds: int
-    schema_version: str = "0.1"
+    schema_version: str = "0.2"      # always the current document version
 ```
 
 ## Research agent (P3)
@@ -141,3 +143,6 @@ class StageResult(BaseModel):
 ## Changelog
 
 - 0.1 — initial draft.
+- 0.2 — `Budget.model_calls_used` added: without a counter, `max_model_calls`
+  could not be enforced by `charge()`. `charge()` signature and no-partial-charge
+  rule stated.

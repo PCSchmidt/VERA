@@ -13,7 +13,7 @@ def main() -> None:
     if not conops.exists():
         block(f"{conops} not found")
     line = next(
-        (l for l in conops.read_text(encoding="utf-8").splitlines() if "spend ceiling" in l.lower()),
+        (text for text in conops.read_text(encoding="utf-8").splitlines() if "spend ceiling" in text.lower()),
         None,
     )
     if line is None:

@@ -45,7 +45,7 @@ gates:
       - confirmed
     requires_artifacts:
       - pyproject.toml
-      - vera/schemas/__init__.py
+      - vera/schemas/version.py
     hooks:
       pre:
         - gate-tests.sh             # ruff + pytest (schema round-trip tests)

@@ -1,6 +1,7 @@
 {
   "passed_gates": [
-    "confirmed"
+    "confirmed",
+    "scaffold_ready"
   ],
   "approvals": {
     "confirmed": {

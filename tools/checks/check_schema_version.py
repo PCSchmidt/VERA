@@ -10,11 +10,11 @@ from _common import block, ok, repo_root_arg
 def main() -> None:
     args = repo_root_arg(__doc__).parse_args()
     doc = args.root / "docs" / "03-interfaces.md"
-    code = args.root / "vera" / "schemas" / "__init__.py"
+    code = args.root / "vera" / "schemas" / "version.py"
     if not doc.exists():
         block(f"{doc} not found")
     if not code.exists():
-        block("vera/schemas/__init__.py not found; the schemas package does not exist yet")
+        block("vera/schemas/version.py not found; the schemas package does not exist yet")
 
     doc_text = doc.read_text(encoding="utf-8")
     doc_match = re.search(r"^Version\s+(\d+\.\d+)", doc_text, re.MULTILINE)
@@ -22,9 +22,10 @@ def main() -> None:
         block("docs/03-interfaces.md has no 'Version X.Y' line")
     doc_version = doc_match.group(1)
 
-    code_match = re.search(r"""^SCHEMA_VERSION\s*=\s*["'](\d+\.\d+)["']""", code.read_text(encoding="utf-8"), re.MULTILINE)
+    code_text = code.read_text(encoding="utf-8")
+    code_match = re.search(r"""^SCHEMA_VERSION\s*=\s*["'](\d+\.\d+)["']""", code_text, re.MULTILINE)
     if not code_match:
-        block("vera/schemas/__init__.py does not define SCHEMA_VERSION = \"X.Y\"")
+        block("vera/schemas/version.py does not define SCHEMA_VERSION = \"X.Y\"")
     code_version = code_match.group(1)
 
     if code_version != doc_version:

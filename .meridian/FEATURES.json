@@ -4,10 +4,10 @@
     "name": "Repo scaffold and v0.1 schemas",
     "source_section": "Repo scaffold and v0.1 schemas",
     "lifecycle": {
-      "happy_path": false,
+      "happy_path": true,
       "integration": false,
-      "edge_cases": false,
-      "error_handling": false,
+      "edge_cases": true,
+      "error_handling": true,
       "hardening": false
     }
   },
