@@ -1,0 +1,14 @@
+# Corpus PDFs are evaluation data: store locally, never commit (CLAUDE.md data rules)
+data/raw/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/

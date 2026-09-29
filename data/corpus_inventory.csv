@@ -1,0 +1,2 @@
+gen_paper_id,domain,subdomain,method_name,gen_pdf_url,gen_sha256,retrieved_date,gen_code_url,parent_title,parent_venue,parent_id_arxiv_or_doi,parent_code_url,reported_gain_pct,compute_class,candidate_for_p3,notes
+example-001,Deep Learning,Algorithms,RMTS,,,,,,,,,,unknown,,replace this row
