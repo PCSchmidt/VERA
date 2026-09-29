@@ -14,7 +14,7 @@ human gates, verifies the inventory spot-check, and scores the parser trade.
 ## Repo scaffold and v0.1 schemas
 
 `uv` project (Python 3.11+), pytest, ruff; package `vera/` with `schemas/`,
-`backends/`, `ledger/`. All docs/03 models (now v0.2) in Pydantic v2, including
+`backends/`, `ledger/`. All docs/03 models (now v0.3) in Pydantic v2, including
 `Budget.charge()` raising `BudgetExceeded` when any limit would be crossed.
 `JudgeBackend` is a `Protocol` and has no round-trip test.
 
@@ -85,7 +85,8 @@ sampled row against its sources and records `correct` or `incorrect` with a
 note.
 
 **Acceptance:** no blank cells, template rows, or values outside the data
-dictionary; `gen_sha256` values match provenance; every sampled row has a
+dictionary; every `gen_pdf_url` links to a provenance record and every
+downloaded generated paper appears in the inventory; every sampled row has a
 verdict (`tools/checks/check_inventory.py`). **Target error rate ≤ 10%**
 (set 2026-09-29; revisable at the increment review); above it, fix the process and
 re-sample only the rows filled after the fix. The measured rate goes in the

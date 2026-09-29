@@ -132,6 +132,31 @@ def test_audit_report_carries_current_schema_version() -> None:
     assert report.schema_version == SCHEMA_VERSION
 
 
+def stage(gate: Verdict) -> StageResult:
+    return StageResult(
+        run_id="r-1", stage="ideate", artifact_ref="runs/r-1/ideas.json", producer_id="p3.runner",
+        gate=gate, decision="accept", budget_after=budget(),
+    )
+
+
+def test_RSH_F_03_stage_gate_issued_by_producer_raises() -> None:
+    # The Verdict alone looks valid (no producer named), but it grades the stage's own producer.
+    with pytest.raises(ValidationError) as exc:
+        stage(verdict(producer_id=None, judge_id="p3.runner"))
+    assert "its own producer" in str(exc.value)
+
+
+def test_RSH_F_03_stage_gate_for_another_artifact_raises() -> None:
+    with pytest.raises(ValidationError) as exc:
+        stage(verdict(producer_id="p1.claim_extractor", judge_id="p2.router"))
+    assert "produced by" in str(exc.value)
+
+
+def test_RSH_F_03_stage_gate_from_independent_judge_accepted() -> None:
+    assert stage(verdict(producer_id="p3.runner", judge_id="p2.router")).gate.judge_id == "p2.router"
+    assert stage(verdict(producer_id=None, judge_id="p1.auditor")).decision == "accept"
+
+
 def test_budget_charge_accumulates() -> None:
     b = budget()
     b.charge(0.25, seconds=30)

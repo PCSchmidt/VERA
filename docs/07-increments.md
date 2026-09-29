@@ -39,7 +39,7 @@ Tasks (suggested order for Claude Code):
 - Inventory complete for all generated papers (unknowns marked, not blank).
 - Code-availability rate known → decide whether P1 v1 includes method–code checks.
 - 2–3 candidate CPU/single-GPU parent problems identified for P3.
-- Schemas implemented (docs/03, v0.1 → v0.2) with passing tests.
+- Schemas implemented (docs/03, v0.1 → v0.3) with passing tests.
 - Parser chosen.
 - Monthly spend ceiling set.
 

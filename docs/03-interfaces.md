@@ -1,6 +1,6 @@
 # 03 — Interfaces (core schemas)
 
-Version 0.2 · Draft · Changes require a version bump and a changelog line.
+Version 0.3 · Draft · Changes require a version bump and a changelog line.
 
 These are the contracts between layers. Implement as Pydantic v2 models in
 `vera/schemas/`. Field lists are normative; the Python below is a sketch.
@@ -122,7 +122,7 @@ class AuditReport(BaseModel):
     checks_skipped: dict[str, str]   # check -> reason
     total_cost_usd: float
     wall_seconds: int
-    schema_version: str = "0.2"      # always the current document version
+    schema_version: str = "0.3"      # always the current document version
 ```
 
 ## Research agent (P3)
@@ -140,9 +140,16 @@ class StageResult(BaseModel):
     budget_after: Budget
 ```
 
+Rule: a `StageResult` is invalid and must raise when its gate is issued by the
+stage's producer (`gate.judge_id == producer_id`), or when the gate names a
+different artifact producer (`gate.producer_id` set and `!= producer_id`). The
+`Verdict` rule alone can't catch the first case when `gate.producer_id` is empty.
+
 ## Changelog
 
 - 0.1 — initial draft.
 - 0.2 — `Budget.model_calls_used` added: without a counter, `max_model_calls`
   could not be enforced by `charge()`. `charge()` signature and no-partial-charge
   rule stated.
+- 0.3 — `StageResult` no-self-grading rule: the gate's judge must differ from
+  the stage's producer, and the gate's producer (if set) must match it (RSH-F-03).

@@ -57,4 +57,9 @@ shared internals. Every judgment anywhere in the system is a `Verdict`.
 
 ## Status
 
-Increment 0 (spike): not started.
+Increment 0 (spike) in progress. Gates passed: `confirmed`, `scaffold_ready`
+(schemas v0.3). Next: `corpus_fetched`. Progress: `bash scripts/gate-engine.sh current`.
+
+## License
+
+MIT (see `LICENSE`) for VERA's code and docs. It does not cover the ScientistTwo papers or any other third-party material VERA evaluates; those are never committed (`data/raw/` is git-ignored).

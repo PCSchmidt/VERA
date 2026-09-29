@@ -28,6 +28,11 @@ problems) are recorded in `corpus_discovery.json`, not assumed.
 `data/raw/scientisttwo/`, parent papers under `data/raw/parents/`; both need
 records. Checked by `tools/checks/check_provenance.py`.
 
+**This file is the single source for download facts** (URL, date, hash). The
+inventory doesn't repeat them; it links by `gen_pdf_url`. `check_inventory.py`
+checks both directions: every inventory URL has a record, and every
+generated-paper record belongs to an inventory row.
+
 ## `corpus_inventory.csv` (one row per generated paper)
 
 Every cell is filled. Where a value can't be determined, write `unknown`.
@@ -38,9 +43,7 @@ means *not determined*. The difference drives the code-availability rate (R1).
 |---|---|
 | `gen_paper_id` | stable id from the site (slug or index) |
 | `domain`, `subdomain`, `method_name` | as the site lists them |
-| `gen_pdf_url` | URL the PDF was fetched from |
-| `gen_sha256` | SHA-256 of the downloaded PDF; must match its provenance record |
-| `retrieved_date` | `YYYY-MM-DD` |
+| `gen_pdf_url` | URL the PDF was fetched from, or `unknown` if no PDF was found. **Links to `provenance.jsonl`**, which alone holds the hash and retrieval date |
 | `gen_code_url` | URL, `none`, or `unknown` |
 | `parent_title`, `parent_venue` | the human paper whose problem and baseline the generated paper uses |
 | `parent_id_arxiv_or_doi` | arXiv id (`2401.01234`) or DOI; identifies the **parent problem** |

@@ -82,18 +82,28 @@ def check_candidates(rows: list[dict[str, str]]) -> None:
         block(f"P3 candidates must be cpu or single_gpu: {', '.join(heavy)}")
 
 
-def check_hashes(root: Path, rows: list[dict[str, str]]) -> None:
-    manifest = root / "data" / "provenance.jsonl"
-    if "gen_sha256" not in (rows[0] if rows else {}) or not manifest.exists():
+def check_provenance_links(root: Path, rows: list[dict[str, str]]) -> None:
+    """Provenance is the single source for download facts; the inventory links to it by gen_pdf_url.
+
+    Both directions: every inventory PDF URL has a provenance record, and every generated-paper
+    provenance record (under data/raw/scientisttwo/) belongs to an inventory row.
+    """
+    if "gen_pdf_url" not in (rows[0] if rows else {}):
         return
-    known = {
-        json.loads(line)["sha256"].lower()
-        for line in manifest.read_text(encoding="utf-8").splitlines() if line.strip()
-    }
-    orphan = [r["gen_paper_id"] for r in rows
-              if r["gen_sha256"].strip() != "unknown" and r["gen_sha256"].strip().lower() not in known]
-    if orphan:
-        block(f"gen_sha256 not in data/provenance.jsonl: {', '.join(orphan[:8])}")
+    manifest = root / "data" / "provenance.jsonl"
+    if not manifest.exists():
+        block("data/provenance.jsonl not found; the inventory links to it by gen_pdf_url")
+    records = [json.loads(line) for line in manifest.read_text(encoding="utf-8").splitlines() if line.strip()]
+    known = {rec["url"] for rec in records}
+    unlinked = [r["gen_paper_id"] for r in rows
+                if r["gen_pdf_url"].strip() != "unknown" and r["gen_pdf_url"].strip() not in known]
+    if unlinked:
+        block(f"gen_pdf_url has no provenance record: {', '.join(unlinked[:8])}")
+    listed = {r["gen_pdf_url"].strip() for r in rows}
+    orphans = [rec["path"] for rec in records
+               if rec["path"].startswith("data/raw/scientisttwo/") and rec["url"] not in listed]
+    if orphans:
+        block(f"downloaded generated papers missing from the inventory: {', '.join(orphans[:5])}")
 
 
 def draw_sample(root: Path, n: int, seed: int) -> None:
@@ -116,7 +126,7 @@ def draw_sample(root: Path, n: int, seed: int) -> None:
 def check(root: Path) -> None:
     rows = inventory_rows(root)
     check_candidates(rows)
-    check_hashes(root, rows)
+    check_provenance_links(root, rows)
     ids = {r["gen_paper_id"] for r in rows}
     out = root / "data" / "inventory_spotcheck.csv"
     if not out.exists():

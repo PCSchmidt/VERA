@@ -319,13 +319,17 @@ def test_discovery_missing_file_blocks(tmp_path: Path) -> None:
 
 # ── inventory: data dictionary rules ──────────────────────────────────────────
 
-DICT_FIELDS = ["gen_paper_id", "gen_sha256", "gen_code_url", "parent_id_arxiv_or_doi",
+DICT_FIELDS = ["gen_paper_id", "gen_pdf_url", "gen_code_url", "parent_id_arxiv_or_doi",
                "parent_code_url", "compute_class", "candidate_for_p3", "notes"]
+
+
+def pdf_url(i: int) -> str:
+    return f"https://scientist-two.github.io/papers/p{i:03d}.pdf"
 
 
 def dict_rows(n: int = 12) -> list[dict[str, str]]:
     rows = [
-        {"gen_paper_id": f"p{i:03d}", "gen_sha256": "unknown", "gen_code_url": "none",
+        {"gen_paper_id": f"p{i:03d}", "gen_pdf_url": pdf_url(i), "gen_code_url": "none",
          "parent_id_arxiv_or_doi": f"2401.{i:05d}", "parent_code_url": "https://github.com/x/y",
          "compute_class": "cpu", "candidate_for_p3": "no", "notes": ""}
         for i in range(n)
@@ -334,13 +338,22 @@ def dict_rows(n: int = 12) -> list[dict[str, str]]:
     return rows
 
 
-def dict_inventory(root: Path, rows: list[dict[str, str]]) -> None:
+def provenance_for(root: Path, urls: list[str], extra: list[dict[str, str]] | None = None) -> None:
+    records = [{"path": f"data/raw/scientisttwo/{u.rsplit('/', 1)[-1]}", "url": u,
+                "retrieved": "2026-09-29", "sha256": "ab" * 32} for u in urls]
+    lines = [json.dumps(r) for r in records + (extra or [])]
+    write(root, "data/provenance.jsonl", "\n".join(lines) + "\n")
+
+
+def dict_inventory(root: Path, rows: list[dict[str, str]], provenance: bool = True) -> None:
     path = root / "data" / "corpus_inventory.csv"
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=DICT_FIELDS)
         writer.writeheader()
         writer.writerows(rows)
+    if provenance:
+        provenance_for(root, [r["gen_pdf_url"] for r in rows if r["gen_pdf_url"] != "unknown"])
 
 
 def spotchecked(root: Path) -> None:
@@ -384,13 +397,40 @@ def test_inventory_candidates_must_be_small_compute(tmp_path: Path) -> None:
     assert run("check_inventory.py", tmp_path).returncode == 2
 
 
-def test_inventory_hash_must_match_provenance(tmp_path: Path) -> None:
+def test_inventory_links_every_pdf_url_to_provenance(tmp_path: Path) -> None:
     rows = dict_rows()
-    rows[3]["gen_sha256"] = "ab" * 32
-    dict_inventory(tmp_path, rows)
+    dict_inventory(tmp_path, rows, provenance=False)
+    provenance_for(tmp_path, [r["gen_pdf_url"] for r in rows[1:]])  # row 0's download not recorded
     spotchecked(tmp_path)
-    other = {"path": "data/raw/x.pdf", "url": "u", "retrieved": "2026-09-29", "sha256": "cd" * 32}
-    write(tmp_path, "data/provenance.jsonl", json.dumps(other) + "\n")
     result = run("check_inventory.py", tmp_path)
     assert result.returncode == 2
-    assert "provenance" in result.stderr
+    assert "no provenance record: p000" in result.stderr
+
+
+def test_inventory_blocks_downloads_missing_from_inventory(tmp_path: Path) -> None:
+    rows = dict_rows()
+    dict_inventory(tmp_path, rows, provenance=False)
+    stray = {"path": "data/raw/scientisttwo/p999.pdf", "url": pdf_url(999), "retrieved": "2026-09-29",
+             "sha256": "cd" * 32}
+    provenance_for(tmp_path, [r["gen_pdf_url"] for r in rows], extra=[stray])
+    spotchecked(tmp_path)
+    result = run("check_inventory.py", tmp_path)
+    assert result.returncode == 2
+    assert "missing from the inventory" in result.stderr
+
+
+def test_inventory_allows_parent_papers_and_unknown_urls(tmp_path: Path) -> None:
+    rows = dict_rows()
+    rows[4]["gen_pdf_url"] = "unknown"
+    dict_inventory(tmp_path, rows, provenance=False)
+    parent = {"path": "data/raw/parents/2401.00001.pdf", "url": "https://arxiv.org/pdf/2401.00001",
+              "retrieved": "2026-09-29", "sha256": "ef" * 32}
+    provenance_for(tmp_path, [r["gen_pdf_url"] for r in rows if r["gen_pdf_url"] != "unknown"], extra=[parent])
+    spotchecked(tmp_path)
+    assert run("check_inventory.py", tmp_path).returncode == 0
+
+
+def test_inventory_needs_provenance_file(tmp_path: Path) -> None:
+    dict_inventory(tmp_path, dict_rows(), provenance=False)
+    spotchecked(tmp_path)
+    assert run("check_inventory.py", tmp_path).returncode == 2

@@ -52,3 +52,8 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
   `Budget` had `max_model_calls` but no call counter, so `charge()` couldn't
   enforce it. Fixed by the documented process (docs/03 → v0.2 with a changelog
   line). The schema-version check then forced code and doc to move together.
+- The independent spec review flagged that `StageResult` couldn't enforce
+  no-self-grading on its own (a gate `Verdict` with no producer passes its own
+  rule). Chris chose to fix it now rather than in Increment 4: docs/03 → v0.3,
+  tests named for RSH-F-03. It also chose provenance as the single source for
+  download facts, removing two duplicated inventory columns before any data existed.
