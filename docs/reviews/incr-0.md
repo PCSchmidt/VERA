@@ -63,12 +63,17 @@ under the `scientist-two` GitHub account.
 | Round | Sample | Incorrect | What it found |
 |---|---|---|---|
 | 1 | seed 291699 | 5/10 (50%) | 1 data error (LD-RPB-OM parent code missed: URL split across lines). 4 venue verdicts caused by the checking sheet, which sent the checker to arXiv first pages that still say "preprint". |
-| 1, re-judged (option B) | same | 2/10 (20%) | Venue rows re-judged, but on metadata the pipeline wrote, so not independent; DRO-ROCP's code URL was then found wrong (present only in the camera-ready version). Not accepted. |
+| 1, re-judged (option B) | same | 1/10 as recorded; 2/10 after a later finding | The 4 venue rows were re-judged correct, but on metadata the pipeline wrote, so not independent. DRO-ROCP was then found wrong on its code URL (present only in the camera-ready version); that finding is recorded in commit 780c3ea's message, not in the file. Not accepted. |
 | 2 (option A) | seed 180984 | **0/10 (0%)** | Drawn after moving all parents to camera-ready versions (PMLR v306 for ICML; OpenReview for NeurIPS where needed), re-sweeping code URLs (8 corrected) and quoting venues from the papers. |
 
-Round 2 was judged with an assistant working from the PDFs, spot-checked by
-Chris. Both rounds are in the repo (`data/inventory_spotcheck_round1.csv`,
-`data/inventory_spotcheck.csv`).
+Round 2 was judged by an assistant working from the PDFs, with Chris
+spot-checking (Chris's account, 2026-09-30). Commit 344374a's message says
+Chris judged all 10; that message is wrong, and this review is the record.
+Round 2 therefore rests on an assistant's judgement plus a partial human
+spot-check. Records: `data/inventory_spotcheck.csv` (round 2);
+`data/inventory_spotcheck_round1.csv` holds the option-B re-judgement, and
+the original round-1 verdicts (5/10) are in git history (commits 04ae25a,
+780c3ea).
 
 ## Decisions
 
@@ -90,9 +95,14 @@ Chris. Both rounds are in the repo (`data/inventory_spotcheck_round1.csv`,
   and ScientistTwo's paper on it (ECTS-HFD) states a comparable result (0.0–0.5%
   residual against TreeHFD's 1–4%), giving MOE-3 a concrete target.
   Fallback: credal ambiguity sets (CPU, seconds per replication; some
-  experiments used 4-GPU nodes, to check). STELLA's parent reports about an
-  hour of training over five datasets, so it is kept for the second problem
-  (Increment 5), when longer runs are budgeted.
+  experiments used 4-GPU nodes; unresolved, to check before any switch).
+  STELLA: the 30 s (one RTX 4090) / 141 s (CPU) in the shortlist is the
+  parent's time per training *epoch* on GlobalWind (its Table 2), not per
+  run; the parent's abstract gives about one hour of training for its
+  results across five datasets. A loop that runs many candidate experiments
+  over five datasets would take hours per cycle, so STELLA is kept for the
+  second problem (Increment 5), when longer runs are budgeted. (The
+  inventory note said "trains in 30 s"; corrected to per epoch.)
 - **TBDs not set here.** JDG-P-01..03 and AUD-P-01..02 stay TBD until the
   Increment 1–2 benchmarks; the inventory doesn't inform them.
 - **Increment 1 confirmed** as planned in docs/07 (see Next SPEC).
@@ -140,6 +150,9 @@ numeric-consistency checks.
   rates on the corpus.
 - The T3 escalation run was not spot-checked by Chris; approval rests on the
   first-pass spot-check.
+- The fallback problem (credal ambiguity sets) has an unresolved compute
+  question (some experiments on 4-GPU nodes).
+- Commit 344374a's message misstates who judged round 2 (see Rates).
 - `tmp/render/` (page images made during checking) is local and untracked.
 
 ## Next SPEC (Increment 1 — P2 minimum viable judge)
