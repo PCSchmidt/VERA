@@ -13,7 +13,11 @@ appendix plus metadata this pipeline wrote. This script:
    Conference on Machine Learning", "39th Conference on Neural Information
    Processing Systems (NeurIPS 2025)", "Published as a conference paper at
    ICLR 2026"), preferring the camera-ready file;
-3. where no PDF states it, falls back to the arXiv record's author-written
+3. adopts camera-ready PDFs saved by hand from OpenReview (which refuses
+   scripted downloads) for the parents listed in data/camera_ready_manual.csv:
+   any unrecorded PDF in data/raw/parents/ whose page 1 carries the title is
+   renamed camera_<forum>.pdf and recorded with its OpenReview URL;
+4. where no PDF states it, falls back to the arXiv record's author-written
    comment or journal-ref field.
 
 Writes data/parent_versions.csv (committed): parent_title, parent_venue,
@@ -43,6 +47,7 @@ from vera import provenance
 ROOT = Path(__file__).resolve().parents[1]
 PMLR_INDEX = "https://proceedings.mlr.press/v306/"
 OUT = ROOT / "data" / "parent_versions.csv"
+MANUAL = ROOT / "data" / "camera_ready_manual.csv"
 RAW = ROOT / "data" / "raw" / "parents"
 ARXIV_NS = {"arxiv": "http://arxiv.org/schemas/atom"}
 STATEMENTS = {
@@ -83,6 +88,35 @@ def arxiv_venue_note(arxiv_id: str) -> str:
     return " | ".join(" ".join(n.split()) for n in notes if n.strip())
 
 
+def adopt_manual(records: dict[str, dict[str, str]]) -> dict[str, str]:
+    """Hand-saved camera-ready PDFs: {parent title: repo-relative path}, recorded with provenance."""
+    if not MANUAL.exists():
+        return {}
+    with MANUAL.open(encoding="utf-8", newline="") as f:
+        wanted = list(csv.DictReader(f))
+    adopted = {}
+    for w in wanted:
+        dest = RAW / f"camera_{w['forum']}.pdf"
+        if not dest.exists():
+            for pdf in RAW.glob("*.pdf"):
+                if pdf.relative_to(ROOT).as_posix() in records:
+                    continue
+                with pymupdf.open(pdf) as doc:
+                    first = doc[0].get_text() if len(doc) else ""
+                if squash(w["parent_title"])[:60] in squash(first):
+                    pdf.rename(dest)
+                    print(f"adopted {pdf.name} -> {dest.name}")
+                    break
+        if dest.exists():
+            rel = dest.relative_to(ROOT).as_posix()
+            if rel not in records:
+                records[rel] = provenance.record(ROOT, dest, w["url"])
+            adopted[w["parent_title"]] = rel
+        else:
+            print(f"waiting for a hand-saved PDF of: {w['parent_title'][:70]} ({w['url']})")
+    return adopted
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--delay", type=float, default=2.0, help="seconds between requests")
@@ -93,6 +127,7 @@ def main() -> None:
     with (ROOT / "data" / "corpus_inventory.csv").open(encoding="utf-8", newline="") as f:
         used = sorted({r["parent_title"] for r in csv.DictReader(f)})
     records = provenance.load(ROOT)
+    manual = adopt_manual(records)
     pmlr = pmlr_papers(get(PMLR_INDEX))
     print(f"PMLR v306 index: {len(pmlr)} papers")
 
@@ -114,6 +149,7 @@ def main() -> None:
                 camera = rel
             else:
                 print(f"NOT IN PMLR v306: {title[:70]}")
+        camera = camera or manual.get(title, "")
         for pdf in [camera, p["pdf_path"]]:
             if pdf and not evidence:
                 evidence = venue_statement(ROOT / pdf, venue)
