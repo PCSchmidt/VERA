@@ -80,6 +80,13 @@ spotlights). It does not say which generated paper came from which input.
 A generated paper's parent is set in the inventory only after its text is
 read against the suggestion; the `notes` column says what the evidence was.
 
+- Venue evidence: `parent_venue` comes from ScientistTwo's appendix, and an
+  arXiv PDF's first page often still says "preprint" after acceptance, so the
+  PDF can't confirm it. `scripts/verify_venues.py` checks each parent's title
+  on OpenReview and stores the venue it reports in `venue_seen` in
+  `parent_papers.csv` (conference records preferred over DBLP "CoRR" preprint
+  mirrors). All 86 parents used in the inventory are confirmed there
+  (2026-09-30).
 - `parent_arxiv_hints.csv`: arXiv ids the title search misses, each with its
   source (e.g. cited by id in a generated paper). A hint is used only if the
   arXiv title matches.
