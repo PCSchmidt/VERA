@@ -168,7 +168,7 @@ def main() -> None:
         writer.writeheader()
         writer.writerows(rows)
     have = sum(bool(r["venue_evidence"]) for r in rows)
-    print(f"{len(rows)} parents: camera-ready from PMLR {sum(bool(r['camera_ready_pdf']) for r in rows)}, "
+    print(f"{len(rows)} parents: camera-ready PDFs {sum(bool(r['camera_ready_pdf']) for r in rows)}, "
           f"venue stated in the paper or arXiv record {have}, missing {len(rows) - have}")  # fmt: skip
 
 

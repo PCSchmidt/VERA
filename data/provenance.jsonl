@@ -238,3 +238,6 @@
 {"path": "data/raw/parents/pmlr306_kim26r.pdf", "url": "https://raw.githubusercontent.com/mlresearch/v306/main/assets/kim26r/kim26r.pdf", "retrieved": "2026-09-30", "sha256": "5306e66a84fa8f5810bdd92601ab58b7693ccd4b329b77781e42bbef71ab1567"}
 {"path": "data/raw/parents/pmlr306_sadi26a.pdf", "url": "https://raw.githubusercontent.com/mlresearch/v306/main/assets/sadi26a/sadi26a.pdf", "retrieved": "2026-09-30", "sha256": "51f7ba7f49badad0d334c4a1ac8b608e71aaa6944d01ab7382a89b6864dec4b9"}
 {"path": "data/raw/parents/pmlr306_kiyani26a.pdf", "url": "https://raw.githubusercontent.com/mlresearch/v306/main/assets/kiyani26a/kiyani26a.pdf", "retrieved": "2026-09-30", "sha256": "8757f408cb9a9bb891dfac7488860f1260dca0dbd3857e579dac255db58c296b"}
+{"path": "data/raw/parents/camera_b7Ka31HvXU.pdf", "url": "https://openreview.net/forum?id=b7Ka31HvXU", "retrieved": "2026-09-30", "sha256": "0b9b6495acf7992c92a45a8231098a82df30d2585827eaab94a9dbd13fa00e98"}
+{"path": "data/raw/parents/camera_agcXjEHmyW.pdf", "url": "https://openreview.net/forum?id=agcXjEHmyW", "retrieved": "2026-09-30", "sha256": "a40a1fc33ed6d1b4dcb6f054f461723eda835abd3fb7c4a96d4bc7e670b6511c"}
+{"path": "data/raw/parents/camera_zwCb9cKHpd.pdf", "url": "https://openreview.net/forum?id=zwCb9cKHpd", "retrieved": "2026-09-30", "sha256": "8506076944110e5cdfd6a20ee8864b688ca08310c4ba3f64260b43f73e859f91"}
