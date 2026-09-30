@@ -87,6 +87,13 @@ read against the suggestion; the `notes` column says what the evidence was.
   `parent_papers.csv` (conference records preferred over DBLP "CoRR" preprint
   mirrors). All 86 parents used in the inventory are confirmed there
   (2026-09-30).
+- `parent_versions.csv` (`scripts/camera_ready.py`): for each parent used,
+  the camera-ready PDF where one could be fetched (all 49 ICML 2026 parents,
+  from PMLR v306) and the venue statement quoted from the paper itself
+  (camera-ready footer or header, else the authors' arXiv comment). An arXiv
+  preprint can lack what the accepted version has, such as a code link added
+  at camera-ready, so `scripts/sweep_code_urls.py` checks each row's
+  `parent_code_url` against every PDF held for its parent.
 - `parent_arxiv_hints.csv`: arXiv ids the title search misses, each with its
   source (e.g. cited by id in a generated paper). A hint is used only if the
   arXiv title matches.
