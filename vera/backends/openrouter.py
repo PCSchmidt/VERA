@@ -6,12 +6,20 @@ token log-probabilities, and the probabilities at the answer's first token
 become `answer_probs` (confidence source "logprobs"); otherwise confidence is
 self-reported. Cost is OpenRouter's own figure for the call (`usage.cost`);
 the pre-call budget estimate uses the model's catalogue prices.
+
+Reasoning is off by default (`reasoning=False`): the cheap path must answer
+fast (JDG-P-02), and a reasoning model spends a small `max_tokens` on hidden
+reasoning and returns no answer. `reasoning=None` sends no setting (the
+provider's default), for endpoints where reasoning can't be disabled. Some models (e.g. Claude) still write a
+line of working before the JSON; `max_tokens` leaves room for it and the
+parser takes the last JSON object.
 """
 
 from __future__ import annotations
 
 import math
 import re
+import time
 from collections.abc import Sequence
 from dataclasses import dataclass
 
@@ -35,7 +43,14 @@ class Prices:
 def catalogue_prices(model: str, client: httpx.Client | None = None) -> Prices:
     """Current per-token prices and logprob support from OpenRouter's public model list."""
     client = client or httpx.Client(timeout=60)
-    data = client.get(f"{API}/models").json()["data"]
+    for attempt in range(3):  # this machine has intermittent DNS failures
+        try:
+            data = client.get(f"{API}/models").json()["data"]
+            break
+        except httpx.TransportError:
+            if attempt == 2:
+                raise
+            time.sleep(5)
     entry = next((m for m in data if m["id"] == model), None)
     if entry is None:
         raise KeyError(f"{model} not in the OpenRouter catalogue")
@@ -100,14 +115,15 @@ class OpenRouterBackend:
         judge_id: str = "p2.judge",
         prices: Prices | None = None,
         client: httpx.Client | None = None,
-        max_tokens: int = 120,
+        max_tokens: int = 512,
+        reasoning: bool | None = False,
         component: str = "p2.backend",
     ) -> None:
         self.name, self.model, self.cost_rank = name, model, cost_rank
         self.ledger, self.budget, self.judge_id, self.component = ledger, budget, judge_id, component
         self.client = client or httpx.Client(timeout=90)
         self.prices = prices or catalogue_prices(model, self.client)
-        self.max_tokens = max_tokens
+        self.max_tokens, self.reasoning = max_tokens, reasoning
 
     def _estimate(self, messages: list[dict[str, str]]) -> float:
         chars = sum(len(m["content"]) for m in messages)
@@ -118,12 +134,15 @@ class OpenRouterBackend:
             "model": self.model, "messages": messages, "temperature": 0, "max_tokens": self.max_tokens,
             "response_format": {"type": "json_object"}, "usage": {"include": True},
         }  # fmt: skip
+        if self.reasoning is not None:
+            body["reasoning"] = {"enabled": self.reasoning}
         if self.prices.logprobs:
             body |= {"logprobs": True, "top_logprobs": 5}
         resp = self.client.post(
             f"{API}/chat/completions", json=body, headers={"Authorization": f"Bearer {api_key('OPENROUTER_API_KEY')}"}
         )
-        resp.raise_for_status()
+        if resp.is_error:  # keep the provider's reason: metered_call writes it to the ledger
+            raise RuntimeError(f"OpenRouter HTTP {resp.status_code}: {resp.text[:300]}")
         data = resp.json()
         if "error" in data:
             raise RuntimeError(f"OpenRouter error: {data['error']}")

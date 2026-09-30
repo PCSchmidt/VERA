@@ -26,3 +26,8 @@ __pycache__/
 .meridian/hooks.log
 .meridian/drift/
 .claude/hooks/.meridian/
+
+# Run ledgers. SPEC says named result ledgers are committed, but these hold Jev latency, cost and
+# answers, and Jev results are not published without TypeSafe's written consent (docs/04 T1, R4).
+# All ledgers stay local until then; the gates read them from disk.
+data/ledger/

@@ -52,14 +52,16 @@ class ParsedAnswer:
 
 
 def _json_object(text: str) -> dict | None:
-    match = re.search(r"\{.*\}", text, re.S)
-    if not match:
-        return None
-    try:
-        obj = json.loads(match.group(0))
-    except json.JSONDecodeError:
-        return None
-    return obj if isinstance(obj, dict) else None
+    """The last JSON object in the reply that has an "answer" key (a model may write working first)."""
+    decoder, found = json.JSONDecoder(), None
+    for match in re.finditer(r"\{", text):
+        try:
+            obj, _ = decoder.raw_decode(text, match.start())
+        except json.JSONDecodeError:
+            continue
+        if isinstance(obj, dict) and "answer" in obj:
+            found = obj
+    return found
 
 
 def _coerce(question: Question, raw: object) -> bool | int | str | None:

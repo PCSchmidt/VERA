@@ -498,3 +498,43 @@ def test_JDG_F_06_benchmark_check_blocks_unresolved_or_missing_label_checks(
 def test_JDG_F_06_benchmark_check_accepts_fixed_labels_with_a_note(tmp_path: Path) -> None:
     bench(tmp_path, {"numeric-1": "fixed"})
     assert run("check_benchmark_items.py", tmp_path).returncode == 0
+
+
+# ── ledger (backends_live) ────────────────────────────────────────────────────
+
+
+def ledger_line(backend: str, cost: float = 0.001, error: str | None = None, **over) -> str:
+    rec = {"trace_id": "t1", "run_id": "smoke", "component": "p2.smoke", "backend": backend, "model": "m",
+           "input_tokens": None if error else 100, "output_tokens": None if error else 10,
+           "cost_usd": 0.0 if error else cost, "latency_ms": 300, "timestamp": "2026-09-30T00:00:00Z",
+           "error": error}  # fmt: skip
+    return json.dumps(rec | over)
+
+
+def test_FND_F_01_ledger_check_passes_two_backends_with_a_failed_call(tmp_path: Path) -> None:
+    lines = [ledger_line("cheap"), ledger_line("ref"), ledger_line("ref", error="HTTP 400: nope")]
+    write(tmp_path, "data/ledger/smoke.jsonl", "\n".join(lines) + "\n")
+    result = run("check_ledger.py", tmp_path)
+    assert result.returncode == 0, result.stderr
+
+
+@pytest.mark.parametrize(
+    ("lines", "message"),
+    [
+        ([ledger_line("cheap"), ledger_line("cheap")], "need 2"),
+        ([ledger_line("cheap"), ledger_line("ref", error="down")], "need 2"),
+        ([ledger_line("cheap"), ledger_line("ref", cost=0.0)], "paid backend"),
+        ([ledger_line("cheap"), ledger_line("ref", input_tokens=None)], "not a count"),
+        ([ledger_line("cheap"), json.dumps({"backend": "ref"})], "missing fields"),
+        ([ledger_line("cheap", cost=0.6), ledger_line("ref", cost=0.5)], "exceeds"),
+    ],
+)
+def test_FND_F_01_ledger_check_blocks(tmp_path: Path, lines: list[str], message: str) -> None:
+    write(tmp_path, "data/ledger/smoke.jsonl", "\n".join(lines) + "\n")
+    result = run("check_ledger.py", tmp_path)
+    assert result.returncode == 2 and message in result.stderr
+
+
+def test_FND_F_01_ledger_check_allows_named_free_backends(tmp_path: Path) -> None:
+    write(tmp_path, "data/ledger/smoke.jsonl", ledger_line("cheap") + "\n" + ledger_line("local", cost=0.0) + "\n")
+    assert run("check_ledger.py", tmp_path, "--free", "local").returncode == 0

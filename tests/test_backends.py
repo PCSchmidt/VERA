@@ -172,3 +172,29 @@ def test_api_key_reads_env_file(tmp_path: Path, monkeypatch: pytest.MonkeyPatch)
     assert api_key("OPENROUTER_API_KEY", env) == "abc123"
     with pytest.raises(KeyError):
         api_key("MISSING_KEY", env)
+
+
+@pytest.mark.parametrize(("reasoning", "sent"), [(False, {"enabled": False}), (True, {"enabled": True}), (None, None)])
+def test_JDG_F_04_openrouter_reasoning_setting_is_sent_only_when_chosen(tmp_path, reasoning, sent) -> None:
+    bodies = []
+
+    def reply(body):
+        bodies.append(body)
+        return openrouter_reply('{"answer": true, "probability": 0.9}')
+
+    b, _, _ = backend(tmp_path, reply, Prices(1e-7, 3e-7))
+    b.reasoning = reasoning
+    b.ask("s", [Question(id="b", type=QuestionType.BOOLEAN, text="?")])
+    assert bodies[0].get("reasoning") == sent
+
+
+def test_FND_F_01_http_error_reason_reaches_the_ledger(tmp_path: Path) -> None:
+    def refuse(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(400, json={"error": {"message": "Reasoning is mandatory"}})
+
+    b, ledger, _ = backend(tmp_path, lambda body: {}, Prices(1e-7, 3e-7))
+    b.client = httpx.Client(transport=httpx.MockTransport(refuse))
+    with pytest.raises(RuntimeError, match="HTTP 400"):
+        b.ask("s", [Question(id="b", type=QuestionType.BOOLEAN, text="?")])
+    (record,) = ledger.records()
+    assert "Reasoning is mandatory" in record.error and record.cost_usd == 0.0

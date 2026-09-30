@@ -74,3 +74,16 @@ def test_JDG_F_01_verdict_round_trips_and_forbids_self_grading() -> None:
     with pytest.raises(ValidationError, match="grade its own work"):
         to_verdict(CHOICE, parsed, backend="fake", cost_usd=0, latency_ms=0, trace_id="t",
                    judge_id="p3.writer", producer_id="p3.writer")  # fmt: skip
+
+
+def test_JDG_F_01_parses_the_last_answer_object_after_working() -> None:
+    q = Question(id="n", type=QuestionType.SCORE, text="How many?", scale=(0, 3))
+    reply = 'Set {C1, C4} is checked: C1 {worse}, C4 better.\n\n{"answer": 1, "probability": 0.9}'
+    parsed = parse_answer(q, reply)
+    assert (parsed.answer, parsed.confidence, parsed.source) == (1, 0.9, "self_report")
+
+
+def test_JDG_F_01_truncated_reply_is_malformed_not_an_error() -> None:
+    q = Question(id="b", type=QuestionType.BOOLEAN, text="?")
+    parsed = parse_answer(q, 'Working... {"answer": true, "probability": 0.9')
+    assert (parsed.answer, parsed.confidence, parsed.source) == ("", 0.0, "none")
