@@ -15,6 +15,19 @@ Keep each to one short section. Status: **open** until decided.
   benchmark rather than choosing up front. Confirm Jev pricing/terms first.
 - **Reverse if:** Jev terms prevent benchmarking/publication, or local models
   match it closely.
+- **Candidates (2026-09-30, OpenRouter catalogue prices per million tokens,
+  in/out):** MiMo-V2.6-Flash $0.14/$0.28 (Chris's pick; no logprobs, so
+  self-reported confidence), DeepSeek V4.1 Flash $0.02/$0.40 (logprobs),
+  GLM-5.3 Flash $0.15/$0.50 (logprobs); reference Claude Sonnet 5.5 $2/$10;
+  TypeSafe Jev via its direct API at **$0.042 per million input tokens,
+  output free** (confirmed by Chris from the TypeSafe console).
+- **Jev terms (Master Customer Agreement, typesafe.ai/legal/mca, read
+  2026-09-30):** no benchmarking clause. §2.3(b) forbids using Jev output to
+  distil or train a model, so option (c) must never train on Jev answers.
+  §14.1 counts "non-public information with respect to the Services" as
+  TypeSafe's confidential information, which is ambiguous for published
+  performance results. **Decision (Chris):** benchmark Jev; get TypeSafe's
+  written consent before publishing any Jev results (risk R4).
 
 ## T2 — Orchestration runtime (open, decide in Increment 1)
 
