@@ -17,7 +17,7 @@ run on TreeHFD. Increment 1 (P2 minimum viable judge) is confirmed.
 
 | Criterion (docs/07) | Status | Evidence |
 |---|---|---|
-| Inventory complete for all generated papers (unknowns marked, not blank) | **Met** | `data/corpus_inventory.csv`: 86 rows, no blank cells; `tools/checks/check_inventory.py` passes. Spot-check 0/10 on round 2 (below). |
+| Inventory complete for all generated papers (unknowns marked, not blank) | **Met, with a deviation** (spot-check judged by an assistant; see Rates) | `data/corpus_inventory.csv`: 86 rows, no blank cells; `tools/checks/check_inventory.py` passes. Spot-check 0/10 on round 2 (below). |
 | Code-availability rate known; decide whether P1 v1 includes method–code checks | **Met** | Rates below. Decision: not on the corpus (see Decisions). |
 | 2–3 CPU/single-GPU parent problems identified; one chosen for Increment 2 | **Met** | Candidates flagged in the inventory: STELLA (single_gpu), TreeHFD (cpu), credal ambiguity sets (cpu). Chosen: TreeHFD. |
 | Schemas implemented (docs/03 v0.1 → v0.3) with passing tests | **Met** | `vera/schemas/`, `SCHEMA_VERSION = "0.3"` equals docs/03; 98 tests pass, ruff clean. |
@@ -72,7 +72,12 @@ Round 2 was judged by an assistant working from the PDFs, with Chris
 spot-checking (Chris's account, 2026-09-30). Commit 344374a's message says
 Chris judged all 10; that message is wrong, and this review is the record.
 Round 2 therefore rests on an assistant's judgement plus a partial human
-spot-check. Records: `data/inventory_spotcheck.csv` (round 2);
+spot-check: Chris personally checked three or four of the 10 rows; which
+rows was not recorded. **Deviation from SPEC** ("Chris checks each sampled
+row"), accepted by Chris at this review (option A): the assistant worked
+from the source PDFs only and was independent of the agents that filled the
+inventory, but it is not a human check of every row. The Increment 1 SPEC
+states the rule as practised (see Next SPEC). Records: `data/inventory_spotcheck.csv` (round 2);
 `data/inventory_spotcheck_round1.csv` holds the option-B re-judgement, and
 the original round-1 verdicts (5/10) are in git history (commits 04ae25a,
 780c3ea).
@@ -150,6 +155,16 @@ numeric-consistency checks.
   logged; blocks this increment came from the human gate, which the tool
   doesn't count. Overhead hours need logging from Increment 1.
 
+## Settings revisited
+
+- **Monthly spend ceiling: kept at $20.00** (Chris, 2026-09-30). Increment 0
+  made no model API calls; Increment 1 measures per-call costs and its exit
+  estimates one loop run against the ceiling, so revisit it at the
+  Increment 1 review with measured numbers.
+- **Spot-check target: kept at ≤ 10% incorrect** (Chris, 2026-09-30).
+  Round 2 met it at 0%; the fixes this increment went into the process
+  (camera-ready sources, generated checking sheets), not the target.
+
 ## Open items
 
 - 4 parents with `unknown` code (no own repository in any version held).
@@ -175,3 +190,7 @@ after this gate passes. Changes to carry in:
 - Process: every human-gate checking sheet is generated from source
   documents; spot-check rounds are numbered and kept; dogfood overhead
   hours are logged per session.
+- Human checks as practised: an assistant may judge sampled items, working
+  from source documents only; Chris personally checks at least 3 of them,
+  drawn by seed and recorded by id with his verdict, so the human share is
+  on record.
