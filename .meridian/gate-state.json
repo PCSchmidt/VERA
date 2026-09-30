@@ -5,6 +5,7 @@
     "incr0_review",
     "incr1_scoped",
     "inventory_verified",
+    "judge_core_ready",
     "parser_decided",
     "scaffold_ready"
   ],
