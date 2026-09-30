@@ -3,6 +3,7 @@
     "confirmed",
     "corpus_fetched",
     "incr0_review",
+    "incr1_scoped",
     "inventory_verified",
     "parser_decided",
     "scaffold_ready"
@@ -23,6 +24,10 @@
     "incr0_review": {
       "by": "Chris Schmidt",
       "at": "2026-09-30T17:29:15Z"
+    },
+    "incr1_scoped": {
+      "by": "Chris Schmidt",
+      "at": "2026-09-30T19:50:35Z"
     }
   }
 }
