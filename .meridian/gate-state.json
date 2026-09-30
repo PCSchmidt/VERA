@@ -2,12 +2,17 @@
   "passed_gates": [
     "confirmed",
     "corpus_fetched",
+    "inventory_verified",
     "scaffold_ready"
   ],
   "approvals": {
     "confirmed": {
       "by": "Chris Schmidt",
       "at": "2026-09-29T14:24:57Z"
+    },
+    "inventory_verified": {
+      "by": "Chris Schmidt",
+      "at": "2026-09-30T14:47:45Z"
     }
   }
 }

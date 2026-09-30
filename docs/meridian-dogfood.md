@@ -46,6 +46,7 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
 | 2026-09-29 | `confirmed` | passed (3/3 checks) | Chris (approval recorded) |
 | 2026-09-29 | `scaffold_ready` | passed first try (ruff clean, 68 tests, schema 0.2 = docs/03) | agent (automated gate; `mark-passed` re-ran the checks) |
 | 2026-09-29 | `corpus_fetched` | passed first try (86 discovered = 86 stated; 86 files with matching provenance; 87 tests) | agent (automated gate; `mark-passed` re-ran the checks) |
+| 2026-09-30 | `inventory_verified` | passed on round 2 (spot-check 0/10); round 1 blocked (5/10 judged incorrect) | Chris (approval recorded); round 2 assistant-assisted, spot-checked by Chris |
 
 ## Observations
 
@@ -64,3 +65,21 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
   the gallery probably lists only successful papers (an inference, for the
   Increment 0 review). The traceability check only needs *a* `test_FND_C_02_*`
   test; it can't tell whether the test exercises the real writer.
+- `inventory_verified` was the first human gate to catch real problems. Round
+  1 (5/10 incorrect) exposed one data error and one flaw in the agent-written
+  checking instructions (venue checked against arXiv first pages, which say
+  "preprint"). Fixing the instructions alone would have passed the gate
+  (option B: 1/10), but the re-judgement leaned on metadata the pipeline had
+  written, so it wasn't independent, and it still missed a code link that
+  only the camera-ready version carries (2/10). Moving every parent to its
+  camera-ready version corrected 8 code URLs across the inventory; round 2
+  on a fresh sample was 0/10. Lessons for Meridian: a human gate's checking
+  instructions are themselves agent output and need review; evidence handed
+  to the checker must come from the source documents, not the pipeline's
+  own derived tables; the gate check (`check_inventory.py`) enforced the
+  sample and verdict format but can't tell whether verdicts were
+  independent, which only the record (commit messages, review) can show.
+- The gate check refuses to redraw a sample once verdicts exist. Round 2
+  needed the round-1 file moved aside, done openly with Chris's approval and
+  kept as `data/inventory_spotcheck_round1.csv`. Meridian could support
+  numbered rounds natively.
