@@ -1,11 +1,11 @@
 gen_paper_id,seed,verdict,note
 theory/Optimization_SSH-ED-SDP,291699,correct,
-theory/Probabilistic_DRO-ROCP,291699,incorrect,parent venue does not match; parent PDF first page is an arXiv preprint page, not ICML 2026
-deep_learning/Algorithms_RMTS,291699,incorrect,parent venue does not match; parent PDF first page is an arXiv/project-page version, not ICML 2026
+theory/Probabilistic_DRO-ROCP,291699,correct,re-judged 2026-09-30: venue mapped to accepted OpenReview forum VAXW59dyfk ICML 2026 spotlight; round-1 instruction wrongly used the arXiv first page
+deep_learning/Algorithms_RMTS,291699,correct,re-judged 2026-09-30: venue mapped to accepted OpenReview forum 5kTn1c3vtt ICML 2026 spotlight; round-1 instruction wrongly used the arXiv first page
 applications/Sciences_ErtelHodge-STELLA,291699,correct,
-probabilistic/Sampling_SMBTT-CCDB,291699,incorrect,parent venue does not match; parent PDF first page says Preprint, not ICML 2026
+probabilistic/Sampling_SMBTT-CCDB,291699,correct,re-judged 2026-09-30: venue mapped to accepted OpenReview forum EA0wpmic0X ICML 2026 spotlight; round-1 instruction wrongly used the arXiv first page
 deep_learning/Others_Soft-VSM,291699,correct,
 deep_learning/Others_TKFS-Attention,291699,correct,
 probabilistic/Others_PH-CNR-OLLA,291699,correct,
-general_ml/Causality_SPECTRA-HET SPLIT UP,291699,incorrect,parent venue does not match; parent PDF first page is an arXiv preprint page, not ICML 2026
+general_ml/Causality_SPECTRA-HET SPLIT UP,291699,correct,re-judged 2026-09-30: venue mapped to accepted OpenReview forum gqa99Ev4C4 ICML 2026 spotlight; round-1 instruction wrongly used the arXiv first page
 optimization/Discrete_LD-RPB-OM,291699,incorrect,parent code URL is not unknown; the parent PDF gives https://github.com/Natureal/ICML-Cache-Coliseum
