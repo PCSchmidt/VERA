@@ -45,6 +45,15 @@ Keep each to one short section. Status: **open** until decided.
   reuse of Meridian's evaluator separation, effort.
 - **Leaning:** (b) — LangGraph for durability, Meridian for gate semantics.
 - **Reverse if:** the integration costs more than reimplementing the gates.
+- **Evidence so far (2026-09-30, `vera/graph/`, LangGraph 1.2.12 with the
+  SQLite checkpointer):** checkpoint/resume works across a killed process
+  (FND-F-02 test), but only with `durability="sync"`. With LangGraph's
+  default (asynchronous checkpoint writes), a process killed in the next
+  node lost the last checkpoint and the resumed run repeated a completed
+  node and its billed model call. The gate semantics are ~100 lines on top:
+  a judge node that refuses to grade its own producer's material, and
+  routing that fails closed (low confidence, malformed or unrouted answers
+  go to `on_low`). Effort for (b) so far: about half a session.
 
 ## T3 — PDF parsing (decided 2026-09-30, Increment 0)
 
