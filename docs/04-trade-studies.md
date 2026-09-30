@@ -39,7 +39,9 @@ Keep each to one short section. Status: **open** until decided.
   `data/t3_scores_refs_rest.csv`) by Chris's assistant, not by the agent
   that ran the parsers. Chris spot-checked three papers of the first pass
   against the PDFs (SPECTRA, LC-FTT, DR-LEF); the escalation run's scorer
-  reported one borderline call (TKFS-Attention, GROBID ref 17: 16 vs 17).
+  reported one borderline call (TKFS-Attention, GROBID ref 17: 16 vs 17);
+  Chris did not spot-check the escalation run and approved on the first-pass
+  check.
 
   | Parser | Windows setup | Median s/paper | Refs extracted | Tables found |
   |---|---|---|---|---|

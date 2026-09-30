@@ -47,6 +47,7 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
 | 2026-09-29 | `scaffold_ready` | passed first try (ruff clean, 68 tests, schema 0.2 = docs/03) | agent (automated gate; `mark-passed` re-ran the checks) |
 | 2026-09-29 | `corpus_fetched` | passed first try (86 discovered = 86 stated; 86 files with matching provenance; 87 tests) | agent (automated gate; `mark-passed` re-ran the checks) |
 | 2026-09-30 | `inventory_verified` | passed on round 2 (spot-check 0/10); round 1 blocked (5/10 judged incorrect) | Chris (approval recorded); round 2 assistant-assisted, spot-checked by Chris |
+| 2026-09-30 | `parser_decided` | passed (T3 decided: GROBID for references, Docling for tables) | Chris (approval recorded); scoring by Chris's assistant, first pass spot-checked by Chris |
 
 ## Observations
 
