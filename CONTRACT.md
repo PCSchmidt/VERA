@@ -27,9 +27,10 @@ independent researchers and small labs (P3). See ConOps §2.
 
 ## Scope
 
-**Current increment: Increment 0 — know your data** ([docs/07-increments.md](docs/07-increments.md)).
-Only Increment 0 work is in scope until its review (`docs/reviews/incr-0.md`)
-confirms Increment 1. [SPEC.md](SPEC.md) lists the Increment 0 deliverables.
+**Current increment: Increment 1 — P2 minimum viable judge** ([docs/07-increments.md](docs/07-increments.md)).
+Increment 0 is complete ([docs/reviews/incr-0.md](docs/reviews/incr-0.md)).
+Only Increment 1 work is in scope until its review (`docs/reviews/incr-1.md`)
+confirms Increment 2. [SPEC.md](SPEC.md) lists the Increment 1 deliverables.
 
 In scope for the project as a whole: the three layers above, their data
 contracts ([docs/03-interfaces.md](docs/03-interfaces.md)), and the

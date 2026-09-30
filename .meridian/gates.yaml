@@ -1,10 +1,17 @@
-# VERA gate DAG: Increment 0 only. Add the next increment's gates at each
-# increment review; don't pre-build gates for work that isn't planned yet.
+# VERA gate DAG. Add the next increment's gates at each increment review;
+# don't pre-build gates for work that isn't planned yet. Passed gates stay.
 #
+# Increment 0 (all passed 2026-09-30):
 #   confirmed ─► scaffold_ready ─► corpus_fetched ─┬─► inventory_verified ─┐
 #   (human)       (automated)       (automated)     │   (human)             ├─► incr0_review
 #                                                   └─► parser_decided ─────┘   (human + Evaluator)
-#                                                       (human)
+#
+# Increment 1 (P2 minimum viable judge; SPEC.md):
+#   incr0_review ─► incr1_scoped ─► judge_core_ready ─┬─► backends_live ──────┐
+#                   (human)          (automated)      ├─► benchmark_labeled ──┼─► benchmark_run ─┐
+#                                                     │   (human)             │   (automated)    ├─► trades_decided_1 ─► incr1_review
+#                                                     └─► graph_ready ────────┴──────────────────┘   (human)             (human + Evaluator)
+#                                                         (automated)
 #
 # Human approval gates are approved by Chris in his own terminal:
 #   bash scripts/gate-engine.sh mark-passed <gate> --approve "<approval_token>"
@@ -109,3 +116,119 @@ gates:
         - gate-tests.sh
         - gate-traceability.sh
         - run-evaluator.sh          # Meridian: independent Evaluator verdict on the review
+
+  # ── Increment 1: P2 minimum viable judge ──────────────────────────────────
+
+  - id: incr1_scoped
+    label: "Increment 1 scope confirmed"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 1 SCOPED"
+    requires:
+      - incr0_review
+    requires_artifacts:
+      - SPEC.md
+      - CONTRACT.md
+      - docs/reviews/incr-0.md
+    hooks:
+      pre:
+        - validate-contract.sh      # Meridian: Purpose + Scope sections present
+        - validate-spec.sh          # Meridian: SPEC.md is structured
+        - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount
+
+  - id: judge_core_ready
+    label: "Ledger, question parsing and router, tested offline"
+    type: automated
+    required: true
+    requires:
+      - incr1_scoped
+    requires_artifacts:
+      - vera/ledger/__init__.py
+      - vera/judge/__init__.py
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + pytest (FND-F-01, JDG-F-01..03 tests)
+        - gate-traceability.sh      # every due T-requirement has a test_<ID>_ test
+        - gate-schema-version.sh
+        - gate-vendor-imports.sh    # FND-C-01: no vendor SDK outside vera/backends/
+
+  - id: backends_live
+    label: "Two backends run through the ledger (JDG-F-04 demo)"
+    type: automated
+    required: true
+    requires:
+      - judge_core_ready
+    requires_artifacts:
+      - data/ledger/smoke.jsonl
+    hooks:
+      pre:
+        - gate-ledger.sh            # >= 2 backends, all fields, spend <= $1.00
+
+  - id: graph_ready
+    label: "LangGraph helpers and checkpoint/resume"
+    type: automated
+    required: true
+    requires:
+      - judge_core_ready
+    requires_artifacts:
+      - vera/graph/__init__.py
+    hooks:
+      pre:
+        - gate-tests.sh             # includes FND-F-02 kill-and-resume test
+        - gate-traceability.sh
+
+  - id: benchmark_labeled
+    label: "Benchmark items built, split fixed, labels checked by Chris"
+    type: human_approval
+    required: true
+    approval_token: "BENCHMARK LABELED"
+    requires:
+      - judge_core_ready
+    requires_artifacts:
+      - data/benchmark/items.jsonl
+      - data/benchmark/label_check.csv
+    hooks:
+      pre:
+        - gate-benchmark-items.sh   # 3 tasks, 3 question types, split hash, >= 3 human checks per task
+
+  - id: benchmark_run
+    label: "Benchmark run and threshold sweep"
+    type: automated
+    required: true
+    requires:
+      - backends_live
+      - benchmark_labeled
+    requires_artifacts:
+      - data/benchmark/results.json
+      - docs/figures/threshold_curve.png
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-benchmark-results.sh # metrics per backend/threshold, test hash unchanged, spend <= $8.00
+
+  - id: trades_decided_1
+    label: "T1 and T2 decided; JDG-P targets set"
+    type: human_approval
+    required: true
+    approval_token: "T1 T2 DECIDED"
+    requires:
+      - benchmark_run
+      - graph_ready
+    hooks:
+      pre:
+        - gate-trades-incr1.sh      # T1 and T2 decided (Scores, Decision, Reverse if)
+
+  - id: incr1_review
+    label: "Increment 1 review"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 1 COMPLETE"
+    requires:
+      - trades_decided_1
+    requires_artifacts:
+      - docs/reviews/incr-1.md
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-traceability.sh
+        - run-evaluator.sh          # independent Evaluator verdict on the review

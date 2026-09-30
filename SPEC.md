@@ -1,129 +1,163 @@
-# SPEC — VERA, Increment 0 (know your data)
+# SPEC — VERA, Increment 1 (P2 minimum viable judge)
 
 ## Overview
 
 Current-increment features only, in build order. Each `##` below becomes a
 tracked feature (`scripts/features-init.sh`); do not add `###` headings.
-Source: [docs/07-increments.md](docs/07-increments.md) Increment 0. Field
-definitions: [data/README.md](data/README.md). Rewrite this file at each
-increment review.
+Source: [docs/07-increments.md](docs/07-increments.md) Increment 1; schemas:
+[docs/03-interfaces.md](docs/03-interfaces.md) v0.3; requirements due:
+FND-F-01, FND-F-02, FND-C-01, JDG-F-01..06, JDG-P-01..03
+([docs/02-requirements.md](docs/02-requirements.md)). Rewrite this file at
+each increment review. The Increment 0 SPEC is in git history.
 
-Who does what: Claude Code does the build and data work. Chris approves the
-human gates, verifies the inventory spot-check, and scores the parser trade.
+Who does what: Claude Code builds and runs; Chris approves the human gates,
+checks benchmark labels, and decides T1/T2 with the evidence.
 
-## Repo scaffold and v0.1 schemas
+Rules carried from the Increment 0 review:
 
-`uv` project (Python 3.11+), pytest, ruff; package `vera/` with `schemas/`,
-`backends/`, `ledger/`. All docs/03 models (now v0.3) in Pydantic v2, including
-`Budget.charge()` raising `BudgetExceeded` when any limit would be crossed.
-`JudgeBackend` is a `Protocol` and has no round-trip test.
+- **Spend.** Every model call goes through a `Budget` that raises before a
+  limit is crossed: $1.00 for backend smoke tests, $8.00 for the benchmark
+  run, inside the $20/month ceiling (ConOps §4). The OpenRouter key has a
+  matching credit limit.
+- **Human checks as practised.** An assistant may judge sampled items,
+  working from source documents only; Chris personally checks at least 3 per
+  sample, drawn by seed and recorded by id with his verdict.
+- **Independence (docs/06 §5).** The benchmark's test split and the
+  thresholds reported on it are fixed, and the split hashed, before any
+  result on it is seen. Tuning uses the dev split only.
+- **Dogfood.** Overhead hours are logged per session
+  (`bash scripts/dogfood.sh`); gate blocks are labelled.
 
-**Acceptance:** every docs/03 `BaseModel` round-trips (model → JSON → model) in
-a test; `Verdict` with `judge_id == producer_id` raises; `Budget.charge()`
-raises on each limit; `vera/schemas/version.py` contains a literal
-`SCHEMA_VERSION = "X.Y"` equal to the docs/03 version
-(`tools/checks/check_schema_version.py`); ruff and pytest pass.
-**Gate:** `scaffold_ready`.
+## Ledger and model-call wrapper
 
-## Corpus discovery
+`vera/ledger/`: an append-only JSONL writer for `LedgerRecord` (docs/03)
+under `data/ledger/<run_id>.jsonl` (git-ignored except named result
+ledgers), plus one wrapper that every backend call goes through: it charges
+the `Budget`, times the call, and writes the record. A lint check forbids
+vendor SDK imports outside `vera/backends/`.
 
-`scripts/discover_corpus.py` enumerates **every generated paper the
-ScientistTwo site lists** (source: <https://scientist-two.github.io/>), with domain, sub-domain, and method name. Prefer a published listing
-or data file over page source or network requests; rate-limit and respect
-robots.txt. Writes `data/corpus_discovery.json` and seeds one inventory row
-per paper.
+**Acceptance:** `test_FND_F_01_…` tests show a record with backend, model,
+input/output tokens, cost, latency and trace id for every call, including
+failed calls, and that a call that would exceed the `Budget` raises before
+it is made; `tools/checks/check_vendor_imports.py` passes (FND-C-01).
+**Gate:** `judge_core_ready`.
 
-**Acceptance:** `corpus_discovery.json` records the source, the site's stated
-count, the discovered count, and an explanation whenever they differ
-(`tools/checks/check_discovery.py`).
-**Gate:** `corpus_fetched`.
+## Questions, verdicts and parsing
 
-## Corpus download with provenance
+`vera/judge/`: prompt construction and answer parsing for the three
+`QuestionType`s (Choice, Score, Boolean) into `Verdict`s, with confidence
+from token log-probabilities where the backend returns them and a
+self-reported probability otherwise (recorded as which, so calibration can
+be compared). Malformed answers become a low-confidence `Verdict` flagged
+for escalation, never an exception or a bare value.
 
-`scripts/fetch_corpus.py` downloads generated-paper PDFs to
-`data/raw/scientisttwo/` and appends one record per file to
-`data/provenance.jsonl`:
-`{"path", "url", "retrieved": "YYYY-MM-DD", "sha256"}` (data/README.md).
+**Acceptance:** `test_JDG_F_01_…` tests for each question type against a
+fake backend, including malformed and out-of-range answers; every `Verdict`
+round-trips and enforces `judge_id != producer_id`.
+**Gate:** `judge_core_ready`.
 
-**Acceptance (FND-C-02):** every file under `data/raw/` has a record whose
-hash matches the file, and nothing under `data/raw/` is tracked by git
-(`tools/checks/check_provenance.py`). Test `test_FND_C_02_…` exercises the
-provenance writer against a local file, **with no network access**, so the
-test suite stays deterministic at every later gate.
-**Gate:** `corpus_fetched`.
+## Router and escalation
 
-## Parent papers and code availability
+`Router` tries backends in `cost_rank` order and escalates when confidence is
+below the threshold from `RoutingPolicy` (per question type, per question id,
+or per call), up to `max_escalations`; the final `Verdict` records the
+backend used and `escalated`.
 
-For each generated paper: the human parent paper (title, venue, arXiv id or
-DOI) and code URLs for both generated and parent work. Download parent-paper
-PDFs to `data/raw/parents/` with provenance records, since the compute
-estimate reads their setup sections.
+**Acceptance:** `test_JDG_F_02_…` (order, escalation on low confidence, no
+escalation above threshold, escalation cap) and `test_JDG_F_03_…`
+(threshold precedence: call > question id > question type > default), all
+with fake backends and no network.
+**Gate:** `judge_core_ready`.
 
-**Acceptance:** filled in `data/corpus_inventory.csv`. Code URL columns hold a
-URL, `none` (checked, no public code), or `unknown` (not determined), so the
-code-availability rate can be computed.
-**Gate:** `inventory_verified`.
+## Backends: cheap and frontier
 
-## Compute estimates and P3 candidates
+Two `JudgeBackend`s through OpenRouter (one API key, `.env`): a cheap model
+and a frontier reference model, with per-token prices recorded from
+OpenRouter at run time. Candidates for trade T1: cheap models named in
+ConOps §4 (e.g. DeepSeek V4.1 Flash, GLM-5.3 Flash); a local small model
+(via Ollama on the RTX A4500) for the offline criterion; TypeSafe Jev only if
+its terms allow benchmarking and publishing results (check first, record in
+docs/04).
 
-`compute_class` per **parent problem** (`cpu`, `single_gpu`, `multi_gpu`,
-`unknown`) from the parent paper's experimental setup; rows sharing a parent
-problem share the value. Flag 2–3 `cpu` or `single_gpu` parent problems as
-P3 candidates.
+**Acceptance (JDG-F-04, demonstration):** a smoke run of 10 benchmark dev
+items per backend writes `data/ledger/smoke.jsonl` with records from at
+least two backends, every field present and costs > 0 for paid backends,
+total spend ≤ $1.00 (`tools/checks/check_ledger.py`).
+**Gate:** `backends_live`.
 
-**Acceptance:** every row has an allowed `compute_class` and
-`candidate_for_p3`; 2–3 distinct parent problems are `yes`, all cpu or
-single_gpu (`tools/checks/check_inventory.py`).
-**Gate:** `inventory_verified`.
+## Graph helpers and checkpointing
 
-## Inventory verified by spot-check
+`vera/graph/`: LangGraph node and conditional-edge helpers that wrap a
+`Question` as a node and route on its `Verdict` (JDG-F-05), with a
+checkpointer so a run resumes from the last completed node after a crash
+(FND-F-02). This is the evidence for trade T2 (LangGraph alone vs. with
+Meridian-style gate semantics on top).
 
-The inventory is mostly agent-filled, so it's checked by a human, not by the
-agent that filled it. `tools/checks/check_inventory.py --sample 10` draws a
-seeded random sample into `data/inventory_spotcheck.csv`; Chris checks each
-sampled row against its sources and records `correct` or `incorrect` with a
-note.
+**Acceptance:** `test_FND_F_02_…` kills a small graph mid-run and resumes it
+without repeating completed nodes or their ledger records; a demo graph
+routes on a judge `Verdict` (JDG-F-05).
+**Gate:** `graph_ready`.
 
-**Acceptance:** no blank cells, template rows, or values outside the data
-dictionary; every `gen_pdf_url` links to a provenance record and every
-downloaded generated paper appears in the inventory; every sampled row has a
-verdict (`tools/checks/check_inventory.py`). **Target error rate ≤ 10%**
-(set 2026-09-29; revisable at the increment review); above it, fix the process and
-re-sample only the rows filled after the fix. The measured rate goes in the
-Increment 0 review.
-**Gate:** `inventory_verified` (human approval after the check passes).
+## Benchmark set with labels by construction
 
-## PDF parser decision
+`data/benchmark/items.jsonl`: about 180 atomic questions in three tasks,
+each labelled by how it was built (risk R3):
 
-Trade T3: Claude Code parses 10 corpus papers with 2–3 parsers and tabulates
-the output; Chris scores it by hand.
+- **loop-gate** (from the Increment 2 problem): "does this result beat the
+  TreeHFD baseline on this metric?" (Boolean) and "which candidate is best?"
+  (Choice), from generated result tables with near-ties and distractors;
+- **numeric consistency**: a claim about a table value, true or perturbed,
+  using tables extracted by Docling from corpus papers (T3);
+- **citation**: "does this reference list contain an entry for paper X?",
+  using GROBID reference lists, with near-miss titles as negatives.
 
-- **Reference lists:** per paper, references extracted correctly ÷ references
-  in the PDF (Chris counts).
-- **Tables:** for 1–2 tables per paper, cells extracted correctly ÷ cells.
-- Also record Windows setup effort (e.g. GROBID needs Java or Docker), time per
-  paper, and spend for any LLM-based option (within the monthly ceiling).
+Split fixed before any run: dev (tuning) and test (reporting), about 1:2,
+with the test split's SHA-256 recorded. Chris checks at least 3 items per
+task, drawn by seed (`data/benchmark/label_check.csv`: id, seed, verdict,
+note); any wrong label is fixed and its generator re-checked.
 
-**Acceptance:** T3 in docs/04 is marked decided, with a **Scores:** line, a
-**Decision:** line, and a **Reverse if:** line
-(`tools/checks/check_trade_decided.py T3`).
-**Gate:** `parser_decided`.
+**Acceptance:** `tools/checks/check_benchmark_items.py`: three tasks, all
+three question types present, split and test hash recorded, every task has
+≥ 3 human-checked items with verdicts and no unresolved `incorrect`.
+**Gate:** `benchmark_labeled` (human approval after the check passes).
 
-## Increment 0 review
+## Benchmark harness and threshold sweep
 
-Write `docs/reviews/incr-0.md` against the exit criteria in docs/07. It must:
+`vera/bench/`: runs each backend on the test split (cheap backends N = 10
+repeats, reference N = 3), then sweeps the router threshold offline over the
+recorded verdicts. Reports per backend and threshold: agreement with labels
+and with the reference judge, calibration (ECE), flip rate across repeats,
+cost, p50/p95 latency, escalation rate (JDG-F-06). Output:
+`data/benchmark/results.json` and the cost-vs-agreement threshold curve
+(`docs/figures/threshold_curve.png`), the increment's core result.
 
-- state each exit criterion as met or not met, with evidence;
-- report the spot-check error rate and the code-availability rate (generated
-  and parent, counting `none` and `unknown` separately);
-- **decide whether P1 v1 includes method–code checks** (AUD-F-05) from the
-  code-availability rate, and update risk R1;
-- set only the TBDs the inventory informs: **RSH-P-02** (number of parent
-  problems). JDG-P and AUD-P targets stay TBD until the Increment 1–2
-  benchmarks; don't invent them;
-- **choose the one parent problem for the Increment 2 loop** from the P3
-  candidates, preferring experiments that finish in minutes;
-- confirm Increment 1 and note what changes in the next SPEC.
+**Acceptance:** `test_JDG_F_06_…` tests the metrics on fixed fake verdicts;
+`tools/checks/check_benchmark_results.py`: metrics present for every backend
+and threshold, test-split hash unchanged since labelling, ledger total for
+the run ≤ $8.00.
+**Gate:** `benchmark_run`.
 
-**Acceptance:** the review passes the independent Evaluator (`run-evaluator.sh`).
-**Gate:** `incr0_review`.
+## Decisions: T1, T2, targets and loop cost
+
+From the benchmark and graph work: decide T1 (cheap backend) and T2
+(runtime) in docs/04 with **Scores:**, **Decision:** and **Reverse if:**;
+set JDG-P-01..03 in docs/02 from the measured curve (the defaults in
+brackets are starting points, not commitments); estimate one Increment 2
+loop run's cost from measured per-call costs against the $20 ceiling
+(risk R10), and say whether a run month needs a temporary increase.
+
+**Acceptance:** `tools/checks/check_trade_decided.py T1` and `… T2` pass;
+JDG-P-01..03 have values; the loop-cost estimate is in the Increment 1 review.
+**Gate:** `trades_decided_1` (human approval).
+
+## Increment 1 review
+
+Write `docs/reviews/incr-1.md` against the docs/07 exit criteria: the
+threshold curve, T1/T2 decisions, JDG-P targets with their evidence, the
+loop-run cost estimate and any ceiling change, label-check results, spend
+against budget, dogfood overhead hours, and what changes in the Increment 2
+SPEC. Carry-overs from Increment 0 are closed or restated.
+
+**Acceptance:** passes the independent Evaluator (`run-evaluator.sh`), fresh
+per round, with every verdict kept.
+**Gate:** `incr1_review`.

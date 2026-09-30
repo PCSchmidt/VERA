@@ -4,7 +4,7 @@ Each increment ends with a short written review (a lightweight SRR/PDR/CDR)
 in `docs/reviews/incr-N.md`: what was done, exit criteria met or not, risks
 updated, next increment confirmed.
 
-## Increment 0 — Spike: know your data (≈2 weeks) ← CURRENT
+## Increment 0 — Spike: know your data (≈2 weeks) — complete 2026-09-30
 
 Goal: answer "what data do we actually have?" before building anything.
 
@@ -49,7 +49,7 @@ what make a cheap loop possible; then a **thin end-to-end loop** on one
 problem, so the product works early and every later increment improves a
 working pipeline. P1 grows up as the loop's final gate.
 
-## Increment 1 — P2 minimum viable judge
+## Increment 1 — P2 minimum viable judge ← CURRENT
 
 Router, two backends, ledger, LangGraph helpers, benchmark harness on one
 judging task drawn from the loop's gate decisions (e.g. "idea worth a subset

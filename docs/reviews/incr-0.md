@@ -194,3 +194,18 @@ after this gate passes. Changes to carry in:
   from source documents only; Chris personally checks at least 3 of them,
   drawn by seed and recorded by id with his verdict, so the human share is
   on record.
+
+## Errata (after approval)
+
+Added 2026-09-30, after Chris approved this review; the approved text above
+is unchanged. From the final Evaluator verdict
+(`.meridian/evaluator/incr0_review-verdict.json`):
+
+- Rates table, option-B row: "2/10 after a later finding" understates it.
+  By the camera-ready standard used in the round-1 row, the same sample held
+  4 data errors (DRO-ROCP, SPECTRA, SMBTT-CCDB, LD-RPB-OM), so option B was
+  4/10 by that standard.
+- R6 (docs/05) mitigation and trigger were worded inconsistently about the
+  second problem; reworded: one problem until Increment 5, which adds the
+  second.
+
