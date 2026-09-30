@@ -61,7 +61,7 @@
    "gen_paper_id": "applications/Sciences_ErtelHodge-STELLA",
    "confidence": "high",
    "flags": "",
-   "p3_hint": "single RTX 4090 (also runs on CPU); STELLA-10k has about 10k parameters and trains in about 30 s GPU / 141 s CPU per reported timing - strong P3 candidate."
+   "p3_hint": "Parent STELLA-10k: about 30 s per training epoch on one RTX 4090, 141 s per epoch on CPU (GlobalWind, parent Table 2); a full run is many epochs (abstract: about one hour of training). Corrected 2026-09-30: an earlier hint said 'trains in about 30 s'."
   },
   {
    "gen_paper_id": "applications/Sciences_SYMP-MONGE",

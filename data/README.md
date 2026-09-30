@@ -87,6 +87,11 @@ read against the suggestion; the `notes` column says what the evidence was.
   `parent_papers.csv` (conference records preferred over DBLP "CoRR" preprint
   mirrors). All 86 parents used in the inventory are confirmed there
   (2026-09-30).
+- Generated-paper code (`gen_code_url` = `none` for all 86): no code link in
+  any generated PDF, in text or link annotations (`scripts/pdf_links.py`); no
+  code on the site; and the `scientist-two` GitHub account holds only the
+  site repository (GitHub API `users/scientist-two/repos`, checked
+  2026-09-29).
 - `parent_versions.csv` (`scripts/camera_ready.py`): for each parent used,
   the camera-ready PDF where one could be fetched (all 49 ICML 2026 parents,
   from PMLR v306) and the venue statement quoted from the paper itself

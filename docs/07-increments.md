@@ -61,7 +61,8 @@ ceiling.
 ## Increment 2 — Thin loop on one parent problem
 
 The product, crude but end to end, on the one CPU-scale problem chosen in
-Increment 0: problem spec + output guidance + `Budget` → reproduce baseline on
+Increment 0 (**TreeHFD**, Benard, NeurIPS 2025, arXiv 2510.24815; fallback:
+credal ambiguity sets; see docs/reviews/incr-0.md): problem spec + output guidance + `Budget` → reproduce baseline on
 a subset → generate and screen a few ideas → run the best on the subset →
 write-up → final gate. Every stage transition is a P2 critic `Verdict` from a
 component other than the producer. The final gate is a **minimal P1**:
