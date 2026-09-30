@@ -25,7 +25,7 @@ Keep each to one short section. Status: **open** until decided.
 - **Leaning:** (b) — LangGraph for durability, Meridian for gate semantics.
 - **Reverse if:** the integration costs more than reimplementing the gates.
 
-## T3 — PDF parsing (open, decide in Increment 0)
+## T3 — PDF parsing (decided 2026-09-30, Increment 0)
 
 - **Options:** GROBID (strong on references), a Markdown converter
   (e.g. Marker/Docling), plain PyMuPDF text, LLM-based extraction.
@@ -34,8 +34,12 @@ Keep each to one short section. Status: **open** until decided.
 - **Test run (2026-09-30):** 10 generated papers drawn at random
   (`data/t3_sample.json`, seed 635550), parsed by `scripts/t3_parse.py`
   with three candidates. An LLM-based parser was not tested, to stay inside
-  the monthly spend ceiling. Scoring by hand is pending
-  (`data/t3_scoring_guide.md`, `data/t3_pdf_counts.csv`, `data/t3_scores.csv`).
+  the monthly spend ceiling. Scored by hand from the PDFs and parser outputs
+  (`data/t3_scoring_guide.md`; `data/t3_pdf_counts.csv`, `data/t3_scores.csv`,
+  `data/t3_scores_refs_rest.csv`) by Chris's assistant, not by the agent
+  that ran the parsers. Chris spot-checked three papers of the first pass
+  against the PDFs (SPECTRA, LC-FTT, DR-LEF); the escalation run's scorer
+  reported one borderline call (TKFS-Attention, GROBID ref 17: 16 vs 17).
 
   | Parser | Windows setup | Median s/paper | Refs extracted | Tables found |
   |---|---|---|---|---|
@@ -48,6 +52,38 @@ Keep each to one short section. Status: **open** until decided.
   merge entries; GROBID returns one structured entry per reference (authors,
   title, venue, year, arXiv id) but flattens spanning table headers; counts
   are extraction counts, not correctness.
+- **Scores:** references are the PDF's references delivered as their own
+  intact entry; tables are cells in the right row and column (first 5 data
+  rows of Tables 1-2 per paper).
+
+  | Parser | References, first 15 per paper | References, full lists | Table cells |
+  |---|---|---|---|
+  | GROBID | 135/150 = 90.0% | **348/381 = 91.3%** (worst paper 73%) | 220/633 = 34.8% |
+  | Docling | 121/150 = 80.7% | 322/381 = 84.5% (worst paper 26%) | **554/633 = 87.5%** |
+  | pymupdf4llm | 39/150 = 26.0% | not scored (out after first pass) | 165/633 = 26.1% |
+
+  The first-pass reference gap (9.3 points) was inside the agreed 10-point
+  rule, so GROBID and Docling were scored on full lists. Failure modes
+  differ: Docling collapses whole runs of references into multi-reference
+  blocks on some papers (FVTG-CP: 7/27), and on the one non-ICLR-template
+  paper (LC-FTT) it extracted no usable references in the first 15 and no
+  cells of either table; GROBID's failures are local (a few merged
+  neighbours, truncated list ends) and its tables lose spanning headers.
+- **Decision:** use two parsers by content. **GROBID** (Docker,
+  `lfoppiano/grobid:0.8.2`, `JAVA_TOOL_OPTIONS=-XX:-UseContainerSupport` on
+  WSL2) for reference lists and bibliographic fields, which the citation
+  checks (P1) consume directly; **Docling** for tables and body text, the
+  inputs to numeric-consistency checks. Drop pymupdf4llm. Costs accepted:
+  two tools to run, and Docling at about 80 s per paper on CPU (GPU build
+  not tried).
+- **Reverse if:** (1) in Increment 3, citation-check errors on the seeded
+  dev set trace to GROBID reference parsing more often than to the check
+  itself, then re-test Docling or an LLM repair pass on references;
+  (2) Docling's table extraction fails on external (non-ICLR-template)
+  papers the way it did on LC-FTT, then re-run this trade on 10 external
+  papers before building table checks on it; (3) keeping GROBID running in
+  Docker proves unreliable, then fall back to Docling for references too
+  (84.5% here) and accept its failure mode.
 
 ## T4 — Sandbox (open, decide in Increment 2)
 
