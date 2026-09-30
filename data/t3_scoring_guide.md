@@ -45,6 +45,15 @@ If the two best parsers' reference scores are within **10 percentage
 points**, score those two parsers' full reference lists (set `in_pdf` to the
 total and re-score). Same rule for tables, using full tables.
 
+### Escalation run (2026-09-30): references, GROBID vs Docling
+
+First pass: GROBID 135/150 (90.0%), Docling 121/150 (80.7%), within 10
+points, so the rule applies. Score the **rest** of each reference list in
+`data/t3_scores_refs_rest.csv`: for each paper, the PDF's references 16 to
+the end (`pdf_refs`; `in_pdf` is how many), same definition of correct as
+above, for grobid and docling only. Rows with `pdf_refs` = `none` (papers
+with at most 15 references) are already 0/0. Full score = first pass + rest.
+
 ## Who scores
 
 Chris, or an assistant working **from the PDFs and the parser output files
