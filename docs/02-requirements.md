@@ -1,6 +1,6 @@
 # 02 — Requirements
 
-Version 0.1 · Draft
+Version 0.2 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access)
 
 ID format: `<AREA>-<TYPE>-<NN>`. Areas: `FND` foundation, `JDG` judge library
 (P2), `AUD` auditor (P1), `RSH` research agent (P3). Types: `F` functional,
@@ -46,7 +46,7 @@ Suggested starting values are in brackets.
 | AUD-F-02 | Extract numeric claims with location (section, table, page). | T | 3 |
 | AUD-F-03 | Flag every reference that cannot be matched in a bibliographic source (e.g. Crossref, arXiv, Semantic Scholar). | T (seeded) | 2–3 |
 | AUD-F-04 | Check each numeric claim for internal consistency (text vs. tables vs. figures) and, when logs exist, against logged outputs. | T (seeded) | 2–3 |
-| AUD-F-05 | Check method–code alignment: each method component described in the paper maps to code, and vice versa. | T (seeded) | 4 |
+| AUD-F-05 | Check method–code alignment: each method component described in the paper maps to code, and vice versa. Scope: papers whose code is available to the checker (VERA's own loop outputs; parent repositories as reference). Not applied to the ScientistTwo corpus, which publishes no generated code (Increment 0 review). | T (seeded) | 4 |
 | AUD-F-06 | Detect specification violations / leakage patterns (test-set use in training or tuning, metric changes, baseline misconfiguration). | T (seeded) | 4 |
 | AUD-F-07 | Assess novelty: retrieve closest prior work and judge whether the core method is materially distinct. | A (gold set) | 4 |
 | AUD-F-08 | Optionally re-run reported experiments in the sandbox within a per-audit budget. | D | 4 |
@@ -66,7 +66,7 @@ Suggested starting values are in brackets.
 | RSH-F-06 | On budget exhaustion, stop and emit a best-so-far report stating the stop reason. | T | 2 |
 | RSH-F-07 | The write-up shall follow the run's output guidance; the final gate checks it. | T | 2 |
 | RSH-P-01 | A run shall never exceed its configured budget. | T | 2 |
-| RSH-P-02 | Report cost/quality results on ≥ **TBD** [2] parent problems also attempted by ScientistTwo. | A | 5 |
+| RSH-P-02 | Report cost/quality results on ≥ **2** parent problems also attempted by ScientistTwo (set at the Increment 0 review; matches R6's limit of 2 problems before Increment 5). | A | 5 |
 
 ## Traceability
 

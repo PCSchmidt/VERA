@@ -4,7 +4,7 @@ Likelihood (L) and impact (I): 1 low – 3 high. Score = L × I. Review monthly.
 
 | ID | Risk | L | I | Score | Mitigation | Trigger / watch |
 |----|------|---|---|-------|------------|-----------------|
-| R1 | Codebases for the 86 papers aren't public, limiting method–code and re-run checks | 2 | 3 | 6 | Increment 0 inventory settles this. Fall back to citation, numeric-consistency and novelty checks, plus parent-paper repos. | Inventory shows <25% code availability |
+| R1 | Codebases for the 86 papers aren't public, limiting method–code and re-run checks | 3 | 2 | 6 | **Occurred (Increment 0 review, 2026-09-30):** 0/86 generated papers publish code; 82/86 parents do (4 unknown). P1 v1 on the corpus uses citation, numeric-consistency and novelty checks; method–code alignment (AUD-F-05) targets VERA's own loop outputs, with parent repos as reference. Impact lowered from 3 to 2 by that scoping. | Fired: generated-paper code availability 0% (<25%). Watch: ScientistTwo releasing code. |
 | R2 | Time competes with JHU coursework and work | 3 | 2 | 6 | Small increments with hard exit criteria; P2 is useful on its own if P1/P3 slip. | Two increments slip in a row |
 | R3 | Judge benchmark lacks ground-truth labels | 2 | 2 | 4 | Seeded faults (labels come free) plus a small hand-labeled gold set; reference-judge agreement as a secondary signal. | Gold set < 20 items by end of Incr 1 |
 | R4 | Jev pricing, API, or terms change | 2 | 2 | 4 | `JudgeBackend` abstraction; keep a local-model backend working at all times. | Terms forbid published comparisons |
