@@ -1,30 +1,53 @@
-# Trade T3 scoring guide (Chris)
+# Trade T3 scoring guide (lighter protocol)
 
-Ten generated papers (`data/t3_sample.json`, seed 635550), three parsers.
-Parser outputs are in `data/cache/t3/<paper>/` (paper id with `/` and spaces
-as `_`): `<parser>_refs.txt` (reference entries as delivered, numbered) and
-`<parser>_tables.md` (every table found, in order, with caption or the line
-before it). The PDF is `data/raw/scientisttwo/<paper id>.pdf`.
+Ten generated papers (`data/t3_sample.json`, seed 635550), three parsers:
+pymupdf4llm, grobid, docling. Agreed 2026-09-30: score a fixed subset of
+each paper first, and score in full only if the result is close (see
+Escalation).
 
-## 1. Count in the PDF (`data/t3_pdf_counts.csv`, once per paper)
+## Files
 
-- `references`: number of entries in the PDF's reference list.
-- `Table 1`, `Table 2`: number of **data cells** in the PDF's Table 1 and 2
-  (row x column of values, excluding header and row-label cells). Write the
-  count; if a table is too large, score its first 5 rows and say so in `note`
-  (then count the same rows for every parser).
+- PDF: `data/raw/scientisttwo/<paper id>.pdf`
+- Parser outputs: `data/cache/t3/<paper>/` (paper id with `/` and spaces as
+  `_`): `<parser>_refs.txt` (reference entries as the parser delivered them,
+  numbered) and `<parser>_tables.md` (every table found, in order, with its
+  caption or the line before it).
+- Record counts in `data/t3_pdf_counts.csv` and scores in `data/t3_scores.csv`.
 
-## 2. Score each parser (`data/t3_scores.csv`)
+## 1. From the PDF (`t3_pdf_counts.csv`, once per paper)
 
-- `references` -> `correct` = entries delivered as **their own entry** with
-  authors, title and year intact. Two references merged into one entry, or
-  one split across entries, count as wrong (for all pieces). Stray
-  line-number digits or lost italics alone do not make an entry wrong.
-- `Table N` -> `correct` = data cells whose value appears in the **right row
-  and column** of the parser's version of that table. Find the table by its
-  caption (GROBID, Docling) or its position (pymupdf4llm); if the parser
-  missed the table entirely, `correct` = 0.
+- `references`: `in_pdf` = the number of references scored: **15**, or all of
+  them if the paper has fewer. Put the paper's total reference count in
+  `note` (e.g. `total 42`).
+- `Table 1`, `Table 2`: `in_pdf` = the number of **data cells in the first 5
+  data rows** of that table in the PDF (values only; header rows and
+  row-label cells excluded). If the table has fewer than 5 data rows, count
+  them all.
 
-Score = correct / in_pdf, per parser, averaged over papers. Automatic
-measures (seconds per paper, entries extracted, tables found) are in
-`data/t3_auto.csv`; setup effort is recorded in docs/04.
+## 2. Per parser (`t3_scores.csv`)
+
+- `references`: `correct` = how many of the **PDF's first 15 references**
+  appear in `<parser>_refs.txt` as **their own entry**, with authors, title
+  and year intact. The entry can be anywhere in the file. A reference merged
+  into an entry with another reference, or split across entries, is not
+  correct. Stray line-number digits or lost italics alone don't make it wrong.
+- `Table N`: `correct` = how many of the counted cells (first 5 data rows)
+  appear with the **right value in the right row and column** of the parser's
+  version of that table. Find it by caption (grobid, docling) or position
+  (pymupdf4llm). If the parser missed the table, `correct` = 0.
+
+Score = sum of `correct` / sum of `in_pdf` over the ten papers, per parser
+and item (references, tables).
+
+## Escalation
+
+If the two best parsers' reference scores are within **10 percentage
+points**, score those two parsers' full reference lists (set `in_pdf` to the
+total and re-score). Same rule for tables, using full tables.
+
+## Who scores
+
+Chris, or an assistant working **from the PDFs and the parser output files
+only** (not from `data/t3_auto.csv`, docs/04 or other summaries), with Chris
+spot-checking some papers. Say which in the notes; the trade decision
+records it.
