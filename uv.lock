@@ -3129,6 +3129,7 @@ name = "vera"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [
+    { name = "httpx" },
     { name = "pydantic" },
 ]
 
@@ -3146,7 +3147,10 @@ t3 = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "pydantic", specifier = ">=2.7" }]
+requires-dist = [
+    { name = "httpx", specifier = ">=0.28.1" },
+    { name = "pydantic", specifier = ">=2.7" },
+]
 
 [package.metadata.requires-dev]
 corpus = [{ name = "pymupdf", specifier = ">=1.28.2" }]

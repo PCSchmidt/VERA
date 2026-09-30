@@ -32,7 +32,8 @@ class Verdict(BaseModel):
     answer: bool | int | str
     probabilities: dict[str, float] | None = None
     confidence: float = Field(ge=0.0, le=1.0)
-    # where confidence came from; "none" = malformed answer (confidence 0)
+    # where confidence came from: "logprobs" = the model's own probabilities (token logprobs or a
+    # decision model's native distribution); "self_report" = stated by the model; "none" = malformed
     confidence_source: Literal["logprobs", "self_report", "none"] | None = None
     backend: str  # which backend produced the final answer
     escalated: bool  # True if any cheaper backend was bypassed

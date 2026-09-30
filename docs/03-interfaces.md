@@ -1,6 +1,6 @@
 # 03 — Interfaces (core schemas)
 
-Version 0.5 · Draft · Changes require a version bump and a changelog line.
+Version 0.6 · Draft · Changes require a version bump and a changelog line.
 
 These are the contracts between layers. Implement as Pydantic v2 models in
 `vera/schemas/`. Field lists are normative; the Python below is a sketch.
@@ -31,7 +31,9 @@ class Verdict(BaseModel):
     probabilities: dict[str, float] | None = None
     confidence: float = Field(ge=0.0, le=1.0)
     confidence_source: Literal["logprobs", "self_report", "none"] | None = None
-                                     # where confidence came from; "none" = malformed answer (confidence 0)
+                                     # where confidence came from: "logprobs" = the model's own probabilities
+                                     # (token log-probabilities, or a decision model's native distribution);
+                                     # "self_report" = probability the model states; "none" = malformed (confidence 0)
     backend: str                     # which backend produced the final answer
     escalated: bool                  # True if any cheaper backend was bypassed
     cost_usd: float
@@ -165,3 +167,6 @@ different artifact producer (`gate.producer_id` set and `!= producer_id`). The
 - 0.5 — `Verdict.confidence_source` added: the benchmark compares calibration
   of log-probability and self-reported confidence (JDG-F-06), so a verdict
   records which it has; a malformed answer has source "none" and confidence 0.
+- 0.6 — `confidence_source="logprobs"` defined as the model's own probabilities,
+  covering a decision model's native distribution (TypeSafe Jev) as well as
+  token log-probabilities; no field change.

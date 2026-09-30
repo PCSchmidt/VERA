@@ -106,4 +106,5 @@ def metered_call(
             )
         )
         budget.charge(result.cost_usd if result else 0.0, seconds=round(latency_ms / 1000), calls=1)
+    result.extra["latency_ms"] = latency_ms
     return result
