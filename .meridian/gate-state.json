@@ -3,6 +3,7 @@
     "backends_live",
     "confirmed",
     "corpus_fetched",
+    "graph_ready",
     "incr0_review",
     "incr1_scoped",
     "inventory_verified",
