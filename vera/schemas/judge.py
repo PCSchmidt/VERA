@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from enum import StrEnum
-from typing import Protocol
+from typing import Literal, Protocol
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -32,6 +32,8 @@ class Verdict(BaseModel):
     answer: bool | int | str
     probabilities: dict[str, float] | None = None
     confidence: float = Field(ge=0.0, le=1.0)
+    # where confidence came from; "none" = malformed answer (confidence 0)
+    confidence_source: Literal["logprobs", "self_report", "none"] | None = None
     backend: str  # which backend produced the final answer
     escalated: bool  # True if any cheaper backend was bypassed
     cost_usd: float

@@ -94,3 +94,10 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
   minor record gaps, keep the verdict of the version Chris approves and fix
   the rest in the next increment, so the approved document is the one the
   Evaluator evaluated.
+- Increment 1 gate design: `check_traceability.py` requires tests for every
+  T-requirement due in the *increment*, so putting it on an early gate
+  (`judge_core_ready`) made that gate impassable until later features
+  existed. Moved to `benchmark_run` and `incr1_review`. Meridian could scope
+  traceability per gate (requirements a gate declares) rather than per
+  increment.
+

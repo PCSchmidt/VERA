@@ -148,8 +148,7 @@ gates:
     hooks:
       pre:
         - gate-tests.sh             # ruff + pytest (FND-F-01, JDG-F-01..03 tests)
-        - gate-traceability.sh      # every due T-requirement has a test_<ID>_ test
-        - gate-schema-version.sh
+        - gate-schema-version.sh    # traceability runs at benchmark_run: it covers the whole increment
         - gate-vendor-imports.sh    # FND-C-01: no vendor SDK outside vera/backends/
 
   - id: backends_live
@@ -175,7 +174,6 @@ gates:
     hooks:
       pre:
         - gate-tests.sh             # includes FND-F-02 kill-and-resume test
-        - gate-traceability.sh
 
   - id: benchmark_labeled
     label: "Benchmark items built, split fixed, labels checked by Chris"
@@ -204,6 +202,7 @@ gates:
     hooks:
       pre:
         - gate-tests.sh
+        - gate-traceability.sh      # every due T-requirement has a test_<ID>_ test (whole increment)
         - gate-benchmark-results.sh # metrics per backend/threshold, test hash unchanged, spend <= $8.00
 
   - id: trades_decided_1
