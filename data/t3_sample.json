@@ -1,0 +1,17 @@
+{
+  "note": "Trade T3 sample: 10 generated papers drawn at random from the 86 (random.Random(seed).sample over the sorted gen_paper_ids).",
+  "seed": 635550,
+  "drawn": "2026-09-30",
+  "papers": [
+    "applications/Others_DR-LEF",
+    "deep_learning/LLMs_CS-HLA",
+    "deep_learning/Others_Fed-LanczosSAM",
+    "deep_learning/Others_TKFS-Attention",
+    "general_ml/Causality_SPECTRA-HET SPLIT UP",
+    "general_ml/Others_Sheaf-PartialTSW",
+    "optimization/Others_LC-FTT",
+    "probabilistic/Others_DosePFN",
+    "rl/Others_Exact-CPWL CvaR",
+    "theory/Bandits_FVTG-CP"
+  ]
+}
