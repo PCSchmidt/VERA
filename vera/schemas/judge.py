@@ -73,3 +73,30 @@ class RoutingPolicy(BaseModel):
         if question.id in self.per_question:
             return self.per_question[question.id]
         return self.per_type.get(question.type, self.default_threshold)
+
+
+class BenchmarkItem(BaseModel):
+    """One labelled judge-benchmark item; the label is known from how the item was built (risk R3)."""
+
+    id: str  # stable, e.g. "cite-0042"
+    task: Literal["loop_gate", "numeric", "citation"]
+    split: Literal["dev", "test"]  # dev = tuning; test = reporting only (docs/06 §5)
+    question: Question
+    state: str  # the material the judge sees
+    label: bool | int | str  # correct answer
+    construction: dict[str, str | int | float | bool]  # kind, source, seed
+    generator: str  # generator name and version
+
+    @model_validator(mode="after")
+    def _label_answers_question(self) -> BenchmarkItem:
+        q, label = self.question, self.label
+        if q.type is QuestionType.BOOLEAN:
+            valid = isinstance(label, bool)
+        elif q.type is QuestionType.CHOICE:
+            valid = isinstance(label, str) and label in (q.options or [])
+        else:
+            lo, hi = q.scale or (1, 5)
+            valid = isinstance(label, int) and not isinstance(label, bool) and lo <= label <= hi
+        if not valid:
+            raise ValueError(f"item {self.id!r}: label {label!r} is not a valid answer to a {q.type} question")
+        return self

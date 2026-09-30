@@ -434,3 +434,67 @@ def test_inventory_needs_provenance_file(tmp_path: Path) -> None:
     dict_inventory(tmp_path, dict_rows(), provenance=False)
     spotchecked(tmp_path)
     assert run("check_inventory.py", tmp_path).returncode == 2
+
+
+# ── benchmark items (benchmark_labeled) ───────────────────────────────────────
+
+
+def bench(root: Path, verdicts: dict[str, str] | None = None, tamper: bool = False) -> None:
+    """A tiny benchmark: 2 items per task, one dev and one test; the three question types."""
+    qs = {
+        "loop_gate": {"id": "loop.best", "type": "choice", "text": "?", "options": ["A", "B"]},
+        "numeric": {"id": "num.count", "type": "score", "text": "?", "scale": [0, 3]},
+        "citation": {"id": "cite.contains", "type": "boolean", "text": "?"},
+    }
+    items = []
+    for task, q in qs.items():
+        for n, split in enumerate(["dev", "test"], 1):
+            items.append({"id": f"{task}-{n}", "task": task, "split": split, "question": q, "state": "s",
+                          "label": True, "construction": {"kind": "true"}, "generator": "t"})  # fmt: skip
+    items.sort(key=lambda i: i["id"])
+    lines = [json.dumps(i, separators=(",", ":")) for i in items]
+    write(root, "data/benchmark/items.jsonl", "\n".join(lines) + "\n")
+    test = [ln for i, ln in zip(items, lines, strict=True) if i["split"] == "test"]
+    digest = hashlib.sha256("\n".join(test).encode()).hexdigest()
+    test_ids = [i["id"] for i in items if i["split"] == "test"]
+    split = {"test_ids": test_ids, "test_sha256": "0" * 64 if tamper else digest}
+    write(root, "data/benchmark/split.json", json.dumps(split))
+    rows = ["id,seed,verdict,note"]
+    for task in qs:
+        for n in (1, 2, 1):  # three checks per task (an item may be drawn twice across samples)
+            v = (verdicts or {}).get(f"{task}-{n}", "correct")
+            rows.append(f"{task}-{n},42,{v},{'relabelled; generator re-checked' if v == 'fixed' else ''}")
+    write(root, "data/benchmark/label_check.csv", "\n".join(rows) + "\n")
+
+
+def test_JDG_F_06_benchmark_check_passes_when_built_split_and_checked(tmp_path: Path) -> None:
+    bench(tmp_path)
+    result = run("check_benchmark_items.py", tmp_path)
+    assert result.returncode == 0, result.stderr
+
+
+def test_JDG_F_06_benchmark_check_blocks_a_changed_test_split(tmp_path: Path) -> None:
+    bench(tmp_path, tamper=True)
+    result = run("check_benchmark_items.py", tmp_path)
+    assert result.returncode == 2 and "hash" in result.stderr
+
+
+@pytest.mark.parametrize(
+    ("verdicts", "message"),
+    [
+        ({"numeric-1": "incorrect"}, "not yet fixed"),
+        ({"citation-2": ""}, "fewer than 3"),
+        ({"loop_gate-1": "maybe"}, "not one of"),
+    ],
+)
+def test_JDG_F_06_benchmark_check_blocks_unresolved_or_missing_label_checks(
+    tmp_path: Path, verdicts: dict[str, str], message: str
+) -> None:
+    bench(tmp_path, verdicts)
+    result = run("check_benchmark_items.py", tmp_path)
+    assert result.returncode == 2 and message in result.stderr
+
+
+def test_JDG_F_06_benchmark_check_accepts_fixed_labels_with_a_note(tmp_path: Path) -> None:
+    bench(tmp_path, {"numeric-1": "fixed"})
+    assert run("check_benchmark_items.py", tmp_path).returncode == 0

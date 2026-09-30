@@ -24,9 +24,7 @@ class StageResult(BaseModel):
     def _gate_not_self_issued(self) -> StageResult:
         # Verdict's own rule can't see this stage's producer when gate.producer_id is empty.
         if self.gate.judge_id == self.producer_id:
-            raise SelfGradingError(
-                f"stage {self.stage!r}: gate issued by its own producer ({self.producer_id!r})"
-            )
+            raise SelfGradingError(f"stage {self.stage!r}: gate issued by its own producer ({self.producer_id!r})")
         if self.gate.producer_id is not None and self.gate.producer_id != self.producer_id:
             raise SelfGradingError(
                 f"stage {self.stage!r}: gate judges {self.gate.producer_id!r}'s work, "

@@ -2,6 +2,10 @@
 data/raw/
 # Text and other derivatives of corpus papers: also never committed
 data/cache/
+# Benchmark items and the label-check sheet quote corpus tables and reference lists; the split
+# (ids + test SHA-256) and label checks are committed, and scripts/build_benchmark.py rebuilds the items
+data/benchmark/items.jsonl
+data/benchmark/label_check_sheet.md
 
 # Secrets
 .env

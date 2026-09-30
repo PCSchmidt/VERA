@@ -1,7 +1,9 @@
 # data/ — data dictionary
 
 `data/raw/` is git-ignored: corpus PDFs are evaluation data, stored locally and
-never re-hosted. Everything else here is committed.
+never re-hosted. So is `data/cache/` (text, tables and references parsed from
+them) and the two benchmark files that quote it (below). Everything else here
+is committed.
 
 ## Source
 
@@ -118,3 +120,22 @@ PDFs' link annotations (`scripts/pdf_links.py`).
 Drawn by `check_inventory.py --sample 10` (seeded, recorded). Chris fills
 `verdict` (`correct` / `incorrect`) and `note` by checking each sampled row
 against its sources. The sample can't be redrawn once any verdict exists.
+
+## `benchmark/` (Increment 1 judge benchmark; `scripts/build_benchmark.py`)
+
+Built from `data/cache/t3/*/docling_tables.md` (Docling tables, T3 sample) and
+`data/cache/bench/refs/*.json` (GROBID reference lists, `scripts/grobid_refs.py`),
+deterministically from the seed in `split.json`. No model calls.
+
+| File | Committed | Meaning |
+|---|---|---|
+| `items.jsonl` | no (quotes corpus tables and references) | one `BenchmarkItem` (docs/03) per line, sorted by id |
+| `split.json` | yes | generator, seed, counts per task/split and question type, dev and test ids, `test_sha256` |
+| `label_check.csv` | yes | `id, seed, verdict, note`: items drawn by seed for Chris's check; verdict `correct`, `incorrect` or `fixed` (note required) |
+| `label_check_sheet.md` | no | the drawn items in full, to check against |
+
+`test_sha256` is the SHA-256 of the test items' lines in `items.jsonl`, sorted
+by id and joined by newlines. It is fixed before any backend sees the test
+split; `tools/checks/check_benchmark_items.py` recomputes it, and a rebuild that
+would change it is refused without `--force`.
+

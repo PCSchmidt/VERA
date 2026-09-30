@@ -1,6 +1,6 @@
 # 03 — Interfaces (core schemas)
 
-Version 0.6 · Draft · Changes require a version bump and a changelog line.
+Version 0.7 · Draft · Changes require a version bump and a changelog line.
 
 These are the contracts between layers. Implement as Pydantic v2 models in
 `vera/schemas/`. Field lists are normative; the Python below is a sketch.
@@ -12,18 +12,21 @@ from enum import Enum
 from typing import Any, Literal, Protocol
 from pydantic import BaseModel, Field
 
+
 class QuestionType(str, Enum):
-    CHOICE = "choice"     # pick one of `options`
-    SCORE = "score"       # integer on a rubric scale
-    BOOLEAN = "boolean"   # true/false with probability
+    CHOICE = "choice"  # pick one of `options`
+    SCORE = "score"  # integer on a rubric scale
+    BOOLEAN = "boolean"  # true/false with probability
+
 
 class Question(BaseModel):
-    id: str                          # stable ID, e.g. "aud.cite.exists"
+    id: str  # stable ID, e.g. "aud.cite.exists"
     type: QuestionType
-    text: str                        # one atomic question
-    options: list[str] | None = None # CHOICE only
+    text: str  # one atomic question
+    options: list[str] | None = None  # CHOICE only
     scale: tuple[int, int] | None = None  # SCORE only, e.g. (1, 5)
-    rubric: str | None = None        # SCORE guidance
+    rubric: str | None = None  # SCORE guidance
+
 
 class Verdict(BaseModel):
     question_id: str
@@ -31,26 +34,29 @@ class Verdict(BaseModel):
     probabilities: dict[str, float] | None = None
     confidence: float = Field(ge=0.0, le=1.0)
     confidence_source: Literal["logprobs", "self_report", "none"] | None = None
-                                     # where confidence came from: "logprobs" = the model's own probabilities
-                                     # (token log-probabilities, or a decision model's native distribution);
-                                     # "self_report" = probability the model states; "none" = malformed (confidence 0)
-    backend: str                     # which backend produced the final answer
-    escalated: bool                  # True if any cheaper backend was bypassed
+    # where confidence came from: "logprobs" = the model's own probabilities
+    # (token log-probabilities, or a decision model's native distribution);
+    # "self_report" = probability the model states; "none" = malformed (confidence 0)
+    backend: str  # which backend produced the final answer
+    escalated: bool  # True if any cheaper backend was bypassed
     cost_usd: float
     latency_ms: int
     trace_id: str
-    producer_id: str | None = None   # component that produced the judged artifact
-    judge_id: str                    # component issuing this verdict (must != producer_id)
+    producer_id: str | None = None  # component that produced the judged artifact
+    judge_id: str  # component issuing this verdict (must != producer_id)
+
 
 class JudgeBackend(Protocol):
     name: str
-    cost_rank: int                   # lower = tried first
+    cost_rank: int  # lower = tried first
+
     def ask(self, state: str, questions: list[Question]) -> list[Verdict]: ...
+
 
 class RoutingPolicy(BaseModel):
     default_threshold: float = 0.7
-    per_type: dict[QuestionType, float] = {}   # per question type (JDG-F-03)
-    per_question: dict[str, float] = {}        # per question id; overrides per_type
+    per_type: dict[QuestionType, float] = {}  # per question type (JDG-F-03)
+    per_question: dict[str, float] = {}  # per question id; overrides per_type
     max_escalations: int = 1
     # Precedence for a question's threshold: per-call override > per_question
     # > per_type > default_threshold.
@@ -58,21 +64,43 @@ class RoutingPolicy(BaseModel):
 
 Rule: a `Verdict` whose `judge_id == producer_id` is invalid and must raise.
 
+### Benchmark items (P2 evaluation)
+
+```python
+class BenchmarkItem(BaseModel):
+    id: str  # stable, e.g. "cite-0042"
+    task: Literal["loop_gate", "numeric", "citation"]
+    split: Literal["dev", "test"]  # dev = tuning; test = reporting only (docs/06 §5)
+    question: Question
+    state: str  # the material the judge sees
+    label: str | int | bool  # correct answer, known from how the item was built
+    construction: dict[str, str | int | float | bool]
+    # how it was built: kind (e.g. "true", "digit_change",
+    # "near_miss_title"), source (paper id, table no.), seed
+    generator: str  # generator name and version that built it
+```
+
+Rule: `label` must be a valid answer to `question` (a bool for Boolean, one of
+`options` for Choice, an integer inside `scale` for Score); an invalid label
+raises. Items live in `data/benchmark/items.jsonl`; the split and the test
+split's SHA-256 (over the test items' JSON lines, sorted by id) are recorded in
+`data/benchmark/split.json` before any backend sees the test split.
+
 ## Ledger (foundation)
 
 ```python
 class LedgerRecord(BaseModel):
     trace_id: str
     run_id: str
-    component: str                   # e.g. "p2.router", "p1.cite_check"
+    component: str  # e.g. "p2.router", "p1.cite_check"
     backend: str
     model: str
     input_tokens: int | None
     output_tokens: int | None
     cost_usd: float
     latency_ms: int
-    timestamp: str                   # ISO 8601
-    error: str | None = None         # set when the call failed; the record is still written
+    timestamp: str  # ISO 8601
+    error: str | None = None  # set when the call failed; the record is still written
 ```
 
 ## Budget (foundation, used by P1 and P3)
@@ -96,21 +124,24 @@ class Location(BaseModel):
     page: int | None = None
     section: str | None = None
     table: str | None = None
-    quote: str | None = None         # short excerpt only
+    quote: str | None = None  # short excerpt only
+
 
 class Claim(BaseModel):
     id: str
     kind: Literal["numeric", "citation", "method", "novelty"]
     text: str
-    value: float | None = None       # numeric claims
+    value: float | None = None  # numeric claims
     location: Location
+
 
 class Evidence(BaseModel):
     claim_id: str
     source: Literal["paper", "bibliography_api", "repo", "log", "rerun", "prior_work"]
-    reference: str                   # URL, DOI, file path + line, log line
-    matched: bool | None             # None = could not determine
+    reference: str  # URL, DOI, file path + line, log line
+    matched: bool | None  # None = could not determine
     detail: str | None = None
+
 
 class Finding(BaseModel):
     check: Literal["citation", "numeric", "method_code", "spec_leakage", "novelty", "rerun"]
@@ -120,17 +151,18 @@ class Finding(BaseModel):
     verdicts: list[Verdict]
     summary: str
 
+
 class AuditReport(BaseModel):
     paper_id: str
-    paper_source: str                # URL or path
+    paper_source: str  # URL or path
     repo: str | None
     findings: list[Finding]
     overall: Literal["green", "amber", "red"]
     checks_run: list[str]
-    checks_skipped: dict[str, str]   # check -> reason
+    checks_skipped: dict[str, str]  # check -> reason
     total_cost_usd: float
     wall_seconds: int
-    schema_version: str = "0.3"      # always the current document version
+    schema_version: str = "0.3"  # always the current document version
 ```
 
 ## Research agent (P3)
@@ -138,11 +170,10 @@ class AuditReport(BaseModel):
 ```python
 class StageResult(BaseModel):
     run_id: str
-    stage: Literal["baseline", "ideate", "subset_exp", "full_exp",
-                   "ablation", "write_up", "audit"]
-    artifact_ref: str                # path/ID of produced artifact
+    stage: Literal["baseline", "ideate", "subset_exp", "full_exp", "ablation", "write_up", "audit"]
+    artifact_ref: str  # path/ID of produced artifact
     producer_id: str
-    gate: Verdict                    # issued by a different component
+    gate: Verdict  # issued by a different component
     decision: Literal["accept", "refine", "reject"]
     metrics: dict[str, float] = {}
     budget_after: Budget
@@ -170,3 +201,6 @@ different artifact producer (`gate.producer_id` set and `!= producer_id`). The
 - 0.6 — `confidence_source="logprobs"` defined as the model's own probabilities,
   covering a decision model's native distribution (TypeSafe Jev) as well as
   token log-probabilities; no field change.
+- 0.7 — `BenchmarkItem` added (Increment 1 benchmark, risk R3): each item
+  carries its label and how it was built, so labels are known by construction
+  and a label that isn't a valid answer to its question raises.
