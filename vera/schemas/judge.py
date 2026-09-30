@@ -57,6 +57,16 @@ class JudgeBackend(Protocol):
 
 
 class RoutingPolicy(BaseModel):
-    default_threshold: float = 0.7
-    per_question: dict[str, float] = {}
-    max_escalations: int = 1
+    """Escalation thresholds. Precedence: per-call override > per_question > per_type > default."""
+
+    default_threshold: float = Field(default=0.7, ge=0.0, le=1.0)
+    per_type: dict[QuestionType, float] = {}  # per question type (JDG-F-03)
+    per_question: dict[str, float] = {}  # per question id; overrides per_type
+    max_escalations: int = Field(default=1, ge=0)
+
+    def threshold_for(self, question: Question, override: float | None = None) -> float:
+        if override is not None:
+            return override
+        if question.id in self.per_question:
+            return self.per_question[question.id]
+        return self.per_type.get(question.type, self.default_threshold)

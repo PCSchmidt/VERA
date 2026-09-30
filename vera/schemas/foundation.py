@@ -16,6 +16,7 @@ class LedgerRecord(BaseModel):
     cost_usd: float
     latency_ms: int
     timestamp: str  # ISO 8601
+    error: str | None = None  # set when the call failed; the record is still written
 
 
 class BudgetExceeded(RuntimeError):

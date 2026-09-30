@@ -1,6 +1,6 @@
 # 03 — Interfaces (core schemas)
 
-Version 0.3 · Draft · Changes require a version bump and a changelog line.
+Version 0.4 · Draft · Changes require a version bump and a changelog line.
 
 These are the contracts between layers. Implement as Pydantic v2 models in
 `vera/schemas/`. Field lists are normative; the Python below is a sketch.
@@ -45,8 +45,11 @@ class JudgeBackend(Protocol):
 
 class RoutingPolicy(BaseModel):
     default_threshold: float = 0.7
-    per_question: dict[str, float] = {}
+    per_type: dict[QuestionType, float] = {}   # per question type (JDG-F-03)
+    per_question: dict[str, float] = {}        # per question id; overrides per_type
     max_escalations: int = 1
+    # Precedence for a question's threshold: per-call override > per_question
+    # > per_type > default_threshold.
 ```
 
 Rule: a `Verdict` whose `judge_id == producer_id` is invalid and must raise.
@@ -65,6 +68,7 @@ class LedgerRecord(BaseModel):
     cost_usd: float
     latency_ms: int
     timestamp: str                   # ISO 8601
+    error: str | None = None         # set when the call failed; the record is still written
 ```
 
 ## Budget (foundation, used by P1 and P3)
@@ -153,3 +157,6 @@ different artifact producer (`gate.producer_id` set and `!= producer_id`). The
   rule stated.
 - 0.3 — `StageResult` no-self-grading rule: the gate's judge must differ from
   the stage's producer, and the gate's producer (if set) must match it (RSH-F-03).
+- 0.4 — `RoutingPolicy.per_type` added (JDG-F-03 requires thresholds per
+  question type; only per question id existed) with the precedence rule;
+  `LedgerRecord.error` added so failed calls are recorded too (FND-F-01).
