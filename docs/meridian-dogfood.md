@@ -48,6 +48,7 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
 | 2026-09-29 | `corpus_fetched` | passed first try (86 discovered = 86 stated; 86 files with matching provenance; 87 tests) | agent (automated gate; `mark-passed` re-ran the checks) |
 | 2026-09-30 | `inventory_verified` | passed on round 2 (spot-check 0/10); round 1 blocked (5/10 judged incorrect) | Chris (approval recorded); round 2 assistant-assisted, spot-checked by Chris |
 | 2026-09-30 | `parser_decided` | passed (T3 decided: GROBID for references, Docling for tables) | Chris (approval recorded); scoring by Chris's assistant, first pass spot-checked by Chris |
+| 2026-09-30 | `incr0_review` | passed (Evaluator 8, 7.5, 8 over three rounds; review revised after rounds 1–2) | Chris (approval recorded) |
 
 ## Observations
 
@@ -84,3 +85,12 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
   needed the round-1 file moved aside, done openly with Chris's approval and
   kept as `data/inventory_spotcheck_round1.csv`. Meridian could support
   numbered rounds natively.
+- The independent Evaluator earned its place at `incr0_review`: rounds 1 and
+  2 found factual errors in the agent-written review (an undercount of
+  round-1 spot-check errors, a wrong "per run" timing introduced while
+  fixing another gap, overstated records). Each round was a fresh subagent
+  that did not see earlier verdicts; all verdicts are kept. Stopping rule
+  used: revise while the Evaluator finds factual errors; once it finds only
+  minor record gaps, keep the verdict of the version Chris approves and fix
+  the rest in the next increment, so the approved document is the one the
+  Evaluator evaluated.
