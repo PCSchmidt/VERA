@@ -10,7 +10,13 @@ the pre-call budget estimate uses the model's catalogue prices.
 Reasoning is off by default (`reasoning=False`): the cheap path must answer
 fast (JDG-P-02), and a reasoning model spends a small `max_tokens` on hidden
 reasoning and returns no answer. `reasoning=None` sends no setting (the
-provider's default), for endpoints where reasoning can't be disabled. Some models (e.g. Claude) still write a
+provider's default), for endpoints where reasoning can't be disabled.
+
+OpenRouter serves a model through several providers at different prices
+(DeepSeek V4.1 Flash: $0.02 to $0.31 per million input tokens on the same
+day). `provider_sort="price"` (default) asks for the cheapest available,
+which is the price the catalogue and T1 assume; `None` leaves OpenRouter's
+default load balancing. Some models (e.g. Claude) still write a
 line of working before the JSON; `max_tokens` leaves room for it and the
 parser takes the last JSON object.
 """
@@ -117,13 +123,14 @@ class OpenRouterBackend:
         client: httpx.Client | None = None,
         max_tokens: int = 512,
         reasoning: bool | None = False,
+        provider_sort: str | None = "price",
         component: str = "p2.backend",
     ) -> None:
         self.name, self.model, self.cost_rank = name, model, cost_rank
         self.ledger, self.budget, self.judge_id, self.component = ledger, budget, judge_id, component
         self.client = client or httpx.Client(timeout=90)
         self.prices = prices or catalogue_prices(model, self.client)
-        self.max_tokens, self.reasoning = max_tokens, reasoning
+        self.max_tokens, self.reasoning, self.provider_sort = max_tokens, reasoning, provider_sort
 
     def _estimate(self, messages: list[dict[str, str]]) -> float:
         chars = sum(len(m["content"]) for m in messages)
@@ -136,6 +143,8 @@ class OpenRouterBackend:
         }  # fmt: skip
         if self.reasoning is not None:
             body["reasoning"] = {"enabled": self.reasoning}
+        if self.provider_sort:
+            body["provider"] = {"sort": self.provider_sort}
         if self.prices.logprobs:
             body |= {"logprobs": True, "top_logprobs": 5}
         resp = self.client.post(

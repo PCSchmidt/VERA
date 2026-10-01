@@ -253,3 +253,13 @@ def test_JDG_F_04_ollama_json_and_logprobs_are_settings(tmp_path: Path) -> None:
     b.ask("s", [BOOL])
     body = seen[0][1]
     assert "format" not in body and "logprobs" not in body
+
+
+def test_JDG_F_04_openrouter_asks_for_the_cheapest_provider_by_default(tmp_path: Path) -> None:
+    reply = openrouter_reply('{"answer": true, "probability": 0.9}')
+    b, _, seen = backend(tmp_path, lambda body: reply, Prices(1e-7, 3e-7))
+    b.ask("s", [BOOL])
+    assert seen[0]["provider"] == {"sort": "price"}
+    b.provider_sort = None
+    b.ask("s", [BOOL])
+    assert "provider" not in seen[1]
