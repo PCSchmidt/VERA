@@ -75,7 +75,9 @@ Keep each to one short section. Status: **open** until decided.
   Sonnet at threshold 0.7 gives 0.976 at 2.8% of Sonnet's cost (1.7%
   escalated); at 0.95, 0.982 at 9.7%. Jev escalating to GLM instead gives
   the same agreement (0.976 at 0.7) at 1.3% of Sonnet's cost with p50
-  0.19 s. Jev's errors are 4 loop-gate items, wrong on 10, 10, 9 and 5 of
+  0.19 s. The decided path (below, with `loop.*` straight to GLM) gives
+  1.000 at 1.8% of Sonnet's cost; latency p50 0.19 s and p95 0.36 s for
+  the other questions, p50 1.6 s and p95 8.6 s for loop gates. Jev's errors are 4 loop-gate items, wrong on 10, 10, 9 and 5 of
   their 10 repeats, mostly with high confidence, which escalation does not catch. DeepSeek and
   MiMo flip on 6-8% of items and their confidence does not flag their
   errors. Gemma reports confidence 1.0 on 1,149 of 1,150 verdicts, so almost

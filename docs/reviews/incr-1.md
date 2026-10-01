@@ -21,7 +21,7 @@ revised for it. Increment 2 (thin loop on TreeHFD) is confirmed unchanged.
 | Criterion (docs/07) | Status | Evidence |
 |---|---|---|
 | First cost-vs-agreement threshold curve | **Met** | `docs/figures/threshold_curve.png`, `data/benchmark/results.json` (5 cheap backends x 21 thresholds against Sonnet 5.5); gate `benchmark_run` passed (`check_benchmark_results.py`: test hash unchanged, run ledgers $1.61 <= $8.00). |
-| JDG-P targets set from data | **Met, with a caveat** | docs/02 0.3: JDG-P-01 >= 97% agreement at <= 5% of reference cost; JDG-P-02 p50 <= 0.5 s, p95 <= 1.5 s; JDG-P-03 flip rate <= 2%. Caveat: set from the same test split they are measured on (see Benchmark limits). |
+| JDG-P targets set from data | **Met, with an accepted deviation** | docs/02 0.3: JDG-P-01 >= 97% agreement at <= 5% of reference cost (decided path: 100% at 1.8%); JDG-P-02 p50 <= 0.5 s, p95 <= 1.5 s on the default path, loop gates exempt (default path 0.19 / 0.36 s; loop gates 1.6 / 8.6 s); JDG-P-03 flip rate <= 2% (Jev 1.7%, GLM 0.9%). Set after test-split results were seen (see Deviations). |
 | Measured per-call costs used to estimate one loop run against the ceiling | **Met** | Loop-run estimate below: about $0.5 per run with GLM-5.3 Flash generating, about $1 with Sonnet writing up, about $5 with Sonnet generating everything; $20 kept. |
 
 SPEC features (each its own acceptance test): ledger and metered calls
@@ -86,7 +86,12 @@ ledgers hold 6,098 records. Failed calls cost $0.
 
 Router replay (offline, recorded verdicts): Jev escalating to Sonnet at the
 default threshold 0.7 gives 0.976 at 2.8% of Sonnet's cost; Jev escalating
-to GLM gives 0.976 at 1.3%, p50 0.19 s. Jev's errors are 4 loop-gate items,
+to GLM gives 0.976 at 1.3%, p50 0.19 s. The decided T1 path (Jev → GLM at
+0.7, loop-gate questions straight to GLM) gives 1.000 at 1.8% of Sonnet's
+cost; latency p50 0.19 s, p95 0.36 s on the 760 other verdicts and p50
+1.6 s, p95 8.6 s on the 390 loop-gate verdicts (5.4 s p95 overall). An
+earlier draft reported the JDG-P targets against Jev → GLM for every
+question instead of the decided path (Evaluator round 2). Jev's errors are 4 loop-gate items,
 wrong on 10, 10, 9 and 5 of their 10 repeats, mostly with high confidence, so escalation
 plateaus near 0.98. Gemma reports confidence 1.0 on 1,149 of 1,150
 verdicts (0.9 on one), so its errors effectively never escalate.
@@ -123,15 +128,36 @@ data; the T1 reverse-if conditions call for a harder test on the Increment
   model spend to the user but not hosted compute); R6 rescored to 9; new
   R11 (others spending the maintainer's money, key leaks).
 
+## Deviations (accepted by Chris, 2026-10-01)
+
+- **Independence (SPEC rule; docs/06 §5).** The test split and its hash were
+  fixed before any run, and the default threshold (0.7) was the policy
+  default set before results. But the JDG-P-01..03 values and the T1 rule
+  sending loop-gate questions straight to GLM were chosen after test-split
+  results were seen, where the rule says tuning uses the dev split only.
+  Accepted; the targets are re-verified in Increment 2 on the loop's real
+  gate decisions (T1 reverse-if 1), not on this split.
+- **JDG-P-02 scope.** As decided, the T1 path fails a p95 <= 1.5 s target
+  over all questions (5.4 s), because loop gates go to GLM. Chris chose to
+  exempt loop gates from JDG-P-02 (few per run, nobody waits on them) and
+  report their latency, rather than change the routing or loosen the
+  target.
+- **Overhead hours** were not logged per session (SPEC rule), for the second
+  increment running. Accepted; logged at every session end from Increment 2.
+
 ## Loop-run cost estimate (R10)
 
 Measured, billed per call on the benchmark (OpenRouter's `usage.cost`):
 GLM-5.3 Flash $0.000129 (852 input + 128 output tokens, about $0.13 per
-million tokens blended), Sonnet 5.5 $0.00367 (1,320 + 102, about $2.58 per
-million blended), Jev $0.000047. OpenRouter bills above catalogue prices
-for some models (below).
+million tokens blended, below its catalogue rate of about $0.20 per million
+for that mix), Sonnet 5.5 $0.00367 (1,320 + 103, about $2.58 per million
+blended), Jev $0.000047. Billing differs from catalogue in both directions:
+DeepSeek billed far above it (see Process lessons), GLM below.
 
-Assumed shape of one Increment 2 run (the call counts are assumptions, not
+Generation is priced at catalogue rates because the benchmark measured
+judging calls (short output), not generation; measured GLM billing came in
+below catalogue, so the GLM rows are on the high side. Assumed shape of one
+Increment 2 run (the call counts are assumptions, not
 measurements): baseline reproduction 10 calls of about 15k input / 3k
 output tokens, idea generation and screening 10 calls of 8k / 2k,
 implementing and running the best idea 10 calls of 15k / 3k, write-up 4
@@ -140,7 +166,7 @@ about 40 judge questions; minimal P1 final gate: about 40 checks.
 
 | Generator | Generation | Gates + final audit | Per run, x2 for retries and context growth |
 |---|---|---|---|
-| GLM-5.3 Flash throughout | ~$0.12 (catalogue), ~$0.2 with reasoning and billing above catalogue | ~$0.01 | **~$0.5** |
+| GLM-5.3 Flash throughout | ~$0.12 (catalogue), ~$0.2 with GLM's mandatory reasoning tokens | ~$0.01 | **~$0.5** |
 | GLM for code and ideas, Sonnet 5.5 for the write-up | ~$0.45 | ~$0.01 | **~$1** |
 | Sonnet 5.5 throughout | ~$1.9 (catalogue), ~$2.4 with reasoning | ~$0.01 | **~$5** |
 
@@ -205,15 +231,24 @@ ledger" for about $0.08; Increment 2 must keep one ledger file per run.
 - At least 3 human-checked items drawn by seed and recorded by id:
   **closed** (label check, 3 per task).
 - R6 wording and the option-B row: **closed** (Increment 0 errata).
-- Human-gate checking sheets generated from source documents: **closed**
-  for this increment's one human check: `label_check_sheet.md` is generated
-  by `scripts/build_benchmark.py` from the items themselves, i.e. the exact
-  material each judge saw.
+- Benchmark judging task drawn from the TreeHFD loop's gate decisions:
+  **closed**: the loop-gate task (59 items) asks "beats the TreeHFD
+  baseline?", "best method?" and "how many beat it?" on TreeHFD-style
+  result tables with the metrics and datasets of the parent paper.
+- Human-gate checking sheets generated from source documents: **restated,
+  partly met.** `label_check_sheet.md` is generated by
+  `scripts/build_benchmark.py` from the items, i.e. the exact material each
+  judge saw. Labels are defined against that material, so it is the right
+  source for a label check; but for numeric and citation items that
+  material is parser output (Docling tables, GROBID references), and
+  whether it matches the PDFs was not checked here (T3 measured parser
+  accuracy: GROBID references 91%, Docling table cells 88%).
 - Spot-check rounds numbered and kept: **closed by not arising**: one label
   check round, no redraw; `check_benchmark_items.py` blocks unresolved
   `incorrect` verdicts and requires a note for `fixed`, so a second round
   would leave a record.
-- Dogfood overhead hours logged per session: **not done**. Chris estimates
+- Dogfood overhead hours logged per session: **not done; accepted
+  deviation** (see Deviations). Chris estimates
   10-16 hours in total on VERA over Increments 0-1 (2026-09-29 to
   2026-10-01); the share spent on Meridian itself was not tracked, so no
   overhead hours are logged (`dogfood.sh report` shows 0) rather than an

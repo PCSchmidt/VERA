@@ -34,8 +34,8 @@ Suggested starting values are in brackets.
 | JDG-F-04 | The library shall support at least two backends at v0.1: one cheap (decision model or small local model) and one frontier LLM. | D | 1 |
 | JDG-F-05 | The library shall expose LangGraph node and conditional-edge helpers. | D | 1 |
 | JDG-F-06 | The benchmark harness shall report agreement, calibration (ECE), consistency across N repeats, cost, and latency per backend and threshold. | T | 1 |
-| JDG-P-01 | At the default threshold (0.7), the cheap path (T1: Jev → GLM-5.3 Flash) shall agree with the reference judge on ≥ **97%** of verdicts at ≤ **5%** of reference cost. Measured 2026-10-01: 97.6% at 1.3% (offline router replay on the test split). | A | 1 |
-| JDG-P-02 | Cheap-path p50 latency ≤ **0.5 s** (p95 ≤ 1.5 s). Measured: Jev p50 0.19 s, p95 0.36 s; with escalation to GLM at 0.7, p95 0.39 s. | A | 1 |
+| JDG-P-01 | The decided cheap path (T1: Jev → GLM-5.3 Flash at threshold 0.7; `loop.*` questions to GLM) shall agree with the reference judge on ≥ **97%** of verdicts at ≤ **5%** of reference cost. Measured 2026-10-01 (offline router replay, test split): 100% at 1.8%; Jev → GLM for every question 97.6% at 1.3%. | A | 1 |
+| JDG-P-02 | Cheap-path p50 latency ≤ **0.5 s** (p95 ≤ 1.5 s), for questions on the default path. Loop-gate questions (`loop.*`), routed straight to GLM because they are few per run and nobody waits on them, have no latency target; their latency is reported. Measured (test split): default path p50 0.19 s, p95 0.36 s; loop gates p50 1.6 s, p95 8.6 s (Chris, 2026-10-01). | A | 1 |
 | JDG-P-03 | Repeated-run verdict flip rate (items whose answer is not the same on every repeat) ≤ **2%** for the cheap path. Measured: Jev 1.7%, GLM 0.9%. | A | 1 |
 
 ## P1 — Integrity auditor

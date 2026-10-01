@@ -81,8 +81,8 @@ thresholds; publish agreement, calibration, consistency, cost, latency curves.
   Months with loop runs (Increment 2 onward) may need a deliberate, temporary
   increase, set from the Increment 1 cost measurements (risk R10).
 - Model access for spend under that ceiling: one OpenRouter API key, with
-  cheap, capable models as defaults (e.g. MiMo-V2.6-Pro, GLM-5.3 Flash,
-  DeepSeek V4.1 Flash), chosen with the OpenRouter rankings
+  cheap, capable models as defaults (as of Increment 1, T1: TypeSafe Jev
+  escalating to GLM-5.3 Flash for judging), chosen with the OpenRouter rankings
   (<https://openrouter.ai/rankings#benchmarks>) and confirmed by VERA's own
   benchmarks. The key lives in a git-ignored `.env`.
 - Inputs: PDFs, public Git repos. Outputs: JSON reports + rendered HTML/MD.
