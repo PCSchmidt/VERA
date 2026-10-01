@@ -1,6 +1,6 @@
 # 02 — Requirements
 
-Version 0.2 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access)
+Version 0.3 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access. 0.3, 2026-10-01: JDG-P-01..03 set from the Increment 1 benchmark)
 
 ID format: `<AREA>-<TYPE>-<NN>`. Areas: `FND` foundation, `JDG` judge library
 (P2), `AUD` auditor (P1), `RSH` research agent (P3). Types: `F` functional,
@@ -34,9 +34,9 @@ Suggested starting values are in brackets.
 | JDG-F-04 | The library shall support at least two backends at v0.1: one cheap (decision model or small local model) and one frontier LLM. | D | 1 |
 | JDG-F-05 | The library shall expose LangGraph node and conditional-edge helpers. | D | 1 |
 | JDG-F-06 | The benchmark harness shall report agreement, calibration (ECE), consistency across N repeats, cost, and latency per backend and threshold. | T | 1 |
-| JDG-P-01 | At default threshold, agreement with the reference judge shall be ≥ **TBD** [95%] at ≤ **TBD** [25%] of reference cost. | A | 1 |
-| JDG-P-02 | Cheap-path p50 latency ≤ **TBD** [1 s]. | A | 1 |
-| JDG-P-03 | Repeated-run verdict flip rate ≤ **TBD** [2%] for the cheap path. | A | 1 |
+| JDG-P-01 | At the default threshold (0.7), the cheap path (T1: Jev → GLM-5.3 Flash) shall agree with the reference judge on ≥ **97%** of verdicts at ≤ **5%** of reference cost. Measured 2026-10-01: 97.6% at 1.3% (offline router replay on the test split). | A | 1 |
+| JDG-P-02 | Cheap-path p50 latency ≤ **0.5 s** (p95 ≤ 1.5 s). Measured: Jev p50 0.19 s, p95 0.36 s; with escalation to GLM at 0.7, p95 0.39 s. | A | 1 |
+| JDG-P-03 | Repeated-run verdict flip rate (items whose answer is not the same on every repeat) ≤ **2%** for the cheap path. Measured: Jev 1.7%, GLM 0.9%. | A | 1 |
 
 ## P1 — Integrity auditor
 

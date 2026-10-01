@@ -3,7 +3,7 @@
 Each trade: options → criteria → decision → what would reverse it.
 Keep each to one short section. Status: **open** until decided.
 
-## T1 — Cheap judge backend (open, decide in Increment 1)
+## T1 — Cheap judge backend (decided 2026-10-01, Increment 1)
 
 - **Options:** (a) TypeSafe Jev (hosted decision model); (b) small local
   model (e.g. a 1–8B instruct model with constrained/logprob output);
@@ -50,8 +50,56 @@ Keep each to one short section. Status: **open** until decided.
   small `max_tokens`). GLM's reasoning costs it latency and output tokens on
   the cheap path; the benchmark will measure how much. Settings in
   `vera/bench/candidates.py`. Ledger: `data/ledger/smoke.jsonl`.
+- **Benchmark run (2026-10-01):** the 115-item test split (hash
+  `0ae2c8d6f11a…`, fixed before any run), cheap backends 10 repeats, Sonnet
+  3; 6,095 verdicts, $1.61, no failed calls (`data/benchmark/results.json`,
+  `docs/figures/threshold_curve.png`, raw verdicts and ledgers committed).
+  OpenRouter routes a model to many providers at different prices (DeepSeek
+  V4.1 Flash: 32 providers, $0.024-0.60 per million input tokens); costs
+  below are OpenRouter's billed costs, which ran above catalogue prices even
+  with `provider.sort = price`. The first 50 DeepSeek verdicts used default
+  routing.
+- **Scores** (test split; agreement = with labels, which Sonnet matched on
+  every item, so agreement with the reference is the same number):
 
-## T2 — Orchestration runtime (open, decide in Increment 1)
+  | Backend | Agreement | Loop gate | ECE | Flip rate | Cost/item | vs Sonnet | p50 / p95 |
+  |---|---|---|---|---|---|---|---|
+  | Sonnet 5.5 (reference) | 1.000 | 1.000 | 0.019 | 0.0% | $0.00367 | 100% | 1.26 / 2.13 s |
+  | GLM-5.3 Flash | 0.998 | 1.000 | 0.006 | 0.9% | $0.000129 | 3.5% | 1.95 / 8.43 s |
+  | Jev | 0.970 | 0.913 | 0.008 | 1.7% | $0.000047 | 1.3% | 0.19 / 0.36 s |
+  | DeepSeek V4.1 Flash | 0.963 | 0.890 | 0.044 | 6.1% | $0.000054 | 1.5% | 0.37 / 1.42 s |
+  | MiMo-V2.6-Flash | 0.915 | 0.782 | 0.072 | 7.8% | $0.000069 | 1.9% | 3.25 / 11.26 s |
+  | Gemma 4 12B (local) | 0.886 | 0.667 | 0.114 | 1.7% | $0 | 0% | 1.70 / 3.80 s |
+
+  Router replayed offline over the recorded verdicts: Jev escalating to
+  Sonnet at threshold 0.7 gives 0.976 at 2.8% of Sonnet's cost (1.7%
+  escalated); at 0.95, 0.982 at 9.7%. Jev escalating to GLM instead gives
+  the same agreement (0.976 at 0.7) at 1.3% of Sonnet's cost with p50
+  0.19 s. Jev's errors are 4 loop-gate items it gets wrong on nearly every
+  repeat with high confidence, which escalation does not catch. DeepSeek and
+  MiMo flip on 6-8% of items and their confidence does not flag their
+  errors. Gemma reports confidence 1.0 on every verdict, so nothing it gets
+  wrong ever escalates. Numeric and citation items are near ceiling for most
+  backends; only the loop-gate task (38 test items) separates them, and with
+  115 items a 1-2 point difference is one or two items.
+- **Decision:** (Chris, 2026-10-01) the cheap path is **Jev, escalating to
+  GLM-5.3 Flash** (`RoutingPolicy` default threshold 0.7, one escalation).
+  Loop-gate questions (`loop.*`) go straight to GLM (per-question threshold
+  1.0): GLM scored 1.000 on them against Jev's 0.913, and the loop asks few
+  of them, so latency does not matter there. Sonnet 5.5 stays the reference
+  for benchmarks, not a runtime tier. Gemma 4 12B through Ollama is kept
+  working as the offline fallback (R4), not used by default. DeepSeek and
+  MiMo are dropped (flip rate above JDG-P-03).
+- **Reverse if:** (1) a harder benchmark (the Increment 2 loop's real gate
+  decisions, or a new test split that is not near ceiling) shows Jev → GLM
+  below 95% agreement with the reference; (2) Jev's price, terms or
+  availability change (R4), then GLM alone (or Gemma offline); (3) GLM's
+  latency starts to matter for a user-facing path, then re-run the sweep
+  with Jev → Sonnet; (4) Ollama returns answer-token log-probabilities,
+  then re-test Gemma, whose agreement is too low only because escalation
+  can't see its errors.
+
+## T2 — Orchestration runtime (decided 2026-10-01, Increment 1)
 
 - **Options:** (a) LangGraph directly; (b) Meridian's DAG gates as the
   control layer on top of LangGraph; (c) Meridian standalone.
@@ -68,6 +116,28 @@ Keep each to one short section. Status: **open** until decided.
   a judge node that refuses to grade its own producer's material, and
   routing that fails closed (low confidence, malformed or unrouted answers
   go to `on_low`). Effort for (b) so far: about half a session.
+- **Scores:**
+
+  | Criterion | (a) LangGraph alone | (b) LangGraph + gate semantics | (c) Meridian standalone |
+  |---|---|---|---|
+  | Checkpoint/resume | yes, with `durability="sync"` (tested by killing a run) | same | no run-time checkpointing; Meridian gates whole build stages |
+  | Human-in-the-loop | interrupts built in | same | human gates, at build time only |
+  | No self-grading, fail-closed routing | not provided | `judge_node`, `route_on_verdict` (tested) | yes, but for build gates, not run-time steps |
+  | Effort | — | ~100 lines, about half a session | would mean reimplementing durable execution |
+  | Tracing | checkpoints + VERA's ledger | same | telemetry of build events only |
+
+- **Decision:** (Chris, 2026-10-01) (b). LangGraph runs the loop with the
+  SQLite checkpointer and synchronous checkpoints after every node
+  (`vera.graph.run`/`resume`); VERA's gate helpers add no-self-grading and
+  fail-closed routing. Meridian stays the build harness for VERA itself, not
+  its runtime.
+- **Reverse if:** (1) the gate layer grows past what a thin wrapper can hold
+  (e.g. needs its own scheduler), then reconsider; (2) T7's measurement in
+  Increment 2 shows an RLM-style runtime (prime-agent's
+  context-as-variables with recursive sub-calls) is clearly cheaper at equal
+  quality and does not fit inside LangGraph nodes, then re-run this trade
+  with it as an option; (3) synchronous checkpoints make multi-hour runs too
+  slow.
 
 ## T3 — PDF parsing (decided 2026-09-30, Increment 0)
 
