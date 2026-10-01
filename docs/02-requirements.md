@@ -36,7 +36,7 @@ Suggested starting values are in brackets.
 | JDG-F-06 | The benchmark harness shall report agreement, calibration (ECE), consistency across N repeats, cost, and latency per backend and threshold. | T | 1 |
 | JDG-P-01 | The decided cheap path (T1: Jev → GLM-5.3 Flash at threshold 0.7; `loop.*` questions to GLM) shall agree with the reference judge on ≥ **97%** of verdicts at ≤ **5%** of reference cost. Measured 2026-10-01 (offline router replay, test split): 100% at 1.8%; Jev → GLM for every question 97.6% at 1.3%. | A | 1 |
 | JDG-P-02 | Cheap-path p50 latency ≤ **0.5 s** (p95 ≤ 1.5 s), for questions on the default path. Loop-gate questions (`loop.*`), routed straight to GLM because they are few per run and nobody waits on them, have no latency target; their latency is reported. Measured (test split): default path p50 0.19 s, p95 0.36 s; loop gates p50 1.6 s, p95 8.6 s (Chris, 2026-10-01). | A | 1 |
-| JDG-P-03 | Repeated-run verdict flip rate (items whose answer is not the same on every repeat) ≤ **2%** for the cheap path. Measured: Jev 1.7%, GLM 0.9%. | A | 1 |
+| JDG-P-03 | Repeated-run verdict flip rate (items whose answer is not the same on every repeat) ≤ **2%** for the cheap path. Measured: decided path 0% (0/115 items on replay); Jev 1.7%, GLM 0.9%. | A | 1 |
 
 ## P1 — Integrity auditor
 
@@ -70,7 +70,7 @@ Suggested starting values are in brackets.
 | RSH-F-09 | Produce a literature review section from retrieved sources, in which every citation resolves to a real record and every claim attributed to a source links to it. | T (seeded) | 3 |
 | RSH-F-10 | For an empirical question, select a CPU-scale parent problem and baseline from the literature, or say why none fits and write a non-empirical paper instead. | D | 3 |
 | RSH-F-11 | Produce a paper-shaped write-up (abstract, related work, method, results, limitations, references) that follows the output guidance. | D | 4 |
-| RSH-P-02 | Report cost/quality results on ≥ **2** parent problems also attempted by ScientistTwo (set at the Increment 0 review; matches R6's limit of 2 problems before Increment 5). | A | 4 |
+| RSH-P-02 | Report cost/quality results on ≥ **2** parent problems also attempted by ScientistTwo (set at the Increment 0 review; R6 keeps the measured comparison at 2 problems; the second problem comes in Increment 4 since the direction-B re-plan). | A | 4 |
 
 ## App
 

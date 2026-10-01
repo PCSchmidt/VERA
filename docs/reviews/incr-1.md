@@ -91,7 +91,8 @@ to GLM gives 0.976 at 1.3%, p50 0.19 s. The decided T1 path (Jev → GLM at
 cost; latency p50 0.19 s, p95 0.36 s on the 760 other verdicts and p50
 1.6 s, p95 8.6 s on the 390 loop-gate verdicts (5.4 s p95 overall). An
 earlier draft reported the JDG-P targets against Jev → GLM for every
-question instead of the decided path (Evaluator round 2). Jev's errors are 4 loop-gate items,
+question instead of the decided path (Evaluator round 2). JDG-P-03 evidence for the decided path itself: 0 of 115 items change
+answer across repeats on replay (Jev alone 2/115, GLM alone 1/115). Jev's errors are 4 loop-gate items,
 wrong on 10, 10, 9 and 5 of their 10 repeats, mostly with high confidence, so escalation
 plateaus near 0.98. Gemma reports confidence 1.0 on 1,149 of 1,150
 verdicts (0.9 on one), so its errors effectively never escalate.
@@ -144,6 +145,12 @@ data; the T1 reverse-if conditions call for a harder test on the Increment
   target.
 - **Overhead hours** were not logged per session (SPEC rule), for the second
   increment running. Accepted; logged at every session end from Increment 2.
+- **Ledger records lost.** `scripts/smoke_run.py` deleted its ledger at the
+  start of each run, so the records of three earlier smoke runs (about
+  $0.077, known from console output) are gone, against FND-F-01 and the
+  SPEC's append-only ledger. Accepted; the script has since gained
+  `--append`, and Increment 2 keeps one ledger file per run that is never
+  deleted or overwritten.
 
 ## Loop-run cost estimate (R10)
 
@@ -154,7 +161,10 @@ for that mix), Sonnet 5.5 $0.00367 (1,320 + 103, about $2.58 per million
 blended), Jev $0.000047. Billing differs from catalogue in both directions:
 DeepSeek billed far above it (see Process lessons), GLM below.
 
-Generation is priced at catalogue rates because the benchmark measured
+The reasoning-token uplift (GLM ~$0.12 to ~$0.2, Sonnet ~$1.9 to ~$2.4)
+assumes reasoning adds roughly as many output tokens as the visible output
+on generation calls, an assumption: on judging calls GLM averaged 128 output
+tokens against 14-26 for models without reasoning. Generation is priced at catalogue rates because the benchmark measured
 judging calls (short output), not generation; measured GLM billing came in
 below catalogue, so the GLM rows are on the high side. Assumed shape of one
 Increment 2 run (the call counts are assumptions, not
@@ -185,6 +195,7 @@ separately from OpenRouter, and counts toward the same ceiling.
 |---|---|---|---|
 | Backend smoke runs and debugging | $1.00 | about $0.12 in all: final smoke ledger $0.038; three earlier smoke runs about $0.077; debug calls $0.008 | `data/ledger/smoke.jsonl`, `data/ledger/debug.jsonl` (local); earlier runs from console output |
 | Benchmark run | $8.00 | $1.61 | `data/ledger/bench_*.jsonl` |
+| (guard) | OpenRouter key credit limit (SPEC spend rule) | set: Chris confirmed a credit limit on the OpenRouter key, 2026-10-01 (amount not recorded here) | Chris |
 | **Increment 1** | | **about $1.73**: about $0.12 in September (smoke runs, debug), $1.61 in October (benchmark) | |
 
 The ~$0.077 for the three earlier smoke runs rests on console output only;
@@ -207,9 +218,14 @@ ledger" for about $0.08; Increment 2 must keep one ledger file per run.
   synchronous checkpoints fixed it (docs/04 T2).
 - **Catalogue prices are not billed prices.** OpenRouter serves DeepSeek
   V4.1 Flash through 32 providers at $0.024-0.60 per million input tokens;
-  the run was stopped, switched to `provider.sort = price` and resumed, and
-  DeepSeek still billed about $0.22 per million against a $0.02 headline.
-  The first 50 DeepSeek verdicts used default routing.
+  the run was stopped, switched to `provider.sort = price` and resumed. All
+  in, DeepSeek billed about $0.24 per million input tokens on its first 50
+  calls (default routing) and $0.20 on the next 50 (sorted, not yet
+  settled), then about $0.05 on the remaining 1,050, roughly 2x the $0.02
+  headline. So 100 calls billed at the high rate, and the sort setting
+  works. An earlier draft said DeepSeek "still billed about $0.22" after the
+  switch, generalising from a spot check of the first 32 sorted calls
+  (Evaluator round 3).
 - **Long runs outlast the agent's background limit** (10 minutes). The run
   was stopped twice by it and resumed; Chris ran the last segment in his
   terminal. The harness's resumability made this cheap: no completed call
@@ -230,7 +246,9 @@ ledger" for about $0.08; Increment 2 must keep one ledger file per run.
 
 - At least 3 human-checked items drawn by seed and recorded by id:
   **closed** (label check, 3 per task).
-- R6 wording and the option-B row: **closed** (Increment 0 errata).
+- R6 wording and the option-B row: **closed** (Increment 0 errata); R6
+  itself was since rewritten for direction B (docs/05), and RSH-P-02's
+  pointer to it updated.
 - Benchmark judging task drawn from the TreeHFD loop's gate decisions:
   **closed**: the loop-gate task (59 items) asks "beats the TreeHFD
   baseline?", "best method?" and "how many beat it?" on TreeHFD-style

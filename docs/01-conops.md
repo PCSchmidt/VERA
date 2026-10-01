@@ -80,7 +80,8 @@ thresholds; publish agreement, calibration, consistency, cost, latency curves.
   review, 2026-10-01; revisit at each increment review).
   Months with loop runs (Increment 2 onward) may need a deliberate, temporary
   increase, set from the Increment 1 cost measurements (risk R10).
-- Model access for spend under that ceiling: one OpenRouter API key, with
+- Model access for spend under that ceiling: one OpenRouter API key (plus
+  TypeSafe's own API for Jev, billed separately and counted in the ceiling), with
   cheap, capable models as defaults (as of Increment 1, T1: TypeSafe Jev
   escalating to GLM-5.3 Flash for judging), chosen with the OpenRouter rankings
   (<https://openrouter.ai/rankings#benchmarks>) and confirmed by VERA's own

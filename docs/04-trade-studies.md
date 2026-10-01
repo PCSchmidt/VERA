@@ -56,9 +56,10 @@ Keep each to one short section. Status: **open** until decided.
   `docs/figures/threshold_curve.png`, raw verdicts and ledgers committed).
   OpenRouter routes a model to many providers at different prices (DeepSeek
   V4.1 Flash: 32 providers, $0.024-0.60 per million input tokens); costs
-  below are OpenRouter's billed costs, which ran above catalogue prices even
-  with `provider.sort = price`. The first 50 DeepSeek verdicts used default
-  routing.
+  below are OpenRouter's billed costs. DeepSeek billed about $0.24/M input
+  all-in on its first 50 calls (default routing), $0.20/M on the next 50
+  (cheapest-provider routing, not yet settled), then about $0.05/M; GLM
+  billed below its catalogue rate.
 - **Scores** (test split; agreement = with labels, which Sonnet matched on
   every item, so agreement with the reference is the same number):
 
