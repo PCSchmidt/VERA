@@ -8,6 +8,10 @@ recorded with `bash scripts/dogfood.sh` (committed in `.meridian/dogfood.jsonl`)
 Comparison baseline: `sitework-ai`, built without Meridian but with its own
 milestones and measured success criteria.
 
+Time: Chris estimates 10-16 hours in total on VERA over Increments 0-1
+(2026-09-29 to 2026-10-01). The share spent on Meridian itself was not
+tracked, so overhead hours start being logged in Increment 2.
+
 ## Setup findings (2026-09-29)
 
 Found while installing Meridian and writing VERA's Increment 0 gates. Each was

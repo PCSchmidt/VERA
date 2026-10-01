@@ -9,7 +9,8 @@ This review is the evidence for `incr1_review`.
 
 All three docs/07 exit criteria are met: the first cost-vs-agreement
 threshold curve exists, JDG-P-01..03 are set from data, and one Increment 2
-loop run is estimated from measured costs at well under the $20 ceiling.
+loop run is estimated from measured costs at well under the $20 ceiling,
+which Chris confirmed for Increment 2.
 T1 and T2 are decided. During the increment Chris also re-directed the
 product (direction B: topic in, paper-shaped write-up out, through an app
 with bring-your-own-key); docs/01, 02, 04, 05, 07, CONTRACT and README were
@@ -143,7 +144,7 @@ about 40 judge questions; minimal P1 final gate: about 40 checks.
 Judging is under 5% of a run's cost with the T1 path; generation is the
 cost. R10's trigger (one run projected above 50% of the monthly ceiling,
 $10) does not fire for any option. **Ceiling: kept at $20 for Increment 2**
-(proposed; Chris to confirm), which allows about 20 runs on the mixed
+(confirmed by Chris, 2026-10-01), which allows about 20 runs on the mixed
 option or 4 on Sonnet throughout, including debugging runs. Choosing the
 generator is new work for Increment 2 (with T7); Jev is billed by TypeSafe,
 separately from OpenRouter, and counts toward the same ceiling.
@@ -197,9 +198,11 @@ ledger" for about $0.08; Increment 2 must keep one ledger file per run.
 - At least 3 human-checked items drawn by seed and recorded by id:
   **closed** (label check, 3 per task).
 - R6 wording and the option-B row: **closed** (Increment 0 errata).
-- Dogfood overhead hours logged per session: **not done**. The dogfood
-  report shows 0 hours logged; Chris to log Increment 0-1 overhead with
-  `bash scripts/dogfood.sh overhead <hours>`.
+- Dogfood overhead hours logged per session: **not done**. Chris estimates
+  10-16 hours in total on VERA over Increments 0-1 (2026-09-29 to
+  2026-10-01); the share spent on Meridian itself was not tracked, so no
+  overhead hours are logged (`dogfood.sh report` shows 0) rather than an
+  invented split. Increment 2 logs overhead per session.
 - Still open, unchanged: 4 parents with unknown code; corpus likely
   success-only; T3 escalation run not spot-checked; fallback problem's
   compute question; commit 344374a's message; `tmp/` untracked.
@@ -216,7 +219,6 @@ ledger" for about $0.08; Increment 2 must keep one ledger file per run.
   Increment 2 adds it.
 - Ollama 0.34.2 returns log-probabilities for the first token only; Gemma's
   confidence is self-reported and uninformative.
-- The spend ceiling decision above needs Chris's confirmation.
 
 ## Next SPEC (Increment 2 — thin loop on TreeHFD)
 
