@@ -309,3 +309,28 @@ Scope per docs/07 Increment 2 (unchanged by direction B). Changes to carry in:
 - Log Meridian overhead hours at the end of every session
   (`bash scripts/dogfood.sh overhead <hours>`): missed in Increments 0 and
   1, so put it in the session-end routine, not left to memory.
+
+## Errata (after approval)
+
+Added 2026-10-01, after Chris approved this review; the approved text above
+is unchanged. From the final Evaluator verdict
+(`.meridian/evaluator/incr1_review-verdict.json`, round 4):
+
+- Loop-run cost estimate: the reasoning-token uplift was understated. By
+  the stated assumption (reasoning adds as many output tokens as the
+  visible output), Sonnet 5.5 throughout is about $2.84 per run before the
+  x2 margin, **about $5.7 per run**, not ~$5; the mixed option is about
+  $0.62, **about $1.25 per run**, not ~$1, so October's remaining $18.39
+  allows about **14** mixed runs (not 18) or 3 on Sonnet throughout. R10's
+  trigger still does not fire and the $20 ceiling stands. docs/05 R10
+  corrected to match.
+- Router replay against Sonnet pairs cheap repeat r with reference repeat
+  r mod 3 (`vera/bench/metrics.py`); on matched repeats 0-2 only, Jev →
+  Sonnet at 0.7 is 0.974 at 2.9% (stated 0.976 at 2.8%). The decided path
+  escalates to GLM, which has 10 repeats, so its figures are unaffected.
+- Deviation "Ledger records lost": the `--append` option did not remove
+  the defect; `scripts/smoke_run.py` still deleted its ledger by default.
+  Fixed after approval: it never deletes or overwrites a ledger and
+  refuses to start over an existing one without `--append`.
+- The OpenRouter credit limit's amount is not recorded in the repository.
+

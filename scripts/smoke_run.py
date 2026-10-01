@@ -9,8 +9,10 @@ three tasks; the test split is never touched), asks every candidate backend
 
 All calls share one Budget of $1.00 that raises before a call that could
 cross it. A failed call is recorded and the run moves on to the next item.
-The files are overwritten on each run (the ledger is per run), unless
---append adds a backend to an existing smoke run (same items, same seed).
+Ledgers are append-only (FND-F-01): the script never deletes or
+overwrites them. If the smoke ledger already exists, it refuses to start
+unless --append is given, which adds to the existing run (same items, same
+seed); move the old files aside by hand to start a new smoke run.
 
 Usage: uv run python scripts/smoke_run.py [--backends mimo-flash jev ...] [--seed N]
 """
@@ -52,10 +54,9 @@ def main() -> None:
     args = parser.parse_args()
 
     sample = draw(args.seed)
-    for path in (LEDGER, VERDICTS):
-        path.parent.mkdir(parents=True, exist_ok=True)
-        if not args.append:
-            path.unlink(missing_ok=True)
+    LEDGER.parent.mkdir(parents=True, exist_ok=True)
+    if not args.append and (LEDGER.exists() or VERDICTS.exists()):
+        sys.exit(f"refusing: {LEDGER.name} exists and ledgers are append-only; use --append or move it aside")
     ledger = Ledger(LEDGER, run_id="smoke")
     budget = Budget(max_usd=MAX_USD, max_wall_seconds=3600)
     budget.charge(ledger.total_cost(), calls=0)  # an appended run shares the $1.00 with the earlier one
