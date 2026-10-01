@@ -18,14 +18,16 @@ layered projects.
 |---|---------|------------|---------------|
 | P2 | **Judge library** | Cheap-by-default judging: split a judgment into atomic questions, answer with a cheap backend (typed decision model / small model), escalate to an LLM below a confidence threshold. Logs cost, latency, confidence for every decision. | Anyone building agents that route, gate, grade, or approve |
 | P1 | **Integrity auditor** | Takes a paper (+ repo if available) and produces an audit: citations, numeric claims, method–code alignment, spec violations / leakage, novelty. Built on P2. | Reviewers, workshop organizers, researchers adopting published methods |
-| P3 | **Budgeted research agent** | Meridian extended into a ScientistTwo-style loop (ideas → subset experiments → ablations → write-up) under a hard budget. Uses P2 for every critic gate and P1 as the final gate. | Independent researchers and small labs |
+| P3 | **Budgeted research agent** | Topic in, paper-shaped write-up out: scoping, literature review with verified citations, and a ScientistTwo-style experiment loop (ideas → subset experiments → ablations → write-up) on CPU-scale problems, under a hard budget. P2 gates every stage; P1 is the final gate. Delivered through an app where users bring their own model key. | Independent researchers, students, small labs |
 
 Numbering follows the original discussion. **Build order:** P2 first (cheap
 critics make a cheap loop possible), then a thin end-to-end P3 loop on one
-problem (Increment 2) gated by P2 critics with a minimal P1 as its final gate.
-P1 and P3 then deepen together. The headline product is P3: a
-ScientistTwo-style research loop at a small fraction of the cost, whose
+problem (Increment 2) gated by P2 critics with a minimal P1 as its final gate,
+then the topic front end and literature stage, paper quality, and the app
+(Increments 3-5). The headline product is P3: research from a topic to a
+paper-shaped write-up at a small fraction of ScientistTwo's cost, whose
 every step is checked by something other than the step that produced it.
+Users bring their own model key; VERA never spends the maintainer's.
 
 ## Architecture (layers)
 

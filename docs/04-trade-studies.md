@@ -206,11 +206,12 @@ Keep each to one short section. Status: **open** until decided.
 - **Options:** local Docker (network off by default); hosted sandbox service.
 - **Criteria:** isolation, GPU access, cost, Windows support (WSL2).
 
-## T5 — Bibliographic source for citation checks (open, Increment 2)
+## T5 — Bibliographic source for citation checks and literature retrieval (open, Increment 2-3)
 
 - **Options:** Crossref, arXiv API, Semantic Scholar, OpenAlex (likely a
   combination with fallbacks).
-- **Criteria:** coverage of ML venues and preprints, rate limits, terms.
+- **Criteria:** coverage of ML venues and preprints, rate limits, terms,
+  search quality for the literature stage (Increment 3), open-access PDF links.
 
 ## T6 — Tracing/observability (open, Increment 1)
 
@@ -235,3 +236,24 @@ Keep each to one short section. Status: **open** until decided.
   (FND-F-03).
 - **Reverse if:** the measured token savings are small on CPU-scale problems,
   or the pattern fights LangGraph checkpointing.
+
+## T8 — App delivery and bring-your-own-key (open, decide in Increment 5)
+
+- **Options:** (a) local app: the user runs VERA on their own machine with
+  a web UI on localhost and their key in their own environment; (b) hosted
+  demo: a public site where the visitor connects their own OpenRouter
+  account or pastes a key held only in their browser session; (c) both,
+  local as the product and hosted as a demo.
+- **Criteria:** who pays (model calls, but also hosting and the sandbox
+  compute that runs experiments, which BYOK does not cover), key safety
+  (APP-C-01/02), ease of first use from the landing page, UI quality,
+  effort, Windows support.
+- **Leaning:** (c), with (a) first. A hosted demo runs only the literature
+  stage, or experiments under a hard per-visitor compute cap, because BYOK
+  moves model spend to the visitor but not server compute. Confirm
+  OpenRouter's account-connection flow (OAuth with PKCE) when this trade
+  is run.
+- **Reverse if:** hosting cost per visitor can be bounded near zero, then a
+  full hosted app; or a local install proves too hard for the intended
+  users, then invest in packaging.
+

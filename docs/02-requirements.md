@@ -1,9 +1,9 @@
 # 02 — Requirements
 
-Version 0.3 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access. 0.3, 2026-10-01: JDG-P-01..03 set from the Increment 1 benchmark)
+Version 0.3 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access. 0.3, 2026-10-01: JDG-P-01..03 set from the Increment 1 benchmark; direction B: topic-to-paper and app requirements added, external-paper auditing moved to Increment 6)
 
 ID format: `<AREA>-<TYPE>-<NN>`. Areas: `FND` foundation, `JDG` judge library
-(P2), `AUD` auditor (P1), `RSH` research agent (P3). Types: `F` functional,
+(P2), `AUD` auditor (P1), `RSH` research agent (P3), `APP` app. Types: `F` functional,
 `P` performance, `C` constraint.
 
 Verification methods: **T** test · **A** analysis · **I** inspection ·
@@ -42,17 +42,17 @@ Suggested starting values are in brackets.
 
 | ID | Requirement | Verify | Incr |
 |----|-------------|--------|------|
-| AUD-F-01 | Ingest a paper PDF (and optionally a repo URL) and produce an `AuditReport`. | T | 3 |
-| AUD-F-02 | Extract numeric claims with location (section, table, page). | T | 3 |
+| AUD-F-01 | Ingest a paper PDF (and optionally a repo URL) and produce an `AuditReport`. | T | 6 |
+| AUD-F-02 | Extract numeric claims with location (section, table, page). | T | 6 |
 | AUD-F-03 | Flag every reference that cannot be matched in a bibliographic source (e.g. Crossref, arXiv, Semantic Scholar). | T (seeded) | 2–3 |
 | AUD-F-04 | Check each numeric claim for internal consistency (text vs. tables vs. figures) and, when logs exist, against logged outputs. | T (seeded) | 2–3 |
 | AUD-F-05 | Check method–code alignment: each method component described in the paper maps to code, and vice versa. Scope: papers whose code is available to the checker (VERA's own loop outputs; parent repositories as reference). Not applied to the ScientistTwo corpus, which publishes no generated code (Increment 0 review). | T (seeded) | 4 |
-| AUD-F-06 | Detect specification violations / leakage patterns (test-set use in training or tuning, metric changes, baseline misconfiguration). | T (seeded) | 4 |
-| AUD-F-07 | Assess novelty: retrieve closest prior work and judge whether the core method is materially distinct. | A (gold set) | 4 |
-| AUD-F-08 | Optionally re-run reported experiments in the sandbox within a per-audit budget. | D | 4 |
+| AUD-F-06 | Detect specification violations / leakage patterns (test-set use in training or tuning, metric changes, baseline misconfiguration). | T (seeded) | 6 |
+| AUD-F-07 | Assess novelty: retrieve closest prior work and judge whether the core method is materially distinct (first applied to the loop's own idea). | A (gold set) | 4 |
+| AUD-F-08 | Optionally re-run reported experiments in the sandbox within a per-audit budget. | D | 6 |
 | AUD-F-09 | Every finding shall link to its evidence (quote location, source record, code path, log line). | I | 2 |
-| AUD-P-01 | Detection rate on seeded faults ≥ **TBD** [90%] per check type; false-positive rate ≤ **TBD** [10%]. | T | 3–4 |
-| AUD-P-02 | Non-rerun audit cost ≤ **TBD** [$1] and wall time ≤ **TBD** [15 min] per paper. | A | 3 |
+| AUD-P-01 | Detection rate on seeded faults ≥ **TBD** [90%] per check type; false-positive rate ≤ **TBD** [10%]. | T | 6 |
+| AUD-P-02 | Non-rerun audit cost ≤ **TBD** [$1] and wall time ≤ **TBD** [15 min] per paper. | A | 6 |
 
 ## P3 — Research agent
 
@@ -61,12 +61,25 @@ Suggested starting values are in brackets.
 | RSH-F-01 | Accept a problem spec (parent paper + baseline code), output guidance (e.g. target format, length, emphasis, constraints), and a `Budget`. | T | 2 |
 | RSH-F-02 | Reproduce the baseline on a subset before testing any idea. | T | 2 |
 | RSH-F-03 | Every stage transition shall be gated by a `Verdict` from a component other than the producer (no self-grading). | T, I | 2 |
-| RSH-F-04 | Run ablations on the best idea before write-up. | D | 5 |
+| RSH-F-04 | Run ablations on the best idea before write-up. | D | 4 |
 | RSH-F-05 | Pass the final write-up through the P1 auditor (minimal in Increment 2: citations + numbers vs run logs); failing audits block "success". | T | 2 |
 | RSH-F-06 | On budget exhaustion, stop and emit a best-so-far report stating the stop reason. | T | 2 |
 | RSH-F-07 | The write-up shall follow the run's output guidance; the final gate checks it. | T | 2 |
 | RSH-P-01 | A run shall never exceed its configured budget. | T | 2 |
-| RSH-P-02 | Report cost/quality results on ≥ **2** parent problems also attempted by ScientistTwo (set at the Increment 0 review; matches R6's limit of 2 problems before Increment 5). | A | 5 |
+| RSH-F-08 | Accept a research topic and propose a scoped research question (with why it is researchable and whether it is empirical), shown to the user for confirmation before any further spend beyond scoping. | T | 3 |
+| RSH-F-09 | Produce a literature review section from retrieved sources, in which every citation resolves to a real record and every claim attributed to a source links to it. | T (seeded) | 3 |
+| RSH-F-10 | For an empirical question, select a CPU-scale parent problem and baseline from the literature, or say why none fits and write a non-empirical paper instead. | D | 3 |
+| RSH-F-11 | Produce a paper-shaped write-up (abstract, related work, method, results, limitations, references) that follows the output guidance. | D | 4 |
+| RSH-P-02 | Report cost/quality results on ≥ **2** parent problems also attempted by ScientistTwo (set at the Increment 0 review; matches R6's limit of 2 problems before Increment 5). | A | 4 |
+
+## App
+
+| ID | Requirement | Verify | Incr |
+|----|-------------|--------|------|
+| APP-F-01 | The app shall let a user start a run from a topic with output guidance and a budget, watch stage progress, verdicts and spend live, stop or resume it, and read the result with evidence links. | D | 5 |
+| APP-F-02 | Bring-your-own-key: every model call uses the user's own key, entered or connected from a landing page that explains in plain words whose key and money are used and what a run typically costs. | D, I | 5 |
+| APP-C-01 | No maintainer API key shall be present in the repository, in any build or deployed artifact, or in logs; the app shall never fall back to one. | T, I | 5 |
+| APP-C-02 | A user's key shall stay on the user's side (their machine or browser session): not written to VERA's logs, ledger or repository, and not stored server-side by a hosted deployment. | T, I | 5 |
 
 ## Traceability
 

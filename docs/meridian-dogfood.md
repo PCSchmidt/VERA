@@ -117,4 +117,14 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
   checkpoints (docs/04 T2). A test written against the requirement's
   wording ("resume ... without repeating completed nodes or their ledger
   records") found what a happy-path test would not.
+- Escape (found 2026-10-01, not by a gate): MERIDIAN.md says its secret and
+  destructive-command rules are "blocked at the commit/CI boundary", but the
+  pre-commit hook runs only `meridian-verify.sh`, which never scans file
+  contents; the content rules fire only on Claude Code tool calls
+  (`block-dangerous.sh`). A key pasted into a file from an editor and
+  committed would pass. Found while adding bring-your-own-key requirements
+  (APP-C-01). VERA now scans tracked files in its test suite
+  (`tests/test_no_secrets.py`) and added a blocking `openrouter-api-key`
+  rule; Meridian should scan staged content in `meridian-verify.sh` or stop
+  claiming commit-boundary enforcement.
 

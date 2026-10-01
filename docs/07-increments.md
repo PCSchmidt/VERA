@@ -4,6 +4,13 @@ Each increment ends with a short written review (a lightweight SRR/PDR/CDR)
 in `docs/reviews/incr-N.md`: what was done, exit criteria met or not, risks
 updated, next increment confirmed.
 
+**Re-planned 2026-10-01 (Chris, direction B):** the product is topic → paper
+with an app and bring-your-own-key. Increment 2 is unchanged (it builds the
+experiment engine). Increments 3-5 now build the topic front end, paper
+quality and the app; the auditor (P1) shrinks to the loop's final gate, and
+auditing external papers moves to Increment 6 (optional). The plan before
+this change is in git history.
+
 ## Increment 0 — Spike: know your data (≈2 weeks) — complete 2026-09-30
 
 Goal: answer "what data do we actually have?" before building anything.
@@ -73,21 +80,41 @@ Exit: one complete run inside its budget, with a per-stage cost ledger and an
 audit report on its own paper; an honest write-up of what the crude loop got
 right and wrong.
 
-## Increment 3 — P1 on external papers
+## Increment 3 — Topic front end and literature stage
 
-Ingest PDFs, claim extraction, citation check and numeric consistency on
-other people's papers, report rendering, seeded-fault dev/test sets. The
-loop's final gate uses the fuller auditor. Exit: detection rate measured on
-the test split; first batch audit of the corpus.
+From a topic to a scoped question and a literature review: topic scoping
+(proposed question, shown for the user's confirmation), retrieval from a
+bibliographic source (decide T5), reading with the T3 parsers, synthesis
+with every citation verified (AUD-F-03 on the loop's own text), and, for
+empirical questions, choosing a CPU-scale parent problem and baseline. Apply
+the context-management decision (T7) where the literature is long.
+Exit: three topics taken to a scoped question and a literature section with
+verified citations; cost per topic measured; one of them carried through
+the Increment 2 loop end to end.
 
-## Increment 4 — P1 remaining checks + first paper
+## Increment 4 — Paper quality and the measured comparison
 
-Method–code, spec/leakage, novelty, optional re-run. Write Paper 1 (judge
-benchmark / cost–quality of judges) or Paper 2 (independent audit of an
-AI-generated research corpus). Exit: draft on arXiv or workshop-ready.
+Paper-shaped write-up (abstract, related work, method, results with
+figures, limitations, references) following the output guidance; ablations
+(RSH-F-04); method–code alignment on the loop's own code (AUD-F-05);
+novelty of the loop's idea against the retrieved literature (AUD-F-07); a
+second parent problem, and cost/quality against ScientistTwo on both
+(RSH-P-02, MOE-3).
+Exit: two complete runs compared with ScientistTwo; an honest account of
+where the write-ups fall short of an academic paper.
 
-## Increment 5 — Loop depth and a second problem
+## Increment 5 — App: UI/UX and bring-your-own-key
 
-Ablations, peer-review round, second parent problem, budget sweeps.
-Compare cost/quality against ScientistTwo's published results on the same
-problems. Exit: cost–quality frontier published; decide what's next.
+An attractive, functional interface (decide T8): a landing page that
+explains bring-your-own-key and typical costs in plain words; connect a key;
+start a run from a topic with guidance and budget; watch progress, stage
+verdicts and spend live (the ledger); read the paper with evidence links;
+stop or resume a run. No maintainer key in any shipped artifact.
+Exit: a new user completes S4 through the app with their own key (MOE-4).
+
+## Increment 6 — Optional: P1 on external papers
+
+The auditor on other people's papers: PDF ingest, claim extraction,
+leakage checks, re-runs, seeded-fault dev/test sets, a batch audit of the
+ScientistTwo corpus, and the portfolio papers (judge benchmark; independent
+audit of an AI-generated corpus). Taken up only if Increments 2-5 are done.

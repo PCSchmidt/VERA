@@ -77,6 +77,13 @@ rules:
     pattern: '-----BEGIN[[:space:]]+([A-Z]+[[:space:]]+)?PRIVATE[[:space:]]+KEY-----'
     message: "Hardcoded private key material"
 
+  - id: openrouter-api-key
+    category: secret
+    target: content
+    severity: block
+    pattern: 'sk-or-v1-[0-9a-f]{32,}'
+    message: "OpenRouter API key (VERA is bring-your-own-key: no maintainer key in the repo, APP-C-01)"
+
   - id: generic-api-secret
     category: secret
     target: content

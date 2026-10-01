@@ -1,6 +1,7 @@
 # 01 — Concept of Operations
 
-Version 0.1 · Draft
+Version 0.2 · Draft (0.2, 2026-10-01: product direction B, decided by Chris: a topic goes in, a
+paper-shaped write-up comes out; app with bring-your-own-key)
 
 ## 1. Problem
 
@@ -25,7 +26,7 @@ LLM calls.
 | Agent builder | Cheaper, consistent, observable judge/gate decisions | P2 |
 | Reviewer / workshop organizer | Fast first-pass trust check on submissions | P1 |
 | Researcher adopting a method | "Does this actually work as described?" | P1 |
-| Independent researcher / small lab | Run an autonomous research loop within a fixed budget | P3 |
+| Independent researcher, student, small lab | Turn a research topic into a paper-shaped write-up (literature review, experiments where the topic allows, honest results) for tens of dollars, using their own model key | P3 + app |
 | Chris (portfolio) | Demonstrable, measured systems + papers | all |
 
 ## 3. Operational scenarios
@@ -45,11 +46,28 @@ budget-gated.
 **S3 — Batch audit (P1).** Run the auditor over the 86 ScientistTwo papers
 and a sample of their parent papers; produce a public results table.
 
-**S4 — Budgeted research run (P3, the headline product).** A researcher selects a
-parent problem, gives output guidance (target format, length, emphasis,
-constraints), and sets a budget ("$30, 6 h"). The agent reproduces the baseline on a subset,
-screens ideas, runs ablations, drafts a write-up, and passes it through the
-auditor. On budget exhaustion it stops and reports best-so-far honestly.
+**S4 — Topic to paper (P3, the headline product).** A researcher opens the
+app, connects their own model key, enters a topic ("explainability of tree
+ensembles under correlated features"), gives output guidance (target format,
+length, emphasis, constraints) and a budget ("$30, 6 h"). VERA scopes the
+topic into a researchable question and shows it for confirmation, surveys
+the literature (retrieval, reading, synthesis with verified citations), and,
+where the question is empirical and a CPU-scale baseline exists, picks a
+parent problem, reproduces the baseline on a subset, screens ideas and runs
+the best with ablations. It drafts a paper-shaped write-up and passes it
+through the auditor (citations, numbers against the run's own logs). The
+user watches progress and spend live. On budget exhaustion it stops and
+reports best-so-far honestly. Where the topic is not empirical, the output
+is a literature-and-analysis paper without experiments.
+
+**S4a — Chosen parent problem (P3, the measured comparison).** As S4, but the
+user names a parent problem directly (as ScientistTwo does); used to
+compare cost and quality with ScientistTwo on the same problems (MOE-3).
+
+**S6 — First visit (app).** A visitor reads the landing page, which says in
+plain words that VERA uses the visitor's own model key and budget, never the
+maintainer's, and what a run typically costs. They connect a key (or the
+local app reads it from their environment) and start a run.
 
 **S5 — Benchmark judges (P2).** Run the judge benchmark across backends and
 thresholds; publish agreement, calibration, consistency, cost, latency curves.
@@ -70,7 +88,10 @@ thresholds; publish agreement, calibration, consistency, cost, latency curves.
 
 ## 5. Out of scope (for now)
 
-- Hosting a public multi-user service.
+- Paying for other people's runs. VERA runs with the user's own model key
+  (bring-your-own-key); no maintainer key ships in the repo or any deployed
+  artifact. Whether a hosted demo exists, and how its compute is capped, is
+  trade T8.
 - Non-ML research domains requiring wet-lab or proprietary data.
 - Judging long-form open-ended quality (P2 targets bounded decisions; LLM
   escalation handles the rest).
@@ -82,3 +103,6 @@ thresholds; publish agreement, calibration, consistency, cost, latency curves.
   decision-quality loss.
 - MOE-3: Research agent achieves a meaningful fraction of ScientistTwo's gain
   on the same parent problem at a small fraction of its cost.
+- MOE-4: A new user goes from a topic to a paper-shaped write-up through the
+  app, with their own key, inside the budget they set, and judges the
+  result worth reading.

@@ -12,13 +12,17 @@ Make AI-generated research **verifiable** and **affordable**:
   LLM escalation and a cost/latency/confidence ledger.
 - **P1 Integrity auditor** — checks a paper's citations, numeric claims,
   method–code alignment, leakage, and novelty, built on P2.
-- **P3 Budgeted research agent** — a ScientistTwo-style loop under a hard
-  budget, gated by P2 and audited by P1.
+- **P3 Budgeted research agent** — topic in, paper-shaped write-up out: a
+  ScientistTwo-style loop under a hard budget, with a literature stage,
+  gated by P2 and audited by P1, delivered through an app where users bring
+  their own model key.
 
-Headline product: P3, a ScientistTwo-style research loop at a small fraction
-of its cost, with P2 critics gating every stage and P1 as the final gate.
-Build order: P2 first, a thin P3 loop on one problem in Increment 2, then P1
-and P3 deepen together (docs/07). Details: [docs/01-conops.md](docs/01-conops.md).
+Headline product: P3, research from a topic to a paper-shaped write-up at a
+small fraction of ScientistTwo's cost, with P2 critics gating every stage
+and P1 as the final gate (direction B, decided by Chris 2026-10-01). Build
+order: P2 first, a thin P3 loop on one problem in Increment 2, then the
+topic front end, paper quality and the app (docs/07). Details:
+[docs/01-conops.md](docs/01-conops.md).
 
 ## Users
 
@@ -45,11 +49,13 @@ table for the batch audit (ConOps S3), never the corpus PDFs themselves.
 
 ## Out of scope
 
-- Hosting a public multi-user service.
+- Paying for other people's runs: VERA uses the user's own key (BYOK); no
+  maintainer key in the repo or any deployed artifact (APP-C-01; hosting is trade T8).
 - Non-ML research domains, wet-lab work, or proprietary data.
 - Judging long-form open-ended quality (P2 targets bounded decisions).
 - Re-hosting or committing corpus PDFs (evaluation use only; `data/raw/` is git-ignored).
-- Building a general "ScientistTwo clone": P3 is limited to 2 parent problems (risk R6).
+- Experiments beyond CPU-scale problems, and a measured ScientistTwo comparison
+  on more than 2 parent problems (RSH-P-02, risk R6).
 
 ## Acceptance criteria
 
@@ -61,6 +67,8 @@ Project-level measures of effectiveness (ConOps §6):
   decision-quality loss (threshold curve, JDG-P-01).
 - **MOE-3** Research agent achieves a meaningful fraction of ScientistTwo's
   gain on the same parent problem at a small fraction of its cost (RSH-P-02).
+- **MOE-4** A new user goes from a topic to a paper-shaped write-up through
+  the app, with their own key, inside their budget (APP-F-01/02).
 
 The numeric targets behind these (JDG-P, AUD-P, RSH-P) are deliberately TBD
 until baseline data exists (docs/02); each increment review sets the ones its

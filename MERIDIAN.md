@@ -76,6 +76,7 @@ A gate's work is not done until its verifier passes. Before committing, run:
 - **fork-bomb** — Shell fork bomb
 - **aws-access-key** — Hardcoded AWS access key ID
 - **private-key-block** — Hardcoded private key material
+- **openrouter-api-key** — OpenRouter API key (VERA is bring-your-own-key: no maintainer key in the repo, APP-C-01)
 
 ## Avoid (warned)
 
