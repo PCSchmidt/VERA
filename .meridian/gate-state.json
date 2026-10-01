@@ -11,7 +11,8 @@
     "inventory_verified",
     "judge_core_ready",
     "parser_decided",
-    "scaffold_ready"
+    "scaffold_ready",
+    "trades_decided_1"
   ],
   "approvals": {
     "confirmed": {
@@ -37,6 +38,10 @@
     "benchmark_labeled": {
       "by": "Chris Schmidt",
       "at": "2026-10-01T11:36:48Z"
+    },
+    "trades_decided_1": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-01T14:00:31Z"
     }
   }
 }
