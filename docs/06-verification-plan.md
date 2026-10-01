@@ -29,12 +29,17 @@ where seeding is weaker.
 
 ## 3. Judge benchmark (P2)
 
-- Tasks: atomic questions drawn from the auditor (citation exists? number
-  consistent?) plus one general task (e.g. grounded-answer checks).
-- Reference: frontier LLM with careful prompting plus gold labels where
-  available.
-- Metrics: agreement, ECE, flip rate over N=10+ repeats, cost, latency,
-  escalation rate as a function of threshold.
+- Tasks (Increment 1, `data/benchmark/`): the loop's gate decisions on
+  generated TreeHFD result tables (beats baseline? best method? how many
+  beat it?), numeric consistency of claims about corpus tables, and
+  citation presence in corpus reference lists. Labels come from how each
+  item was built (risk R3); Chris checks a seeded sample per task.
+- Split: dev (tuning) and test (reporting), about 1:2 by source unit, with
+  the test split's SHA-256 recorded before any backend sees it (§5).
+- Reference: a frontier LLM (Claude Sonnet 5.5) alongside the labels.
+- Metrics: agreement with labels and with the reference, ECE, flip rate
+  over repeats (N = 10 cheap, 3 reference), cost, latency, escalation rate
+  as a function of threshold.
 - Output: threshold sweep plot (cost vs. agreement) — the core result.
 
 ## 4. Research agent (P3)

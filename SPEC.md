@@ -5,7 +5,7 @@
 Current-increment features only, in build order. Each `##` below becomes a
 tracked feature (`scripts/features-init.sh`); do not add `###` headings.
 Source: [docs/07-increments.md](docs/07-increments.md) Increment 1; schemas:
-[docs/03-interfaces.md](docs/03-interfaces.md) v0.3; requirements due:
+[docs/03-interfaces.md](docs/03-interfaces.md) v0.7; requirements due:
 FND-F-01, FND-F-02, FND-C-01, JDG-F-01..06, JDG-P-01..03
 ([docs/02-requirements.md](docs/02-requirements.md)). Rewrite this file at
 each increment review. The Increment 0 SPEC is in git history.

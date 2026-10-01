@@ -49,6 +49,10 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
 | 2026-09-30 | `inventory_verified` | passed on round 2 (spot-check 0/10); round 1 blocked (5/10 judged incorrect) | Chris (approval recorded); round 2 assistant-assisted, spot-checked by Chris |
 | 2026-09-30 | `parser_decided` | passed (T3 decided: GROBID for references, Docling for tables) | Chris (approval recorded); scoring by Chris's assistant, first pass spot-checked by Chris |
 | 2026-09-30 | `incr0_review` | passed (Evaluator 8, 7.5, 8 over three rounds; review revised after rounds 1–2) | Chris (approval recorded) |
+| 2026-09-30 | `incr1_scoped` | passed | Chris (approval recorded) |
+| 2026-09-30 | `judge_core_ready` | passed (ledger, judge parsing, router; vendor-import lint) | agent (automated gate) |
+| 2026-09-30 | `backends_live` | passed first try (smoke ledger: 50 calls, 5 backends, $0.038 of $1.00) | agent (automated gate) |
+| 2026-09-30 | `graph_ready` | passed first try (187 tests incl. kill-and-resume) | agent (automated gate) |
 
 ## Observations
 
@@ -100,4 +104,17 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
   existed. Moved to `benchmark_run` and `incr1_review`. Meridian could scope
   traceability per gate (requirements a gate declares) rather than per
   increment.
+- `backends_live` passed first try, but only because the smoke run was
+  debugged before the gate ran: the first run "succeeded" (50 calls, all
+  fields present) while 2 of 5 backends returned no usable answer
+  (truncated replies, hidden reasoning). The ledger check verifies that
+  calls were recorded, not that they produced answers; the smoke script's
+  own "no usable answer" count caught it. A gate on a demonstration
+  should check the outcome too.
+- `graph_ready`'s kill-and-resume test caught a real durability gap: with
+  LangGraph's default asynchronous checkpointing, a killed run lost its
+  last checkpoint and re-billed a completed node. Fixed with synchronous
+  checkpoints (docs/04 T2). A test written against the requirement's
+  wording ("resume ... without repeating completed nodes or their ledger
+  records") found what a happy-path test would not.
 

@@ -16,7 +16,7 @@ platform. Treat the rules below as the contract the commit boundary enforces.
    - verified by: validate-contract.sh, validate-spec.sh, gate-spend-ceiling.sh
 1. **scaffold_ready** — Repo scaffold and v0.1 schemas
    - depends on: confirmed
-   - required artifacts: pyproject.toml, vera/schemas/__init__.py
+   - required artifacts: pyproject.toml, vera/schemas/version.py
    - verified by: gate-tests.sh, gate-schema-version.sh
 2. **corpus_fetched** — Corpus discovered and downloaded with provenance
    - depends on: scaffold_ready
@@ -32,6 +32,37 @@ platform. Treat the rules below as the contract the commit boundary enforces.
 5. **incr0_review** — Increment 0 review
    - depends on: inventory_verified, parser_decided
    - required artifacts: docs/reviews/incr-0.md
+   - verified by: gate-tests.sh, gate-traceability.sh, run-evaluator.sh
+6. **incr1_scoped** — Increment 1 scope confirmed
+   - depends on: incr0_review
+   - required artifacts: SPEC.md, CONTRACT.md, docs/reviews/incr-0.md
+   - verified by: validate-contract.sh, validate-spec.sh, gate-spend-ceiling.sh
+7. **judge_core_ready** — Ledger, question parsing and router, tested offline
+   - depends on: incr1_scoped
+   - required artifacts: vera/ledger/__init__.py, vera/judge/__init__.py
+   - verified by: gate-tests.sh, gate-schema-version.sh, gate-vendor-imports.sh
+8. **backends_live** — Two backends run through the ledger (JDG-F-04 demo)
+   - depends on: judge_core_ready
+   - required artifacts: data/ledger/smoke.jsonl
+   - verified by: gate-ledger.sh
+9. **graph_ready** — LangGraph helpers and checkpoint/resume
+   - depends on: judge_core_ready
+   - required artifacts: vera/graph/__init__.py
+   - verified by: gate-tests.sh
+10. **benchmark_labeled** — Benchmark items built, split fixed, labels checked by Chris
+   - depends on: judge_core_ready
+   - required artifacts: data/benchmark/items.jsonl, data/benchmark/label_check.csv
+   - verified by: gate-benchmark-items.sh
+11. **benchmark_run** — Benchmark run and threshold sweep
+   - depends on: backends_live, benchmark_labeled
+   - required artifacts: data/benchmark/results.json, docs/figures/threshold_curve.png
+   - verified by: gate-tests.sh, gate-traceability.sh, gate-benchmark-results.sh
+12. **trades_decided_1** — T1 and T2 decided; JDG-P targets set
+   - depends on: benchmark_run, graph_ready
+   - verified by: gate-trades-incr1.sh
+13. **incr1_review** — Increment 1 review
+   - depends on: trades_decided_1
+   - required artifacts: docs/reviews/incr-1.md
    - verified by: gate-tests.sh, gate-traceability.sh, run-evaluator.sh
 
 A gate's work is not done until its verifier passes. Before committing, run:

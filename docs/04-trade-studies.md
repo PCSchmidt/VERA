@@ -28,6 +28,11 @@ Keep each to one short section. Status: **open** until decided.
   TypeSafe's confidential information, which is ambiguous for published
   performance results. **Decision (Chris):** benchmark Jev; get TypeSafe's
   written consent before publishing any Jev results (risk R4).
+  **Revised (Chris, 2026-09-30):** publish Jev results, ledgers included,
+  without seeking consent: Jev benchmarks and comparisons are already
+  public, as are open-source Jev clones, so published performance figures
+  are not treated as TypeSafe confidential information. §2.3(b) still
+  stands: never train on Jev output.
 - **Smoke run (2026-09-30, 10 dev items each, $0.038 in all):** all five
   answer through the ledger. OpenRouter's endpoints for Sonnet 5.5 and
   GLM-5.3 Flash refuse to disable reasoning (HTTP 400), so both run at the
@@ -35,7 +40,7 @@ Keep each to one short section. Status: **open** until decided.
   reasoning off (DeepSeek returned empty answers with reasoning on and a
   small `max_tokens`). GLM's reasoning costs it latency and output tokens on
   the cheap path; the benchmark will measure how much. Settings in
-  `vera/bench/candidates.py`. Ledgers with Jev rows stay local (R4).
+  `vera/bench/candidates.py`. Ledger: `data/ledger/smoke.jsonl`.
 
 ## T2 — Orchestration runtime (open, decide in Increment 1)
 

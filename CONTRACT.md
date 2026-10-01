@@ -64,7 +64,7 @@ Project-level measures of effectiveness (ConOps §6):
 
 The numeric targets behind these (JDG-P, AUD-P, RSH-P) are deliberately TBD
 until baseline data exists (docs/02); each increment review sets the ones its
-data supports. Increment 0 exit criteria are in [SPEC.md](SPEC.md). Every requirement due in
+data supports. The current increment's deliverables and acceptance tests are in [SPEC.md](SPEC.md). Every requirement due in
 the current increment with verification method **T** has a test named
 `test_<REQ_ID>_…` (checked by `tools/checks/check_traceability.py`).
 

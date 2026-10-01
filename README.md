@@ -53,20 +53,28 @@ shared internals. Every judgment anywhere in the system is a `Verdict`.
 | `CLAUDE.md` | Working instructions for Claude Code in this repo |
 | `docs/01-conops.md` | Users, scenarios, operating envelope |
 | `docs/02-requirements.md` | Requirements with verification methods |
-| `docs/03-interfaces.md` | Core schemas v0.3 (the contracts) |
+| `docs/03-interfaces.md` | Core schemas v0.7 (the contracts) |
 | `docs/04-trade-studies.md` | Design decisions (T3 decided; T1, T2 in Increment 1) |
 | `docs/05-risk-register.md` | Top risks and mitigations |
 | `docs/06-verification-plan.md` | V&V strategy incl. seeded-fault testing |
 | `docs/07-increments.md` | Increment plan with exit criteria; Increment 0 task list |
+| `docs/meridian-dogfood.md` | Findings about Meridian, the build harness, from building VERA |
 | `data/corpus_inventory.csv` | Corpus inventory: 86 generated papers and their parents (see `data/README.md`) |
+| `data/benchmark/` | Increment 1 judge benchmark: split, test hash, label checks (items rebuild locally; see `data/README.md`) |
 | `docs/reviews/` | Increment reviews (`incr-0.md`) |
 
 ## Status
 
 Increment 0 (know your data) complete 2026-09-30: corpus of 86 ScientistTwo
 papers mapped to their parents, parser chosen (T3), Increment 2 problem
-chosen (TreeHFD); see `docs/reviews/incr-0.md`. Increment 1 (P2 minimum
-viable judge) is next: `SPEC.md`. Progress: `bash scripts/gate-engine.sh current`.
+chosen (TreeHFD); see `docs/reviews/incr-0.md`.
+
+Increment 1 (P2 minimum viable judge, `SPEC.md`) is in progress. Built so
+far: ledger and metered calls, judge parsing, router, five backends through
+OpenRouter and TypeSafe's API (smoke run: 50 calls, $0.04), LangGraph
+helpers with checkpoint/resume, and a 179-item benchmark labelled by
+construction. Next: Chris's label check, then the benchmark run and the T1/T2
+decisions. Progress: `bash scripts/gate-engine.sh current`.
 
 ## License
 
