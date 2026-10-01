@@ -1,0 +1,1211 @@
+{
+ "built": "2026-10-01",
+ "test_sha256": "0ae2c8d6f11a00c2308ffcbd4388322c6c02d6dec5a0c4a956fcebea056197a9",
+ "reference": "sonnet-ref",
+ "local_backends": [
+  "gemma-local"
+ ],
+ "default_threshold": 0.7,
+ "ledger_total_usd": 1.6110996374999997,
+ "budget_usd": 8.0,
+ "backends": {
+  "deepseek-flash": {
+   "verdicts": 1150,
+   "items": 115,
+   "repeats": 10,
+   "agreement_label": 0.9626086956521739,
+   "agreement_reference": 0.9626086956521739,
+   "ece": 0.043950259958496274,
+   "flip_rate": 0.06086956521739131,
+   "flip_rate_verdicts": 0.00782608695652174,
+   "malformed_rate": 0.0,
+   "confidence_sources": {
+    "logprobs": 645,
+    "self_report": 505
+   },
+   "cost_per_item_usd": 5.389167947826089e-05,
+   "latency_p50_ms": 365.0,
+   "latency_p95_ms": 1423.0,
+   "agreement_label_by_task": {
+    "citation": 1.0,
+    "loop_gate": 0.8897435897435897,
+    "numeric": 1.0
+   }
+  },
+  "gemma-local": {
+   "verdicts": 1150,
+   "items": 115,
+   "repeats": 10,
+   "agreement_label": 0.8860869565217391,
+   "agreement_reference": 0.8860869565217391,
+   "ece": 0.11382608695652185,
+   "flip_rate": 0.017391304347826087,
+   "flip_rate_verdicts": 0.0026086956521739132,
+   "malformed_rate": 0.0,
+   "confidence_sources": {
+    "self_report": 1150
+   },
+   "cost_per_item_usd": 0.0,
+   "latency_p50_ms": 1697.0,
+   "latency_p95_ms": 3803.0,
+   "agreement_label_by_task": {
+    "citation": 0.9973684210526316,
+    "loop_gate": 0.6666666666666666,
+    "numeric": 1.0
+   }
+  },
+  "glm-flash": {
+   "verdicts": 1150,
+   "items": 115,
+   "repeats": 10,
+   "agreement_label": 0.9982608695652174,
+   "agreement_reference": 0.9982608695652174,
+   "ece": 0.006191909116898811,
+   "flip_rate": 0.008695652173913044,
+   "flip_rate_verdicts": 0.0017391304347826088,
+   "malformed_rate": 0.0017391304347826088,
+   "confidence_sources": {
+    "logprobs": 237,
+    "self_report": 911,
+    "none": 2
+   },
+   "cost_per_item_usd": 0.00012947275469565205,
+   "latency_p50_ms": 1952.0,
+   "latency_p95_ms": 8431.0,
+   "agreement_label_by_task": {
+    "citation": 0.9947368421052631,
+    "loop_gate": 1.0,
+    "numeric": 1.0
+   }
+  },
+  "jev": {
+   "verdicts": 1150,
+   "items": 115,
+   "repeats": 10,
+   "agreement_label": 0.9704347826086956,
+   "agreement_reference": 0.9704347826086956,
+   "ece": 0.00836521739131349,
+   "flip_rate": 0.017391304347826087,
+   "flip_rate_verdicts": 0.0052173913043478265,
+   "malformed_rate": 0.0,
+   "confidence_sources": {
+    "logprobs": 1150
+   },
+   "cost_per_item_usd": 4.719412173913042e-05,
+   "latency_p50_ms": 187.0,
+   "latency_p95_ms": 359.0,
+   "agreement_label_by_task": {
+    "citation": 1.0,
+    "loop_gate": 0.9128205128205128,
+    "numeric": 1.0
+   }
+  },
+  "mimo-flash": {
+   "verdicts": 1150,
+   "items": 115,
+   "repeats": 10,
+   "agreement_label": 0.9147826086956522,
+   "agreement_reference": 0.9147826086956522,
+   "ece": 0.07206956521739827,
+   "flip_rate": 0.0782608695652174,
+   "flip_rate_verdicts": 0.01391304347826087,
+   "malformed_rate": 0.0,
+   "confidence_sources": {
+    "self_report": 1150
+   },
+   "cost_per_item_usd": 6.949156365217402e-05,
+   "latency_p50_ms": 3248.0,
+   "latency_p95_ms": 11263.0,
+   "agreement_label_by_task": {
+    "citation": 0.9868421052631579,
+    "loop_gate": 0.782051282051282,
+    "numeric": 0.9789473684210527
+   }
+  },
+  "sonnet-ref": {
+   "verdicts": 345,
+   "items": 115,
+   "repeats": 3,
+   "agreement_label": 1.0,
+   "agreement_reference": 1.0,
+   "ece": 0.019246376811590197,
+   "flip_rate": 0.0,
+   "flip_rate_verdicts": 0.0,
+   "malformed_rate": 0.0,
+   "confidence_sources": {
+    "self_report": 345
+   },
+   "cost_per_item_usd": 0.0036696869565217382,
+   "latency_p50_ms": 1256.0,
+   "latency_p95_ms": 2134.0,
+   "agreement_label_by_task": {
+    "citation": 1.0,
+    "loop_gate": 1.0,
+    "numeric": 1.0
+   }
+  }
+ },
+ "sweep": {
+  "deepseek-flash": [
+   {
+    "threshold": 0.0,
+    "agreement_label": 0.9626086956521739,
+    "agreement_reference": 0.9626086956521739,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 5.389167947826089e-05,
+    "cost_ratio_to_reference": 0.01468563398370671,
+    "latency_p50_ms": 365.0,
+    "latency_p95_ms": 1423.0
+   },
+   {
+    "threshold": 0.05,
+    "agreement_label": 0.9626086956521739,
+    "agreement_reference": 0.9626086956521739,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 5.389167947826089e-05,
+    "cost_ratio_to_reference": 0.01468563398370671,
+    "latency_p50_ms": 365.0,
+    "latency_p95_ms": 1423.0
+   },
+   {
+    "threshold": 0.1,
+    "agreement_label": 0.9626086956521739,
+    "agreement_reference": 0.9626086956521739,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 5.389167947826089e-05,
+    "cost_ratio_to_reference": 0.01468563398370671,
+    "latency_p50_ms": 365.0,
+    "latency_p95_ms": 1423.0
+   },
+   {
+    "threshold": 0.15,
+    "agreement_label": 0.9626086956521739,
+    "agreement_reference": 0.9626086956521739,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 5.389167947826089e-05,
+    "cost_ratio_to_reference": 0.01468563398370671,
+    "latency_p50_ms": 365.0,
+    "latency_p95_ms": 1423.0
+   },
+   {
+    "threshold": 0.2,
+    "agreement_label": 0.9626086956521739,
+    "agreement_reference": 0.9626086956521739,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 5.389167947826089e-05,
+    "cost_ratio_to_reference": 0.01468563398370671,
+    "latency_p50_ms": 365.0,
+    "latency_p95_ms": 1423.0
+   },
+   {
+    "threshold": 0.25,
+    "agreement_label": 0.9626086956521739,
+    "agreement_reference": 0.9626086956521739,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 5.389167947826089e-05,
+    "cost_ratio_to_reference": 0.01468563398370671,
+    "latency_p50_ms": 365.0,
+    "latency_p95_ms": 1423.0
+   },
+   {
+    "threshold": 0.3,
+    "agreement_label": 0.9626086956521739,
+    "agreement_reference": 0.9626086956521739,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 5.389167947826089e-05,
+    "cost_ratio_to_reference": 0.01468563398370671,
+    "latency_p50_ms": 365.0,
+    "latency_p95_ms": 1423.0
+   },
+   {
+    "threshold": 0.35,
+    "agreement_label": 0.9626086956521739,
+    "agreement_reference": 0.9626086956521739,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 5.389167947826089e-05,
+    "cost_ratio_to_reference": 0.01468563398370671,
+    "latency_p50_ms": 365.0,
+    "latency_p95_ms": 1423.0
+   },
+   {
+    "threshold": 0.4,
+    "agreement_label": 0.9643478260869566,
+    "agreement_reference": 0.9643478260869566,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 5.883428817391309e-05,
+    "cost_ratio_to_reference": 0.016032508731937817,
+    "latency_p50_ms": 367.0,
+    "latency_p95_ms": 1451.0
+   },
+   {
+    "threshold": 0.45,
+    "agreement_label": 0.9652173913043478,
+    "agreement_reference": 0.9652173913043478,
+    "escalation_rate": 0.0026086956521739132,
+    "cost_per_item_usd": 6.147080991304354e-05,
+    "cost_ratio_to_reference": 0.016750968309108247,
+    "latency_p50_ms": 368.0,
+    "latency_p95_ms": 1468.0
+   },
+   {
+    "threshold": 0.5,
+    "agreement_label": 0.9652173913043478,
+    "agreement_reference": 0.9652173913043478,
+    "escalation_rate": 0.008695652173913044,
+    "cost_per_item_usd": 7.926559252173928e-05,
+    "cost_ratio_to_reference": 0.021600096537081753,
+    "latency_p50_ms": 370.0,
+    "latency_p95_ms": 1537.0
+   },
+   {
+    "threshold": 0.55,
+    "agreement_label": 0.9652173913043478,
+    "agreement_reference": 0.9652173913043478,
+    "escalation_rate": 0.009565217391304347,
+    "cost_per_item_usd": 8.12273316521741e-05,
+    "cost_ratio_to_reference": 0.02213467595861754,
+    "latency_p50_ms": 370.0,
+    "latency_p95_ms": 1537.0
+   },
+   {
+    "threshold": 0.6,
+    "agreement_label": 0.9652173913043478,
+    "agreement_reference": 0.9652173913043478,
+    "escalation_rate": 0.013043478260869565,
+    "cost_per_item_usd": 0.00010402037513043496,
+    "cost_ratio_to_reference": 0.02834584430848271,
+    "latency_p50_ms": 374.0,
+    "latency_p95_ms": 1581.0
+   },
+   {
+    "threshold": 0.65,
+    "agreement_label": 0.9652173913043478,
+    "agreement_reference": 0.9652173913043478,
+    "escalation_rate": 0.01391304347826087,
+    "cost_per_item_usd": 0.00010969689686956538,
+    "cost_ratio_to_reference": 0.029892712421862828,
+    "latency_p50_ms": 375.0,
+    "latency_p95_ms": 1602.0
+   },
+   {
+    "threshold": 0.7,
+    "agreement_label": 0.9652173913043478,
+    "agreement_reference": 0.9652173913043478,
+    "escalation_rate": 0.01652173913043478,
+    "cost_per_item_usd": 0.00012651776643478275,
+    "cost_ratio_to_reference": 0.03447644661077599,
+    "latency_p50_ms": 377.0,
+    "latency_p95_ms": 1635.0
+   },
+   {
+    "threshold": 0.75,
+    "agreement_label": 0.9652173913043478,
+    "agreement_reference": 0.9652173913043478,
+    "escalation_rate": 0.03130434782608696,
+    "cost_per_item_usd": 0.00017276472295652182,
+    "cost_ratio_to_reference": 0.047078872122725816,
+    "latency_p50_ms": 382.0,
+    "latency_p95_ms": 1812.0
+   },
+   {
+    "threshold": 0.8,
+    "agreement_label": 0.9652173913043478,
+    "agreement_reference": 0.9652173913043478,
+    "escalation_rate": 0.035652173913043476,
+    "cost_per_item_usd": 0.00018392994034782616,
+    "cost_ratio_to_reference": 0.050121425213381574,
+    "latency_p50_ms": 385.0,
+    "latency_p95_ms": 1926.0
+   },
+   {
+    "threshold": 0.85,
+    "agreement_label": 0.9652173913043478,
+    "agreement_reference": 0.9652173913043478,
+    "escalation_rate": 0.049565217391304345,
+    "cost_per_item_usd": 0.0002212725490434784,
+    "cost_ratio_to_reference": 0.060297390939637124,
+    "latency_p50_ms": 394.0,
+    "latency_p95_ms": 1973.0
+   },
+   {
+    "threshold": 0.9,
+    "agreement_label": 0.9652173913043478,
+    "agreement_reference": 0.9652173913043478,
+    "escalation_rate": 0.050434782608695654,
+    "cost_per_item_usd": 0.00022322559252173924,
+    "cost_ratio_to_reference": 0.06082960077153842,
+    "latency_p50_ms": 395.0,
+    "latency_p95_ms": 1973.0
+   },
+   {
+    "threshold": 0.95,
+    "agreement_label": 0.9652173913043478,
+    "agreement_reference": 0.9652173913043478,
+    "escalation_rate": 0.05478260869565217,
+    "cost_per_item_usd": 0.0002341803751304349,
+    "cost_ratio_to_reference": 0.06381480979304008,
+    "latency_p50_ms": 396.0,
+    "latency_p95_ms": 2013.0
+   },
+   {
+    "threshold": 1.0,
+    "agreement_label": 0.9817391304347826,
+    "agreement_reference": 0.9817391304347826,
+    "escalation_rate": 0.6591304347826087,
+    "cost_per_item_usd": 0.0027430255925217396,
+    "cost_ratio_to_reference": 0.7474821762785123,
+    "latency_p50_ms": 1444.0,
+    "latency_p95_ms": 2842.0
+   }
+  ],
+  "gemma-local": [
+   {
+    "threshold": 0.0,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.05,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.1,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.15,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.2,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.25,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.3,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.35,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.4,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.45,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.5,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.55,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.6,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.65,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.7,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.75,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.8,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.85,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.9,
+    "agreement_label": 0.8860869565217391,
+    "agreement_reference": 0.8860869565217391,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.0,
+    "cost_ratio_to_reference": 0.0,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 0.95,
+    "agreement_label": 0.8869565217391304,
+    "agreement_reference": 0.8869565217391304,
+    "escalation_rate": 0.0008695652173913044,
+    "cost_per_item_usd": 2.84e-06,
+    "cost_ratio_to_reference": 0.0007739079746169559,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   },
+   {
+    "threshold": 1.0,
+    "agreement_label": 0.8869565217391304,
+    "agreement_reference": 0.8869565217391304,
+    "escalation_rate": 0.0008695652173913044,
+    "cost_per_item_usd": 2.84e-06,
+    "cost_ratio_to_reference": 0.0007739079746169559,
+    "latency_p50_ms": 1697.0,
+    "latency_p95_ms": 3803.0
+   }
+  ],
+  "glm-flash": [
+   {
+    "threshold": 0.0,
+    "agreement_label": 0.9982608695652174,
+    "agreement_reference": 0.9982608695652174,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 0.00012947275469565205,
+    "cost_ratio_to_reference": 0.03528168920936269,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.05,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.1,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.15,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.2,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.25,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.3,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.35,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.4,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.45,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.5,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.55,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.6,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.65,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.7,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.75,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.8,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.85,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.0017391304347826088,
+    "cost_per_item_usd": 0.00014076492860869548,
+    "cost_ratio_to_reference": 0.03835883830868166,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8431.0
+   },
+   {
+    "threshold": 0.9,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.006956521739130435,
+    "cost_per_item_usd": 0.00017476318947826054,
+    "cost_ratio_to_reference": 0.0476234598615211,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8465.0
+   },
+   {
+    "threshold": 0.95,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.008695652173913044,
+    "cost_per_item_usd": 0.00018605536339130413,
+    "cost_ratio_to_reference": 0.05070060896084011,
+    "latency_p50_ms": 1952.0,
+    "latency_p95_ms": 8465.0
+   },
+   {
+    "threshold": 1.0,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.7034782608695652,
+    "cost_per_item_usd": 0.0027646640590434793,
+    "cost_ratio_to_reference": 0.7533787191657153,
+    "latency_p50_ms": 2910.0,
+    "latency_p95_ms": 10060.0
+   }
+  ],
+  "jev": [
+   {
+    "threshold": 0.0,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 4.719412173913042e-05,
+    "cost_ratio_to_reference": 0.012860530693294533,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 359.0
+   },
+   {
+    "threshold": 0.05,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 4.719412173913042e-05,
+    "cost_ratio_to_reference": 0.012860530693294533,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 359.0
+   },
+   {
+    "threshold": 0.1,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 4.719412173913042e-05,
+    "cost_ratio_to_reference": 0.012860530693294533,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 359.0
+   },
+   {
+    "threshold": 0.15,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 4.719412173913042e-05,
+    "cost_ratio_to_reference": 0.012860530693294533,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 359.0
+   },
+   {
+    "threshold": 0.2,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 4.719412173913042e-05,
+    "cost_ratio_to_reference": 0.012860530693294533,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 359.0
+   },
+   {
+    "threshold": 0.25,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 4.719412173913042e-05,
+    "cost_ratio_to_reference": 0.012860530693294533,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 359.0
+   },
+   {
+    "threshold": 0.3,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 4.719412173913042e-05,
+    "cost_ratio_to_reference": 0.012860530693294533,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 359.0
+   },
+   {
+    "threshold": 0.35,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 4.719412173913042e-05,
+    "cost_ratio_to_reference": 0.012860530693294533,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 359.0
+   },
+   {
+    "threshold": 0.4,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 4.719412173913042e-05,
+    "cost_ratio_to_reference": 0.012860530693294533,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 359.0
+   },
+   {
+    "threshold": 0.45,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 4.719412173913042e-05,
+    "cost_ratio_to_reference": 0.012860530693294533,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 359.0
+   },
+   {
+    "threshold": 0.5,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 4.719412173913042e-05,
+    "cost_ratio_to_reference": 0.012860530693294533,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 359.0
+   },
+   {
+    "threshold": 0.55,
+    "agreement_label": 0.9704347826086956,
+    "agreement_reference": 0.9704347826086956,
+    "escalation_rate": 0.0026086956521739132,
+    "cost_per_item_usd": 5.444977391304347e-05,
+    "cost_ratio_to_reference": 0.014837716284293886,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 363.0
+   },
+   {
+    "threshold": 0.6,
+    "agreement_label": 0.9721739130434782,
+    "agreement_reference": 0.9721739130434782,
+    "escalation_rate": 0.0052173913043478265,
+    "cost_per_item_usd": 6.189325217391298e-05,
+    "cost_ratio_to_reference": 0.01686608501139771,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 369.0
+   },
+   {
+    "threshold": 0.65,
+    "agreement_label": 0.9739130434782609,
+    "agreement_reference": 0.9739130434782609,
+    "escalation_rate": 0.009565217391304347,
+    "cost_per_item_usd": 7.416629565217385e-05,
+    "cost_ratio_to_reference": 0.020210523821484583,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 376.0
+   },
+   {
+    "threshold": 0.7,
+    "agreement_label": 0.9756521739130435,
+    "agreement_reference": 0.9756521739130435,
+    "escalation_rate": 0.01652173913043478,
+    "cost_per_item_usd": 0.00010166020869565207,
+    "cost_ratio_to_reference": 0.027702692327742657,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 387.0
+   },
+   {
+    "threshold": 0.75,
+    "agreement_label": 0.9773913043478261,
+    "agreement_reference": 0.9773913043478261,
+    "escalation_rate": 0.021739130434782608,
+    "cost_per_item_usd": 0.00012207586086956528,
+    "cost_ratio_to_reference": 0.03326601487154457,
+    "latency_p50_ms": 187.0,
+    "latency_p95_ms": 397.0
+   },
+   {
+    "threshold": 0.8,
+    "agreement_label": 0.9782608695652174,
+    "agreement_reference": 0.9782608695652174,
+    "escalation_rate": 0.028695652173913042,
+    "cost_per_item_usd": 0.0001444376000000003,
+    "cost_ratio_to_reference": 0.039359651575540236,
+    "latency_p50_ms": 188.0,
+    "latency_p95_ms": 434.0
+   },
+   {
+    "threshold": 0.85,
+    "agreement_label": 0.9791304347826087,
+    "agreement_reference": 0.9791304347826087,
+    "escalation_rate": 0.04782608695652174,
+    "cost_per_item_usd": 0.00022784107826087017,
+    "cost_ratio_to_reference": 0.06208733359556809,
+    "latency_p50_ms": 189.0,
+    "latency_p95_ms": 1156.0
+   },
+   {
+    "threshold": 0.9,
+    "agreement_label": 0.98,
+    "agreement_reference": 0.98,
+    "escalation_rate": 0.06086956521739131,
+    "cost_per_item_usd": 0.0002695036869565219,
+    "cost_ratio_to_reference": 0.07344051145222676,
+    "latency_p50_ms": 190.0,
+    "latency_p95_ms": 1433.0
+   },
+   {
+    "threshold": 0.95,
+    "agreement_label": 0.9817391304347826,
+    "agreement_reference": 0.9817391304347826,
+    "escalation_rate": 0.09652173913043478,
+    "cost_per_item_usd": 0.00035739238260869505,
+    "cost_ratio_to_reference": 0.09739042780571246,
+    "latency_p50_ms": 192.0,
+    "latency_p95_ms": 1629.0
+   },
+   {
+    "threshold": 1.0,
+    "agreement_label": 1.0,
+    "agreement_reference": 1.0,
+    "escalation_rate": 0.9069565217391304,
+    "cost_per_item_usd": 0.0034650689043478305,
+    "cost_ratio_to_reference": 0.9442410062225437,
+    "latency_p50_ms": 1407.0,
+    "latency_p95_ms": 2343.0
+   }
+  ],
+  "mimo-flash": [
+   {
+    "threshold": 0.0,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.05,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.1,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.15,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.2,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.25,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.3,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.35,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.4,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.45,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.5,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.55,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.6,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.65,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.7,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.75,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.8,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.85,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.9,
+    "agreement_label": 0.9147826086956522,
+    "agreement_reference": 0.9147826086956522,
+    "escalation_rate": 0.0,
+    "cost_per_item_usd": 6.949156365217402e-05,
+    "cost_ratio_to_reference": 0.018936646225006785,
+    "latency_p50_ms": 3248.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 0.95,
+    "agreement_label": 0.9208695652173913,
+    "agreement_reference": 0.9208695652173913,
+    "escalation_rate": 0.00608695652173913,
+    "cost_per_item_usd": 8.725678104347823e-05,
+    "cost_ratio_to_reference": 0.02377771784822304,
+    "latency_p50_ms": 3285.0,
+    "latency_p95_ms": 11263.0
+   },
+   {
+    "threshold": 1.0,
+    "agreement_label": 0.9773913043478261,
+    "agreement_reference": 0.9773913043478261,
+    "escalation_rate": 0.5565217391304348,
+    "cost_per_item_usd": 0.002382378520173917,
+    "cost_ratio_to_reference": 0.649204836379837,
+    "latency_p50_ms": 4099.0,
+    "latency_p95_ms": 12034.0
+   }
+  ]
+ },
+ "definitions": "vera/bench/metrics.py (module docstring)"
+}

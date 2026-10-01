@@ -2,6 +2,7 @@
   "passed_gates": [
     "backends_live",
     "benchmark_labeled",
+    "benchmark_run",
     "confirmed",
     "corpus_fetched",
     "graph_ready",
