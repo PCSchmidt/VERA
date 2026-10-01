@@ -22,7 +22,7 @@ revised for it. Increment 2 (thin loop on TreeHFD) is confirmed unchanged.
 |---|---|---|
 | First cost-vs-agreement threshold curve | **Met** | `docs/figures/threshold_curve.png`, `data/benchmark/results.json` (5 cheap backends x 21 thresholds against Sonnet 5.5); gate `benchmark_run` passed (`check_benchmark_results.py`: test hash unchanged, run ledgers $1.61 <= $8.00). |
 | JDG-P targets set from data | **Met, with a caveat** | docs/02 0.3: JDG-P-01 >= 97% agreement at <= 5% of reference cost; JDG-P-02 p50 <= 0.5 s, p95 <= 1.5 s; JDG-P-03 flip rate <= 2%. Caveat: set from the same test split they are measured on (see Benchmark limits). |
-| Measured per-call costs used to estimate one loop run against the ceiling | **Met** | Loop-run estimate below: about $0.25-1 per run with a flash-tier generator, about $5 with Sonnet 5.5 generating everything; $20 kept. |
+| Measured per-call costs used to estimate one loop run against the ceiling | **Met** | Loop-run estimate below: about $0.5 per run with GLM-5.3 Flash generating, about $1 with Sonnet writing up, about $5 with Sonnet generating everything; $20 kept. |
 
 SPEC features (each its own acceptance test): ledger and metered calls
 (FND-F-01, FND-C-01), parsing (JDG-F-01), router (JDG-F-02/03), backends
@@ -70,7 +70,10 @@ judged all 9 from the sheet material only: 9/9 correct
 (`data/benchmark/label_check.csv`, gate `benchmark_labeled`).
 
 **Run** (2026-10-01): test split, cheap backends 10 repeats, Sonnet 5.5
-reference 3 repeats; 6,095 verdicts, no failed calls, $1.61.
+reference 3 repeats; 6,095 verdicts, $1.61. Three calls failed (Gemma: one
+read timeout; MiMo: one read timeout, one dropped connection); the harness
+retried each and the retry succeeded, so no verdict is missing and the
+ledgers hold 6,098 records. Failed calls cost $0.
 
 | Backend | Agreement | Loop gate | ECE | Flip rate | Cost/item | vs Sonnet | p50 / p95 |
 |---|---|---|---|---|---|---|---|
@@ -83,13 +86,13 @@ reference 3 repeats; 6,095 verdicts, no failed calls, $1.61.
 
 Router replay (offline, recorded verdicts): Jev escalating to Sonnet at the
 default threshold 0.7 gives 0.976 at 2.8% of Sonnet's cost; Jev escalating
-to GLM gives 0.976 at 1.3%, p50 0.19 s. Jev's errors are 4 loop-gate items
-it gets wrong on nearly every repeat with high confidence, so escalation
-plateaus near 0.98. Gemma reports confidence 1.0 on every verdict, so its
-errors never escalate.
+to GLM gives 0.976 at 1.3%, p50 0.19 s. Jev's errors are 4 loop-gate items,
+wrong on 10, 10, 9 and 5 of their 10 repeats, mostly with high confidence, so escalation
+plateaus near 0.98. Gemma reports confidence 1.0 on 1,149 of 1,150
+verdicts (0.9 on one), so its errors effectively never escalate.
 
 **Benchmark limits.** (1) Numeric and citation items are near ceiling for
-most backends; only the loop-gate task (38 test items) separates them. (2)
+most backends; only the loop-gate task (39 test items) separates them. (2)
 Sonnet matched every label, so agreement with the reference adds nothing
 to agreement with labels on this set. (3) 115 items: a 1-2 point gap is one
 or two items; no confidence intervals were computed. (4) The JDG-P targets
@@ -144,8 +147,9 @@ about 40 judge questions; minimal P1 final gate: about 40 checks.
 Judging is under 5% of a run's cost with the T1 path; generation is the
 cost. R10's trigger (one run projected above 50% of the monthly ceiling,
 $10) does not fire for any option. **Ceiling: kept at $20 for Increment 2**
-(confirmed by Chris, 2026-10-01), which allows about 20 runs on the mixed
-option or 4 on Sonnet throughout, including debugging runs. Choosing the
+(confirmed by Chris, 2026-10-01). October has $18.39 left after the
+benchmark run, which allows about 18 runs on the mixed option or 3 on
+Sonnet throughout, including debugging runs. Choosing the
 generator is new work for Increment 2 (with T7); Jev is billed by TypeSafe,
 separately from OpenRouter, and counts toward the same ceiling.
 
@@ -155,9 +159,10 @@ separately from OpenRouter, and counts toward the same ceiling.
 |---|---|---|---|
 | Backend smoke runs and debugging | $1.00 | about $0.12 in all: final smoke ledger $0.038; three earlier smoke runs about $0.077; debug calls $0.008 | `data/ledger/smoke.jsonl`, `data/ledger/debug.jsonl` (local); earlier runs from console output |
 | Benchmark run | $8.00 | $1.61 | `data/ledger/bench_*.jsonl` |
-| **Increment 1** | | **about $1.73** of the $20 monthly ceiling | |
+| **Increment 1** | | **about $1.73**: about $0.12 in September (smoke runs, debug), $1.61 in October (benchmark) | |
 
-The three earlier smoke runs were overwritten by the next run of
+The ~$0.077 for the three earlier smoke runs rests on console output only;
+no file in the repository records it. They were overwritten by the next run of
 `scripts/smoke_run.py` (it replaced its ledger each run), so their spend is
 known only from console output. That breaks "every model call is in the
 ledger" for about $0.08; Increment 2 must keep one ledger file per run.
@@ -181,9 +186,11 @@ ledger" for about $0.08; Increment 2 must keep one ledger file per run.
   The first 50 DeepSeek verdicts used default routing.
 - **Long runs outlast the agent's background limit** (10 minutes). The run
   was stopped twice by it and resumed; Chris ran the last segment in his
-  terminal. The harness's resumability made this cheap: completed calls
-  were never repeated, except the one call in flight at each kill (MiMo's
-  ledger has 1,152 records for 1,150 verdicts).
+  terminal. The harness's resumability made this cheap: no completed call
+  was repeated (each backend has exactly 1,150 or 345 distinct item/repeat
+  verdicts). An earlier draft of this review explained MiMo's extra ledger
+  records as calls repeated after kills; they are failed calls that were
+  retried (Evaluator round 1).
 - **Meridian escape (high):** MERIDIAN.md says secret rules are enforced at
   the commit boundary, but the pre-commit verifier does not scan file
   contents; the rules fire only on agent tool calls. VERA now scans every
@@ -198,6 +205,14 @@ ledger" for about $0.08; Increment 2 must keep one ledger file per run.
 - At least 3 human-checked items drawn by seed and recorded by id:
   **closed** (label check, 3 per task).
 - R6 wording and the option-B row: **closed** (Increment 0 errata).
+- Human-gate checking sheets generated from source documents: **closed**
+  for this increment's one human check: `label_check_sheet.md` is generated
+  by `scripts/build_benchmark.py` from the items themselves, i.e. the exact
+  material each judge saw.
+- Spot-check rounds numbered and kept: **closed by not arising**: one label
+  check round, no redraw; `check_benchmark_items.py` blocks unresolved
+  `incorrect` verdicts and requires a note for `fixed`, so a second round
+  would leave a record.
 - Dogfood overhead hours logged per session: **not done**. Chris estimates
   10-16 hours in total on VERA over Increments 0-1 (2026-09-29 to
   2026-10-01); the share spent on Meridian itself was not tracked, so no
@@ -209,9 +224,9 @@ ledger" for about $0.08; Increment 2 must keep one ledger file per run.
 
 ## Open items
 
-- **T6 (tracing)** is listed in docs/04 as an Increment 1 trade but was not
-  in the Increment 1 SPEC and is not decided. Proposed: decide in Increment
-  2; the ledger plus checkpoints have been enough so far.
+- **T6 (tracing)** was listed in docs/04 as an Increment 1 trade but was not
+  in the Increment 1 SPEC and is not decided. Moved to Increment 2 in docs/04;
+  the ledger plus checkpoints have been enough so far.
 - The ledger has no field for the serving provider, so per-provider cost
   and quality cannot be separated; proposed as a docs/03 change in
   Increment 2.
@@ -238,3 +253,6 @@ Scope per docs/07 Increment 2 (unchanged by direction B). Changes to carry in:
 - Propose a `provider` field for `LedgerRecord` (docs/03).
 - Keep the secret scan in the suite; no maintainer key in any artifact
   (APP-C-01) from now on, not only in Increment 5.
+- Log Meridian overhead hours at the end of every session
+  (`bash scripts/dogfood.sh overhead <hours>`): missed in Increments 0 and
+  1, so put it in the session-end routine, not left to memory.

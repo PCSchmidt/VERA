@@ -52,7 +52,7 @@ Keep each to one short section. Status: **open** until decided.
   `vera/bench/candidates.py`. Ledger: `data/ledger/smoke.jsonl`.
 - **Benchmark run (2026-10-01):** the 115-item test split (hash
   `0ae2c8d6f11a…`, fixed before any run), cheap backends 10 repeats, Sonnet
-  3; 6,095 verdicts, $1.61, no failed calls (`data/benchmark/results.json`,
+  3; 6,095 verdicts, $1.61; 3 failed calls, each retried successfully (`data/benchmark/results.json`,
   `docs/figures/threshold_curve.png`, raw verdicts and ledgers committed).
   OpenRouter routes a model to many providers at different prices (DeepSeek
   V4.1 Flash: 32 providers, $0.024-0.60 per million input tokens); costs
@@ -75,12 +75,12 @@ Keep each to one short section. Status: **open** until decided.
   Sonnet at threshold 0.7 gives 0.976 at 2.8% of Sonnet's cost (1.7%
   escalated); at 0.95, 0.982 at 9.7%. Jev escalating to GLM instead gives
   the same agreement (0.976 at 0.7) at 1.3% of Sonnet's cost with p50
-  0.19 s. Jev's errors are 4 loop-gate items it gets wrong on nearly every
-  repeat with high confidence, which escalation does not catch. DeepSeek and
+  0.19 s. Jev's errors are 4 loop-gate items, wrong on 10, 10, 9 and 5 of
+  their 10 repeats, mostly with high confidence, which escalation does not catch. DeepSeek and
   MiMo flip on 6-8% of items and their confidence does not flag their
-  errors. Gemma reports confidence 1.0 on every verdict, so nothing it gets
-  wrong ever escalates. Numeric and citation items are near ceiling for most
-  backends; only the loop-gate task (38 test items) separates them, and with
+  errors. Gemma reports confidence 1.0 on 1,149 of 1,150 verdicts, so almost
+  nothing it gets wrong escalates. Numeric and citation items are near ceiling for most
+  backends; only the loop-gate task (39 test items) separates them, and with
   115 items a 1-2 point difference is one or two items.
 - **Decision:** (Chris, 2026-10-01) the cheap path is **Jev, escalating to
   GLM-5.3 Flash** (`RoutingPolicy` default threshold 0.7, one escalation).
@@ -213,7 +213,7 @@ Keep each to one short section. Status: **open** until decided.
 - **Criteria:** coverage of ML venues and preprints, rate limits, terms,
   search quality for the literature stage (Increment 3), open-access PDF links.
 
-## T6 — Tracing/observability (open, Increment 1)
+## T6 — Tracing/observability (open, decide in Increment 2; moved from Increment 1 at its review)
 
 - **Options:** LangSmith; OpenTelemetry + local store; ledger-only.
 - **Criteria:** cost, lock-in, ability to publish traces with results.
