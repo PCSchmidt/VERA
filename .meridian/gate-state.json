@@ -7,6 +7,7 @@
     "corpus_fetched",
     "graph_ready",
     "incr0_review",
+    "incr1_review",
     "incr1_scoped",
     "inventory_verified",
     "judge_core_ready",
@@ -42,6 +43,10 @@
     "trades_decided_1": {
       "by": "Chris Schmidt",
       "at": "2026-10-01T14:00:31Z"
+    },
+    "incr1_review": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-01T15:13:24Z"
     }
   }
 }
