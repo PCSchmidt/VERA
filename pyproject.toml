@@ -14,6 +14,9 @@ dependencies = [
 ]
 
 [dependency-groups]
+bench = [
+    "matplotlib>=3.11.2",
+]
 corpus = [
     "pymupdf>=1.28.2",
 ]

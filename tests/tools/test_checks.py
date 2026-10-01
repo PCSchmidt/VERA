@@ -538,3 +538,50 @@ def test_FND_F_01_ledger_check_blocks(tmp_path: Path, lines: list[str], message:
 def test_FND_F_01_ledger_check_allows_named_free_backends(tmp_path: Path) -> None:
     write(tmp_path, "data/ledger/smoke.jsonl", ledger_line("cheap") + "\n" + ledger_line("local", cost=0.0) + "\n")
     assert run("check_ledger.py", tmp_path, "--free", "local").returncode == 0
+
+
+# ── benchmark results (benchmark_run) ─────────────────────────────────────────
+
+
+def results_fixture(root: Path, *, ledger_cost: float = 0.5, drop_threshold: bool = False, tamper: bool = False,
+                    drop_metric: bool = False) -> None:  # fmt: skip
+    bench(root)  # items, split and label checks from the benchmark_labeled fixture
+    split = json.loads((root / "data/benchmark/split.json").read_text(encoding="utf-8"))
+    metrics = {"agreement_label": 0.9, "agreement_reference": 0.95, "ece": 0.05, "flip_rate": 0.02,
+               "cost_per_item_usd": 0.001, "latency_p50_ms": 500, "latency_p95_ms": 900, "malformed_rate": 0.0,
+               "items": 3, "repeats": 10}  # fmt: skip
+    thresholds = [round(0.05 * k, 2) for k in range(21)]
+    if drop_threshold:
+        thresholds.pop()
+    row = {"agreement_label": 0.9, "agreement_reference": 0.95, "escalation_rate": 0.1, "cost_per_item_usd": 0.001,
+           "latency_p50_ms": 500, "latency_p95_ms": 900}  # fmt: skip
+    cheap = dict(metrics)
+    if drop_metric:
+        del cheap["ece"]
+    results = {"reference": "ref", "test_sha256": "0" * 64 if tamper else split["test_sha256"],
+               "backends": {"ref": metrics, "cheap": cheap},
+               "sweep": {"cheap": [row | {"threshold": t} for t in thresholds]}}  # fmt: skip
+    write(root, "data/benchmark/results.json", json.dumps(results))
+    write(root, "data/ledger/bench_ref.jsonl", json.dumps({"cost_usd": ledger_cost}) + "\n")
+    write(root, "data/ledger/bench_cheap.jsonl", json.dumps({"cost_usd": 0.01}) + "\n")
+
+
+def test_JDG_F_06_results_check_passes_a_complete_run(tmp_path: Path) -> None:
+    results_fixture(tmp_path)
+    result = run("check_benchmark_results.py", tmp_path)
+    assert result.returncode == 0, result.stderr
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"ledger_cost": 8.5}, "> $8.00"),
+        ({"drop_threshold": True}, "does not cover thresholds"),
+        ({"tamper": True}, "different test split"),
+        ({"drop_metric": True}, "missing metrics"),
+    ],
+)
+def test_JDG_F_06_results_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> None:
+    results_fixture(tmp_path, **kwargs)
+    result = run("check_benchmark_results.py", tmp_path)
+    assert result.returncode == 2 and message in result.stderr

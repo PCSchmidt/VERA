@@ -31,6 +31,7 @@ __pycache__/
 data/ledger/*
 !data/ledger/smoke.jsonl
 !data/ledger/smoke_verdicts.jsonl
+!data/ledger/bench_*.jsonl
 
 .clinerules/
 .cursor/
