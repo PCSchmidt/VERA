@@ -9,7 +9,8 @@ three tasks; the test split is never touched), asks every candidate backend
 
 All calls share one Budget of $1.00 that raises before a call that could
 cross it. A failed call is recorded and the run moves on to the next item.
-The files are overwritten on each run (the ledger is per run).
+The files are overwritten on each run (the ledger is per run), unless
+--append adds a backend to an existing smoke run (same items, same seed).
 
 Usage: uv run python scripts/smoke_run.py [--backends mimo-flash jev ...] [--seed N]
 """
@@ -47,15 +48,18 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--backends", nargs="+", default=NAMES, choices=NAMES)
     parser.add_argument("--seed", type=int, default=20261003)
+    parser.add_argument("--append", action="store_true", help="add to the existing smoke ledger and verdicts")
     args = parser.parse_args()
 
     sample = draw(args.seed)
     for path in (LEDGER, VERDICTS):
         path.parent.mkdir(parents=True, exist_ok=True)
-        path.unlink(missing_ok=True)
+        if not args.append:
+            path.unlink(missing_ok=True)
     ledger = Ledger(LEDGER, run_id="smoke")
     budget = Budget(max_usd=MAX_USD, max_wall_seconds=3600)
-    with VERDICTS.open("w", encoding="utf-8") as out:
+    budget.charge(ledger.total_cost(), calls=0)  # an appended run shares the $1.00 with the earlier one
+    with VERDICTS.open("a" if args.append else "w", encoding="utf-8") as out:
         for name in args.backends:
             backend = make_backend(name, ledger=ledger, budget=budget, component="p2.smoke")
             right = failed = malformed = 0

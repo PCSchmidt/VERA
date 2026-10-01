@@ -10,6 +10,7 @@ import httpx
 import pytest
 
 from vera.backends import api_key
+from vera.backends.ollama import OllamaBackend
 from vera.backends.openrouter import OpenRouterBackend, Prices, answer_token_probs
 from vera.backends.typesafe import JevBackend, parse_jev, question_payload
 from vera.ledger import Ledger
@@ -198,3 +199,57 @@ def test_FND_F_01_http_error_reason_reaches_the_ledger(tmp_path: Path) -> None:
         b.ask("s", [Question(id="b", type=QuestionType.BOOLEAN, text="?")])
     (record,) = ledger.records()
     assert "Reasoning is mandatory" in record.error and record.cost_usd == 0.0
+
+
+# ── Ollama (local) ────────────────────────────────────────────────────────────
+
+
+def ollama(tmp_path: Path, reply: dict, status: int = 200) -> tuple[OllamaBackend, Ledger, list]:
+    seen: list = []
+
+    def handle(request: httpx.Request) -> httpx.Response:
+        seen.append((request.url.path, json.loads(request.content)))
+        return httpx.Response(status, json=reply)
+
+    ledger = Ledger(tmp_path / "local.jsonl")
+    b = OllamaBackend("gemma-local", "gemma4:12b", 0, ledger=ledger, budget=Budget(max_usd=0.0, max_wall_seconds=600),
+                      client=httpx.Client(transport=httpx.MockTransport(handle)))  # fmt: skip
+    return b, ledger, seen
+
+
+def test_JDG_F_04_ollama_answers_offline_at_zero_cost(tmp_path: Path) -> None:
+    reply = {"model": "gemma4:12b", "message": {"content": '{"answer": "B", "probability": 0.7}'},
+             "prompt_eval_count": 180, "eval_count": 14}  # fmt: skip
+    b, ledger, seen = ollama(tmp_path, reply)
+    (v,) = b.ask("runs A, B, C", [CHOICE])
+    assert (v.answer, v.confidence, v.confidence_source, v.cost_usd) == ("B", 0.7, "self_report", 0.0)
+    path, body = seen[0]
+    assert path == "/api/chat" and body["think"] is False and body["format"] == "json"
+    assert body["options"]["temperature"] == 0 and body["stream"] is False
+    (rec,) = ledger.records()  # a $0 budget still allows free calls
+    assert (rec.backend, rec.input_tokens, rec.output_tokens, rec.cost_usd) == ("gemma-local", 180, 14, 0.0)
+
+
+def test_JDG_F_04_ollama_uses_token_logprobs_when_returned(tmp_path: Path) -> None:
+    tokens = [lp('{"', {'{"': 1.0}), lp("answer", {"answer": 1.0}), lp('":', {'":': 1.0}),
+              lp(" true", {" true": 0.8, " false": 0.2})]  # fmt: skip
+    reply = {"message": {"content": '{"answer": true, "probability": 0.99}'}, "prompt_eval_count": 50,
+             "eval_count": 9, "logprobs": tokens}  # fmt: skip
+    b, _, _ = ollama(tmp_path, reply)
+    (v,) = b.ask("s", [BOOL])
+    assert v.confidence_source == "logprobs" and v.confidence == pytest.approx(0.8)
+
+
+def test_FND_F_01_ollama_error_is_recorded(tmp_path: Path) -> None:
+    b, ledger, _ = ollama(tmp_path, {"error": "model 'gemma4:12b' not found"}, status=404)
+    with pytest.raises(RuntimeError, match="not found"):
+        b.ask("s", [BOOL])
+    assert "not found" in ledger.records()[0].error
+
+
+def test_JDG_F_04_ollama_json_and_logprobs_are_settings(tmp_path: Path) -> None:
+    b, _, seen = ollama(tmp_path, {"message": {"content": '{"answer": true, "probability": 0.6}'}})
+    b.json_format, b.logprobs = False, False
+    b.ask("s", [BOOL])
+    body = seen[0][1]
+    assert "format" not in body and "logprobs" not in body

@@ -21,6 +21,15 @@ Keep each to one short section. Status: **open** until decided.
   GLM-5.3 Flash $0.15/$0.50 (logprobs); reference Claude Sonnet 5.5 $2/$10;
   TypeSafe Jev via its direct API at **$0.042 per million input tokens,
   output free** (confirmed by Chris from the TypeSafe console).
+  Local (option (b), added 2026-09-30 with Chris's agreement): Gemma 4 12B
+  (`gemma4:12b`, ~8 GB) through Ollama 0.34.2 on the RTX A4500 Laptop GPU
+  (16 GB), thinking off; $0 per token, so latency is its cost. It is the
+  only candidate that scores the offline and lock-in criteria, and R4's
+  local fallback. Smoke run (same 10 dev items): 10/10 parsed, 8/10
+  agree; first call 84 s (model load), then p50 1.6 s. Ollama 0.34.2
+  returns token log-probabilities for the first token only, so confidence
+  is self-reported, and it reported 1.0 on all 10: the router cannot
+  escalate on it unless the benchmark shows otherwise.
 - **Jev terms (Master Customer Agreement, typesafe.ai/legal/mca, read
   2026-09-30):** no benchmarking clause. §2.3(b) forbids using Jev output to
   distil or train a model, so option (c) must never train on Jev answers.

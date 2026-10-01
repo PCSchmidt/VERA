@@ -31,3 +31,7 @@ __pycache__/
 data/ledger/*
 !data/ledger/smoke.jsonl
 !data/ledger/smoke_verdicts.jsonl
+
+.clinerules/
+.cursor/
+.windsurf/

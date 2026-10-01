@@ -20,8 +20,8 @@ price is passed in (see docs/04 T1 for its source) and used for both the
 budget estimate and the recorded cost; check it against the TypeSafe console.
 
 Terms (typesafe.ai/legal/mca, §2.3(b)): never use Jev's output to distil or
-train a model. Publishing benchmark results needs TypeSafe's written consent
-first (docs/04 T1, risk R4).
+train a model. Benchmark results are published (Chris's decision, docs/04 T1,
+risk R4).
 """
 
 from __future__ import annotations
