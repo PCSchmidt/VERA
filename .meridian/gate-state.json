@@ -1,6 +1,7 @@
 {
   "passed_gates": [
     "backends_live",
+    "benchmark_labeled",
     "confirmed",
     "corpus_fetched",
     "graph_ready",
@@ -31,6 +32,10 @@
     "incr1_scoped": {
       "by": "Chris Schmidt",
       "at": "2026-09-30T19:50:35Z"
+    },
+    "benchmark_labeled": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-01T11:36:48Z"
     }
   }
 }
