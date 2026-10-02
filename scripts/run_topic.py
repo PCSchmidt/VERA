@@ -24,6 +24,7 @@ from vera.keepawake import keep_awake
 from vera.ledger import Ledger
 from vera.literature.deps import LitDeps
 from vera.literature.graph import STAGE_NODES, continue_topic_run, start_topic_run
+from vera.literature.reading import GrobidParser, ParseCache, PdfFetcher
 from vera.literature.retrieval import HttpCache, Retriever
 from vera.schemas import Budget, OutputGuidance, RunSpec, Topic
 
@@ -68,6 +69,10 @@ def main() -> None:
     )  # fmt: skip
     sources = None if args.openalex else ["crossref", "arxiv"]  # T5: the keyless pair, on which recall is measured
     deps.extra["retriever"] = Retriever(cache=HttpCache(ROOT / "data" / "cache" / "http"), sources=sources)
+    cache = ROOT / "data" / "cache"
+    deps.extra["fetch_pdf"] = PdfFetcher(cache / "pdf")  # paced and cached (arXiv asks for 1 request per 3 s)
+    parser = GrobidParser()  # docker: lfoppiano/grobid:0.8.2 on localhost:8070 (T3)
+    deps.extra["parse_pdf"] = lambda pdf: ParseCache(cache / "parsed").parse(pdf, parser)
     with keep_awake():
         if args.phase == "start":
             state = start_topic_run(deps, extra_nodes=STAGE_NODES)

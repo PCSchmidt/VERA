@@ -37,6 +37,8 @@ STAGE_NODES: list[tuple[str, str, NodeFactory]] = [
     ("queries", "retrieve", stages.queries_node),
     ("retrieve", "retrieve", stages.retrieve_node),
     ("screen", "retrieve", stages.screen_node),
+    ("read", "read", stages.read_node),
+    ("read_gate", "read", stages.read_gate_node),
 ]
 AWAITING = "awaiting confirmation: run scripts/confirm_scope.py, then continue the run"
 
@@ -46,6 +48,8 @@ class LitState(TypedDict, total=False):
     queries: list  # search queries written from the confirmed question
     records: list  # keys of the retrieved candidates, best ranked first
     kept: list  # keys that passed the relevance screen
+    passages: int  # evidence passages written to passages.jsonl
+    read_report: list  # per paper: how it was read (full text or abstract), and why not when it was not
     artifacts: Annotated[dict, _merge]
     verdicts: Annotated[dict, _merge]
     stage_results: Annotated[list, operator.add]

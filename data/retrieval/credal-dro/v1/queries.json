@@ -1,0 +1,10 @@
+{
+ "question": "In small-sample, contaminated data-driven decision problems (e.g., a mean-risk portfolio or newsvendor-type problem solved as a convex program), how do credal ambiguity sets (such as an imprecise Dirichlet or epsilon-contamination neighborhood around the empirical distribution) compare with Wasserstein-ball and moment-based (mean-covariance) ambiguity sets in out-of-sample cost and in the reliability of the resulting cost guarantee, as the sample size (n of roughly 10 to 200) and the contamination fraction (0 to 20%) vary, when each set's radius is tuned by the same cross-validation or calibration rule?",
+ "queries": [
+  "imprecise Dirichlet model credal set decision making",
+  "epsilon-contamination ambiguity set distributionally robust optimization",
+  "Wasserstein distributionally robust optimization out-of-sample performance guarantee",
+  "moment-based ambiguity set mean-covariance distributionally robust portfolio",
+  "radius calibration cross-validation distributionally robust small sample contamination"
+ ]
+}

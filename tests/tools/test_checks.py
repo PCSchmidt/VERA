@@ -733,3 +733,60 @@ def test_scoping_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> Non
     scoping_fixture(tmp_path, **kwargs)
     result = run("check_scoping.py", tmp_path)
     assert result.returncode == 2 and message in result.stderr
+
+
+# ── retrieval_ready ───────────────────────────────────────────────────────────
+
+
+def retrieval_fixture(root: Path, *, per_topic: int = 15, verdict: str = "yes", drop_field: bool = False,
+                      cost: float = 0.05, model_answer: bool = True, confident: bool = True) -> None:  # fmt: skip
+    scoping_fixture(root)
+    rows, key = ["topic,key,title,year,abstract,your_verdict"], {}
+    for i in range(3):
+        tid = f"topic{i}"
+        record = {"key": "R1", "title": "t", "id": "arXiv:1", "source": "arxiv", "query": "q", "rank": 1,
+                  "retrieved": "2026-10-04"}  # fmt: skip
+        if drop_field:
+            del record["query"]
+        write(root, f"data/retrieval/{tid}/retrieved.jsonl", json.dumps(record) + "\n")
+        write(root, f"data/ledger/run_scope-{tid}.jsonl",
+              json.dumps({"component": "p3.scope", "cost_usd": cost, "timestamp": "2026-10-03T09:00:00Z"}) + "\n")
+        for k in range(per_topic):
+            rows.append(f"{tid},R{k},title,2020,abstract,{verdict}")
+            key[f"{tid}:R{k}"] = {"answer": model_answer, "confident": confident}
+    write(root, "data/retrieval/relevance_check.csv", "\n".join(rows) + "\n")
+    write(root, "data/retrieval/relevance_key.json", json.dumps(key))
+    write(root, "docs/results/retrieval_recall.md", "\n".join(f"## topic{i}" for i in range(3)))
+
+
+def test_retrieval_check_passes_and_reports_agreement_with_an_interval(tmp_path: Path) -> None:
+    retrieval_fixture(tmp_path)
+    result = run("check_retrieval.py", tmp_path)
+    assert result.returncode == 0 and "45 of 45" in result.stdout and "95% CI" in result.stdout, result.stderr
+
+
+def test_retrieval_check_reports_low_agreement_without_blocking(tmp_path: Path) -> None:
+    retrieval_fixture(tmp_path, model_answer=False)  # the screen says no to everything the user says yes to
+    result = run("check_retrieval.py", tmp_path)
+    assert result.returncode == 0 and "0 of 45" in result.stdout
+
+
+def test_retrieval_check_sets_unsure_verdicts_aside(tmp_path: Path) -> None:
+    retrieval_fixture(tmp_path, confident=False)
+    result = run("check_retrieval.py", tmp_path)
+    assert result.returncode == 0 and "0 of 0" in result.stdout and "45 unsure" in result.stdout
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"per_topic": 14}, "need 15"),
+        ({"verdict": ""}, "must be yes or no"),
+        ({"drop_field": True}, "missing a field"),
+        ({"cost": 3.0}, "over the $2.0 per-topic cap"),
+    ],
+)
+def test_retrieval_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> None:
+    retrieval_fixture(tmp_path, **kwargs)
+    result = run("check_retrieval.py", tmp_path)
+    assert result.returncode == 2 and message in result.stderr

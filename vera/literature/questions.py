@@ -42,3 +42,19 @@ def relevant(question: str, record: dict) -> tuple[Question, str]:
         "a keyword, or too general to inform the question."
     )
     return Question(id="lit.relevant", type=QuestionType.BOOLEAN, text=text), material
+
+
+def evidence_sufficient(question: str, papers: list[dict]) -> tuple[Question, str]:
+    """(question, material): is the evidence gathered enough to write a literature section on the question?
+
+    `papers` carry a title, how the paper was read ("fulltext" or "abstract") and its best passage."""
+    lines = []
+    for p in papers:
+        lines.append(f"- {p['title']} ({p['mode']}): {p['best'][:240]}")
+    material = f"Research question: {question}\n\nEvidence gathered ({len(papers)} papers):\n" + "\n".join(lines)
+    text = (
+        "Is the evidence gathered (the papers listed and the passages quoted from them) enough to write a short "
+        "literature section that bears on the research question, saying what the sources establish and where they "
+        "stop? Answer false if most of the evidence is about something else, or too thin to support a section."
+    )
+    return Question(id="lit.evidence_sufficient", type=QuestionType.BOOLEAN, text=text), material

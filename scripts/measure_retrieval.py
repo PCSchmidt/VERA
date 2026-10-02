@@ -55,8 +55,19 @@ def indexed(client: httpx.Client, key_paper: dict) -> bool:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--seed", type=int, default=20261005)
+    ap.add_argument("--snapshot", metavar="LABEL", help="copy each run's retrieval files to data/retrieval/<id>/<LABEL>/")
+    ap.add_argument("--label", help="measure a snapshot (see --snapshot) instead of the run: recall only, no sheet")
     args = ap.parse_args()
     manifest = json.loads((TOPICS / "manifest.json").read_text(encoding="utf-8"))["topics"]
+    if args.snapshot:
+        for tid in manifest:
+            scope = json.loads((TOPICS / f"scope_{tid}.json").read_text(encoding="utf-8"))
+            run, dest = ROOT / "runs" / scope["run_id"], OUT / tid / args.snapshot
+            dest.mkdir(parents=True, exist_ok=True)
+            for name in ("retrieved.jsonl", "screen.jsonl", "artifacts/relevance.json", "artifacts/queries.json"):
+                shutil.copy(run / name, dest / Path(name).name)
+            print(f"snapshot {tid} -> {dest.relative_to(ROOT)}")
+        return
     client = Retriever(cache=HttpCache(ROOT / "data" / "cache" / "http")).client
     client.headers["User-Agent"] = USER_AGENT.replace("citation existence checks", "key-paper lookup")
     lines = ["# Retrieval: recall of the key papers\n",
@@ -67,14 +78,16 @@ def main() -> None:
     rng = random.Random(args.seed)
     for tid, entry in manifest.items():
         scope = json.loads((TOPICS / f"scope_{tid}.json").read_text(encoding="utf-8"))
-        run = ROOT / "runs" / scope["run_id"]
+        run = (OUT / tid / args.label) if args.label else ROOT / "runs" / scope["run_id"]
+        art = run if args.label else run / "artifacts"
         records = [json.loads(ln) for ln in (run / "retrieved.jsonl").read_text(encoding="utf-8").splitlines() if ln]
-        relevance = json.loads((run / "artifacts" / "relevance.json").read_text(encoding="utf-8"))
+        relevance = json.loads((art / "relevance.json").read_text(encoding="utf-8"))
         kept = set(relevance["kept"])
         key_papers = json.loads((TOPICS / entry["file"]).read_text(encoding="utf-8"))["key_papers"]
         result = recall(key_papers, records, kept, TOP_N)
-        (OUT / tid).mkdir(parents=True, exist_ok=True)
-        shutil.copy(run / "retrieved.jsonl", OUT / tid / "retrieved.jsonl")
+        if not args.label:
+            (OUT / tid).mkdir(parents=True, exist_ok=True)
+            shutil.copy(run / "retrieved.jsonl", OUT / tid / "retrieved.jsonl")
         lines += [f"\n## {tid}\n",
                   f"Run `{scope['run_id']}`: {len(records)} candidates retrieved, {len(kept)} kept by the relevance "
                   f"screen, {len(relevance['unsure'])} unsure.\n",
@@ -97,6 +110,8 @@ def main() -> None:
             lines.append(f"| {row['title'][:70]} | {found} | {kept_} | {row['position'] or ''} | {why} |\n")
         lines.append(f"\nVerdict on the starting threshold: recall after retrieval {result['found']:.0%} "
                      f"({'at or above' if result['found'] >= THRESHOLD else 'BELOW'} {THRESHOLD:.0%}).\n")  # fmt: skip
+        if args.label:
+            continue
         verdicts = {}
         for ln in (run / "screen.jsonl").read_text(encoding="utf-8").splitlines():
             v = json.loads(ln)
@@ -105,7 +120,11 @@ def main() -> None:
             sheet.append({"topic": tid, "key": rec["key"], "title": rec["title"], "year": rec.get("year", ""),
                           "abstract": (rec.get("abstract") or "")[:1200], "your_verdict": ""})  # fmt: skip
             key[f"{tid}:{rec['key']}"] = verdicts.get(rec["key"])
-    (ROOT / "docs" / "results" / "retrieval_recall.md").write_text("".join(lines), encoding="utf-8")
+    name = f"retrieval_recall_{args.label}.md" if args.label else "retrieval_recall.md"
+    (ROOT / "docs" / "results" / name).write_text("".join(lines), encoding="utf-8")
+    if args.label:
+        print(f"wrote docs/results/{name}")
+        return
     with (OUT / "relevance_check.csv").open("w", encoding="utf-8", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=["topic", "key", "title", "year", "abstract", "your_verdict"])
         w.writeheader()

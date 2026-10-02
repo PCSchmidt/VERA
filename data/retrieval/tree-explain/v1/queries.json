@@ -1,0 +1,10 @@
+{
+ "question": "When input features are correlated, does the functional decomposition of a tree ensemble produced by TreeHFD (arXiv 2510.24815) remain accurate and stable compared with TreeSHAP-style attributions and with the true additive/interaction components in synthetic data? Concretely, as pairwise feature correlation rho increases from 0 to 0.95 in simulated data with known main effects and one known pairwise interaction, how do (a) the error of the recovered components against the ground-truth components and (b) the rank stability of the estimated component importances across bootstrap-refit random forests and gradient-boosted ensembles change? The same comparison would then be repeated on a few public tabular datasets (e.g., California housing, Adult) by measuring bootstrap stability of the top-k components, with no ground truth available.",
+ "queries": [
+  "TreeHFD hierarchical functional decomposition tree ensembles",
+  "TreeSHAP attributions correlated features instability",
+  "functional ANOVA decomposition with dependent inputs",
+  "generalized functional ANOVA tree ensembles interaction effects",
+  "bootstrap stability of feature importance rankings random forest"
+ ]
+}
