@@ -7,7 +7,7 @@ from pathlib import Path
 
 import pytest
 
-from tests.lit_fakes import SCOPED_REPLY, LitJudge, fenced, make_lit_deps
+from tests.lit_fakes import SCOPED_REPLY, LitJudge, fenced, make_lit_deps, make_lit_spec
 from vera.graph import resume, run_config
 from vera.judge.cheap_path import CheapPath
 from vera.judge.router import Router
@@ -160,3 +160,14 @@ def test_RSH_F_08_a_lit_question_reaches_glm_not_jev() -> None:
     q, material = questions.question_scoped("t", scoped)
     path.ask(material, [q])
     assert glm.seen == ["lit.question_scoped"] and jev.seen == []
+
+
+def test_RSH_F_08_the_users_note_reaches_the_prompt_and_the_key_papers_never_do(tmp_path: Path) -> None:
+    from tests.lit_fakes import TOPIC  # noqa: PLC0415
+
+    topic = TOPIC.model_copy(update={"scope_hint": "Non-empirical. A good question is about the evidence.",
+                                     "key_papers_ref": "data/topics/t-a.json"})  # fmt: skip
+    deps = make_lit_deps(tmp_path, spec=make_lit_spec(topic=topic))
+    prompt = scoping.scope_prompt(deps)
+    assert "Non-empirical. A good question is about the evidence." in prompt
+    assert "key_papers" not in prompt and "data/topics" not in prompt

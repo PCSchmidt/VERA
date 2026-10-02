@@ -37,7 +37,8 @@ def scope_prompt(deps: LitDeps) -> str:
     topic, g = deps.spec.topic, deps.spec.guidance
     return (
         f"Topic: {topic.text}\n\n"
-        "Propose ONE specific research question on this topic that a short literature review could address and, if "
+        + (f"The user's note on this topic (follow it): {topic.scope_hint}\n\n" if topic.scope_hint else "")
+        + "Propose ONE specific research question on this topic that a short literature review could address and, if "
         "it is empirical, that small CPU-scale experiments (minutes each, a laptop, public datasets and public code) "
         "could answer. Say why it is researchable and whether it is empirical. If it is empirical, name a candidate "
         "parent problem (an arXiv id or DOI of a method paper with public code) or say why you cannot name one; if "

@@ -49,7 +49,9 @@ def main() -> None:
 
     topic_file = ROOT / "data" / "topics" / f"{args.topic}.json"
     info = json.loads(topic_file.read_text(encoding="utf-8"))
-    topic = Topic(id=info["id"], text=info["text"], key_papers_ref=topic_file.relative_to(ROOT).as_posix())
+    hint = f"{info['path_note']} A good question: {info['good_question']}"  # never the key papers (no peeking)
+    topic = Topic(id=info["id"], text=info["text"], scope_hint=hint,
+                  key_papers_ref=topic_file.relative_to(ROOT).as_posix())  # fmt: skip
     spec = RunSpec(run_id=args.run_id, topic=topic, guidance=GUIDANCE,
                    budget=Budget(max_usd=args.max_usd, max_wall_seconds=args.max_wall),
                    models={"scope": GENERATOR[0]})  # fmt: skip

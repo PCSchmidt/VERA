@@ -197,6 +197,7 @@ class Topic(BaseModel):
     id: str  # filename-safe, as run_id
     text: str  # non-empty
     key_papers_ref: str | None = None  # data/topics/<id>.json: the recall measure for retrieval
+    scope_hint: str | None = None  # the user's note on the path and what a good question looks like (never key papers)
 
 
 class ScopedQuestion(BaseModel):
