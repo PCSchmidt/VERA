@@ -386,11 +386,10 @@ gates:
         - run-evaluator.sh          # independent Evaluator verdict on the review
 
   # ── Increment 3: topic front end and literature stage (SPEC.md) ───────────
-  # Only the scope gate is defined so far; the rest of the Increment 3 DAG
-  # (lit_core_ready, topics_chosen, scoping_ready, retrieval_ready,
-  # literature_ready, audit3_ready, trades_decided_3, topic_runs,
-  # judge_retest_3, incr3_review) is drawn in SPEC.md and added with the check
-  # scripts each needs.
+  # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
+  # Defined so far: incr3_scoped, lit_core_ready. Still to add: topics_chosen,
+  # scoping_ready, retrieval_ready, literature_ready, audit3_ready,
+  # trades_decided_3, topic_runs, judge_retest_3, incr3_review.
 
   - id: incr3_scoped
     label: "Increment 3 scope confirmed"
@@ -408,3 +407,18 @@ gates:
         - validate-contract.sh      # Meridian: Purpose + Scope sections present
         - validate-spec.sh          # Meridian: SPEC.md is structured
         - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount
+
+  - id: lit_core_ready
+    label: "Schemas 0.9, multi-verdict stage results, dogfood check, upstream draft, tested offline"
+    type: automated
+    required: true
+    requires:
+      - incr3_scoped
+    requires_artifacts:
+      - vera/schemas/literature.py
+      - docs/upstream/treehfd-predict-nondeterministic.md
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + pytest (schemas 0.9, StageResult.gates, check_dogfood)
+        - gate-schema-version.sh    # code SCHEMA_VERSION == docs/03 version (0.9)
+        - gate-vendor-imports.sh    # FND-C-01 still holds

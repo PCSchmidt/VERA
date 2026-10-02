@@ -1,6 +1,6 @@
 # 03 — Interfaces (core schemas)
 
-Version 0.8 · Draft · Changes require a version bump and a changelog line.
+Version 0.9 · Draft · Changes require a version bump and a changelog line.
 
 These are the contracts between layers. Implement as Pydantic v2 models in
 `vera/schemas/`. Field lists are normative; the Python below is a sketch.
@@ -171,14 +171,80 @@ class AuditReport(BaseModel):
 ```python
 class StageResult(BaseModel):
     run_id: str
-    stage: Literal["baseline", "ideate", "subset_exp", "full_exp", "ablation", "write_up", "audit"]
+    stage: Literal["scope", "retrieve", "read", "synthesize", "parent",
+                   "baseline", "ideate", "subset_exp", "full_exp", "ablation", "write_up", "audit"]
     artifact_ref: str  # path/ID of produced artifact
     producer_id: str
-    gate: Verdict  # issued by a different component
+    gates: list[Verdict]  # every verdict the stage asked (at least one), each from a different component
+    deciding_gates: list[int] = []  # indices into `gates` of the verdicts that caused a reject or refine
+    reason: str | None = None  # a deterministic cause of a reject, when no verdict decided it
     decision: Literal["accept", "refine", "reject"]
     metrics: dict[str, float] = {}
     budget_after: Budget
+    # property `gate`: gates[deciding_gates[0]] if any, else gates[0]
 ```
+
+Rules (0.9): every verdict in `gates` obeys the no-self-grading rule below;
+`deciding_gates` indices must exist; a `reject` must name a deciding verdict or a
+`reason` (the Increment 2 experiments stage stored its first verdict, a "yes",
+on a rejected stage). A record stored with the 0.8 single `gate` loads as
+`gates=[gate]`, with `deciding_gates=[0]` unless it was an accept.
+
+### Literature stage (RSH-F-08, RSH-F-09, AUD-F-10; 0.9)
+
+```python
+class Topic(BaseModel):
+    id: str  # filename-safe, as run_id
+    text: str  # non-empty
+    key_papers_ref: str | None = None  # data/topics/<id>.json: the recall measure for retrieval
+
+
+class ScopedQuestion(BaseModel):
+    topic_id: str
+    question: str
+    why_researchable: str
+    empirical: bool
+    candidate_parent: str | None = None  # arXiv id or DOI; none for a non-empirical question
+    no_parent_reason: str | None = None
+    status: Literal["proposed", "confirmed", "edited"] = "proposed"
+    confirmed_by: str | None = None  # required when status != "proposed", and only then
+    confirmed_at: str | None = None  # ISO 8601 UTC
+
+
+class SourceRecord(BaseModel):
+    key: str  # R1, R2, ...: what the text cites
+    id: str  # arXiv:..., doi:..., or the source's own id
+    title: str
+    authors: list[str] = []
+    year: str | None = None
+    venue: str | None = None
+    source: Literal["arxiv", "crossref", "openalex"]
+    url: str
+    abstract: str | None = None
+    pdf_url: str | None = None  # open-access full text, when there is one
+    query: str | None = None  # the query that retrieved it
+    rank: int | None = None
+    retrieved: str | None = None
+
+
+class ClaimLink(BaseModel):
+    claim: str
+    source_key: str  # a SourceRecord.key
+    quote: str  # non-blank: a verbatim (normalised) span of the source's text
+    locator: str  # "abstract", "sec. 3", a passage id
+    quote_check: Literal["pass", "fail", "unchecked"] = "unchecked"  # deterministic
+    verdicts: list[Verdict] = []  # lit.claim_supported, from a component other than the producer
+
+
+class LiteratureSection(BaseModel):
+    run_id: str
+    topic_id: str
+    text: str  # cites [Rn]
+    claims: list[ClaimLink]  # every claim's source_key is in `sources`
+    sources: list[SourceRecord]
+```
+
+`RunSpec.topic: Topic | None = None` is set when a run starts from a topic.
 
 ### Run specification (RSH-F-01)
 
@@ -241,3 +307,9 @@ different artifact producer (`gate.producer_id` set and `!= producer_id`). The
   providers at different prices, so per-provider cost and quality could not be
   separated (Increment 1 open item). `RunSpec`, `ProblemSpec` and `OutputGuidance`
   added for the research loop's inputs (RSH-F-01, Increment 2).
+- 0.9 — Literature stage types (`Topic`, `ScopedQuestion`, `SourceRecord`,
+  `ClaimLink`, `LiteratureSection`, `RunSpec.topic`) and new stage names.
+  `StageResult.gate` becomes `gates` plus `deciding_gates` and `reason`: the
+  Increment 2 experiments stage asked four "beats baseline?" questions but
+  stored the first (a "yes") on a rejected stage. Records stored with a single
+  `gate` still load.

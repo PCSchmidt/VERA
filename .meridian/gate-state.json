@@ -17,6 +17,7 @@
     "inventory_verified",
     "judge_core_ready",
     "judge_retest",
+    "lit_core_ready",
     "loop_run",
     "parser_decided",
     "run_core_ready",

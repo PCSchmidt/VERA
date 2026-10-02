@@ -178,10 +178,20 @@ def ask_gate(
     return verdict, confident
 
 
-def stage_result(deps: LoopDeps, stage: str, artifact: str, gate: Verdict, decision: str, metrics: dict) -> dict:
+def stage_result(
+    deps: LoopDeps, stage: str, artifact: str, gates: Verdict | list[Verdict], decision: str, metrics: dict,
+    deciding: list[int] | None = None, reason: str | None = None,
+) -> dict:
+    """The stage's record: every verdict it asked, and for a reject the ones (or the reason) that caused it.
+
+    `deciding` defaults to all the verdicts for a reject, so a single-gate stage names its one gate."""
+    gates = [gates] if isinstance(gates, Verdict) else gates
+    if deciding is None:
+        deciding = [] if decision == "accept" or reason else list(range(len(gates)))
     return StageResult(
-        run_id=deps.spec.run_id, stage=stage, artifact_ref=artifact, producer_id=PRODUCERS[stage], gate=gate,
-        decision=decision, metrics=metrics, budget_after=deps.budget.model_copy(),
+        run_id=deps.spec.run_id, stage=stage, artifact_ref=artifact, producer_id=PRODUCERS[stage], gates=gates,
+        deciding_gates=deciding, reason=reason, decision=decision, metrics=metrics,
+        budget_after=deps.budget.model_copy(),
     ).model_dump(mode="json")  # fmt: skip
 
 
@@ -311,12 +321,12 @@ def screen_node(deps: LoopDeps) -> Callable[[dict], dict]:
         chosen = sorted((s for s in scored if s[0] >= MIN_IDEA_SCORE), key=lambda s: -s[0])[:n_run]  # stable
         artifact = _write_json(deps, "screen", {"scores": {name: score for score, name, _ in scored},
                                                 "selected": [name for _, name, _ in chosen]})  # fmt: skip
-        gate = (chosen or scored or [(0, "", None)])[0][2]
         update: dict = {"verdicts": verdicts, "artifacts": {"ideate": artifact}, "trail": ["screen"]}
-        if gate is None:
+        if not scored:
             return update | _stop("ideate", "gate: no idea could be scored")
         decision = "accept" if chosen else "reject"
-        sr = stage_result(deps, "ideate", artifact, gate, decision, {"n_selected": float(len(chosen))})
+        metrics = {"n_selected": float(len(chosen))}
+        sr = stage_result(deps, "ideate", artifact, [s[2] for s in scored], decision, metrics)
         update |= {"selected": [name for _, name, _ in chosen], "stage_results": [sr]}
         if not chosen:
             update |= _stop("ideate", f"gate: no idea scored {MIN_IDEA_SCORE} or more")
@@ -396,13 +406,13 @@ def results_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
         results = state["results"]
         shown = tables.valid_datasets(results, deps.datasets)
         ideas = [m for m in results if m != tables.BASELINE]
-        verdicts, beat_all, unsure, first_gate = {}, {m: True for m in ideas}, [], None
+        verdicts, beat_all, unsure, asked = {}, {m: True for m in ideas}, [], []  # asked: (verdict, confident)
         for m in ideas:
             for d in shown:
                 q, material, shadow = questions.beats_baseline(m, d, results, deps.datasets, deps.n_seeds)
                 v, confident = ask_gate(deps, "subset_exp", q, material, shadow, state)
                 verdicts[f"beats_baseline:{m}:{d}"] = v.model_dump(mode="json")
-                first_gate = first_gate or v
+                asked.append((v, confident))
                 unsure += [] if confident else [f"{q.id} {m} {d}"]
                 beat_all[m] = beat_all[m] and confident and v.answer is True
         contenders = [m for m in ideas if beat_all[m]]
@@ -413,6 +423,7 @@ def results_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
                 skipped.append(d)
                 continue
             v, confident = ask_gate(deps, "subset_exp", q, material, shadow, state)
+            asked.append((v, confident))
             verdicts[f"best_method:{d}"] = v.model_dump(mode="json")
             if confident and v.answer in wins:
                 wins[v.answer] += 1
@@ -422,10 +433,12 @@ def results_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
         artifact = _write_json(deps, "results_gate", {"beats_all_datasets": beat_all, "wins": wins, "best": best,
                                                       "best_method_tied_not_asked": skipped})  # fmt: skip
         decision = "accept" if best else "reject"
+        # a reject is caused by the verdicts that did not say "beats the baseline" (or were not confident)
+        deciding = [i for i, (v, ok) in enumerate(asked) if not (ok and v.answer is True)] if not best else []
         metrics = {"n_ideas_run": float(len(ideas)), "n_beating_baseline": float(len(contenders))}
+        sr = stage_result(deps, "subset_exp", artifact, [v for v, _ in asked], decision, metrics, deciding)
         update: dict = {"verdicts": verdicts, "best": best, "artifacts": {"subset_exp": artifact},
-                        "stage_results": [stage_result(deps, "subset_exp", artifact, first_gate, decision, metrics)],
-                        "trail": ["results_gate"]}  # fmt: skip
+                        "stage_results": [sr], "trail": ["results_gate"]}  # fmt: skip
         if unsure:
             reason = f"gate: the judge was not confident on {len(unsure)} question(s): {unsure[:3]}"
             update |= _stop("subset_exp", reason)

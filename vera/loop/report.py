@@ -15,6 +15,12 @@ from vera.loop import tables
 from vera.loop.stages import LoopDeps
 
 
+def _gate(stage: dict) -> dict:
+    """The verdict that decided the stage (the first one when it was accepted), as StageResult.gate does."""
+    deciding = stage.get("deciding_gates") or [0]
+    return stage["gates"][deciding[0]]
+
+
 def build_report(deps: LoopDeps, state: dict) -> dict:
     ledger = deps.ledger.records() if deps.ledger is not None else []
     by_component: dict[str, dict] = defaultdict(
@@ -29,8 +35,8 @@ def build_report(deps: LoopDeps, state: dict) -> dict:
     stages = [
         {
             "stage": s["stage"], "decision": s["decision"], "producer": s["producer_id"],
-            "gate_question": s["gate"]["question_id"], "gate_answer": s["gate"]["answer"],
-            "gate_judge": s["gate"]["judge_id"], "metrics": s["metrics"],
+            "gate_question": _gate(s)["question_id"], "gate_answer": _gate(s)["answer"],
+            "gate_judge": _gate(s)["judge_id"], "n_gates": len(s["gates"]), "metrics": s["metrics"],
             "spent_usd_after": s["budget_after"]["spent_usd"],
         }
         for s in state.get("stage_results", [])

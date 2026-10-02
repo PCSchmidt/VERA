@@ -202,7 +202,10 @@ def writeup_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
         verdict, confident = ask_gate(deps, "write_up", GUIDANCE_QUESTION, material, shadow, state)
         passed = not problems and confident and verdict.answer is True
         metrics = {"words": float(word_count(text)), "problems": float(len(problems))}
-        sr = stage_result(deps, "write_up", "paper.md", verdict, "accept" if passed else "reject", metrics)
+        reason = "; ".join(problems) if problems and not passed else None  # a deterministic cause, not a verdict
+        deciding = [0] if not passed and not (confident and verdict.answer is True) else []
+        sr = stage_result(deps, "write_up", "paper.md", verdict, "accept" if passed else "reject", metrics,
+                          deciding, reason)
         update = {"verdicts": {"guidance_met": verdict.model_dump(mode="json")}, "stage_results": [sr],
                   "artifacts": {"write_up": "paper.md"}, "trail": ["writeup_gate"]}  # fmt: skip
         if not passed:

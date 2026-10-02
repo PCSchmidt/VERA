@@ -607,6 +607,28 @@ def test_dogfood_check_passes_with_an_entry_for_each_gate_day(tmp_path: Path) ->
     assert "2026-10-02: 1 gates, 2 h" in result.stdout
 
 
+def test_dogfood_check_opens_the_increment_at_the_latest_review_gate(tmp_path: Path) -> None:
+    dogfood_fixture(tmp_path, [("2026-10-02T12:00:00Z", 2.0)])
+    events = [json.loads(ln) for ln in (tmp_path / ".meridian/telemetry.jsonl").read_text().splitlines()]
+    events += [
+        {"timestamp": "2026-10-02T11:00:00Z", "event_type": "gate_passed", "gate": "incr2_review"},
+        {"timestamp": "2026-10-03T09:00:00Z", "event_type": "gate_passed", "gate": "incr3_scoped"},
+    ]
+    write(tmp_path, ".meridian/telemetry.jsonl", "\n".join(json.dumps(e) for e in events) + "\n")
+    result = run("check_dogfood.py", tmp_path)  # since incr2_review: only 10-03 counts, and it has no entry
+    assert result.returncode == 2 and "2026-10-03" in result.stderr and "2026-10-01" not in result.stderr
+    entry = {"type": "overhead", "recorded_at": "2026-10-03T12:00:00Z", "hours": 1.0}
+    with (tmp_path / ".meridian/dogfood.jsonl").open("a", encoding="utf-8") as fh:
+        fh.write(json.dumps(entry) + "\n")
+    assert run("check_dogfood.py", tmp_path).returncode == 0
+
+
+def test_dogfood_check_blocks_without_any_review_gate(tmp_path: Path) -> None:
+    event = {"timestamp": "2026-10-01T10:00:00Z", "event_type": "gate_passed", "gate": "confirmed"}
+    write(tmp_path, ".meridian/telemetry.jsonl", json.dumps(event) + "\n")
+    assert run("check_dogfood.py", tmp_path).returncode == 2
+
+
 def test_dogfood_check_blocks_a_gate_day_without_an_entry(tmp_path: Path) -> None:
     dogfood_fixture(tmp_path, [("2026-10-02T12:00:00Z", 2.0)])
     result = run("check_dogfood.py", tmp_path)
