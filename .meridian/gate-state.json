@@ -11,6 +11,7 @@
     "incr0_review",
     "incr1_review",
     "incr1_scoped",
+    "incr2_review",
     "incr2_scoped",
     "inventory_verified",
     "judge_core_ready",
@@ -68,6 +69,10 @@
     "trades_decided_2": {
       "by": "Chris Schmidt",
       "at": "2026-10-02T10:40:59Z"
+    },
+    "incr2_review": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-02T15:15:59Z"
     }
   }
 }
