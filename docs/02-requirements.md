@@ -1,6 +1,6 @@
 # 02 — Requirements
 
-Version 0.3 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access. 0.3, 2026-10-01: JDG-P-01..03 set from the Increment 1 benchmark; direction B: topic-to-paper and app requirements added, external-paper auditing moved to Increment 6)
+Version 0.4 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access. 0.3, 2026-10-01: JDG-P-01..03 set from the Increment 1 benchmark; direction B: topic-to-paper and app requirements added, external-paper auditing moved to Increment 6. 0.4, 2026-10-02, Increment 2 review: measurements recorded beside AUD-P-01 and AUD-P-02; no target value changed)
 
 ID format: `<AREA>-<TYPE>-<NN>`. Areas: `FND` foundation, `JDG` judge library
 (P2), `AUD` auditor (P1), `RSH` research agent (P3), `APP` app. Types: `F` functional,
@@ -34,7 +34,7 @@ Suggested starting values are in brackets.
 | JDG-F-04 | The library shall support at least two backends at v0.1: one cheap (decision model or small local model) and one frontier LLM. | D | 1 |
 | JDG-F-05 | The library shall expose LangGraph node and conditional-edge helpers. | D | 1 |
 | JDG-F-06 | The benchmark harness shall report agreement, calibration (ECE), consistency across N repeats, cost, and latency per backend and threshold. | T | 1 |
-| JDG-P-01 | The decided cheap path (T1: Jev → GLM-5.3 Flash at threshold 0.7; `loop.*` questions to GLM) shall agree with the reference judge on ≥ **97%** of verdicts at ≤ **5%** of reference cost. Measured 2026-10-01 (offline router replay, test split): 100% at 1.8%; Jev → GLM for every question 97.6% at 1.3%. | A | 1 |
+| JDG-P-01 | The decided cheap path (T1: Jev → GLM-5.3 Flash at threshold 0.7; `loop.*` questions to GLM) shall agree with the reference judge on ≥ **97%** of verdicts at ≤ **5%** of reference cost. Measured 2026-10-01 (offline router replay, test split): 100% at 1.8%; Jev → GLM for every question 97.6% at 1.3%. Re-tested 2026-10-02 on the loop's real gate decisions: 97.4% (95% CI 91.0-99.3, 77 items) at 0.95% of the reference's cost per item; met on the point estimate only. | A | 1 |
 | JDG-P-02 | Cheap-path p50 latency ≤ **0.5 s** (p95 ≤ 1.5 s), for questions on the default path. Loop-gate questions (`loop.*`), routed straight to GLM because they are few per run and nobody waits on them, have no latency target; their latency is reported. Measured (test split): default path p50 0.19 s, p95 0.36 s; loop gates p50 1.6 s, p95 8.6 s (Chris, 2026-10-01). | A | 1 |
 | JDG-P-03 | Repeated-run verdict flip rate (items whose answer is not the same on every repeat) ≤ **2%** for the cheap path. Measured: decided path 0% (0/115 items on replay); Jev 1.7%, GLM 0.9%. | A | 1 |
 
@@ -51,8 +51,8 @@ Suggested starting values are in brackets.
 | AUD-F-07 | Assess novelty: retrieve closest prior work and judge whether the core method is materially distinct (first applied to the loop's own idea). | A (gold set) | 4 |
 | AUD-F-08 | Optionally re-run reported experiments in the sandbox within a per-audit budget. | D | 6 |
 | AUD-F-09 | Every finding shall link to its evidence (quote location, source record, code path, log line). | I | 2 |
-| AUD-P-01 | Detection rate on seeded faults ≥ **TBD** [90%] per check type; false-positive rate ≤ **TBD** [10%]. | T | 6 |
-| AUD-P-02 | Non-rerun audit cost ≤ **TBD** [$1] and wall time ≤ **TBD** [15 min] per paper. | A | 6 |
+| AUD-P-01 | Detection rate on seeded faults ≥ **TBD** [90%] per check type; false-positive rate ≤ **TBD** [10%]. Increment 2 measured (not a target): 17/18 on the test split, 0 false fails on 3 controls; mostly deterministic faults from two source runs, audit changed after the first test run, so it does not support a value (docs/reviews/incr-2.md). | T | 6 |
+| AUD-P-02 | Non-rerun audit cost ≤ **TBD** [$1] and wall time ≤ **TBD** [15 min] per paper. Increment 2 measured (not a target): $0.00012 and about 1 s (`audit_report.json` `wall_seconds`) on the loop's own 674-word paper with 22 claims; external papers (Increment 6) are longer, so this does not support a value. | A | 6 |
 
 ## P3 — Research agent
 

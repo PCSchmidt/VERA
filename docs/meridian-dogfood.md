@@ -132,3 +132,28 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
   rule; Meridian should scan staged content in `meridian-verify.sh` or stop
   claiming commit-boundary enforcement.
 
+- **Increment 2 (2026-10-01 to 10-02), what Meridian did and did not do.**
+  Nine automated or human gates passed in two days; the checks that earned
+  their place were the ones that test honesty, not completion: `check_run.py`
+  (ledger sum equals recorded spend, no self-graded verdict), the seeded and
+  re-test hash checks (test split unchanged), and `gate-trades-incr2.sh`. A
+  passed `loop_run` only says the run was complete and honest; it says nothing
+  about whether the loop's idea was good. The rule "tune on dev only" was
+  broken once (the audit changed after its first test-split run) and no gate
+  could see it: the check verifies the test hash, not that the audit code was
+  frozen. Meridian could record the code revision next to a test-split run.
+- **`dogfood.sh report` undercounts stops.** It counted 0 stops although the
+  telemetry holds a `gate_blocked` for `trades_decided_2` (the pre-hook
+  failed), because the script treats `gate_blocked` as a duplicate of a
+  `hook_blocked` event, and `mark-passed` did not log one.
+- **Overhead logging failed a third time.** One 5 h entry at 10:42 UTC on the
+  second day, before three of the nine gates. The new `check_dogfood.py`
+  (an entry for each calendar day a gate passed) passes on it, which shows its
+  limit: it checks that an entry exists on the day, not what it covers.
+- **The Evaluator earned its place again.** Four rounds on the review
+  (7.4, 7.4, 7.6, 8.0); each found factual errors in the agent-written text
+  (a wrong item count, an undercounted verdict set, a ledger table that
+  summed discarded runs, wrong decision dates, a commit that did not exist),
+  and rounds 2 and 3 found things round 1 had missed. The verdicts'
+  self-reported timestamps do not match telemetry, so they are not evidence
+  of when a round ran.

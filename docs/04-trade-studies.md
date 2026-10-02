@@ -101,6 +101,11 @@ Keep each to one short section. Status: **open** until decided.
   with Jev → Sonnet; (4) Ollama returns answer-token log-probabilities,
   then re-test Gemma, whose agreement is too low only because escalation
   can't see its errors.
+- **Re-test (Increment 2, 2026-10-02):** reverse-if (1) was tested on the loop's
+  real gate decisions (`data/retest/`, 77 test items, decided path at the
+  loop's `effort: minimal` setting): 75/77 = 97.4% agreement with the Sonnet
+  reference (95% CI 91.0-99.3), so it did **not fire**; the lower bound is below
+  95% and both misses are confident perturbed items. docs/reviews/incr-2.md.
 
 ## T2 — Orchestration runtime (decided 2026-10-01, Increment 1)
 
@@ -310,7 +315,7 @@ Keep each to one short section. Status: **open** until decided.
   show false "fail" findings on real references above AUD-P-01's 10%, then
   add the fallback tiers before widening the checks.
 
-## T6 — Tracing/observability (decided 2026-10-01, Increment 2)
+## T6 — Tracing/observability (decided 2026-10-02, Increment 2)
 
 - **Options:** LangSmith; OpenTelemetry + local store; ledger-only.
 - **Criteria:** cost, lock-in, ability to publish traces with results.
@@ -321,13 +326,13 @@ Keep each to one short section. Status: **open** until decided.
   MiMo's empty replies (ledger tokens against the 8000 cap), TreeHFD's non-deterministic `predict`, and a 39-minute
   machine standby that made valid experiments look timed out (file times against the Windows power log).
 - **Scores:** none measured, as there are no tracing options to compare; the evidence above is the record.
-- **Decision:** (Chris, 2026-10-01, by approving `trades_decided_2` on the proposal as written) ledger plus checkpoints plus `gates.jsonl`; no
+- **Decision:** (Chris, 2026-10-02, by approving `trades_decided_2` on the proposal as written) ledger plus checkpoints plus `gates.jsonl`; no
   tracing service. They are local, free, publishable with results, and already carry what debugging needed.
 - **Reverse if:** (1) Increment 3's literature stage has call trees deep enough that the flat ledger can't show which
   retrieval produced which claim; (2) a failure needs the full prompt and reply of every call, which the ledger
   deliberately does not store; (3) results need to be published with browsable traces.
 
-## T7 — Loop context management (decided 2026-10-01, Increment 2)
+## T7 — Loop context management (decided 2026-10-02, Increment 2)
 
 - **Options:** (a) plain LangGraph state plus summarisation; (b) prime-agent style Recursive Language Model patterns:
   papers, logs, and code held as REPL variables instead of in the context window, recursive sub-calls, bounded
@@ -343,18 +348,18 @@ Keep each to one short section. Status: **open** until decided.
 
   | Arm | Input tokens | Output tokens | Input share of generator cost (catalogue prices) |
   |---|---|---|---|
-  | GLM-5.3 Flash | 13,017 | 12,935 | 23% |
-  | GLM + Sonnet write-up | 13,186 | 15,348 | 18% |
-  | Sonnet 5.5 | 15,465 | 17,324 | 15% |
-  | DeepSeek V4.1 Flash | 12,653 | 98,753 | 1% |
-  | MiMo-V2.6-Pro | 8,127 | 111,880 | 4% |
+  | GLM-5.3 Flash | 10,326 | 10,312 | 23% |
+  | GLM + Sonnet write-up | 11,030 | 13,392 | 18% |
+  | Sonnet 5.5 | 10,317 | 12,604 | 14% |
+  | DeepSeek V4.1 Flash | 9,902 | 86,019 | 1% |
+  | MiMo-V2.6-Pro | 7,191 | 100,076 | 4% |
 
-  (three runs per arm; the last two arms are mostly empty replies that used their whole output allowance). The
+  (the three counted repeats per arm, runs 2-4; the last two arms are mostly empty replies that used their whole output allowance. Corrected 2026-10-02 after Evaluator round 1 on the Increment 2 review: the first version summed the discarded standby runs (`-1`) as well, giving 13,017 / 12,935 for GLM and 15,465 / 17,324 for Sonnet; the shares moved by at most one point, Sonnet 15% to 14%). The
   loop's prompts are small by construction (a results table, the idea texts, an API example): about 1,000 to 2,000
   input tokens per call. Output tokens, and within them the models' hidden reasoning, are 50% to 97% of the tokens
   and 77% to 99% of the generator cost. A perfect context technique that removed all input would save at most about
-  15% to 23% of a bill of $0.002 to $0.05 per run.
-- **Decision:** (Chris, 2026-10-01, by approving `trades_decided_2` on the proposal as written) (a), plain LangGraph state with small prompts built
+  14% to 23% of a bill of $0.002 to $0.05 per run.
+- **Decision:** (Chris, 2026-10-02, by approving `trades_decided_2` on the proposal as written) (a), plain LangGraph state with small prompts built
   by the stage (as now). Do not build (b) for Increment 2: its ceiling here is a fraction of a cent per run, and it
   adds a REPL process next to a sandbox that already isolates code.
 - **Reverse if:** (1) Increment 3's literature stage puts long papers in the prompt, so input dominates (measure the
@@ -382,7 +387,7 @@ Keep each to one short section. Status: **open** until decided.
   full hosted app; or a local install proves too hard for the intended
   users, then invest in packaging.
 
-## T9 — Generator model(s) for the loop's producers (decided 2026-10-01, Increment 2)
+## T9 — Generator model(s) for the loop's producers (decided 2026-10-02, Increment 2)
 
 - **Options (arms):** (A) GLM-5.3 Flash for every stage; (B) GLM for ideas and code with Claude Sonnet 5.5 writing the
   report; (C) MiMo-V2.6-Pro for every stage; (D) DeepSeek V4.1 Flash for every stage; (E) Sonnet 5.5 for every stage
@@ -407,12 +412,12 @@ Keep each to one short section. Status: **open** until decided.
   | C MiMo-V2.6-Pro | 0/6 | 0/6 | 0/3 | none | $0.0286 | 999-1,072 s |
   | C' MiMo, 20,000 tokens | 0/2 | 0/2 | 0/1 | none | $0.0682 | 2,616 s |
   | D DeepSeek V4.1 Flash | 1/6 | 2/6 | 1/3 | green | $0.0161 | 748-1,742 s |
-  | E Sonnet 5.5 | **6/6** | 6/6 | 3/3 | green, amber, green | $0.0492 | **541-682 s** |
+  | E Sonnet 5.5 | **6/6** | 6/6 | 3/3 | green, amber, green | $0.0492 | **541-682 s** (mean 591 s; A's mean is 694 s, its fastest run 530 s) |
 
   Where the cost goes (means): Sonnet spends $0.0056 on ideas, $0.0277 on code and $0.0156 on the report; in B the
   report is 89% of the cost ($0.0152, against $0.0004 if GLM wrote it).
 - **Findings.**
-  - **No arm improved on TreeHFD.** Across all 16 runs no idea beat the baseline on every dataset (the best cases
+  - **No arm improved on TreeHFD.** Across the 10 comparison runs that produced a valid experiment (the other 6 produced none) no idea beat the baseline on every dataset (the best cases
     improved one dataset and worsened the other). The generator choice changes reliability and cost, not whether the
     loop finds a better method on this problem; that is the loop's research quality, to be measured against
     ScientistTwo in Increment 4.
@@ -421,19 +426,19 @@ Keep each to one short section. Status: **open** until decided.
     their reasoning on a code task, though it did for GLM (about 130 reasoning tokens on the probe) and Sonnet. Even
     20,000 tokens did not rescue MiMo (calls took about 13 minutes each). A different setting might fix them; this
     test cannot say.
-  - **Sonnet implemented every idea first try** and finished fastest (fewer retries); GLM needed a retry on half
+  - **Sonnet implemented every idea first try** and had the shortest mean wall time (fewer retries; one GLM run, 530 s, was faster than any Sonnet run); GLM needed a retry on half
     its ideas.
   - **The audit found a real fault in a GLM report** ("runtime increased +~10% on both datasets", where the results
     give about +9% and +6% for one idea and +25% for the other): a loose approximation matching no real number.
     It also failed two papers falsely before the audit was fixed (a method-section design threshold counted as a
     result); those were re-audited with the final code.
-  - **Cost is no longer the constraint.** Sonnet throughout costs about $0.05 per run, about 100 times less than the
+  - **Cost is no longer the constraint.** Sonnet throughout costs about $0.05 per run, about 110 times less than the
     Increment 1 estimate (about $5.7), which assumed reasoning-heavy output. The $20 ceiling allows several hundred
     such runs.
   - **Independence.** With a Sonnet generator, nothing the loop produces is graded by its own model family (the judge
     path is Jev and GLM); with A and B, GLM writes ideas and code and also scores them.
-- **Decision:** (Chris, 2026-10-01, by approving `trades_decided_2` on the proposal as written) **E, Sonnet 5.5 for every stage**, for the Increment 2
-  complete run and for building Increment 3: the only arm with a clean first-try record, the fastest, no
+- **Decision:** (Chris, 2026-10-02, by approving `trades_decided_2` on the proposal as written) **E, Sonnet 5.5 for every stage**, for the Increment 2
+  complete run and for building Increment 3: the only arm with a clean first-try record, the shortest mean wall time, no
   generator/judge overlap, at a cost of cents. GLM-5.3 Flash (A) stays the documented low-cost option for the app's
   bring-your-own-key users (Increment 5), at a bill about 25 times lower and with more retries and a loose-number
   tendency. MiMo-Pro and DeepSeek-Flash are not used at these settings.

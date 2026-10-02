@@ -1,0 +1,26 @@
+{
+  "gate": "incr2_review",
+  "requested_at": "2026-10-02T14:03:45Z",
+  "system_prompt": "You did not produce the artifacts you are reviewing. Do not praise. Do not explain. Score the work 0-10 against the gate's spec and flag every gap. Return only JSON: {\"gate\":\"<id>\",\"score\":<0-10>,\"verdict\":\"pass|fail|warn\",\"notes\":\"<terse>\"}.",
+  "artifacts": [
+    "docs/reviews/incr-2.md",
+    "SPEC.md",
+    "docs/07-increments.md",
+    "docs/04-trade-studies.md",
+    "docs/02-requirements.md",
+    "docs/05-risk-register.md",
+    "data/results/run_loop-001.json",
+    "data/results/generator_comparison.json",
+    "data/retest/results.json",
+    "data/retest/split.json",
+    "data/seeded/results_test.json",
+    "data/seeded/results_dev.json",
+    "docs/results/treehfd_baseline_target.json",
+    "docs/results/treehfd_baseline_first_runs.md",
+    "docs/results/loop-001/paper.md",
+    "docs/results/loop-001/audit.md",
+    ".meridian/gates.yaml",
+    "tools/checks/check_dogfood.py"
+  ],
+  "verdict_path": "incr2_review-verdict.json"
+}
