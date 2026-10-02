@@ -76,7 +76,11 @@ def audit_citations(
         claims.append(claim)
         record = log.get(key)
         if record is not None:
-            if e["title"] and normalise(e["title"]) == normalise(record["title"]):
+            # The list is built from the log, so the logged title must appear in the entry. (Parsing the entry's own
+            # title out of the line is unreliable when an author name has an initial: "Scott A. King".)
+            if (e["title"] and normalise(e["title"]) == normalise(record["title"])) or (
+                normalise(record["title"]) in normalise(line)
+            ):
                 continue  # verified against the retrieval log
             findings.append(
                 Finding(

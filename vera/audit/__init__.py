@@ -14,6 +14,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 from vera.audit.citations import audit_citations
+from vera.audit.literature import audit_literature
 from vera.audit.numbers import audit_numbers
 from vera.schemas import AuditReport, Claim, Finding, Question, Verdict
 
@@ -73,6 +74,29 @@ def run_audit(
         wall_seconds=round(time.perf_counter() - start),
     )
     return AuditRun(report, [*cite_claims, *num_claims])
+
+
+def run_literature_audit(
+    text: str, claims: list[dict], passages: list[dict], retrieved: list[dict], *, ask: Ask, paper_id: str,
+    paper_source: str,
+) -> AuditRun:
+    """Audit a literature section against its claims, the passages it may quote and the retrieval log (AUD-F-03 on
+    the loop's own text, AUD-F-10). The checks are those of `vera.audit.literature`."""
+    start = time.perf_counter()
+    cost = [0.0]
+
+    def metered(question: Question, material: str) -> tuple[Verdict, bool]:
+        verdict, confident = ask(question, material)
+        cost[0] += verdict.cost_usd
+        return verdict, confident
+
+    claims_found, findings = audit_literature(text, claims, passages, retrieved, metered)
+    report = AuditReport(
+        paper_id=paper_id, paper_source=paper_source, repo=None, findings=findings, overall=overall_of(findings),
+        checks_run=["citation", "claim_support"], checks_skipped=dict(SKIPPED), total_cost_usd=cost[0],
+        wall_seconds=round(time.perf_counter() - start),
+    )  # fmt: skip
+    return AuditRun(report, claims_found)
 
 
 def render_markdown(run: AuditRun) -> str:

@@ -145,7 +145,7 @@ class Evidence(BaseModel):
 
 
 class Finding(BaseModel):
-    check: Literal["citation", "numeric", "method_code", "spec_leakage", "novelty", "rerun"]
+    check: Literal["citation", "numeric", "claim_support", "method_code", "spec_leakage", "novelty", "rerun"]
     severity: Literal["info", "warn", "fail"]
     claim_ids: list[str]
     evidence: list[Evidence]
@@ -309,7 +309,7 @@ different artifact producer (`gate.producer_id` set and `!= producer_id`). The
   providers at different prices, so per-provider cost and quality could not be
   separated (Increment 1 open item). `RunSpec`, `ProblemSpec` and `OutputGuidance`
   added for the research loop's inputs (RSH-F-01, Increment 2).
-- 0.9 — `BenchmarkItem.task` gains `"claim_support"` (the literature stage's `lit.claim_supported`
+- 0.9 — `Finding.check` gains `"claim_support"` (AUD-F-10); `BenchmarkItem.task` gains `"claim_support"` (the literature stage's `lit.claim_supported`
   benchmark). Literature stage types (`Topic`, `ScopedQuestion`, `SourceRecord`,
   `ClaimLink`, `LiteratureSection`, `RunSpec.topic`) and new stage names.
   `StageResult.gate` becomes `gates` plus `deciding_gates` and `reason`: the
