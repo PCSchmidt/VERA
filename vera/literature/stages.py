@@ -157,10 +157,12 @@ def expand_node(deps: LitDeps) -> Callable[[dict], dict]:
 
     def node(state: dict) -> dict:
         retriever = deps.extra["retriever"]
-        records = [json.loads(ln) for ln in (deps.run_dir / "retrieved.jsonl").read_text("utf-8").splitlines() if ln]
+        everything = [json.loads(ln) for ln in (deps.run_dir / "retrieved.jsonl").read_text("utf-8").splitlines() if ln]
+        records = [r for r in everything if "cited_by" not in r]  # a rerun starts again from the searched candidates
         by_key = {r["key"]: r for r in records}
-        seeds = [by_key[k] for k in state["kept"]][: expansion.MAX_SEEDS]
+        seeds = [by_key[k] for k in state["kept"] if k in by_key][: expansion.MAX_SEEDS]
         note = {"seeds": [s["key"] for s in seeds], "added": 0}
+        added: list[dict] = []
         if "openalex" not in getattr(retriever, "sources", ["openalex"]):
             note["skipped"] = "no OpenAlex key: the expansion needs the user's own"
         elif len(seeds) < MIN_SEEDS:
@@ -177,10 +179,9 @@ def expand_node(deps: LitDeps) -> Callable[[dict], dict]:
                                                                    references_of=references_of)
             except LookupUnavailable as exc:
                 added, note["skipped"] = [], f"OpenAlex did not answer: {exc}"
-            if added:
-                with (deps.run_dir / "retrieved.jsonl").open("a", encoding="utf-8") as fh:
-                    fh.write("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in added))
             note["added"] = len(added)
+        lines = "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in records + added)
+        (deps.run_dir / "retrieved.jsonl").write_text(lines, encoding="utf-8")  # searched candidates, then expansion
         artifact = _write_json(deps, "expansion", note)
         return {"artifacts": {"expansion": artifact}, "expansion": note, "trail": ["expand"]}
 

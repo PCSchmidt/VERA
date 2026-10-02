@@ -37,9 +37,10 @@ def relevant(question: str, record: dict) -> tuple[Question, str]:
         + (f"Abstract: {abstract[:1800]}" if abstract else "Abstract: (not available; judge from the title alone)")
     )
     text = (
-        "Does this candidate paper bear directly on the research question, so that a literature review of the "
-        "question should read it? Answer false if it is only loosely related, about a different problem that shares "
-        "a keyword, or too general to inform the question."
+        "Would a literature review of this research question cite this candidate paper? Answer true if it bears on "
+        "the question or on what the question builds on: the methods it studies, the concepts and theory behind "
+        "them, or earlier results on the same problem. Answer false if it only shares a keyword with a different "
+        "problem or field, or is too general to inform the question at all."
     )
     return Question(id="lit.relevant", type=QuestionType.BOOLEAN, text=text), material
 
