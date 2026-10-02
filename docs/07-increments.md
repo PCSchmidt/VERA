@@ -88,6 +88,8 @@ Docker), T5 (Crossref + arXiv), T6 (ledger only), T7 (plain state), T9 (Sonnet
 
 ## Increment 3 — Topic front end and literature stage ← CURRENT
 
+Scope, gates and caps proposed in SPEC.md (2026-10-02); `incr3_scoped` is Chris's approval of them.
+
 From a topic to a scoped question and a literature review: topic scoping
 (proposed question, shown for the user's confirmation), retrieval from a
 bibliographic source (decide T5), reading with the T3 parsers, synthesis

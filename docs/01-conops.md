@@ -77,7 +77,7 @@ thresholds; publish agreement, calibration, consistency, cost, latency curves.
 - Single developer, local Windows workstation + optional cloud GPU on demand.
 - Model access via API (frontier + cheap tiers) and optional local models.
 - Monthly spend ceiling: **$20.00** (set 2026-09-29; confirmed for Increment 2 at the Increment 1
-  review, 2026-10-01; revisit at each increment review).
+  review, 2026-10-01; kept for Increment 3 if Chris confirms it at `incr3_scoped`; revisit at each increment review).
   Months with loop runs (Increment 2 onward) may need a deliberate, temporary
   increase, set from the Increment 1 cost measurements (risk R10).
 - Model access for spend under that ceiling: one OpenRouter API key (plus

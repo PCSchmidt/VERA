@@ -1,6 +1,6 @@
 # 02 — Requirements
 
-Version 0.4 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access. 0.3, 2026-10-01: JDG-P-01..03 set from the Increment 1 benchmark; direction B: topic-to-paper and app requirements added, external-paper auditing moved to Increment 6. 0.4, 2026-10-02, Increment 2 review: measurements recorded beside AUD-P-01 and AUD-P-02; no target value changed)
+Version 0.5 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access. 0.3, 2026-10-01: JDG-P-01..03 set from the Increment 1 benchmark; direction B: topic-to-paper and app requirements added, external-paper auditing moved to Increment 6. 0.4, 2026-10-02, Increment 2 review: measurements recorded beside AUD-P-01 and AUD-P-02; no target value changed. 0.5, 2026-10-02, Increment 3 SPEC: AUD-F-10 added, claim-to-source support check)
 
 ID format: `<AREA>-<TYPE>-<NN>`. Areas: `FND` foundation, `JDG` judge library
 (P2), `AUD` auditor (P1), `RSH` research agent (P3), `APP` app. Types: `F` functional,
@@ -51,6 +51,7 @@ Suggested starting values are in brackets.
 | AUD-F-07 | Assess novelty: retrieve closest prior work and judge whether the core method is materially distinct (first applied to the loop's own idea). | A (gold set) | 4 |
 | AUD-F-08 | Optionally re-run reported experiments in the sandbox within a per-audit budget. | D | 6 |
 | AUD-F-09 | Every finding shall link to its evidence (quote location, source record, code path, log line). | I | 2 |
+| AUD-F-10 | Every claim a document attributes to a retrieved source shall be checked against that source's text; an unsupported claim is a finding that carries the quote and the source passage as evidence. | T (seeded) | 3 |
 | AUD-P-01 | Detection rate on seeded faults ≥ **TBD** [90%] per check type; false-positive rate ≤ **TBD** [10%]. Increment 2 measured (not a target): 17/18 on the test split, 0 false fails on 3 controls; mostly deterministic faults from two source runs, audit changed after the first test run, so it does not support a value (docs/reviews/incr-2.md). | T | 6 |
 | AUD-P-02 | Non-rerun audit cost ≤ **TBD** [$1] and wall time ≤ **TBD** [15 min] per paper. Increment 2 measured (not a target): $0.00012 and about 1 s (`audit_report.json` `wall_seconds`) on the loop's own 674-word paper with 22 claims; external papers (Increment 6) are longer, so this does not support a value. | A | 6 |
 

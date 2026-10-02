@@ -447,3 +447,20 @@ Keep each to one short section. Status: **open** until decided.
   DeepSeek match Sonnet's first-try rate at a lower cost; (3) Increment 4's comparison shows ideas, not code, are
   where quality is decided: then test an ideation model separately; (4) the judge path moves to the same family as the
   generator, restoring the overlap this decision avoided.
+
+## T10 — Where a problem's baseline comes from (open, decide in Increment 3)
+
+- **Options:** (a) a harness per problem written by hand (what Increment 2 did
+  for TreeHFD: `docker/sandbox-treehfd/harness.py`); (b) a model-written baseline
+  script run in the sandbox, with the baseline gate unchanged (the Increment 2
+  SPEC's original wording); (c) a hybrid: a thin generic harness (data loading,
+  seeds, the metric and the validity checks) with the model writing only the
+  adapter that calls the parent's code.
+- **Criteria:** whether a second parent problem (Increment 4) and later user
+  topics can be supported without hand work each time, validity of the reproduced
+  baseline (the gate must not accept a wrong one), effort, and sandbox safety.
+- **Evidence to collect (Increment 3):** how many candidate parents the literature
+  stage finds for topics (a) and (b), how many have public code that runs in the
+  sandbox, how long wrapping each by hand takes, and whether a model-written or
+  hybrid baseline reproduces a known baseline within its registered tolerance.
+- **Scores / Decision / Reverse if:** to be written at `trades_decided_3`.

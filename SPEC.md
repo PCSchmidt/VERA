@@ -1,343 +1,459 @@
-# SPEC — VERA, Increment 2 (thin loop on TreeHFD)
+# SPEC — VERA, Increment 3 (topic front end and literature stage)
 
 ## Overview
 
 Current-increment features only, in build order. Each `##` below becomes a
 tracked feature (`scripts/features-init.sh`); do not add `###` headings.
-Source: [docs/07-increments.md](docs/07-increments.md) Increment 2; schemas:
-[docs/03-interfaces.md](docs/03-interfaces.md) v0.7, with v0.8 proposed in the
-first feature; requirements due: FND-F-03, RSH-F-01, RSH-F-02, RSH-F-03,
-RSH-F-05, RSH-F-06, RSH-F-07, RSH-P-01, AUD-F-03, AUD-F-04, AUD-F-09
-([docs/02-requirements.md](docs/02-requirements.md)); trades to decide: T4,
-T5 (citation checking), T6, T7, and the generator model(s)
+Source: [docs/07-increments.md](docs/07-increments.md) Increment 3; schemas:
+[docs/03-interfaces.md](docs/03-interfaces.md) v0.8, with v0.9 proposed in the
+first feature; requirements due: RSH-F-08, RSH-F-09, RSH-F-10, AUD-F-03,
+AUD-F-04, and AUD-F-10 (new, proposed below), plus everything due earlier
+([docs/02-requirements.md](docs/02-requirements.md)); trades to decide: T10
+(new: where a problem's baseline comes from), and the four reverse-if
+conditions this increment is the first to test (T3 (1), T5 (1), T7 (1), T9 (3)
+and (4) stay watched)
 ([docs/04-trade-studies.md](docs/04-trade-studies.md)). Rewrite this file at
-each increment review. The Increment 1 SPEC is in git history.
+each increment review. The Increment 2 SPEC is in git history; its review is
+[docs/reviews/incr-2.md](docs/reviews/incr-2.md).
 
-The product, crude but end to end, on one CPU-scale problem: **TreeHFD**
-(Benard, NeurIPS 2025, arXiv 2510.24815, code `ThalesGroup/treehfd`; fallback:
-credal ambiguity sets, see docs/reviews/incr-0.md). Problem spec + output
-guidance + `Budget` → reproduce the baseline on a subset → generate and screen
-a few ideas → run the best on the subset → write-up → final gate (a minimal
-P1). Every stage transition is a P2 `Verdict` from a component other than the
-producer. Direction B changes nothing here: this increment builds the
-experiment engine that Increments 3-5 put a topic front end and an app on.
+The product, one step wider: a **topic** in, and out of it a scoped research
+question shown for the user's confirmation, a **literature section** in which
+every citation resolves to a real record and every claim attributed to a source
+links to a passage that supports it, and, for an empirical question, a CPU-scale
+parent problem and baseline chosen from that literature (or the reason none
+fits). One topic is then carried through the Increment 2 loop end to end, with
+the literature section as the paper's related work. Direction B puts an app on
+this in Increment 5; nothing here builds UI.
 
-Who does what: Claude Code builds and runs short work; Chris launches long
-runs from his terminal, approves the human gates, and decides T4, T5, T6, T7
-and the generator with the evidence.
+Who does what: Claude Code builds and runs short work; Chris chooses the three
+topics and their key papers, confirms each scoped question, launches long runs
+from his terminal, approves the human gates, and decides T10 and the reverse-if
+conditions with the evidence.
 
-Rules carried from the Increment 1 review:
+Rules carried from the Increment 2 review:
 
 - **Spend.** Every model call goes through a `Budget` that raises before a
-  limit is crossed, inside the $20/month ceiling (ConOps §4, confirmed for
-  this increment). Caps confirmed by Chris, 2026-10-01 (with the 2-hour wall
-  limit for the complete run and the 90% audit bar below): $3
-  for debugging and smoke runs, $4 for the T7 and generator measurement runs,
-  $1 for reference-judge calls in the gate re-test, $3 for the complete run
-  (about 2x the $1.25 mixed-option estimate; R10's trigger is $10); $11 for
-  the increment, each calendar month inside $20. Jev is billed separately and
-  counts. The OpenRouter key keeps its credit limit.
-- **One ledger file per run**, `data/ledger/run_<run_id>.jsonl`, never
-  deleted, truncated or overwritten (the Increment 1 smoke-ledger defect).
-  Named result ledgers are committed; the rest are git-ignored.
-- **The cheap judge path is one shared function** (T1: Jev → GLM-5.3 Flash at
-  0.7, `loop.*` questions straight to GLM). Nothing in the loop builds its own
-  router.
-- **No peeking.** The loop's problem spec contains the TreeHFD paper and
-  repository only, never ScientistTwo's paper on it (ECTS-HFD) or its numbers;
-  they are the later comparison (RSH-P-02, Increment 4). The target and
-  tolerance for "baseline reproduced" are written in docs/results/ before the
-  first baseline run.
-- **Independence (docs/06 §5).** Seeded-fault sets and judge re-test sets are
-  split dev/test with the test hash recorded before any result on it is seen.
-  Thresholds and checks are tuned on dev only.
-- **Same model grading itself.** The producer/judge rule is about components,
-  but a model grading its own family's work correlates errors. Every
-  `StageResult` records the generator model and the judge backend; the review
-  reports where they coincide (for example GLM generating and GLM judging
-  `loop.*`).
-- **Secrets.** No maintainer key in any artifact (APP-C-01) from now on, and
-  none reaches the sandbox. `tests/test_no_secrets.py` stays in the suite.
-- **Long runs** are resumable and launched from Chris's terminal, or split
-  into segments under 10 minutes (the agent's background limit).
+  limit is crossed, inside the $20/month ceiling (ConOps §4; October had $2.66
+  of it spent when this SPEC was written). Proposed caps for Chris to confirm at
+  `incr3_scoped`: $2 for debugging and smoke runs; $8 for the three topic
+  runs (about $2 for each literature-only topic and $4 for the topic carried
+  through the loop, whose Increment 2 run cost $0.05, so these are generous
+  until the first measurement); $1 for reference-judge calls in the re-test;
+  $11 for the increment, each calendar month inside $20. Jev is billed
+  separately and counts. The OpenRouter key keeps its credit limit.
+  Increment 2 spent $1.05 of its $11; R10 is re-measured per topic here because
+  reading papers is the first input-heavy step.
+- **One ledger file per run**, `data/ledger/run_<run_id>.jsonl`, never deleted,
+  truncated or overwritten; named result ledgers are committed, the rest are
+  git-ignored.
+- **The cheap judge path is one shared function** (T1: Jev → GLM at 0.7;
+  `loop.*` straight to GLM). New `lit.*` question ids are routed by their dev
+  results (see "Claim support"), not assumed.
+- **Judge configuration is the loop's.** The judge and generators run at
+  `reasoning: {effort: minimal}`; every judge measurement in this increment
+  uses that setting, not the Increment 1 benchmark's provider default (a
+  Increment 2 deviation).
+- **No peeking.** The three topics' key-paper lists are written and hashed
+  before the first retrieval for that topic; no tuning on a topic's key papers
+  after its first retrieval run. The loop's problem spec for the carried-through
+  topic never contains ScientistTwo's paper on it or its numbers
+  (RSH-P-02, Increment 4).
+- **Independence (docs/06 §5).** Seeded-fault and re-test sets are split dev/test
+  **by source run or topic** (the Increment 2 seeded set shared two source runs
+  between splits), with the test hash recorded before any result on it. **The
+  audit's code is frozen before its test run**: the split file records a hash
+  of the audit's source tree, and the results record the hash they ran with;
+  the check refuses results whose hash differs. A change after a test run
+  spends that test set, and a new one is built (the Increment 2 audit changed
+  after its first test run, and nothing could see it).
+- **Same model grading itself.** Every `StageResult` records the generator and
+  the judge backend; the review reports where they coincide.
+- **Secrets.** No maintainer key in any artifact (APP-C-01), none reaches the
+  sandbox, and no key in any retrieved or cached page. `tests/test_no_secrets.py`
+  stays in the suite.
+- **Long runs** are resumable and launched from Chris's terminal, or split into
+  segments under 10 minutes (the agent's background limit); the runner keeps
+  the machine awake (`vera/keepawake.py`).
 - **Dogfood.** Overhead hours are logged at the end of every session
-  (`bash scripts/dogfood.sh overhead <hours>`); gate blocks are labelled.
-  Missed in Increments 0 and 1, so it is checked at the review.
+  (`bash scripts/dogfood.sh overhead <hours> <note naming the dates and work
+  covered>`); gate blocks are labelled. Missed in Increments 0, 1 and 2, so
+  `check_dogfood.py` is on `incr3_review` and takes the increment's start from
+  the last review gate passed.
+- **Outward-facing actions** need Chris: an upstream issue, a pushed commit, a
+  request to a bibliographic service beyond polite keyless use.
 
-Gate DAG proposed for `.meridian/gates.yaml` after `incr2_scoped`:
+Gate DAG proposed for `.meridian/gates.yaml` after `incr3_scoped`:
 
 ```text
-incr1_review ─► incr2_scoped ─┬─► run_core_ready ──────┬─► stages_ready ──┐
-                (human)       │   (automated)          │   (automated)    │
-                              └─► design_trades_decided┼─► sandbox_ready ─┤
-                                  (human: T4, T5)      │   (automated)    ├─► trades_decided_2 ─► loop_run ─► judge_retest ─► incr2_review
-                                                       └─► audit_ready ───┘   (human: T6, T7,    (automated)   (automated)     (human + Evaluator)
-                                                           (automated)         generator)
+incr2_review ─► incr3_scoped ─┬─► lit_core_ready ──┬─► scoping_ready ─► retrieval_ready ─► literature_ready ─► audit3_ready ─┐
+                (human)       │   (automated)      │   (automated;      (automated)        (automated)        (automated)    │
+                              └─► topics_chosen ───┘    confirmations                                                        │
+                                  (human)               recorded)                                                           │
+   ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+   └─► trades_decided_3 ─► topic_runs ─► judge_retest_3 ─► incr3_review
+       (human: T10, T3, T5,  (automated)  (automated)       (human + Evaluator)
+        T7 reverse-ifs)
 ```
 
-## Run foundation: spec, ledger, cheap path, budget
+## Carry-in: schemas v0.9, stage gates, dogfood check
 
-`vera/loop/` (new) and `vera/judge/`. The pieces every stage uses, built and
-tested offline before any stage exists:
+`vera/schemas/`, `vera/loop/`, `tools/checks/`. The Increment 2 fixes and the
+types the new stages share, built and tested offline before any stage uses them:
 
-- **`RunSpec`** (RSH-F-01): the problem (parent paper id, repository URL and
-  pinned commit, metric, datasets and subset), output guidance (format,
-  length, emphasis, constraints), the `Budget`, and the model chosen per stage.
-  Propose it in docs/03 first with `LedgerRecord.provider` (the serving
-  provider OpenRouter reports, so per-provider cost and quality can be
-  separated; Increment 1 open item), as v0.8 with a changelog line, then
-  implement.
-- **Per-run ledger** `data/ledger/run_<run_id>.jsonl` under the rule above;
-  starting a run whose ledger exists is an error unless it is a resume.
-- **Cheap path function** `vera.judge.cheap_path(...)` returning the T1
-  path: Jev → GLM at 0.7, with every `loop.*` question id (the set
-  `vera.loop.LOOP_QUESTION_IDS`) sent straight to GLM, never to Jev, writing
-  to the run's ledger and `Budget`.
-- **Budget stop** (RSH-P-01, RSH-F-06): on exhaustion the run stops, writes a
-  best-so-far report naming the stop reason and the stage reached, and
-  returns; it never overshoots.
+- **Schemas 0.9** (docs/03 first, with a changelog line, then code):
+  `Topic` (id, text, key-paper list reference), `ScopedQuestion` (question,
+  why researchable, `empirical`, candidate parent or the reason none fits,
+  `status` proposed/confirmed/edited, `confirmed_by`, `confirmed_at`),
+  `SourceRecord` (id, title, authors, year, venue, source, url, abstract, open
+  access PDF link, retrieval query and rank), `ClaimLink` (claim text, source
+  key, quoted passage, locator, deterministic-check result, verdicts),
+  `LiteratureSection`, and `RunSpec.topic`. `StageResult.gate` becomes a list of
+  verdicts (`gates`), the stage decision derived from them, and a stage whose
+  decision is reject must show the verdict that caused it (the Increment 2
+  experiments stage stored the first "beats baseline?" verdict while its decision
+  was reject). The no-self-grading rule applies to every verdict in the list.
+- **New requirement AUD-F-10** in docs/02 (proposed with this SPEC, due
+  Increment 3, verified by seeded test): every claim a document attributes to a
+  retrieved source shall be checked against that source's text, and an
+  unsupported claim is a finding with the quote and the source passage as
+  evidence. RSH-F-09 is about the literature section and cites this check.
+- **`check_dogfood.py`** takes the start of the increment from the most recent
+  `incr*_review` gate passed (instead of an argument), so `incr3_review` needs
+  no special-casing; its tests cover this.
+- **Upstream note:** a drafted issue for ThalesGroup/treehfd (non-deterministic
+  `predict`, evidence and reproduction in
+  `docs/results/treehfd_baseline_first_runs.md`) in `docs/upstream/`; Chris files
+  it or not. The agent does not post it.
+- **Provider and router carry-overs closed:** nothing new; recorded as closed in
+  the review.
 
-**Acceptance:** `test_RSH_F_01_…` (spec round-trips, invalid specs rejected);
-`test_RSH_P_01_…` (injected cost forces exhaustion at every stage boundary
-and inside a stage; spend never exceeds `max_usd`, using the real `Budget`
-and fake backends); `test_RSH_F_06_…` (best-so-far report with stop reason
-and stage); tests that a second start over an existing run ledger raises,
-that `loop.*` ids route to GLM, that `provider` is recorded; docs/03 is v0.8
-and `check_schema_version.py` passes.
-**Gate:** `run_core_ready`.
+**Acceptance:** schemas round-trip and invalid ones raise (a confirmed
+`ScopedQuestion` without `confirmed_by`, a `ClaimLink` without a quote, a
+`StageResult` whose reject has no rejecting verdict, a self-graded verdict in the
+list); `check_schema_version.py` passes at 0.9; `test_AUD_F_10_` names exist for
+the later feature (a placeholder test is not enough: the traceability check needs
+the real one at `audit3_ready`); `check_dogfood.py` tests pass for the
+last-review rule; the drafted issue exists.
+**Gate:** `lit_core_ready`.
 
-## Decisions before building: T4 sandbox and T5 bibliographic source
+## Topics and key papers (human decision, before any retrieval)
 
-Two decisions that block later features, each with a short measurement:
+Chris chooses three topics. Selection rules, so the three exercise different
+paths of RSH-F-08..10: (a) one **empirical topic with a parent problem the loop
+can already run** (the harness and sandbox image exist for TreeHFD; the
+proposed topic is "tree-ensemble explainability under correlated features",
+ConOps S4's example); (b) one **empirical topic with no harness**, to test
+whether the literature stage can find a CPU-scale parent and baseline with
+public code, or say why none fits (RSH-F-10; the proposed topic is the Increment 0
+fallback problem, distributionally robust learning with credal ambiguity sets);
+(c) one **non-empirical topic** (a literature-and-analysis paper; the proposed
+topic is the reliability of LLM judges on numeric claims, VERA's own domain,
+where Chris can judge the quality himself). Proposals only: Chris decides.
 
-- **T4 (sandbox).** Try local Docker (network off, WSL2; GROBID already runs
-  there) for TreeHFD's baseline script and for a hostile snippet; hosted
-  sandboxes only if Docker fails a criterion. Note the Increment 5 link: the
-  choice fixes where experiments run for a hosted app (T8).
-- **T5 (bibliographic source).** Look up the reference lists already
-  extracted from the 10 T3 papers (GROBID output) against Crossref, arXiv,
-  OpenAlex and Semantic Scholar: coverage of ML venues and preprints, hit
-  rate by title + year, rate limits, terms, and a title search for the
-  Increment 3 literature stage. Free tiers only; polite rate limits.
+For each topic, before its first retrieval: at least 6 **key papers** (title,
+year, arXiv id or DOI), written by Chris or proposed by the agent and approved
+by him, stored in `data/topics/<id>.json` with a SHA-256 recorded in
+`data/topics/manifest.json`; and a one-line statement of what a good scoped
+question looks like. The key papers are the recall measure for retrieval (T5
+reverse-if (1)); they are never used to tune the retrieval after its first run.
 
-Each is written in docs/04 with **Scores:**, **Decision:** and **Reverse
-if:**. Chris decides.
+**Acceptance:** `tools/checks/check_topics.py`: three topics, each with at least
+6 key papers and a hash that matches; the topics differ by the path above
+(empirical with harness, empirical without, non-empirical); the manifest is
+committed before `data/` holds any retrieval output for them.
+**Gate:** `topics_chosen` (human approval).
 
-**Acceptance:** `tools/checks/check_trade_decided.py T4` and `… T5` pass.
-**Gate:** `design_trades_decided` (human approval).
+## Topic scoping and confirmation (RSH-F-08)
 
-## Sandbox for generated code (T4, FND-F-03)
+`vera/loop/scoping.py`. The first stage turns a topic and the run's output
+guidance into a `ScopedQuestion`: a proposed question, why it is researchable,
+whether it is empirical, and a candidate parent problem or the reason there is
+none. The question is written by the generator (Sonnet 5.5, T9) and gated by the
+shared judge path (`lit.question_scoped`: is it one question, answerable
+within the budget and the sandbox's CPU limits if empirical, and not a
+restatement of the topic) as a non-producer verdict. **The run then stops**: it
+writes `scope.json` with status `proposed`, a checkpoint and a best-so-far
+report, spends nothing more, and waits. `scripts/confirm_scope.py <run>`
+(`--accept`, or `--edit` with a revised question) records who confirmed and when
+and lets the run resume. Scoping has its own cap (default $0.25) enforced by the
+budget; nothing beyond scoping is spent before confirmation.
 
-`vera/sandbox/`: the only place agent-written or third-party code executes,
-through one function that takes a script, a working directory and limits and
-returns exit code, output and files. The image is built in advance from the
-pinned TreeHFD commit and its dependencies (xgboost, and what the repository
-needs), the repository's licence is recorded, and the container runs with no
-network, a read-only root, a writable working directory only, CPU, memory and
-wall-clock limits, and an environment with no API keys. A check forbids
-`exec`, `eval` and `subprocess` outside `vera/sandbox/` (FND-F-03, the
-vendor-imports pattern).
+**Acceptance:** `test_RSH_F_08_…`: with fake backends and a counting spy, a
+topic yields a `ScopedQuestion` with every field, the run halts at
+`proposed` with exactly the scoping calls recorded, a second start does not
+repeat them, an `--edit` replaces the question and records it, no stage after
+scoping runs without a confirmation record, and a confirmation with no identity
+is rejected; the scoping stage's self-graded verdict raises. Live: the three
+topics scoped under the debugging cap, each shown to Chris, each confirmed or
+edited by him with the record kept (`runs/<run>/scope.json`, committed copies
+in `data/topics/scope_<id>.json`); the review reports how many he edited.
+**Gate:** `scoping_ready` (requires `lit_core_ready` and `topics_chosen`).
 
-**Acceptance:** `test_FND_F_03_…` run real containers: a snippet cannot open
-a network connection or resolve a name, cannot read the repository's `.env`
-or any path outside its working directory, cannot write outside it, is killed
-at the wall limit and the memory limit, and sees no key-like environment
-variable; per-run network grant is off by default and recorded when on;
-`tools/checks/check_sandbox_use.py` passes; a TreeHFD baseline smoke script
-(the README's simulated-data example without plotting,
-`docker/sandbox-treehfd/baseline_smoke.py`) runs in the sandbox and prints its
-metric; the gate runs these tests with Docker required, not skipped.
-**Gate:** `sandbox_ready`.
+## Retrieval (T5 as decided, and its reverse-if)
 
-## Baseline and idea stages
+`vera/literature/`. From a confirmed question the literature stage generates
+queries (a few per question, from the question text and its key terms), retrieves
+from **Crossref and arXiv keyless** (T5), and from OpenAlex only when the user's
+own key is set (Chris's `.env` key is fine for his runs; never in an artifact).
+Records are deduplicated (title similarity, DOI, arXiv id), written to
+`retrieved.jsonl` with the query and rank that produced them, and screened for
+relevance with a cheap-path verdict (`lit.relevant`: does this title and abstract
+bear on the question?) before any full text is fetched. Polite rate limits
+(arXiv one request per three seconds; retries on 429 and 5xx); a cached response
+is stored with its URL and retrieval date so a rerun does not re-query.
 
-`vera/loop/` stages as LangGraph nodes with VERA's gate helpers and the
-SQLite checkpointer (synchronous). Each stage's artifact is produced by one
-component and gated by the shared judge path; stage results are `StageResult`
-records.
+**T5 reverse-if (1) is measured here.** For each topic, **recall of its key
+papers** in the retrieved set before and after the relevance screen, and in the
+top 30 by rank, with misses classified (not indexed, query missed it, screened
+out wrongly, parse error). A recall below 70% of key papers retrieved (a starting
+value, not yet a target) opens T5 in the review: then a keyed OpenAlex or
+Semantic Scholar becomes the primary.
 
-1. **Baseline reproduction** (RSH-F-02): the loop writes and runs, in the
-   sandbox, a script that runs TreeHFD on the subset and reports the metric
-   (decomposition residual / reconstruction error; subset: the parent's small
-   public datasets, n and trees reduced as set in the `RunSpec`). Gate
-   `loop.baseline_reproduced`: Boolean, "do these numbers match the
-   reference within the recorded tolerance?". No later stage starts without
-   an accepted baseline.
-2. **Ideas** (a few, default 5): generate, then screen with `loop.idea_worth_run`
-   (Score) on the baseline result and the idea text; the best go to the subset.
-3. **Idea run on the subset:** each selected idea implemented and run in the
-   sandbox on the same subset; gates `loop.beats_baseline` (Boolean) and
-   `loop.best_idea` (Choice).
-4. **Programmatic shadow label.** Wherever the answer is computable from the
-   run's own table (beats baseline, best idea), the node records the
-   computed answer next to the verdict, never as the gate. This costs
-   nothing and gives the real-decision re-test its labels.
+**Acceptance:** `test_RSH_F_09_…` is built in the next two features, not here;
+this feature's tests: queries, deduplication and rate limiting against recorded
+HTTP fixtures; no live request in the offline suite; a retrieval log record for
+every record used later; a result cache. Live: the three topics retrieved with the
+ledger and `retrieved.jsonl` kept, the recall table per topic in
+`docs/results/retrieval_recall.md`, and the relevance screen's verdicts against
+Chris's judgement on a drawn sample of 15 records per topic (seed recorded;
+agreement reported with its interval).
+**Gate:** `retrieval_ready`.
 
-If the baseline cannot be reproduced within one time-boxed session of effort,
-stop and tell Chris: the fallback (credal ambiguity sets) has an unresolved
-compute question (docs/reviews/incr-0.md) and switching is his call.
+## Reading and evidence passages (T3, T7 reverse-if (1))
 
-**Acceptance:** `test_RSH_F_02_…` (idea stages blocked until the baseline gate
-accepts; a rejected baseline stops the run with a reason);
-`test_RSH_F_03_…` (every transition is gated by a verdict whose `judge_id`
-differs from the stage's producer; a self-issued gate raises); a graph test
-with fake backends and a fake sandbox that runs to the idea stage, is killed
-and resumed without repeating a completed node or its ledger records (the
-FND-F-02 pattern on the real graph); one live smoke run of stages 1-3 on the
-smallest dataset under the debugging cap, with every call in the run ledger.
-**Gate:** `stages_ready`.
+`vera/literature/reading.py`. For the records that survive the screen, the stage
+reads **abstracts for all of them and full text for the top K by relevance
+(K = 6 by default)** where an open-access PDF exists. T3 as decided: **GROBID**
+for references and bibliographic fields (and its full-text body for prose, which
+runs in about 2 s a paper), **Docling** for tables and where GROBID's body text
+fails the quote check (about 80 s a paper on CPU). Each full text is cached by
+hash with its parser and version. The stage extracts **evidence passages**
+(quoted spans with locators) relevant to the question; passages are the only
+text the synthesis may quote.
 
-## Write-up and output guidance
+**T7 reverse-if (1) and (2) are measured here.** Every generator call records its
+input size, and the cost report adds, per stage, the input share of cost and the
+largest prompt. If input exceeds about 50% of a topic's bill, or any prompt passes
+20,000 tokens, the prompt-as-variable arm (prime-agent pattern inside VERA's own
+nodes) is built and measured against plain state on the synthesis stage, two
+repeats per arm, as T7 specified for Increment 2; otherwise T7 stands with the
+measurement recorded. T3 reverse-if (1) is tracked: every seeded or live citation
+or quote failure records whether the parser or the check caused it.
 
-The write-up stage turns the run's logs and tables into a paper-shaped
-document following the run's output guidance (RSH-F-07): format, length,
-emphasis and constraints from the `RunSpec`. For this increment the shape is
-crude (abstract, method, results with the baseline-versus-idea table,
-limitations, references); the full paper structure is Increment 4
-(RSH-F-11). Numbers come from `results.json` written by the sandboxed runs;
-references come from sources the loop actually retrieved, not from model
-memory. The stage checks guidance conformance (length, required sections,
-constraints) with a `loop.guidance_met` verdict plus deterministic checks.
+**Acceptance:** tests on recorded GROBID and Docling output fixtures: references
+and body text parsed into passages with locators, a passage that is not a
+verbatim (whitespace- and hyphenation-normalised) span of the cached text is
+rejected, a cache hit makes no parser call, a paper with no open-access PDF falls
+back to its abstract and says so; the cost report shows input size per call.
+Live: reading for the three topics, with per-paper parse time and failures.
+**Gate:** part of `literature_ready` (below); no separate gate.
 
-**Acceptance:** `test_RSH_F_07_…`: a write-up that violates each guidance
-constraint (too long, missing section, forbidden content) is rejected by the
-final check, and one that meets them passes; the write-up stage on recorded
-fixture logs produces a document whose every table number appears in the
-logs.
-**Gate:** `stages_ready` (same gate; this feature closes it).
+## Synthesis with verified claims (RSH-F-09, AUD-F-10) and the claim-support judge
 
-## Minimal P1: the final gate
+`vera/literature/synthesis.py`. The generator writes a literature section from
+the evidence passages only. Every sentence that attributes something to a source
+carries a **ClaimLink**: the source key `[Rn]`, a quoted passage, and its
+locator. References are built from retrieved records, never from model text
+(the Increment 2 rule). Checks, in order, all recorded with evidence links:
 
-`vera/audit/`: citation existence and numeric consistency of the write-up
-against the run's own logs, with evidence links, built on the shared judge
-path and the T5 source.
+1. **Citation resolves:** `[Rn]` is a record in the retrieval log (the audit's
+   rule; a title lookup in Crossref and arXiv runs only for text that did not
+   come from the log, for example a sentence the user edited).
+2. **Quote is real:** the quoted passage is a verbatim normalised span of the
+   source's cached text (deterministic).
+3. **Claim is supported:** the cheap-path verdict `lit.claim_supported` (Boolean:
+   does this passage support this claim?) from a component other than the
+   producer. A claim with no quote, a quote that fails (2), or a failed verdict is
+   a finding and, in the write-up, a guidance failure that sends the claim back
+   for repair once or removes it.
 
-- **Citations** (AUD-F-03): the write-up cites only records the loop
-  retrieved, so each reference is first matched exactly against the run's
-  retrieval log, then looked up in the T5 sources (Crossref and arXiv; OpenAlex
-  when a key is set) by title with the year as a hint. A reference that is in
-  neither is a `fail` finding with the query and results recorded. An exact
-  title with a different year (preprint against journal) is a match with an
-  `info` finding. This rule is for the loop's own text: T5 measured 74.5% to
-  81.2% coverage of real references, so on other people's papers (Increment 6)
-  "not found" can only mean "unverified".
-- **Numbers** (AUD-F-04): numeric claims are extracted from the write-up
-  as written, not from the writer's own markup, and matched to
-  `results.json` and the run ledger within rounding; an unmatched number in a
-  results claim is a `fail`, in other prose a `warn`.
-- **Evidence** (AUD-F-09): every finding links to its evidence (quote
-  location, source record, log line) in the `AuditReport`.
-- **Blocking** (RSH-F-05): a run whose audit has any `fail` is never reported
-  as a success; the report states the failing findings.
+**The claim-support judge is a new judging task and gets its own benchmark**,
+built like Increment 1's: items labelled by construction from real passages (a
+claim written to restate a passage; the same claim paired with a different
+paper's passage; a claim with its direction or a number altered; a claim that
+overstates the passage), split dev/test **by topic**, at least 120 items,
+test SHA-256 recorded before any backend sees it, Chris checking at least 9
+drawn items. Backends: the decided path (Jev → GLM) and Sonnet 5.5 as reference
+(two repeats), within the $1 cap, with confidence intervals. The routing of
+`lit.*` question ids (default escalation at 0.7, or straight to GLM as for
+`loop.*`) is chosen on dev only.
 
-**Seeded faults:** plant fabricated citations and numeric mismatches into
-recorded write-ups (docs/06 §1; manifest in `data/seeded/`), split dev/test
-with the test hash recorded first.
+**Acceptance:** `test_RSH_F_09_…` and `test_AUD_F_10_…` on seeded literature
+sections (the seeded set below): a claim attributed to a retrieved source that the
+source does not support, a fabricated quote, a real quote under the wrong source
+key, and a citation that is not in the log are each found and linked to their
+evidence; an unmodified control section raises no `fail`; a section whose claims
+all carry quotes that pass the three checks is accepted; the benchmark's labels
+check and test hash recorded. Live: a literature section for each of the three
+topics, every claim checked, the number of claims repaired or removed reported,
+cost per topic.
+**Gate:** `literature_ready` (requires `retrieval_ready`; its hooks run the
+retrieval, reading and synthesis tests and `check_literature.py`: three
+sections, every claim has a link, every link's three checks recorded, spend
+within the cap).
 
-**Acceptance:** `test_AUD_F_03_…` and `test_AUD_F_04_…` on seeded write-ups:
-on the test split at least 90% of planted faults are flagged (the
-AUD-P-01 starting value, not yet a target; Increment 6 sets it) and the
-unseeded control write-ups raise no `fail`; `test_AUD_F_09_…` (every finding
-has at least one evidence entry with a reference); `test_RSH_F_05_…` (an
-audit `fail` blocks success and the report says why). Fixture write-ups come
-from `stages_ready` smoke output, not hand-written ones.
-**Gate:** `audit_ready`.
+## Audit v2 and a seeded set that can fail
 
-## Measurement runs: T7, generator, T6
+`vera/audit/`. The Increment 2 audit passed its seeded set, but the set was
+mostly deterministic faults from two source runs, and it was tuned after its
+first test run. This feature builds the audit for text it cannot trust and a set
+that can show it failing:
 
-Decide how the loop holds its context and which models generate, from runs
-instead of preference. Fixed inputs: the same recorded baseline result and
-the same problem spec for every arm.
+- **Claim-cell alignment for results claims (the amber class).** A sentence that
+  names a method and a dataset (or metric) must match the value in that cell of
+  `results.json`; a real number placed on the wrong method, dataset or metric is
+  a `fail`, not a warning. A sentence the extractor cannot attribute to one cell
+  stays a warning.
+- **Literature checks** (AUD-F-03 on the loop's own text now with a real
+  retrieval log, AUD-F-10) from the previous feature, in the same
+  `AuditReport`.
+- **A new seeded set** (`data/seeded_v2/`): faults planted into write-ups from at
+  least **4 source runs** (the loop-001 paper, the T9 comparison papers, and the
+  three topic papers' literature sections), at least **6 fault types**, with
+  **subtle faults** the Increment 2 set lacked: a real number on the wrong method,
+  a value rounded beyond tolerance, a swapped method name in a sentence, a
+  paraphrase that reverses a comparison, a citation to a real paper that does not
+  support the claim, a quote with a changed qualifier. Split dev/test **by source
+  run**, at least 24 test faults and 6 controls; test SHA-256 and the audit's
+  source-tree hash recorded before the audit runs on any test item.
+- **Cause recorded for every miss or false fail:** audit rule, parser (T3 reverse-if
+  (1)), source lookup (T5 reverse-if (4)), or label error.
 
-- **T7:** (a) plain LangGraph state with summarisation against (b) the
-  prompt-as-variable pattern from prime-agent inside VERA's own nodes (papers,
-  logs and code held outside the prompt; recursive sub-calls bounded by the
-  `Budget`). Two repeats per arm on the idea and write-up stages. Report
-  input tokens, cost, gate pass rate, audit result, and whether the idea's
-  result beats the baseline. N is tiny, so the result is directional and the
-  decision records that.
-- **Generator:** GLM-5.3 Flash throughout, GLM for code and ideas with
-  Sonnet 5.5 for the write-up, and one other cheap candidate from ConOps §4
-  (for example MiMo-V2.6-Pro or DeepSeek V4.x Flash), using billed cost per
-  call (prices vary by provider; keep `provider.sort = price`) and the
-  recorded generator/judge overlap. Sonnet 5.5 throughout is the quality
-  reference only if the $4 cap allows.
-- **T6:** decide or close with a reason; the default is "ledger plus
-  checkpoints are enough", reopened only if the measurement runs could not be
-  debugged from them.
+**Acceptance:** `test_AUD_F_03_…`, `test_AUD_F_04_…` and `test_AUD_F_10_…` on the
+seeded set: on the test split report the detection rate per fault type with a
+confidence interval and the false-fail rate on controls; the SPEC bar is at least
+90% flagged and no `fail` on controls (a starting value; AUD-P-01 stays TBD until
+Increment 6), and a result below it is reported as it is and opens the audit's
+design, not the bar; `check_seeded.py` refuses a test run whose recorded source-tree
+hash differs from the one frozen in the split file; dev runs are free, a
+changed audit after the test run needs a new test set.
+**Gate:** `audit3_ready` (requires `literature_ready`).
 
-Docs/04 gets **Scores:**, **Decision:** and **Reverse if:** for T7, the
-generator choice (as a new trade, T9) and T6; T2's reverse-if (2) is
-answered by the T7 result.
+## Parent-problem selection (RSH-F-10) and trade T10
 
-**Acceptance:** `tools/checks/check_trade_decided.py T6`, `… T7` and `… T9`
-pass; the measured spend of these runs is ≤ $4.00 from the run ledgers
-(`check_ledger.py`); per-stage cost per arm is in docs/04.
-**Gate:** `trades_decided_2` (human approval).
+`vera/literature/parent.py` and docs/04 T10. For an empirical question the stage
+reads the retrieved papers' abstracts and reference lists and proposes up to three
+**candidate parent problems**: a method paper with a public repository, a
+baseline reproducible on CPU in minutes, and datasets that fit. Each candidate
+records the repository URL and licence, the datasets, the stated or inferred
+compute (from the inventory's rules: infer when the parent states none), and
+whether a harness exists in `docker/` for it. The stage picks one or says why none
+fits, in which case the run writes a non-empirical paper. The pick is a
+non-producer verdict (`lit.parent_fits`: is the baseline reproducible on CPU
+within the limits?) plus deterministic checks (a repository that resolves, a
+licence recorded).
 
-## Complete run
+**T10 — where a problem's baseline comes from.** Increment 2 runs TreeHFD through a
+hand-built harness (`docker/sandbox-treehfd/harness.py`), not a baseline the
+loop wrote. Increment 4 needs a second parent problem. This increment records
+what selecting parents from the literature actually produces for topics (a) and
+(b): how many candidates have public code that runs in the sandbox, how long each
+would take to wrap, and whether a model-written baseline script (the Increment 2
+SPEC's original wording) is feasible. Options: (a) a harness per problem written
+by hand, (b) a model-written baseline in the sandbox with the baseline gate
+unchanged, (c) a hybrid: a thin generic harness with the model writing only the
+adapter. Decided at `trades_decided_3` by Chris, with **Scores:**, **Decision:**
+and **Reverse if:** in docs/04.
 
-One end-to-end run from Chris's terminal with the decided configuration
-(T7, generator, cheap path), a $3.00 budget and a wall limit set in the
-`RunSpec` (proposed 2 hours): baseline → ideas → idea run → write-up → final
-gate. Output: the run's ledger with per-stage cost, the checkpoint database,
-the write-up, `results.json`, and the `AuditReport` on its own paper. A
-run that ends in budget exhaustion or a failed audit is a valid result if it
-reports its stop reason honestly, but the gate wants a complete run, so a
-second attempt is allowed inside the increment cap.
+**Acceptance:** `test_RSH_F_10_…` is a demonstration (D in docs/02): for topic (b)
+the stage returns candidates with every field or states why none fits, with the
+reasons, and for topic (a) it selects TreeHFD; Chris reads the candidates'
+evidence and says whether the pick or the refusal was right (recorded in
+`data/topics/parent_<id>.json`); T10 written in docs/04.
+**Gate:** part of `topic_runs` (below).
 
-**Acceptance:** `tools/checks/check_run.py`: the run ledger exists and is
-append-only complete (every `StageResult` has a ledger span; no record without
-a run id), total ≤ the run's `Budget`, every stage transition has a verdict
-from a different component, the audit report exists and its overall status is
-recorded (green, amber or red, stated, not hidden), and per-stage cost is
-tabulated in `data/results/run_<run_id>.json`.
-**Gate:** `loop_run`.
+## Decisions: T10 and the reverse-if conditions
 
-## Judge re-test on the loop's real gate decisions
+At `trades_decided_3` Chris decides, with the measurements above: T10 (baseline
+source); **T5** (does Crossref + arXiv recall the key papers, or does a keyed
+source become primary); **T7** (did input or a long prompt trigger the
+prompt-as-variable arm, and if built, what did it save); **T3** (did GROBID or
+Docling cause the citation and quote failures, so that a parser or repair change
+is needed); the **claim-support routing** for `lit.*`; and the generator for the
+literature stage (Sonnet 5.5 as decided, unless the cost per topic makes a
+cheaper arm worth testing for bring-your-own-key users; T9 reverse-if (2), a
+reasoning control that makes MiMo or DeepSeek usable, is **not** in scope here and
+moves to Increment 5 where bring-your-own-key makes it matter). Each decision is
+written in docs/04 with **Scores:**, **Decision:** and **Reverse if:**.
 
-T1's first reverse-if: the Increment 1 benchmark was near ceiling on two of
-three tasks and its targets were set after the test results were seen. The
-complete run, the smoke runs and the measurement runs produced real `loop.*`
-gate states. Build a new test set from them: every `loop.*` state with a
-programmatic shadow label (beats baseline, best idea), plus near-tie and
-perturbed copies of the run's own tables generated by the Increment 1
-generators to reach at least 100 items. Split dev/test by run, hash the test
-split before any backend sees it, then replay the decided path (Jev → GLM,
-`loop.*` to GLM) and Sonnet 5.5 over it, three repeats for the reference,
-within the $1 cap.
+**Acceptance:** `tools/checks/check_trade_decided.py T3 T5 T7 T10` finds each
+section decided or its reverse-if explicitly recorded as "tested, not fired"
+with the numbers; the measured spend so far is within the caps (`check_ledger.py`).
+**Gate:** `trades_decided_3` (human approval; requires `audit3_ready`).
 
-Report agreement with labels and with the reference, ECE, flip rate, cost and
-latency, with confidence intervals this time (the Increment 1 benchmark had
-none). `loop.idea_worth_run` (Score) has no computable label and is reported
-separately, not in agreement.
+## Topic runs: cost per topic and one end to end
 
-**Acceptance:** `tools/checks/check_retest.py`: items and test hash recorded,
-every `loop.*` verdict in the run ledgers accounted for, results with
-intervals, spend within the cap; the review states whether T1's reverse-if (1)
-fired (decided path below 95% agreement with the reference). A failure does
-not block the gate; it opens T1 again in the review.
-**Gate:** `judge_retest`.
+The three confirmed topics run from Chris's terminal with the decided
+configuration: scoping → confirmation → retrieval → reading → synthesis →
+(empirical) parent selection → (topic (a) only) baseline, ideas, subset run, with
+the literature section as the paper's related work → write-up → final audit.
+Each run has its budget, a wall limit, a ledger, a best-so-far report, and a
+per-stage cost table in `data/results/run_<run_id>.json` (including input share
+and the largest prompt per stage). Topic (a)'s run is the "carried through the
+Increment 2 loop end to end" exit criterion. A run that ends in budget
+exhaustion or a failed audit is a valid result if it says so, but the gate wants
+three runs that reached their final stage (topic (a): the audit), so a second
+attempt of a topic is allowed inside the increment cap and every attempt is kept.
+No result from ScientistTwo's paper on these topics is read before the runs.
 
-## Increment 2 review
+**Acceptance:** `tools/checks/check_topic_runs.py`: for each topic a run with
+every stage recorded, its ledger equal to its recorded spend, every verdict from a
+component other than its producer, an audit report (green, amber or red, stated),
+and the cost table; the cost per topic table (scoping, retrieval, reading,
+synthesis, parent selection, the loop for (a)) is in
+`docs/results/topic_costs.md`; topic (a) shows every loop stage. The review states
+the result honestly, including the literature section's quality as Chris judged it
+on a drawn sample of its claims.
+**Gate:** `topic_runs` (requires `trades_decided_3`).
 
-Write `docs/reviews/incr-2.md` against the docs/07 exit criteria: one
-complete run inside its budget with a per-stage cost ledger and an audit
-report on its own paper, and an honest write-up of what the crude loop got
-right and wrong. Also: measured cost per run against the Increment 1
-estimate (about $0.5 to $5.7 by option) and R10; T4, T5, T6, T7 and generator
-decisions with their evidence; the re-test result and T1's reverse-if (1);
-the same-model-judging overlap; the seeded-fault detection numbers; the
-result against ScientistTwo's ECTS-HFD on TreeHFD as one data point (the
-formal comparison is Increment 4); spend against caps; dogfood overhead hours
-per session; and what changes in the Increment 3 SPEC (topic front end and
-literature stage, using T5 and T7 as decided). Open items from the
-Increment 1 review are closed or restated: provider field, T1 router
-function, T6, the 4 parents with unknown code, corpus likely success-only,
-the T3 escalation run not spot-checked, `tmp/`.
+## Judge re-test (claim support and the loop's gates)
 
-**Acceptance:** `tools/checks/check_dogfood.py` finds an overhead entry for
-each calendar day on which a gate passed in this increment; the review passes
-the independent Evaluator (`run-evaluator.sh`), fresh per round, with every
-verdict kept.
-**Gate:** `incr2_review`.
+Two re-tests, within the $1 reference cap, with confidence intervals:
+
+- **`lit.claim_supported`** on the benchmark built in the synthesis feature, with
+  its test set untouched since its hash was recorded, plus the **real claims** from
+  the three topic runs (labelled by Chris on a drawn sample of at least 30
+  claims, seed recorded), reported separately from the constructed items.
+- **The loop's gates** on the new real decisions from this increment's runs
+  (`loop.*`), as in Increment 2; additionally the **two confident misses** of the
+  Increment 2 re-test (`retest-0008`, `retest-0038`) are examined and their tables
+  reported (mislabelled, near-tie, or a judge error), and `loop.idea_worth_run`
+  verdicts are reported on their own: their distribution and, where the ideas
+  were run, whether a higher score went with beating the baseline (N will be tiny,
+  so this is descriptive).
+
+Report agreement with labels and the reference, ECE, flip rate, cost and latency;
+T1's reverse-if (1) is restated (decided path below 95% agreement with the
+reference on the real decisions) with the result for this set.
+
+**Acceptance:** `tools/checks/check_retest.py` (extended to a named re-test set):
+items and test hash recorded, results with intervals, spend within the cap, every
+`lit.*` and `loop.*` verdict in the ledgers accounted for (used or excluded with a
+reason). A failure does not block the gate; it opens T1 or the routing again in
+the review.
+**Gate:** `judge_retest_3` (requires `topic_runs`).
+
+## Increment 3 review
+
+Write `docs/reviews/incr-3.md` against the docs/07 exit criteria: three topics taken
+to a scoped question and a literature section with verified citations; cost per
+topic measured; one topic carried through the Increment 2 loop end to end. Also:
+what the literature stage got right and wrong (recall of key papers, the claims
+repaired or removed, the topics Chris edited, where the audit missed); the
+seeded-fault results with the frozen-code rule kept or broken; the claim-support
+benchmark and re-test results; the T3, T5, T7, T10 decisions with their evidence;
+R10 re-measured per topic; spend against the caps; dogfood overhead per session
+(the check now enforces it); same-model overlap; and what changes in the
+Increment 4 SPEC (the paper-shaped write-up, ablations, a second parent problem,
+and the ScientistTwo comparison, with T10's decision deciding how the second
+problem gets its baseline). Carry-overs from the Increment 2 review are closed or
+restated: the `StageResult.gate` quirk, the audit's amber class, `idea_worth_run`,
+treehfd upstream, per-session overhead, the 4 parents with unknown code, the
+corpus likely success-only, the T3 escalation run not spot-checked.
+
+**Acceptance:** `tools/checks/check_dogfood.py` finds an overhead entry for each
+calendar day a gate passed since the last review gate; the review passes the
+independent Evaluator (`run-evaluator.sh`), fresh per round, with every verdict
+kept, and the review's numbers are checked against the ledgers and result files by
+the Evaluator.
+**Gate:** `incr3_review`.
