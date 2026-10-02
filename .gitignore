@@ -35,6 +35,7 @@ data/ledger/*
 !data/ledger/run_smoke-*.jsonl
 !data/ledger/run_seeded-*.jsonl
 !data/ledger/run_gen-*.jsonl
+!data/ledger/run_loop-*.jsonl
 !data/ledger/run_reaudit-*.jsonl
 !data/ledger/run_seeded-bases-*.jsonl
 
