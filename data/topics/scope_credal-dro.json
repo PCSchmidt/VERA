@@ -1,0 +1,12 @@
+{
+ "topic_id": "credal-dro",
+ "question": "In small-sample, contaminated data-driven decision problems (e.g., a mean-risk portfolio or newsvendor-type problem solved as a convex program), how do credal ambiguity sets (such as an imprecise Dirichlet or epsilon-contamination neighborhood around the empirical distribution) compare with Wasserstein-ball and moment-based (mean-covariance) ambiguity sets in out-of-sample cost and in the reliability of the resulting cost guarantee, as the sample size (n of roughly 10 to 200) and the contamination fraction (0 to 20%) vary, when each set's radius is tuned by the same cross-validation or calibration rule?",
+ "why_researchable": "All three ambiguity-set families reduce to small convex programs (LP, SOCP or SDP) that a CPU solver such as CVXPY with open-source solvers handles in seconds, so hundreds of replications over n and contamination grids fit on a laptop. Synthetic data with controlled contamination and public return or demand datasets give ground truth for out-of-sample cost and guarantee violation rates. The literature on Wasserstein DRO (finite-sample guarantees, radius calibration) and on moment-based DRO is well developed, while direct empirical comparisons that include credal or contamination-neighborhood sets under matched radius calibration are sparse. A short review can therefore state plainly what theory guarantees (for example, measure-concentration radius bounds that are conservative in practice) and what has not been tested (head-to-head behavior under contamination at small n). The experiment is a bounded comparison, not a claim about general superiority.",
+ "empirical": true,
+ "candidate_parent": "Mohajerin Esfahani and Kuhn, 'Data-driven distributionally robust optimization using the Wasserstein metric: performance guarantees and tractable reformulations', arXiv:1505.05116 (Wasserstein-ball portfolio and newsvendor-style convex reformulations). I cannot confirm from memory that the authors released official public code, so the review should check for it, and otherwise re-implement the reformulations in CVXPY. A moment-based baseline would follow Delage and Ye (2010, DOI 10.1287/opre.1090.0741).",
+ "no_parent_reason": null,
+ "status": "confirmed",
+ "confirmed_by": "Chris",
+ "confirmed_at": "2026-10-02T17:24:52Z",
+ "run_id": "scope-credal-dro-2"
+}

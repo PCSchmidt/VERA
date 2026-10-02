@@ -1,0 +1,12 @@
+{
+ "topic_id": "llm-judge-numbers",
+ "question": "In published evaluation studies of LLM-as-judge systems, under what conditions (for example, whether the judge sees the source table or only text, whether the claim needs arithmetic or multi-step numeric reasoning, and whether the judge is given tools or a recomputation step) is judge agreement with human or programmatically verified labels on numeric and table-grounded claims reliable, and under what conditions does it break down? What does the literature establish about these conditions, and what does it leave unestablished?",
+ "why_researchable": "A short literature review can answer this by reading and synthesising existing work: table fact-verification benchmarks (e.g. TabFact, FEVEROUS, SciTab), numeric-claim and numerical-reasoning evaluations, and meta-evaluations of LLM judges (agreement with humans, position and verbosity bias, self-preference, weak performance on math and reasoning verification). The analysis can group findings by claim type (lookup, comparison, aggregation, multi-step arithmetic), judge access (source visible or not, tool or code use), and the reference label used (human or programmatic). It can then state plainly where evidence is consistent, where studies conflict or use incomparable protocols, and where there are gaps, such as few studies that isolate numeric claims from general factuality. This fits VERA's judge path and numeric audit, so the author can assess the synthesis directly. No experiments are needed, and the paper should cite only sources actually retrieved.",
+ "empirical": false,
+ "candidate_parent": null,
+ "no_parent_reason": "Non-empirical literature-and-analysis paper, so no parent method paper is needed.",
+ "status": "confirmed",
+ "confirmed_by": "Chris",
+ "confirmed_at": "2026-10-02T17:24:53Z",
+ "run_id": "scope-llm-judge-numbers-3"
+}

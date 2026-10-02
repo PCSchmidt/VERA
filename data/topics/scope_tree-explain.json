@@ -1,0 +1,12 @@
+{
+ "topic_id": "tree-explain",
+ "question": "When input features are correlated, does the functional decomposition of a tree ensemble produced by TreeHFD (arXiv 2510.24815) remain accurate and stable compared with TreeSHAP-style attributions and with the true additive/interaction components in synthetic data? Concretely, as pairwise feature correlation rho increases from 0 to 0.95 in simulated data with known main effects and one known pairwise interaction, how do (a) the error of the recovered components against the ground-truth components and (b) the rank stability of the estimated component importances across bootstrap-refit random forests and gradient-boosted ensembles change? The same comparison would then be repeated on a few public tabular datasets (e.g., California housing, Adult) by measuring bootstrap stability of the top-k components, with no ground truth available.",
+ "why_researchable": "The question is narrow and has a measurable outcome. Synthetic data with controlled correlation gives ground-truth components, so accuracy can be scored directly. Stability can be measured by refitting on bootstrap samples. Small random forests and GBMs on a few thousand rows train in seconds on a CPU. The literature on correlated-feature effects for Shapley values, PDP/ALE and functional ANOVA (including the hierarchical orthogonal decomposition line of work that TreeHFD builds on) can be reviewed briefly to state what is established, such as the dependence of marginal versus conditional attributions on the feature distribution, and what is not, such as how tree-based decompositions behave under strong correlation. The review would have to say plainly where the retrieved sources do not cover this. Only retrieved sources would be cited.",
+ "empirical": true,
+ "candidate_parent": "arXiv:2510.24815 (TreeHFD, with its public code), which is the parent problem for which the loop already has a harness and sandbox image",
+ "no_parent_reason": null,
+ "status": "confirmed",
+ "confirmed_by": "Chris",
+ "confirmed_at": "2026-10-02T17:24:51Z",
+ "run_id": "scope-tree-explain-2"
+}
