@@ -1,0 +1,59 @@
+{
+  "registered": "2026-10-01",
+  "note": "Written before any baseline run (SPEC 'No peeking' rule). Reference values come from the TreeHFD paper (Benard, NeurIPS 2025, arXiv 2510.24815) only, never from ScientistTwo's paper on it. Changing anything below after the first baseline run needs Chris's approval and a dated entry in 'changes'.",
+  "comparison_metric": "residual_mse_pct",
+  "metric": {
+    "name": "Residual MSE (%)",
+    "definition": "MSE of the TreeHFD predictions with respect to the xgboost ensemble's predictions, divided by the variance of the ensemble's predictions, times 100 (paper S-Mat B.3.1). Reported on two row sets: held-out data ('residual_mse_pct', what ideas are compared on everywhere) and the data the model and the decomposition were fitted on ('residual_in_sample_pct'). Which row set the baseline-reproduction gate compares with the paper is registered per dataset (datasets.*.reproduction_metric).",
+    "lower_is_better": true
+  },
+  "model": {
+    "xgboost": {
+      "n_estimators": 100,
+      "note": "all other parameters at xgboost defaults, as the paper states for its analytical case"
+    },
+    "treehfd": {
+      "interaction_order": 2
+    },
+    "split": {
+      "test_fraction": 0.3,
+      "note": "the paper does not state the real-data split; 70/30 is VERA's choice, fixed here"
+    },
+    "n_seeds": 3
+  },
+  "datasets": {
+    "analytical": {
+      "description": "Gaussian X in R^6, unit variances, all pairwise correlations 1/2; Y = sin(2 pi X1) + X1 X2 + X3 X4 + N(0, 0.5^2); n = 5000 (paper Section 4).",
+      "reference_pct": 2.0,
+      "reference_source": "paper S-Mat: 'the TreeHFD residual MSE is 2% of V[T(X)]' for n = 5000, M = 100 trees",
+      "reproduction_metric": "residual_mse_pct",
+      "reproduction_basis": "held-out: the paper states that its analytical experiment uses an independent testing dataset (Section 4)"
+    },
+    "airfoil": {
+      "description": "UCI Airfoil Self-Noise, n = 1503, 5 features, target = scaled sound pressure level (last column).",
+      "reference_pct": 2.0,
+      "reference_source": "paper Table 2, Airfoil row, 'Residual MSE TreeHFD' = 2%",
+      "reproduction_metric": "residual_in_sample_pct",
+      "reproduction_basis": "in-sample: Table 2 does not say which row set it uses; in-sample is the reading that reproduces it (held-out gives 4.7%)"
+    }
+  },
+  "tolerance": {
+    "rule": "reproduced on a dataset if |measured mean - reference| <= 1.0 percentage point; the baseline is reproduced if every dataset is",
+    "absolute_pct_points": 1.0,
+    "why": "the paper rounds to one digit ('about 1%'), uses its own splits, and averages differently; a band of one point either side separates 'same behaviour' from 'something is broken' without chasing rounding"
+  },
+  "changes": [
+    {
+      "date": "2026-10-01",
+      "decided_by": "Chris",
+      "what": "The baseline-reproduction gate now checks the in-sample residual (reproduction_metric) against the references, for every dataset. Ideas are still compared on the held-out residual (comparison_metric). Tolerance, references, model settings, datasets and seeds are unchanged.",
+      "why": "Registered as held-out only. The first runs (docs/results/treehfd_baseline_first_runs.md) gave Airfoil 4.73% held-out against the paper's 2.0%, but 1.36-1.72% in-sample. The paper defines the residual (S-Mat B.3.1) without saying which row set Table 2 uses; in-sample is the likelier reading, so reproducing the paper means matching it. This is a change made AFTER seeing the Airfoil result, recorded as such, and applied uniformly to every dataset rather than chosen per dataset."
+    },
+    {
+      "date": "2026-10-01",
+      "decided_by": "Chris",
+      "what": "The row set the baseline-reproduction gate compares is registered per dataset instead of in-sample for all: analytical held-out, airfoil in-sample. Ideas are compared on the held-out residual on every dataset. Tolerance, references, model settings, datasets and seeds are unchanged. Supersedes the uniform in-sample rule of the entry above.",
+      "why": "The full-protocol baseline run (docs/results/treehfd_baseline_first_runs.md) showed no single row set reproduces the paper on both datasets: analytical held-out 2.79 vs 2.0 (in-sample 0.57 fails), airfoil in-sample 1.52 vs 2.0 (held-out 4.73 fails). The paper's text supports the split: it states an independent test set for the analytical experiment and is silent for Table 2. This is a SECOND change made after seeing results, so the choice follows the paper's text and the evidence, not a search for the setting that passes; recorded as such."
+    }
+  ]
+}
