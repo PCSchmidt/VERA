@@ -37,6 +37,8 @@ STAGE_NODES: list[tuple[str, str, NodeFactory]] = [
     ("queries", "retrieve", stages.queries_node),
     ("retrieve", "retrieve", stages.retrieve_node),
     ("screen", "retrieve", stages.screen_node),
+    ("expand", "retrieve", stages.expand_node),
+    ("rescreen", "retrieve", stages.rescreen_node),
     ("read", "read", stages.read_node),
     ("read_gate", "read", stages.read_gate_node),
     ("synthesize", "synthesize", synthesis_stage.synthesize_node),
@@ -50,6 +52,7 @@ class LitState(TypedDict, total=False):
     queries: list  # search queries written from the confirmed question
     records: list  # keys of the retrieved candidates, best ranked first
     kept: list  # keys that passed the relevance screen
+    expansion: dict  # the snowballing step: its seeds and how many candidates it added (or why it was skipped)
     passages: int  # evidence passages written to passages.jsonl
     draft: list  # the drafted section: paragraphs of sentences with claims
     section: dict  # the verified LiteratureSection

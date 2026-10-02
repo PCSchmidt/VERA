@@ -14,6 +14,8 @@ from vera.literature.graph import STAGE_NODES
 from vera.literature.reading import ParseCache, PdfFetcher, build_passages, quote_in_text, rank_passages
 from vera.schemas import StageResult
 
+THROUGH_READING = STAGE_NODES[:7]  # queries ... read_gate
+
 TEI = """<?xml version="1.0" encoding="UTF-8"?>
 <TEI xmlns="http://www.tei-c.org/ns/1.0"><text><body>
  <div><head>Introduction</head>
@@ -154,9 +156,9 @@ def read_run(tmp_path: Path, *, fetch=None, parse=None, read_top: int = 2, judge
         deps.judge = judge(deps)
     deps.extra["retriever"] = Records(8) if _F else None
     extras(deps)
-    start_topic_run(deps, extra_nodes=STAGE_NODES)
+    start_topic_run(deps, extra_nodes=THROUGH_READING)
     scoping.confirm_scope(deps.run_dir, "Chris")
-    return deps, continue_topic_run(deps, extra_nodes=STAGE_NODES)
+    return deps, continue_topic_run(deps, extra_nodes=THROUGH_READING)
 
 
 def passages_of(deps) -> list[dict]:

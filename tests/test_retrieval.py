@@ -15,7 +15,7 @@ from vera.literature.graph import STAGE_NODES, continue_topic_run, start_topic_r
 from vera.literature.retrieval import HttpCache, Retriever, merge_records, recall
 from vera.schemas import StageResult
 
-RETRIEVAL_NODES = STAGE_NODES[:3]  # queries, retrieve, screen: reading has its own tests
+RETRIEVAL_NODES = STAGE_NODES[:5]  # queries, retrieve, screen, expand, rescreen: later stages have their own tests
 KEYLESS = ["crossref", "arxiv"]  # whatever keys the machine has, the tests use the keyless pair
 ARXIV = """<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -142,8 +142,8 @@ WORDS = ["Boosting", "Forest", "Shapley", "Interaction", "Additive", "Variance",
 
 
 class FakeRetriever:
-    def __init__(self, n: int = 8, shift: int = 0) -> None:
-        self.n, self.shift, self.queries = n, shift, []
+    def __init__(self, n: int = 8, shift: int = 0, sources: tuple = ("crossref", "arxiv")) -> None:
+        self.n, self.shift, self.queries, self.sources = n, shift, [], list(sources)
 
     def __call__(self, query: str) -> list[dict]:
         self.queries.append(query)
@@ -174,7 +174,8 @@ def test_queries_are_parsed_deduplicated_and_capped() -> None:
 
 def test_the_retrieval_stage_logs_every_candidate_and_screens_them(tmp_path: Path) -> None:
     deps, state = literature_run(tmp_path)
-    assert state["trail"][-3:] == ["queries", "retrieve", "screen"] and not state.get("stop")
+    assert state["trail"][-5:] == ["queries", "retrieve", "screen", "expand", "rescreen"]
+    assert not state.get("stop") and "no OpenAlex key" in state["expansion"]["skipped"]
     assert deps.extra["retriever"].queries == ["tree explainability", "functional decomposition"]  # deduplicated
     log = [json.loads(ln) for ln in (deps.run_dir / "retrieved.jsonl").read_text(encoding="utf-8").splitlines()]
     assert len(log) == 8 and log[0]["key"] == "R1" and all(r["query"] and r["rank"] for r in log)
@@ -316,3 +317,36 @@ def test_a_stopped_stage_can_be_rerun_from_its_checkpoint_in_the_same_run(tmp_pa
 
     with pytest.raises(LookupError):
         rerun_from(deps, "no_such_node", extra_nodes=RETRIEVAL_NODES)
+
+
+def test_the_expansion_adds_the_seeds_references_and_the_new_candidates_are_screened(tmp_path: Path) -> None:
+    added_records = [{"title": f"Cited work {w} on trees", "authors": [], "year": "2010", "id": f"doi:10.1/{w}",
+                      "url": f"https://doi.org/10.1/{w}", "abstract": f"Cites {w}.", "pdf_url": None,
+                      "source": "openalex", "query": "cited by R1, R2", "rank": i + 1, "key": f"R{9 + i}",
+                      "retrieved": "2026-10-03", "cited_by": ["R1", "R2"]} for i, w in enumerate("abcd")]  # fmt: skip
+    seen: dict = {}
+
+    def fake_expand(retriever, records, seeds):
+        seen["seeds"] = [s["key"] for s in seeds]
+        return added_records
+
+    queries = '```json\n["tree explainability", "functional decomposition"]\n```'
+    deps = make_lit_deps(tmp_path, replies={"p3.retrieve": queries})
+    deps.extra |= {"retriever": FakeRetriever(8, sources=("openalex", "crossref", "arxiv")), "expand": fake_expand}
+    start_topic_run(deps, extra_nodes=RETRIEVAL_NODES)
+    scoping.confirm_scope(deps.run_dir, "Chris")
+    state = continue_topic_run(deps, extra_nodes=RETRIEVAL_NODES)
+    log = [json.loads(ln) for ln in (deps.run_dir / "retrieved.jsonl").read_text(encoding="utf-8").splitlines()]
+    assert len(log) == 12 and log[-1]["key"] == "R12" and log[-1]["cited_by"] == ["R1", "R2"]
+    assert state["expansion"] == {"seeds": seen["seeds"], "added": 4} and len(seen["seeds"]) == 5
+    assert len(state["kept"]) == 12 and state["trail"][-2:] == ["expand", "rescreen"]
+    assert deps.judge.asked.count("lit.relevant") == 12  # the first screen's eight verdicts were not paid for twice
+    sr = next(StageResult.model_validate(s) for s in state["stage_results"] if s["stage"] == "retrieve")
+    assert len(sr.gates) == 12  # the stage's record holds every verdict, old and new
+
+
+def test_the_expansion_needs_two_seeds_and_a_key(tmp_path: Path) -> None:
+    deps, state = literature_run(tmp_path, judge=lambda d: LitJudge(d.ledger, d.budget,
+                                                                    answers={"lit.relevant": False}))
+    assert state["expansion"]["skipped"].startswith("no OpenAlex key") or "seeds" in state["expansion"]["skipped"]
+    assert state["stop"]["reason"].startswith("gate: only 0 relevant")  # the stage gate is the second screen

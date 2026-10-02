@@ -18,7 +18,7 @@ import time
 from collections.abc import Callable
 
 from vera.audit.bibliography import LookupUnavailable
-from vera.literature import questions, reading, retrieval, scoping
+from vera.literature import expansion, questions, reading, retrieval, scoping
 from vera.literature.deps import LitDeps
 from vera.loop.stages import _extract_json, _stop, _write_json, ask_gate, stage_result
 from vera.schemas import Verdict
@@ -99,7 +99,10 @@ def _load_screen(path) -> dict[str, dict]:
     return {r["hash"]: r for r in rows}
 
 
-def screen_node(deps: LitDeps) -> Callable[[dict], dict]:
+def _screen(deps: LitDeps, *, final: bool, name: str) -> Callable[[dict], dict]:
+    """The relevance screen. Only the `final` screen gates the stage (and stops the run on too few candidates); the
+    first one, before the expansion, just says which candidates are seeds. A verdict is paid for once."""
+
     def node(state: dict) -> dict:
         question_text = _confirmed_question(deps)
         records = [json.loads(ln) for ln in (deps.run_dir / "retrieved.jsonl").read_text("utf-8").splitlines() if ln]
@@ -123,14 +126,56 @@ def screen_node(deps: LitDeps) -> Callable[[dict], dict]:
             elif not confident:
                 unsure.append(rec["key"])
         artifact = _write_json(deps, "relevance", {"kept": kept, "unsure": unsure, "n_screened": len(records)})
+        if not final:
+            return {"kept": kept, "trail": [name]}
         passed = len(kept) >= MIN_RELEVANT
         metrics = {"n_screened": float(len(records)), "n_kept": float(len(kept)), "n_unsure": float(len(unsure))}
         why = None if passed else f"only {len(kept)} relevant candidates (need {MIN_RELEVANT})"
         sr = stage_result(deps, "retrieve", artifact, verdicts, "accept" if passed else "reject", metrics, reason=why)
-        update = {"kept": kept, "stage_results": [sr], "artifacts": {"retrieve": artifact}, "trail": ["screen"]}
+        update = {"kept": kept, "stage_results": [sr], "artifacts": {"retrieve": artifact}, "trail": [name]}
         if not passed:
             update |= _stop("retrieve", f"gate: only {len(kept)} relevant candidates (need {MIN_RELEVANT})")
         return update
+
+    return node
+
+
+def screen_node(deps: LitDeps) -> Callable[[dict], dict]:
+    return _screen(deps, final=False, name="screen")
+
+
+def rescreen_node(deps: LitDeps) -> Callable[[dict], dict]:
+    """The screen again after the expansion: only the new candidates cost anything; this one gates the stage."""
+    return _screen(deps, final=True, name="rescreen")
+
+
+MIN_SEEDS = 2  # the expansion follows the references of at least this many relevant papers, or it is skipped
+
+
+def expand_node(deps: LitDeps) -> Callable[[dict], dict]:
+    """Snowballing (vera.literature.expansion): add the works the screened seeds cite. Needs the user's OpenAlex key."""
+
+    def node(state: dict) -> dict:
+        retriever = deps.extra["retriever"]
+        records = [json.loads(ln) for ln in (deps.run_dir / "retrieved.jsonl").read_text("utf-8").splitlines() if ln]
+        by_key = {r["key"]: r for r in records}
+        seeds = [by_key[k] for k in state["kept"]][: expansion.MAX_SEEDS]
+        note = {"seeds": [s["key"] for s in seeds], "added": 0}
+        if "openalex" not in getattr(retriever, "sources", ["openalex"]):
+            note["skipped"] = "no OpenAlex key: the expansion needs the user's own"
+        elif len(seeds) < MIN_SEEDS:
+            note["skipped"] = f"only {len(seeds)} relevant seeds (need {MIN_SEEDS})"
+        else:
+            try:
+                added = deps.extra.get("expand", expansion.expand)(retriever, records, seeds)
+            except LookupUnavailable as exc:
+                added, note["skipped"] = [], f"OpenAlex did not answer: {exc}"
+            if added:
+                with (deps.run_dir / "retrieved.jsonl").open("a", encoding="utf-8") as fh:
+                    fh.write("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in added))
+            note["added"] = len(added)
+        artifact = _write_json(deps, "expansion", note)
+        return {"artifacts": {"expansion": artifact}, "expansion": note, "trail": ["expand"]}
 
     return node
 
