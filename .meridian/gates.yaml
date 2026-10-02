@@ -231,3 +231,121 @@ gates:
         - gate-tests.sh
         - gate-traceability.sh
         - run-evaluator.sh          # independent Evaluator verdict on the review
+
+  # ── Increment 2: thin loop on TreeHFD (SPEC.md) ───────────────────────────
+  # Only the scope gate is defined so far; the rest of the Increment 2 DAG
+  # (run_core_ready, design_trades_decided, sandbox_ready, stages_ready,
+  # audit_ready, trades_decided_2, loop_run, judge_retest, incr2_review) is
+  # drawn in SPEC.md and added with the check scripts each needs.  run_core_ready is defined below.
+
+  - id: incr2_scoped
+    label: "Increment 2 scope confirmed"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 2 SCOPED"
+    requires:
+      - incr1_review
+    requires_artifacts:
+      - SPEC.md
+      - CONTRACT.md
+      - docs/reviews/incr-1.md
+    hooks:
+      pre:
+        - validate-contract.sh      # Meridian: Purpose + Scope sections present
+        - validate-spec.sh          # Meridian: SPEC.md is structured
+        - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount
+
+  - id: run_core_ready
+    label: "Run spec, per-run ledger, cheap path and budget stop, tested offline"
+    type: automated
+    required: true
+    requires:
+      - incr2_scoped
+    requires_artifacts:
+      - vera/loop/__init__.py
+      - vera/loop/stop.py
+      - vera/judge/cheap_path.py
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + pytest (RSH-F-01, RSH-P-01, RSH-F-06 tests)
+        - gate-schema-version.sh    # code SCHEMA_VERSION == docs/03 version (0.8)
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+
+  - id: design_trades_decided
+    label: "T4 sandbox and T5 bibliographic source decided"
+    type: human_approval
+    required: true
+    approval_token: "T4 T5 DECIDED"
+    requires:
+      - incr2_scoped
+    hooks:
+      pre:
+        - gate-trades-design.sh     # T4 and T5 decided (Scores, Decision, Reverse if)
+
+  - id: sandbox_ready
+    label: "Sandbox for generated code (T4: local Docker, FND-F-03)"
+    type: automated
+    required: true
+    requires:
+      - design_trades_decided
+      - run_core_ready
+    requires_artifacts:
+      - vera/sandbox/__init__.py
+      - docker/sandbox-treehfd/Dockerfile
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+        - gate-sandbox.sh           # FND-F-03: exec/eval/subprocess only in vera/sandbox/; real-container tests, Docker required
+
+  - id: stages_ready
+    label: "Baseline, idea and write-up stages, gated, with a live smoke run (RSH-F-02, RSH-F-03, RSH-F-07)"
+    type: automated
+    required: true
+    requires:
+      - run_core_ready
+      - sandbox_ready
+    requires_artifacts:
+      - vera/loop/stages.py
+      - vera/loop/graph.py
+      - vera/loop/writeup.py
+      - docker/sandbox-treehfd/harness.py
+      - docs/results/treehfd_baseline_target.json
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite (loop stages, write-up, kill-and-resume on the real graph)
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+        - gate-loop-smoke.sh        # a live run reached the write-up, every call ledgered, within the debugging cap
+
+  - id: audit_ready
+    label: "Minimal P1 final gate: citations and numbers against the run's own logs (AUD-F-03, AUD-F-04, AUD-F-09, RSH-F-05)"
+    type: automated
+    required: true
+    requires:
+      - design_trades_decided
+      - stages_ready
+    requires_artifacts:
+      - vera/audit/__init__.py
+      - vera/audit/citations.py
+      - vera/audit/numbers.py
+      - vera/loop/audit_stage.py
+      - data/seeded/manifest.csv
+      - data/seeded/split.json
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite (audit rules, seeded set offline, loop with the audit stage)
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+        - gate-seeded-audit.sh      # live seeded-fault evidence: test detection >= 90%, no fail on controls, hash unchanged
+        - gate-audit-smoke.sh       # a live run reached the audit with every call ledgered
+
+  - id: trades_decided_2
+    label: "T6, T7 and T9 decided (generator comparison run and within its cap)"
+    type: human_approval
+    required: true
+    approval_token: "T6 T7 T9 DECIDED"
+    requires:
+      - stages_ready
+      - audit_ready
+    hooks:
+      pre:
+        - gate-trades-incr2.sh      # T6, T7, T9 decided (Scores, Decision, Reverse if); the comparison is complete and under $4

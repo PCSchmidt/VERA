@@ -1,19 +1,26 @@
 {
   "passed_gates": [
+    "audit_ready",
     "backends_live",
     "benchmark_labeled",
     "benchmark_run",
     "confirmed",
     "corpus_fetched",
+    "design_trades_decided",
     "graph_ready",
     "incr0_review",
     "incr1_review",
     "incr1_scoped",
+    "incr2_scoped",
     "inventory_verified",
     "judge_core_ready",
     "parser_decided",
+    "run_core_ready",
+    "sandbox_ready",
     "scaffold_ready",
-    "trades_decided_1"
+    "stages_ready",
+    "trades_decided_1",
+    "trades_decided_2"
   ],
   "approvals": {
     "confirmed": {
@@ -47,6 +54,18 @@
     "incr1_review": {
       "by": "Chris Schmidt",
       "at": "2026-10-01T15:13:24Z"
+    },
+    "incr2_scoped": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-01T15:43:04Z"
+    },
+    "design_trades_decided": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-01T17:05:26Z"
+    },
+    "trades_decided_2": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-02T10:40:59Z"
     }
   }
 }
