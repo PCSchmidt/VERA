@@ -117,8 +117,10 @@ def main() -> None:
             v = json.loads(ln)
             verdicts[v["key"]] = {"answer": v["verdict"]["answer"], "confident": v["confident"]}
         for rec in rng.sample(records, min(SAMPLE_PER_TOPIC, len(records))):
-            sheet.append({"topic": tid, "key": rec["key"], "title": rec["title"], "year": rec.get("year", ""),
-                          "abstract": (rec.get("abstract") or "")[:1200], "your_verdict": ""})  # fmt: skip
+            sheet.append({"topic": tid, "key": rec["key"], "question": scope["question"], "title": rec["title"],
+                          "year": rec.get("year", ""), "url": rec.get("url", ""),
+                          "abstract": (rec.get("abstract") or "")[:1200] or "(no abstract in the record)",
+                          "your_verdict": ""})  # fmt: skip
             key[f"{tid}:{rec['key']}"] = verdicts.get(rec["key"])
     name = f"retrieval_recall_{args.label}.md" if args.label else "retrieval_recall.md"
     (ROOT / "docs" / "results" / name).write_text("".join(lines), encoding="utf-8")
@@ -126,7 +128,8 @@ def main() -> None:
         print(f"wrote docs/results/{name}")
         return
     with (OUT / "relevance_check.csv").open("w", encoding="utf-8", newline="") as fh:
-        w = csv.DictWriter(fh, fieldnames=["topic", "key", "title", "year", "abstract", "your_verdict"])
+        columns = ["topic", "key", "question", "title", "year", "url", "abstract", "your_verdict"]
+        w = csv.DictWriter(fh, fieldnames=columns)
         w.writeheader()
         w.writerows(sheet)
     (OUT / "relevance_key.json").write_text(json.dumps(key, indent=1), encoding="utf-8")
