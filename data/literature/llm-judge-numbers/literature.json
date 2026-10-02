@@ -1,0 +1,13 @@
+{
+ "stats": {
+  "drafted": 15,
+  "failed_first": 1,
+  "repaired": 1,
+  "removed": 0,
+  "stray_attributions_removed": 0
+ },
+ "failure_reasons": {
+  "unresolved_source": 1
+ },
+ "n_claims_kept": 15
+}

@@ -790,3 +790,69 @@ def test_retrieval_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> N
     retrieval_fixture(tmp_path, **kwargs)
     result = run("check_retrieval.py", tmp_path)
     assert result.returncode == 2 and message in result.stderr
+
+
+# ── literature_ready ──────────────────────────────────────────────────────────
+
+QUOTE = "the decomposition becomes unstable across bootstrap refits when correlation exceeds"
+
+
+def literature_fixture(root: Path, *, n_claims: int = 5, bad_quote: bool = False, stray_cite: bool = False,
+                       unretrieved: bool = False, self_graded: bool = False, cost: float = 0.1,
+                       drift: bool = False, no_stats: bool = False) -> None:  # fmt: skip
+    scoping_fixture(root)
+    for i in range(3):
+        tid = f"topic{i}"
+        run = f"scope-{tid}"
+        base = f"runs/{run}"
+        claims = [{"claim": f"claim {k}", "source_key": "R9" if unretrieved else "R1",
+                   "quote": "a quote that is nowhere in any passage at all" if bad_quote else QUOTE,
+                   "locator": "sec. Results, para 4", "quote_check": "pass"} for k in range(n_claims)]
+        text = "Intro [R1].\n\n## References\n\n[R1] A. Author. Title. 2020. arXiv:1. https://x\n"
+        if unretrieved:
+            text = text.replace("Intro [R1]", "Intro [R9]")
+        if stray_cite:
+            text = text.replace("Intro [R1].", "Intro [R1] and [R2].")
+        write(root, f"{base}/literature.md", text)
+        write(root, f"{base}/claims.jsonl", "\n".join(json.dumps(c) for c in claims) + "\n")
+        write(root, f"{base}/retrieved.jsonl", json.dumps({"key": "R1"}) + "\n" + json.dumps({"key": "R2"}) + "\n")
+        passage = {"source_key": "R1", "id": "R1-P1", "text": f"In our experiments {QUOTE} 0.9, while others hold."}
+        write(root, f"{base}/passages.jsonl", json.dumps(passage) + "\n")
+        verdict = {"judge_id": "p2.judge", "producer_id": "p2.judge" if self_graded else "p3.synthesize",
+                   "question_id": "lit.claim_supported"}
+        write(root, f"{base}/gates.jsonl", json.dumps({"verdict": verdict}) + "\n")
+        stats = {"stats": {"drafted": n_claims, "repaired": 0, "removed": 0}}
+        if not no_stats:
+            write(root, f"{base}/artifacts/literature.json", json.dumps(stats))
+            lines = "\n".join(json.dumps(c) for c in claims) + "\n"
+            for name, content in (("literature.md", text), ("claims.jsonl", lines),
+                                  ("literature.json", json.dumps(stats))):  # fmt: skip
+                extra = "x" if drift and name == "literature.md" else ""
+                write(root, f"data/literature/{tid}/{name}", content + extra)
+        write(root, f"data/ledger/run_{run}.jsonl",
+              json.dumps({"component": "p3.scope", "cost_usd": cost, "timestamp": "2026-10-03T09:00:00Z"}) + "\n")
+
+
+def test_literature_check_passes_a_verified_section_per_topic(tmp_path: Path) -> None:
+    literature_fixture(tmp_path)
+    result = run("check_literature.py", tmp_path)
+    assert result.returncode == 0 and "5 claims kept of 5 drafted" in result.stdout, result.stderr
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"n_claims": 4}, "need at least 5"),
+        ({"bad_quote": True}, "not in that source's passages"),
+        ({"stray_cite": True}, "with no claim behind it"),
+        ({"unretrieved": True}, "which were not retrieved"),
+        ({"self_graded": True}, "self-graded verdict"),
+        ({"cost": 3.0}, "over the $2.0 per-topic cap"),
+        ({"drift": True}, "differs from the run"),
+        ({"no_stats": True}, "not found"),
+    ],
+)
+def test_literature_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> None:
+    literature_fixture(tmp_path, **kwargs)
+    result = run("check_literature.py", tmp_path)
+    assert result.returncode == 2 and message in result.stderr

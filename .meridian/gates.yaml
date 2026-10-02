@@ -387,8 +387,8 @@ gates:
 
   # ── Increment 3: topic front end and literature stage (SPEC.md) ───────────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
-  # Defined so far: incr3_scoped, lit_core_ready, topics_chosen, scoping_ready.
-  # Still to add: retrieval_ready, literature_ready, audit3_ready,
+  # Defined so far: incr3_scoped, lit_core_ready, topics_chosen, scoping_ready,
+  # retrieval_ready, literature_ready. Still to add: audit3_ready,
   # trades_decided_3, topic_runs, judge_retest_3, incr3_review.
 
   - id: incr3_scoped
@@ -452,3 +452,37 @@ gates:
         - gate-tests.sh             # ruff + the full suite (test_RSH_F_08_*)
         - gate-vendor-imports.sh    # FND-C-01 still holds
         - gate-scoping.sh           # 3 confirmed questions (named person, time), only scoping spend before confirmation, <= $0.25 each
+
+  - id: retrieval_ready
+    label: "Retrieval and relevance screen tested offline; the three topics retrieved live, key-paper recall measured, screen checked by the user"
+    type: automated
+    required: true
+    requires:
+      - scoping_ready
+    requires_artifacts:
+      - vera/literature/retrieval.py
+      - vera/literature/stages.py
+      - vera/literature/expansion.py
+      - docs/results/retrieval_recall.md
+      - data/retrieval/relevance_check.csv
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite (retrieval, expansion, reading, offline)
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+        - gate-retrieval.sh         # 3 retrieval logs, recall report, 15 user-checked relevance verdicts per topic, ledger within the cap
+
+  - id: literature_ready
+    label: "Reading and synthesis: a literature section per topic in which every claim carries a quote found in its source (RSH-F-09)"
+    type: automated
+    required: true
+    requires:
+      - retrieval_ready
+    requires_artifacts:
+      - vera/literature/reading.py
+      - vera/literature/synthesis.py
+      - vera/literature/synthesis_stage.py
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite (test_RSH_F_09_*)
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+        - gate-literature.sh        # 3 sections: quotes verbatim in the sources, nothing cited that was not retrieved

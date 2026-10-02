@@ -1,0 +1,182 @@
+{
+ "credal-dro:R36": {
+  "answer": true,
+  "confident": false
+ },
+ "credal-dro:R70": {
+  "answer": true,
+  "confident": true
+ },
+ "credal-dro:R38": {
+  "answer": true,
+  "confident": false
+ },
+ "credal-dro:R52": {
+  "answer": true,
+  "confident": true
+ },
+ "credal-dro:R20": {
+  "answer": false,
+  "confident": true
+ },
+ "credal-dro:R13": {
+  "answer": false,
+  "confident": true
+ },
+ "credal-dro:R71": {
+  "answer": false,
+  "confident": true
+ },
+ "credal-dro:R67": {
+  "answer": true,
+  "confident": true
+ },
+ "credal-dro:R3": {
+  "answer": false,
+  "confident": true
+ },
+ "credal-dro:R12": {
+  "answer": false,
+  "confident": true
+ },
+ "credal-dro:R15": {
+  "answer": false,
+  "confident": true
+ },
+ "credal-dro:R92": {
+  "answer": true,
+  "confident": false
+ },
+ "credal-dro:R37": {
+  "answer": true,
+  "confident": true
+ },
+ "credal-dro:R69": {
+  "answer": true,
+  "confident": true
+ },
+ "credal-dro:R95": {
+  "answer": false,
+  "confident": false
+ },
+ "llm-judge-numbers:R57": {
+  "answer": false,
+  "confident": true
+ },
+ "llm-judge-numbers:R29": {
+  "answer": false,
+  "confident": true
+ },
+ "llm-judge-numbers:R42": {
+  "answer": false,
+  "confident": true
+ },
+ "llm-judge-numbers:R27": {
+  "answer": false,
+  "confident": true
+ },
+ "llm-judge-numbers:R38": {
+  "answer": true,
+  "confident": true
+ },
+ "llm-judge-numbers:R46": {
+  "answer": true,
+  "confident": true
+ },
+ "llm-judge-numbers:R25": {
+  "answer": true,
+  "confident": true
+ },
+ "llm-judge-numbers:R15": {
+  "answer": true,
+  "confident": true
+ },
+ "llm-judge-numbers:R1": {
+  "answer": false,
+  "confident": true
+ },
+ "llm-judge-numbers:R10": {
+  "answer": false,
+  "confident": true
+ },
+ "llm-judge-numbers:R24": {
+  "answer": false,
+  "confident": true
+ },
+ "llm-judge-numbers:R26": {
+  "answer": false,
+  "confident": true
+ },
+ "llm-judge-numbers:R50": {
+  "answer": false,
+  "confident": true
+ },
+ "llm-judge-numbers:R19": {
+  "answer": false,
+  "confident": true
+ },
+ "llm-judge-numbers:R54": {
+  "answer": false,
+  "confident": true
+ },
+ "tree-explain:R36": {
+  "answer": true,
+  "confident": true
+ },
+ "tree-explain:R38": {
+  "answer": true,
+  "confident": true
+ },
+ "tree-explain:R20": {
+  "answer": false,
+  "confident": true
+ },
+ "tree-explain:R7": {
+  "answer": false,
+  "confident": true
+ },
+ "tree-explain:R99": {
+  "answer": false,
+  "confident": true
+ },
+ "tree-explain:R28": {
+  "answer": false,
+  "confident": true
+ },
+ "tree-explain:R98": {
+  "answer": false,
+  "confident": true
+ },
+ "tree-explain:R21": {
+  "answer": true,
+  "confident": true
+ },
+ "tree-explain:R34": {
+  "answer": false,
+  "confident": true
+ },
+ "tree-explain:R40": {
+  "answer": false,
+  "confident": true
+ },
+ "tree-explain:R79": {
+  "answer": false,
+  "confident": true
+ },
+ "tree-explain:R92": {
+  "answer": true,
+  "confident": false
+ },
+ "tree-explain:R67": {
+  "answer": true,
+  "confident": true
+ },
+ "tree-explain:R100": {
+  "answer": true,
+  "confident": false
+ },
+ "tree-explain:R64": {
+  "answer": true,
+  "confident": true
+ }
+}
