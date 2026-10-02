@@ -18,7 +18,7 @@ from typing import Annotated, Any, TypedDict
 from langgraph.graph import END, START, StateGraph
 
 from vera.graph import resume, run, run_config, sqlite_checkpointer
-from vera.literature import scoping
+from vera.literature import scoping, stages
 from vera.literature.deps import LitDeps
 from vera.loop.graph import restore_budget, tracked
 from vera.loop.stages import _merge
@@ -32,11 +32,20 @@ CORE_NODES: list[tuple[str, str, NodeFactory]] = [  # (node name, stage it belon
     ("scope_gate", "scope", scoping.scope_gate_node),
     ("confirm", "scope", scoping.confirm_node),
 ]
+# The stages that follow the confirmation, in order; later features append to this list.
+STAGE_NODES: list[tuple[str, str, NodeFactory]] = [
+    ("queries", "retrieve", stages.queries_node),
+    ("retrieve", "retrieve", stages.retrieve_node),
+    ("screen", "retrieve", stages.screen_node),
+]
 AWAITING = "awaiting confirmation: run scripts/confirm_scope.py, then continue the run"
 
 
 class LitState(TypedDict, total=False):
     scope: dict  # the ScopedQuestion
+    queries: list  # search queries written from the confirmed question
+    records: list  # keys of the retrieved candidates, best ranked first
+    kept: list  # keys that passed the relevance screen
     artifacts: Annotated[dict, _merge]
     verdicts: Annotated[dict, _merge]
     stage_results: Annotated[list, operator.add]

@@ -23,6 +23,7 @@
     "run_core_ready",
     "sandbox_ready",
     "scaffold_ready",
+    "scoping_ready",
     "stages_ready",
     "topics_chosen",
     "trades_decided_1",

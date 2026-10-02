@@ -26,3 +26,19 @@ def question_scoped(topic_text: str, scoped: ScopedQuestion) -> tuple[Question, 
         ),
     )
     return question, material
+
+
+def relevant(question: str, record: dict) -> tuple[Question, str]:
+    """(question, material): does this record bear on the scoped question? Judged on the title and abstract only."""
+    abstract = (record.get("abstract") or "").strip()
+    material = (
+        f"Research question: {question}\n\n"
+        f"Candidate paper: {record['title']} ({record.get('year') or 'n.d.'})\n"
+        + (f"Abstract: {abstract[:1800]}" if abstract else "Abstract: (not available; judge from the title alone)")
+    )
+    text = (
+        "Does this candidate paper bear directly on the research question, so that a literature review of the "
+        "question should read it? Answer false if it is only loosely related, about a different problem that shares "
+        "a keyword, or too general to inform the question."
+    )
+    return Question(id="lit.relevant", type=QuestionType.BOOLEAN, text=text), material

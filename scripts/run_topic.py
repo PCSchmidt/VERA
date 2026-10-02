@@ -23,7 +23,8 @@ from vera.judge.cheap_path import cheap_path
 from vera.keepawake import keep_awake
 from vera.ledger import Ledger
 from vera.literature.deps import LitDeps
-from vera.literature.graph import continue_topic_run, start_topic_run
+from vera.literature.graph import STAGE_NODES, continue_topic_run, start_topic_run
+from vera.literature.retrieval import HttpCache, Retriever
 from vera.schemas import Budget, OutputGuidance, RunSpec, Topic
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -45,6 +46,7 @@ def main() -> None:
     ap.add_argument("--scope-cap", type=float, default=0.25)
     ap.add_argument("--max-wall", type=int, default=7200)
     ap.add_argument("--max-tokens", type=int, default=8000)
+    ap.add_argument("--openalex", action="store_true", help="also query OpenAlex (your own OPENALEX_API_KEY)")
     args = ap.parse_args()
 
     topic_file = ROOT / "data" / "topics" / f"{args.topic}.json"
@@ -64,8 +66,13 @@ def main() -> None:
         spec=spec, generator=generator, judge=cheap_path(ledger=ledger, budget=budget), budget=budget,
         run_dir=ROOT / "runs" / args.run_id, ledger=ledger, scope_cap_usd=args.scope_cap,
     )  # fmt: skip
+    sources = None if args.openalex else ["crossref", "arxiv"]  # T5: the keyless pair, on which recall is measured
+    deps.extra["retriever"] = Retriever(cache=HttpCache(ROOT / "data" / "cache" / "http"), sources=sources)
     with keep_awake():
-        state = start_topic_run(deps) if args.phase == "start" else continue_topic_run(deps)
+        if args.phase == "start":
+            state = start_topic_run(deps, extra_nodes=STAGE_NODES)
+        else:
+            state = continue_topic_run(deps, extra_nodes=STAGE_NODES)
     stop = state.get("stop")
     print(f"trail: {' > '.join(state['trail'])}")
     print(f"status: {stop['stage'] + ': ' + stop['reason'] if stop else 'complete'}")
