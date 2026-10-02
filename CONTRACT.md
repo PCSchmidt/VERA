@@ -31,11 +31,11 @@ independent researchers and small labs (P3). See ConOps §2.
 
 ## Scope
 
-**Current increment: Increment 2 — thin loop on TreeHFD** ([docs/07-increments.md](docs/07-increments.md)).
-Increments 0 and 1 are complete ([docs/reviews/incr-0.md](docs/reviews/incr-0.md),
-[docs/reviews/incr-1.md](docs/reviews/incr-1.md)). Only Increment 2 work is in
-scope until its review (`docs/reviews/incr-2.md`) confirms Increment 3.
-[SPEC.md](SPEC.md) lists the Increment 2 deliverables.
+**Current increment: Increment 3 — topic front end and literature stage** ([docs/07-increments.md](docs/07-increments.md)).
+Increments 0, 1 and 2 are complete ([docs/reviews/incr-0.md](docs/reviews/incr-0.md),
+[docs/reviews/incr-1.md](docs/reviews/incr-1.md), [docs/reviews/incr-2.md](docs/reviews/incr-2.md)).
+Only Increment 3 work is in scope. [SPEC.md](SPEC.md) still describes Increment 2 until
+the Increment 3 SPEC is written and `incr3_scoped` is approved.
 
 In scope for the project as a whole: the three layers above, their data
 contracts ([docs/03-interfaces.md](docs/03-interfaces.md)), and the

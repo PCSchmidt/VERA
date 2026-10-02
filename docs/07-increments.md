@@ -65,7 +65,7 @@ Exit: first cost-vs-agreement threshold curve; JDG-P targets set from data;
 measured per-call costs used to estimate one loop run against the spend
 ceiling.
 
-## Increment 2 — Thin loop on one parent problem ← CURRENT
+## Increment 2 — Thin loop on one parent problem — complete 2026-10-02
 
 The product, crude but end to end, on the one CPU-scale problem chosen in
 Increment 0 (**TreeHFD**, Benard, NeurIPS 2025, arXiv 2510.24815; fallback:
@@ -80,7 +80,13 @@ Exit: one complete run inside its budget, with a per-stage cost ledger and an
 audit report on its own paper; an honest write-up of what the crude loop got
 right and wrong.
 
-## Increment 3 — Topic front end and literature stage
+Result (docs/reviews/incr-2.md): `loop-001` ran complete for $0.052 (Sonnet 5.5
+for every stage) and was audited green; it was a negative result. T4 (local
+Docker), T5 (Crossref + arXiv), T6 (ledger only), T7 (plain state), T9 (Sonnet
+5.5) decided; the judge re-test on the loop's real decisions gave 97.4% (95% CI
+91.0-99.3), so T1's reverse-if did not fire.
+
+## Increment 3 — Topic front end and literature stage ← CURRENT
 
 From a topic to a scoped question and a literature review: topic scoping
 (proposed question, shown for the user's confirmation), retrieval from a
