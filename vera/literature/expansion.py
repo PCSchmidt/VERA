@@ -72,23 +72,69 @@ def fetch_works(retriever: Retriever, ids: list[str]) -> list[dict]:
     return [r for r in out if r["title"]]
 
 
-def expand(retriever: Retriever, records: list[dict], seeds: list[dict], today: str | None = None) -> list[dict]:
+MAX_REFS_PER_SEED = 60  # reference-list entries resolved per seed on the GROBID route (each costs one lookup)
+YEAR_SLACK = 1
+
+
+def resolve(retriever: Retriever, ref: dict) -> dict | None:
+    """The OpenAlex record for one parsed reference (by DOI, else by title and year); None when it is not found."""
+    key = retrieval.api_key("OPENALEX_API_KEY")
+    select = retrieval.OPENALEX_FIELDS
+    try:
+        if ref.get("doi"):
+            work = json.loads(retriever._request("openalex", f"{OPENALEX}/doi:{ref['doi']}",  # noqa: SLF001
+                                                 {"select": select, "api_key": key}))
+            found = _openalex_records(json.dumps({"results": [work]}), "cited by seeds")
+        else:
+            text = retriever._request("openalex", OPENALEX, {"search": ref["title"], "per-page": 3,  # noqa: SLF001
+                                                              "select": select, "api_key": key})  # fmt: skip
+            found = _openalex_records(text, "cited by seeds")
+    except Exception:  # noqa: BLE001 - one reference that cannot be looked up is skipped
+        return None
+    for rec in found:
+        year_ok = not (ref.get("year") and rec.get("year")) or abs(int(ref["year"]) - int(rec["year"])) <= YEAR_SLACK
+        if year_ok and retrieval.title_similarity(ref["title"], rec["title"]) >= retrieval.TITLE_MATCH:
+            return rec
+    return None
+
+
+def expand(
+    retriever: Retriever, records: list[dict], seeds: list[dict], today: str | None = None, references_of=None
+) -> list[dict]:
     """New candidate records (not already in `records`), cited by the seeds, with keys that continue `records`'.
 
-    Ranked by how many seeds cite them, then by the order the seeds were given; each carries `cited_by` (the seeds'
-    keys) as its provenance, `query` "cited by R5, R9" and a rank by position."""
-    counts, who = cited_by_seeds(retriever, seeds)
-    if not counts:
-        return []
-    order = [w for w, _ in counts.most_common()]  # most seeds first; ties keep the order the seeds listed them
-    position = {w: i for i, w in enumerate(order)}
-    works = fetch_works(retriever, order[: MAX_ADDED * 2])
-    works.sort(key=lambda r: position.get(r.get("openalex_id") or "", 10**6))
+    A seed's references come from OpenAlex when it lists them; for a paper OpenAlex has not processed yet (recent
+    arXiv preprints) `references_of(seed)` supplies the parsed reference list of its PDF (GROBID, T3) and each entry
+    is resolved to an OpenAlex record. Candidates are ranked by how many seeds cite them, then by the order the seeds
+    were given; each carries `cited_by` (the seeds' keys) as its provenance, `query` "cited by R5, R9" and a rank."""
+    cand: dict[str, dict] = {}
+    who: dict[str, list[str]] = {}
+    counts: Counter = Counter()
+    needs_pdf: list[dict] = []
+    for seed in seeds[:MAX_SEEDS]:
+        refs = (seed_work(retriever, seed) or {}).get("referenced_works", [])
+        for ref in refs:
+            counts[ref] += 1
+            who.setdefault(ref, []).append(seed["key"])
+        if not refs:
+            needs_pdf.append(seed)
+    if counts:
+        order = [w for w, _ in counts.most_common()][: MAX_ADDED * 2]
+        for rec in fetch_works(retriever, order):
+            cand[rec["openalex_id"]] = rec
+    for seed in needs_pdf if references_of else []:
+        for ref in references_of(seed)[:MAX_REFS_PER_SEED]:
+            rec = resolve(retriever, ref)
+            if rec and rec.get("openalex_id"):
+                cand.setdefault(rec["openalex_id"], rec)
+                if seed["key"] not in who.setdefault(rec["openalex_id"], []):
+                    who[rec["openalex_id"]].append(seed["key"])
+    ranked = sorted(cand.values(), key=lambda r: -len(who.get(r["openalex_id"], [])))  # stable: seed order on ties
     fresh: list[dict] = []
-    for rec in works:
+    for rec in ranked:
         if any(same_paper(rec, old) for old in records) or any(same_paper(rec, new) for new in fresh):
             continue
-        citing = who.get(rec.get("openalex_id") or "", [])
+        citing = who.get(rec["openalex_id"], [])
         fresh.append({**rec, "cited_by": citing, "query": "cited by " + ", ".join(citing), "rank": len(fresh) + 1,
                       "hits": len(citing), "n_queries": len(citing)})  # fmt: skip
     day = today or dt.date.today().isoformat()

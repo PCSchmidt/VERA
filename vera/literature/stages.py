@@ -166,8 +166,15 @@ def expand_node(deps: LitDeps) -> Callable[[dict], dict]:
         elif len(seeds) < MIN_SEEDS:
             note["skipped"] = f"only {len(seeds)} relevant seeds (need {MIN_SEEDS})"
         else:
+            def references_of(seed: dict) -> list[dict]:
+                """A seed's parsed reference list (GROBID), for papers OpenAlex has no reference list for."""
+                fetch, parse = deps.extra.get("fetch_pdf"), deps.extra.get("parse_refs")
+                pdf = fetch(seed["pdf_url"]) if fetch and parse and seed.get("pdf_url") else None
+                return parse(pdf) if pdf else []
+
             try:
-                added = deps.extra.get("expand", expansion.expand)(retriever, records, seeds)
+                added = deps.extra.get("expand", expansion.expand)(retriever, records, seeds,
+                                                                   references_of=references_of)
             except LookupUnavailable as exc:
                 added, note["skipped"] = [], f"OpenAlex did not answer: {exc}"
             if added:

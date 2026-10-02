@@ -250,15 +250,59 @@ def test_AUD_F_04_an_invented_number_in_a_results_claim_is_a_fail_and_elsewhere_
     assert g.severity == "warn"  # not a results claim: unverifiable, not necessarily wrong
 
 
-def test_AUD_F_04_a_real_number_on_the_wrong_method_is_the_judges_to_catch() -> None:
+def test_AUD_F_04_a_real_number_on_the_wrong_method_is_now_a_fail_not_amber() -> None:
     claim = "\nThe baseline residual was 1.80 held-out on Analytical.\n"  # 1.80 is C1's value, not the baseline's
-    judge = CorrectJudge(overrides={"num.claim_consistent": False})
-    run = audit(clean_text(claim), judge)
+    run = audit(clean_text(claim), CorrectJudge())
+    (f,) = run.report.findings
+    assert f.severity == "fail" and "wrong method or dataset" in f.summary and "C1" in f.summary
+    assert f.verdicts == [] and run.report.overall == "red"  # deterministic: the judge was not needed
+
+
+def test_AUD_F_04_a_sentence_naming_no_cell_is_still_the_judges_to_catch() -> None:
+    claim = "\nThe held-out residual of 1.80 shows a clear gain.\n"  # names no method and no dataset: nothing to align
+    run = audit(clean_text(claim), CorrectJudge(overrides={"num.claim_consistent": False}))
     (f,) = run.report.findings
     assert f.severity == "warn" and "could not confirm the claim" in f.summary and f.verdicts[0].answer is False
-    unsure = audit(clean_text(claim), CorrectJudge(confidence=0.5))
-    assert severities(unsure) == ["warn"]
+    assert severities(audit(clean_text(claim), CorrectJudge(confidence=0.5))) == ["warn"]
     assert audit(clean_text(claim), CorrectJudge(overrides={"num.claim_consistent": True})).report.findings == []
+
+
+@pytest.mark.parametrize(
+    "claim",
+    [
+        "\nC1 reached 1.80 on Analytical against the baseline's 2.4.\n",  # its own cell, and the baseline's
+        "\nThe baseline residual was 2.4 held-out on Analytical.\n",
+        "\nOn both datasets C1 improved on the baseline (1.80 and 2.20 against 2.4 and 4.7).\n",
+        "\nC1 cut the Analytical residual by 0.6 points, from 2.4 to 1.80.\n",
+    ],
+)
+def test_AUD_F_04_numbers_on_the_named_methods_and_datasets_are_not_flagged(claim: str) -> None:
+    run = audit(clean_text(claim), CorrectJudge())
+    assert [f for f in run.report.findings if "wrong method" in f.summary] == []
+
+
+def test_AUD_F_04_a_sentence_that_names_no_idea_is_about_the_one_under_discussion() -> None:
+    text = (
+        "\nC1 improved on the baseline.\n"
+        "Its held-out Residual MSE was 1.80 on Analytical, versus 2.4 for TreeHFD.\n"  # "Its" is C1: correct
+    )
+    assert [f for f in audit(clean_text(text), CorrectJudge()).report.findings if "wrong method" in f.summary] == []
+    other = "\nC2 improved on the baseline.\nIts held-out Residual MSE was 2.20 on Analytical, versus 2.4 for TreeHFD.\n"  # noqa: E501
+    # the same sentence after a different idea: 2.20 is C1's Airfoil value, so it is not C2's and not Analytical's
+    (f,) = [f for f in audit(clean_text(other), CorrectJudge()).report.findings if f.severity == "fail"]
+    assert "wrong method or dataset" in f.summary
+
+
+def test_AUD_F_04_a_number_with_fewer_than_three_significant_digits_is_not_checked_for_placement() -> None:
+    claim = "\nC1 reached a residual of 2.2 on Analytical.\n"  # 2.2 happens to be C1's Airfoil value at this precision
+    findings = audit(clean_text(claim), CorrectJudge()).report.findings
+    assert [f for f in findings if "wrong method" in f.summary] == []
+
+
+def test_AUD_F_04_a_value_of_another_dataset_is_flagged() -> None:
+    claim = "\nC1 reached a residual of 2.20 on Analytical.\n"  # 2.20 is C1's Airfoil value
+    (f,) = audit(clean_text(claim), CorrectJudge()).report.findings
+    assert f.severity == "fail" and "C1: shared knots / airfoil" in f.summary
 
 
 def test_AUD_F_04_what_is_not_a_result_is_not_extracted() -> None:

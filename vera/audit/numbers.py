@@ -239,7 +239,15 @@ def audit_numbers(
     from_table = direct_values(results_json)
     results, datasets = results_json["results"], results_json["datasets"]
     material = tables.render_results(results, datasets, results_json["n_seeds"], metrics_of(results_json))
+    context: list[str] = []  # the ideas the text has been discussing, for sentences that name none ("Its MSE was ...")
+    last_section = None
     for n, (section, sentence) in enumerate(sentences(text)):
+        from vera.audit import alignment  # noqa: PLC0415
+
+        if section != last_section:
+            context, last_section = [], section
+        named_ideas = alignment.idea_methods(sentence, results)
+        mine, context = list(context), (named_ideas or context)  # this sentence sees the context before it
         nums = numbers_in(sentence)
         if not nums:
             continue
@@ -269,6 +277,22 @@ def audit_numbers(
             continue
         if not is_result or not any(matches(x, from_table) for x in nums):
             continue  # not a results claim, or none of its numbers comes from the table: nothing for the judge to check
+        misplaced = alignment.misplaced(sentence, nums, results_json, from_table, mine)
+        if misplaced:
+            where = "; ".join(f"{x} is a value of {', '.join(w)}" for x, w in misplaced)
+            findings.append(
+                _f(
+                    "numeric",
+                    "fail",
+                    claim,
+                    "log",
+                    "results.json",
+                    False,
+                    f"A real number on the wrong method or dataset: {where}, not of the cell this sentence names: "
+                    f"{sentence[:160]!r}",
+                )
+            )
+            continue
         question = Question(
             id="num.claim_consistent",
             type=QuestionType.BOOLEAN,

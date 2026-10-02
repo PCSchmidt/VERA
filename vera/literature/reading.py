@@ -120,6 +120,36 @@ class GrobidParser:
         resp.raise_for_status()
         return paragraphs_from_tei(resp.text)
 
+    def references(self, pdf: bytes) -> list[dict]:
+        """The PDF's reference list (GROBID's reference service: T3's reason for choosing it)."""
+        resp = self.client.post(self.url.replace("processFulltextDocument", "processReferences"),
+                                files={"input": ("paper.pdf", pdf, "application/pdf")})  # fmt: skip
+        resp.raise_for_status()
+        return references_from_tei(resp.text)
+
+
+def _tei_text(el: ET.Element | None) -> str:
+    return " ".join("".join(el.itertext()).split()) if el is not None else ""
+
+
+def references_from_tei(tei: str) -> list[dict]:
+    """The reference list of a GROBID TEI document: title, authors, year, DOI and arXiv id where it found them."""
+    out = []
+    for b in ET.fromstring(tei).findall(".//t:listBibl/t:biblStruct", TEI):
+        analytic = b.find("t:analytic/t:title", TEI)
+        title = _tei_text(analytic) or _tei_text(b.find("t:monogr/t:title", TEI))
+        authors = []
+        for a in b.findall(".//t:author/t:persName", TEI):
+            first = " ".join(_tei_text(f) for f in a.findall("t:forename", TEI))
+            authors.append(f"{first} {_tei_text(a.find('t:surname', TEI))}".strip())
+        date = b.find(".//t:imprint/t:date", TEI)
+        year = ((date.get("when") or _tei_text(date))[:4]) if date is not None else ""
+        ids = {(i.get("type") or "").lower(): _tei_text(i) for i in b.findall(".//t:idno", TEI)}
+        if title:
+            out.append({"title": title, "authors": authors, "year": year, "doi": ids.get("doi", ""),
+                        "arxiv": ids.get("arxiv", "")})  # fmt: skip
+    return out
+
 
 def paragraphs_from_tei(tei: str) -> list[tuple[str, str]]:
     root = ET.fromstring(tei)
@@ -146,6 +176,16 @@ class ParseCache:
         self.directory.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(paragraphs), encoding="utf-8")
         return paragraphs
+
+    def references(self, pdf: bytes, parser) -> list[dict]:
+        """The reference list GROBID finds in the PDF, cached beside the paragraphs."""
+        path = self.directory / f"{hashlib.sha256(pdf).hexdigest()[:24]}.{parser.name}.refs.json"
+        if path.exists():
+            return json.loads(path.read_text(encoding="utf-8"))
+        refs = parser.references(pdf)
+        self.directory.mkdir(parents=True, exist_ok=True)
+        path.write_text(json.dumps(refs), encoding="utf-8")
+        return refs
 
 
 # ── passages ─────────────────────────────────────────────────────────────────────────────────────────

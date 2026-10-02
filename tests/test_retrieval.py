@@ -326,7 +326,7 @@ def test_the_expansion_adds_the_seeds_references_and_the_new_candidates_are_scre
                       "retrieved": "2026-10-03", "cited_by": ["R1", "R2"]} for i, w in enumerate("abcd")]  # fmt: skip
     seen: dict = {}
 
-    def fake_expand(retriever, records, seeds):
+    def fake_expand(retriever, records, seeds, references_of=None):
         seen["seeds"] = [s["key"] for s in seeds]
         return added_records
 

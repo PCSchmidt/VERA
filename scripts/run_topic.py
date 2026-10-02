@@ -74,6 +74,7 @@ def main() -> None:
     deps.extra["fetch_pdf"] = PdfFetcher(cache / "pdf")  # paced and cached (arXiv asks for 1 request per 3 s)
     parser = GrobidParser()  # docker: lfoppiano/grobid:0.8.2 on localhost:8070 (T3)
     deps.extra["parse_pdf"] = lambda pdf: ParseCache(cache / "parsed").parse(pdf, parser)
+    deps.extra["parse_refs"] = lambda pdf: ParseCache(cache / "parsed").references(pdf, parser)
     with keep_awake():
         if args.phase == "start":
             state = start_topic_run(deps, extra_nodes=STAGE_NODES)
