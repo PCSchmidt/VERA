@@ -86,8 +86,12 @@ def main() -> None:
             n += 1
             agree += (model["answer"] is True) == (verdict == "yes")
     lo, hi = wilson(agree, n)
-    ok(f"{len(topics)} topics retrieved and measured; relevance screen agrees with you on {agree} of {n} confident "
-       f"verdicts ({agree / max(n, 1):.0%}, 95% CI {lo:.0%}-{hi:.0%}), {unsure} unsure ones set aside")  # fmt: skip
+    sources = {}
+    for r in rows:  # where each label came from, when the sheet says (helpers, a tie-break by the build agent)
+        sources[r.get("verdict_source") or "the user"] = sources.get(r.get("verdict_source") or "the user", 0) + 1
+    ok(f"{len(topics)} topics retrieved and measured; the relevance screen agrees with the labels on {agree} of {n} "
+       f"confident verdicts ({agree / max(n, 1):.0%}, 95% CI {lo:.0%}-{hi:.0%}), {unsure} unsure ones set aside; "
+       f"labels from: {sources}")  # fmt: skip
 
 
 if __name__ == "__main__":
