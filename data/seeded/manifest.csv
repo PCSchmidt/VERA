@@ -1,0 +1,43 @@
+paper_id,fault_id,fault_type,location,description,split
+run-smoke-004,run-smoke-004:control,control,,unmodified write-up,dev
+run-smoke-004,run-smoke-004:fabricated_citation,fabricated_citation,References and Abstract,fabricated reference 'Cartesian Partition Refinement for Piecewise Constant Explainers',dev
+run-smoke-004,run-smoke-004:unretrieved_citation,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",dev
+run-smoke-004,run-smoke-004:altered_reference,altered_reference,References,'Tree' changed to 'Forest',dev
+run-smoke-004,run-smoke-004:numeric_prose,numeric_prose,Results,0.35 changed to 6.35 in prose,dev
+run-smoke-004,run-smoke-004:numeric_table,numeric_table,Results table,table mean 2.79 changed to 2.19,dev
+run-smoke-004,run-smoke-004:fabricated_claim,fabricated_claim,Results,invented claim: 44%,dev
+run-smoke-004-a,run-smoke-004-a:control,control,,unmodified write-up,test
+run-smoke-004-a,run-smoke-004-a:fabricated_citation,fabricated_citation,References and Abstract,fabricated reference 'Adaptive Cartesian Priors for Additive Tree Explanations',test
+run-smoke-004-a,run-smoke-004-a:unretrieved_citation,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",test
+run-smoke-004-a,run-smoke-004-a:altered_reference,altered_reference,References,'Tree' changed to 'Forest',test
+run-smoke-004-a,run-smoke-004-a:numeric_prose,numeric_prose,Results,0.25 changed to 6.25 in prose,test
+run-smoke-004-a,run-smoke-004-a:numeric_table,numeric_table,Results table,table mean 22.2 changed to 92.2,test
+run-smoke-004-a,run-smoke-004-a:fabricated_claim,fabricated_claim,Results,invented claim: 37%,test
+run-smoke-004-b,run-smoke-004-b:control,control,,unmodified write-up,test
+run-smoke-004-b,run-smoke-004-b:fabricated_citation,fabricated_citation,References and Abstract,fabricated reference 'Hierarchical Shapley Surrogates for Tree Ensembles under Dependence',test
+run-smoke-004-b,run-smoke-004-b:unretrieved_citation,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",test
+run-smoke-004-b,run-smoke-004-b:altered_reference,altered_reference,References,'Tree' changed to 'Forest',test
+run-smoke-004-b,run-smoke-004-b:numeric_prose,numeric_prose,Results,100 changed to 105 in prose,test
+run-smoke-004-b,run-smoke-004-b:numeric_table,numeric_table,Results table,table mean 78.7 changed to 79.7,test
+run-smoke-004-b,run-smoke-004-b:fabricated_claim,fabricated_claim,Results,invented claim: 52%,test
+run-smoke-006,run-smoke-006:control,control,,unmodified write-up,test
+run-smoke-006,run-smoke-006:fabricated_citation,fabricated_citation,References and Abstract,fabricated reference 'Adaptive Cartesian Priors for Additive Tree Explanations',test
+run-smoke-006,run-smoke-006:unretrieved_citation,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",test
+run-smoke-006,run-smoke-006:altered_reference,altered_reference,References,'Tree' changed to 'Forest',test
+run-smoke-006,run-smoke-006:numeric_prose,numeric_prose,Results,5.15 changed to 5.14 in prose,test
+run-smoke-006,run-smoke-006:numeric_table,numeric_table,Results table,table mean 30.9 changed to 30.2,test
+run-smoke-006,run-smoke-006:fabricated_claim,fabricated_claim,Results,invented claim: 38%,test
+run-smoke-006-a,run-smoke-006-a:control,control,,unmodified write-up,dev
+run-smoke-006-a,run-smoke-006-a:fabricated_citation,fabricated_citation,References and Abstract,fabricated reference 'Recursive Functional ANOVA for Gradient Boosted Ensembles',dev
+run-smoke-006-a,run-smoke-006-a:unretrieved_citation,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",dev
+run-smoke-006-a,run-smoke-006-a:altered_reference,altered_reference,References,'Tree' changed to 'Forest',dev
+run-smoke-006-a,run-smoke-006-a:numeric_prose,numeric_prose,Results,3.49 changed to 3.43 in prose,dev
+run-smoke-006-a,run-smoke-006-a:numeric_table,numeric_table,Results table,table mean 3.77 changed to 3.76,dev
+run-smoke-006-a,run-smoke-006-a:fabricated_claim,fabricated_claim,Results,invented claim: 38%,dev
+run-smoke-006-b,run-smoke-006-b:control,control,,unmodified write-up,dev
+run-smoke-006-b,run-smoke-006-b:fabricated_citation,fabricated_citation,References and Abstract,fabricated reference 'Orthogonal Boosting Decompositions with Calibrated Interaction Budgets',dev
+run-smoke-006-b,run-smoke-006-b:unretrieved_citation,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",dev
+run-smoke-006-b,run-smoke-006-b:altered_reference,altered_reference,References,'Tree' changed to 'Forest',dev
+run-smoke-006-b,run-smoke-006-b:numeric_prose,numeric_prose,Results,31.3 changed to 31.7 in prose,dev
+run-smoke-006-b,run-smoke-006-b:numeric_table,numeric_table,Results table,table mean 2.41 changed to 2.11,dev
+run-smoke-006-b,run-smoke-006-b:fabricated_claim,fabricated_claim,Results,invented claim: 44%,dev

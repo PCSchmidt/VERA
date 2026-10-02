@@ -1,0 +1,258 @@
+{
+ "split": "test",
+ "summary": {
+  "planted": 18,
+  "detected": 17,
+  "detection_rate": 0.9444444444444444,
+  "by_type": {
+   "fabricated_citation": {
+    "n": 3,
+    "detected": 3,
+    "flagged": 3
+   },
+   "unretrieved_citation": {
+    "n": 3,
+    "detected": 3,
+    "flagged": 3
+   },
+   "altered_reference": {
+    "n": 3,
+    "detected": 3,
+    "flagged": 3
+   },
+   "numeric_prose": {
+    "n": 3,
+    "detected": 2,
+    "flagged": 3
+   },
+   "numeric_table": {
+    "n": 3,
+    "detected": 3,
+    "flagged": 3
+   },
+   "fabricated_claim": {
+    "n": 3,
+    "detected": 3,
+    "flagged": 3
+   }
+  },
+  "flagged": 18,
+  "controls": 3,
+  "false_fails": 0,
+  "controls_flagged": 0,
+  "spent_usd": 0.0015996339999999995,
+  "ledger": "data/ledger/run_seeded-test-2.jsonl"
+ },
+ "items": [
+  {
+   "fault_id": "run-smoke-004-a:control",
+   "fault_type": "control",
+   "detected": false,
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "cost_usd": 6.2874e-05,
+   "first_fail": null
+  },
+  {
+   "fault_id": "run-smoke-004-a:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 9.0048e-05,
+   "first_fail": "R3 ('Adaptive Cartesian Priors for Additive Tree Explanations') is not in the retrieval log, and the records returned for it are different papers."
+  },
+  {
+   "fault_id": "run-smoke-004-a:unretrieved_citation",
+   "fault_type": "unretrieved_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 6.2874e-05,
+   "first_fail": "[R7] is cited but is not a retrieved record or listed."
+  },
+  {
+   "fault_id": "run-smoke-004-a:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 6.2874e-05,
+   "first_fail": "Reference R1 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble"
+  },
+  {
+   "fault_id": "run-smoke-004-a:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 4.1874e-05,
+   "first_fail": "6.25 in a results claim is not a value in results.json (nor a difference or ratio of two): 'C1 (depth sweep ensemble) was worse at 3.23 \u00b1 6.25 and roughly 3.5\u00d7 slower in runtime.'"
+  },
+  {
+   "fault_id": "run-smoke-004-a:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 6.2874e-05,
+   "first_fail": "The table says '92.2 \u00b1 0.29' for TreeHFD (baseline) on analytical (runtime_s); results.json has 22.2 \u00b1 0.29."
+  },
+  {
+   "fault_id": "run-smoke-004-a:fabricated_claim",
+   "fault_type": "fabricated_claim",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 6.2874e-05,
+   "first_fail": "37 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Mean \u00b1 std over 3 seeds on the analytical dataset: Overall, the best idea lowered the baseline residual by 37%"
+  },
+  {
+   "fault_id": "run-smoke-004-b:control",
+   "fault_type": "control",
+   "detected": false,
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "cost_usd": 5.3503999999999995e-05,
+   "first_fail": null
+  },
+  {
+   "fault_id": "run-smoke-004-b:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 9.366e-05,
+   "first_fail": "R3 ('Hierarchical Shapley Surrogates for Tree Ensembles under Dependence') is not in the retrieval log, and the records returned for it are different papers."
+  },
+  {
+   "fault_id": "run-smoke-004-b:unretrieved_citation",
+   "fault_type": "unretrieved_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 6.3168e-05,
+   "first_fail": "[R7] is cited but is not a retrieved record or listed."
+  },
+  {
+   "fault_id": "run-smoke-004-b:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 6.3168e-05,
+   "first_fail": "Reference R1 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble"
+  },
+  {
+   "fault_id": "run-smoke-004-b:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": false,
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 1,
+   "cost_usd": 6.3168e-05,
+   "first_fail": null
+  },
+  {
+   "fault_id": "run-smoke-004-b:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 5.332399999999999e-05,
+   "first_fail": "The table says '79.7 \u00b1 9.1' for C1: Depth sweep ensemble on analytical (runtime_s); results.json has 78.7 \u00b1 9.1."
+  },
+  {
+   "fault_id": "run-smoke-004-b:fabricated_claim",
+   "fault_type": "fabricated_claim",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 6.3168e-05,
+   "first_fail": "52 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Overall, the best idea lowered the baseline residual by 52% across datasets.'"
+  },
+  {
+   "fault_id": "run-smoke-006:control",
+   "fault_type": "control",
+   "detected": false,
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "cost_usd": 9.4416e-05,
+   "first_fail": null
+  },
+  {
+   "fault_id": "run-smoke-006:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 0.00012159,
+   "first_fail": "R3 ('Adaptive Cartesian Priors for Additive Tree Explanations') is not in the retrieval log, and the records returned for it are different papers."
+  },
+  {
+   "fault_id": "run-smoke-006:unretrieved_citation",
+   "fault_type": "unretrieved_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 9.4416e-05,
+   "first_fail": "[R7] is cited but is not a retrieved record or listed."
+  },
+  {
+   "fault_id": "run-smoke-006:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 9.4416e-05,
+   "first_fail": "Reference R1 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble"
+  },
+  {
+   "fault_id": "run-smoke-006:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 6.4344e-05,
+   "first_fail": "5.14 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Depth-variable tuning improved Analytical (2.41 vs 2.79) but worsened Airfoil (5.14 vs 4.73).'"
+  },
+  {
+   "fault_id": "run-smoke-006:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 9.4416e-05,
+   "first_fail": "The table says '30.2 \u00b1 0.48' for C3: Refit intercept residual on analytical (runtime_s); results.json has 30.9 \u00b1 0.48."
+  },
+  {
+   "fault_id": "run-smoke-006:fabricated_claim",
+   "fault_type": "fabricated_claim",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 9.4416e-05,
+   "first_fail": "38 in a results claim is not a value in results.json (nor a difference or ratio of two): 'The results are: Overall, the best idea lowered the baseline residual by 38% across datasets.'"
+  }
+ ]
+}

@@ -1,0 +1,258 @@
+{
+ "split": "dev",
+ "summary": {
+  "planted": 18,
+  "detected": 18,
+  "detection_rate": 1.0,
+  "by_type": {
+   "fabricated_citation": {
+    "n": 3,
+    "detected": 3,
+    "flagged": 3
+   },
+   "unretrieved_citation": {
+    "n": 3,
+    "detected": 3,
+    "flagged": 3
+   },
+   "altered_reference": {
+    "n": 3,
+    "detected": 3,
+    "flagged": 3
+   },
+   "numeric_prose": {
+    "n": 3,
+    "detected": 3,
+    "flagged": 3
+   },
+   "numeric_table": {
+    "n": 3,
+    "detected": 3,
+    "flagged": 3
+   },
+   "fabricated_claim": {
+    "n": 3,
+    "detected": 3,
+    "flagged": 3
+   }
+  },
+  "flagged": 18,
+  "controls": 3,
+  "false_fails": 0,
+  "controls_flagged": 1,
+  "spent_usd": 0.0017751859999999991,
+  "ledger": "data/ledger/run_seeded-dev-4.jsonl"
+ },
+ "items": [
+  {
+   "fault_id": "run-smoke-004:control",
+   "fault_type": "control",
+   "detected": false,
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "cost_usd": 8.4924e-05,
+   "first_fail": null
+  },
+  {
+   "fault_id": "run-smoke-004:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 0.00011180400000000002,
+   "first_fail": "R3 ('Cartesian Partition Refinement for Piecewise Constant Explainers') is not in the retrieval log, and the records returned for it are different papers."
+  },
+  {
+   "fault_id": "run-smoke-004:unretrieved_citation",
+   "fault_type": "unretrieved_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 8.4924e-05,
+   "first_fail": "[R7] is cited but is not a retrieved record or listed."
+  },
+  {
+   "fault_id": "run-smoke-004:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 8.4924e-05,
+   "first_fail": "Reference R1 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble"
+  },
+  {
+   "fault_id": "run-smoke-004:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 6.342e-05,
+   "first_fail": "6.35 in a results claim is not a value in results.json (nor a difference or ratio of two): \"C3 (2.95 \u00b1 6.35) was within roughly one standard deviation of the baseline, but this is a negative result, n"
+  },
+  {
+   "fault_id": "run-smoke-004:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 8.4924e-05,
+   "first_fail": "The table says '2.19 \u00b1 0.32' for TreeHFD (baseline) on analytical (residual_mse_pct); results.json has 2.79 \u00b1 0.32."
+  },
+  {
+   "fault_id": "run-smoke-004:fabricated_claim",
+   "fault_type": "fabricated_claim",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 8.4924e-05,
+   "first_fail": "44 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Overall, the best idea lowered the baseline residual by 44% across datasets.'"
+  },
+  {
+   "fault_id": "run-smoke-006-a:control",
+   "fault_type": "control",
+   "detected": false,
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 1,
+   "cost_usd": 9.345e-05,
+   "first_fail": null
+  },
+  {
+   "fault_id": "run-smoke-006-a:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "cost_usd": 0.000122304,
+   "first_fail": "R3 ('Recursive Functional ANOVA for Gradient Boosted Ensembles') is not in the retrieval log, and the records returned for it are different papers."
+  },
+  {
+   "fault_id": "run-smoke-006-a:unretrieved_citation",
+   "fault_type": "unretrieved_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "cost_usd": 9.345e-05,
+   "first_fail": "[R7] is cited but is not a retrieved record or listed."
+  },
+  {
+   "fault_id": "run-smoke-006-a:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "cost_usd": 9.345e-05,
+   "first_fail": "Reference R1 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble"
+  },
+  {
+   "fault_id": "run-smoke-006-a:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "cost_usd": 6.1488e-05,
+   "first_fail": "3.43 in a results claim is not a value in results.json (nor a difference or ratio of two): 'C2 was mixed: it improved Analytical (2.41 vs 2.79) but worsened Airfoil (5.15 vs 4.73), at roughly double t"
+  },
+  {
+   "fault_id": "run-smoke-006-a:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "cost_usd": 9.345e-05,
+   "first_fail": "The table says '3.76 \u00b1 0.14' for C3: Refit intercept residual on airfoil (runtime_s); results.json has 3.77 \u00b1 0.14."
+  },
+  {
+   "fault_id": "run-smoke-006-a:fabricated_claim",
+   "fault_type": "fabricated_claim",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "cost_usd": 9.345e-05,
+   "first_fail": "38 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Overall, the best idea lowered the baseline residual by 38% across datasets.'"
+  },
+  {
+   "fault_id": "run-smoke-006-b:control",
+   "fault_type": "control",
+   "detected": false,
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "cost_usd": 6.619199999999999e-05,
+   "first_fail": null
+  },
+  {
+   "fault_id": "run-smoke-006-b:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 7.082200000000001e-05,
+   "first_fail": "R3 ('Orthogonal Boosting Decompositions with Calibrated Interaction Budgets') is not in the retrieval log, and the records returned for it are different papers."
+  },
+  {
+   "fault_id": "run-smoke-006-b:unretrieved_citation",
+   "fault_type": "unretrieved_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 4.2998000000000004e-05,
+   "first_fail": "[R7] is cited but is not a retrieved record or listed."
+  },
+  {
+   "fault_id": "run-smoke-006-b:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 4.2838e-05,
+   "first_fail": "Reference R1 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble"
+  },
+  {
+   "fault_id": "run-smoke-006-b:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 1.023e-05,
+   "first_fail": "31.7 in a results claim is not a value in results.json (nor a difference or ratio of two): 'C3 (Refit intercept residual) failed badly on held-out data: residual MSE rose to 31.7 \u00b1 2.6 on Analytical a"
+  },
+  {
+   "fault_id": "run-smoke-006-b:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 4.2838e-05,
+   "first_fail": "The table says '2.11 \u00b1 0.16' for C2: Depth-variable tuning on analytical (residual_mse_pct); results.json has 2.41 \u00b1 0.16."
+  },
+  {
+   "fault_id": "run-smoke-006-b:fabricated_claim",
+   "fault_type": "fabricated_claim",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "cost_usd": 4.2498e-05,
+   "first_fail": "44 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Overall, the best idea lowered the baseline residual by 44% across datasets.'"
+  }
+ ]
+}

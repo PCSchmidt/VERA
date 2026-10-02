@@ -1,0 +1,16 @@
+{
+ "seed": 20261004,
+ "dev_bases": [
+  "run-smoke-004",
+  "run-smoke-006-a",
+  "run-smoke-006-b"
+ ],
+ "test_bases": [
+  "run-smoke-004-a",
+  "run-smoke-004-b",
+  "run-smoke-006"
+ ],
+ "test_items": 21,
+ "test_sha256": "b3164544d490b0515c1f32f0a14d0a812a023419173494ce69ff541768042fb3",
+ "note": "fixed before the audit was run on any test item (docs/06 section 5)"
+}

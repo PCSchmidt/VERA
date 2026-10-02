@@ -1,0 +1,224 @@
+{
+ "run_id": "smoke-006",
+ "metric": "residual_mse_pct",
+ "n_seeds": 3,
+ "datasets": [
+  "analytical",
+  "airfoil"
+ ],
+ "results": {
+  "TreeHFD (baseline)": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.7922779073042854,
+     "std": 0.322855299765166,
+     "values": [
+      3.145743556617016,
+      2.3652455761629287,
+      2.8658445891329105
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5695270989668413,
+     "std": 0.024874808467098025,
+     "values": [
+      0.5850437308043616,
+      0.5891103218988181,
+      0.5344272441973442
+     ]
+    },
+    "runtime_s": {
+     "mean": 27.194154475332954,
+     "std": 0.9747566614447212,
+     "values": [
+      26.803858371000388,
+      26.24432325399539,
+      28.53428180100309
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.732528004675472,
+     "std": 0.11249578737353107,
+     "values": [
+      4.8150211208663505,
+      4.80909111342034,
+      4.573471779739722
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.522466107765438,
+     "std": 0.15158697779427285,
+     "values": [
+      1.7222609132043591,
+      1.4898698532153793,
+      1.3552675568765755
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.485817685332828,
+     "std": 0.09386425965625028,
+     "values": [
+      3.5627764890014078,
+      3.3536699549949844,
+      3.541006612002093
+     ]
+    }
+   }
+  },
+  "C3: Refit intercept residual": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 31.349500263117573,
+     "std": 2.559727822465892,
+     "values": [
+      32.2665127720882,
+      27.8582352263595,
+      33.923752790905006
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 25.764103747503857,
+     "std": 0.9020047485693771,
+     "values": [
+      26.981826603538615,
+      24.826179811624414,
+      25.484304827348538
+     ]
+    },
+    "runtime_s": {
+     "mean": 30.927846621668625,
+     "std": 0.47883385920707794,
+     "values": [
+      31.49333639100223,
+      30.322473797001294,
+      30.967729677002353
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 36581.46097700912,
+     "std": 1750.1838499092064,
+     "values": [
+      38623.09177208544,
+      34348.81925727312,
+      36772.47190166879
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 32441.410781643743,
+     "std": 689.2328970589539,
+     "values": [
+      31672.316432136697,
+      33344.54583781146,
+      32307.370074983053
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.7723791573298513,
+     "std": 0.13589041051610223,
+     "values": [
+      3.9619327419932233,
+      3.650190972999553,
+      3.7050137569967774
+     ]
+    }
+   }
+  },
+  "C2: Depth-variable tuning": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.405007966319579,
+     "std": 0.15576741007165856,
+     "values": [
+      2.4727139790511132,
+      2.189613915171519,
+      2.552696004736104
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.8424680069170191,
+     "std": 0.06218044480239438,
+     "values": [
+      0.8250269343706623,
+      0.9258308121472699,
+      0.7765462742331247
+     ]
+    },
+    "runtime_s": {
+     "mean": 52.23882742166703,
+     "std": 3.132790072527957,
+     "values": [
+      56.65164563000144,
+      50.37423267199483,
+      49.69060396300483
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 5.1530430350788015,
+     "std": 0.6608550810869549,
+     "values": [
+      6.079926715983327,
+      4.793327463489959,
+      4.585874925763118
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 2.241239556780456,
+     "std": 1.109163178795077,
+     "values": [
+      3.8086938464795184,
+      1.5092784536011796,
+      1.405746370260671
+     ]
+    },
+    "runtime_s": {
+     "mean": 10.23914444433467,
+     "std": 0.6294254864640528,
+     "values": [
+      9.392118763003964,
+      10.425644023998757,
+      10.899670546001289
+     ]
+    }
+   }
+  }
+ },
+ "best": null,
+ "ideas": [
+  {
+   "name": "C1: Restrict interaction list",
+   "description": "Run TreeHFD with interaction_order=2 but pass a pruned interaction_list: keep only the q interactions with largest xgboost gain or SHAP interaction values, dropping negligible pairs. Each kept component still depends only on its own two variables. This reduces the residual gap contributed by noisy interaction estimates and cuts runtime by fitting fewer components."
+  },
+  {
+   "name": "C2: Depth-variable tuning",
+   "description": "Sweep depth_variable over several values (e.g., 2, 3, 4, 5) on training data, evaluate held-out Residual MSE for each, and select the best. Deeper variable selection changes which splits define main effects, often reducing the unexplained residual. Only the chosen configuration is used for the final fit; all components remain functions of their own variables."
+  },
+  {
+   "name": "C3: Refit intercept residual",
+   "description": "After TreeHFD's fit, compute the residual r = model(X) - sum(components) on training data. Add the mean residual to the intercept, and optionally refit the largest interaction components (via treehfd refit or ridge on their variables) to the residual. Each refit maps only its own component's variables to output, keeping additivity while shrinking held-out residual MSE."
+  }
+ ]
+}

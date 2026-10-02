@@ -1,0 +1,100 @@
+{
+ "run_id": "smoke-004",
+ "metric": "residual_mse_pct",
+ "n_seeds": 3,
+ "datasets": [
+  "analytical"
+ ],
+ "results": {
+  "TreeHFD (baseline)": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.7922779073042854,
+     "std": 0.322855299765166,
+     "values": [
+      3.145743556617016,
+      2.3652455761629287,
+      2.8658445891329105
+     ]
+    },
+    "runtime_s": {
+     "mean": 22.199157599000802,
+     "std": 0.2901062657318403,
+     "values": [
+      22.505063521999546,
+      21.80943757300338,
+      22.282971701999486
+     ]
+    }
+   }
+  },
+  "C1: Depth sweep ensemble": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 3.2335098729350604,
+     "std": 0.24682311074853233,
+     "values": [
+      3.5660652280747294,
+      2.9753753838305346,
+      3.1590890068999165
+     ]
+    },
+    "runtime_s": {
+     "mean": 78.6624786350003,
+     "std": 9.1374149455174,
+     "values": [
+      74.9679726079994,
+      69.78585656799987,
+      91.23360672900162
+     ]
+    }
+   }
+  },
+  "C3: Least-squares recalibration": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.952792923915105,
+     "std": 0.35076314247077306,
+     "values": [
+      3.3542880989425243,
+      2.49974909882296,
+      3.00434157397983
+     ]
+    },
+    "runtime_s": {
+     "mean": 27.90256588000193,
+     "std": 0.5947299691747869,
+     "values": [
+      28.671599223001976,
+      27.813000717003888,
+      27.223097699999926
+     ]
+    }
+   }
+  }
+ },
+ "best": null,
+ "ideas": [
+  {
+   "name": "C1: Depth sweep ensemble",
+   "description": "Fit XGBTreeHFD at several depth_variable values (e.g. 2, 3, 4). For each interaction column, keep the candidate fit with lowest residual MSE on a validation split, reassembling components so each remains a function of only its own variables. Average predictions over seeds to reduce variance."
+  },
+  {
+   "name": "C2: Prune weak interactions",
+   "description": "Fit TreeHFD with interaction_order=2 and full interaction_list, then compute each interaction's marginal contribution (variance of its component minus residual MSE change when dropped) on validation data. Refit keeping only interactions above a threshold, so the decomposition drops noisy high-order terms that inflate residual MSE."
+  },
+  {
+   "name": "C3: Least-squares recalibration",
+   "description": "After TreeHFD fit, take component matrices M (intercept, main effects, interactions) and solve a constrained least-squares refit of coefficients against model predictions on training data (scipy.optimize.lsq_linear, nonnegative or free). Coefficients multiply each existing component, preserving each component's dependence on only its own variables."
+  }
+ ]
+}
