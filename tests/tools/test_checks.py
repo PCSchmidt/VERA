@@ -33,6 +33,7 @@ def write(root: Path, rel: str, text: str) -> Path:
 
 # ── spend ceiling ─────────────────────────────────────────────────────────────
 
+
 @pytest.mark.parametrize(
     ("line", "code"),
     [
@@ -123,6 +124,7 @@ def test_traceability_range_uses_first_increment(tmp_path: Path) -> None:
 
 # ── provenance ────────────────────────────────────────────────────────────────
 
+
 def provenance_repo(root: Path) -> Path:
     subprocess.run(["git", "init", "-q"], cwd=root, check=True)
     pdf = root / "data" / "raw" / "scientisttwo" / "p1.pdf"
@@ -132,12 +134,17 @@ def provenance_repo(root: Path) -> Path:
 
 
 def record(pdf: Path, root: Path, sha: str | None = None) -> str:
-    return json.dumps({
-        "path": pdf.relative_to(root).as_posix(),
-        "url": "https://example.org/p1.pdf",
-        "retrieved": "2026-09-29",
-        "sha256": sha or hashlib.sha256(pdf.read_bytes()).hexdigest(),
-    }) + "\n"
+    return (
+        json.dumps(
+            {
+                "path": pdf.relative_to(root).as_posix(),
+                "url": "https://example.org/p1.pdf",
+                "retrieved": "2026-09-29",
+                "sha256": sha or hashlib.sha256(pdf.read_bytes()).hexdigest(),
+            }
+        )
+        + "\n"
+    )
 
 
 def test_provenance_blocks_when_nothing_downloaded(tmp_path: Path) -> None:
@@ -190,8 +197,14 @@ def inventory(root: Path, rows: list[dict[str, str]]) -> None:
 
 def full_rows(n: int) -> list[dict[str, str]]:
     return [
-        {"gen_paper_id": f"p{i:03d}", "domain": "DL", "method_name": f"M{i}",
-         "parent_title": "unknown", "compute_class": "cpu", "notes": ""}
+        {
+            "gen_paper_id": f"p{i:03d}",
+            "domain": "DL",
+            "method_name": f"M{i}",
+            "parent_title": "unknown",
+            "compute_class": "cpu",
+            "notes": "",
+        }
         for i in range(n)
     ]
 
@@ -258,9 +271,13 @@ def test_inventory_refuses_to_redraw_after_verdicts(tmp_path: Path) -> None:
 
 # ── trade decided ─────────────────────────────────────────────────────────────
 
+
 def test_trade_open_blocks(tmp_path: Path) -> None:
-    write(tmp_path, "docs/04-trade-studies.md",
-          "## T3 — PDF parsing (open, decide in Increment 0)\n\n- **Options:** a, b\n")
+    write(
+        tmp_path,
+        "docs/04-trade-studies.md",
+        "## T3 — PDF parsing (open, decide in Increment 0)\n\n- **Options:** a, b\n",
+    )
     assert run("check_trade_decided.py", tmp_path, "T3").returncode == 2
 
 
@@ -275,8 +292,11 @@ def test_trade_decided_passes(tmp_path: Path) -> None:
 
 
 def test_trade_decided_needs_scores(tmp_path: Path) -> None:
-    write(tmp_path, "docs/04-trade-studies.md",
-          "## T3 — PDF parsing (decided)\n\n- **Decision:** GROBID\n- **Reverse if:** tables fail\n")
+    write(
+        tmp_path,
+        "docs/04-trade-studies.md",
+        "## T3 — PDF parsing (decided)\n\n- **Decision:** GROBID\n- **Reverse if:** tables fail\n",
+    )
     result = run("check_trade_decided.py", tmp_path, "T3")
     assert result.returncode == 2
     assert "Scores" in result.stderr
@@ -289,9 +309,15 @@ def test_trade_decided_needs_reversal_condition(tmp_path: Path) -> None:
 
 # ── discovery ─────────────────────────────────────────────────────────────────
 
+
 def discovery(root: Path, **fields: object) -> None:
-    rec = {"source_url": "https://example.org", "retrieved": "2026-09-29", "discovered_count": 86,
-           "site_stated_count": 86, "explanation": ""}
+    rec = {
+        "source_url": "https://example.org",
+        "retrieved": "2026-09-29",
+        "discovered_count": 86,
+        "site_stated_count": 86,
+        "explanation": "",
+    }
     rec.update(fields)
     write(root, "data/corpus_discovery.json", json.dumps(rec))
 
@@ -319,8 +345,16 @@ def test_discovery_missing_file_blocks(tmp_path: Path) -> None:
 
 # ── inventory: data dictionary rules ──────────────────────────────────────────
 
-DICT_FIELDS = ["gen_paper_id", "gen_pdf_url", "gen_code_url", "parent_id_arxiv_or_doi",
-               "parent_code_url", "compute_class", "candidate_for_p3", "notes"]
+DICT_FIELDS = [
+    "gen_paper_id",
+    "gen_pdf_url",
+    "gen_code_url",
+    "parent_id_arxiv_or_doi",
+    "parent_code_url",
+    "compute_class",
+    "candidate_for_p3",
+    "notes",
+]
 
 
 def pdf_url(i: int) -> str:
@@ -329,9 +363,16 @@ def pdf_url(i: int) -> str:
 
 def dict_rows(n: int = 12) -> list[dict[str, str]]:
     rows = [
-        {"gen_paper_id": f"p{i:03d}", "gen_pdf_url": pdf_url(i), "gen_code_url": "none",
-         "parent_id_arxiv_or_doi": f"2401.{i:05d}", "parent_code_url": "https://github.com/x/y",
-         "compute_class": "cpu", "candidate_for_p3": "no", "notes": ""}
+        {
+            "gen_paper_id": f"p{i:03d}",
+            "gen_pdf_url": pdf_url(i),
+            "gen_code_url": "none",
+            "parent_id_arxiv_or_doi": f"2401.{i:05d}",
+            "parent_code_url": "https://github.com/x/y",
+            "compute_class": "cpu",
+            "candidate_for_p3": "no",
+            "notes": "",
+        }
         for i in range(n)
     ]
     rows[0]["candidate_for_p3"] = rows[1]["candidate_for_p3"] = "yes"
@@ -339,8 +380,15 @@ def dict_rows(n: int = 12) -> list[dict[str, str]]:
 
 
 def provenance_for(root: Path, urls: list[str], extra: list[dict[str, str]] | None = None) -> None:
-    records = [{"path": f"data/raw/scientisttwo/{u.rsplit('/', 1)[-1]}", "url": u,
-                "retrieved": "2026-09-29", "sha256": "ab" * 32} for u in urls]
+    records = [
+        {
+            "path": f"data/raw/scientisttwo/{u.rsplit('/', 1)[-1]}",
+            "url": u,
+            "retrieved": "2026-09-29",
+            "sha256": "ab" * 32,
+        }
+        for u in urls
+    ]
     lines = [json.dumps(r) for r in records + (extra or [])]
     write(root, "data/provenance.jsonl", "\n".join(lines) + "\n")
 
@@ -367,9 +415,14 @@ def test_inventory_valid_dictionary_passes(tmp_path: Path) -> None:
     assert run("check_inventory.py", tmp_path).returncode == 0
 
 
-@pytest.mark.parametrize(("field", "value"), [
-    ("compute_class", "gpu"), ("candidate_for_p3", "maybe"), ("gen_code_url", "n/a"),
-])
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("compute_class", "gpu"),
+        ("candidate_for_p3", "maybe"),
+        ("gen_code_url", "n/a"),
+    ],
+)
 def test_inventory_rejects_values_outside_dictionary(tmp_path: Path, field: str, value: str) -> None:
     rows = dict_rows()
     rows[5][field] = value
@@ -410,8 +463,12 @@ def test_inventory_links_every_pdf_url_to_provenance(tmp_path: Path) -> None:
 def test_inventory_blocks_downloads_missing_from_inventory(tmp_path: Path) -> None:
     rows = dict_rows()
     dict_inventory(tmp_path, rows, provenance=False)
-    stray = {"path": "data/raw/scientisttwo/p999.pdf", "url": pdf_url(999), "retrieved": "2026-09-29",
-             "sha256": "cd" * 32}
+    stray = {
+        "path": "data/raw/scientisttwo/p999.pdf",
+        "url": pdf_url(999),
+        "retrieved": "2026-09-29",
+        "sha256": "cd" * 32,
+    }
     provenance_for(tmp_path, [r["gen_pdf_url"] for r in rows], extra=[stray])
     spotchecked(tmp_path)
     result = run("check_inventory.py", tmp_path)
@@ -423,8 +480,12 @@ def test_inventory_allows_parent_papers_and_unknown_urls(tmp_path: Path) -> None
     rows = dict_rows()
     rows[4]["gen_pdf_url"] = "unknown"
     dict_inventory(tmp_path, rows, provenance=False)
-    parent = {"path": "data/raw/parents/2401.00001.pdf", "url": "https://arxiv.org/pdf/2401.00001",
-              "retrieved": "2026-09-29", "sha256": "ef" * 32}
+    parent = {
+        "path": "data/raw/parents/2401.00001.pdf",
+        "url": "https://arxiv.org/pdf/2401.00001",
+        "retrieved": "2026-09-29",
+        "sha256": "ef" * 32,
+    }
     provenance_for(tmp_path, [r["gen_pdf_url"] for r in rows if r["gen_pdf_url"] != "unknown"], extra=[parent])
     spotchecked(tmp_path)
     assert run("check_inventory.py", tmp_path).returncode == 0
@@ -589,6 +650,7 @@ def test_JDG_F_06_results_check_blocks(tmp_path: Path, kwargs: dict, message: st
 
 # ── dogfood overhead per gate day ─────────────────────────────────────────────
 
+
 def dogfood_fixture(root: Path, overhead: list[tuple[str, float]]) -> None:
     events = [
         {"timestamp": "2026-10-01T15:13:24Z", "event_type": "gate_passed", "gate": "incr1_review"},
@@ -653,8 +715,13 @@ def topics_fixture(root: Path, *, n_papers: int = 6, paths: tuple = TOPIC_PATHS,
     entries = {}
     for i, path in enumerate(paths):
         tid = f"topic{i}"
-        info = {"id": tid, "text": "t", "path": path, "good_question": "q",
-                "key_papers": [{"title": f"p{k}", "year": 2020, "id": f"arXiv:2001.{k:05d}"} for k in range(n_papers)]}
+        info = {
+            "id": tid,
+            "text": "t",
+            "path": path,
+            "good_question": "q",
+            "key_papers": [{"title": f"p{k}", "year": 2020, "id": f"arXiv:2001.{k:05d}"} for k in range(n_papers)],
+        }
         body = json.dumps(info)
         write(root, f"data/topics/{tid}.json", body)
         entries[tid] = {"file": f"{tid}.json", "sha256": hashlib.sha256(body.encode()).hexdigest(), "path": path,
@@ -749,8 +816,11 @@ def retrieval_fixture(root: Path, *, per_topic: int = 15, verdict: str = "yes", 
         if drop_field:
             del record["query"]
         write(root, f"data/retrieval/{tid}/retrieved.jsonl", json.dumps(record) + "\n")
-        write(root, f"data/ledger/run_scope-{tid}.jsonl",
-              json.dumps({"component": "p3.scope", "cost_usd": cost, "timestamp": "2026-10-03T09:00:00Z"}) + "\n")
+        write(
+            root,
+            f"data/ledger/run_scope-{tid}.jsonl",
+            json.dumps({"component": "p3.scope", "cost_usd": cost, "timestamp": "2026-10-03T09:00:00Z"}) + "\n",
+        )
         for k in range(per_topic):
             rows.append(f"{tid},R{k},title,2020,abstract,{verdict}")
             key[f"{tid}:R{k}"] = {"answer": model_answer, "confident": confident}
@@ -805,9 +875,16 @@ def literature_fixture(root: Path, *, n_claims: int = 5, bad_quote: bool = False
         tid = f"topic{i}"
         run = f"scope-{tid}"
         base = f"runs/{run}"
-        claims = [{"claim": f"claim {k}", "source_key": "R9" if unretrieved else "R1",
-                   "quote": "a quote that is nowhere in any passage at all" if bad_quote else QUOTE,
-                   "locator": "sec. Results, para 4", "quote_check": "pass"} for k in range(n_claims)]
+        claims = [
+            {
+                "claim": f"claim {k}",
+                "source_key": "R9" if unretrieved else "R1",
+                "quote": "a quote that is nowhere in any passage at all" if bad_quote else QUOTE,
+                "locator": "sec. Results, para 4",
+                "quote_check": "pass",
+            }
+            for k in range(n_claims)
+        ]
         text = "Intro [R1].\n\n## References\n\n[R1] A. Author. Title. 2020. arXiv:1. https://x\n"
         if unretrieved:
             text = text.replace("Intro [R1]", "Intro [R9]")
@@ -818,8 +895,11 @@ def literature_fixture(root: Path, *, n_claims: int = 5, bad_quote: bool = False
         write(root, f"{base}/retrieved.jsonl", json.dumps({"key": "R1"}) + "\n" + json.dumps({"key": "R2"}) + "\n")
         passage = {"source_key": "R1", "id": "R1-P1", "text": f"In our experiments {QUOTE} 0.9, while others hold."}
         write(root, f"{base}/passages.jsonl", json.dumps(passage) + "\n")
-        verdict = {"judge_id": "p2.judge", "producer_id": "p2.judge" if self_graded else "p3.synthesize",
-                   "question_id": "lit.claim_supported"}
+        verdict = {
+            "judge_id": "p2.judge",
+            "producer_id": "p2.judge" if self_graded else "p3.synthesize",
+            "question_id": "lit.claim_supported",
+        }
         write(root, f"{base}/gates.jsonl", json.dumps({"verdict": verdict}) + "\n")
         stats = {"stats": {"drafted": n_claims, "repaired": 0, "removed": 0}}
         if not no_stats:
@@ -829,8 +909,11 @@ def literature_fixture(root: Path, *, n_claims: int = 5, bad_quote: bool = False
                                   ("literature.json", json.dumps(stats))):  # fmt: skip
                 extra = "x" if drift and name == "literature.md" else ""
                 write(root, f"data/literature/{tid}/{name}", content + extra)
-        write(root, f"data/ledger/run_{run}.jsonl",
-              json.dumps({"component": "p3.scope", "cost_usd": cost, "timestamp": "2026-10-03T09:00:00Z"}) + "\n")
+        write(
+            root,
+            f"data/ledger/run_{run}.jsonl",
+            json.dumps({"component": "p3.scope", "cost_usd": cost, "timestamp": "2026-10-03T09:00:00Z"}) + "\n",
+        )
 
 
 def test_literature_check_passes_a_verified_section_per_topic(tmp_path: Path) -> None:
@@ -856,3 +939,74 @@ def test_literature_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> 
     literature_fixture(tmp_path, **kwargs)
     result = run("check_literature.py", tmp_path)
     assert result.returncode == 2 and message in result.stderr
+
+
+# ── audit3_ready ──────────────────────────────────────────────────────────────
+
+
+def seeded_fixture(root: Path, *, tamper: bool = False, stale_audit: bool = False, n_faults: int = 24) -> None:
+    import csv as csv_mod  # noqa: PLC0415
+    import hashlib  # noqa: PLC0415
+
+    sys.path.insert(0, str(CHECKS))
+    import check_seeded_v2 as c  # noqa: PLC0415
+
+    for rel in c.FROZEN_FILES:
+        write(root, rel, f"# {rel}\n")
+    types = ["fabricated_citation", "numeric_table", "reversed_comparison", "swapped_method", "altered_reference",
+             "numeric_prose"]  # fmt: skip
+    docs = ["d1", "d2", "d3", "d4"]
+    rows = [{"fault_id": f"{d}:control", "doc": d, "kind": "paper", "fault_type": "control", "location": "",
+             "description": "", "subtle": "", "split": "test"} for d in docs]  # fmt: skip
+    rows += [{"fault_id": f"{docs[i % 4]}:{types[i % 6]}{i}", "doc": docs[i % 4], "kind": "paper",
+              "fault_type": types[i % 6], "location": "", "description": "", "subtle": "", "split": "test"}
+             for i in range(n_faults)]  # fmt: skip
+    rows += [{"fault_id": "d5:control", "doc": "d5", "kind": "paper", "fault_type": "control", "location": "",
+              "description": "", "subtle": "", "split": "test"}] * 2  # fmt: skip
+    seen = set()
+    for r in rows:
+        if r["fault_type"] == "control":
+            write(root, f"data/seeded_v2/base/{r['doc']}/paper.md", f"control {r['doc']}")
+        else:
+            write(root, f"data/seeded_v2/items/{r['doc']}__{r['fault_type']}/paper.md", f"fault {r['fault_id']}")
+        seen.add(r["fault_id"])
+    # items sharing doc and fault_type collide in the hash only through identical files: fine
+    cols = list(rows[0])
+    path = root / "data/seeded_v2/manifest.csv"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8", newline="") as fh:
+        w = csv_mod.DictWriter(fh, fieldnames=cols)
+        w.writeheader()
+        w.writerows(rows)
+    frozen = c.source_hash(root)
+    test_sha = c.test_hash(root, rows)
+    if tamper:
+        write(root, "data/seeded_v2/items/d1__fabricated_citation/paper.md", "edited after the split")
+    if stale_audit:
+        write(root, "vera/audit/numbers.py", "# changed after the freeze\n")
+    split = {"test_sha256": test_sha, "frozen_audit_sha256": frozen}
+    write(root, "data/seeded_v2/split.json", json.dumps(split))
+    by_type = {t: {"red": {"k": 1, "n": 1, "ci95": [0.2, 1.0]}, "flagged": {"k": 1, "n": 1}} for t in types}
+    summary = {"planted": n_faults, "controls": len(rows) - n_faults, "red": {"k": 20, "n": n_faults},
+               "flagged": {"k": 22, "n": n_faults}, "false_fails": 0, "spent_usd": 0.02, "audit_sha256": frozen,
+               "by_type": by_type}  # fmt: skip
+    write(root, "data/seeded_v2/results_test.json", json.dumps({"summary": summary}))
+    del hashlib
+
+
+def test_seeded_check_passes_a_frozen_tested_set(tmp_path: Path) -> None:
+    seeded_fixture(tmp_path)
+    result = run("check_seeded_v2.py", tmp_path)
+    assert result.returncode == 0, result.stderr
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [({"tamper": True}, "hash differs"), ({"stale_audit": True}, "changed after it was frozen"),
+     ({"n_faults": 12}, "needs at least 24")],
+)  # fmt: skip
+def test_seeded_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> None:
+    seeded_fixture(tmp_path, **kwargs)
+    result = run("check_seeded_v2.py", tmp_path)
+    assert result.returncode == 2
+    assert message in result.stderr

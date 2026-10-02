@@ -388,7 +388,7 @@ gates:
   # ── Increment 3: topic front end and literature stage (SPEC.md) ───────────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
   # Defined so far: incr3_scoped, lit_core_ready, topics_chosen, scoping_ready,
-  # retrieval_ready, literature_ready. Still to add: audit3_ready,
+  # retrieval_ready, literature_ready, audit3_ready. Still to add:
   # trades_decided_3, topic_runs, judge_retest_3, incr3_review.
 
   - id: incr3_scoped
@@ -486,3 +486,19 @@ gates:
         - gate-tests.sh             # ruff + the full suite (test_RSH_F_09_*)
         - gate-vendor-imports.sh    # FND-C-01 still holds
         - gate-literature.sh        # 3 sections: quotes verbatim in the sources, nothing cited that was not retrieved
+
+  - id: audit3_ready
+    label: "Audit v2 tested once on a split fixed before the run, with the audit's source frozen (AUD-F-10)"
+    type: automated
+    required: true
+    requires:
+      - literature_ready
+    requires_artifacts:
+      - vera/audit/seeded_v2.py
+      - scripts/run_seeded_v2.py
+      - data/seeded_v2/results_test.json
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+        - gate-seeded-v2.sh         # test hash recomputed, frozen audit hash equals the run's and the current source, intervals reported

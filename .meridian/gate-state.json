@@ -1,5 +1,6 @@
 {
   "passed_gates": [
+    "audit3_ready",
     "audit_ready",
     "backends_live",
     "benchmark_labeled",
