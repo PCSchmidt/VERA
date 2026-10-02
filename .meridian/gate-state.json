@@ -24,6 +24,7 @@
     "sandbox_ready",
     "scaffold_ready",
     "stages_ready",
+    "topics_chosen",
     "trades_decided_1",
     "trades_decided_2"
   ],
@@ -79,6 +80,10 @@
     "incr3_scoped": {
       "by": "Chris Schmidt",
       "at": "2026-10-02T16:36:30Z"
+    },
+    "topics_chosen": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-02T17:15:20Z"
     }
   }
 }
