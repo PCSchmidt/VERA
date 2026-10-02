@@ -387,8 +387,8 @@ gates:
 
   # ── Increment 3: topic front end and literature stage (SPEC.md) ───────────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
-  # Defined so far: incr3_scoped, lit_core_ready. Still to add: topics_chosen,
-  # scoping_ready, retrieval_ready, literature_ready, audit3_ready,
+  # Defined so far: incr3_scoped, lit_core_ready, topics_chosen, scoping_ready.
+  # Still to add: retrieval_ready, literature_ready, audit3_ready,
   # trades_decided_3, topic_runs, judge_retest_3, incr3_review.
 
   - id: incr3_scoped
@@ -422,3 +422,33 @@ gates:
         - gate-tests.sh             # ruff + pytest (schemas 0.9, StageResult.gates, check_dogfood)
         - gate-schema-version.sh    # code SCHEMA_VERSION == docs/03 version (0.9)
         - gate-vendor-imports.sh    # FND-C-01 still holds
+
+  - id: topics_chosen
+    label: "Three topics and their key-paper lists fixed and hashed before any retrieval"
+    type: human_approval
+    required: true
+    approval_token: "TOPICS CHOSEN"
+    requires:
+      - incr3_scoped
+    requires_artifacts:
+      - data/topics/manifest.json
+    hooks:
+      pre:
+        - gate-topics.sh            # 3 topics (harness / no harness / non-empirical), >= 6 key papers, hashes match
+
+  - id: scoping_ready
+    label: "Scoping stage and the confirmation pause, tested offline; the three topics scoped live and confirmed (RSH-F-08)"
+    type: automated
+    required: true
+    requires:
+      - lit_core_ready
+      - topics_chosen
+    requires_artifacts:
+      - vera/literature/scoping.py
+      - vera/literature/graph.py
+      - scripts/confirm_scope.py
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite (test_RSH_F_08_*)
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+        - gate-scoping.sh           # 3 confirmed questions (named person, time), only scoping spend before confirmation, <= $0.25 each

@@ -12,7 +12,7 @@ from collections.abc import Sequence
 from vera.bench.candidates import make_backend
 from vera.judge.router import Router
 from vera.ledger import Ledger
-from vera.loop import LOOP_PREFIX
+from vera.loop import LIT_PREFIX, LOOP_PREFIX
 from vera.schemas import Budget, JudgeBackend, Question, RoutingPolicy, Verdict
 
 # GLM-5.3 Flash cannot switch its reasoning off, and the loop's questions carry long material (idea texts, whole
@@ -29,8 +29,8 @@ LOOP_JUDGE_REASONING = {"effort": "minimal"}
 class CheapPath:
     """Same `ask` as `Router`: loop questions to the GLM-only router, the rest to Jev -> GLM, order kept."""
 
-    def __init__(self, default: Router, loop: Router, loop_prefix: str = LOOP_PREFIX) -> None:
-        self.default, self.loop, self.loop_prefix = default, loop, loop_prefix
+    def __init__(self, default: Router, loop: Router, loop_prefix: str | tuple[str, ...] = (LOOP_PREFIX, LIT_PREFIX)):
+        self.default, self.loop, self.loop_prefix = default, loop, loop_prefix  # str.startswith takes a tuple
 
     def ask(self, state: str, questions: Sequence[Question], threshold: float | None = None) -> list[Verdict]:
         by_id: dict[str, Verdict] = {}

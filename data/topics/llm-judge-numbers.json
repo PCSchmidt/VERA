@@ -1,0 +1,21 @@
+{
+ "id": "llm-judge-numbers",
+ "text": "Reliability of LLM judges on numeric and table-grounded claims",
+ "path": "non_empirical",
+ "path_note": "Non-empirical: a literature-and-analysis paper with no experiments of its own. VERA's own domain (the judge path and the numeric audit), so Chris can judge the quality of the synthesis himself.",
+ "good_question": "One specific question about when LLM-as-judge evaluators are reliable or unreliable on claims about numbers or tables, answerable by reading and synthesising the published evaluation studies.",
+ "status": "draft, proposed by the agent; to be approved or edited by Chris at the topics_chosen gate",
+ "key_papers_note": "Identifiers checked by looking up each arXiv id (arXiv API) for its title, first author and year on 2026-10-02. This is a metadata check of the listed papers, not a topic search; no query built from the topic or its question has been run.",
+ "key_papers": [
+  {"title": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena", "year": 2023, "id": "arXiv:2306.05685", "first_author": "Zheng", "why": "the LLM-as-a-judge reference study and its biases"},
+  {"title": "Large Language Models are not Fair Evaluators", "year": 2023, "id": "arXiv:2305.17926", "first_author": "Wang", "why": "position bias in LLM judges"},
+  {"title": "LLM Evaluators Recognize and Favor Their Own Generations", "year": 2024, "id": "arXiv:2404.13076", "first_author": "Panickssery", "why": "self-preference bias (same-model grading)"},
+  {"title": "Replacing Judges with Juries: Evaluating LLM Generations with a Panel of Diverse Models", "year": 2024, "id": "arXiv:2404.18796", "first_author": "Verga", "why": "cheap panels of judges instead of one large judge"},
+  {"title": "Judging the Judges: Evaluating Alignment and Vulnerabilities in LLMs-as-Judges", "year": 2024, "id": "arXiv:2406.12624", "first_author": "Thakur", "why": "how well judges align with humans, and where they fail"},
+  {"title": "A Survey on LLM-as-a-Judge", "year": 2024, "id": "arXiv:2411.15594", "first_author": "Gu", "why": "the survey that frames the area"},
+  {"title": "FActScore: Fine-grained Atomic Evaluation of Factual Precision in Long Form Text Generation", "year": 2023, "id": "arXiv:2305.14251", "first_author": "Min", "why": "checking atomic claims against a source"},
+  {"title": "Fact or Fiction: Verifying Scientific Claims", "year": 2020, "id": "arXiv:2004.14974", "first_author": "Wadden", "why": "scientific claim verification (SciFact)"},
+  {"title": "TabFact: A Large-scale Dataset for Table-based Fact Verification", "year": 2019, "id": "arXiv:1909.02164", "first_author": "Chen", "why": "claims grounded in tables"},
+  {"title": "G-Eval: NLG Evaluation using GPT-4 with Better Human Alignment", "year": 2023, "id": "arXiv:2303.16634", "first_author": "Liu", "why": "a widely used LLM-judge method"}
+ ]
+}

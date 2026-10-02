@@ -6,6 +6,10 @@ from __future__ import annotations
 # docs/04): the loop asks few, and Jev missed 4 of 39 loop-gate test items. `vera.judge.cheap_path` routes on the
 # prefix, so a new loop question cannot reach Jev by being left out of this set.
 LOOP_PREFIX = "loop."
+# The literature stage's questions (Increment 3). Until the claim-support benchmark has dev results (SPEC, "Synthesis"),
+# no `lit.*` question reaches Jev: they go straight to GLM like the loop's, the safe default for judgments nobody has
+# measured the cheap path on. The routing is then chosen on dev only.
+LIT_PREFIX = "lit."
 LOOP_QUESTION_IDS: frozenset[str] = frozenset(
     {
         "loop.baseline_reproduced",  # Boolean: do the reproduced numbers match the reference within tolerance?

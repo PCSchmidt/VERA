@@ -35,6 +35,11 @@ PRODUCERS = {
     "subset_exp": "p3.subset_exp",
     "write_up": "p3.write_up",
     "audit": "p1.audit",
+    "scope": "p3.scope",
+    "retrieve": "p3.retrieve",
+    "read": "p3.read",
+    "synthesize": "p3.synthesize",
+    "parent": "p3.parent",
 }
 MAX_ATTEMPTS = 2  # an experiment script gets one retry with the error message
 MIN_IDEA_SCORE = 3
@@ -151,7 +156,7 @@ def run_harness(deps: LoopDeps, name: str, method_source: str | None) -> tuple[d
 
 
 def ask_gate(
-    deps: LoopDeps, stage: str, question: Question, material: str, shadow: Any, state: dict, producer: str | None = None
+    deps: Any, stage: str, question: Question, material: str, shadow: Any, state: dict, producer: str | None = None
 ) -> tuple[Verdict, bool]:
     """Ask the judge one question about `material`. Returns (verdict, confident).
 
@@ -179,7 +184,7 @@ def ask_gate(
 
 
 def stage_result(
-    deps: LoopDeps, stage: str, artifact: str, gates: Verdict | list[Verdict], decision: str, metrics: dict,
+    deps: Any, stage: str, artifact: str, gates: Verdict | list[Verdict], decision: str, metrics: dict,
     deciding: list[int] | None = None, reason: str | None = None,
 ) -> dict:
     """The stage's record: every verdict it asked, and for a reject the ones (or the reason) that caused it.

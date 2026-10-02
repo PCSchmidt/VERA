@@ -1,0 +1,21 @@
+{
+ "id": "tree-explain",
+ "text": "Explainability of tree ensembles under correlated features",
+ "path": "empirical_with_harness",
+ "path_note": "Empirical, and the loop already has a harness and sandbox image for a parent problem on this topic (TreeHFD, arXiv 2510.24815). This is the topic carried through the Increment 2 loop end to end. ConOps S4's own example.",
+ "good_question": "One specific question about whether or how a decomposition or attribution method for tree ensembles stays accurate or stable when features are correlated, small enough to test on public tabular datasets in minutes on a CPU.",
+ "status": "draft, proposed by the agent; to be approved or edited by Chris at the topics_chosen gate",
+ "key_papers_note": "Identifiers checked by looking up each arXiv id (arXiv API) and DOI (Crossref DOI endpoint) for its title, first author and year on 2026-10-02. This is a metadata check of the listed papers, not a topic search; no query built from the topic or its question has been run.",
+ "key_papers": [
+  {"title": "Tree Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm", "year": 2025, "id": "arXiv:2510.24815", "first_author": "Benard", "why": "the parent problem; the method and its baseline"},
+  {"title": "Explainable AI for Trees: From Local Explanations to Global Understanding", "year": 2019, "id": "arXiv:1905.04610", "first_author": "Lundberg", "why": "TreeSHAP, the standard tree explainer"},
+  {"title": "A Unified Approach to Interpreting Model Predictions", "year": 2017, "id": "arXiv:1705.07874", "first_author": "Lundberg", "why": "SHAP, the attribution framework"},
+  {"title": "Explaining individual predictions when features are dependent: More accurate approximations to Shapley values", "year": 2019, "id": "arXiv:1903.10464", "first_author": "Aas", "why": "attribution under dependent features"},
+  {"title": "Purifying Interaction Effects with the Functional ANOVA: An Efficient Algorithm for Recovering Identifiable Additive Models", "year": 2019, "id": "arXiv:1911.04974", "first_author": "Lengerich", "why": "functional ANOVA for tree-based additive models"},
+  {"title": "SHAFF: Fast and consistent SHApley eFfect estimates via random Forests", "year": 2021, "id": "arXiv:2105.11724", "first_author": "Benard", "why": "Shapley effects with dependent inputs, random forests"},
+  {"title": "Generalized Hoeffding-Sobol Decomposition for Dependent Variables - Application to Sensitivity Analysis", "year": 2011, "id": "arXiv:1112.1788", "first_author": "Chastaing", "why": "the decomposition for dependent inputs that TreeHFD builds on"},
+  {"title": "Generalized Functional ANOVA Diagnostics for High-Dimensional Functions of Dependent Variables", "year": 2007, "id": "doi:10.1198/106186007X237892", "first_author": "Hooker", "why": "functional ANOVA with dependent variables"},
+  {"title": "Predictive learning via rule ensembles", "year": 2008, "id": "doi:10.1214/07-AOAS148", "first_author": "Friedman", "why": "the H-statistic for interaction strength in tree ensembles"},
+  {"title": "Exact Functional ANOVA Decomposition for Categorical Inputs Models", "year": 2026, "id": "arXiv:2603.02673", "first_author": "Ferrere", "why": "the most recent related decomposition work (also a corpus parent)"}
+ ]
+}

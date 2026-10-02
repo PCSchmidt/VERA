@@ -98,7 +98,7 @@ class OutputGuidance(BaseModel):
 
 class RunSpec(BaseModel):
     run_id: str  # filename-safe; names the run's ledger and checkpoint files
-    problem: ProblemSpec
+    problem: ProblemSpec | None = None  # none until a parent problem is chosen (a topic run, Increment 3)
     guidance: OutputGuidance
     budget: Budget
     models: dict[str, str] = {}  # stage -> backend name
@@ -113,6 +113,8 @@ class RunSpec(BaseModel):
 
     @model_validator(mode="after")
     def _checks(self) -> RunSpec:
+        if self.problem is None and self.topic is None:
+            raise ValueError("a run needs a problem, a topic, or both")
         b = self.budget
         if b.max_usd <= 0:
             raise ValueError("budget.max_usd must be positive")

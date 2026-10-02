@@ -1,0 +1,19 @@
+{
+ "id": "credal-dro",
+ "text": "Decision making under distributional ambiguity with credal ambiguity sets",
+ "path": "empirical_without_harness",
+ "path_note": "Empirical, CPU-scale (the Increment 0 fallback problem: runtimes of seconds per replication), but the loop has no harness or sandbox image for it. This topic tests whether the literature stage can find a CPU-scale parent problem with public code, or say why none fits (RSH-F-10), and feeds trade T10.",
+ "good_question": "One specific question about how ambiguity sets for distributionally robust decisions (credal, moment-based or Wasserstein) compare or hold up under contamination or small samples, small enough to test with a convex solver on a laptop CPU.",
+ "status": "draft, proposed by the agent; to be approved or edited by Chris at the topics_chosen gate",
+ "key_papers_note": "Identifiers checked by looking up each arXiv id (arXiv API) and DOI (Crossref DOI endpoint) for its title, first author and year on 2026-10-02. This is a metadata check of the listed papers, not a topic search; no query built from the topic or its question has been run.",
+ "key_papers": [
+  {"title": "Bulk-Calibrated Credal Ambiguity Sets: Fast, Tractable Decision Making under Out-of-Sample Contamination", "year": 2026, "id": "arXiv:2601.21324", "first_author": "Chen", "why": "the candidate parent (code public, CPU, in the corpus inventory)"},
+  {"title": "Data-driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations", "year": 2015, "id": "arXiv:1505.05116", "first_author": "Mohajerin Esfahani", "why": "Wasserstein ambiguity sets"},
+  {"title": "Quantifying Distributional Model Risk via Optimal Transport", "year": 2016, "id": "arXiv:1604.01446", "first_author": "Blanchet", "why": "optimal-transport ambiguity and model risk"},
+  {"title": "Learning Models with Uniform Performance via Distributionally Robust Optimization", "year": 2018, "id": "arXiv:1810.08750", "first_author": "Duchi", "why": "DRO for learning with f-divergence sets"},
+  {"title": "Certifying Some Distributional Robustness with Principled Adversarial Training", "year": 2017, "id": "arXiv:1710.10571", "first_author": "Sinha", "why": "tractable Wasserstein-robust training"},
+  {"title": "Aleatoric and Epistemic Uncertainty in Machine Learning: An Introduction to Concepts and Methods", "year": 2019, "id": "arXiv:1910.09457", "first_author": "Hullermeier", "why": "credal and imprecise-probability uncertainty in ML"},
+  {"title": "Robust Solutions of Optimization Problems Affected by Uncertain Probabilities", "year": 2013, "id": "doi:10.1287/mnsc.1120.1641", "first_author": "Ben-Tal", "why": "phi-divergence ambiguity sets"},
+  {"title": "Distributionally Robust Optimization Under Moment Uncertainty with Application to Data-Driven Problems", "year": 2010, "id": "doi:10.1287/opre.1090.0741", "first_author": "Delage", "why": "moment-based ambiguity sets"}
+ ]
+}

@@ -244,7 +244,8 @@ class LiteratureSection(BaseModel):
     sources: list[SourceRecord]
 ```
 
-`RunSpec.topic: Topic | None = None` is set when a run starts from a topic.
+`RunSpec.topic: Topic | None = None` is set when a run starts from a topic; a `RunSpec` needs a
+`problem`, a `topic`, or both (a literature-only run has no problem).
 
 ### Run specification (RSH-F-01)
 
@@ -268,7 +269,7 @@ class OutputGuidance(BaseModel):
 
 class RunSpec(BaseModel):
     run_id: str  # filename-safe; names the run's ledger and checkpoint files
-    problem: ProblemSpec
+    problem: ProblemSpec | None = None  # none until a parent problem is chosen (topic runs, 0.9)
     guidance: OutputGuidance
     budget: Budget  # spent counters start at zero
     models: dict[str, str] = {}  # stage -> backend name; stage names as in StageResult.stage

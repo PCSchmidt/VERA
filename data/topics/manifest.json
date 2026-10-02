@@ -1,0 +1,24 @@
+{
+ "recorded_at": "2026-10-02T16:50:50Z",
+ "note": "Fixed before the first retrieval for these topics (SPEC 'Topics and key papers').",
+ "topics": {
+  "credal-dro": {
+   "file": "credal-dro.json",
+   "sha256": "544b7eb6ca41bac3a0724066a15422ec2dd0fd968ff9dba8d5def31d9580104e",
+   "path": "empirical_without_harness",
+   "n_key_papers": 8
+  },
+  "llm-judge-numbers": {
+   "file": "llm-judge-numbers.json",
+   "sha256": "7eb1a5d725ced5bb6c4fc82feb8205c7cbbf74559278f4f55a3d5479bef25794",
+   "path": "non_empirical",
+   "n_key_papers": 10
+  },
+  "tree-explain": {
+   "file": "tree-explain.json",
+   "sha256": "fb260373311573b08c3d4c7588dcfba051511d41b03c96e6f049e0339c6e15b7",
+   "path": "empirical_with_harness",
+   "n_key_papers": 10
+  }
+ }
+}

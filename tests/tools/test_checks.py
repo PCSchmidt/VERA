@@ -641,3 +641,95 @@ def test_dogfood_check_ignores_zero_hour_entries_and_flags_early_ones(tmp_path: 
     dogfood_fixture(tmp_path, [("2026-10-01T15:00:00Z", 1.5), ("2026-10-02T12:00:00Z", 1.0)])
     result = run("check_dogfood.py", tmp_path)
     assert result.returncode == 0 and "1 recorded before the increment opened" in result.stdout
+
+
+# ── topics_chosen ─────────────────────────────────────────────────────────────
+
+TOPIC_PATHS = ("empirical_with_harness", "empirical_without_harness", "non_empirical")
+
+
+def topics_fixture(root: Path, *, n_papers: int = 6, paths: tuple = TOPIC_PATHS, tamper: bool = False,
+                   retrieved_on: str | None = None) -> None:  # fmt: skip
+    entries = {}
+    for i, path in enumerate(paths):
+        tid = f"topic{i}"
+        info = {"id": tid, "text": "t", "path": path, "good_question": "q",
+                "key_papers": [{"title": f"p{k}", "year": 2020, "id": f"arXiv:2001.{k:05d}"} for k in range(n_papers)]}
+        body = json.dumps(info)
+        write(root, f"data/topics/{tid}.json", body)
+        entries[tid] = {"file": f"{tid}.json", "sha256": hashlib.sha256(body.encode()).hexdigest(), "path": path,
+                        "n_key_papers": n_papers}  # fmt: skip
+        if retrieved_on:
+            record = json.dumps({"key": "R1", "retrieved": retrieved_on})
+            write(root, f"data/retrieval/{tid}/retrieved.jsonl", record + "\n")
+    manifest = {"recorded_at": "2026-10-03T10:00:00Z", "topics": entries}
+    write(root, "data/topics/manifest.json", json.dumps(manifest))
+    if tamper:
+        write(root, "data/topics/topic0.json", json.dumps({"id": "topic0", "edited": True}))
+
+
+def test_topics_check_passes_three_hashed_topics(tmp_path: Path) -> None:
+    topics_fixture(tmp_path)
+    result = run("check_topics.py", tmp_path)
+    assert result.returncode == 0, result.stderr
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"n_papers": 5}, "need at least 6"),
+        ({"paths": ("empirical_with_harness", "empirical_with_harness", "non_empirical")}, "need exactly"),
+        ({"tamper": True}, "changed since the manifest"),
+        ({"retrieved_on": "2026-10-01"}, "before the manifest"),
+    ],
+)
+def test_topics_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> None:
+    topics_fixture(tmp_path, **kwargs)
+    result = run("check_topics.py", tmp_path)
+    assert result.returncode == 2 and message in result.stderr
+
+
+def test_topics_check_allows_retrieval_after_the_manifest(tmp_path: Path) -> None:
+    topics_fixture(tmp_path, retrieved_on="2026-10-04")
+    assert run("check_topics.py", tmp_path).returncode == 0
+
+
+# ── scoping_ready ─────────────────────────────────────────────────────────────
+
+
+def scoping_fixture(root: Path, *, status: str = "confirmed", scope_cost: float = 0.02, stray: bool = False,
+                    late_stray: bool = False, by: str | None = "Chris") -> None:  # fmt: skip
+    topics_fixture(root)
+    for i in range(3):
+        tid = f"topic{i}"
+        scoped = {"status": status, "confirmed_by": by, "confirmed_at": "2026-10-03T10:00:00Z",
+                  "run_id": f"scope-{tid}"}  # fmt: skip
+        write(root, f"data/topics/scope_{tid}.json", json.dumps(scoped))
+        rows = [("p3.scope", scope_cost, "2026-10-03T09:00:00Z"), ("p2.judge", 0.0001, "2026-10-03T09:00:05Z")]
+        if stray:
+            rows.append(("p3.retrieve", 0.01, "2026-10-03T09:30:00Z"))
+        if late_stray:
+            rows.append(("p3.retrieve", 1.0, "2026-10-03T11:00:00Z"))  # after the confirmation: allowed
+        lines = [json.dumps({"component": c, "cost_usd": cost, "timestamp": ts}) for c, cost, ts in rows]
+        write(root, f"data/ledger/run_scope-{tid}.jsonl", "\n".join(lines) + "\n")
+
+
+def test_scoping_check_passes_confirmed_topics_within_the_cap(tmp_path: Path) -> None:
+    scoping_fixture(tmp_path, status="edited", late_stray=True)
+    result = run("check_scoping.py", tmp_path)
+    assert result.returncode == 0 and "3 of 3 edited" in result.stdout, result.stderr
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [
+        ({"status": "proposed"}, "not confirmed"),
+        ({"by": None}, "not confirmed"),
+        ({"scope_cost": 0.5}, "over the $0.25 cap"),
+        ({"stray": True}, "other than scoping"),
+    ],
+)
+def test_scoping_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> None:
+    scoping_fixture(tmp_path, **kwargs)
+    result = run("check_scoping.py", tmp_path)
+    assert result.returncode == 2 and message in result.stderr
