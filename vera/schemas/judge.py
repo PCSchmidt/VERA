@@ -79,7 +79,7 @@ class BenchmarkItem(BaseModel):
     """One labelled judge-benchmark item; the label is known from how the item was built (risk R3)."""
 
     id: str  # stable, e.g. "cite-0042"
-    task: Literal["loop_gate", "numeric", "citation"]
+    task: Literal["loop_gate", "numeric", "citation", "claim_support"]
     split: Literal["dev", "test"]  # dev = tuning; test = reporting only (docs/06 §5)
     question: Question
     state: str  # the material the judge sees

@@ -69,7 +69,7 @@ Rule: a `Verdict` whose `judge_id == producer_id` is invalid and must raise.
 ```python
 class BenchmarkItem(BaseModel):
     id: str  # stable, e.g. "cite-0042"
-    task: Literal["loop_gate", "numeric", "citation"]
+    task: Literal["loop_gate", "numeric", "citation", "claim_support"]
     split: Literal["dev", "test"]  # dev = tuning; test = reporting only (docs/06 §5)
     question: Question
     state: str  # the material the judge sees
@@ -309,7 +309,8 @@ different artifact producer (`gate.producer_id` set and `!= producer_id`). The
   providers at different prices, so per-provider cost and quality could not be
   separated (Increment 1 open item). `RunSpec`, `ProblemSpec` and `OutputGuidance`
   added for the research loop's inputs (RSH-F-01, Increment 2).
-- 0.9 — Literature stage types (`Topic`, `ScopedQuestion`, `SourceRecord`,
+- 0.9 — `BenchmarkItem.task` gains `"claim_support"` (the literature stage's `lit.claim_supported`
+  benchmark). Literature stage types (`Topic`, `ScopedQuestion`, `SourceRecord`,
   `ClaimLink`, `LiteratureSection`, `RunSpec.topic`) and new stage names.
   `StageResult.gate` becomes `gates` plus `deciding_gates` and `reason`: the
   Increment 2 experiments stage asked four "beats baseline?" questions but

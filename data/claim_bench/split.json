@@ -1,0 +1,27 @@
+{
+ "seed": 20261006,
+ "rule": "by topic: dev = credal-dro, test = the other topics",
+ "n_items": 129,
+ "n_test": 85,
+ "n_dev": 44,
+ "by_kind": {
+  "supported": 42,
+  "other_paper": 42,
+  "other_passage": 29,
+  "altered_number": 5,
+  "reversed": 11
+ },
+ "by_split_label": {
+  "dev:True": 14,
+  "dev:False": 30,
+  "test:True": 28,
+  "test:False": 57
+ },
+ "by_topic": {
+  "credal-dro": 44,
+  "llm-judge-numbers": 43,
+  "tree-explain": 42
+ },
+ "test_sha256": "24dab53233767b8e213d0b03b3255f5af6ae05a986a44cce1682467e293f5a2d",
+ "note": "fixed before any backend ran on a test item (docs/06 section 5)"
+}

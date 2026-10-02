@@ -6,6 +6,9 @@ data/cache/
 # (ids + test SHA-256) and label checks are committed, and scripts/build_benchmark.py rebuilds the items
 data/benchmark/items.jsonl
 data/benchmark/label_check_sheet.md
+data/claim_bench/items.jsonl
+data/claim_bench/label_check_sheet.csv
+data/claim_bench/raw/
 
 # Secrets
 .env
