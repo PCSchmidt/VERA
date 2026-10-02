@@ -433,11 +433,33 @@ reason). A failure does not block the gate; it opens T1 or the routing again in
 the review.
 **Gate:** `judge_retest_3` (requires `topic_runs`).
 
+## Product bar and quality rubric (set 2026-10-03, before the topic runs)
+
+The goal is **very good research on whatever topic is requested**, not novel research:
+the standard is a careful analyst's week of work. The audit is the safeguard that the
+report is not fabricated; it does not say the report is good, so quality has its own
+measure. Each topic's output (the literature section, and for the empirical topic the
+paper) is scored 1-5 on five criteria, written down here before any topic run:
+
+1. **Answers the scoped question** directly, in the form the user confirmed.
+2. **Coverage**: the key papers and the main positions are present; omissions are named.
+3. **Correctness**: claims match their sources and the run's numbers (the audit's findings
+   count against this, as do errors the audit missed and a reader finds).
+4. **Reproducibility**: an empirical result comes with code, seeds and the command that
+   regenerates it; a review comes with its retrieval log.
+5. **Honesty about limits**: what the report could not establish, and the weak points of
+   the retrieval and the checks, are stated.
+
+Chris scores the outputs; the Evaluator subagent scores the same documents independently,
+and both sets are kept unedited next to the cost-per-topic table in the review. A score
+below 3 on any criterion is reported as a finding, not repaired by editing the document.
+Novelty is not scored and no check for it is built: the loop is not claimed to discover.
+
 ## Increment 3 review
 
 Write `docs/reviews/incr-3.md` against the docs/07 exit criteria: three topics taken
 to a scoped question and a literature section with verified citations; cost per
-topic measured; one topic carried through the Increment 2 loop end to end. Also:
+topic measured; one topic carried through the Increment 2 loop end to end; each topic output scored on the product-bar rubric by Chris and by the Evaluator. Also:
 what the literature stage got right and wrong (recall of key papers, the claims
 repaired or removed, the topics Chris edited, where the audit missed); the
 seeded-fault results with the frozen-code rule kept or broken; the claim-support
