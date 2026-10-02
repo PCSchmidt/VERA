@@ -359,3 +359,13 @@ gates:
     hooks:
       pre:
         - gate-loop-run.sh          # a runs/loop-* attempt: all stages through the audit, ledger = spend, within $3 / 2 h
+
+  - id: judge_retest
+    label: "Judge re-tested on the loop's real gate decisions (T1 reverse-if 1)"
+    type: automated
+    required: true
+    requires:
+      - loop_run
+    hooks:
+      pre:
+        - gate-retest.sh            # >= 100 items, test hash unchanged, results with intervals, reference spend <= $1; a failed agreement does not block

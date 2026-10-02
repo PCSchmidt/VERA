@@ -1,0 +1,24 @@
+{
+ "items": 131,
+ "test_items": 77,
+ "dev_items": 54,
+ "test_sha256": "e7c58375e89564ea34d4f081c520553e309b99eca93f709e48d2a62814844e98",
+ "coverage": {
+  "records": 168,
+  "excluded_no_shadow_answer": 77,
+  "excluded_older_question_wording": 17,
+  "duplicates_merged": 3,
+  "distinct_real_items": 71,
+  "runs_used": 26,
+  "perturbed_items": 60,
+  "items": 131,
+  "by_origin_kind": {
+   "perturbed:loop.beats_baseline": 43,
+   "perturbed:loop.best_method": 17,
+   "real:loop.baseline_reproduced": 1,
+   "real:loop.beats_baseline": 56,
+   "real:loop.guidance_met": 14
+  }
+ },
+ "note": "fixed before any backend was run on a test item (docs/06 section 5)"
+}

@@ -36,6 +36,7 @@ data/ledger/*
 !data/ledger/run_seeded-*.jsonl
 !data/ledger/run_gen-*.jsonl
 !data/ledger/run_loop-*.jsonl
+!data/ledger/run_retest-*.jsonl
 !data/ledger/run_reaudit-*.jsonl
 !data/ledger/run_seeded-bases-*.jsonl
 
