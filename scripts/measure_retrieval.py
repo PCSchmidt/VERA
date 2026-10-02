@@ -55,7 +55,7 @@ def indexed(client: httpx.Client, key_paper: dict) -> bool:
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--seed", type=int, default=20261005)
-    ap.add_argument("--snapshot", metavar="LABEL", help="copy each run's retrieval files to data/retrieval/<id>/<LABEL>/")
+    ap.add_argument("--snapshot", metavar="LABEL", help="copy each run's retrieval files to data/retrieval/<id>/LABEL")
     ap.add_argument("--label", help="measure a snapshot (see --snapshot) instead of the run: recall only, no sheet")
     args = ap.parse_args()
     manifest = json.loads((TOPICS / "manifest.json").read_text(encoding="utf-8"))["topics"]

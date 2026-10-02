@@ -108,7 +108,7 @@ def screen_node(deps: LitDeps) -> Callable[[dict], dict]:
         kept, unsure = [], []
         for rec in records:
             q, material = questions.relevant(question_text, rec)
-            h = hashlib.sha1(f"{rec['key']}|{material}".encode()).hexdigest()[:16]
+            h = hashlib.sha1(f"{rec['key']}|{q.text}|{material}".encode()).hexdigest()[:16]
             if h in done:
                 v = Verdict.model_validate(done[h]["verdict"])
                 confident = done[h]["confident"]

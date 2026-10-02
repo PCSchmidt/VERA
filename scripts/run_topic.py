@@ -23,7 +23,7 @@ from vera.judge.cheap_path import cheap_path
 from vera.keepawake import keep_awake
 from vera.ledger import Ledger
 from vera.literature.deps import LitDeps
-from vera.literature.graph import STAGE_NODES, continue_topic_run, start_topic_run
+from vera.literature.graph import STAGE_NODES, continue_topic_run, rerun_from, start_topic_run
 from vera.literature.reading import GrobidParser, ParseCache, PdfFetcher
 from vera.literature.retrieval import HttpCache, Retriever
 from vera.schemas import Budget, OutputGuidance, RunSpec, Topic
@@ -42,12 +42,13 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--topic", required=True, help="id of data/topics/<id>.json")
     ap.add_argument("--run-id", required=True)
-    ap.add_argument("--phase", choices=["start", "continue"], required=True)
+    ap.add_argument("--phase", choices=["start", "continue", "rerun"], required=True)
+    ap.add_argument("--from-node", default="queries", help="with --phase rerun: the node to run again from")
     ap.add_argument("--max-usd", type=float, default=2.0)
     ap.add_argument("--scope-cap", type=float, default=0.25)
     ap.add_argument("--max-wall", type=int, default=7200)
     ap.add_argument("--max-tokens", type=int, default=8000)
-    ap.add_argument("--openalex", action="store_true", help="also query OpenAlex (your own OPENALEX_API_KEY)")
+    ap.add_argument("--keyless", action="store_true", help="Crossref and arXiv only, even if OPENALEX_API_KEY is set")
     args = ap.parse_args()
 
     topic_file = ROOT / "data" / "topics" / f"{args.topic}.json"
@@ -58,7 +59,7 @@ def main() -> None:
     spec = RunSpec(run_id=args.run_id, topic=topic, guidance=GUIDANCE,
                    budget=Budget(max_usd=args.max_usd, max_wall_seconds=args.max_wall),
                    models={"scope": GENERATOR[0]})  # fmt: skip
-    ledger = Ledger.for_run(args.run_id, root=ROOT / "data" / "ledger", resume=args.phase == "continue")
+    ledger = Ledger.for_run(args.run_id, root=ROOT / "data" / "ledger", resume=args.phase != "start")
     budget = spec.budget.model_copy()
     generator = OpenRouterGenerator(
         GENERATOR[0], GENERATOR[1], ledger=ledger, budget=budget, max_tokens=args.max_tokens, reasoning=REASONING
@@ -67,7 +68,7 @@ def main() -> None:
         spec=spec, generator=generator, judge=cheap_path(ledger=ledger, budget=budget), budget=budget,
         run_dir=ROOT / "runs" / args.run_id, ledger=ledger, scope_cap_usd=args.scope_cap,
     )  # fmt: skip
-    sources = None if args.openalex else ["crossref", "arxiv"]  # T5: the keyless pair, on which recall is measured
+    sources = ["crossref", "arxiv"] if args.keyless else None  # T5: OpenAlex (your own key) is the primary when set
     deps.extra["retriever"] = Retriever(cache=HttpCache(ROOT / "data" / "cache" / "http"), sources=sources)
     cache = ROOT / "data" / "cache"
     deps.extra["fetch_pdf"] = PdfFetcher(cache / "pdf")  # paced and cached (arXiv asks for 1 request per 3 s)
@@ -76,6 +77,8 @@ def main() -> None:
     with keep_awake():
         if args.phase == "start":
             state = start_topic_run(deps, extra_nodes=STAGE_NODES)
+        elif args.phase == "rerun":
+            state = rerun_from(deps, args.from_node, extra_nodes=STAGE_NODES)
         else:
             state = continue_topic_run(deps, extra_nodes=STAGE_NODES)
     stop = state.get("stop")

@@ -44,6 +44,27 @@ def relevant(question: str, record: dict) -> tuple[Question, str]:
     return Question(id="lit.relevant", type=QuestionType.BOOLEAN, text=text), material
 
 
+def claim_supported(claim: str, passage: dict, title: str) -> tuple[Question, str]:
+    """(question, material): does the passage support the claim as written? The judge sees the claim and the passage."""
+    material = f"Claim: {claim}\n\nPassage (from \"{title}\", {passage['locator']}): {passage['text']}"
+    text = (
+        "Does the passage support the claim as written? Answer true only if the passage states, or clearly implies, "
+        "what the claim says, including its direction, any numbers and any qualifiers. Answer false if the passage is "
+        "about something else, says the opposite, or the claim goes beyond what the passage says."
+    )
+    return Question(id="lit.claim_supported", type=QuestionType.BOOLEAN, text=text), material
+
+
+def section_answers(question: str, text: str) -> tuple[Question, str]:
+    """(question, material): does the verified section address the research question?"""
+    material = f"Research question: {question}\n\nLiterature section:\n{text}"
+    q = (
+        "Does this literature section address the research question, saying what the cited sources establish and what "
+        "they leave open, rather than drifting to a different topic? Answer false if it mostly does not."
+    )
+    return Question(id="lit.section_answers", type=QuestionType.BOOLEAN, text=q), material
+
+
 def evidence_sufficient(question: str, papers: list[dict]) -> tuple[Question, str]:
     """(question, material): is the evidence gathered enough to write a literature section on the question?
 

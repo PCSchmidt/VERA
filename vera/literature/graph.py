@@ -18,7 +18,7 @@ from typing import Annotated, Any, TypedDict
 from langgraph.graph import END, START, StateGraph
 
 from vera.graph import resume, run, run_config, sqlite_checkpointer
-from vera.literature import scoping, stages
+from vera.literature import scoping, stages, synthesis_stage
 from vera.literature.deps import LitDeps
 from vera.loop.graph import restore_budget, tracked
 from vera.loop.stages import _merge
@@ -39,6 +39,8 @@ STAGE_NODES: list[tuple[str, str, NodeFactory]] = [
     ("screen", "retrieve", stages.screen_node),
     ("read", "read", stages.read_node),
     ("read_gate", "read", stages.read_gate_node),
+    ("synthesize", "synthesize", synthesis_stage.synthesize_node),
+    ("verify", "synthesize", synthesis_stage.verify_node),
 ]
 AWAITING = "awaiting confirmation: run scripts/confirm_scope.py, then continue the run"
 
@@ -49,6 +51,8 @@ class LitState(TypedDict, total=False):
     records: list  # keys of the retrieved candidates, best ranked first
     kept: list  # keys that passed the relevance screen
     passages: int  # evidence passages written to passages.jsonl
+    draft: list  # the drafted section: paragraphs of sentences with claims
+    section: dict  # the verified LiteratureSection
     read_report: list  # per paper: how it was read (full text or abstract), and why not when it was not
     artifacts: Annotated[dict, _merge]
     verdicts: Annotated[dict, _merge]
@@ -102,5 +106,24 @@ def continue_topic_run(deps: LitDeps, *, extra_nodes: list[tuple[str, str, NodeF
     deps.budget.max_usd = deps.spec.budget.max_usd
     restore_budget(deps, graph.get_state(run_config(thread)).values.get("budget"))
     state = resume(graph, thread)
+    write_best_so_far(state, deps.spec, deps.budget, deps.run_dir / "best_so_far.json")
+    return state
+
+
+def rerun_from(deps: LitDeps, node: str, *, extra_nodes: list[tuple[str, str, NodeFactory]] = ()) -> dict:
+    """Run again from the checkpoint just before `node`, in the same run: the same directory, ledger and budget, so the
+    earlier attempt's verdicts and spend stay on record (`gates.jsonl` and the ledger only ever grow). Use it when a
+    stage's code has changed after a stop (retrieval v2); `scoped question confirmed` is kept, not asked again."""
+    scoped = scoping.read_scope(deps.run_dir)
+    if scoped is None or scoped.status == "proposed":
+        raise scoping.ScopeNotConfirmedError("the scoped question has not been confirmed (scripts/confirm_scope.py)")
+    graph = _graph(deps, extra_nodes)
+    thread = deps.spec.run_id
+    target = next((s for s in graph.get_state_history(run_config(thread)) if tuple(s.next) == (node,)), None)
+    if target is None:
+        raise LookupError(f"no checkpoint of run {thread!r} stands just before node {node!r}")
+    deps.budget.max_usd = deps.spec.budget.max_usd
+    restore_budget(deps, target.values.get("budget"))
+    state = graph.invoke(None, target.config, durability="sync")
     write_best_so_far(state, deps.spec, deps.budget, deps.run_dir / "best_so_far.json")
     return state

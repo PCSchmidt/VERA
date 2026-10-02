@@ -28,6 +28,10 @@ import httpx
 from vera.audit.bibliography import ATOM, PAUSE, USER_AGENT, LookupUnavailable, normalise
 from vera.backends import api_key
 
+# v1 returned figure and table captions and dataset components from Crossref; v2 asks for papers only
+OPENALEX_FIELDS = "id,doi,title,publication_year,authorships,abstract_inverted_index,best_oa_location"
+PAPER_TYPES = ("journal-article", "proceedings-article", "posted-content", "book-chapter", "report")
+CROSSREF_TYPES = ",".join(f"type:{t}" for t in PAPER_TYPES)
 TITLE_MATCH = 0.90  # normalised-title similarity that counts as a key paper being found (the T5 rule)
 DEDUPE_MATCH = 0.97  # stricter for merging two search hits: "Part I" and "Part II" are different papers
 USER_AGENT_LIT = USER_AGENT.replace("citation existence checks", "literature retrieval")
@@ -102,8 +106,9 @@ def _openalex_records(text: str, query: str) -> list[dict]:
             "title": w.get("title") or "", "year": str(w.get("publication_year") or ""),
             "authors": [(a.get("author") or {}).get("display_name", "") for a in w.get("authorships", [])],
             "id": f"doi:{doi}" if doi else (w.get("id") or ""), "url": w.get("doi") or w.get("id") or "",
-            "abstract": " ".join(word for _, word in words) or None, "pdf_url": None, "source": "openalex",
-            "query": query, "rank": rank,
+            "abstract": " ".join(word for _, word in words) or None,
+            "pdf_url": (w.get("best_oa_location") or {}).get("pdf_url"), "source": "openalex",
+            "query": query, "rank": rank, "openalex_id": w.get("id"),
         })  # fmt: skip
     return out
 
@@ -117,10 +122,10 @@ class Retriever:
         self.client = client or httpx.Client(timeout=30, headers={"User-Agent": USER_AGENT_LIT})
         self.cache, self.per_query, self.pace = cache or HttpCache(None), per_query, pace
         self.sources = list(sources) if sources is not None else ["crossref", "arxiv"]
-        if sources is None:  # OpenAlex only with the user's own key (T5)
+        if sources is None:  # OpenAlex only with the user's own key (T5); with one it is the primary source (v2)
             try:
                 api_key("OPENALEX_API_KEY")
-                self.sources.append("openalex")
+                self.sources.insert(0, "openalex")
             except KeyError:
                 pass
         self._last: dict[str, float] = {}
@@ -161,11 +166,13 @@ class Retriever:
                     found += _arxiv_records(text, query)
                 elif source == "crossref":
                     text = self._request(source, "https://api.crossref.org/works",
-                                         {"query": query, "rows": n,
+                                         {"query": query, "rows": n, "filter": CROSSREF_TYPES,
                                           "select": "title,issued,DOI,author,container-title,abstract"})  # fmt: skip
                     found += _crossref_records(text, query)
                 else:
-                    params = {"search": query, "per-page": n, "api_key": api_key("OPENALEX_API_KEY")}
+                    params = {"search": query, "per-page": n, "api_key": api_key("OPENALEX_API_KEY"),
+                              "filter": "type:article|preprint",
+                              "select": OPENALEX_FIELDS}
                     text = self._request(source, "https://api.openalex.org/works", params)
                     found += _openalex_records(text, query)
             except (httpx.HTTPError, ET.ParseError, KeyError, ValueError) as exc:

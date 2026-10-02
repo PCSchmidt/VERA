@@ -15,6 +15,7 @@ from vera.literature.graph import STAGE_NODES, continue_topic_run, start_topic_r
 from vera.literature.retrieval import HttpCache, Retriever, merge_records, recall
 from vera.schemas import StageResult
 
+RETRIEVAL_NODES = STAGE_NODES[:3]  # queries, retrieve, screen: reading has its own tests
 KEYLESS = ["crossref", "arxiv"]  # whatever keys the machine has, the tests use the keyless pair
 ARXIV = """<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -141,12 +142,13 @@ WORDS = ["Boosting", "Forest", "Shapley", "Interaction", "Additive", "Variance",
 
 
 class FakeRetriever:
-    def __init__(self, n: int = 8) -> None:
-        self.n, self.queries = n, []
+    def __init__(self, n: int = 8, shift: int = 0) -> None:
+        self.n, self.shift, self.queries = n, shift, []
 
     def __call__(self, query: str) -> list[dict]:
         self.queries.append(query)
-        return [{"title": f"{WORDS[i % len(WORDS)]} approach to {query}", "authors": ["A. Author"], "year": "2024",
+        return [{"title": f"{WORDS[(i + self.shift) % len(WORDS)]} approach to {query}",
+                 "authors": ["A. Author"], "year": "2024",
                  "id": f"arXiv:2401.{i:05d}", "url": f"https://arxiv.org/abs/2401.{i:05d}",
                  "abstract": f"Abstract {i}.", "pdf_url": None, "source": "arxiv", "query": query, "rank": i + 1}
                 for i in range(self.n)]  # fmt: skip
@@ -158,9 +160,9 @@ def literature_run(tmp_path: Path, *, judge=None, retriever=None, replies=None):
     if judge is not None:
         deps.judge = judge(deps)
     deps.extra["retriever"] = retriever or FakeRetriever()
-    start_topic_run(deps, extra_nodes=STAGE_NODES)
+    start_topic_run(deps, extra_nodes=RETRIEVAL_NODES)
     scoping.confirm_scope(deps.run_dir, "Chris")
-    return deps, continue_topic_run(deps, extra_nodes=STAGE_NODES)
+    return deps, continue_topic_run(deps, extra_nodes=RETRIEVAL_NODES)
 
 
 def test_queries_are_parsed_deduplicated_and_capped() -> None:
@@ -217,11 +219,11 @@ def test_too_few_relevant_candidates_stop_the_stage(tmp_path: Path) -> None:
 def test_retrieval_needs_a_confirmed_question_and_usable_queries(tmp_path: Path) -> None:
     deps = make_lit_deps(tmp_path, replies={"p3.retrieve": "I have no queries."})
     deps.extra["retriever"] = FakeRetriever()
-    start_topic_run(deps, extra_nodes=STAGE_NODES)
+    start_topic_run(deps, extra_nodes=RETRIEVAL_NODES)
     with pytest.raises(scoping.ScopeNotConfirmedError):
         stages.queries_node(deps)({})  # nothing is retrieved for a question nobody confirmed
     scoping.confirm_scope(deps.run_dir, "Chris")
-    state = continue_topic_run(deps, extra_nodes=STAGE_NODES)
+    state = continue_topic_run(deps, extra_nodes=RETRIEVAL_NODES)
     assert "no usable search queries" in state["stop"]["reason"] and deps.extra["retriever"].queries == []
 
 
@@ -231,3 +233,86 @@ def test_no_source_answering_stops_the_stage(tmp_path: Path) -> None:
 
     deps, state = literature_run(tmp_path, retriever=down)
     assert state["stop"]["stage"] == "retrieve" and "no bibliographic source" in state["stop"]["reason"]
+
+
+# ── v2: papers only from Crossref, OpenAlex primary when the user has a key ─────────────────────────
+
+OPENALEX = {"results": [
+    {"id": "https://openalex.org/W1", "doi": "https://doi.org/10.1000/abc", "title": "TreeSHAP revisited",
+     "publication_year": 2022, "authorships": [{"author": {"display_name": "A. Author"}}],
+     "abstract_inverted_index": {"We": [0], "revisit": [1], "TreeSHAP": [2]},
+     "best_oa_location": {"pdf_url": "https://example.org/w1.pdf"}},
+    {"id": "https://openalex.org/W2", "doi": None, "title": "No open access here", "publication_year": 2020,
+     "authorships": [], "abstract_inverted_index": None, "best_oa_location": None},
+]}
+
+
+def test_crossref_is_asked_for_papers_only_and_the_request_says_so() -> None:
+    seen: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        return httpx.Response(200, text=ARXIV) if "arxiv" in request.url.host else httpx.Response(200, json=CROSSREF)
+
+    r = Retriever(httpx.Client(transport=httpx.MockTransport(handler)), pace=False, sources=KEYLESS)
+    r("tree explainability")
+    crossref = next(q for q in seen if "crossref" in q.url.host)
+    assert "type%3Ajournal-article" in str(crossref.url) and "type%3Aposted-content" in str(crossref.url)
+    assert "component" not in str(crossref.url)  # figure and table captions are not papers
+
+
+def test_openalex_records_carry_the_reconstructed_abstract_and_the_open_access_pdf(monkeypatch) -> None:
+    monkeypatch.setenv("OPENALEX_API_KEY", "secret-key-123")
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(200, json=OPENALEX)
+
+    r = Retriever(httpx.Client(transport=httpx.MockTransport(handler)), pace=False)
+    assert r.sources[0] == "openalex" and r.sources[1:] == ["crossref", "arxiv"]  # primary when the user has a key
+    found = [h for h in retrieval._openalex_records(json.dumps(OPENALEX), "q")]
+    assert found[0]["abstract"] == "We revisit TreeSHAP" and found[0]["pdf_url"] == "https://example.org/w1.pdf"
+    assert found[0]["id"] == "doi:10.1000/abc" and found[1]["abstract"] is None and found[1]["pdf_url"] is None
+
+
+def test_a_key_is_never_written_to_the_cache(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv("OPENALEX_API_KEY", "secret-key-123")
+    r = Retriever(httpx.Client(transport=httpx.MockTransport(lambda req: httpx.Response(200, json=OPENALEX))),
+                  cache=HttpCache(tmp_path), pace=False, sources=["openalex"])  # fmt: skip
+    r("tree explainability")
+    stored = " ".join(p.read_text(encoding="utf-8") for p in tmp_path.glob("*.json"))
+    assert stored and "secret-key-123" not in stored
+
+
+def test_without_a_key_the_sources_are_the_keyless_pair(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.delenv("OPENALEX_API_KEY", raising=False)
+    monkeypatch.setattr("vera.backends.ROOT", tmp_path)  # no .env there either
+    assert Retriever(pace=False).sources == ["crossref", "arxiv"]
+
+
+def test_a_stopped_stage_can_be_rerun_from_its_checkpoint_in_the_same_run(tmp_path: Path) -> None:
+    from vera.literature.graph import rerun_from  # noqa: PLC0415
+
+    class Fussy(LitJudge):  # says no to everything on the first pass
+        say = False
+
+        def ask(self, state, questions):
+            out = super().ask(state, questions)
+            if questions[0].id != "lit.relevant":
+                return out
+            return [v.model_copy(update={"answer": self.say}) for v in out]
+
+    deps, first = literature_run(tmp_path, judge=lambda d: Fussy(d.ledger, d.budget))
+    assert first["stop"]["stage"] == "retrieve"
+    spent_before, records_before = deps.budget.spent_usd, len(deps.ledger.records())
+    deps.judge.say = True  # the stage's code (here: the judge's answers) has changed
+    deps.extra["retriever"] = FakeRetriever(8, shift=4)  # a better retrieval: different candidates
+    second = rerun_from(deps, "queries", extra_nodes=RETRIEVAL_NODES)
+    assert not second.get("stop") and len(second["kept"]) == 8
+    assert len(deps.ledger.records()) > records_before and deps.budget.spent_usd > spent_before  # appended, not reset
+    gates = (deps.run_dir / "gates.jsonl").read_text(encoding="utf-8")
+    assert gates.count('"answer": false') >= 8 and gates.count('"answer": true') >= 9  # both attempts are on record
+    assert scoping.read_scope(deps.run_dir).status == "confirmed"  # the confirmation was kept, not asked again
+    import pytest  # noqa: PLC0415
+
+    with pytest.raises(LookupError):
+        rerun_from(deps, "no_such_node", extra_nodes=RETRIEVAL_NODES)
