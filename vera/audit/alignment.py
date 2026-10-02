@@ -47,14 +47,36 @@ def named_datasets(sentence: str, datasets: list[str]) -> list[str]:
     return [d for d in datasets if named(sentence, [d, tables.dataset_label(d)])]
 
 
-def cell_values(results_json: dict, methods: list[str], datasets: list[str]) -> set[float]:
-    """Means, stds, and the differences, percent changes and ratios against the baseline of the given cells."""
+IN_SAMPLE = re.compile(r"in[- ]sample|training", re.IGNORECASE)
+HELD_OUT = re.compile(r"held[- ]out|test set|out[- ]of[- ]sample", re.IGNORECASE)
+
+
+def metric_keys(sentence: str) -> set[str]:
+    """The metrics a sentence may be quoting. The write-ups report a held-out residual (the default), an in-sample
+    residual (when the sentence says in-sample or training) and the runtime, and the one thing wording settles is
+    which residual: a sentence that says "in-sample" quotes the in-sample column, any other sentence the held-out one.
+    Runtime is always allowed (a sentence on residuals and runtime may quote both)."""
+    keys = {"runtime_s"}
+    in_sample, held_out = bool(IN_SAMPLE.search(sentence)), bool(HELD_OUT.search(sentence))
+    if in_sample:
+        keys.add("residual_in_sample_pct")
+    if held_out or not in_sample:
+        keys.add("residual_mse_pct")
+    return keys
+
+
+def cell_values(results_json: dict, methods: list[str], datasets: list[str],
+                metrics: set[str] | None = None) -> set[float]:  # fmt: skip
+    """Means, stds, and the differences, percent changes and ratios against the baseline of the given cells (of the
+    given metrics, when the sentence's wording names them)."""
     results = results_json["results"]
     base = results.get(tables.BASELINE, {})
     out: set[float] = set()
     for method in methods:
         for d in datasets:
             for key, _ in metrics_of(results_json):
+                if metrics and key not in metrics:
+                    continue
                 cell = results[method][d][key]
                 out |= {cell["mean"], cell["std"]}
                 if method != tables.BASELINE and d in base:
@@ -93,7 +115,7 @@ def misplaced(
     allowed_methods = {*methods, tables.BASELINE}
     if not idea_methods(sentence, results):
         allowed_methods |= set(context or [])  # no idea named: the sentence is about the one under discussion
-    allowed = cell_values(results_json, sorted(allowed_methods & set(results)), ds)
+    allowed = cell_values(results_json, sorted(allowed_methods & set(results)), ds, metric_keys(sentence))
     bad = []
     for x in numbers:
         if significant_digits(x) < 3 or matches(x, allowed) or not matches(x, direct):

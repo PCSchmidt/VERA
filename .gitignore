@@ -7,6 +7,7 @@ data/cache/
 data/benchmark/items.jsonl
 data/benchmark/label_check_sheet.md
 data/claim_bench/items.jsonl
+data/seeded_v2/base/*/passages.jsonl
 data/claim_bench/label_check_sheet.csv
 data/claim_bench/raw/
 

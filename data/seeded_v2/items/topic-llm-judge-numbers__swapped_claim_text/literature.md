@@ -1,0 +1,25 @@
+## Literature review
+
+The passages contain few studies that directly measure LLM-judge agreement on numeric and table-grounded claims, so the evidence is partial and comes from adjacent settings. The clearest warning comes from financial documents, where a strict judge with access to ground truth still disagreed with graph-verified truth in some cases [R15]. Removing the ground truth made agreement far worse, since a blind judge reached a much higher disagreement rate [R15]. On the table side, the sources describe the task difficulty more than judge reliability. TabFact combines two kinds of reasoning, linguistic and symbolic [R15]. Errors concentrated in the task types that resemble multi-step numeric claims [R15].
+
+A different picture appears for extractive QA with context. There, judge scores correlated strongly with human evaluations, and the authors report that judging was strong on number-related answers [R46]. The same study found that zero-shot, context-free judging often performed best, which sits oddly beside the financial finding that source access matters [R46]. The two results are not directly comparable, because the QA study compares a predicted answer against a gold answer, whereas the financial study asks judges to assess answers to structured retrieval questions. The sources do not test whether this difference explains the divergence. The QA study also notes that its human evaluation was limited in scale [R46].
+
+Seeing the source document did not rescue the judge: a grounded judge with the full source but no ground truth approved wrong answers often [R14]. Its program-based method executes parsed statements against the table, which is a form of programmatic recomputation [R14]. FEVEROUS reports that a substantial number of its claims require numerical reasoning, with "for about 10% of claims numerical reasoning was selected as the main verification challenge" [R6]. These are not judge studies, and neither reports judge agreement.
+
+Few-shot chain-of-thought prompting has been evaluated for table reasoning, with human inspection of the reasoning chains [R23]. That result concerns models answering table questions, not judging others' answers, so it does not establish that step-by-step judging is reliable on table claims. In legal QA, enabling step-by-step reasoning helped, and supplying an authoritative reference reduced dangerous acceptances [R20]. Those findings are not about numeric claims specifically.
+
+Methodological sources caution about how agreement is measured. Label-free reliability statistics cannot isolate the judge [R43]. A multi-judge study found notable disagreement among judges, although on a very small sample [R25]. A survey notes that explanation before or after rating gave higher correlations with human ratings, but this is for general evaluation, not numeric claims [R37].
+
+Overall, the passages support only a cautious conclusion: judge reliability appears to degrade on multi-hop, exact-recall and threshold items, and having the source in context did not guarantee reliability in one financial study. What is not established is whether tool use or recomputation steps improve judge agreement on arithmetic claims, how judges perform on table-grounded claims specifically, and how results vary by judge model. No passage tests these conditions in a controlled comparison.
+
+## References
+
+[R6] Rami Aly, Zhijiang Guo, Michael Schlichtkrull et al.. FEVEROUS: Fact Extraction and VERification Over Unstructured and Structured information. 2021. doi:10.48550/arxiv.2106.05707. https://doi.org/10.48550/arxiv.2106.05707
+[R14] Wenhu Chen, Hongmin Wang, Jianshu Chen et al.. TabFact: A Large-scale Dataset for Table-based Fact Verification. 2019. arXiv:1909.02164. https://arxiv.org/abs/1909.02164
+[R15] Agus Sudjianto, Wingyan Lau. When the Judge is Wrong: Measuring LLM-as-Judge Reliability Against Graph-Verified Ground Truth in Financial Documents. 2026. doi:10.2139/ssrn.6482162. https://doi.org/10.2139/ssrn.6482162
+[R20] David Beauchemin, Richard Khoury. Can LLMs Judge Legal Accuracy? Reliability of LLM Evaluators for High-Stakes Insurance QA in a Low-Resource Language. 2026. doi:10.21203/rs.3.rs-10304807/v1. https://doi.org/10.21203/rs.3.rs-10304807/v1
+[R23] Wenhu Chen. Large Language Models are few(1)-shot Table Reasoners. 2022. doi:10.48550/arxiv.2210.06710. https://doi.org/10.48550/arxiv.2210.06710
+[R25] RAJ TEJPAL KHATIK. Multi-Method Ensemble Framework for LLM Hallucination Detection. 2026. doi:10.2139/ssrn.7200222. https://doi.org/10.2139/ssrn.7200222
+[R37] Haitao Li, Qian Dong, Junjie Chen et al.. LLMs-as-Judges: A Comprehensive Survey on LLM-based Evaluation Methods. 2024. doi:10.48550/arxiv.2412.05579. https://doi.org/10.48550/arxiv.2412.05579
+[R43] Louis Yiven Zhu. Three Ways Classical Test Theory Can Mislead About LLM Judges. 2026. arXiv:2609.29709. https://arxiv.org/abs/2609.29709
+[R46] Xanh Ho, Jiahao Huang, Florian Boudin et al.. Reassessing Extractive QA Datasets at Scale: LLM-as-a-Judge and In-Depth Analyses. 2025. arXiv:2504.11972. https://arxiv.org/abs/2504.11972

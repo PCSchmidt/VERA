@@ -1,0 +1,706 @@
+{
+ "split": "dev",
+ "summary": {
+  "planted": 30,
+  "red": {
+   "k": 24,
+   "n": 30,
+   "rate": 0.8,
+   "ci95": [
+    0.6269,
+    0.905
+   ]
+  },
+  "flagged": {
+   "k": 28,
+   "n": 30,
+   "rate": 0.9333,
+   "ci95": [
+    0.7868,
+    0.9815
+   ]
+  },
+  "subtle_red": {
+   "k": 6,
+   "n": 12,
+   "rate": 0.5,
+   "ci95": [
+    0.2538,
+    0.7462
+   ]
+  },
+  "deterministic_red": {
+   "k": 18,
+   "n": 18,
+   "rate": 1.0,
+   "ci95": [
+    0.8241,
+    1.0
+   ]
+  },
+  "controls": 4,
+  "false_fails": 0,
+  "controls_flagged": 0,
+  "by_type": {
+   "altered_reference": {
+    "red": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "changed_qualifier": {
+    "red": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "fabricated_citation": {
+    "red": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "fabricated_quote": {
+    "red": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "misattributed_number": {
+    "red": {
+     "k": 1,
+     "n": 3,
+     "rate": 0.3333,
+     "ci95": [
+      0.0615,
+      0.7923
+     ]
+    },
+    "flagged": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "moved_citation": {
+    "red": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "numeric_prose": {
+    "red": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "numeric_table": {
+    "red": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "overstated_claim": {
+    "red": {
+     "k": 0,
+     "n": 1,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.7935
+     ]
+    },
+    "flagged": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "reversed_comparison": {
+    "red": {
+     "k": 0,
+     "n": 3,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.5615
+     ]
+    },
+    "flagged": {
+     "k": 1,
+     "n": 3,
+     "rate": 0.3333,
+     "ci95": [
+      0.0615,
+      0.7923
+     ]
+    },
+    "subtle": true
+   },
+   "swapped_claim_text": {
+    "red": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "swapped_method": {
+    "red": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "unresolved_citation": {
+    "red": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "unretrieved_citation": {
+    "red": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "subtle": false
+   }
+  },
+  "by_doc_kind": {
+   "paper": {
+    "k": 19,
+    "n": 24,
+    "rate": 0.7917,
+    "ci95": [
+     0.5953,
+     0.9076
+    ]
+   },
+   "lit": {
+    "k": 5,
+    "n": 6,
+    "rate": 0.8333,
+    "ci95": [
+     0.4365,
+     0.9699
+    ]
+   }
+  },
+  "spent_usd": 0.010565654559,
+  "audit_sha256": "8258bbe19699f5faaf249773b20d71858105261bc7a644b5d4c6b0578cb4f3d2",
+  "ledger": "data/ledger/run_seededv2-dev-3.jsonl"
+ },
+ "items": [
+  {
+   "fault_id": "gen-sonnet-2:control",
+   "fault_type": "control",
+   "detected": false,
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "first_fail": null,
+   "cost_usd": 0.00029400539399999996
+  },
+  {
+   "fault_id": "gen-sonnet-2:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "R3 ('Adaptive Cartesian Priors for Additive Tree Explanations') is not in the retrieval log, and the records returned for it are different papers.",
+   "cost_usd": 0.000313749402
+  },
+  {
+   "fault_id": "gen-sonnet-2:unretrieved_citation",
+   "fault_type": "unretrieved_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "[R7] is cited but is not a retrieved record or listed.",
+   "cost_usd": 0.000275714163
+  },
+  {
+   "fault_id": "gen-sonnet-2:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "Reference R1 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble Explainability through the Hoeffding Fu",
+   "cost_usd": 0.00028169290799999995
+  },
+  {
+   "fault_id": "gen-sonnet-2:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The table says '20.5 \u00b1 0.58' for TreeHFD (baseline) on analytical (runtime_s); results.json has 27.5 \u00b1 0.58.",
+   "cost_usd": 0.00028660540199999996
+  },
+  {
+   "fault_id": "gen-sonnet-2:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "3.43 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Both differences are well inside the seed spread, so C3 is at best equal to the baseline, and it cost more time (33.8 s vs 27.5 s on Analytical, 4.5",
+   "cost_usd": 0.00022208296499999999
+  },
+  {
+   "fault_id": "gen-sonnet-2:misattributed_number",
+   "fault_type": "misattributed_number",
+   "detected": false,
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 1,
+   "first_fail": null,
+   "cost_usd": 0.00028710040199999995
+  },
+  {
+   "fault_id": "gen-sonnet-2:reversed_comparison",
+   "fault_type": "reversed_comparison",
+   "detected": false,
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "first_fail": null,
+   "cost_usd": 0.000280986657
+  },
+  {
+   "fault_id": "gen-sonnet-2:swapped_method",
+   "fault_type": "swapped_method",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "first_fail": "A real number on the wrong method or dataset: 2.83 is a value of C3: Residual backfitting of components / analytical; 4.79 is a value of C3: Residual backfitting of components / airfoil, not of the cell this sentence names: 'On Analytical i",
+   "cost_usd": 0.000255507402
+  },
+  {
+   "fault_id": "gen-sonnet-3:control",
+   "fault_type": "control",
+   "detected": false,
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "first_fail": null,
+   "cost_usd": 0.00025180668599999995
+  },
+  {
+   "fault_id": "gen-sonnet-3:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "first_fail": "R3 ('Cartesian Partition Refinement for Piecewise Constant Explainers') is not in the retrieval log, and the records returned for it are different papers.",
+   "cost_usd": 0.000274013718
+  },
+  {
+   "fault_id": "gen-sonnet-3:unretrieved_citation",
+   "fault_type": "unretrieved_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "[R7] is cited but is not a retrieved record or listed.",
+   "cost_usd": 0.000265034172
+  },
+  {
+   "fault_id": "gen-sonnet-3:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "Reference R1 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble Explainability through the Hoeffding Fu",
+   "cost_usd": 0.00025739417999999997
+  },
+  {
+   "fault_id": "gen-sonnet-3:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The table says '63.9 \u00b1 0.86' for C1: Importance-ranked interaction selection on analytical (runtime_s); results.json has 23.9 \u00b1 0.86.",
+   "cost_usd": 0.000258532929
+  },
+  {
+   "fault_id": "gen-sonnet-3:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "0.17 in a results claim is not a value in results.json (nor a difference or ratio of two): 'On Airfoil, MSE (4.73 \u00b1 0.17) and runtime (3.43 s versus 3.42 s) matched the baseline.'",
+   "cost_usd": 0.00022871545499999997
+  },
+  {
+   "fault_id": "gen-sonnet-3:misattributed_number",
+   "fault_type": "misattributed_number",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "A real number on the wrong method or dataset: 1.52 is a value of C1: Importance-ranked interaction selection / airfoil, C3: Residual-pair greedy refinement / airfoil, TreeHFD (baseline) / airfoil, not of the cell this sentence names: 'On Ai",
+   "cost_usd": 0.00022140421199999996
+  },
+  {
+   "fault_id": "gen-sonnet-3:reversed_comparison",
+   "fault_type": "reversed_comparison",
+   "detected": false,
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 2,
+   "first_fail": null,
+   "cost_usd": 0.000251746212
+  },
+  {
+   "fault_id": "gen-sonnet-3:swapped_method",
+   "fault_type": "swapped_method",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "first_fail": "A real number on the wrong method or dataset: 2.47 is a value of C3: Residual-pair greedy refinement / analytical, not of the cell this sentence names: '**C1** reduced Analytical residual MSE from 2.79 \u00b1 0.32 to 2.47 \u00b1 0.20.'",
+   "cost_usd": 0.00021573271799999998
+  },
+  {
+   "fault_id": "gen-glm-sonnet-3:control",
+   "fault_type": "control",
+   "detected": false,
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "first_fail": null,
+   "cost_usd": 0.00025512762
+  },
+  {
+   "fault_id": "gen-glm-sonnet-3:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "R3 ('Hierarchical Shapley Surrogates for Tree Ensembles under Dependence') is not in the retrieval log, and the records returned for it are different papers.",
+   "cost_usd": 0.000268558389
+  },
+  {
+   "fault_id": "gen-glm-sonnet-3:unretrieved_citation",
+   "fault_type": "unretrieved_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "[R7] is cited but is not a retrieved record or listed.",
+   "cost_usd": 0.00023725638900000002
+  },
+  {
+   "fault_id": "gen-glm-sonnet-3:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "Reference R1 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble Explainability through the Hoeffding Fu",
+   "cost_usd": 0.000237166389
+  },
+  {
+   "fault_id": "gen-glm-sonnet-3:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The table says '4.42 \u00b1 0.058' for TreeHFD (baseline) on airfoil (runtime_s); results.json has 3.42 \u00b1 0.058.",
+   "cost_usd": 0.00025341887100000004
+  },
+  {
+   "fault_id": "gen-glm-sonnet-3:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "3.20 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Runtime was higher than the baseline (30.4 vs 27.5 s on Analytical; 3.20 vs 3.42 s on Airfoil), consistent with the extra refit not being recovered ",
+   "cost_usd": 0.000249293592
+  },
+  {
+   "fault_id": "gen-glm-sonnet-3:misattributed_number",
+   "fault_type": "misattributed_number",
+   "detected": false,
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 1,
+   "first_fail": null,
+   "cost_usd": 0.00027956009400000004
+  },
+  {
+   "fault_id": "gen-glm-sonnet-3:reversed_comparison",
+   "fault_type": "reversed_comparison",
+   "detected": false,
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "first_fail": null,
+   "cost_usd": 0.000253868871
+  },
+  {
+   "fault_id": "gen-glm-sonnet-3:swapped_method",
+   "fault_type": "swapped_method",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "first_fail": "A real number on the wrong method or dataset: 30.4 is a value of C1: Restrict weak interactions / analytical; 3.70 is a value of C1: Restrict weak interactions / airfoil, not of the cell this sentence names: 'Runtime was higher than the bas",
+   "cost_usd": 0.00020621238900000001
+  },
+  {
+   "fault_id": "topic-credal-dro:control",
+   "fault_type": "control",
+   "detected": false,
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "first_fail": null,
+   "cost_usd": 0.000289728516
+  },
+  {
+   "fault_id": "topic-credal-dro:unresolved_citation",
+   "fault_type": "unresolved_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 0,
+   "first_fail": "[R999] is cited but is not a retrieved record or listed.",
+   "cost_usd": 0.000362750934
+  },
+  {
+   "fault_id": "topic-credal-dro:moved_citation",
+   "fault_type": "moved_citation",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The sentence cites [R37] but its claim is linked to [R7]: 'In that study the Wasserstein solutions tended to beat SAA and LCX solutions in out-of-sample performance.'",
+   "cost_usd": 0.00028136477100000005
+  },
+  {
+   "fault_id": "topic-credal-dro:fabricated_quote",
+   "fault_type": "fabricated_quote",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The quote behind this claim is not in [R7]: it appears in any passage or nowhere (fabricated_quote): 'the effect is large and consistent across all of the datasets that were examined here'",
+   "cost_usd": 0.00027284102699999996
+  },
+  {
+   "fault_id": "topic-credal-dro:changed_qualifier",
+   "fault_type": "changed_qualifier",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The quote behind this claim is not in [R57]: it appears in any passage or nowhere (fabricated_quote): 'our DRO framework must be conveniently used to address data-driven decision-making problems under co'",
+   "cost_usd": 0.00025962229499999995
+  },
+  {
+   "fault_id": "topic-credal-dro:overstated_claim",
+   "fault_type": "overstated_claim",
+   "detected": false,
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 1,
+   "first_fail": null,
+   "cost_usd": 0.0003652484370000001
+  },
+  {
+   "fault_id": "topic-credal-dro:swapped_claim_text",
+   "fault_type": "swapped_claim_text",
+   "detected": true,
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 0,
+   "first_fail": "The passage cited does not support the claim as written: 'A moment-uncertainty model was reported to give better-performing policies in a data-driven portfolio example.'",
+   "cost_usd": 0.00030706099800000003
+  }
+ ]
+}

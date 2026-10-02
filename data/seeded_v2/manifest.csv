@@ -1,0 +1,84 @@
+fault_id,doc,kind,fault_type,location,description,subtle,split
+gen-sonnet-2:control,gen-sonnet-2,paper,control,,unmodified document,,dev
+gen-sonnet-2:fabricated_citation,gen-sonnet-2,paper,fabricated_citation,References and Abstract,fabricated reference 'Adaptive Cartesian Priors for Additive Tree Explanations',,dev
+gen-sonnet-2:unretrieved_citation,gen-sonnet-2,paper,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",,dev
+gen-sonnet-2:altered_reference,gen-sonnet-2,paper,altered_reference,References,'Tree' changed to 'Forest',,dev
+gen-sonnet-2:numeric_table,gen-sonnet-2,paper,numeric_table,Results table,table mean 27.5 changed to 20.5,,dev
+gen-sonnet-2:numeric_prose,gen-sonnet-2,paper,numeric_prose,Results,3.42 changed to 3.43 in prose,,dev
+gen-sonnet-2:misattributed_number,gen-sonnet-2,paper,misattributed_number,Results,"9.12 replaced by 4.56, a real value elsewhere",yes,dev
+gen-sonnet-2:reversed_comparison,gen-sonnet-2,paper,reversed_comparison,Results,direction word flipped: '**No idea beat the baseline on every dataset.** C3 was sligh',yes,dev
+gen-sonnet-2:swapped_method,gen-sonnet-2,paper,swapped_method,Results,C3 named as C2,yes,dev
+gen-sonnet-3:control,gen-sonnet-3,paper,control,,unmodified document,,dev
+gen-sonnet-3:fabricated_citation,gen-sonnet-3,paper,fabricated_citation,References and Abstract,fabricated reference 'Cartesian Partition Refinement for Piecewise Constant Explainers',,dev
+gen-sonnet-3:unretrieved_citation,gen-sonnet-3,paper,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",,dev
+gen-sonnet-3:altered_reference,gen-sonnet-3,paper,altered_reference,References,'Tree' changed to 'Forest',,dev
+gen-sonnet-3:numeric_table,gen-sonnet-3,paper,numeric_table,Results table,table mean 23.9 changed to 63.9,,dev
+gen-sonnet-3:numeric_prose,gen-sonnet-3,paper,numeric_prose,Results,0.11 changed to 0.17 in prose,,dev
+gen-sonnet-3:misattributed_number,gen-sonnet-3,paper,misattributed_number,Results,"4.73 replaced by 1.52, a real value elsewhere",yes,dev
+gen-sonnet-3:reversed_comparison,gen-sonnet-3,paper,reversed_comparison,Results,"direction word flipped: '**C1** raised Analytical residual MSE to 2.97 ± 0.27, slight'",yes,dev
+gen-sonnet-3:swapped_method,gen-sonnet-3,paper,swapped_method,Results,C3 named as C1,yes,dev
+gen-glm-sonnet-3:control,gen-glm-sonnet-3,paper,control,,unmodified document,,dev
+gen-glm-sonnet-3:fabricated_citation,gen-glm-sonnet-3,paper,fabricated_citation,References and Abstract,fabricated reference 'Hierarchical Shapley Surrogates for Tree Ensembles under Dependence',,dev
+gen-glm-sonnet-3:unretrieved_citation,gen-glm-sonnet-3,paper,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",,dev
+gen-glm-sonnet-3:altered_reference,gen-glm-sonnet-3,paper,altered_reference,References,'Tree' changed to 'Forest',,dev
+gen-glm-sonnet-3:numeric_table,gen-glm-sonnet-3,paper,numeric_table,Results table,table mean 3.42 changed to 4.42,,dev
+gen-glm-sonnet-3:numeric_prose,gen-glm-sonnet-3,paper,numeric_prose,Results,3.70 changed to 3.20 in prose,,dev
+gen-glm-sonnet-3:misattributed_number,gen-glm-sonnet-3,paper,misattributed_number,Results,"2.79 replaced by 4.61, a real value elsewhere",yes,dev
+gen-glm-sonnet-3:reversed_comparison,gen-glm-sonnet-3,paper,reversed_comparison,Results,direction word flipped: 'C3 was worse than the baseline on every reported column.',yes,dev
+gen-glm-sonnet-3:swapped_method,gen-glm-sonnet-3,paper,swapped_method,Results,C1 named as C3,yes,dev
+topic-credal-dro:control,topic-credal-dro,lit,control,,unmodified document,,dev
+topic-credal-dro:unresolved_citation,topic-credal-dro,lit,unresolved_citation,body,[R52] changed to [R999],,dev
+topic-credal-dro:moved_citation,topic-credal-dro,lit,moved_citation,body,[R7] changed to [R37],,dev
+topic-credal-dro:fabricated_quote,topic-credal-dro,lit,fabricated_quote,claims,quote of claim 0 fabricated,,dev
+topic-credal-dro:changed_qualifier,topic-credal-dro,lit,changed_qualifier,claims,'can' -> 'must',yes,dev
+topic-credal-dro:overstated_claim,topic-credal-dro,lit,overstated_claim,body,"overstated: 'For Wasserstein balls, the foundational source sta'",yes,dev
+topic-credal-dro:swapped_claim_text,topic-credal-dro,lit,swapped_claim_text,body,texts of [R66] and [R7] exchanged,yes,dev
+loop-001:control,loop-001,paper,control,,unmodified document,,test
+loop-001:fabricated_citation,loop-001,paper,fabricated_citation,References and Abstract,fabricated reference 'Orthogonal Boosting Decompositions with Calibrated Interaction Budgets',,test
+loop-001:unretrieved_citation,loop-001,paper,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",,test
+loop-001:altered_reference,loop-001,paper,altered_reference,References,'Tree' changed to 'Forest',,test
+loop-001:numeric_table,loop-001,paper,numeric_table,Results table,table mean 9.60 changed to 9.80,,test
+loop-001:numeric_prose,loop-001,paper,numeric_prose,Results,2.48 changed to 9.48 in prose,,test
+loop-001:misattributed_number,loop-001,paper,misattributed_number,Results,"2.48 replaced by 28.12, a real value elsewhere",yes,test
+loop-001:reversed_comparison,loop-001,paper,reversed_comparison,Results,direction word flipped: 'C2 lowered held-out residual MSE on Analytical (2.48 vs 2.79',yes,test
+loop-001:swapped_method,loop-001,paper,swapped_method,Results,C2 named as C3,yes,test
+gen-sonnet-4:control,gen-sonnet-4,paper,control,,unmodified document,,test
+gen-sonnet-4:fabricated_citation,gen-sonnet-4,paper,fabricated_citation,References and Abstract,fabricated reference 'Orthogonal Boosting Decompositions with Calibrated Interaction Budgets',,test
+gen-sonnet-4:unretrieved_citation,gen-sonnet-4,paper,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",,test
+gen-sonnet-4:altered_reference,gen-sonnet-4,paper,altered_reference,References,'Tree' changed to 'Forest',,test
+gen-sonnet-4:numeric_table,gen-sonnet-4,paper,numeric_table,Results table,table mean 34.0 changed to 34.3,,test
+gen-sonnet-4:numeric_prose,gen-sonnet-4,paper,numeric_prose,Results,1.52 changed to 1.22 in prose,,test
+gen-sonnet-4:misattributed_number,gen-sonnet-4,paper,misattributed_number,Results,"3.42 replaced by 33.99, a real value elsewhere",yes,test
+gen-sonnet-4:reversed_comparison,gen-sonnet-4,paper,reversed_comparison,Results,"direction word flipped: 'C3 was nominally lower on Airfoil, but within noise, and it '",yes,test
+gen-sonnet-4:swapped_method,gen-sonnet-4,paper,swapped_method,Results,C1 named as C3,yes,test
+gen-glm-sonnet-4:control,gen-glm-sonnet-4,paper,control,,unmodified document,,test
+gen-glm-sonnet-4:fabricated_citation,gen-glm-sonnet-4,paper,fabricated_citation,References and Abstract,fabricated reference 'Adaptive Cartesian Priors for Additive Tree Explanations',,test
+gen-glm-sonnet-4:unretrieved_citation,gen-glm-sonnet-4,paper,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",,test
+gen-glm-sonnet-4:altered_reference,gen-glm-sonnet-4,paper,altered_reference,References,'Tree' changed to 'Forest',,test
+gen-glm-sonnet-4:numeric_table,gen-glm-sonnet-4,paper,numeric_table,Results table,table mean 34.1 changed to 34.6,,test
+gen-glm-sonnet-4:numeric_prose,gen-glm-sonnet-4,paper,numeric_prose,Results,100 changed to 900 in prose,,test
+gen-glm-sonnet-4:misattributed_number,gen-glm-sonnet-4,paper,misattributed_number,Results,"34.1 replaced by 12.8, a real value elsewhere",yes,test
+gen-glm-sonnet-4:reversed_comparison,gen-glm-sonnet-4,paper,reversed_comparison,Results,direction word flipped: 'Results from a research-loop run on the TreeHFD problem (mea',yes,test
+gen-glm-3:control,gen-glm-3,paper,control,,unmodified document,,test
+gen-glm-3:fabricated_citation,gen-glm-3,paper,fabricated_citation,References and Abstract,fabricated reference 'Hierarchical Shapley Surrogates for Tree Ensembles under Dependence',,test
+gen-glm-3:unretrieved_citation,gen-glm-3,paper,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",,test
+gen-glm-3:altered_reference,gen-glm-3,paper,altered_reference,References,'Tree' changed to 'Forest',,test
+gen-glm-3:numeric_table,gen-glm-3,paper,numeric_table,Results table,table mean 26.6 changed to 66.6,,test
+gen-glm-3:numeric_prose,gen-glm-3,paper,numeric_prose,Results,2.8 changed to 9.8 in prose,,test
+gen-glm-3:misattributed_number,gen-glm-3,paper,misattributed_number,Results,"1.52 replaced by 38.73, a real value elsewhere",yes,test
+gen-glm-3:reversed_comparison,gen-glm-3,paper,reversed_comparison,Results,direction word flipped: 'Results from a research-loop run on the TreeHFD problem (mea',yes,test
+gen-glm-3:swapped_method,gen-glm-3,paper,swapped_method,Results,C3 named as C1,yes,test
+topic-tree-explain:control,topic-tree-explain,lit,control,,unmodified document,,test
+topic-tree-explain:unresolved_citation,topic-tree-explain,lit,unresolved_citation,body,[R5] changed to [R999],,test
+topic-tree-explain:moved_citation,topic-tree-explain,lit,moved_citation,body,[R15] changed to [R10],,test
+topic-tree-explain:fabricated_quote,topic-tree-explain,lit,fabricated_quote,claims,quote of claim 0 fabricated,,test
+topic-tree-explain:changed_qualifier,topic-tree-explain,lit,changed_qualifier,claims,'often' -> 'always',yes,test
+topic-tree-explain:overstated_claim,topic-tree-explain,lit,overstated_claim,body,overstated: 'One reports very close top-10 rankings across six ',yes,test
+topic-tree-explain:swapped_claim_text,topic-tree-explain,lit,swapped_claim_text,body,texts of [R5] and [R35] exchanged,yes,test
+topic-llm-judge-numbers:control,topic-llm-judge-numbers,lit,control,,unmodified document,,test
+topic-llm-judge-numbers:unresolved_citation,topic-llm-judge-numbers,lit,unresolved_citation,body,[R15] changed to [R999],,test
+topic-llm-judge-numbers:moved_citation,topic-llm-judge-numbers,lit,moved_citation,body,[R14] changed to [R15],,test
+topic-llm-judge-numbers:fabricated_quote,topic-llm-judge-numbers,lit,fabricated_quote,claims,quote of claim 0 fabricated,,test
+topic-llm-judge-numbers:changed_qualifier,topic-llm-judge-numbers,lit,changed_qualifier,claims,'often' -> 'always',yes,test
+topic-llm-judge-numbers:overstated_claim,topic-llm-judge-numbers,lit,overstated_claim,body,overstated: 'Its program-based method executes parsed statement',yes,test
+topic-llm-judge-numbers:swapped_claim_text,topic-llm-judge-numbers,lit,swapped_claim_text,body,texts of [R14] and [R15] exchanged,yes,test

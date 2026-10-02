@@ -1,0 +1,41 @@
+{
+ "seed": 20261008,
+ "rule": "by source run (document): dev and test share no document",
+ "dev_docs": [
+  "gen-glm-sonnet-3",
+  "gen-sonnet-2",
+  "gen-sonnet-3",
+  "topic-credal-dro"
+ ],
+ "test_docs": [
+  "gen-glm-3",
+  "gen-glm-sonnet-4",
+  "gen-sonnet-4",
+  "loop-001",
+  "topic-llm-judge-numbers",
+  "topic-tree-explain"
+ ],
+ "n_items": 83,
+ "n_test_faults": 43,
+ "n_test_controls": 6,
+ "test_fault_types": [
+  "altered_reference",
+  "changed_qualifier",
+  "fabricated_citation",
+  "fabricated_quote",
+  "misattributed_number",
+  "moved_citation",
+  "numeric_prose",
+  "numeric_table",
+  "overstated_claim",
+  "reversed_comparison",
+  "swapped_claim_text",
+  "swapped_method",
+  "unresolved_citation",
+  "unretrieved_citation"
+ ],
+ "test_sha256": "6c3c1b0baf1b184ffd43f6c0319550f7c75f8832820cde83bf41dc7f16ff6dd1",
+ "frozen_audit_sha256": "8258bbe19699f5faaf249773b20d71858105261bc7a644b5d4c6b0578cb4f3d2",
+ "note": "fixed before the audit ran on any test item; the audit's own hash is frozen before the test run",
+ "frozen_at": "2026-10-02T19:59:10Z"
+}

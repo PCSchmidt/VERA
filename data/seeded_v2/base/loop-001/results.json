@@ -1,0 +1,224 @@
+{
+ "run_id": "loop-001",
+ "metric": "residual_mse_pct",
+ "n_seeds": 3,
+ "datasets": [
+  "analytical",
+  "airfoil"
+ ],
+ "results": {
+  "TreeHFD (baseline)": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.7922779073042854,
+     "std": 0.322855299765166,
+     "values": [
+      3.145743556617016,
+      2.3652455761629287,
+      2.8658445891329105
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5695270989668413,
+     "std": 0.024874808467098025,
+     "values": [
+      0.5850437308043616,
+      0.5891103218988181,
+      0.5344272441973442
+     ]
+    },
+    "runtime_s": {
+     "mean": 28.11804886133662,
+     "std": 0.942269282654179,
+     "values": [
+      27.379283856003894,
+      27.52697480500501,
+      29.447887923000962
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.732528004675472,
+     "std": 0.11249578737353107,
+     "values": [
+      4.8150211208663505,
+      4.80909111342034,
+      4.573471779739722
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.522466107765438,
+     "std": 0.15158697779427285,
+     "values": [
+      1.7222609132043591,
+      1.4898698532153793,
+      1.3552675568765755
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.41650689199984,
+     "std": 0.09629848561340254,
+     "values": [
+      3.4212203520000912,
+      3.2962797459986177,
+      3.532020578000811
+     ]
+    }
+   }
+  },
+  "C2: Residual-driven pair augmentation": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.4776737268999014,
+     "std": 0.2524463696714147,
+     "values": [
+      2.411240022338984,
+      2.207108294453042,
+      2.814672863907678
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.911372134996513,
+     "std": 0.05115917977509003,
+     "values": [
+      0.9476572418134352,
+      0.9474369222381279,
+      0.839022240937976
+     ]
+    },
+    "runtime_s": {
+     "mean": 51.09946951099846,
+     "std": 0.8108811448174424,
+     "values": [
+      52.244871254995815,
+      50.47846253000171,
+      50.57507474799786
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.743174255449343,
+     "std": 0.1227977974933177,
+     "values": [
+      4.854654590573638,
+      4.802751258179595,
+      4.572116917594798
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.5442038236736015,
+     "std": 0.1465908500723923,
+     "values": [
+      1.7354449156434204,
+      1.5178902004602546,
+      1.3792763549171294
+     ]
+    },
+    "runtime_s": {
+     "mean": 9.596776689667118,
+     "std": 0.2864189686740226,
+     "values": [
+      9.829858472003252,
+      9.767130205000285,
+      9.19334139199782
+     ]
+    }
+   }
+  },
+  "C3: Additive residual recalibration": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.878522102638131,
+     "std": 0.31941213932432905,
+     "values": [
+      3.2307710867946726,
+      2.4574962794239714,
+      2.9472989416957494
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.49485158963739284,
+     "std": 0.021349417800244207,
+     "values": [
+      0.5032814398178372,
+      0.5157444258983052,
+      0.4655289031960362
+     ]
+    },
+    "runtime_s": {
+     "mean": 32.409089733332316,
+     "std": 0.8601051351445569,
+     "values": [
+      33.469970071993885,
+      31.363313804002246,
+      32.39398532400082
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.781890778953134,
+     "std": 0.1925309205651477,
+     "values": [
+      4.9323615123711,
+      4.903178061954023,
+      4.510132762534278
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.4026209616716379,
+     "std": 0.14164642707368166,
+     "values": [
+      1.5835558856186618,
+      1.3866013366467118,
+      1.23770566274954
+     ]
+    },
+    "runtime_s": {
+     "mean": 4.015911072334954,
+     "std": 0.06791554549520316,
+     "values": [
+      4.0690536920010345,
+      4.058626691003155,
+      3.9200528340006713
+     ]
+    }
+   }
+  }
+ },
+ "best": null,
+ "ideas": [
+  {
+   "name": "C1: Importance-selected interaction list",
+   "description": "Fit a cheap first TreeHFD with interaction_order=2 on a subsample of X_train. Rank pairs by the variance of their interaction components, and keep the top-k pairs (k about 2p). Refit with interaction_list set to these pairs. This drops negligible pairs, cutting runtime, and may lower the residual by reducing the numerical error from unused terms."
+  },
+  {
+   "name": "C2: Residual-driven pair augmentation",
+   "description": "Fit the baseline with a small interaction_list. Compute the residual of the model prediction minus the component sum on X_train. Score each candidate pair by how much a 2D binned mean of the residual (a function of only that pair's variables) reduces residual variance. Add the top pairs to interaction_list and refit. Repeat for 1-2 rounds."
+  },
+  {
+   "name": "C3: Additive residual recalibration",
+   "description": "After the TreeHFD fit, compute the training residual r = f(X) - sum of components. Fit 1D and 2D binned-mean smoothers of r (or shallow single-variable and single-pair boosted stumps) over the existing main and interaction variables. Add the fitted corrections to the matching components, so each stays a function of its own variables. Predict by adding the corrections on test data."
+  }
+ ]
+}

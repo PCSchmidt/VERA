@@ -299,6 +299,25 @@ def test_AUD_F_04_a_number_with_fewer_than_three_significant_digits_is_not_check
     assert [f for f in findings if "wrong method" in f.summary] == []
 
 
+def test_AUD_F_04_an_in_sample_value_in_a_held_out_sentence_is_flagged_and_the_reverse_is_not() -> None:
+    held_out = "\nC1 reached a held-out residual of 1.08 on Analytical.\n"  # 1.08 is C1's in-sample value (0.6 x 1.8)
+    (f,) = audit(clean_text(held_out), CorrectJudge()).report.findings
+    assert f.severity == "fail" and "wrong method or dataset" in f.summary
+    in_sample = "\nC1 reached an in-sample residual of 1.08 on Analytical.\n"
+    assert [f for f in audit(clean_text(in_sample), CorrectJudge()).report.findings if f.severity == "fail"] == []
+
+
+def test_AUD_F_04_a_comparison_without_a_number_goes_to_the_judge_and_the_table_legend_does_not() -> None:
+    judge = CorrectJudge(overrides={"num.claim_consistent": False})
+    claim = "\nC1 was worse than the baseline on Analytical.\n"  # a direction claim: no number to check
+    run = audit(clean_text(claim), judge)
+    (f,) = run.report.findings
+    assert f.severity == "warn" and "comparison" in f.summary and f.verdicts[0].answer is False
+    assert audit(clean_text(claim), CorrectJudge()).report.findings == []  # the judge confirms it
+    legend = "\nThe table's arrows: lower is better for residual MSE and runtime.\n"
+    assert audit(clean_text(legend), judge).report.findings == []  # a legend is not a claim about the results
+
+
 def test_AUD_F_04_a_value_of_another_dataset_is_flagged() -> None:
     claim = "\nC1 reached a residual of 2.20 on Analytical.\n"  # 2.20 is C1's Airfoil value
     (f,) = audit(clean_text(claim), CorrectJudge()).report.findings

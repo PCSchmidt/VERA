@@ -1,0 +1,224 @@
+{
+ "run_id": "gen-glm-sonnet-3",
+ "metric": "residual_mse_pct",
+ "n_seeds": 3,
+ "datasets": [
+  "analytical",
+  "airfoil"
+ ],
+ "results": {
+  "TreeHFD (baseline)": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.7922779073042854,
+     "std": 0.322855299765166,
+     "values": [
+      3.145743556617016,
+      2.3652455761629287,
+      2.8658445891329105
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5695270989668413,
+     "std": 0.024874808467098025,
+     "values": [
+      0.5850437308043616,
+      0.5891103218988181,
+      0.5344272441973442
+     ]
+    },
+    "runtime_s": {
+     "mean": 27.535781346001993,
+     "std": 0.5787669511742554,
+     "values": [
+      28.34639007900114,
+      27.032283868000377,
+      27.22867009100446
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.732528004675472,
+     "std": 0.11249578737353107,
+     "values": [
+      4.8150211208663505,
+      4.80909111342034,
+      4.573471779739722
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.522466107765438,
+     "std": 0.15158697779427285,
+     "values": [
+      1.7222609132043591,
+      1.4898698532153793,
+      1.3552675568765755
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.424187307663184,
+     "std": 0.05752637307197575,
+     "values": [
+      3.450753081997391,
+      3.344311476997973,
+      3.477497363994189
+     ]
+    }
+   }
+  },
+  "C3: Two-pass calibration refit": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 3.6850156274133465,
+     "std": 0.39467172202718076,
+     "values": [
+      4.096265615740613,
+      3.1525822221317195,
+      3.8061990443677076
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.018380582834401943,
+     "std": 0.003611012565463408,
+     "values": [
+      0.01539019615776838,
+      0.023460787785679175,
+      0.016290764559758274
+     ]
+    },
+    "runtime_s": {
+     "mean": 40.39399836466813,
+     "std": 1.8777807223293808,
+     "values": [
+      42.328262912000355,
+      37.851094484001806,
+      41.00263769800222
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 6.568773750489314,
+     "std": 0.5389518765792101,
+     "values": [
+      6.629019863065639,
+      7.196663986120059,
+      5.880637402282242
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.7056799927009618,
+     "std": 0.11491852426726755,
+     "values": [
+      0.8646807635662075,
+      0.6553080637644029,
+      0.5970511507722752
+     ]
+    },
+    "runtime_s": {
+     "mean": 4.609860099665336,
+     "std": 0.30011012005800225,
+     "values": [
+      4.999948844000755,
+      4.269997893999971,
+      4.55963356099528
+     ]
+    }
+   }
+  },
+  "C1: Restrict weak interactions": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.7922779073042854,
+     "std": 0.322855299765166,
+     "values": [
+      3.145743556617016,
+      2.3652455761629287,
+      2.8658445891329105
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5695270989668413,
+     "std": 0.024874808467098025,
+     "values": [
+      0.5850437308043616,
+      0.5891103218988181,
+      0.5344272441973442
+     ]
+    },
+    "runtime_s": {
+     "mean": 30.353523628667364,
+     "std": 0.811324780431606,
+     "values": [
+      31.3965079970003,
+      30.246168564997788,
+      29.41789432400401
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.732528004675472,
+     "std": 0.11249578737353107,
+     "values": [
+      4.8150211208663505,
+      4.80909111342034,
+      4.573471779739722
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.522466107765438,
+     "std": 0.15158697779427285,
+     "values": [
+      1.7222609132043591,
+      1.4898698532153793,
+      1.3552675568765755
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.6985422880000747,
+     "std": 0.09998605965699395,
+     "values": [
+      3.649127420001605,
+      3.608513300998311,
+      3.8379861430003075
+     ]
+    }
+   }
+  }
+ },
+ "best": null,
+ "ideas": [
+  {
+   "name": "C1: Restrict weak interactions",
+   "description": "Fit TreeHFD twice: once with default settings to get .interaction_list, compute per-interaction importance via prediction variance of each column on X_test, drop negligible ones by re-fitting with interaction_list set to top-k interactions only. Removing noisy low-variance interaction estimates can reduce residual reconstruction error slightly while cutting predict/fit time."
+  },
+  {
+   "name": "C2: Shallow-depth variable selection",
+   "description": "Call fit with depth_variable smaller than default so mains/interactions are extracted from shallower splits where decomposition is exact, reducing approximation error from deep co-split paths. Sweep depth_variable values (e.g., {1,2,3}) across validation seeds, pick value minimizing held-out Residual MSE, keeping all components functions of their own variables only."
+  },
+  {
+   "name": "C3: Two-pass calibration refit",
+   "description": "After standard fit and predict, compute residuals r = f(x) - sum(components) on training data, average them within leaf regions defined jointly by each interaction pair (or single variable bins), producing lookup corrections depending only on those same variables, added back to respective components. Iterate once; pure post-hoc recalibration with sklearn binning, no extra trees."
+  }
+ ]
+}

@@ -44,6 +44,14 @@ RESULT_WORDS = re.compile(
     r"residual|mse|runtime|seconds|baseline|beat|better|worse|lower|higher|improv|reduc|increase|slower|faster",
     re.IGNORECASE,
 )  # a bare "%" or "±" does not make a sentence a results claim: "top-k covering 95% of the gain" is a method choice
+COMPARISON = re.compile(
+    r"\b(better|worse|lower|higher|faster|slower|improv\w+|degrad\w+|beat\w*|outperform\w*|reduc\w+|increas\w+|rose|fell)\b",
+    re.IGNORECASE,
+)  # a direction word: a sentence with one and no number is still a claim about the table
+# A claim about every column or dataset needs the whole table read at once: the cheap judge was confidently wrong on one
+# in a clean write-up (Increment 3 dev run), so universal comparisons are not put to it.
+UNIVERSAL = re.compile(r"\b(every|all|both|each|neither|any|no idea|none)\b", re.IGNORECASE)
+LEGEND = re.compile("[↓↑]|(lower|higher) is better", re.IGNORECASE)  # the table's own legend is not a claim
 METHOD_SECTIONS = ("method", "approach")  # numbers here are design choices (thresholds, depths): unverifiable, a warn
 NUMBER = re.compile(r"(?<![\w.\[\-])(\d+(?:\.\d+)?)(\s*%)?")
 STRIP = [
@@ -250,6 +258,27 @@ def audit_numbers(
         mine, context = list(context), (named_ideas or context)  # this sentence sees the context before it
         nums = numbers_in(sentence)
         if not nums:
+            # A comparison with no number ("C3 was worse than the baseline on every column") is still a claim about the
+            # table, and flipping its direction word leaves every number right: the judge reads it against the table.
+            about_table = alignment.named_methods(sentence, results) or mine
+            in_method = section.lower().startswith(METHOD_SECTIONS)
+            judgeable = not LEGEND.search(sentence) and not UNIVERSAL.search(sentence)
+            if COMPARISON.search(sentence) and judgeable and about_table and not in_method:
+                claim = Claim(id=f"num:{n}", kind="numeric", text=sentence,
+                              location=Location(section=section or None, quote=sentence[:200]))  # fmt: skip
+                claims.append(claim)
+                question = Question(
+                    id="num.claim_consistent",
+                    type=QuestionType.BOOLEAN,
+                    text=f"Is this claim consistent with the table? Claim: {sentence}" + NUMERIC_NOTE,
+                )
+                verdict, confident = ask(question, material)
+                if not confident or verdict.answer is not True:
+                    findings.append(
+                        _f("numeric", "warn", claim, "log", "results.json (rendered table)",
+                           None if not confident else False,
+                           f"Could not confirm the comparison against the table: {sentence[:160]!r}", [verdict])
+                    )  # fmt: skip
             continue
         is_result = bool(RESULT_WORDS.search(sentence)) and not section.lower().startswith(METHOD_SECTIONS)
         claim = Claim(
