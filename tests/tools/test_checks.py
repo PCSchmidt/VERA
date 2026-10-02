@@ -585,3 +585,37 @@ def test_JDG_F_06_results_check_blocks(tmp_path: Path, kwargs: dict, message: st
     results_fixture(tmp_path, **kwargs)
     result = run("check_benchmark_results.py", tmp_path)
     assert result.returncode == 2 and message in result.stderr
+
+
+# ── dogfood overhead per gate day ─────────────────────────────────────────────
+
+def dogfood_fixture(root: Path, overhead: list[tuple[str, float]]) -> None:
+    events = [
+        {"timestamp": "2026-10-01T15:13:24Z", "event_type": "gate_passed", "gate": "incr1_review"},
+        {"timestamp": "2026-10-01T16:00:00Z", "event_type": "gate_passed", "gate": "run_core_ready"},
+        {"timestamp": "2026-10-02T10:00:00Z", "event_type": "gate_passed", "gate": "loop_run"},
+    ]
+    write(root, ".meridian/telemetry.jsonl", "\n".join(json.dumps(e) for e in events) + "\n")
+    rows = [{"type": "overhead", "recorded_at": at, "hours": h} for at, h in overhead]
+    write(root, ".meridian/dogfood.jsonl", "\n".join(json.dumps(r) for r in rows) + "\n")
+
+
+def test_dogfood_check_passes_with_an_entry_for_each_gate_day(tmp_path: Path) -> None:
+    dogfood_fixture(tmp_path, [("2026-10-01T17:00:00Z", 1.0), ("2026-10-02T12:00:00Z", 2.0)])
+    result = run("check_dogfood.py", tmp_path)
+    assert result.returncode == 0, result.stderr
+    assert "2026-10-02: 1 gates, 2 h" in result.stdout
+
+
+def test_dogfood_check_blocks_a_gate_day_without_an_entry(tmp_path: Path) -> None:
+    dogfood_fixture(tmp_path, [("2026-10-02T12:00:00Z", 2.0)])
+    result = run("check_dogfood.py", tmp_path)
+    assert result.returncode == 2 and "2026-10-01" in result.stderr
+
+
+def test_dogfood_check_ignores_zero_hour_entries_and_flags_early_ones(tmp_path: Path) -> None:
+    dogfood_fixture(tmp_path, [("2026-10-01T15:00:00Z", 1.5), ("2026-10-02T12:00:00Z", 0)])
+    assert run("check_dogfood.py", tmp_path).returncode == 2
+    dogfood_fixture(tmp_path, [("2026-10-01T15:00:00Z", 1.5), ("2026-10-02T12:00:00Z", 1.0)])
+    result = run("check_dogfood.py", tmp_path)
+    assert result.returncode == 0 and "1 recorded before the increment opened" in result.stdout

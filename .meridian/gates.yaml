@@ -233,10 +233,9 @@ gates:
         - run-evaluator.sh          # independent Evaluator verdict on the review
 
   # ── Increment 2: thin loop on TreeHFD (SPEC.md) ───────────────────────────
-  # Only the scope gate is defined so far; the rest of the Increment 2 DAG
-  # (run_core_ready, design_trades_decided, sandbox_ready, stages_ready,
-  # audit_ready, trades_decided_2, loop_run, judge_retest, incr2_review) is
-  # drawn in SPEC.md and added with the check scripts each needs.  run_core_ready is defined below.
+  # The DAG is drawn in SPEC.md; each gate was added with the check script it needs:
+  # incr2_scoped, run_core_ready, design_trades_decided, sandbox_ready, stages_ready,
+  # audit_ready, trades_decided_2, loop_run, judge_retest, incr2_review.
 
   - id: incr2_scoped
     label: "Increment 2 scope confirmed"
@@ -369,3 +368,19 @@ gates:
     hooks:
       pre:
         - gate-retest.sh            # >= 100 items, test hash unchanged, results with intervals, reference spend <= $1; a failed agreement does not block
+
+  - id: incr2_review
+    label: "Increment 2 review"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 2 COMPLETE"
+    requires:
+      - judge_retest
+    requires_artifacts:
+      - docs/reviews/incr-2.md
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-traceability.sh
+        - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed this increment
+        - run-evaluator.sh          # independent Evaluator verdict on the review
