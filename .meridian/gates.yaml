@@ -349,3 +349,13 @@ gates:
     hooks:
       pre:
         - gate-trades-incr2.sh      # T6, T7, T9 decided (Scores, Decision, Reverse if); the comparison is complete and under $4
+
+  - id: loop_run
+    label: "One complete end-to-end run inside its budget, with a per-stage cost ledger and an audit report on its own paper"
+    type: automated
+    required: true
+    requires:
+      - trades_decided_2
+    hooks:
+      pre:
+        - gate-loop-run.sh          # a runs/loop-* attempt: all stages through the audit, ledger = spend, within $3 / 2 h

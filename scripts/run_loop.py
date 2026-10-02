@@ -34,6 +34,7 @@ from vera.ledger import Ledger
 from vera.loop import references
 from vera.loop.generators import ByStage
 from vera.loop.graph import run_loop
+from vera.loop.report import write_report
 from vera.loop.stages import LoopDeps
 from vera.sandbox import check_available, run_script
 from vera.schemas import Budget, OutputGuidance, ProblemSpec, RunSpec
@@ -137,9 +138,11 @@ def main() -> None:
     )  # fmt: skip
     with keep_awake():  # a standby in the middle of a run makes its wall-clock limits jump (vera/keepawake.py)
         state = run_loop(deps, resume_run=args.resume, start_at=start_at, initial_state=initial)
+    report = write_report(deps, state, ROOT)  # data/results/run_<id>.json: per-stage cost table and outcome
     stop = state.get("stop")
     print(f"arm: {args.arm or args.generator or 'glm-flash'}; trail: {' > '.join(state['trail'])}")
     print(f"stopped: {stop['stage'] + ': ' + stop['reason'] if stop else 'no, run complete'}")
+    print(f"report: {report.relative_to(ROOT)}")
     print(f"spent: ${deps.budget.spent_usd:.4f} of ${args.max_usd}; wall {deps.budget.elapsed_seconds}s; "
           f"ledger {ledger.path.relative_to(ROOT)}")  # fmt: skip
 
