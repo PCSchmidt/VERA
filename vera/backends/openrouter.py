@@ -31,7 +31,7 @@ from dataclasses import dataclass
 
 import httpx
 
-from vera.backends import api_key
+from vera.backends import api_key, post_with_retry
 from vera.judge import build_messages, parse_answer, to_verdict
 from vera.ledger import CallResult, Ledger, metered_call, new_trace_id
 from vera.schemas import Budget, Question, QuestionType, Verdict
@@ -122,7 +122,7 @@ class OpenRouterBackend:
         prices: Prices | None = None,
         client: httpx.Client | None = None,
         max_tokens: int = 512,
-        reasoning: bool | None = False,
+        reasoning: bool | dict | None = False,
         provider_sort: str | None = "price",
         component: str = "p2.backend",
     ) -> None:
@@ -142,14 +142,15 @@ class OpenRouterBackend:
             "response_format": {"type": "json_object"}, "usage": {"include": True},
         }  # fmt: skip
         if self.reasoning is not None:
-            body["reasoning"] = {"enabled": self.reasoning}
+            body["reasoning"] = self.reasoning if isinstance(self.reasoning, dict) else {"enabled": self.reasoning}
         if self.provider_sort:
             body["provider"] = {"sort": self.provider_sort}
         if self.prices.logprobs:
             body |= {"logprobs": True, "top_logprobs": 5}
-        resp = self.client.post(
-            f"{API}/chat/completions", json=body, headers={"Authorization": f"Bearer {api_key('OPENROUTER_API_KEY')}"}
-        )
+        resp = post_with_retry(
+            self.client, f"{API}/chat/completions", json=body,
+            headers={"Authorization": f"Bearer {api_key('OPENROUTER_API_KEY')}"},
+        )  # fmt: skip
         if resp.is_error:  # keep the provider's reason: metered_call writes it to the ledger
             raise RuntimeError(f"OpenRouter HTTP {resp.status_code}: {resp.text[:300]}")
         data = resp.json()
@@ -162,6 +163,7 @@ class OpenRouterBackend:
             input_tokens=usage.get("prompt_tokens"),
             output_tokens=usage.get("completion_tokens"),
             cost_usd=float(usage.get("cost") or 0.0),
+            provider=data.get("provider"),
             extra={"logprobs": (choice.get("logprobs") or {}).get("content") or []},
         )
 

@@ -8,9 +8,32 @@ recorded (FND-F-01).
 from __future__ import annotations
 
 import os
+import time
 from pathlib import Path
 
+import httpx
+
 ROOT = Path(__file__).resolve().parents[2]
+RETRY_STATUS = {429, 502, 503, 504}
+
+
+def post_with_retry(client: httpx.Client, url: str, *, tries: int = 4, **kwargs) -> httpx.Response:
+    """POST, retrying transport failures (this machine has intermittent DNS failures) and 429/502/503/504.
+
+    Runs inside one metered call, so the ledger sees one record whose latency includes the waits. After the last
+    attempt the final response is returned (the caller reports its error) or the transport error is raised.
+    """
+    for attempt in range(tries):
+        try:
+            resp = client.post(url, **kwargs)
+        except httpx.TransportError:
+            if attempt == tries - 1:
+                raise
+        else:
+            if resp.status_code not in RETRY_STATUS or attempt == tries - 1:
+                return resp
+        time.sleep(2 * 2**attempt)
+    raise AssertionError("unreachable")
 
 
 def api_key(name: str, env_file: Path | None = None) -> str:

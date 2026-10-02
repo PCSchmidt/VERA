@@ -56,7 +56,7 @@ what make a cheap loop possible; then a **thin end-to-end loop** on one
 problem, so the product works early and every later increment improves a
 working pipeline. P1 grows up as the loop's final gate.
 
-## Increment 1 — P2 minimum viable judge ← CURRENT
+## Increment 1 — P2 minimum viable judge — complete 2026-10-01
 
 Router, two backends, ledger, LangGraph helpers, benchmark harness on one
 judging task drawn from the loop's gate decisions (e.g. "idea worth a subset
@@ -65,7 +65,7 @@ Exit: first cost-vs-agreement threshold curve; JDG-P targets set from data;
 measured per-call costs used to estimate one loop run against the spend
 ceiling.
 
-## Increment 2 — Thin loop on one parent problem
+## Increment 2 — Thin loop on one parent problem ← CURRENT
 
 The product, crude but end to end, on the one CPU-scale problem chosen in
 Increment 0 (**TreeHFD**, Benard, NeurIPS 2025, arXiv 2510.24815; fallback:

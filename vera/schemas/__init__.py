@@ -11,11 +11,12 @@ from vera.schemas.judge import (
     SelfGradingError,
     Verdict,
 )
-from vera.schemas.research import StageResult
+from vera.schemas.research import STAGES, OutputGuidance, ProblemSpec, RunSpec, StageResult
 from vera.schemas.version import SCHEMA_VERSION
 
 __all__ = [
     "SCHEMA_VERSION",
+    "STAGES",
     "AuditReport",
     "BenchmarkItem",
     "Budget",
@@ -26,9 +27,12 @@ __all__ = [
     "JudgeBackend",
     "LedgerRecord",
     "Location",
+    "OutputGuidance",
+    "ProblemSpec",
     "Question",
     "QuestionType",
     "RoutingPolicy",
+    "RunSpec",
     "SelfGradingError",
     "StageResult",
     "Verdict",

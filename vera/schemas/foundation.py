@@ -17,6 +17,7 @@ class LedgerRecord(BaseModel):
     latency_ms: int
     timestamp: str  # ISO 8601
     error: str | None = None  # set when the call failed; the record is still written
+    provider: str | None = None  # serving provider the API reports; None if unknown
 
 
 class BudgetExceeded(RuntimeError):

@@ -30,7 +30,7 @@ from collections.abc import Sequence
 
 import httpx
 
-from vera.backends import api_key
+from vera.backends import api_key, post_with_retry
 from vera.judge import ParsedAnswer, to_verdict
 from vera.ledger import CallResult, Ledger, metered_call, new_trace_id
 from vera.schemas import Budget, Question, QuestionType, Verdict
@@ -91,7 +91,9 @@ class JevBackend:
         self.client = client or httpx.Client(timeout=60)
 
     def _call(self, body: dict) -> CallResult:
-        resp = self.client.post(API, json=body, headers={"Authorization": f"Bearer {api_key('TYPESAFE_AI_API_KEY')}"})
+        resp = post_with_retry(
+            self.client, API, json=body, headers={"Authorization": f"Bearer {api_key('TYPESAFE_AI_API_KEY')}"}
+        )
         resp.raise_for_status()
         data = resp.json()
         usage = data.get("usage") or {}

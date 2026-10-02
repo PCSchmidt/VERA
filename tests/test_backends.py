@@ -175,7 +175,15 @@ def test_api_key_reads_env_file(tmp_path: Path, monkeypatch: pytest.MonkeyPatch)
         api_key("MISSING_KEY", env)
 
 
-@pytest.mark.parametrize(("reasoning", "sent"), [(False, {"enabled": False}), (True, {"enabled": True}), (None, None)])
+@pytest.mark.parametrize(
+    ("reasoning", "sent"),
+    [
+        (False, {"enabled": False}),
+        (True, {"enabled": True}),
+        (None, None),
+        ({"effort": "minimal"}, {"effort": "minimal"}),  # passed through as given (the loop judge uses this)
+    ],
+)
 def test_JDG_F_04_openrouter_reasoning_setting_is_sent_only_when_chosen(tmp_path, reasoning, sent) -> None:
     bodies = []
 
@@ -263,3 +271,42 @@ def test_JDG_F_04_openrouter_asks_for_the_cheapest_provider_by_default(tmp_path:
     b.provider_sort = None
     b.ask("s", [BOOL])
     assert "provider" not in seen[1]
+
+
+# ── transport retries ────────────────────────────────────────────────────────────────────────────────
+
+
+def test_post_with_retry_survives_dns_failures_and_throttling(monkeypatch: pytest.MonkeyPatch) -> None:
+    import httpx  # noqa: PLC0415
+
+    from vera.backends import post_with_retry  # noqa: PLC0415
+
+    sleeps: list[float] = []
+    monkeypatch.setattr("vera.backends.time.sleep", sleeps.append)
+    replies = [httpx.ConnectError("getaddrinfo failed"), httpx.Response(429), httpx.Response(200, json={"ok": 1})]
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        reply = replies.pop(0)
+        if isinstance(reply, Exception):
+            raise reply
+        return reply
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+    resp = post_with_retry(client, "https://example.test/x", json={})
+    assert resp.status_code == 200 and sleeps == [2, 4]  # backed off after each failure
+
+
+def test_post_with_retry_gives_up_and_reports(monkeypatch: pytest.MonkeyPatch) -> None:
+    import httpx  # noqa: PLC0415
+
+    from vera.backends import post_with_retry  # noqa: PLC0415
+
+    monkeypatch.setattr("vera.backends.time.sleep", lambda s: None)
+    down = httpx.Client(transport=httpx.MockTransport(lambda r: (_ for _ in ()).throw(httpx.ConnectError("dns"))))
+    with pytest.raises(httpx.ConnectError):
+        post_with_retry(down, "https://example.test/x", json={}, tries=3)
+    throttled = httpx.Client(transport=httpx.MockTransport(lambda r: httpx.Response(503, text="busy")))
+    last = post_with_retry(throttled, "https://example.test/x", json={}, tries=3)
+    assert last.status_code == 503  # after the last try the caller reports the error
+    bad = httpx.Client(transport=httpx.MockTransport(lambda r: httpx.Response(400, text="bad request")))
+    assert post_with_retry(bad, "https://example.test/x", json={}).status_code == 400  # not retried

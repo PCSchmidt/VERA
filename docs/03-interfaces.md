@@ -1,6 +1,6 @@
 # 03 — Interfaces (core schemas)
 
-Version 0.7 · Draft · Changes require a version bump and a changelog line.
+Version 0.8 · Draft · Changes require a version bump and a changelog line.
 
 These are the contracts between layers. Implement as Pydantic v2 models in
 `vera/schemas/`. Field lists are normative; the Python below is a sketch.
@@ -101,6 +101,7 @@ class LedgerRecord(BaseModel):
     latency_ms: int
     timestamp: str  # ISO 8601
     error: str | None = None  # set when the call failed; the record is still written
+    provider: str | None = None  # serving provider the API reports (e.g. OpenRouter's); None if unknown
 ```
 
 ## Budget (foundation, used by P1 and P3)
@@ -179,6 +180,38 @@ class StageResult(BaseModel):
     budget_after: Budget
 ```
 
+### Run specification (RSH-F-01)
+
+```python
+class ProblemSpec(BaseModel):
+    parent_id: str  # arXiv id or DOI of the parent paper
+    repo_url: str  # parent code
+    repo_commit: str  # pinned commit, 40 hex characters
+    metric: str  # the quality metric the loop optimises, e.g. "decomposition_residual"
+    datasets: list[str]  # non-empty
+    subset: dict[str, int | float | str] = {}  # e.g. {"n_samples": 1000, "n_trees": 50}
+
+
+class OutputGuidance(BaseModel):
+    format: str = "paper"  # target format
+    max_words: int | None = None
+    required_sections: list[str] = []
+    emphasis: str | None = None
+    constraints: list[str] = []  # plain-language rules the final check enforces
+
+
+class RunSpec(BaseModel):
+    run_id: str  # filename-safe; names the run's ledger and checkpoint files
+    problem: ProblemSpec
+    guidance: OutputGuidance
+    budget: Budget  # spent counters start at zero
+    models: dict[str, str] = {}  # stage -> backend name; stage names as in StageResult.stage
+```
+
+Rules: `run_id` matches `[A-Za-z0-9][A-Za-z0-9._-]{0,63}`; `repo_commit` is 40 hex
+characters; `datasets` is non-empty; `budget.max_usd` is positive and nothing is
+spent yet; `models` keys are stage names. An invalid spec raises.
+
 Rule: a `StageResult` is invalid and must raise when its gate is issued by the
 stage's producer (`gate.judge_id == producer_id`), or when the gate names a
 different artifact producer (`gate.producer_id` set and `!= producer_id`). The
@@ -204,3 +237,7 @@ different artifact producer (`gate.producer_id` set and `!= producer_id`). The
 - 0.7 — `BenchmarkItem` added (Increment 1 benchmark, risk R3): each item
   carries its label and how it was built, so labels are known by construction
   and a label that isn't a valid answer to its question raises.
+- 0.8 — `LedgerRecord.provider` added: OpenRouter serves one model through many
+  providers at different prices, so per-provider cost and quality could not be
+  separated (Increment 1 open item). `RunSpec`, `ProblemSpec` and `OutputGuidance`
+  added for the research loop's inputs (RSH-F-01, Increment 2).

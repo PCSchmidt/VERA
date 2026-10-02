@@ -27,6 +27,10 @@ from typing import Any
 from vera.schemas import Budget, LedgerRecord
 
 
+class LedgerExistsError(FileExistsError):
+    """A new run would reuse (and so risk overwriting) an existing run ledger."""
+
+
 @dataclass
 class CallResult:
     """What a backend's raw call returns to `metered_call`."""
@@ -36,6 +40,7 @@ class CallResult:
     input_tokens: int | None = None
     output_tokens: int | None = None
     cost_usd: float = 0.0
+    provider: str | None = None  # serving provider, when the API reports it
     extra: dict[str, Any] = field(default_factory=dict)  # e.g. logprobs; not written to the ledger
 
 
@@ -46,6 +51,17 @@ class Ledger:
         self.path = Path(path)
         self.run_id = run_id or self.path.stem
         self.path.parent.mkdir(parents=True, exist_ok=True)
+
+    @classmethod
+    def for_run(cls, run_id: str, *, root: Path = Path("data/ledger"), resume: bool = False) -> Ledger:
+        """The ledger for a run: `<root>/run_<run_id>.jsonl`. One file per run, never overwritten.
+
+        Starting a run whose ledger already exists raises `LedgerExistsError` unless `resume` is set.
+        """
+        path = Path(root) / f"run_{run_id}.jsonl"
+        if path.exists() and not resume:
+            raise LedgerExistsError(f"{path} already exists; resume the run or pick a new run id")
+        return cls(path, run_id=run_id)
 
     def write(self, record: LedgerRecord) -> None:
         with self.path.open("a", encoding="utf-8") as fh:
@@ -103,6 +119,7 @@ def metered_call(
                 latency_ms=latency_ms,
                 timestamp=dt.datetime.now(dt.UTC).isoformat(timespec="milliseconds"),
                 error=error,
+                provider=result.provider if result else None,
             )
         )
         budget.charge(result.cost_usd if result else 0.0, seconds=round(latency_ms / 1000), calls=1)

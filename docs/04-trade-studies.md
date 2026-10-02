@@ -204,41 +204,163 @@ Keep each to one short section. Status: **open** until decided.
   Docker proves unreliable, then fall back to Docling for references too
   (84.5% here) and accept its failure mode.
 
-## T4 — Sandbox (open, decide in Increment 2)
+## T4 — Sandbox (decided 2026-10-01, Increment 2)
 
-- **Options:** local Docker (network off by default); hosted sandbox service.
-- **Criteria:** isolation, GPU access, cost, Windows support (WSL2).
+- **Options:** (a) local Docker (network off by default); (b) a hosted sandbox
+  service.
+- **Criteria:** isolation, GPU access, cost, Windows support (WSL2), startup
+  overhead, how well it carries over to a hosted app (T8).
+- **Test (2026-10-01, `scripts/t4_sandbox_check.py`, image `docker/sandbox-treehfd/`, Docker Desktop 29.7 on WSL2, 24
+  CPUs, 32 GB):** an image built from the TreeHFD checkout at commit
+  `dd02152` (Apache-2.0, version 1.4.2; `python:3.12-slim`, `pip install`,
+  non-root user) run with `--network none --read-only --tmpfs /tmp
+  --cap-drop ALL --security-opt no-new-privileges --pids-limit 128 --memory 1g
+  --cpus 2` and only a working directory mounted. The hosted option was not
+  measured: it would be an account, a key and a per-run price, and a request
+  for a second vendor's terms before any evidence that Docker fails.
+- **Scores:**
 
-## T5 — Bibliographic source for citation checks and literature retrieval (open, Increment 2-3)
+  | Property | Result |
+  |---|---|
+  | No network | TCP connect and DNS both fail inside; the same snippet on the default bridge connects (so the test can fail) |
+  | Host files | only `/work` is visible; the repository's `.env`, `/c`, `/Users`, `/mnt/host` do not exist; mounts are `/`, `/work` and three Docker files |
+  | Writes | `/etc`, `/opt`, `/usr`, home refused (read-only root); `/work` and the 64 MB `/tmp` allowed; `/work` files appear on the host |
+  | Wall-clock kill | `docker kill <name>` after 8 s stops an infinite loop and leaves no container (killing only the `docker` client would not) |
+  | Memory limit | allocating 4 GB under `--memory 1g` is killed (exit 137) |
+  | Process limit | a fork bomb gets `EAGAIN` at 128 processes |
+  | Secrets | the host environment is not inherited; the only key-like variable is `GPG_KEY`, the public key id of the Python base image |
+  | Overhead | 0.5-0.6 s per container start (1.2 s cold) |
+  | The baseline | TreeHFD (n = 5000, 6 dimensions, 100 XGBoost trees, interaction order 2) runs in 21 s inside it, relative residual variance 0.0104 (about 1%) |
+  | GPU | Docker Desktop lists an NVIDIA runtime; not needed for CPU-scale problems, not tested |
+
+  Gaps found: `/work` has no size cap (the sandbox module must check the
+  directory size after a run); the image's `GPG_KEY` variable means a "no
+  key-like variable" test needs an allow-list, or the image should clear it;
+  the image takes 2.5 minutes to build and needs the network once, outside the
+  sandbox.
+- **Decision:** (Chris, 2026-10-01) (a),
+  local Docker, run through one function with the flags above, the wall limit
+  enforced by `docker kill`, the network off unless a run grants it (recorded),
+  and the image built in advance from a pinned commit. No hosted sandbox now.
+- **Reverse if:** (1) Docker Desktop proves unreliable on this machine over
+  the Increment 2 runs (hangs, daemon restarts); (2) a problem needs a GPU
+  or more than the container limits; (3) T8 chooses a hosted app, where the
+  same image runs under a hosted container service instead, so this decision
+  carries over unless that service cannot run it with the network off.
+
+## T5 — Bibliographic source for citation checks and literature retrieval (decided 2026-10-01, Increment 2-3)
 
 - **Options:** Crossref, arXiv API, Semantic Scholar, OpenAlex (likely a
   combination with fallbacks).
 - **Criteria:** coverage of ML venues and preprints, rate limits, terms,
   search quality for the literature stage (Increment 3), open-access PDF links.
+- **Test (`scripts/t5_lookup.py`, seed 20261003):** the 10 T3 papers; 15
+  references per set drawn by seed from two sets, 292 distinct titles: the
+  generated paper's GROBID list (may hold fabricated entries) and its parent
+  paper's GROBID list (real papers, so a miss is a coverage gap or a parse
+  error). Each looked up by title (top 3 results). A hit has normalised title
+  similarity >= 0.90; "title+year" also needs the year within 1. No email or
+  key was sent to Crossref or arXiv; requests carried a User-Agent naming the
+  project. OpenAlex was first tried keyless and cut off, then completed with
+  Chris's free key (read from `.env`, never cached or logged).
+- **Scores** (hit rate on real parent references / on generated references;
+  Crossref, arXiv and OpenAlex completed all 292 titles; Semantic Scholar was
+  throttled to 14 titles):
 
-## T6 — Tracing/observability (open, decide in Increment 2; moved from Increment 1 at its review)
+  | Source | Parent, title+year | Parent, title only | Generated, title+year | p50 latency | Terms and limits found |
+  |---|---|---|---|---|---|
+  | Crossref | 45.6% (149) | 48.3% | 41.3% (150) | 1.0 s | free, keyless; no limit hit at 0.3 s pauses |
+  | arXiv API | 51.7% (147) | 59.9% | 78.7% (150) | 0.2 s | free, keyless; 1 request per 3 s asked; retries on 429/5xx needed |
+  | OpenAlex | 64.4% (149) | 69.1% | 79.3% (150) | 0.3 s | **needs an API key**: keyless requests share a tiny daily budget per IP address (about 100 searches, gone after 104 lookups); the free key is limited to $1 a day, about 1,000 searches at $0.001 each |
+  | Semantic Scholar | not measured | | 85.7% (14) | 16 s | keyless pool throttled almost every request (HTTP 429); a key is needed in practice |
+  | **Crossref + arXiv** | **74.5%** | **80.5%** | **90.0%** (92.0% title only) | | |
+  | Crossref + arXiv + OpenAlex | 81.2% | 86.6% | 92.7% (93.3% title only) | | |
+
+  What the misses on real parent references are (38 of 149 missed by both
+  completed sources, 9 of them found by title once the year rule is dropped:
+  preprint year against journal year, e.g. a 1996 paper cited as 1998): GROBID
+  parse errors (author names merged into the title, about 4), books, talks and
+  technical notes that neither source indexes (for example "Prediction,
+  learning, and games", "Coherent measures of risk", the JAX report), and
+  titles Crossref ranks outside its top 3. Of the 15 generated-paper misses,
+  about 4 are parse errors, 4 are year differences, and the rest are not found
+  (a too-new parent, a real paper not indexed, possibly fabricated entries):
+  the measurement cannot tell these apart, so "not found" means "unverified",
+  not "fabricated", for anyone else's paper.
+- **Decision:** (Chris, 2026-10-01)
+  **Crossref and arXiv as the keyless pair** for existence checks and
+  retrieval, queried by title with the year used as a hint (an exact title
+  with a different year is a match with an `info` finding, not a miss).
+  OpenAlex (measured: adds about 7 points on real references) and Semantic
+  Scholar (unusable keyless) are optional extras that the user's own key
+  switches on (APP-C-01: never a maintainer key in an artifact; a key in
+  Chris's `.env` for his own runs is fine). For Increment 2 the loop's own
+  write-up cites only records it retrieved, so each reference is first
+  matched against the run's retrieval log (exact), then looked up; a
+  reference that is neither fails the audit. For external papers
+  (Increment 6) the lookup needs a title-with-author fallback and a
+  separate "unverified" tier below `fail`; AUD-F-03's detection and
+  false-positive targets come from the seeded set there, not from this
+  measurement.
+- **Reverse if:** (1) in Increment 3, retrieval from Crossref + arXiv
+  misses too many relevant papers for the literature stage (judged by the
+  topics' known key papers), then make a keyed OpenAlex or Semantic Scholar
+  the primary; (2) arXiv's rate limit makes a literature stage too slow;
+  (3) either source's terms or limits change; (4) the seeded citation faults
+  show false "fail" findings on real references above AUD-P-01's 10%, then
+  add the fallback tiers before widening the checks.
+
+## T6 — Tracing/observability (decided 2026-10-01, Increment 2)
 
 - **Options:** LangSmith; OpenTelemetry + local store; ledger-only.
 - **Criteria:** cost, lock-in, ability to publish traces with results.
+- **Evidence (Increment 2):** every fault found in this increment was diagnosed from what VERA already records:
+  the per-run ledger (component, model, provider, tokens, cost, latency, timestamp, error), `gates.jsonl` (each
+  judge question with its material, verdict and programmatic shadow answer), the stage artifacts (including the
+  generator's raw replies on failure) and the checkpoints. Examples: GLM's unbounded reasoning (ledger output tokens),
+  MiMo's empty replies (ledger tokens against the 8000 cap), TreeHFD's non-deterministic `predict`, and a 39-minute
+  machine standby that made valid experiments look timed out (file times against the Windows power log).
+- **Scores:** none measured, as there are no tracing options to compare; the evidence above is the record.
+- **Decision:** (Chris, 2026-10-01, by approving `trades_decided_2` on the proposal as written) ledger plus checkpoints plus `gates.jsonl`; no
+  tracing service. They are local, free, publishable with results, and already carry what debugging needed.
+- **Reverse if:** (1) Increment 3's literature stage has call trees deep enough that the flat ledger can't show which
+  retrieval produced which claim; (2) a failure needs the full prompt and reply of every call, which the ledger
+  deliberately does not store; (3) results need to be published with browsable traces.
 
-## T7 — Loop context management (open, decide in Increment 2)
+## T7 — Loop context management (decided 2026-10-01, Increment 2)
 
-- **Options:** (a) plain LangGraph state plus summarisation; (b) prime-agent
-  style Recursive Language Model patterns: papers, logs, and code held as REPL
-  variables instead of in the context window, recursive sub-calls, bounded
-  autonomy within turn/token/time budgets, durable sessions
-  (PrimeIntellect-ai/prime-agent, MIT; a clone is in the workspace); (c)
-  LangChain Deep Agents' filesystem and context management.
-- **Criteria:** tokens and cost per loop run, reliability over multi-hour runs,
-  implementation effort, fit with the `Budget`/ledger, Windows support.
-- **Leaning:** borrow (b)'s prompt-as-variable pattern inside VERA's own
-  LangGraph nodes rather than adopting prime-agent wholesale; measure token
-  savings against (a) on the Increment 2 problem.
-- **Constraint:** prime-agent's worker and kernel processes are explicitly not
-  a security sandbox. Agent-generated code still runs only in the T4 sandbox
-  (FND-F-03).
-- **Reverse if:** the measured token savings are small on CPU-scale problems,
-  or the pattern fights LangGraph checkpointing.
+- **Options:** (a) plain LangGraph state plus summarisation; (b) prime-agent style Recursive Language Model patterns:
+  papers, logs, and code held as REPL variables instead of in the context window, recursive sub-calls, bounded
+  autonomy within turn/token/time budgets, durable sessions (PrimeIntellect-ai/prime-agent, MIT); (c) LangChain
+  Deep Agents' filesystem and context management.
+- **Criteria:** tokens and cost per loop run, reliability over multi-hour runs, implementation effort, fit with the
+  `Budget`/ledger, Windows support.
+- **Constraint:** prime-agent's worker and kernel processes are explicitly not a security sandbox. Agent-generated
+  code still runs only in the T4 sandbox (FND-F-03).
+- **Scores:** option (b) was not built; what was measured is the most it could save. Before building it, the ledgers of the
+  generator-comparison runs (T9) give the most a context technique could save, which is the input side of the
+  generators' bill:
+
+  | Arm | Input tokens | Output tokens | Input share of generator cost (catalogue prices) |
+  |---|---|---|---|
+  | GLM-5.3 Flash | 13,017 | 12,935 | 23% |
+  | GLM + Sonnet write-up | 13,186 | 15,348 | 18% |
+  | Sonnet 5.5 | 15,465 | 17,324 | 15% |
+  | DeepSeek V4.1 Flash | 12,653 | 98,753 | 1% |
+  | MiMo-V2.6-Pro | 8,127 | 111,880 | 4% |
+
+  (three runs per arm; the last two arms are mostly empty replies that used their whole output allowance). The
+  loop's prompts are small by construction (a results table, the idea texts, an API example): about 1,000 to 2,000
+  input tokens per call. Output tokens, and within them the models' hidden reasoning, are 50% to 97% of the tokens
+  and 77% to 99% of the generator cost. A perfect context technique that removed all input would save at most about
+  15% to 23% of a bill of $0.002 to $0.05 per run.
+- **Decision:** (Chris, 2026-10-01, by approving `trades_decided_2` on the proposal as written) (a), plain LangGraph state with small prompts built
+  by the stage (as now). Do not build (b) for Increment 2: its ceiling here is a fraction of a cent per run, and it
+  adds a REPL process next to a sandbox that already isolates code.
+- **Reverse if:** (1) Increment 3's literature stage puts long papers in the prompt, so input dominates (measure the
+  input share again there; this is where the prompt-as-variable pattern should be tested first); (2) a run's prompts
+  grow past a fixed size (say 20,000 input tokens per call); (3) the REPL idea is wanted for another reason, to let
+  the model test code as it writes it, which is a separate design question about the sandbox, not a cost trick.
 
 ## T8 — App delivery and bring-your-own-key (open, decide in Increment 5)
 
@@ -260,3 +382,63 @@ Keep each to one short section. Status: **open** until decided.
   full hosted app; or a local install proves too hard for the intended
   users, then invest in packaging.
 
+## T9 — Generator model(s) for the loop's producers (decided 2026-10-01, Increment 2)
+
+- **Options (arms):** (A) GLM-5.3 Flash for every stage; (B) GLM for ideas and code with Claude Sonnet 5.5 writing the
+  report; (C) MiMo-V2.6-Pro for every stage; (D) DeepSeek V4.1 Flash for every stage; (E) Sonnet 5.5 for every stage
+  (the quality reference).
+- **Criteria:** whether the experiment code works, whether the run completes and its audit is not red, cost, wall time,
+  independence from the judge (the loop's questions go to GLM, so a GLM generator is graded by its own model family).
+- **Test (`scripts/run_loop.py --arm ... --from-run smoke-007`, `scripts/reaudit_runs.py`, `scripts/summarize_arms.py`):**
+  every run starts at the ideas stage from the same recorded baseline (smoke-007), asks for 3 ideas, implements the 2
+  best (one retry each), writes the report and is audited. Three repeats per arm (MiMo with a 20,000-token allowance:
+  one, the second repeat stopped early); identical settings for all (`reasoning: {effort: minimal}`, 8,000 output
+  tokens, temperature 0.7); every report re-audited with the same final audit code. A first wave of five runs was
+  discarded: the machine entered standby for 39 minutes mid-run, so valid experiments were recorded as timed out; the
+  runner now holds a keep-awake request (`vera/keepawake.py`), and the discarded runs' ledgers are kept. Small N:
+  directional. Raw results: `data/results/generator_comparison.json`.
+- **Scores:** (cost is the run ledger's billed total; "first try" counts the 6 selected ideas per arm that ran validly
+  on the first attempt; "audit" is the final audit result of each repeat that produced a report):
+
+  | Arm | First try | Valid at all | Runs with a valid experiment | Audit of those | Mean cost | Wall per run |
+  |---|---|---|---|---|---|---|
+  | A GLM-5.3 Flash | 3/6 | 6/6 | 3/3 | green, green, **red** | $0.0019 | 530-933 s |
+  | B GLM + Sonnet write-up | 4/6 | 6/6 | 3/3 | amber, green, green | $0.0172 | 585-853 s |
+  | C MiMo-V2.6-Pro | 0/6 | 0/6 | 0/3 | none | $0.0286 | 999-1,072 s |
+  | C' MiMo, 20,000 tokens | 0/2 | 0/2 | 0/1 | none | $0.0682 | 2,616 s |
+  | D DeepSeek V4.1 Flash | 1/6 | 2/6 | 1/3 | green | $0.0161 | 748-1,742 s |
+  | E Sonnet 5.5 | **6/6** | 6/6 | 3/3 | green, amber, green | $0.0492 | **541-682 s** |
+
+  Where the cost goes (means): Sonnet spends $0.0056 on ideas, $0.0277 on code and $0.0156 on the report; in B the
+  report is 89% of the cost ($0.0152, against $0.0004 if GLM wrote it).
+- **Findings.**
+  - **No arm improved on TreeHFD.** Across all 16 runs no idea beat the baseline on every dataset (the best cases
+    improved one dataset and worsened the other). The generator choice changes reliability and cost, not whether the
+    loop finds a better method on this problem; that is the loop's research quality, to be measured against
+    ScientistTwo in Increment 4.
+  - **MiMo-Pro and DeepSeek-Flash fail on code at these settings**: their replies came back empty after using the
+    whole 8,000-token allowance (MiMo in every attempt, DeepSeek in most), because `effort: minimal` does not bound
+    their reasoning on a code task, though it did for GLM (about 130 reasoning tokens on the probe) and Sonnet. Even
+    20,000 tokens did not rescue MiMo (calls took about 13 minutes each). A different setting might fix them; this
+    test cannot say.
+  - **Sonnet implemented every idea first try** and finished fastest (fewer retries); GLM needed a retry on half
+    its ideas.
+  - **The audit found a real fault in a GLM report** ("runtime increased +~10% on both datasets", where the results
+    give about +9% and +6% for one idea and +25% for the other): a loose approximation matching no real number.
+    It also failed two papers falsely before the audit was fixed (a method-section design threshold counted as a
+    result); those were re-audited with the final code.
+  - **Cost is no longer the constraint.** Sonnet throughout costs about $0.05 per run, about 100 times less than the
+    Increment 1 estimate (about $5.7), which assumed reasoning-heavy output. The $20 ceiling allows several hundred
+    such runs.
+  - **Independence.** With a Sonnet generator, nothing the loop produces is graded by its own model family (the judge
+    path is Jev and GLM); with A and B, GLM writes ideas and code and also scores them.
+- **Decision:** (Chris, 2026-10-01, by approving `trades_decided_2` on the proposal as written) **E, Sonnet 5.5 for every stage**, for the Increment 2
+  complete run and for building Increment 3: the only arm with a clean first-try record, the fastest, no
+  generator/judge overlap, at a cost of cents. GLM-5.3 Flash (A) stays the documented low-cost option for the app's
+  bring-your-own-key users (Increment 5), at a bill about 25 times lower and with more retries and a loose-number
+  tendency. MiMo-Pro and DeepSeek-Flash are not used at these settings.
+- **Reverse if:** (1) Sonnet's price or availability changes so that a run costs more than a few percent of the
+  ceiling; (2) a setting change (a different reasoning control, a larger allowance with a bounded effort) lets MiMo or
+  DeepSeek match Sonnet's first-try rate at a lower cost; (3) Increment 4's comparison shows ideas, not code, are
+  where quality is decided: then test an ideation model separately; (4) the judge path moves to the same family as the
+  generator, restoring the overlap this decision avoided.

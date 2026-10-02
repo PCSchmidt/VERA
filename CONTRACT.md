@@ -31,10 +31,11 @@ independent researchers and small labs (P3). See ConOps §2.
 
 ## Scope
 
-**Current increment: Increment 1 — P2 minimum viable judge** ([docs/07-increments.md](docs/07-increments.md)).
-Increment 0 is complete ([docs/reviews/incr-0.md](docs/reviews/incr-0.md)).
-Only Increment 1 work is in scope until its review (`docs/reviews/incr-1.md`)
-confirms Increment 2. [SPEC.md](SPEC.md) lists the Increment 1 deliverables.
+**Current increment: Increment 2 — thin loop on TreeHFD** ([docs/07-increments.md](docs/07-increments.md)).
+Increments 0 and 1 are complete ([docs/reviews/incr-0.md](docs/reviews/incr-0.md),
+[docs/reviews/incr-1.md](docs/reviews/incr-1.md)). Only Increment 2 work is in
+scope until its review (`docs/reviews/incr-2.md`) confirms Increment 3.
+[SPEC.md](SPEC.md) lists the Increment 2 deliverables.
 
 In scope for the project as a whole: the three layers above, their data
 contracts ([docs/03-interfaces.md](docs/03-interfaces.md)), and the
