@@ -1,0 +1,32 @@
+{
+  "gate": "incr3_review",
+  "requested_at": "2026-10-03T13:49:03Z",
+  "system_prompt": "You did not produce the artifacts you are reviewing. Do not praise. Do not explain. Score the work 0-10 against the gate's spec and flag every gap. Return only JSON: {\"gate\":\"<id>\",\"score\":<0-10>,\"verdict\":\"pass|fail|warn\",\"notes\":\"<terse>\"}.",
+  "artifacts": [
+    "docs/reviews/incr-3.md",
+    "SPEC.md",
+    "docs/07-increments.md",
+    "docs/04-trade-studies.md",
+    "docs/02-requirements.md",
+    "docs/results/topic_costs.md",
+    "docs/results/seeded_v2.md",
+    "docs/results/retrieval_recall.md",
+    "data/results/topic_costs.json",
+    "data/results/run_topic-a-loop-1.json",
+    "data/results/run_topic-a-loop-2.json",
+    "data/results/run_topic-a-loop-3.json",
+    "data/claim_bench/results.json",
+    "data/claim_bench/real_results.json",
+    "data/retest3/results.json",
+    "data/retest3/accounting.json",
+    "data/seeded_v2/results_test.json",
+    "data/results/rubric_evaluator.json",
+    "docs/results/topic-a-loop-3/paper.md",
+    "docs/results/topic-a-loop-3/audit.md",
+    "docs/results/treehfd_baseline_target.json",
+    ".meridian/gates.yaml",
+    "tools/checks/check_topic_runs.py",
+    "tools/checks/check_retest3.py"
+  ],
+  "verdict_path": "incr3_review-verdict.json"
+}

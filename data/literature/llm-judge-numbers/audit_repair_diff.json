@@ -1,0 +1,37 @@
+{
+ "note": "Difference between the claims the synthesis stage passed (claims.pre_audit_repair.jsonl) and the final claims, computed by comparing the two files after the repair passes. The per-pass log kept only the last pass for credal-dro (it became cumulative after the first two), so this diff is the complete record of what the repair changed.",
+ "replaced_or_removed": [
+  {
+   "source_key": "R15",
+   "claim": "Errors concentrated in the task types that resemble multi-step numeric claims.",
+   "quote": "False acceptances concentrate in exact recall (50%), multi-hop (46%), and threshold (33%) categories"
+  },
+  {
+   "source_key": "R46",
+   "claim": "The same study found that zero-shot, context-free judging often performed best, which sits oddly beside the financial finding that source access matters.",
+   "quote": "zero-shot, context-free judging often yields the best evaluation performance"
+  },
+  {
+   "source_key": "R37",
+   "claim": "A survey notes that explanation before or after rating gave higher correlations with human ratings, but this is for general evaluation, not numeric claims.",
+   "quote": "leads to higher correlations with human ratings"
+  }
+ ],
+ "now_present": [
+  {
+   "source_key": "R15",
+   "claim": "False acceptances concentrated in exact recall (50%), multi-hop (46%), and threshold (33%) categories.",
+   "quote": "False acceptances concentrate in exact recall (50%), multi-hop (46%), and threshold (33%) categories"
+  },
+  {
+   "source_key": "R46",
+   "claim": "The same study reported that zero-shot, context-free judging often yields the best evaluation performance.",
+   "quote": "zero-shot, context-free judging often yields the best evaluation performance"
+  },
+  {
+   "source_key": "R37",
+   "claim": "A survey reports that combining rating with explanation, in either order, leads to higher correlations with human ratings.",
+   "quote": "leads to higher correlations with human ratings"
+  }
+ ]
+}
