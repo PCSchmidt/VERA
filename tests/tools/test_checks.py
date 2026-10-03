@@ -697,12 +697,20 @@ def test_dogfood_check_blocks_a_gate_day_without_an_entry(tmp_path: Path) -> Non
     assert result.returncode == 2 and "2026-10-01" in result.stderr
 
 
-def test_dogfood_check_ignores_zero_hour_entries_and_flags_early_ones(tmp_path: Path) -> None:
-    dogfood_fixture(tmp_path, [("2026-10-01T15:00:00Z", 1.5), ("2026-10-02T12:00:00Z", 0)])
-    assert run("check_dogfood.py", tmp_path).returncode == 2
+def test_dogfood_check_ignores_zero_hour_entries_and_entries_from_before_the_increment(tmp_path: Path) -> None:
+    dogfood_fixture(tmp_path, [("2026-10-01T17:00:00Z", 0), ("2026-10-02T12:00:00Z", 1.0)])
+    assert run("check_dogfood.py", tmp_path).returncode == 2  # a zero-hour entry covers nothing
+    # an entry at 15:00 on 10-01 is before incr1_review passed (15:13): it does not cover 10-01
     dogfood_fixture(tmp_path, [("2026-10-01T15:00:00Z", 1.5), ("2026-10-02T12:00:00Z", 1.0)])
     result = run("check_dogfood.py", tmp_path)
-    assert result.returncode == 0 and "1 recorded before the increment opened" in result.stdout
+    assert (
+        result.returncode == 2 and "2026-10-01" in result.stderr and "1 earlier entries do not count" in result.stderr
+    )
+    dogfood_fixture(
+        tmp_path, [("2026-10-01T15:00:00Z", 1.5), ("2026-10-01T17:00:00Z", 1.0), ("2026-10-02T12:00:00Z", 1.0)]
+    )
+    result = run("check_dogfood.py", tmp_path)
+    assert result.returncode == 0 and "1 entries recorded before the increment opened were not counted" in result.stdout
 
 
 # ── topics_chosen ─────────────────────────────────────────────────────────────

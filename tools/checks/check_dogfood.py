@@ -6,9 +6,10 @@ Gate passes come from `.meridian/telemetry.jsonl` (`gate_passed` events after th
 opens the increment; by default the most recent `incr<N>_review` gate passed, so the check needs no editing per
 increment); overhead entries from `.meridian/dogfood.jsonl` (`type: overhead`, written by
 `scripts/dogfood.sh overhead <hours> [note]`). Days are UTC calendar days, as both files stamp them. A day passes if
-at least one overhead entry with positive hours was recorded on it. The check reads the day an entry was recorded,
-not the work it covers: an entry logged at the end of a session for several days covers only that day here, and the
-output says which entries fall before the increment's first gate so a reader can see what a pass rests on.
+at least one overhead entry with positive hours was recorded on it **after the increment opened** (entries recorded
+before it do not count: one carried-over entry cannot satisfy a new increment's first day, the Increment 3 loophole).
+The check reads the day an entry was recorded, not the work it covers: an entry logged at the end of a session for
+several days covers only that day here.
 """
 
 from __future__ import annotations
@@ -69,21 +70,26 @@ def main() -> None:
     days, start = gate_days(telemetry, since_gate)
     entries = [e for e in (read_jsonl(dogfood_file) if dogfood_file.exists() else []) if e.get("type") == "overhead"]
     by_day: dict[str, list[dict]] = {}
+    before = 0  # entries recorded before the increment opened: a carried-over entry cannot cover a new increment's day
     for e in entries:
         if (e.get("hours") or 0) > 0:
+            if e["recorded_at"] < start:
+                before += 1
+                continue
             by_day.setdefault(e["recorded_at"][:10], []).append(e)
     missing = sorted(d for d in days if d not in by_day)
     if missing:
         block(
-            f"no overhead entry on {missing} (gates passed: {[days[d] for d in missing]}); "
-            "log it at the end of the session: bash scripts/dogfood.sh overhead <hours> [note]"
+            f"no overhead entry recorded after {start} on {missing} (gates passed: {[days[d] for d in missing]}; "
+            f"{before} earlier entries do not count); log it at the end of the session: "
+            "bash scripts/dogfood.sh overhead <hours> <note naming the dates and work>"
         )
     lines = []
     for day in sorted(days):
         hours = sum(e["hours"] for e in by_day[day])
-        early = sum(1 for e in by_day[day] if e["recorded_at"] < start)
-        note = f" ({early} recorded before the increment opened)" if early else ""
-        lines.append(f"{day}: {len(days[day])} gates, {hours:g} h in {len(by_day[day])} entries{note}")
+        lines.append(f"{day}: {len(days[day])} gates, {hours:g} h in {len(by_day[day])} entries")
+    if before:
+        lines.append(f"{before} entries recorded before the increment opened were not counted")
     ok(f"overhead entry for every day a gate passed since {since_gate} ({start}): " + "; ".join(lines))
 
 
