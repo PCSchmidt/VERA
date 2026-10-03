@@ -1,6 +1,6 @@
-# Draft issue for ThalesGroup/treehfd (not filed)
+# Issue filed on ThalesGroup/treehfd: https://github.com/ThalesGroup/treehfd/issues/10
 
-Status: **draft, not filed.** Filing is Chris's decision (an outward-facing action); the agent does not post it.
+Status: **filed 2026-10-03** under Chris's account, on his go-ahead. Before filing, upstream `main` was rechecked: still commit `dd02152`, the unseeded `default_rng().choice` still at `src/treehfd/cartesian_partition.py` line 215, and the repo had no issues. The text below is as filed (path corrected from the first draft).
 Evidence: `docs/results/treehfd_baseline_first_runs.md` (finding 2) and `docker/sandbox-treehfd/harness.py`.
 Before filing, re-run the reproduction below against the current `main`; this was observed on commit `dd02152`
 (version 1.4.2) only.
@@ -11,7 +11,7 @@ Before filing, re-run the reproduction below against the current `main`; this wa
 
 **What happens.** For rows that fall in a cartesian cell with no training sample, `predict` merges the row with the
 nearest cell and breaks distance ties with `np.random.default_rng()` created without a seed
-(`treehfd/cartesian_partition.py`, `predict_partition`). Two identical calls on the same fitted model can therefore
+(`src/treehfd/cartesian_partition.py`, line 215 in `predict_partition`). Two identical calls on the same fitted model can therefore
 return different interaction predictions.
 
 **Observed.** On the UCI Airfoil Self-Noise data (n = 1503, 5 features, an `XGBRegressor` with 100 trees, TreeHFD with
