@@ -1151,3 +1151,19 @@ def test_retest3_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> Non
     result = run("check_retest3.py", tmp_path)
     assert result.returncode == 2
     assert message in result.stderr
+
+
+def test_topics_check_expects_four_topics_and_dates_each_topic_by_its_own_entry(tmp_path: Path) -> None:
+    topics_fixture(tmp_path, paths=(*TOPIC_PATHS, "non_empirical"), retrieved_on="2026-10-03")
+    assert run("check_topics.py", tmp_path, "--expect", "4").returncode == 0
+    assert run("check_topics.py", tmp_path).returncode == 2  # three expected by default
+    manifest = json.loads((tmp_path / "data/topics/manifest.json").read_text(encoding="utf-8"))
+    manifest["recorded_at"] = "2026-10-04T10:00:00Z"  # rebuilt later: topics keep the date their key papers were fixed
+    for entry in manifest["topics"].values():
+        entry["recorded_at"] = "2026-10-01T10:00:00Z"
+    write(tmp_path, "data/topics/manifest.json", json.dumps(manifest))
+    assert run("check_topics.py", tmp_path, "--expect", "4").returncode == 0
+    manifest["topics"]["topic3"]["recorded_at"] = "2026-10-04T10:00:00Z"  # the fresh topic's key papers came after
+    write(tmp_path, "data/topics/manifest.json", json.dumps(manifest))
+    result = run("check_topics.py", tmp_path, "--expect", "4")
+    assert result.returncode == 2 and "topic3" in result.stderr and "before the manifest" in result.stderr

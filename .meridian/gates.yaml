@@ -563,7 +563,7 @@ gates:
 
   # ── Increment 4: paper quality and the measured comparison (SPEC.md) ───────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
-  # Defined so far: incr4_scoped, carry_in_ready. Still to add: topics4_chosen, lit2_ready,
+  # Defined so far: incr4_scoped, carry_in_ready, topics4_chosen. Still to add: lit2_ready,
   # problem2_ready, protocol_ready, writeup2_ready, audit4_ready, runs4, comparison4,
   # rubric_scored, incr4_review.
 
@@ -599,3 +599,16 @@ gates:
         - gate-tests.sh             # ruff + the full suite
         - gate-vendor-imports.sh    # FND-C-01 still holds
         - gate-schema-version.sh    # schemas 0.10 match docs/03 and have a changelog line
+
+  - id: topics4_chosen
+    label: "A fresh topic and its key-paper list fixed and hashed before any retrieval for it"
+    type: human_approval
+    required: true
+    approval_token: "TOPICS 4 CHOSEN"
+    requires:
+      - incr4_scoped
+    requires_artifacts:
+      - data/topics/manifest.json
+    hooks:
+      pre:
+        - gate-topics4.sh           # 4 topics: the three original, hashes unchanged, plus one fresh, its date before its retrieval

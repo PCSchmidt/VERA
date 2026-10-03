@@ -21,18 +21,28 @@ TOPICS = ROOT / "data" / "topics"
 
 def main() -> None:
     topics = {}
+    manifest_file = TOPICS / "manifest.json"
+    earlier = json.loads(manifest_file.read_text(encoding="utf-8")) if manifest_file.exists() else {}
+    now = dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
     for path in sorted(TOPICS.glob("*.json")):
         if path.name == "manifest.json" or path.name.startswith(("scope_", "parent_")):
             continue
         info = json.loads(path.read_text(encoding="utf-8"))
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        before = earlier.get("topics", {}).get(info["id"])
+        # a topic whose file is unchanged keeps the time its key papers were fixed; a new or edited one gets now
+        recorded = (
+            before.get("recorded_at", earlier.get("recorded_at", now)) if before and before["sha256"] == digest else now
+        )
         topics[info["id"]] = {
             "file": path.name,
-            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "sha256": digest,
             "path": info["path"],
             "n_key_papers": len(info["key_papers"]),
+            "recorded_at": recorded,
         }
     manifest = {
-        "recorded_at": dt.datetime.now(dt.UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "recorded_at": now,
         "note": "Fixed before the first retrieval for these topics (SPEC 'Topics and key papers').",
         "topics": topics,
     }

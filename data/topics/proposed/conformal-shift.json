@@ -1,0 +1,81 @@
+{
+ "id": "conformal-shift",
+ "text": "Conformal prediction under distribution shift",
+ "path": "non_empirical",
+ "path_note": "Non-empirical: a literature-and-analysis review with no experiments of its own. A mature, well-indexed field with a clear set of named methods, so a missed key paper is a retrieval failure, not an absent literature.",
+ "good_question": "One specific question about which conformal prediction methods keep their coverage guarantee under covariate shift, label shift or temporal drift, and what each needs to assume.",
+ "status": "draft, proposed by the agent; Chris chooses one (or edits), moves it to data/topics/ and approves topics4_chosen",
+ "key_papers_note": "Identifiers checked by looking up each arXiv id (arXiv API) for its title, first author and year on 2026-10-03; an id that returned the wrong paper was replaced. This is a metadata check of the listed papers, not a topic search; no query built from the topic or its question has been run.",
+ "key_papers": [
+  {
+   "title": "Conformal Prediction Under Covariate Shift",
+   "year": 2019,
+   "id": "arXiv:1904.06019",
+   "first_author": "Tibshirani",
+   "why": "weighted conformal under covariate shift"
+  },
+  {
+   "title": "Conformal prediction beyond exchangeability",
+   "year": 2022,
+   "id": "arXiv:2202.13415",
+   "first_author": "Barber",
+   "why": "coverage without exchangeability, with a bound on the loss"
+  },
+  {
+   "title": "Adaptive Conformal Inference Under Distribution Shift",
+   "year": 2021,
+   "id": "arXiv:2106.00170",
+   "first_author": "Gibbs",
+   "why": "online adaptation of the miscoverage level"
+  },
+  {
+   "title": "A Gentle Introduction to Conformal Prediction and Distribution-Free Uncertainty Quantification",
+   "year": 2021,
+   "id": "arXiv:2107.07511",
+   "first_author": "Angelopoulos",
+   "why": "the standard tutorial"
+  },
+  {
+   "title": "Conformalized Quantile Regression",
+   "year": 2019,
+   "id": "arXiv:1905.03222",
+   "first_author": "Romano",
+   "why": "adaptive intervals under exchangeability"
+  },
+  {
+   "title": "Distribution-Free Predictive Inference For Regression",
+   "year": 2016,
+   "id": "arXiv:1604.04173",
+   "first_author": "Lei",
+   "why": "split and full conformal for regression"
+  },
+  {
+   "title": "Adaptive Conformal Predictions for Time Series",
+   "year": 2022,
+   "id": "arXiv:2202.07282",
+   "first_author": "Zaffran",
+   "why": "adaptation for time series"
+  },
+  {
+   "title": "Distribution-free uncertainty quantification for classification under label shift",
+   "year": 2021,
+   "id": "arXiv:2103.03323",
+   "first_author": "Podkopaev",
+   "why": "label shift"
+  },
+  {
+   "title": "Conformal prediction for time series",
+   "year": 2020,
+   "id": "arXiv:2010.09107",
+   "first_author": "Xu",
+   "why": "ensemble-based intervals for dependent data"
+  },
+  {
+   "title": "Predictive inference with the jackknife+",
+   "year": 2019,
+   "id": "arXiv:1905.02928",
+   "first_author": "Barber",
+   "why": "the jackknife+ and its coverage"
+  }
+ ]
+}

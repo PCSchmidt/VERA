@@ -1,11 +1,13 @@
-"""Gate `topics_chosen`: three topics with fixed key-paper lists, recorded before any retrieval (SPEC "Topics").
+"""Gate `topics_chosen` (and `topics4_chosen`): topics with fixed key-paper lists, recorded before any retrieval.
 
 Requires data/topics/manifest.json (scripts/build_topics_manifest.py) with:
 - exactly the three paths of SPEC: one empirical topic with a harness, one empirical without, one non-empirical;
 - each topic's file present with the hash recorded (so an edit after the manifest is caught), at least 6 key papers
   with a title, a year and an identifier, and a good-question statement;
-- no retrieval output older than the manifest: any data/retrieval/<topic>/retrieved.jsonl record must carry a
-  retrieval date no earlier than the manifest's day (the key papers come first).
+- no retrieval output older than the topic's key papers: any data/retrieval/<topic>/retrieved.jsonl record must carry
+  a retrieval date no earlier than the day the topic's entry was recorded (the key papers come first; the entry's own
+  `recorded_at`, else the manifest's). With `--expect 4` (Increment 4) the manifest holds the three original topics
+  plus one fresh one, whose paths need only be among the three.
 """
 
 from __future__ import annotations
@@ -20,17 +22,25 @@ MIN_KEY_PAPERS = 6
 
 
 def main() -> None:
-    args = repo_root_arg(__doc__).parse_args()
+    parser = repo_root_arg(__doc__)
+    parser.add_argument(
+        "--expect", type=int, default=3, help="how many topics the manifest must hold (4 from Increment 4)"
+    )
+    args = parser.parse_args()
     topics_dir = args.root / "data" / "topics"
     manifest_file = topics_dir / "manifest.json"
     if not manifest_file.exists():
         block("data/topics/manifest.json not found (scripts/build_topics_manifest.py)")
     manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
     topics = manifest.get("topics", {})
-    if len(topics) != 3:
-        block(f"{len(topics)} topics in the manifest; SPEC needs exactly 3")
-    if {t["path"] for t in topics.values()} != PATHS:
-        block(f"the topics' paths are {sorted(t['path'] for t in topics.values())}; need exactly {sorted(PATHS)}")
+    if len(topics) != args.expect:
+        block(f"{len(topics)} topics in the manifest; SPEC needs exactly {args.expect}")
+    found = {t["path"] for t in topics.values()}
+    if (found != PATHS) if args.expect == 3 else not found <= PATHS:
+        block(
+            f"the topics' paths are {sorted(t['path'] for t in topics.values())}; "
+            f"need {'exactly ' if args.expect == 3 else 'paths among '}{sorted(PATHS)}"
+        )
     for tid, entry in topics.items():
         path = topics_dir / entry["file"]
         if not path.exists():
@@ -48,12 +58,15 @@ def main() -> None:
             block(f"{tid}: the topic text and a good-question statement are required")
         retrieved = args.root / "data" / "retrieval" / tid / "retrieved.jsonl"
         if retrieved.exists():
-            day = manifest["recorded_at"][:10]
+            day = (entry.get("recorded_at") or manifest["recorded_at"])[:10]  # per topic: its key papers' own date
             early = [ln for ln in retrieved.read_text(encoding="utf-8").splitlines()
                      if ln.strip() and json.loads(ln).get("retrieved", "9999") < day]  # fmt: skip
             if early:
                 block(f"{tid}: {len(early)} retrieval records are dated before the manifest ({day})")
-    ok(f"3 topics, paths {sorted(PATHS)}, key papers {[e['n_key_papers'] for e in topics.values()]}, hashes match")
+    ok(
+        f"{args.expect} topics, paths {sorted(PATHS)}, key papers "
+        f"{[e['n_key_papers'] for e in topics.values()]}, hashes match"
+    )
 
 
 if __name__ == "__main__":

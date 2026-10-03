@@ -1,0 +1,81 @@
+{
+ "id": "research-agents-eval",
+ "text": "Evaluating AI research agents",
+ "path": "non_empirical",
+ "path_note": "Non-empirical: a literature-and-analysis review. VERA's own domain, so Chris can judge the quality of the synthesis himself (as with llm-judge-numbers); ScientistTwo's paper is deliberately not in the key list.",
+ "good_question": "One specific question about how published benchmarks and studies measure whether an automated research agent produces correct, reproducible or novel results, and where those measures are weak.",
+ "status": "draft, proposed by the agent; Chris chooses one (or edits), moves it to data/topics/ and approves topics4_chosen",
+ "key_papers_note": "Identifiers checked by looking up each arXiv id (arXiv API) for its title, first author and year on 2026-10-03; an id that returned the wrong paper was replaced. This is a metadata check of the listed papers, not a topic search; no query built from the topic or its question has been run.",
+ "key_papers": [
+  {
+   "title": "The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery",
+   "year": 2024,
+   "id": "arXiv:2408.06292",
+   "first_author": "Lu",
+   "why": "an end-to-end research agent and its automated review"
+  },
+  {
+   "title": "The AI Scientist-v2: Workshop-Level Automated Scientific Discovery via Agentic Tree Search",
+   "year": 2025,
+   "id": "arXiv:2504.08066",
+   "first_author": "Yamada",
+   "why": "the successor"
+  },
+  {
+   "title": "MLE-bench: Evaluating Machine Learning Agents on Machine Learning Engineering",
+   "year": 2024,
+   "id": "arXiv:2410.07095",
+   "first_author": "Chan",
+   "why": "a benchmark of Kaggle-style tasks"
+  },
+  {
+   "title": "PaperBench: Evaluating AI's Ability to Replicate AI Research",
+   "year": 2025,
+   "id": "arXiv:2504.01848",
+   "first_author": "Starace",
+   "why": "replication as the measure"
+  },
+  {
+   "title": "MLAgentBench: Evaluating Language Agents on Machine Learning Experimentation",
+   "year": 2023,
+   "id": "arXiv:2310.03302",
+   "first_author": "Huang",
+   "why": "experimentation tasks"
+  },
+  {
+   "title": "CycleResearcher: Improving Automated Research via Automated Review",
+   "year": 2024,
+   "id": "arXiv:2411.00816",
+   "first_author": "Weng",
+   "why": "automated review in the loop"
+  },
+  {
+   "title": "Agent Laboratory: Using LLM Agents as Research Assistants",
+   "year": 2025,
+   "id": "arXiv:2501.04227",
+   "first_author": "Schmidgall",
+   "why": "an agent-assistant pipeline"
+  },
+  {
+   "title": "Can LLMs Generate Novel Research Ideas? A Large-Scale Human Study with 100+ NLP Researchers",
+   "year": 2024,
+   "id": "arXiv:2409.04109",
+   "first_author": "Si",
+   "why": "human judgement of idea novelty"
+  },
+  {
+   "title": "MLR-Copilot: Autonomous Machine Learning Research based on Large Language Models Agents",
+   "year": 2024,
+   "id": "arXiv:2408.14033",
+   "first_author": "Li",
+   "why": "idea-to-experiment agent"
+  },
+  {
+   "title": "SciCode: A Research Coding Benchmark Curated by Scientists",
+   "year": 2024,
+   "id": "arXiv:2407.13168",
+   "first_author": "Tian",
+   "why": "scientist-written coding problems"
+  }
+ ]
+}
