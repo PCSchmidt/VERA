@@ -388,8 +388,7 @@ gates:
   # ── Increment 3: topic front end and literature stage (SPEC.md) ───────────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
   # Defined so far: incr3_scoped, lit_core_ready, topics_chosen, scoping_ready,
-  # retrieval_ready, literature_ready, audit3_ready, trades_decided_3, topic_runs, judge_retest_3. Still to add:
-  # incr3_review.
+  # retrieval_ready, literature_ready, audit3_ready, trades_decided_3, topic_runs, judge_retest_3, incr3_review.
 
   - id: incr3_scoped
     label: "Increment 3 scope confirmed"
@@ -545,3 +544,19 @@ gates:
         - gate-vendor-imports.sh    # FND-C-01 still holds
         - gate-retest3.sh           # test hashes unchanged, intervals reported, caps kept, every lit.*/loop.* verdict accounted for
         - gate-ledger.sh            # every ledger equals its recorded spend; the increment is within its cap
+
+  - id: incr3_review
+    label: "Increment 3 review"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 3 COMPLETE"
+    requires:
+      - judge_retest_3
+    requires_artifacts:
+      - docs/reviews/incr-3.md
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-traceability.sh
+        - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
+        - run-evaluator.sh          # independent Evaluator verdict on the review
