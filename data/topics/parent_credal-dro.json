@@ -40,5 +40,10 @@
    "judge_id": "p2.judge"
   }
  ],
- "user_review": null
+ "user_review": {
+  "right": true,
+  "note": "E2E-DRO is not a credal-set method, so refusing it is right, though the stated reason (no dataset) is weak. The question could run on simulated data without any parent repository.",
+  "by": "Chris",
+  "at": "2026-10-03T12:05:26Z"
+ }
 }

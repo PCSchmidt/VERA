@@ -94,5 +94,10 @@
    "judge_id": "p2.judge"
   }
  ],
- "user_review": null
+ "user_review": {
+  "right": true,
+  "note": "TreeHFD is the method the question names; its code is public and a harness exists. The loop's experiments do not test the correlation sweep.",
+  "by": "Chris",
+  "at": "2026-10-03T12:05:51Z"
+ }
 }
