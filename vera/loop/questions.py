@@ -18,8 +18,9 @@ def baseline_reproduced(
     """(question, material, shadow answer): does the baseline match the paper within tolerance on every dataset?
 
     `datasets` are the datasets this run uses (default: all in the registered target); the registered references
-    and tolerance are unchanged, a run is checked on the datasets it runs."""
-    datasets = list(datasets or target["datasets"])
+    and tolerance are unchanged, a run is checked on the datasets it runs that have a registered reference. The
+    target's `extension_datasets` have none: the gate node only requires their baseline result to be valid."""
+    datasets = [d for d in (datasets or target["datasets"]) if d in target["datasets"]]  # not the extensions
     tol = target["tolerance"]["absolute_pct_points"]
     means = tables.rendered_means(results, datasets, tables.REPRO_METRICS)
     shown = tables.valid_datasets(results, datasets)

@@ -1,0 +1,153 @@
+{
+ "run_id": "topic-a-loop-2",
+ "models": {
+  "ideate": "sonnet",
+  "subset_exp": "sonnet",
+  "write_up": "sonnet"
+ },
+ "completed": false,
+ "stop": {
+  "stage": "audit",
+  "reason": "gate: audit failed with 14 failing finding(s): [\"The table row 'TreeHFD (baseline)' / analytical rho0 / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '5.54 ± 0.40'.\", \"The table row 'TreeHFD (baseline)' / analytical rho0 / runtime_s has no counterpart in results.json or is not 'mean ± std': '30.1 ± 1.2'.\", \"The table row 'TreeHFD (baseline)' / analytical rho95 / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '1.03 ± 0.022'.\"]"
+ },
+ "total_cost_usd": 0.0765,
+ "budget": {
+  "max_usd": 1.5,
+  "spent_usd": 0.076500204,
+  "max_wall_seconds": 5400,
+  "elapsed_seconds": 2512
+ },
+ "by_component": {
+  "p2.cheap_path": {
+   "calls": 21,
+   "cost_usd": 0.00116,
+   "input_tokens": 16394,
+   "output_tokens": 896
+  },
+  "p3.ideate": {
+   "calls": 1,
+   "cost_usd": 0.008358,
+   "input_tokens": 2304,
+   "output_tokens": 375
+  },
+  "p3.subset_exp": {
+   "calls": 3,
+   "cost_usd": 0.035084,
+   "input_tokens": 2832,
+   "output_tokens": 2942
+  },
+  "p3.write_up": {
+   "calls": 1,
+   "cost_usd": 0.031898,
+   "input_tokens": 3689,
+   "output_tokens": 2452
+  }
+ },
+ "stages": [
+  {
+   "stage": "baseline",
+   "decision": "accept",
+   "producer": "p3.baseline",
+   "gate_question": "loop.baseline_reproduced",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "confidence": 0.95
+   },
+   "spent_usd_after": 5.1244e-05
+  },
+  {
+   "stage": "ideate",
+   "decision": "accept",
+   "producer": "p3.ideate",
+   "gate_question": "loop.idea_worth_run",
+   "gate_answer": 3,
+   "gate_judge": "p2.judge",
+   "n_gates": 3,
+   "metrics": {
+    "n_selected": 2.0
+   },
+   "spent_usd_after": 0.008601752
+  },
+  {
+   "stage": "subset_exp",
+   "decision": "reject",
+   "producer": "p3.subset_exp",
+   "gate_question": "loop.beats_baseline",
+   "gate_answer": false,
+   "gate_judge": "p2.judge",
+   "n_gates": 8,
+   "metrics": {
+    "n_ideas_run": 2.0,
+    "n_beating_baseline": 0.0
+   },
+   "spent_usd_after": 0.043951144
+  },
+  {
+   "stage": "write_up",
+   "decision": "accept",
+   "producer": "p3.write_up",
+   "gate_question": "loop.guidance_met",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "words": 1304.0,
+    "problems": 0.0
+   },
+   "spent_usd_after": 0.0759993
+  },
+  {
+   "stage": "audit",
+   "decision": "reject",
+   "producer": "p1.audit",
+   "gate_question": "loop.audit_clean",
+   "gate_answer": false,
+   "gate_judge": "p1.audit_gate",
+   "n_gates": 1,
+   "metrics": {
+    "fail": 14.0,
+    "warn": 1.0,
+    "info": 0.0,
+    "claims": 43.0
+   },
+   "spent_usd_after": 0.076500204
+  }
+ ],
+ "audit": {
+  "overall": "red",
+  "fail": 14,
+  "warn": 1,
+  "info": 0,
+  "checks_skipped": {
+   "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+   "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+   "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+   "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+  }
+ },
+ "best_idea": null,
+ "held_out_residual_mse_pct": {
+  "TreeHFD (baseline)": {
+   "analytical": 2.792,
+   "analytical_rho0": 5.543,
+   "analytical_rho95": 1.025,
+   "airfoil": 4.733
+  },
+  "C3: Residual ridge recalibration": {
+   "analytical": 2.854,
+   "analytical_rho0": 5.687,
+   "analytical_rho95": 1.039,
+   "airfoil": 4.876
+  },
+  "C1: Shallow depth_variable sweep": {
+   "analytical": 2.405,
+   "analytical_rho0": 4.373,
+   "analytical_rho95": 0.712,
+   "airfoil": 5.094
+  }
+ },
+ "baseline_name": "TreeHFD (baseline)",
+ "ledger": "data/ledger/run_topic-a-loop-2.jsonl"
+}

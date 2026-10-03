@@ -56,10 +56,11 @@ CHECK_ROWS = 40  # rows per component in the dependence check
 # ── data ─────────────────────────────────────────────────────────────────────────────────────────────
 
 
-def analytical(seed: int, data_dir: Path):
+def analytical(seed: int, data_dir: Path, rho: float = 0.5):
+    """The paper's analytical case; `rho` is the pairwise correlation of the six Gaussian inputs (the paper uses 1/2)."""
     rng = default_rng(seed)
     dim, n = 6, 5000
-    cov = np.full((dim, dim), 0.5)
+    cov = np.full((dim, dim), rho)
     np.fill_diagonal(cov, 1.0)
 
     def draw():
@@ -78,7 +79,13 @@ def airfoil(seed: int, data_dir: Path):
     return X[idx[:cut]], y[idx[:cut]], X[idx[cut:]]
 
 
-DATASETS = {"analytical": analytical, "airfoil": airfoil}
+DATASETS = {
+    "analytical": analytical,
+    "airfoil": airfoil,
+    # the same function and noise at other pairwise correlations (registered as extension datasets, 2026-10-03)
+    "uncorrelated": lambda seed, data_dir: analytical(seed, data_dir, rho=0.0),
+    "correlated95": lambda seed, data_dir: analytical(seed, data_dir, rho=0.95),
+}
 
 
 # ── methods ──────────────────────────────────────────────────────────────────────────────────────────

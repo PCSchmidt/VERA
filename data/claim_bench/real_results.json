@@ -1,0 +1,198 @@
+{
+ "n": 30,
+ "n_supported": 26,
+ "dev_chosen_path": "jev_glm",
+ "repeats": {
+  "dev": 2,
+  "test": 3,
+  "reference": 2
+ },
+ "paths": {
+  "glm_direct": {
+   "agreement": {
+    "k": 27,
+    "n": 30,
+    "rate": 0.9,
+    "ci95": [
+     0.7438,
+     0.9654
+    ]
+   },
+   "false_accept": {
+    "k": 0,
+    "n": 4,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.4899
+    ]
+   },
+   "false_reject": {
+    "k": 3,
+    "n": 26,
+    "rate": 0.1154,
+    "ci95": [
+     0.04,
+     0.2898
+    ]
+   },
+   "wrong": [
+    "real-credal-dro-04",
+    "real-credal-dro-05",
+    "real-llm-judge-numbers-04"
+   ],
+   "metrics": {
+    "verdicts": 90,
+    "items": 30,
+    "repeats": 3,
+    "agreement_label": 0.8888888888888888,
+    "agreement_reference": 0.8555555555555555,
+    "ece": 0.09044444444444424,
+    "flip_rate": 0.03333333333333333,
+    "flip_rate_verdicts": 0.011111111111111112,
+    "malformed_rate": 0.0,
+    "confidence_sources": {
+     "self_report": 90
+    },
+    "cost_per_item_usd": 3.815053333333332e-05,
+    "latency_p50_ms": 604.0,
+    "latency_p95_ms": 2102.0,
+    "agreement_label_by_task": {
+     "claim_support": 0.8888888888888888
+    }
+   },
+   "agreement_with_reference": {
+    "k": 26,
+    "n": 30,
+    "rate": 0.8667,
+    "ci95": [
+     0.7032,
+     0.9469
+    ]
+   }
+  },
+  "jev_glm": {
+   "agreement": {
+    "k": 28,
+    "n": 30,
+    "rate": 0.9333,
+    "ci95": [
+     0.7868,
+     0.9815
+    ]
+   },
+   "false_accept": {
+    "k": 1,
+    "n": 4,
+    "rate": 0.25,
+    "ci95": [
+     0.0456,
+     0.6994
+    ]
+   },
+   "false_reject": {
+    "k": 1,
+    "n": 26,
+    "rate": 0.0385,
+    "ci95": [
+     0.0068,
+     0.1889
+    ]
+   },
+   "wrong": [
+    "real-credal-dro-05",
+    "real-llm-judge-numbers-03"
+   ],
+   "metrics": {
+    "verdicts": 90,
+    "items": 30,
+    "repeats": 3,
+    "agreement_label": 0.9333333333333333,
+    "agreement_reference": 0.8333333333333334,
+    "ece": 0.05955555555555574,
+    "flip_rate": 0.0,
+    "flip_rate_verdicts": 0.0,
+    "malformed_rate": 0.0,
+    "confidence_sources": {
+     "logprobs": 76,
+     "self_report": 14
+    },
+    "cost_per_item_usd": 3.1832711111111107e-05,
+    "latency_p50_ms": 171.0,
+    "latency_p95_ms": 1422.0,
+    "agreement_label_by_task": {
+     "claim_support": 0.9333333333333333
+    }
+   },
+   "agreement_with_reference": {
+    "k": 25,
+    "n": 30,
+    "rate": 0.8333,
+    "ci95": [
+     0.6644,
+     0.9266
+    ]
+   }
+  }
+ },
+ "reference": {
+  "agreement": {
+   "k": 27,
+   "n": 30,
+   "rate": 0.9,
+   "ci95": [
+    0.7438,
+    0.9654
+   ]
+  },
+  "false_accept": {
+   "k": 2,
+   "n": 4,
+   "rate": 0.5,
+   "ci95": [
+    0.15,
+    0.85
+   ]
+  },
+  "false_reject": {
+   "k": 1,
+   "n": 26,
+   "rate": 0.0385,
+   "ci95": [
+    0.0068,
+    0.1889
+   ]
+  },
+  "wrong": [
+   "real-credal-dro-07",
+   "real-llm-judge-numbers-04",
+   "real-llm-judge-numbers-07"
+  ],
+  "metrics": {
+   "verdicts": 60,
+   "items": 30,
+   "repeats": 2,
+   "agreement_label": 0.9166666666666666,
+   "agreement_reference": 0.9833333333333333,
+   "ece": 0.059000000000000115,
+   "flip_rate": 0.03333333333333333,
+   "flip_rate_verdicts": 0.016666666666666666,
+   "malformed_rate": 0.0,
+   "confidence_sources": {
+    "self_report": 60
+   },
+   "cost_per_item_usd": 0.0038033000000000003,
+   "latency_p50_ms": 2531.0,
+   "latency_p95_ms": 3816.0,
+   "agreement_label_by_task": {
+    "claim_support": 0.9166666666666666
+   }
+  }
+ },
+ "labels": "an AI helper (Claude Code), blind to every verdict; the reference judge is the same model family",
+ "spend_usd": {
+  "paths": 0.006715047999999993,
+  "reference": 0.228198
+ },
+ "ledger": "data/ledger/run_realclaims-1.jsonl"
+}

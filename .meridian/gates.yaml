@@ -388,8 +388,8 @@ gates:
   # ── Increment 3: topic front end and literature stage (SPEC.md) ───────────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
   # Defined so far: incr3_scoped, lit_core_ready, topics_chosen, scoping_ready,
-  # retrieval_ready, literature_ready, audit3_ready, trades_decided_3, topic_runs. Still to add:
-  # judge_retest_3, incr3_review.
+  # retrieval_ready, literature_ready, audit3_ready, trades_decided_3, topic_runs, judge_retest_3. Still to add:
+  # incr3_review.
 
   - id: incr3_scoped
     label: "Increment 3 scope confirmed"
@@ -528,4 +528,20 @@ gates:
         - gate-tests.sh             # ruff + the full suite
         - gate-vendor-imports.sh    # FND-C-01 still holds
         - gate-topic-runs.sh        # 3 completed topic runs with audits, parent readings, loop run with every stage, within $8
+        - gate-ledger.sh            # every ledger equals its recorded spend; the increment is within its cap
+
+  - id: judge_retest_3
+    label: "Judge re-tested on this increment's claims (benchmark and real) and on the loop's new real gate decisions"
+    type: automated
+    required: true
+    requires:
+      - topic_runs
+    requires_artifacts:
+      - data/claim_bench/results.json
+      - data/retest3/results.json
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+        - gate-retest3.sh           # test hashes unchanged, intervals reported, caps kept, every lit.*/loop.* verdict accounted for
         - gate-ledger.sh            # every ledger equals its recorded spend; the increment is within its cap

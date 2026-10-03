@@ -184,8 +184,14 @@ def ask_gate(
 
 
 def stage_result(
-    deps: Any, stage: str, artifact: str, gates: Verdict | list[Verdict], decision: str, metrics: dict,
-    deciding: list[int] | None = None, reason: str | None = None,
+    deps: Any,
+    stage: str,
+    artifact: str,
+    gates: Verdict | list[Verdict],
+    decision: str,
+    metrics: dict,
+    deciding: list[int] | None = None,
+    reason: str | None = None,
 ) -> dict:
     """The stage's record: every verdict it asked, and for a reject the ones (or the reason) that caused it.
 
@@ -241,6 +247,12 @@ def baseline_node(deps: LoopDeps) -> Callable[[dict], dict]:
     return node
 
 
+def extension_datasets(deps: LoopDeps) -> dict[str, str]:
+    """This run's datasets that the registered target lists as extensions (no paper reference): name -> description."""
+    ext = deps.target.get("extension_datasets", {})
+    return {d: ext[d]["description"] for d in deps.datasets if d in ext}
+
+
 def baseline_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
     def node(state: dict) -> dict:
         question, material, shadow = questions.baseline_reproduced(
@@ -248,13 +260,16 @@ def baseline_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
         )
         verdict, confident = ask_gate(deps, "baseline", question, material, shadow, state)
         artifact = state["artifacts"]["baseline_raw"]
-        passed = confident and verdict.answer is True
+        invalid = [d for d in extension_datasets(deps) if not state["baseline"].get(d, {}).get("valid")]
+        passed = confident and verdict.answer is True and not invalid
         decision = "accept" if passed else "reject"
         sr = stage_result(deps, "baseline", artifact, verdict, decision, {"confidence": verdict.confidence})
         update = {"verdicts": {"baseline": verdict.model_dump(mode="json")}, "stage_results": [sr],
                   "artifacts": {"baseline": artifact}, "trail": ["baseline_gate"]}  # fmt: skip
         if not passed:
             why = "the judge was not confident" if not confident else "the reproduced values are outside tolerance"
+            if invalid:
+                why = f"the baseline gave no valid result on extension dataset(s) {invalid}"
             update |= _stop("baseline", f"gate: baseline not reproduced ({why}; shadow answer {shadow})")
         return finish(update)
 
@@ -285,6 +300,7 @@ def ideate_prompt(deps: LoopDeps, baseline_table: str, n: int) -> str:
         "components, combining fits). An idea must keep every component a function of only its own variables. "
         'Reply with a JSON array of objects {"name": "<2-5 words>", "description": "<about 50 words: exactly what '
         'is computed>"} and nothing else.'
+        + "".join(f"\nDataset {tables.dataset_label(d)}: {text}" for d, text in extension_datasets(deps).items())
         + (literature_context.for_ideas(deps.extra["literature"]) if deps.extra.get("literature") else "")
     )
 
@@ -364,9 +380,7 @@ def implement_prompt(idea: dict, error: str | None, previous: str | None) -> str
         f"Idea: {idea['name']}\n{idea['description']}\n"
     )
     if error:
-        prompt += (
-            f"\nYour previous attempt failed: {error}\n\nPrevious code:\n```python\n{previous}\n```\nFix it.\n"
-        )
+        prompt += f"\nYour previous attempt failed: {error}\n\nPrevious code:\n```python\n{previous}\n```\nFix it.\n"
     return prompt
 
 

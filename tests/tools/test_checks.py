@@ -1079,3 +1079,67 @@ def test_topic_runs_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> 
     result = run("check_topic_runs.py", tmp_path)
     assert result.returncode == 2
     assert message in result.stderr
+
+
+# ── judge_retest_3 ────────────────────────────────────────────────────────────
+
+
+def retest3_fixture(root: Path, *, drift: bool = False, few_real: bool = False, no_miss: bool = False,
+                    bad_accounting: bool = False, over_cap: bool = False,
+                    wrong_split: bool = False) -> None:  # fmt: skip
+    import hashlib  # noqa: PLC0415
+
+    agree = {"k": 80, "n": 85, "rate": 0.94, "ci95": [0.87, 0.97]}
+    cb = {"test_sha256": "a" * 64, "n_test": 85}
+    write(root, "data/claim_bench/split.json", json.dumps(cb))
+    write(root, "data/ledger/run_cb.jsonl", "")
+    spend = {"routing_and_dev": 0.01, "reference": 1.5 if over_cap else 0.4}
+    results = {"test_sha256": "b" * 64 if wrong_split else "a" * 64, "test_items": 85,
+               "dev": {"arms": {"glm_direct": {}, "jev_glm": {}}, "chosen": "jev_glm"},
+               "test": {"chosen_path": {"agreement": agree}, "reference": {"agreement": agree}},
+               "spend_usd": spend, "ledger": "data/ledger/run_cb.jsonl"}  # fmt: skip
+    write(root, "data/claim_bench/results.json", json.dumps(results))
+    n_real = 12 if few_real else 30
+    rows = "id,topic,source,supported,labelled_by,note\n" + "".join(f"r{i},t,R1,yes,helper,\n" for i in range(n_real))
+    write(root, "data/claim_bench/real_claims_labels.csv", rows)
+    real_agree = {"k": 27, "n": n_real, "rate": 0.9, "ci95": [0.74, 0.97]}
+    real = {"n": n_real, "paths": {"glm_direct": {"agreement": real_agree}, "jev_glm": {"agreement": real_agree}},
+            "reference": {"agreement": real_agree}, "labels": "an AI helper",
+            "spend_usd": {"reference": 0.2}}  # fmt: skip
+    write(root, "data/claim_bench/real_results.json", json.dumps(real))
+    items = [json.dumps({"id": f"x{i}", "label": True}) for i in range(10)]
+    digest = hashlib.sha256("\n".join(sorted(items)).encode("utf-8")).hexdigest()
+    write(root, "data/retest3/items.jsonl", "\n".join(items) + ("\nextra" if drift else "") + "\n")
+    write(root, "data/retest3/split.json", json.dumps({"test_sha256": digest}))
+    write(root, "data/ledger/run_rt.jsonl", "")
+    a10 = {"k": 9, "n": 10, "rate": 0.9, "ci95": [0.6, 0.98]}
+    misses = [] if no_miss else [{"id": "retest-0008"}, {"id": "retest-0038"}]
+    rr = {"test_sha256": digest, "items": 10, "decided_path": {"agreement": a10}, "reference": {"agreement": a10},
+          "t1_reverse_if_1": {"fired": True}, "increment2_confident_misses": misses,
+          "idea_worth_run": {"score_counts": {"3": 1}}, "spend_usd": {"reference": 0.1},
+          "ledger": "data/ledger/run_rt.jsonl"}  # fmt: skip
+    write(root, "data/retest3/results.json", json.dumps(rr))
+    acc = {"records": 7 if bad_accounting else 5, "by_question": {"lit.a": {"records": 2, "disposition": "x"},
+                                                                  "loop.b": {"records": 3,
+                                                                             "disposition": "y"}}}  # fmt: skip
+    write(root, "data/retest3/accounting.json", json.dumps(acc))
+
+
+def test_retest3_check_passes_a_complete_retest(tmp_path: Path) -> None:
+    retest3_fixture(tmp_path)
+    result = run("check_retest3.py", tmp_path)
+    assert result.returncode == 0, result.stderr
+    assert "T1 reverse-if 1 fired: True" in result.stdout
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [({"drift": True}, "items changed"), ({"few_real": True}, "at least 30"), ({"no_miss": True}, "confident misses"),
+     ({"bad_accounting": True}, "do not add up"), ({"over_cap": True}, "over the cap"),
+     ({"wrong_split": True}, "different test set")],
+)  # fmt: skip
+def test_retest3_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> None:
+    retest3_fixture(tmp_path, **kwargs)
+    result = run("check_retest3.py", tmp_path)
+    assert result.returncode == 2
+    assert message in result.stderr

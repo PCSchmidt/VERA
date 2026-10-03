@@ -1,0 +1,10 @@
+id,seed,verdict,note
+claim-0023,20261006,correct,"labelled by Claude Code (an AI helper, not Chris), blind to the item label, then compared: passage is about the DRO problem set-up, says nothing about Wasserstein vs SAA/LCX results (other_paper)"
+claim-0033,20261006,correct,"labelled by Claude Code (an AI helper, not Chris), blind to the item label, then compared: passage says the moment model gives BETTER-performing policies; the claim reverses it (reversed)"
+claim-0015,20261006,correct,"labelled by Claude Code (an AI helper, not Chris), blind to the item label, then compared: passage: out-of-sample cost not monotone in the radius, optimal radius 0.02 at N = 20 (supported)"
+claim-0068,20261006,correct,"labelled by Claude Code (an AI helper, not Chris), blind to the item label, then compared: passage is FEVEROUS numerical reasoning; the claim is about a program-based method (other_paper)"
+claim-0066,20261006,correct,"labelled by Claude Code (an AI helper, not Chris), blind to the item label, then compared: second sentence (TabFact has linguistic and symbolic reasoning) is supported, but the first sentence (sources describe task difficulty less than judge reliability) is not stated by the passage; as written, not supported (reversed)"
+claim-0045,20261006,correct,"labelled by Claude Code (an AI helper, not Chris), blind to the item label, then compared: strict judge with ground truth disagrees with graph-verified truth in 5.9% of cases (supported)"
+claim-0071,20261006,correct,"labelled by Claude Code (an AI helper, not Chris), blind to the item label, then compared: passage is the intro of a different paper; it does not report FEVEROUS numbers (other_paper)"
+claim-0118,20261006,correct,"labelled by Claude Code (an AI helper, not Chris), blind to the item label, then compared: passage gives mean correlations 0.9130, 0.9343, 0.9300; the claim says 1.82 to 0.93, an impossible value (altered_number)"
+claim-0067,20261006,correct,"labelled by Claude Code (an AI helper, not Chris), blind to the item label, then compared: LPA parses statements into programs and executes them against the tables (supported)"

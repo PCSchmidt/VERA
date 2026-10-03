@@ -1,0 +1,418 @@
+{
+ "run_id": "topic-a-loop-2",
+ "metric": "residual_mse_pct",
+ "n_seeds": 3,
+ "datasets": [
+  "analytical",
+  "analytical_rho0",
+  "analytical_rho95",
+  "airfoil"
+ ],
+ "results": {
+  "TreeHFD (baseline)": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.7922779073042854,
+     "std": 0.322855299765166,
+     "values": [
+      3.145743556617016,
+      2.3652455761629287,
+      2.8658445891329105
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5695270989668413,
+     "std": 0.024874808467098025,
+     "values": [
+      0.5850437308043616,
+      0.5891103218988181,
+      0.5344272441973442
+     ]
+    },
+    "runtime_s": {
+     "mean": 27.6955683533306,
+     "std": 0.580785001478687,
+     "values": [
+      28.46049651398789,
+      27.054008714010706,
+      27.572199831993203
+     ]
+    }
+   },
+   "analytical_rho0": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 5.5431428373128,
+     "std": 0.3986005121642262,
+     "values": [
+      5.923345894148419,
+      5.713468526410559,
+      4.992614091379425
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.7924193643925191,
+     "std": 0.08960384058718934,
+     "values": [
+      0.8403066162233142,
+      0.8700797773044842,
+      0.6668716996497592
+     ]
+    },
+    "runtime_s": {
+     "mean": 30.093651780994453,
+     "std": 1.228274544609728,
+     "values": [
+      29.21535301300173,
+      29.234944858995732,
+      31.830657470985898
+     ]
+    }
+   },
+   "analytical_rho95": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 1.0251194747014507,
+     "std": 0.022129046133958368,
+     "values": [
+      1.0411836782690296,
+      0.9938280082014265,
+      1.040346737633896
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.12575942969616147,
+     "std": 0.03407941187381294,
+     "values": [
+      0.10339808428819593,
+      0.17391424396092584,
+      0.09996596083936263
+     ]
+    },
+    "runtime_s": {
+     "mean": 22.01199272366648,
+     "std": 0.41718871266778984,
+     "values": [
+      22.493632444995455,
+      21.476067768002395,
+      22.066277958001592
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.732528004675472,
+     "std": 0.11249578737353107,
+     "values": [
+      4.8150211208663505,
+      4.80909111342034,
+      4.573471779739722
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.522466107765438,
+     "std": 0.15158697779427285,
+     "values": [
+      1.7222609132043591,
+      1.4898698532153793,
+      1.3552675568765755
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.22952487366274,
+     "std": 0.12632891457152254,
+     "values": [
+      3.402467786989291,
+      3.1042390700022224,
+      3.1818677639967063
+     ]
+    }
+   }
+  },
+  "C3: Residual ridge recalibration": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.854352898892488,
+     "std": 0.33370256251200775,
+     "values": [
+      3.2276722639293447,
+      2.4176720390570585,
+      2.91771439369106
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5617591921415469,
+     "std": 0.024997235318517982,
+     "values": [
+      0.5758547739595322,
+      0.5827877006728902,
+      0.5266351017922184
+     ]
+    },
+    "runtime_s": {
+     "mean": 33.26871425799618,
+     "std": 0.10892632996514681,
+     "values": [
+      33.41402727099194,
+      33.151780056999996,
+      33.24033544599661
+     ]
+    }
+   },
+   "analytical_rho0": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 5.686684508076418,
+     "std": 0.36863934697817186,
+     "values": [
+      6.1004283993134605,
+      5.754502290257757,
+      5.2051228346580345
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.7816257566802779,
+     "std": 0.09470679560168084,
+     "values": [
+      0.8288607391411849,
+      0.8665472355188563,
+      0.6494692953807926
+     ]
+    },
+    "runtime_s": {
+     "mean": 34.70305300366696,
+     "std": 1.1273237344850515,
+     "values": [
+      34.336435745004565,
+      33.542679362988565,
+      36.230043903007754
+     ]
+    }
+   },
+   "analytical_rho95": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 1.0393998977564447,
+     "std": 0.03688106838673451,
+     "values": [
+      1.0764891001071126,
+      0.9890966267449245,
+      1.052613966417297
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.12321229783309244,
+     "std": 0.03441267416381602,
+     "values": [
+      0.09907224978931733,
+      0.17187865739544947,
+      0.09868598631451056
+     ]
+    },
+    "runtime_s": {
+     "mean": 24.939455886997166,
+     "std": 0.4308342598991616,
+     "values": [
+      25.103031955994084,
+      24.34937719599111,
+      25.365958509006305
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.876207587867164,
+     "std": 0.1744001597447014,
+     "values": [
+      5.070229879614581,
+      4.911066212249099,
+      4.647326671737812
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.497950710251681,
+     "std": 0.14684939412590411,
+     "values": [
+      1.688106337286473,
+      1.4751760430210918,
+      1.3305697504474776
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.8239039073329573,
+     "std": 0.18777799147741536,
+     "values": [
+      4.0890088620071765,
+      3.67792074198951,
+      3.7047821180021856
+     ]
+    }
+   }
+  },
+  "C1: Shallow depth_variable sweep": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.405007966319579,
+     "std": 0.15576741007165856,
+     "values": [
+      2.4727139790511132,
+      2.189613915171519,
+      2.552696004736104
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.8424680069170191,
+     "std": 0.06218044480239438,
+     "values": [
+      0.8250269343706623,
+      0.9258308121472699,
+      0.7765462742331247
+     ]
+    },
+    "runtime_s": {
+     "mean": 22.133783108001808,
+     "std": 0.38363678284976954,
+     "values": [
+      22.552110874006758,
+      21.62542500400741,
+      22.223813445991254
+     ]
+    }
+   },
+   "analytical_rho0": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.373064553944896,
+     "std": 0.5213307400478887,
+     "values": [
+      4.129257377075353,
+      5.097543578452609,
+      3.8923927063067247
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 3.8021996852895796,
+     "std": 1.318399579954543,
+     "values": [
+      1.9738132745494876,
+      5.03264995129574,
+      4.400135830023512
+     ]
+    },
+    "runtime_s": {
+     "mean": 16.655509417997866,
+     "std": 4.075105183163695,
+     "values": [
+      22.205524949997198,
+      15.225016091004363,
+      12.53598721299204
+     ]
+    }
+   },
+   "analytical_rho95": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 0.7122077811866133,
+     "std": 0.04398934241510158,
+     "values": [
+      0.6502258763861173,
+      0.7478113225720489,
+      0.7385861446016736
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.19896435491342893,
+     "std": 0.056164733060056635,
+     "values": [
+      0.17500388468026343,
+      0.2765276500319308,
+      0.14536153002809263
+     ]
+    },
+    "runtime_s": {
+     "mean": 20.071655018002883,
+     "std": 0.1127543864316287,
+     "values": [
+      20.09453085299174,
+      19.923550171006355,
+      20.19688403001055
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 5.094327901646563,
+     "std": 0.18069031970225022,
+     "values": [
+      4.858794305783521,
+      5.297922616749719,
+      5.126266782406448
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 2.0074709437198424,
+     "std": 0.18381479135519754,
+     "values": [
+      2.2627474681221895,
+      1.8373210554826587,
+      1.9223443075546787
+     ]
+    },
+    "runtime_s": {
+     "mean": 6.597843767007968,
+     "std": 0.10773811186765066,
+     "values": [
+      6.658986902999459,
+      6.446411168013583,
+      6.6881332300108625
+     ]
+    }
+   }
+  }
+ },
+ "best": null,
+ "ideas": [
+  {
+   "name": "C1: Shallow depth_variable sweep",
+   "description": "Fit TreeHFD with depth_variable set to several values (e.g. 2, 3, 4, 6, and None). Choose the value with the lowest residual MSE on a held-out split of the training data, then refit and predict with it. Shallower variable selection cuts runtime, and tuning it can lower residual error."
+  },
+  {
+   "name": "C2: Importance-screened interaction list",
+   "description": "Fit a cheap first TreeHFD pass or use xgboost gain on feature pairs that co-occur on tree paths. Keep the top-k pairs and pass them as interaction_list. Refit with only those pairs. Fewer components speed the fit, and the residual can fall because the discarded pairs were noisy."
+  },
+  {
+   "name": "C3: Residual ridge recalibration",
+   "description": "On training data, compute the model predictions and the TreeHFD components. Fit a non-negative ridge regression with an intercept of the predictions on the component columns. Apply the learned per-component scales to held-out components. Each component still depends only on its own variables. This corrects shrinkage bias, which matters most under correlation."
+  }
+ ]
+}

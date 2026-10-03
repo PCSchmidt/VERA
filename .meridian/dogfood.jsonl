@@ -1,3 +1,4 @@
 {"type":"escape","recorded_at":"2026-10-01T13:57:14Z","description":"MERIDIAN.md claims secret/destructive rules are blocked at the commit/CI boundary, but meridian-verify.sh never scans file contents; content rules only fire on agent tool calls. A key committed from an editor would pass.","gate":null,"severity":"high"}
 {"type":"overhead","recorded_at":"2026-10-01T15:23:15Z","hours":1.5,"note":"session end, Increment 1 close"}
 {"type":"overhead","recorded_at":"2026-10-02T10:42:56Z","hours":5,"note":"hours"}
+{"type":"overhead","recorded_at":"2026-10-03T12:19:31Z","hours":4,"note":"Increment 3 (2026-10-02 and 03): time on Meridian itself, gates, checks, hooks, evaluator prep; Chris's figure"}

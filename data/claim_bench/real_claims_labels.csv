@@ -1,0 +1,31 @@
+id,topic,source,supported,labelled_by,note
+real-credal-dro-00,credal-dro,R7,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-credal-dro-01,credal-dro,R7,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-credal-dro-03,credal-dro,R7,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-credal-dro-04,credal-dro,R37,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-credal-dro-05,credal-dro,R7,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-credal-dro-06,credal-dro,R7,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-credal-dro-07,credal-dro,R7,no,"Claude Code (an AI helper, not Chris); blind to every judge verdict","""moment-type comparator"" and ""not a mean-covariance set tuned under an identical rule"" are the review's own inference; the passage only says the LCX size was calibrated by bootstrapping"
+real-credal-dro-09,credal-dro,R66,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-credal-dro-12,credal-dro,R57,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-llm-judge-numbers-01,llm-judge-numbers,R15,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-llm-judge-numbers-02,llm-judge-numbers,R15,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-llm-judge-numbers-03,llm-judge-numbers,R15,no,"Claude Code (an AI helper, not Chris); blind to every judge verdict","the passage names exact recall, multi-hop and threshold categories; ""resemble multi-step numeric claims"" is the review's interpretation"
+real-llm-judge-numbers-04,llm-judge-numbers,R46,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-llm-judge-numbers-05,llm-judge-numbers,R46,no,"Claude Code (an AI helper, not Chris); blind to every judge verdict","second clause (""sits oddly beside the financial finding"") is the review's comparison, not in the passage"
+real-llm-judge-numbers-06,llm-judge-numbers,R46,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-llm-judge-numbers-07,llm-judge-numbers,R14,no,"Claude Code (an AI helper, not Chris); blind to every judge verdict",first sentence (sources describe task difficulty more than judge reliability) is the review's comparison; the TabFact sentence is supported
+real-llm-judge-numbers-08,llm-judge-numbers,R14,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict","executing parsed programs against tables is stated; ""a form of programmatic recomputation"" is a fair reading (borderline)"
+real-llm-judge-numbers-09,llm-judge-numbers,R6,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-llm-judge-numbers-10,llm-judge-numbers,R23,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-llm-judge-numbers-11,llm-judge-numbers,R20,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-llm-judge-numbers-13,llm-judge-numbers,R25,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-tree-explain-01,tree-explain,R10,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-tree-explain-02,tree-explain,R35,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-tree-explain-03,tree-explain,R5,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-tree-explain-04,tree-explain,R5,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-tree-explain-07,tree-explain,R10,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict","first sentence generalises from one source; the second sentence is supported (borderline, labelled supported)"
+real-tree-explain-09,tree-explain,R6,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-tree-explain-10,tree-explain,R41,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-tree-explain-11,tree-explain,R15,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",
+real-tree-explain-12,tree-explain,R5,yes,"Claude Code (an AI helper, not Chris); blind to every judge verdict",

@@ -18,7 +18,7 @@ import re
 from collections.abc import Callable
 
 from vera.loop import literature_context, references, tables
-from vera.loop.stages import LoopDeps, _stop, _write_json, ask_gate, finish, stage_result
+from vera.loop.stages import LoopDeps, _stop, _write_json, ask_gate, extension_datasets, finish, stage_result
 from vera.schemas import OutputGuidance, Question, QuestionType
 
 TABLE_TOKEN = "[[RESULTS_TABLE]]"
@@ -97,6 +97,9 @@ def facts(state: dict, deps: LoopDeps) -> str:
             f"- Baseline residual MSE (%), in-sample (the paper's convention): {in_sample}. "
             "The results table shows held-out values, which are higher.",
         )
+    lines += [
+        f"- Dataset {tables.dataset_label(d)}: {text}" for d, text in extension_datasets(deps).items() if d in shown
+    ]
     lines += [f"- {m}: {ideas.get(m, '')}" for m in ran]
     return "\n".join(lines)
 
@@ -205,8 +208,9 @@ def writeup_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
         metrics = {"words": float(word_count(text)), "problems": float(len(problems))}
         reason = "; ".join(problems) if problems and not passed else None  # a deterministic cause, not a verdict
         deciding = [0] if not passed and not (confident and verdict.answer is True) else []
-        sr = stage_result(deps, "write_up", "paper.md", verdict, "accept" if passed else "reject", metrics,
-                          deciding, reason)
+        sr = stage_result(
+            deps, "write_up", "paper.md", verdict, "accept" if passed else "reject", metrics, deciding, reason
+        )
         update = {"verdicts": {"guidance_met": verdict.model_dump(mode="json")}, "stage_results": [sr],
                   "artifacts": {"write_up": "paper.md"}, "trail": ["writeup_gate"]}  # fmt: skip
         if not passed:

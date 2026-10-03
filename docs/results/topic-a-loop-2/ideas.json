@@ -1,0 +1,17 @@
+{
+ "ideas": [
+  {
+   "name": "C1: Shallow depth_variable sweep",
+   "description": "Fit TreeHFD with depth_variable set to several values (e.g. 2, 3, 4, 6, and None). Choose the value with the lowest residual MSE on a held-out split of the training data, then refit and predict with it. Shallower variable selection cuts runtime, and tuning it can lower residual error."
+  },
+  {
+   "name": "C2: Importance-screened interaction list",
+   "description": "Fit a cheap first TreeHFD pass or use xgboost gain on feature pairs that co-occur on tree paths. Keep the top-k pairs and pass them as interaction_list. Refit with only those pairs. Fewer components speed the fit, and the residual can fall because the discarded pairs were noisy."
+  },
+  {
+   "name": "C3: Residual ridge recalibration",
+   "description": "On training data, compute the model predictions and the TreeHFD components. Fit a non-negative ridge regression with an intercept of the predictions on the component columns. Apply the learned per-component scales to held-out components. Each component still depends only on its own variables. This corrects shrinkage bias, which matters most under correlation."
+  }
+ ],
+ "raw_reply": "[\n{\"name\":\"Shallow depth_variable sweep\",\"description\":\"Fit TreeHFD with depth_variable set to several values (e.g. 2, 3, 4, 6, and None). Choose the value with the lowest residual MSE on a held-out split of the training data, then refit and predict with it. Shallower variable selection cuts runtime, and tuning it can lower residual error.\"},\n{\"name\":\"Importance-screened interaction list\",\"description\":\"Fit a cheap first TreeHFD pass or use xgboost gain on feature pairs that co-occur on tree paths. Keep the top-k pairs and pass them as interaction_list. Refit with only those pairs. Fewer components speed the fit, and the residual can fall because the discarded pairs were noisy.\"},\n{\"name\":\"Residual ridge recalibration\",\"description\":\"On training data, compute the model predictions and the TreeHFD components. Fit a non-negative ridge regression with an intercept of the predictions on the component columns. Apply the learned per-component scales to held-out components. Each component still depends only on its own variables. This corrects shrinkage bias, which matters most under correlation.\"}\n]"
+}

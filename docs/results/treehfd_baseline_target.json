@@ -54,6 +54,24 @@
       "decided_by": "Chris",
       "what": "The row set the baseline-reproduction gate compares is registered per dataset instead of in-sample for all: analytical held-out, airfoil in-sample. Ideas are compared on the held-out residual on every dataset. Tolerance, references, model settings, datasets and seeds are unchanged. Supersedes the uniform in-sample rule of the entry above.",
       "why": "The full-protocol baseline run (docs/results/treehfd_baseline_first_runs.md) showed no single row set reproduces the paper on both datasets: analytical held-out 2.79 vs 2.0 (in-sample 0.57 fails), airfoil in-sample 1.52 vs 2.0 (held-out 4.73 fails). The paper's text supports the split: it states an independent test set for the analytical experiment and is silent for Table 2. This is a SECOND change made after seeing results, so the choice follows the paper's text and the evidence, not a search for the setting that passes; recorded as such."
+    },
+    {
+      "date": "2026-10-03",
+      "decided_by": "Chris",
+      "what": "Two extension datasets are registered beside the reproduced ones: uncorrelated and correlated95 (the analytical case at pairwise correlation 0 and 0.95; the registered 'analytical' stays at 0.5). They have no paper reference, so the baseline-reproduction gate does not check them against one (a baseline result on them must be valid). 'datasets', references, tolerance, model settings, seeds and the registered reproduction rows are unchanged. Ideas are compared on the held-out residual on every dataset, as before.",
+      "why": "The scoped question for the tree-explain topic asks how TreeHFD behaves as pairwise correlation rises from 0 to 0.95. The first topic run (topic-a-loop-1) used only the datasets registered for reproduction and its paper had to say it did not touch that question. Chris approved extending the harness with correlated variants on 2026-10-03. This is made after seeing a run's result, recorded as such; it adds datasets and changes no registered value. The names have no underscore on purpose: the audit's table check reads a dataset's name back from its column header (the label, lower-cased), so a name like 'analytical_rho0' never matches its results.json key and the first run with such names (topic-a-loop-2) failed its audit on every extension column; the datasets were renamed rather than the frozen audit edited."
     }
-  ]
+  ],
+  "extension_datasets": {
+    "uncorrelated": {
+      "description": "The analytical dataset with independent inputs: same function, noise, n = 5000 and model as 'analytical', pairwise correlation 0.",
+      "reference_pct": null,
+      "reference_note": "the paper gives no reference value for this variant: the baseline must run and give a valid result, and is not compared with the paper"
+    },
+    "correlated95": {
+      "description": "The analytical dataset with pairwise correlation 0.95 between all six Gaussian inputs: same function, noise, n = 5000 and model as 'analytical'.",
+      "reference_pct": null,
+      "reference_note": "as for uncorrelated"
+    }
+  }
 }

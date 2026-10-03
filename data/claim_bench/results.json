@@ -1,0 +1,376 @@
+{
+ "test_items": 85,
+ "test_sha256": "24dab53233767b8e213d0b03b3255f5af6ae05a986a44cce1682467e293f5a2d",
+ "repeats": {
+  "dev": 2,
+  "test": 3,
+  "reference": 2
+ },
+ "dev": {
+  "arms": {
+   "glm_direct": {
+    "agreement": {
+     "k": 41,
+     "n": 44,
+     "rate": 0.9318,
+     "ci95": [
+      0.8177,
+      0.9765
+     ]
+    },
+    "by_kind": {
+     "altered_number": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0,
+      "ci95": [
+       0.3424,
+       1.0
+      ]
+     },
+     "other_paper": {
+      "k": 14,
+      "n": 14,
+      "rate": 1.0,
+      "ci95": [
+       0.7847,
+       1.0
+      ]
+     },
+     "other_passage": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0,
+      "ci95": [
+       0.7008,
+       1.0
+      ]
+     },
+     "reversed": {
+      "k": 4,
+      "n": 5,
+      "rate": 0.8,
+      "ci95": [
+       0.3755,
+       0.9638
+      ]
+     },
+     "supported": {
+      "k": 12,
+      "n": 14,
+      "rate": 0.8571,
+      "ci95": [
+       0.6006,
+       0.9599
+      ]
+     }
+    },
+    "false_accept": {
+     "k": 1,
+     "n": 30,
+     "rate": 0.0333,
+     "ci95": [
+      0.0059,
+      0.1667
+     ]
+    },
+    "false_reject": {
+     "k": 2,
+     "n": 14,
+     "rate": 0.1429,
+     "ci95": [
+      0.0401,
+      0.3994
+     ]
+    }
+   },
+   "jev_glm": {
+    "agreement": {
+     "k": 42,
+     "n": 44,
+     "rate": 0.9545,
+     "ci95": [
+      0.8486,
+      0.9874
+     ]
+    },
+    "by_kind": {
+     "altered_number": {
+      "k": 2,
+      "n": 2,
+      "rate": 1.0,
+      "ci95": [
+       0.3424,
+       1.0
+      ]
+     },
+     "other_paper": {
+      "k": 14,
+      "n": 14,
+      "rate": 1.0,
+      "ci95": [
+       0.7847,
+       1.0
+      ]
+     },
+     "other_passage": {
+      "k": 9,
+      "n": 9,
+      "rate": 1.0,
+      "ci95": [
+       0.7008,
+       1.0
+      ]
+     },
+     "reversed": {
+      "k": 5,
+      "n": 5,
+      "rate": 1.0,
+      "ci95": [
+       0.5655,
+       1.0
+      ]
+     },
+     "supported": {
+      "k": 12,
+      "n": 14,
+      "rate": 0.8571,
+      "ci95": [
+       0.6006,
+       0.9599
+      ]
+     }
+    },
+    "false_accept": {
+     "k": 0,
+     "n": 30,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.1135
+     ]
+    },
+    "false_reject": {
+     "k": 2,
+     "n": 14,
+     "rate": 0.1429,
+     "ci95": [
+      0.0401,
+      0.3994
+     ]
+    }
+   }
+  },
+  "chosen": "jev_glm",
+  "rule": "higher dev agreement with the labels; a tie keeps glm_direct, the decided configuration"
+ },
+ "test": {
+  "chosen_path": {
+   "agreement": {
+    "k": 80,
+    "n": 85,
+    "rate": 0.9412,
+    "ci95": [
+     0.8696,
+     0.9746
+    ]
+   },
+   "by_kind": {
+    "altered_number": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "other_paper": {
+     "k": 28,
+     "n": 28,
+     "rate": 1.0,
+     "ci95": [
+      0.8794,
+      1.0
+     ]
+    },
+    "other_passage": {
+     "k": 19,
+     "n": 20,
+     "rate": 0.95,
+     "ci95": [
+      0.7639,
+      0.9911
+     ]
+    },
+    "reversed": {
+     "k": 6,
+     "n": 6,
+     "rate": 1.0,
+     "ci95": [
+      0.6097,
+      1.0
+     ]
+    },
+    "supported": {
+     "k": 24,
+     "n": 28,
+     "rate": 0.8571,
+     "ci95": [
+      0.6851,
+      0.943
+     ]
+    }
+   },
+   "false_accept": {
+    "k": 1,
+    "n": 57,
+    "rate": 0.0175,
+    "ci95": [
+     0.0031,
+     0.0929
+    ]
+   },
+   "false_reject": {
+    "k": 4,
+    "n": 28,
+    "rate": 0.1429,
+    "ci95": [
+     0.057,
+     0.3149
+    ]
+   },
+   "agreement_with_reference": {
+    "k": 82,
+    "n": 85,
+    "rate": 0.9647,
+    "ci95": [
+     0.9013,
+     0.9879
+    ]
+   },
+   "metrics": {
+    "verdicts": 255,
+    "items": 85,
+    "repeats": 3,
+    "agreement_label": 0.9411764705882353,
+    "agreement_reference": 0.9568627450980393,
+    "ece": 0.035333333333334056,
+    "flip_rate": 0.023529411764705882,
+    "flip_rate_verdicts": 0.00784313725490196,
+    "malformed_rate": 0.0,
+    "confidence_sources": {
+     "logprobs": 228,
+     "self_report": 27
+    },
+    "cost_per_item_usd": 2.847774901960781e-05,
+    "latency_p50_ms": 166.0,
+    "latency_p95_ms": 1144.0,
+    "agreement_label_by_task": {
+     "claim_support": 0.9411764705882353
+    }
+   }
+  },
+  "reference": {
+   "agreement": {
+    "k": 81,
+    "n": 85,
+    "rate": 0.9529,
+    "ci95": [
+     0.8852,
+     0.9816
+    ]
+   },
+   "by_kind": {
+    "altered_number": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "other_paper": {
+     "k": 28,
+     "n": 28,
+     "rate": 1.0,
+     "ci95": [
+      0.8794,
+      1.0
+     ]
+    },
+    "other_passage": {
+     "k": 19,
+     "n": 20,
+     "rate": 0.95,
+     "ci95": [
+      0.7639,
+      0.9911
+     ]
+    },
+    "reversed": {
+     "k": 6,
+     "n": 6,
+     "rate": 1.0,
+     "ci95": [
+      0.6097,
+      1.0
+     ]
+    },
+    "supported": {
+     "k": 25,
+     "n": 28,
+     "rate": 0.8929,
+     "ci95": [
+      0.728,
+      0.9629
+     ]
+    }
+   },
+   "false_accept": {
+    "k": 1,
+    "n": 57,
+    "rate": 0.0175,
+    "ci95": [
+     0.0031,
+     0.0929
+    ]
+   },
+   "false_reject": {
+    "k": 3,
+    "n": 28,
+    "rate": 0.1071,
+    "ci95": [
+     0.0371,
+     0.272
+    ]
+   },
+   "metrics": {
+    "verdicts": 170,
+    "items": 85,
+    "repeats": 2,
+    "agreement_label": 0.9470588235294117,
+    "agreement_reference": 0.9941176470588236,
+    "ece": 0.041000000000000106,
+    "flip_rate": 0.011764705882352941,
+    "flip_rate_verdicts": 0.0058823529411764705,
+    "malformed_rate": 0.0,
+    "confidence_sources": {
+     "self_report": 170
+    },
+    "cost_per_item_usd": 0.002551717647058824,
+    "latency_p50_ms": 1409.0,
+    "latency_p95_ms": 3581.0,
+    "agreement_label_by_task": {
+     "claim_support": 0.9470588235294117
+    }
+   }
+  }
+ },
+ "spend_usd": {
+  "routing_and_dev": 0.013415926000000014,
+  "reference": 0.43379200000000007
+ },
+ "ledger": "data/ledger/run_claimbench-1.jsonl"
+}
