@@ -23,8 +23,8 @@ from vera.literature.deps import LitDeps
 from vera.loop.stages import _extract_json, _stop, _write_json, ask_gate, stage_result
 from vera.schemas import Verdict
 
-N_QUERIES = 5
-MAX_RECORDS = 60  # candidates kept in the log (best ranked first); bounds the screen's cost
+N_QUERIES = 12  # Increment 3 used 5 queries close to the question's wording and missed 16 indexed key papers
+MAX_RECORDS = 120  # candidates kept in the log (best ranked first); bounds the screen's cost
 MIN_RELEVANT = 5  # fewer than this and the literature stage stops: a review needs something to read
 
 QUERY_SYSTEM = (
@@ -36,8 +36,13 @@ def query_prompt(question: str) -> str:
     return (
         f"Research question: {question}\n\n"
         f"Write {N_QUERIES} different short search queries (3 to 8 words each, no quotation marks or operators) that "
-        "together would find the papers a literature review of this question should read: the methods by name, the "
-        "key concepts, synonyms, and the neighbouring problems it builds on. Do not repeat the whole question.\n\n"
+        "together would find the papers a literature review of this question should read. Cover these angles, at "
+        "least one query each: (1) every method or system the question names, by name; (2) the key concepts and their "
+        "synonyms in other fields' vocabulary; (3) the theory or earlier results it builds on; (4) the neighbouring "
+        "problems; (5) benchmarks, datasets or evaluation protocols used on it; (6) surveys, reviews and tutorials of "
+        "the area; (7) known failure modes, criticisms and negative results. Use the plain terms a paper's title or "
+        "abstract would use, not the wording of the question. Never name an author or venue unless you are certain of "
+        "it.\n\n"
         'Reply with a JSON list of strings, for example ["query one", "query two"].'
     )
 
@@ -168,6 +173,7 @@ def expand_node(deps: LitDeps) -> Callable[[dict], dict]:
         elif len(seeds) < MIN_SEEDS:
             note["skipped"] = f"only {len(seeds)} relevant seeds (need {MIN_SEEDS})"
         else:
+
             def references_of(seed: dict) -> list[dict]:
                 """A seed's parsed reference list (GROBID), for papers OpenAlex has no reference list for."""
                 fetch, parse = deps.extra.get("fetch_pdf"), deps.extra.get("parse_refs")
@@ -175,8 +181,9 @@ def expand_node(deps: LitDeps) -> Callable[[dict], dict]:
                 return parse(pdf) if pdf else []
 
             try:
-                added = deps.extra.get("expand", expansion.expand)(retriever, records, seeds,
-                                                                   references_of=references_of)
+                added = deps.extra.get("expand", expansion.expand)(
+                    retriever, records, seeds, references_of=references_of
+                )
             except LookupUnavailable as exc:
                 added, note["skipped"] = [], f"OpenAlex did not answer: {exc}"
             note["added"] = len(added)

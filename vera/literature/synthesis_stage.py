@@ -14,7 +14,7 @@ import hashlib
 import json
 from collections.abc import Callable
 
-from vera.literature import questions, synthesis
+from vera.literature import anchoring, questions, synthesis
 from vera.literature.deps import LitDeps
 from vera.literature.stages import _confirmed_question, _load_screen
 from vera.loop.stages import _extract_json, _stop, _write_json, ask_gate, stage_result
@@ -38,7 +38,9 @@ def synthesize_node(deps: LitDeps) -> Callable[[dict], dict]:
     def node(state: dict) -> dict:
         question = _confirmed_question(deps)
         passages, records = _passages(deps), _records(deps)
-        prompt = synthesis.draft_prompt(question, passages, records, deps.spec.guidance.max_words)
+        prompt = (
+            synthesis.draft_prompt(question, passages, records, deps.spec.guidance.max_words) + anchoring.ANCHOR_RULE
+        )
         reply = deps.generator.generate(synthesis.SYSTEM, prompt, component="p3.synthesize")
         paragraphs = synthesis.parse_sentences(_extract_json(reply, "{", "}"))
         if not paragraphs:
@@ -72,8 +74,9 @@ def verify_node(deps: LitDeps) -> Callable[[dict], dict]:
         sentences = [[dict(s) for s in para] for para in state["draft"]]
         loose = [s for para in sentences for s in para if not s["claim"]]
         stray = sum(1 for s in loose if synthesis.STRAY_ATTRIBUTION.search(s["text"]))
-        sentences = [[s for s in para if s["claim"] or not synthesis.STRAY_ATTRIBUTION.search(s["text"])]
-                     for para in sentences]  # an attribution with no claim is never checked, so it is removed
+        sentences = [
+            [s for s in para if s["claim"] or not synthesis.STRAY_ATTRIBUTION.search(s["text"])] for para in sentences
+        ]  # an attribution with no claim is never checked, so it is removed
         verdicts: list[Verdict] = []
 
         def failures(items: list[dict]) -> dict[int, str]:
@@ -88,6 +91,18 @@ def verify_node(deps: LitDeps) -> Callable[[dict], dict]:
                 verdicts.append(v)
                 if not (confident and v.answer is True):
                     out[i] = "unsupported" if confident else "judge_unsure"
+                    continue
+                marker = anchoring.marker_problem(s["text"], s["claim"]["quote"])
+                if marker:  # an editorial connective the quote does not contain: the sentence says more than it quotes
+                    out[i] = f"unanchored: the sentence adds {marker!r}, which the quote does not say"
+                    continue
+                qa, material = anchoring.quote_covers_claim(
+                    s["text"], s["claim"]["quote"], records[s["claim"]["source_key"]]["title"]
+                )
+                a, a_confident = ask_gate(deps, "synthesize", qa, material, None, state)
+                verdicts.append(a)
+                if not (a_confident and a.answer is True):
+                    out[i] = "unanchored: the quote alone does not state the claim" if a_confident else "judge_unsure"
             return out
 
         claimed = [s for para in sentences for s in para if s["claim"]]
@@ -144,7 +159,10 @@ def verify_node(deps: LitDeps) -> Callable[[dict], dict]:
                                   year=records[k].get("year"), source=records[k]["source"], url=records[k]["url"])
                      for k in cited],
         )  # fmt: skip
-        (deps.run_dir / "literature.md").write_text(synthesis.render(text, claims, records), encoding="utf-8")
+        rstats = anchoring.stats_from_state(state)
+        section = section.model_copy(update={"retrieval_stats": rstats})
+        markdown = anchoring.insert_note(synthesis.render(text, claims, records), anchoring.retrieval_note(rstats))
+        (deps.run_dir / "literature.md").write_text(markdown, encoding="utf-8")
         rows = [c.model_dump(mode="json") for c in section.claims]
         (deps.run_dir / "claims.jsonl").write_text(synthesis.dump_jsonl(rows), encoding="utf-8")
         artifact = _write_json(deps, "literature", {"stats": stats, "failure_reasons": reasons,

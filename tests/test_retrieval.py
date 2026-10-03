@@ -169,7 +169,7 @@ def test_queries_are_parsed_deduplicated_and_capped() -> None:
     reply = '["a b c", "A B C", "second query", "third"]'
     assert stages.parse_queries(reply) == ["a b c", "second query", "third"]
     assert stages.parse_queries("no list here") == []
-    assert len(stages.parse_queries(json.dumps([f"query {i}" for i in range(9)]))) == stages.N_QUERIES
+    assert len(stages.parse_queries(json.dumps([f"query {i}" for i in range(20)]))) == stages.N_QUERIES
 
 
 def test_the_retrieval_stage_logs_every_candidate_and_screens_them(tmp_path: Path) -> None:

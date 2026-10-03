@@ -164,7 +164,10 @@ def plot(results: dict) -> None:
     fig.suptitle(
         "Cost vs agreement as the escalation threshold rises from 0 to 1 (left to right on each line); "
         f"open circle = threshold {results['default_threshold']}",
-        color=INK, fontsize=10, x=0.01, ha="left",
+        color=INK,
+        fontsize=10,
+        x=0.01,
+        ha="left",
     )
     fig.text(0.01, 0.005, f"Test split: {ref['items']} items. \\$0 (local) costs drawn at \\${COST_FLOOR:g}. "
              "Sonnet alone on the right: agreement of its repeats with its own modal answer.",

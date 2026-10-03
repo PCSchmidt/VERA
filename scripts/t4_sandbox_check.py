@@ -43,22 +43,28 @@ for i in range(3):
     show("startup", run("pass"))
 
 # 1. network: hardened vs control
-net = ("import socket\ntry:\n s=socket.create_connection(('1.1.1.1',53),timeout=4);print('CONNECTED')\n"
-       "except Exception as e: print('blocked',type(e).__name__)\n"
-       "try:\n print(socket.gethostbyname('pypi.org'))\nexcept Exception as e: print('dns blocked',type(e).__name__)")
+net = (
+    "import socket\ntry:\n s=socket.create_connection(('1.1.1.1',53),timeout=4);print('CONNECTED')\n"
+    "except Exception as e: print('blocked',type(e).__name__)\n"
+    "try:\n print(socket.gethostbyname('pypi.org'))\nexcept Exception as e: print('dns blocked',type(e).__name__)"
+)
 show("network none", run(net))
 show("network CONTROL (default bridge)", run(net, flags=[]))
 
 # 2. host files: only /work visible; no repo .env; no host drive mounts
-probe = ("import os\nprint('work:',sorted(os.listdir('/work')))\n"
-         "for p in ['/work/../.env','/mnt','/mnt/host','/c','/Users','/proc/1/environ']:\n"
-         " print(p, os.path.exists(p), (os.listdir(p)[:4] if os.path.isdir(p) else ''))\n"
-         "print([l.split()[1] for l in open('/proc/mounts') if '/work' in l or 'host' in l or '/mnt' in l])")
+probe = (
+    "import os\nprint('work:',sorted(os.listdir('/work')))\n"
+    "for p in ['/work/../.env','/mnt','/mnt/host','/c','/Users','/proc/1/environ']:\n"
+    " print(p, os.path.exists(p), (os.listdir(p)[:4] if os.path.isdir(p) else ''))\n"
+    "print([l.split()[1] for l in open('/proc/mounts') if '/work' in l or 'host' in l or '/mnt' in l])"
+)
 show("host files", run(probe))
 
 # 3. writes: outside /work blocked, /work and /tmp allowed
-w = ("for p in ['/etc/x','/opt/x','/home/sandbox/x','/usr/x','/work/ok.txt','/tmp/ok.txt']:\n"
-     " try: open(p,'w').write('x'); print(p,'WROTE')\n except Exception as e: print(p,type(e).__name__)")
+w = (
+    "for p in ['/etc/x','/opt/x','/home/sandbox/x','/usr/x','/work/ok.txt','/tmp/ok.txt']:\n"
+    " try: open(p,'w').write('x'); print(p,'WROTE')\n except Exception as e: print(p,type(e).__name__)"
+)
 show("writes", run(w))
 print("  host sees work/ok.txt:", (WORK / "ok.txt").exists())
 
@@ -71,17 +77,30 @@ try:
 except subprocess.TimeoutExpired:
     subprocess.run(["docker", "kill", name], capture_output=True)
     p.wait(timeout=30)
-alive = subprocess.run(["docker", "ps", "-q", "--filter", f"name={name}"], capture_output=True, text=True).stdout.strip()
+alive = subprocess.run(
+    ["docker", "ps", "-q", "--filter", f"name={name}"], capture_output=True, text=True
+).stdout.strip()
 print(f"[wall kill] stopped after {time.perf_counter() - t0:.1f}s, container still running: {bool(alive)}")
 
 # 5. memory limit
 show("memory 1g, alloc 4g", run("x=bytearray(4*1024**3); x[::4096]=b'1'*len(x[::4096]); print('ALLOCATED')"))
 
 # 6. process limit (fork bomb)
-show("pids 128", run("import os\nn=0\ntry:\n while True:\n  os.fork() if os.fork()==0 else None\nexcept OSError as e: print('fork blocked',e)", timeout=40))
+show(
+    "pids 128",
+    run(
+        "import os\nn=0\ntry:\n while True:\n  os.fork() if os.fork()==0 else None\nexcept OSError as e: print('fork blocked',e)",
+        timeout=40,
+    ),
+)
 
 # 7. environment and identity
-show("env keys", run("import os;print([k for k in os.environ if any(s in k.upper() for s in ('KEY','TOKEN','SECRET','PASS'))], os.getuid())"))
+show(
+    "env keys",
+    run(
+        "import os;print([k for k in os.environ if any(s in k.upper() for s in ('KEY','TOKEN','SECRET','PASS'))], os.getuid())"
+    ),
+)
 
 # 8. the unmodified baseline path: TreeHFD on the example's simulated data, subset size, metric printed
 base = r"""
@@ -99,5 +118,7 @@ print('residual_rel_var=%.4f'%(np.var(pred-hp)/np.var(pred)),'seconds=%.1f'%(tim
 open('/work/baseline.txt','w').write('done')
 """
 show("TreeHFD baseline (n=5000, 100 trees)", run(base, timeout=300))
-print("leftover t4 containers:", subprocess.run(["docker", "ps", "-aq", "--filter", "name=t4-"],
-                                                 capture_output=True, text=True).stdout.split())
+print(
+    "leftover t4 containers:",
+    subprocess.run(["docker", "ps", "-aq", "--filter", "name=t4-"], capture_output=True, text=True).stdout.split(),
+)

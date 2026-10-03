@@ -1,0 +1,14 @@
+{
+ "stats": {
+  "drafted": 12,
+  "failed_first": 5,
+  "repaired": 2,
+  "removed": 3,
+  "stray_attributions_removed": 0
+ },
+ "failure_reasons": {
+  "unanchored: the quote alone does not state the claim": 4,
+  "unsupported": 1
+ },
+ "n_claims_kept": 9
+}

@@ -1,0 +1,177 @@
+{
+ "claims": 42,
+ "failed_either": 21,
+ "rate": 0.5,
+ "ci95": [
+  0.3553,
+  0.6447
+ ],
+ "marker_failures": 4,
+ "judge_failures": 21,
+ "by_topic": {
+  "credal-dro": {
+   "claims": 14,
+   "failed": 4
+  },
+  "llm-judge-numbers": {
+   "claims": 15,
+   "failed": 9
+  },
+  "tree-explain": {
+   "claims": 13,
+   "failed": 8
+  }
+ },
+ "failing": [
+  {
+   "topic": "credal-dro",
+   "source_key": "R7",
+   "claim": "The same foundational study calibrated the radius by a bootstrap-style resampling procedure with held-out validation samples.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "credal-dro",
+   "source_key": "R7",
+   "claim": "The LCX set there was a moment-type comparator whose size was calibrated by bootstrapping to a target reliability, so this is not a mean-covariance set tuned under an identical rule.",
+   "marker": "so this",
+   "judge_unsure": false
+  },
+  {
+   "topic": "credal-dro",
+   "source_key": "R57",
+   "claim": "On contamination, one framework based on trimmings is said to address decision problems under contaminated samples, illustrated on newsvendor and portfolio problems.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "credal-dro",
+   "source_key": "R5",
+   "claim": "On calibration, one source finds that a theory-driven radius choice matches cross-validation for a Wasserstein regression estimator, but in a high-dimensional regression setting rather than a portfolio or newsvendor problem.",
+   "marker": "rather than",
+   "judge_unsure": false
+  },
+  {
+   "topic": "llm-judge-numbers",
+   "source_key": "R15",
+   "claim": "The clearest warning comes from financial documents, where a strict judge with access to ground truth still disagreed with graph-verified truth in some cases.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "llm-judge-numbers",
+   "source_key": "R15",
+   "claim": "Removing the ground truth made agreement far worse, since a blind judge reached a much higher disagreement rate.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "llm-judge-numbers",
+   "source_key": "R15",
+   "claim": "Seeing the source document did not rescue the judge: a grounded judge with the full source but no ground truth approved wrong answers often.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "llm-judge-numbers",
+   "source_key": "R46",
+   "claim": "A different picture appears for extractive QA with context. There, judge scores correlated strongly with human evaluations, and the authors report that judging was strong on number-related answers.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "llm-judge-numbers",
+   "source_key": "R46",
+   "claim": "The same study found that zero-shot, context-free judging often performed best, which sits oddly beside the financial finding that source access matters.",
+   "marker": "sits oddly",
+   "judge_unsure": false
+  },
+  {
+   "topic": "llm-judge-numbers",
+   "source_key": "R14",
+   "claim": "On the table side, the sources describe the task difficulty more than judge reliability. TabFact combines two kinds of reasoning, linguistic and symbolic.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "llm-judge-numbers",
+   "source_key": "R20",
+   "claim": "In legal QA, enabling step-by-step reasoning helped, and supplying an authoritative reference reduced dangerous acceptances.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "llm-judge-numbers",
+   "source_key": "R25",
+   "claim": "A multi-judge study found notable disagreement among judges, although on a very small sample.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "llm-judge-numbers",
+   "source_key": "R37",
+   "claim": "A survey notes that explanation before or after rating gave higher correlations with human ratings, but this is for general evaluation, not numeric claims.",
+   "marker": "but this is",
+   "judge_unsure": false
+  },
+  {
+   "topic": "tree-explain",
+   "source_key": "R5",
+   "claim": "The central source, the TreeHFD paper, frames the problem as one of dependence: the Hoeffding decomposition is unique only for independent inputs, and under dependence it is generalized through hierarchical orthogonality constraints.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "tree-explain",
+   "source_key": "R35",
+   "claim": "Another source describes the generalized decomposition as existing and unique under bounded-density assumptions, but its geometry as still implicit.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "tree-explain",
+   "source_key": "R5",
+   "claim": "On accuracy, TreeHFD's own experiments show it approximates the decomposition of fitted xgboost models well on real data.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "tree-explain",
+   "source_key": "R5",
+   "claim": "On California Housing, it reports that TreeHFD identifies the San Francisco Bay Area peak in the Longitude component, which TreeSHAP does not really detect.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "tree-explain",
+   "source_key": "R5",
+   "claim": "For random forests, the authors report lower accuracy than with xgboost on the sinusoidal main effect and on the interaction components in an analytical case.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "tree-explain",
+   "source_key": "R10",
+   "claim": "Other sources suggest TreeSHAP and HFD-style methods often agree in global rankings. One reports very close top-10 rankings across six datasets.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "tree-explain",
+   "source_key": "R35",
+   "claim": "Another reports mean rank correlations of about 0.91 to 0.93 with SHAP explainers, with a lowest value of 0.7619 against TreeSHAP.",
+   "marker": null,
+   "judge_unsure": false
+  },
+  {
+   "topic": "tree-explain",
+   "source_key": "R6",
+   "claim": "Evidence on TreeSHAP under correlation is partial. One construction shows exact TreeSHAP giving strikingly unequal importance to statistically interchangeable redundant channels.",
+   "marker": null,
+   "judge_unsure": false
+  }
+ ],
+ "spend_usd": 0.00166,
+ "ledger": "data/ledger/run_anchormeasure-3.jsonl",
+ "reverse_if": "a failure rate above 10% means the check is too loose or the synthesis prompt needs the rule"
+}

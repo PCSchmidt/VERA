@@ -12,23 +12,59 @@ from vera.literature import scoping, synthesis, synthesis_stage
 from vera.schemas import LiteratureSection, StageResult
 
 RECORDS = {
-    "R1": {"key": "R1", "title": "TreeHFD", "authors": ["C. Benard"], "year": "2025", "id": "arXiv:2510.24815",
-           "url": "https://arxiv.org/abs/2510.24815", "source": "arxiv"},
-    "R2": {"key": "R2", "title": "Purifying interactions", "authors": ["B. Lengerich"], "year": "2019",
-           "id": "arXiv:1911.04974", "url": "https://arxiv.org/abs/1911.04974", "source": "arxiv"},
-    "R3": {"key": "R3", "title": "Unused paper", "authors": [], "year": "2020", "id": "arXiv:2001.00003",
-           "url": "https://arxiv.org/abs/2001.00003", "source": "arxiv"},
+    "R1": {
+        "key": "R1",
+        "title": "TreeHFD",
+        "authors": ["C. Benard"],
+        "year": "2025",
+        "id": "arXiv:2510.24815",
+        "url": "https://arxiv.org/abs/2510.24815",
+        "source": "arxiv",
+    },
+    "R2": {
+        "key": "R2",
+        "title": "Purifying interactions",
+        "authors": ["B. Lengerich"],
+        "year": "2019",
+        "id": "arXiv:1911.04974",
+        "url": "https://arxiv.org/abs/1911.04974",
+        "source": "arxiv",
+    },
+    "R3": {
+        "key": "R3",
+        "title": "Unused paper",
+        "authors": [],
+        "year": "2020",
+        "id": "arXiv:2001.00003",
+        "url": "https://arxiv.org/abs/2001.00003",
+        "source": "arxiv",
+    },
 }
 Q1 = "the decomposition becomes unstable across bootstrap refits when correlation exceeds 0.9"
 Q2 = "main effects remain close to the ground truth in the synthetic experiments"
 Q3 = "purification moves interaction mass into the main effects without changing predictions"
 PASSAGES = [
-    {"source_key": "R1", "id": "R1-P1", "kind": "fulltext", "locator": "sec. Results, para 4",
-     "text": f"In our experiments {Q1}, while the {Q2}."},
-    {"source_key": "R2", "id": "R2-P1", "kind": "fulltext", "locator": "sec. Method, para 2",
-     "text": f"We show that {Q3}, which makes the additive model identifiable."},
-    {"source_key": "R3", "id": "R3-A", "kind": "abstract", "locator": "abstract",
-     "text": "A paper about something quite different, with its own particular wording throughout."},
+    {
+        "source_key": "R1",
+        "id": "R1-P1",
+        "kind": "fulltext",
+        "locator": "sec. Results, para 4",
+        "text": f"In our experiments {Q1}, while the {Q2}.",
+    },
+    {
+        "source_key": "R2",
+        "id": "R2-P1",
+        "kind": "fulltext",
+        "locator": "sec. Method, para 2",
+        "text": f"We show that {Q3}, which makes the additive model identifiable.",
+    },
+    {
+        "source_key": "R3",
+        "id": "R3-A",
+        "kind": "abstract",
+        "locator": "abstract",
+        "text": "A paper about something quite different, with its own particular wording throughout.",
+    },
 ]
 
 
@@ -47,8 +83,15 @@ BRIDGE = {"text": "What remains unestablished is behaviour on real data.", "clai
 
 
 def confirm(run_dir: Path, topic_id: str) -> None:
-    scoped = scoping.ScopedQuestion(topic_id=topic_id, question="q?", why_researchable="w", empirical=False,
-                                    status="confirmed", confirmed_by="Chris", confirmed_at="2026-10-03T10:00:00Z")
+    scoped = scoping.ScopedQuestion(
+        topic_id=topic_id,
+        question="q?",
+        why_researchable="w",
+        empirical=False,
+        status="confirmed",
+        confirmed_by="Chris",
+        confirmed_at="2026-10-03T10:00:00Z",
+    )
     scoping.write_scope(run_dir, scoped)
 
 
@@ -84,8 +127,10 @@ def test_RSH_F_09_a_claim_is_checked_against_its_source_and_its_quote() -> None:
 
 def test_RSH_F_09_citation_markers_come_from_claims_not_from_model_text() -> None:
     text, claims = synthesis.assemble([[GOOD1, BRIDGE], [GOOD3]])
-    assert text == ("TreeHFD interactions become unstable under strong correlation [R1]. What remains unestablished "
-                    "is behaviour on real data.\n\nPurification keeps predictions fixed [R2].")
+    assert text == (
+        "TreeHFD interactions become unstable under strong correlation [R1]. What remains unestablished "
+        "is behaviour on real data.\n\nPurification keeps predictions fixed [R2]."
+    )
     assert [c["source_key"] for c in claims] == ["R1", "R2"]
     refs = synthesis.references_block(claims, RECORDS)
     assert "[R1]" in refs and "[R2]" in refs and "[R3]" not in refs  # only cited sources are listed
@@ -121,7 +166,8 @@ def test_RSH_F_09_the_section_keeps_only_claims_that_passed_every_check(tmp_path
     assert all(c.quote_check == "pass" and c.locator for c in section.claims)
     # the judge only saw claims that passed the deterministic checks (three), and with fewer than five surviving
     # claims the stage stopped before the section-level question
-    assert deps.judge.asked == ["lit.claim_supported"] * 3 and "only 3 claims" in state["stop"]["reason"]
+    assert deps.judge.asked == ["lit.claim_supported", "lit.quote_covers_claim"] * 3
+    assert "only 3 claims" in state["stop"]["reason"]
 
 
 def test_RSH_F_09_a_failed_claim_is_sent_back_once_and_kept_if_the_repair_passes(tmp_path: Path) -> None:
