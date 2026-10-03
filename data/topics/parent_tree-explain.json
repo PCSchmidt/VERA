@@ -1,0 +1,98 @@
+{
+ "run_id": "scope-tree-explain-2",
+ "topic_id": "tree-explain",
+ "question": "When input features are correlated, does the functional decomposition of a tree ensemble produced by TreeHFD (arXiv 2510.24815) remain accurate and stable compared with TreeSHAP-style attributions and with the true additive/interaction components in synthetic data? Concretely, as pairwise feature correlation rho increases from 0 to 0.95 in simulated data with known main effects and one known pairwise interaction, how do (a) the error of the recovered components against the ground-truth components and (b) the rank stability of the estimated component importances across bootstrap-refit random forests and gradient-boosted ensembles change? The same comparison would then be repeated on a few public tabular datasets (e.g., California housing, Adult) by measuring bootstrap stability of the top-k components, with no ground truth available.",
+ "candidates": [
+  {
+   "source_key": "R5",
+   "paper_id": "arXiv:2510.24815",
+   "title": "Tree Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm",
+   "repo_url": "https://github.com/ThalesGroup/treehfd",
+   "repo_resolves": true,
+   "licence": "Apache-2.0",
+   "pushed_at": "2026-09-29T16:26:31Z",
+   "archived": false,
+   "own_code": "yes",
+   "url_context": "The high performance of TreeHFD is demonstrated through experiments on both simulated and real data, using our treehfd Python package (https://github.com/ThalesGroup/treehfd).Besides, we empirically show that the widely used TreeSHAP method, based on Shapley values, is strongly connected to the Hoeffding decomposition. 1 Introduction",
+   "datasets": [
+    "Abalone",
+    "Airfoil",
+    "Bike Sharing",
+    "California Housing",
+    "Concrete",
+    "Nutrition",
+    "Parkinson",
+    "Power Plant"
+   ],
+   "compute": "xgboost tree ensemble plus the treehfd Python package; the paper says it takes under one minute for n=5000 per repetition",
+   "compute_basis": "stated",
+   "cpu_minutes": null,
+   "harness_in_docker": "docker/sandbox-treehfd",
+   "notes": "The paper presents the treehfd package as its own code and says the full run takes under a minute for n=5000, but no laptop-CPU time for a full baseline replication is given."
+  },
+  {
+   "source_key": "R15",
+   "paper_id": "arXiv:2603.02673",
+   "title": "Exact Functional ANOVA Decomposition for Categorical Inputs Models",
+   "repo_url": "https://github.com/BapFr/Exact-Functional-ANOVA-Decomposition-for-Categorical-Inputs-Models",
+   "repo_resolves": true,
+   "licence": null,
+   "pushed_at": "2026-05-25T10:16:14Z",
+   "archived": false,
+   "own_code": "yes",
+   "url_context": "(a link in the paper's PDF)",
+   "datasets": [
+    "Car Evaluation",
+    "Nursery",
+    "Mushrooms",
+    "Poker Hand",
+    "MNIST (binarized)"
+   ],
+   "compute": "closed-form categorical ANOVA computed from the empirical data matrix; the full 67,000-row dataset takes under 40 minutes",
+   "compute_basis": "stated",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "The repository is named as a link in the paper's PDF and appears to be the paper's own code, but the hardware behind the 40-minute figure is not stated, so a laptop-CPU time cannot be given."
+  },
+  {
+   "source_key": "R35",
+   "paper_id": "arXiv:2605.18422",
+   "title": "Generalized Functional ANOVA: A Complete Theoretical Framework",
+   "repo_url": "https://github.com/shap/shap",
+   "repo_resolves": true,
+   "licence": "MIT",
+   "pushed_at": "2026-10-02T13:42:02Z",
+   "archived": false,
+   "own_code": "no",
+   "url_context": "For each evaluation instance x and each feature j, the main effect hj(xj) is extracted directly via the eval_terms method of the 1https://github.com/shap/shap 2https://github.com/ThalesGroup/treehfd 24 Preprint. interpretML3 package Nori et al. (2019), which returns the contribution of every univariate (and bivariate)",
+   "datasets": [
+    "California Housing",
+    "Adult Census Income"
+   ],
+   "compute": "a fast model-agnostic basis-coefficient estimator; an MLP on Adult explains all 48,842 instances in about 0.6 s",
+   "compute_basis": "stated",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "The named repository (shap/shap) is a library or baseline used in the experiments, not this paper's own code, and the treehfd link is likewise an external method. Six datasets are mentioned, but only California Housing and Adult Census Income are named in the sentences given."
+  }
+ ],
+ "picked": "https://github.com/ThalesGroup/treehfd",
+ "none_fits_reason": null,
+ "verdicts": [
+  {
+   "question_id": "lit.parent_fits",
+   "answer": true,
+   "probabilities": null,
+   "confidence": 0.9,
+   "confidence_source": "self_report",
+   "backend": "glm-flash",
+   "escalated": false,
+   "cost_usd": 0.00003435,
+   "latency_ms": 1529,
+   "trace_id": "50841406cafd43a29b67329958a83ba5",
+   "producer_id": "p3.parent",
+   "judge_id": "p2.judge"
+  }
+ ],
+ "user_review": null
+}

@@ -10,6 +10,8 @@ Usage:
   uv run python scripts/run_topic.py --topic tree-explain --run-id topic-a-1 --max-usd 2 --phase start
   uv run python scripts/confirm_scope.py topic-a-1 --by Chris --accept
   uv run python scripts/run_topic.py --topic tree-explain --run-id topic-a-1 --max-usd 2 --phase continue
+  uv run python scripts/run_topic.py --topic tree-explain --run-id topic-a-1 --max-usd 2 --phase extend --after verify
+    (runs the stages added after the run finished, e.g. parent selection, in the same run and ledger)
 """
 
 from __future__ import annotations
@@ -23,7 +25,8 @@ from vera.judge.cheap_path import cheap_path
 from vera.keepawake import keep_awake
 from vera.ledger import Ledger
 from vera.literature.deps import LitDeps
-from vera.literature.graph import STAGE_NODES, continue_topic_run, rerun_from, start_topic_run
+from vera.literature.graph import STAGE_NODES, continue_topic_run, extend_run, rerun_from, start_topic_run
+from vera.literature.parent import RepoLookup
 from vera.literature.reading import GrobidParser, ParseCache, PdfFetcher
 from vera.literature.retrieval import HttpCache, Retriever
 from vera.schemas import Budget, OutputGuidance, RunSpec, Topic
@@ -42,8 +45,9 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--topic", required=True, help="id of data/topics/<id>.json")
     ap.add_argument("--run-id", required=True)
-    ap.add_argument("--phase", choices=["start", "continue", "rerun"], required=True)
+    ap.add_argument("--phase", choices=["start", "continue", "rerun", "extend"], required=True)
     ap.add_argument("--from-node", default="queries", help="with --phase rerun: the node to run again from")
+    ap.add_argument("--after", default="verify", help="with --phase extend: the finished node whose successors run now")
     ap.add_argument("--max-usd", type=float, default=2.0)
     ap.add_argument("--scope-cap", type=float, default=0.25)
     ap.add_argument("--max-wall", type=int, default=7200)
@@ -75,9 +79,13 @@ def main() -> None:
     parser = GrobidParser()  # docker: lfoppiano/grobid:0.8.2 on localhost:8070 (T3)
     deps.extra["parse_pdf"] = lambda pdf: ParseCache(cache / "parsed").parse(pdf, parser)
     deps.extra["parse_refs"] = lambda pdf: ParseCache(cache / "parsed").references(pdf, parser)
+    deps.extra["repo_lookup"] = RepoLookup(HttpCache(cache / "http"))  # GitHub metadata, cached with the date
+    deps.extra["root"] = ROOT
     with keep_awake():
         if args.phase == "start":
             state = start_topic_run(deps, extra_nodes=STAGE_NODES)
+        elif args.phase == "extend":
+            state = extend_run(deps, args.after, extra_nodes=STAGE_NODES)
         elif args.phase == "rerun":
             state = rerun_from(deps, args.from_node, extra_nodes=STAGE_NODES)
         else:

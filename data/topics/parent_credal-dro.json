@@ -1,0 +1,44 @@
+{
+ "run_id": "scope-credal-dro-2",
+ "topic_id": "credal-dro",
+ "question": "In small-sample, contaminated data-driven decision problems (e.g., a mean-risk portfolio or newsvendor-type problem solved as a convex program), how do credal ambiguity sets (such as an imprecise Dirichlet or epsilon-contamination neighborhood around the empirical distribution) compare with Wasserstein-ball and moment-based (mean-covariance) ambiguity sets in out-of-sample cost and in the reliability of the resulting cost guarantee, as the sample size (n of roughly 10 to 200) and the contamination fraction (0 to 20%) vary, when each set's radius is tuned by the same cross-validation or calibration rule?",
+ "candidates": [
+  {
+   "source_key": "R42",
+   "paper_id": "arXiv:2206.05134",
+   "title": "Distributionally Robust End-to-End Portfolio Construction",
+   "repo_url": "https://github.com/Iyengar-Lab/E2E-DRO",
+   "repo_resolves": true,
+   "licence": "Apache-2.0",
+   "pushed_at": "2023-04-15T14:44:04Z",
+   "archived": false,
+   "own_code": "unclear",
+   "url_context": "(a link in the paper's PDF)",
+   "datasets": [],
+   "compute": "A differentiable convex optimization layer (the distributionally robust decision layer) trained end-to-end together with the prediction model; no hardware is stated.",
+   "compute_basis": "inferred",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "The repository link (Iyengar-Lab/E2E-DRO) appears only as a link in the PDF, and no sentence presents it as the paper's own code. The historical data are weekly asset and feature returns from 2000 to 2021 with no named public dataset, and the synthetic experiment has 1,200 observations, 10 assets an"
+  }
+ ],
+ "picked": null,
+ "none_fits_reason": "https://github.com/Iyengar-Lab/E2E-DRO: no public dataset identified",
+ "verdicts": [
+  {
+   "question_id": "lit.parent_refusal",
+   "answer": true,
+   "probabilities": null,
+   "confidence": 0.7,
+   "confidence_source": "self_report",
+   "backend": "glm-flash",
+   "escalated": false,
+   "cost_usd": 0.000035964,
+   "latency_ms": 8243,
+   "trace_id": "10e9ca99966e4d5cae7d8b32c2259a77",
+   "producer_id": "p3.parent",
+   "judge_id": "p2.judge"
+  }
+ ],
+ "user_review": null
+}

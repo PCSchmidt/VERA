@@ -463,4 +463,13 @@ Keep each to one short section. Status: **open** until decided.
   stage finds for topics (a) and (b), how many have public code that runs in the
   sandbox, how long wrapping each by hand takes, and whether a model-written or
   hybrid baseline reproduces a known baseline within its registered tolerance.
+- **Measured so far (2026-10-03, parent selection on the confirmed topics):** topic (a), 3 candidate
+  repositories from 12 papers (7 PDFs scanned, 3 of them named a repository; 5 papers had no PDF): TreeHFD
+  (the paper's own code, Apache-2.0, 8 UCI datasets, under a minute at n = 5000) with a hand-built harness in
+  `docker/sandbox-treehfd/`, picked; a categorical-ANOVA repository with no licence recorded; the `shap` library (not
+  the paper's own code). Topic (b): 1 candidate, a deep-learning end-to-end portfolio repository, refused (no public
+  dataset identified; the judge confirmed the refusal at confidence 0.70). Topic (c) is non-empirical. So of 4
+  candidate repositories, 1 has public code that runs in the sandbox, and only because Increment 2 wrapped it by hand.
+  What it would take to wrap the others, and whether a model-written baseline reproduces a known baseline within
+  tolerance, is not measured yet.
 - **Scores / Decision / Reverse if:** to be written at `trades_decided_3`.

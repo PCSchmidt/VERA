@@ -18,7 +18,7 @@ from typing import Annotated, Any, TypedDict
 from langgraph.graph import END, START, StateGraph
 
 from vera.graph import resume, run, run_config, sqlite_checkpointer
-from vera.literature import scoping, stages, synthesis_stage
+from vera.literature import parent, scoping, stages, synthesis_stage
 from vera.literature.deps import LitDeps
 from vera.loop.graph import restore_budget, tracked
 from vera.loop.stages import _merge
@@ -43,6 +43,8 @@ STAGE_NODES: list[tuple[str, str, NodeFactory]] = [
     ("read_gate", "read", stages.read_gate_node),
     ("synthesize", "synthesize", synthesis_stage.synthesize_node),
     ("verify", "synthesize", synthesis_stage.verify_node),
+    ("parent", "parent", parent.parent_node),
+    ("parent_gate", "parent", parent.parent_gate_node),
 ]
 AWAITING = "awaiting confirmation: run scripts/confirm_scope.py, then continue the run"
 
@@ -56,6 +58,8 @@ class LitState(TypedDict, total=False):
     passages: int  # evidence passages written to passages.jsonl
     draft: list  # the drafted section: paragraphs of sentences with claims
     section: dict  # the verified LiteratureSection
+    parent_candidates: list  # repositories found in the papers read, with their live checks
+    parent: str | None  # the picked parent problem's repository, or None
     read_report: list  # per paper: how it was read (full text or abstract), and why not when it was not
     artifacts: Annotated[dict, _merge]
     verdicts: Annotated[dict, _merge]
@@ -128,5 +132,24 @@ def rerun_from(deps: LitDeps, node: str, *, extra_nodes: list[tuple[str, str, No
     deps.budget.max_usd = deps.spec.budget.max_usd
     restore_budget(deps, target.values.get("budget"))
     state = graph.invoke(None, target.config, durability="sync")
+    write_best_so_far(state, deps.spec, deps.budget, deps.run_dir / "best_so_far.json")
+    return state
+
+
+def extend_run(deps: LitDeps, after: str, *, extra_nodes: list[tuple[str, str, NodeFactory]] = ()) -> dict:
+    """Continue a run that finished (or stopped) at node `after` with the nodes that now follow it: used when a stage is
+    added to the graph after the run's earlier stages are done. The checkpoint is moved forward as if `after` had
+    just run, so the earlier nodes, their verdicts and their spend stay as they are."""
+    scoped = scoping.read_scope(deps.run_dir)
+    if scoped is None or scoped.status == "proposed":
+        raise scoping.ScopeNotConfirmedError("the scoped question has not been confirmed (scripts/confirm_scope.py)")
+    graph = _graph(deps, extra_nodes)
+    thread = deps.spec.run_id
+    config = run_config(thread)
+    values = graph.get_state(config).values
+    graph.update_state(config, {"stop": None}, as_node=after)
+    deps.budget.max_usd = deps.spec.budget.max_usd
+    restore_budget(deps, values.get("budget"))
+    state = graph.invoke(None, config, durability="sync")
     write_best_so_far(state, deps.spec, deps.budget, deps.run_dir / "best_so_far.json")
     return state

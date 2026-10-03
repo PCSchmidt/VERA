@@ -11,7 +11,15 @@ from vera.schemas.judge import (
     SelfGradingError,
     Verdict,
 )
-from vera.schemas.literature import ClaimLink, LiteratureSection, ScopedQuestion, SourceRecord, Topic
+from vera.schemas.literature import (
+    ClaimLink,
+    LiteratureSection,
+    ParentCandidate,
+    ParentSelection,
+    ScopedQuestion,
+    SourceRecord,
+    Topic,
+)
 from vera.schemas.research import STAGES, OutputGuidance, ProblemSpec, RunSpec, StageResult
 from vera.schemas.version import SCHEMA_VERSION
 
@@ -36,6 +44,8 @@ __all__ = [
     "QuestionType",
     "RoutingPolicy",
     "RunSpec",
+    "ParentCandidate",
+    "ParentSelection",
     "ScopedQuestion",
     "SelfGradingError",
     "SourceRecord",

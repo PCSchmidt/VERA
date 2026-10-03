@@ -245,6 +245,41 @@ class LiteratureSection(BaseModel):
     sources: list[SourceRecord]
 ```
 
+```python
+class ParentCandidate(BaseModel):  # RSH-F-10: one repository found in a paper the stage read
+    source_key: str  # the retrieved paper it came from (Rn)
+    paper_id: str
+    title: str
+    repo_url: str
+    repo_resolves: bool  # looked up live (GitHub API), never from model text
+    licence: str | None = None  # SPDX id the host reports
+    pushed_at: str | None = None
+    archived: bool = False
+    own_code: Literal["yes", "no", "unclear"] = "unclear"  # does the paper present it as its own code
+    url_context: str = ""  # the sentence of the paper that names it
+    datasets: list[str] = []
+    compute: str = ""
+    compute_basis: Literal["stated", "inferred", "unknown"] = "unknown"
+    cpu_minutes: float | None = None  # the model's estimate for one baseline replication on CPU
+    harness_in_docker: str | None = None  # the docker/ directory whose Dockerfile builds this repository
+    notes: str = ""
+
+
+class ParentSelection(BaseModel):  # data/topics/parent_<topic>.json
+    run_id: str
+    topic_id: str
+    question: str
+    candidates: list[ParentCandidate]
+    picked: str | None = None  # a candidate's repo_url
+    none_fits_reason: str | None = None  # exactly one of `picked` and `none_fits_reason` is set
+    verdicts: list[Verdict] = []  # lit.parent_fits per candidate judged; lit.parent_refusal when nothing was picked
+    user_review: dict | None = None  # {"right": bool, "note": str, "by": str, "at": str}: the user's reading
+```
+
+The repository URLs come from a regular expression over the papers' PDF text and link annotations, and each is
+looked up live; the model fills only what the paper says (own code, datasets, compute). A refusal is itself sent to
+the judge (`lit.parent_refusal`); a doubted refusal rejects the stage.
+
 `RunSpec.topic: Topic | None = None` is set when a run starts from a topic; a `RunSpec` needs a
 `problem`, a `topic`, or both (a literature-only run has no problem).
 

@@ -103,3 +103,43 @@ class LiteratureSection(BaseModel):
         if unknown:
             raise ValueError(f"claims cite sources that were not retrieved: {unknown}")
         return self
+
+
+class ParentCandidate(BaseModel):
+    """One candidate parent problem for an empirical question: a method paper, its repository and what it would take."""
+
+    source_key: str  # the retrieved paper it came from (`Rn`)
+    paper_id: str
+    title: str
+    repo_url: str
+    repo_resolves: bool  # looked up live (GitHub API), never taken from model text
+    licence: str | None = None  # SPDX id the host reports; None = none recorded
+    pushed_at: str | None = None
+    archived: bool = False
+    own_code: Literal["yes", "no", "unclear"] = "unclear"  # whether the paper presents this repository as its own code
+    url_context: str = ""  # the sentence of the paper that names the repository
+    datasets: list[str] = Field(default_factory=list)
+    compute: str = ""  # the compute the baseline needs
+    compute_basis: Literal["stated", "inferred", "unknown"] = "unknown"
+    cpu_minutes: float | None = None  # the model's estimate for one baseline replication on CPU; None when unknown
+    harness_in_docker: str | None = None  # docker/ directory whose Dockerfile builds this repository, if any
+    notes: str = ""
+
+
+class ParentSelection(BaseModel):
+    run_id: str
+    topic_id: str
+    question: str
+    candidates: list[ParentCandidate]
+    picked: str | None = None  # the picked candidate's repo_url
+    none_fits_reason: str | None = None
+    verdicts: list[Verdict] = Field(default_factory=list)  # `lit.parent_fits`, one per candidate the judge saw
+    user_review: dict | None = None  # {"right": bool, "note": str, "by": str, "at": str}: the user's reading
+
+    @model_validator(mode="after")
+    def _pick_or_reason(self) -> ParentSelection:
+        if (self.picked is None) == (self.none_fits_reason is None):
+            raise ValueError("a selection either picks a candidate or says why none fits, not both and not neither")
+        if self.picked is not None and self.picked not in {c.repo_url for c in self.candidates}:
+            raise ValueError("the picked repository is not one of the candidates")
+        return self
