@@ -135,7 +135,7 @@ built and tested offline before any stage uses them:
 - **Repair log complete.** `audit_repair.json` appends a record per pass (it kept
   only the last for credal-dro), and a repair that drops a clause from a claim lists
   the dropped text.
-- **Per-session overhead.** `scripts/session.sh` end-of-session prints the
+- **Per-session overhead.** `scripts/overhead-due.sh`, run at the end of every session, prints the
   overhead command with the dates of gates passed since the last entry; the check
   rule above.
 - **Schemas 0.10 (docs/03 first):** `ProtocolSpec` (methods, datasets, metrics,

@@ -89,12 +89,23 @@ class ClaimLink(BaseModel):
         return v
 
 
+class RetrievalStats(BaseModel):
+    """What the literature stage did, stated in the review text: a review is conditional on what retrieval found."""
+
+    queries: list[str]
+    n_retrieved: int = Field(ge=0)  # candidates before the screen
+    n_kept: int = Field(ge=0)  # kept by the relevance screen
+    n_read_full: int = Field(ge=0)  # read in full text; the rest at the abstract
+    n_dropped_by_screen: int = Field(ge=0)
+
+
 class LiteratureSection(BaseModel):
     run_id: str
     topic_id: str
     text: str  # the section as written, citing [Rn]
     claims: list[ClaimLink]
     sources: list[SourceRecord]
+    retrieval_stats: RetrievalStats | None = None  # Increment 4: disclosed in the review text
 
     @model_validator(mode="after")
     def _claims_cite_sources(self) -> LiteratureSection:

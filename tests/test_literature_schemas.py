@@ -51,7 +51,7 @@ def test_literature_model_round_trips_through_json(model: BaseModel) -> None:
 
 
 def test_schema_version_is_0_9() -> None:
-    assert SCHEMA_VERSION == "0.9"
+    assert SCHEMA_VERSION == "0.10"
 
 
 def test_a_confirmed_question_needs_who_and_when() -> None:

@@ -96,6 +96,73 @@ class OutputGuidance(BaseModel):
     constraints: list[str] = []
 
 
+_SHA256 = re.compile(r"[0-9a-f]{64}")
+
+
+class ProtocolSpec(BaseModel):
+    """The experiment a confirmed question describes, registered (target file and its hash) before any run on it."""
+
+    id: str
+    question: str
+    methods: list[str]
+    datasets: list[str]
+    metrics: list[str]
+    primary_metric: str
+    n_seeds: int
+    target_file: str
+    target_sha256: str
+
+    @field_validator("methods", "datasets", "metrics")
+    @classmethod
+    def _non_empty(cls, v: list[str]) -> list[str]:
+        if not v:
+            raise ValueError("methods, datasets and metrics must not be empty")
+        return v
+
+    @field_validator("n_seeds")
+    @classmethod
+    def _seeds(cls, v: int) -> int:
+        if v < 1:
+            raise ValueError("n_seeds must be at least 1")
+        return v
+
+    @field_validator("target_sha256")
+    @classmethod
+    def _hash(cls, v: str) -> str:
+        if not _SHA256.fullmatch(v):
+            raise ValueError("target_sha256 must be 64 lowercase hex characters")
+        return v
+
+    @model_validator(mode="after")
+    def _primary(self) -> ProtocolSpec:
+        if self.primary_metric not in self.metrics:
+            raise ValueError("primary_metric must be one of metrics")
+        return self
+
+
+class FigureSpec(BaseModel):
+    """A figure VERA draws from results.json (the cells it shows); the model writes only the caption."""
+
+    id: str
+    kind: Literal["line", "bar", "scatter"]
+    cells: list[str]
+    caption: str
+
+    @field_validator("cells")
+    @classmethod
+    def _cells(cls, v: list[str]) -> list[str]:
+        if not v:
+            raise ValueError("a figure must name the results cells it shows")
+        return v
+
+    @field_validator("caption")
+    @classmethod
+    def _caption(cls, v: str) -> str:
+        if not v.strip():
+            raise ValueError("a figure needs a caption")
+        return v
+
+
 class RunSpec(BaseModel):
     run_id: str  # filename-safe; names the run's ledger and checkpoint files
     problem: ProblemSpec | None = None  # none until a parent problem is chosen (a topic run, Increment 3)
@@ -103,6 +170,7 @@ class RunSpec(BaseModel):
     budget: Budget
     models: dict[str, str] = {}  # stage -> backend name
     topic: Topic | None = None  # set when the run starts from a topic (Increment 3)
+    protocol: ProtocolSpec | None = None  # the registered experiment for the confirmed question (Increment 4)
 
     @field_validator("run_id")
     @classmethod

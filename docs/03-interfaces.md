@@ -1,6 +1,6 @@
 # 03 — Interfaces (core schemas)
 
-Version 0.9 · Draft · Changes require a version bump and a changelog line.
+Version 0.10 · Draft · Changes require a version bump and a changelog line.
 
 These are the contracts between layers. Implement as Pydantic v2 models in
 `vera/schemas/`. Field lists are normative; the Python below is a sketch.
@@ -283,6 +283,40 @@ the judge (`lit.parent_refusal`); a doubted refusal rejects the stage.
 `RunSpec.topic: Topic | None = None` is set when a run starts from a topic; a `RunSpec` needs a
 `problem`, a `topic`, or both (a literature-only run has no problem).
 
+### Protocol experiments, figures and retrieval statistics (RSH-F-11, T5; 0.10)
+
+```python
+class ProtocolSpec(BaseModel):  # the experiment a confirmed question describes, registered before any run
+    id: str
+    question: str  # the confirmed question it answers
+    methods: list[str]  # non-empty; the methods compared (the parent's, the baselines, surviving ideas)
+    datasets: list[str]  # non-empty
+    metrics: list[str]  # non-empty
+    primary_metric: str  # one of `metrics`
+    n_seeds: int  # >= 1
+    target_file: str  # the registered target (docs/results/...json)
+    target_sha256: str  # 64 hex: its hash when registered; a changed target is a new protocol
+
+
+class FigureSpec(BaseModel):  # a figure VERA draws from results.json; the model writes only the caption
+    id: str
+    kind: Literal["line", "bar", "scatter"]
+    cells: list[str]  # non-empty "method/dataset/metric" keys in results.json: all the data the figure shows
+    caption: str  # non-blank
+
+
+class RetrievalStats(BaseModel):  # what the literature stage did, stated in the review text
+    queries: list[str]
+    n_retrieved: int  # candidates before the screen
+    n_kept: int  # kept by the relevance screen
+    n_read_full: int  # read in full text (the rest at the abstract)
+    n_dropped_by_screen: int
+```
+
+`LiteratureSection.retrieval_stats: RetrievalStats | None = None` and `RunSpec.protocol: ProtocolSpec | None = None`.
+A `ProtocolSpec` with an empty list, a `primary_metric` outside `metrics`, fewer than 1 seed or a malformed hash
+raises; a `FigureSpec` with no cells or a blank caption raises.
+
 ### Run specification (RSH-F-01)
 
 ```python
@@ -351,3 +385,6 @@ different artifact producer (`gate.producer_id` set and `!= producer_id`). The
   Increment 2 experiments stage asked four "beats baseline?" questions but
   stored the first (a "yes") on a rejected stage. Records stored with a single
   `gate` still load.
+- 0.10 — `ProtocolSpec`, `FigureSpec` and `RetrievalStats` added; `LiteratureSection.retrieval_stats` and
+  `RunSpec.protocol` (Increment 4: protocol experiments, a paper-shaped write-up with figures drawn from
+  `results.json`, retrieval statistics disclosed in the review text).

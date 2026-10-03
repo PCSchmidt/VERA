@@ -62,11 +62,18 @@ def test_RSH_F_02_a_baseline_run_that_fails_stops_the_run(tmp_path: Path) -> Non
     assert "baseline run failed" in state["stop"]["reason"] and deps.generator.calls == []
 
 
-def test_RSH_F_02_an_unsure_baseline_verdict_fails_closed(tmp_path: Path) -> None:
-    deps = make_deps(tmp_path, judge=FakeJudge(confidence=0.5))
+def test_RSH_F_02_a_rule_decides_the_baseline_gate_not_an_unsure_or_wrong_judge(tmp_path: Path) -> None:
+    deps = make_deps(tmp_path, judge=FakeJudge(confidence=0.5, overrides={"loop.baseline_reproduced": False}))
     state = run_loop(deps)
-    assert state["stop"]["stage"] == "baseline" and "not confident" in state["stop"]["reason"]
-    assert deps.generator.calls == []
+    assert "baseline_gate" in state["trail"] and state["verdicts"]["baseline"]["backend"] == "rule"
+    first = gates(deps)[0]
+    assert first["verdict"]["answer"] is True and first["judge_verdict"]["answer"] is False  # the judge's miss is kept
+
+
+def test_RSH_F_02_an_unsure_judge_where_no_rule_exists_fails_closed(tmp_path: Path) -> None:
+    deps = make_deps(tmp_path, judge=FakeJudge(low_confidence_for={"loop.guidance_met"}))
+    state = run_loop(deps)
+    assert state["stop"]["stage"] == "write_up" and state["stop"]["reason"].startswith("gate:")
 
 
 def test_RSH_F_02_an_accepted_baseline_runs_every_idea_stage(tmp_path: Path) -> None:
@@ -129,12 +136,14 @@ def test_RSH_F_02_when_no_idea_beats_the_baseline_the_stage_is_rejected_not_hidd
     assert decisions["subset_exp"] == "reject" and decisions["write_up"] == "accept"  # the write-up reports it
 
 
-def test_RSH_F_02_an_unsure_results_gate_fails_closed(tmp_path: Path) -> None:
-    deps = make_deps(tmp_path, judge=FakeJudge(low_confidence_for={"loop.best_method"}))
+def test_RSH_F_02_the_results_gate_is_decided_by_rules_whatever_the_judge_says(tmp_path: Path) -> None:
+    wrong = {"loop.beats_baseline": False, "loop.best_method": "TreeHFD (baseline)"}
+    deps = make_deps(tmp_path, judge=FakeJudge(low_confidence_for={"loop.best_method"}, overrides=wrong))
     state = run_loop(deps)
-    assert state["stop"]["stage"] == "subset_exp" and "not confident" in state["stop"]["reason"]
-    assert state["best"] == "C1: shared knots"  # decided from the confident verdicts, but the stop is recorded
-    assert StageResult.model_validate(state["stage_results"][-1]).stage == "subset_exp"  # nothing after the stop
+    assert not state.get("stop") or state["stop"]["stage"] != "subset_exp"
+    assert state["best"] == "C1: shared knots"  # the table says so, and a judge that disagrees cannot change it
+    records = [g for g in gates(deps) if g["question"]["id"] in ("loop.beats_baseline", "loop.best_method")]
+    assert records and all(g["verdict"]["backend"] == "rule" and "judge_verdict" in g for g in records)
 
 
 # ── RSH-F-03: no self-grading, shadow labels, gate log ──────────────────────────────────────────────
@@ -148,7 +157,7 @@ def test_RSH_F_03_every_gate_comes_from_a_component_other_than_the_producer(tmp_
         assert sr.gate.judge_id != sr.producer_id and sr.gate.producer_id == sr.producer_id
     producers = {g["verdict"]["producer_id"] for g in gates(deps)}
     assert producers == {"p3.baseline", "p3.ideate", "p3.subset_exp", "p3.write_up"}
-    assert {g["verdict"]["judge_id"] for g in gates(deps)} == {"p2.judge"}
+    assert {g["verdict"]["judge_id"] for g in gates(deps)} == {"p2.judge", "loop.rule_gate"}
 
 
 def test_RSH_F_03_self_grading_is_caught_at_each_stage_gate(tmp_path: Path) -> None:

@@ -287,7 +287,9 @@ def test_AUD_F_04_a_sentence_that_names_no_idea_is_about_the_one_under_discussio
         "Its held-out Residual MSE was 1.80 on Analytical, versus 2.4 for TreeHFD.\n"  # "Its" is C1: correct
     )
     assert [f for f in audit(clean_text(text), CorrectJudge()).report.findings if "wrong method" in f.summary] == []
-    other = "\nC2 improved on the baseline.\nIts held-out Residual MSE was 2.20 on Analytical, versus 2.4 for TreeHFD.\n"  # noqa: E501
+    other = (
+        "\nC2 improved on the baseline.\nIts held-out Residual MSE was 2.20 on Analytical, versus 2.4 for TreeHFD.\n"  # noqa: E501
+    )
     # the same sentence after a different idea: 2.20 is C1's Airfoil value, so it is not C2's and not Analytical's
     (f,) = [f for f in audit(clean_text(other), CorrectJudge()).report.findings if f.severity == "fail"]
     assert "wrong method or dataset" in f.summary
@@ -406,3 +408,19 @@ def test_AUD_F_04_a_design_number_in_the_method_section_is_a_warn_not_a_fail() -
     # and a bare percent with no result vocabulary is not a results claim anywhere
     text3 = clean_text().replace("## Results\n\n", "## Results\n\nThe grid kept 95% of pairs.\n\n", 1)
     assert [f.severity for f in audit(text3).report.findings] == ["warn"]
+
+
+def test_AUD_F_04_a_dataset_name_with_an_underscore_is_matched_through_its_column_label() -> None:
+    """Increment 3: `analytical_rho0` was labelled "Analytical rho0" and every cell failed as unmatched."""
+    from vera.audit.numbers import dataset_key, table_findings  # noqa: PLC0415
+
+    results = {"datasets": ["analytical_rho0"], "results": {
+        tables.BASELINE: {"analytical_rho0": {"residual_mse_pct": {"mean": 5.543, "std": 0.4}}}}}  # fmt: skip
+    text = ("| Method | Analytical rho0 · Residual MSE (%) ↓ |\n|---|---|\n"
+            f"| {tables.BASELINE} | 5.54 ± 0.40 |\n")  # fmt: skip
+    assert dataset_key("Analytical rho0", results) == "analytical_rho0"
+    assert dataset_key("Unknown set", results) == "unknown set"
+    _, findings = table_findings(text, results)
+    assert findings == []
+    _, findings = table_findings(text.replace("5.54", "6.54"), results)
+    assert len(findings) == 1 and findings[0].severity == "fail"  # a wrong value is still caught

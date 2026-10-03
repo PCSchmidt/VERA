@@ -172,6 +172,17 @@ def numbers_in(sentence: str) -> list[str]:
 # ── checks ───────────────────────────────────────────────────────────────────────────────────────────
 
 
+def dataset_key(label: str, results_json: dict) -> str:
+    """The results.json dataset a table column label names. The label is the dataset name with underscores shown as
+    spaces and a capital, so the name is read back by comparing letters and digits only (`analytical_rho0` is labelled
+    "Analytical rho0"); an unknown label is returned lower-cased, as before, and its cells then fail as unmatched."""
+    flat = re.sub(r"[^a-z0-9]", "", label.lower())
+    names = set(results_json.get("datasets") or [])
+    for res in results_json["results"].values():
+        names |= set(res)
+    return next((n for n in sorted(names) if re.sub(r"[^a-z0-9]", "", n.lower()) == flat), label.strip().lower())
+
+
 def table_findings(text: str, results_json: dict) -> tuple[list[Claim], list[Finding]]:
     claims, findings = [], []
     results = results_json["results"]
@@ -182,7 +193,7 @@ def table_findings(text: str, results_json: dict) -> tuple[list[Claim], list[Fin
     cols = []
     for h in header[1:]:
         m = re.match(r"(.+?) · (.+?) ↓$", h)
-        cols.append((m.group(1).strip().lower(), TABLE_NAMES.get(m.group(2).strip())) if m else (None, None))
+        cols.append((dataset_key(m.group(1), results_json), TABLE_NAMES.get(m.group(2).strip())) if m else (None, None))
     for ln in rows[2:]:
         cells = [c.strip() for c in ln.strip("|").split("|")]
         method = cells[0]

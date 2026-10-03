@@ -563,7 +563,7 @@ gates:
 
   # ── Increment 4: paper quality and the measured comparison (SPEC.md) ───────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
-  # Defined so far: incr4_scoped. Still to add: carry_in_ready, topics4_chosen, lit2_ready,
+  # Defined so far: incr4_scoped, carry_in_ready. Still to add: topics4_chosen, lit2_ready,
   # problem2_ready, protocol_ready, writeup2_ready, audit4_ready, runs4, comparison4,
   # rubric_scored, incr4_review.
 
@@ -583,3 +583,19 @@ gates:
         - validate-contract.sh      # Meridian: Purpose + Scope sections present
         - validate-spec.sh          # Meridian: SPEC.md is structured
         - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount
+
+  - id: carry_in_ready
+    label: "Rule gates, audit dataset-name fix, complete repair log, per-session overhead rule, schemas 0.10"
+    type: automated
+    required: true
+    requires:
+      - incr4_scoped
+    requires_artifacts:
+      - vera/loop/stages.py
+      - tools/checks/check_dogfood.py
+      - vera/schemas/research.py
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+        - gate-schema-version.sh    # schemas 0.10 match docs/03 and have a changelog line

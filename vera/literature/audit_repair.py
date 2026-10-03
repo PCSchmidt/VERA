@@ -26,6 +26,25 @@ WHY = (
 )
 
 
+CLAUSE_SPLIT = re.compile(r"[;,]|\b(?:but|and|so|while|whereas)\b")
+
+
+def dropped_clauses(was: str, now: str) -> list[str]:
+    """Clauses of the old sentence that the rewrite no longer states (under half of a clause's content words survive):
+    what the repair silently removed, listed so the review can say it (the credal-dro repair lost a caveat)."""
+
+    def words(text: str) -> set[str]:
+        return {w for w in re.findall(r"[a-z0-9]+", text.lower()) if len(w) >= 4}
+
+    kept = words(now)
+    out = []
+    for clause in CLAUSE_SPLIT.split(was):
+        content = words(clause)
+        if len(clause.split()) >= 2 and content and len(content & kept) / len(content) < 0.5:
+            out.append(clause.strip())
+    return out
+
+
 def failed_claims(report: dict, text: str, claims: list[dict]) -> list[int]:
     """Indexes (into `claims`) of the claims whose sentence the audit failed on support."""
     sentences = cited_sentences(text)
@@ -83,8 +102,14 @@ def repair(
         parsed = synthesis.parse_sentences({"paragraphs": [[fix]]}) if fix else []
         if parsed and parsed[0][0]["claim"]:
             sentence = parsed[0][0]
-            claim = {"claim": sentence["text"], "source_key": sentence["claim"]["source_key"],
-                     "quote": sentence["claim"]["quote"], "quote_check": "pass", "locator": "?", "verdicts": []}
+            claim = {
+                "claim": sentence["text"],
+                "source_key": sentence["claim"]["source_key"],
+                "quote": sentence["claim"]["quote"],
+                "quote_check": "pass",
+                "locator": "?",
+                "verdicts": [],
+            }
             status, why = synthesis.check_claim(claim, records, passages)
             passage = synthesis.matched_passage(claim, passages) if status == "pass" else None
             if passage:
@@ -95,7 +120,11 @@ def repair(
                 if confident and verdict.answer is True:
                     claim["locator"] = passage["locator"]
                     replacements[i] = claim
-                    entry |= {"outcome": "rewritten", "now": sentence["text"]}
+                    entry |= {
+                        "outcome": "rewritten",
+                        "now": sentence["text"],
+                        "dropped": dropped_clauses(claims[i]["claim"], sentence["text"]),
+                    }
                 else:
                     entry["why_removed"] = "the rewrite was not confirmed by the judge"
             else:

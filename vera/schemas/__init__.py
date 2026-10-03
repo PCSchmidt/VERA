@@ -16,11 +16,12 @@ from vera.schemas.literature import (
     LiteratureSection,
     ParentCandidate,
     ParentSelection,
+    RetrievalStats,
     ScopedQuestion,
     SourceRecord,
     Topic,
 )
-from vera.schemas.research import STAGES, OutputGuidance, ProblemSpec, RunSpec, StageResult
+from vera.schemas.research import STAGES, FigureSpec, OutputGuidance, ProblemSpec, ProtocolSpec, RunSpec, StageResult
 from vera.schemas.version import SCHEMA_VERSION
 
 __all__ = [
@@ -46,6 +47,9 @@ __all__ = [
     "RunSpec",
     "ParentCandidate",
     "ParentSelection",
+    "FigureSpec",
+    "ProtocolSpec",
+    "RetrievalStats",
     "ScopedQuestion",
     "SelfGradingError",
     "SourceRecord",

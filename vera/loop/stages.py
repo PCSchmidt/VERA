@@ -16,6 +16,7 @@ import json
 import operator
 import re
 import shutil
+import uuid
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -155,8 +156,22 @@ def run_harness(deps: LoopDeps, name: str, method_source: str | None) -> tuple[d
     return out["datasets"], None
 
 
+RULE_JUDGE = "loop.rule_gate"
+
+
+def rule_verdict(question: Question, answer: Any, producer: str) -> Verdict:
+    """The verdict of a rule that computes the answer from the table the gate reads: confidence 1.0, backend `rule`,
+    issued by a component other than the producer (as the audit's own gate is)."""
+    return Verdict(
+        question_id=question.id, answer=answer, confidence=1.0, confidence_source=None, backend="rule",
+        escalated=False, cost_usd=0.0, latency_ms=0, trace_id=uuid.uuid4().hex, producer_id=producer,
+        judge_id=RULE_JUDGE,
+    )  # fmt: skip
+
+
 def ask_gate(
-    deps: Any, stage: str, question: Question, material: str, shadow: Any, state: dict, producer: str | None = None
+    deps: Any, stage: str, question: Question, material: str, shadow: Any, state: dict, producer: str | None = None,
+    *, rule: bool = False,
 ) -> tuple[Verdict, bool]:
     """Ask the judge one question about `material`. Returns (verdict, confident).
 
@@ -170,11 +185,19 @@ def ask_gate(
     if verdict.judge_id == producer:
         raise SelfGradingError(f"{question.id}: judge {verdict.judge_id!r} produced the material it judges")
     verdict = verdict.model_copy(update={"producer_id": producer})
+    judge_answer = None
+    if rule and shadow is not None:
+        # a table decides: the rule's verdict is the gate; the judge was asked anyway and its answer is kept
+        # beside it, for measurement (Increment 3: the judge called near-ties wrongly, the rule cannot)
+        judge_answer = verdict.model_dump(mode="json")
+        verdict = rule_verdict(question, shadow, producer)
     record = {
         "run_id": deps.spec.run_id, "stage": stage, "question": question.model_dump(mode="json"),
         "material": material, "verdict": verdict.model_dump(mode="json"), "shadow_answer": shadow,
         "generator": deps.spec.models.get(stage),
     }  # fmt: skip
+    if judge_answer is not None:
+        record["judge_verdict"] = judge_answer
     log = deps.run_dir / "gates.jsonl"
     log.parent.mkdir(parents=True, exist_ok=True)
     with log.open("a", encoding="utf-8") as fh:
@@ -258,7 +281,7 @@ def baseline_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
         question, material, shadow = questions.baseline_reproduced(
             deps.target, {tables.BASELINE: state["baseline"]}, deps.n_seeds, deps.datasets
         )
-        verdict, confident = ask_gate(deps, "baseline", question, material, shadow, state)
+        verdict, confident = ask_gate(deps, "baseline", question, material, shadow, state, rule=True)
         artifact = state["artifacts"]["baseline_raw"]
         invalid = [d for d in extension_datasets(deps) if not state["baseline"].get(d, {}).get("valid")]
         passed = confident and verdict.answer is True and not invalid
@@ -430,7 +453,7 @@ def results_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
         for m in ideas:
             for d in shown:
                 q, material, shadow = questions.beats_baseline(m, d, results, deps.datasets, deps.n_seeds)
-                v, confident = ask_gate(deps, "subset_exp", q, material, shadow, state)
+                v, confident = ask_gate(deps, "subset_exp", q, material, shadow, state, rule=True)
                 verdicts[f"beats_baseline:{m}:{d}"] = v.model_dump(mode="json")
                 asked.append((v, confident))
                 unsure += [] if confident else [f"{q.id} {m} {d}"]
@@ -442,7 +465,7 @@ def results_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
             if shadow is None:
                 skipped.append(d)
                 continue
-            v, confident = ask_gate(deps, "subset_exp", q, material, shadow, state)
+            v, confident = ask_gate(deps, "subset_exp", q, material, shadow, state, rule=True)
             asked.append((v, confident))
             verdicts[f"best_method:{d}"] = v.model_dump(mode="json")
             if confident and v.answer in wins:

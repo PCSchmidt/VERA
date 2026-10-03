@@ -5,6 +5,7 @@
     "backends_live",
     "benchmark_labeled",
     "benchmark_run",
+    "carry_in_ready",
     "confirmed",
     "corpus_fetched",
     "design_trades_decided",
