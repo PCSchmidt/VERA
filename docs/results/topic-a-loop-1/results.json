@@ -1,0 +1,224 @@
+{
+ "run_id": "topic-a-loop-1",
+ "metric": "residual_mse_pct",
+ "n_seeds": 3,
+ "datasets": [
+  "analytical",
+  "airfoil"
+ ],
+ "results": {
+  "TreeHFD (baseline)": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.7922779073042854,
+     "std": 0.322855299765166,
+     "values": [
+      3.145743556617016,
+      2.3652455761629287,
+      2.8658445891329105
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5695270989668413,
+     "std": 0.024874808467098025,
+     "values": [
+      0.5850437308043616,
+      0.5891103218988181,
+      0.5344272441973442
+     ]
+    },
+    "runtime_s": {
+     "mean": 28.033512477336142,
+     "std": 0.23831030217084012,
+     "values": [
+      28.22079160201247,
+      28.182530281002983,
+      27.697215548992972
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.732528004675472,
+     "std": 0.11249578737353107,
+     "values": [
+      4.8150211208663505,
+      4.80909111342034,
+      4.573471779739722
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.522466107765438,
+     "std": 0.15158697779427285,
+     "values": [
+      1.7222609132043591,
+      1.4898698532153793,
+      1.3552675568765755
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.3459959526614207,
+     "std": 0.19514009001345572,
+     "values": [
+      3.310398500005249,
+      3.126794471987523,
+      3.6007948859914904
+     ]
+    }
+   }
+  },
+  "C1: Interaction screening by importance": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.554413792338389,
+     "std": 0.3151495739882922,
+     "values": [
+      2.480500745204257,
+      2.2107372549727327,
+      2.972003376838178
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.6685120413143881,
+     "std": 0.2059704660383168,
+     "values": [
+      1.5114698340075117,
+      1.5345736001994157,
+      1.9594926897362366
+     ]
+    },
+    "runtime_s": {
+     "mean": 48.14468162933675,
+     "std": 1.8902397590096076,
+     "values": [
+      50.109697057007,
+      48.73174242199457,
+      45.592605409008684
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 6.074935632371371,
+     "std": 1.0911628190608713,
+     "values": [
+      6.341141277360882,
+      7.258193460489924,
+      4.625472159263309
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 3.563530208541094,
+     "std": 1.5600533680809248,
+     "values": [
+      3.933303746774747,
+      5.262283642517092,
+      1.4950032363314416
+     ]
+    },
+    "runtime_s": {
+     "mean": 12.331579892993128,
+     "std": 0.7598965172523454,
+     "values": [
+      12.672263700995245,
+      11.278563086991198,
+      13.043912890992942
+     ]
+    }
+   }
+  },
+  "C3: Component-wise ridge recalibration": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.9286838071177512,
+     "std": 0.33616416669529725,
+     "values": [
+      3.2949606605002653,
+      2.4830754384101392,
+      3.008015322442848
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5704614224008887,
+     "std": 0.02683620290116099,
+     "values": [
+      0.5859979336321917,
+      0.5926804189650904,
+      0.5327059146053837
+     ]
+    },
+    "runtime_s": {
+     "mean": 29.15878327000246,
+     "std": 0.41878381943665816,
+     "values": [
+      29.744482601992786,
+      28.942006270008278,
+      28.789860938006314
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 559431187.5816776,
+     "std": 25709740.733803943,
+     "values": [
+      589050236.1287245,
+      526359129.9331022,
+      562884196.6832062
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 496184557.98601824,
+     "std": 11280119.810193757,
+     "values": [
+      483154549.32172406,
+      510669870.3457639,
+      494729254.29056686
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.911565926663267,
+     "std": 0.12225049350294392,
+     "values": [
+      4.057625628993264,
+      3.7584255439869594,
+      3.9186466070095776
+     ]
+    }
+   }
+  }
+ },
+ "best": null,
+ "ideas": [
+  {
+   "name": "C1: Interaction screening by importance",
+   "description": "Fit TreeHFD with interaction_order=1 to get main effects. Then rank variable pairs by how often they co-occur on tree paths, or by the variance of the residual explained by a pair, and pass only the top-k pairs as interaction_list. This avoids noisy, unneeded interactions and cuts runtime. Choose k on a validation split."
+  },
+  {
+   "name": "C2: Depth-limited variable selection",
+   "description": "Sweep depth_variable over small values (e.g. 2 to 6). Fit TreeHFD for each on training data and compute Residual MSE on a validation split. Keep the depth with the best validation MSE and runtime tradeoff. This addresses the shallow-tree limit and finds the depth where the decomposition is most faithful."
+  },
+  {
+   "name": "C3: Component-wise ridge recalibration",
+   "description": "Fit TreeHFD, predict the components on a held-out calibration set, and regress the model's predictions on the intercept plus all components with non-negative ridge regression. Apply the learned scalar weights to each component on test data. Each component stays a function of its own variables, and the systematic residual bias shrinks."
+  }
+ ]
+}

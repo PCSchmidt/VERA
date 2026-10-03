@@ -7,9 +7,9 @@ all tokens.
 
 | topic | run | total (USD) | earlier attempts (USD) | loop run | loop (USD) | topic + loop (USD) |
 |---|---|---|---|---|---|---|
-| credal-dro | scope-credal-dro-2 | 0.0903 | 0.0075 | - | - | 0.0903 |
-| llm-judge-numbers | scope-llm-judge-numbers-3 | 0.1062 | 0.0130 | - | - | 0.1062 |
-| tree-explain | scope-tree-explain-2 | 0.1703 | 0.0056 | - | - | 0.1703 |
+| credal-dro | scope-credal-dro-2 | 0.2186 | 0.0075 | - | - | 0.2186 |
+| llm-judge-numbers | scope-llm-judge-numbers-3 | 0.1428 | 0.0130 | - | - | 0.1428 |
+| tree-explain | scope-tree-explain-2 | 0.1707 | 0.0056 | topic-a-loop-1 | 0.082 | 0.2527 |
 
 ## credal-dro (scope-credal-dro-2)
 
@@ -25,11 +25,11 @@ Components of the topic run:
 
 | component | calls | cost (USD) | input tokens | output tokens | input share | largest prompt (tokens) |
 |---|---|---|---|---|---|---|
-| p2.cheap_path | 343 | 0.0079 | 149723 | 7989 | 0.949 | 1956 |
+| p2.cheap_path | 402 | 0.0098 | 175092 | 9420 | 0.949 | 1956 |
 | p3.parent | 1 | 0.0051 | 1426 | 227 | 0.863 | 1426 |
 | p3.retrieve | 4 | 0.0081 | 1520 | 509 | 0.749 | 380 |
 | p3.scope | 1 | 0.0087 | 553 | 755 | 0.423 | 553 |
-| p3.synthesize | 1 | 0.0605 | 20005 | 2051 | 0.907 | 20005 |
+| p3.synthesize | 4 | 0.1869 | 80019 | 2691 | 0.967 | 20030 |
 
 ## llm-judge-numbers (scope-llm-judge-numbers-3)
 
@@ -44,10 +44,10 @@ Components of the topic run:
 
 | component | calls | cost (USD) | input tokens | output tokens | input share | largest prompt (tokens) |
 |---|---|---|---|---|---|---|
-| p2.cheap_path | 257 | 0.0065 | 119026 | 6315 | 0.95 | 884 |
+| p2.cheap_path | 290 | 0.0076 | 134266 | 7188 | 0.949 | 884 |
 | p3.retrieve | 4 | 0.0072 | 1256 | 464 | 0.73 | 314 |
 | p3.scope | 1 | 0.0063 | 495 | 534 | 0.481 | 495 |
-| p3.synthesize | 2 | 0.0862 | 31959 | 2231 | 0.935 | 16012 |
+| p3.synthesize | 3 | 0.1217 | 48213 | 2523 | 0.95 | 16254 |
 
 ## tree-explain (scope-tree-explain-2)
 
@@ -63,8 +63,17 @@ Components of the topic run:
 
 | component | calls | cost (USD) | input tokens | output tokens | input share | largest prompt (tokens) |
 |---|---|---|---|---|---|---|
-| p2.cheap_path | 342 | 0.0079 | 172970 | 7366 | 0.959 | 1973 |
+| p2.cheap_path | 355 | 0.0083 | 178710 | 7655 | 0.959 | 1973 |
 | p3.parent | 3 | 0.0379 | 11002 | 1586 | 0.874 | 4452 |
 | p3.retrieve | 4 | 0.0082 | 1680 | 483 | 0.777 | 420 |
 | p3.scope | 1 | 0.0072 | 509 | 618 | 0.452 | 509 |
 | p3.synthesize | 2 | 0.1091 | 33624 | 4189 | 0.889 | 21074 |
+
+Components of the research-loop run topic-a-loop-1:
+
+| component | calls | cost (USD) | input tokens | output tokens | input share | largest prompt (tokens) |
+|---|---|---|---|---|---|---|
+| p2.cheap_path | 14 | 0.0006 | 8614 | 505 | 0.945 | 1919 |
+| p3.ideate | 1 | 0.0082 | 2031 | 413 | 0.831 | 2031 |
+| p3.subset_exp | 3 | 0.0501 | 3577 | 4296 | 0.454 | 2224 |
+| p3.write_up | 1 | 0.0231 | 3278 | 1653 | 0.665 | 3278 |

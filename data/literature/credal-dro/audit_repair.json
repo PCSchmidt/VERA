@@ -1,0 +1,8 @@
+[
+ {
+  "was": "A multistage control study reports the same pattern at N = 20, with an optimal radius that is neither too small nor too large.",
+  "source_key": "R37",
+  "outcome": "rewritten",
+  "now": "A multistage control study reports that the out-of-sample cost does not decrease monotonically with the Wasserstein radius, and that there is an optimal radius (e.g., 0.02 in the case of N = 20) that provides the best out-of-sample performance."
+ }
+]

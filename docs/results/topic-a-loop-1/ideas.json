@@ -1,0 +1,17 @@
+{
+ "ideas": [
+  {
+   "name": "C1: Interaction screening by importance",
+   "description": "Fit TreeHFD with interaction_order=1 to get main effects. Then rank variable pairs by how often they co-occur on tree paths, or by the variance of the residual explained by a pair, and pass only the top-k pairs as interaction_list. This avoids noisy, unneeded interactions and cuts runtime. Choose k on a validation split."
+  },
+  {
+   "name": "C2: Depth-limited variable selection",
+   "description": "Sweep depth_variable over small values (e.g. 2 to 6). Fit TreeHFD for each on training data and compute Residual MSE on a validation split. Keep the depth with the best validation MSE and runtime tradeoff. This addresses the shallow-tree limit and finds the depth where the decomposition is most faithful."
+  },
+  {
+   "name": "C3: Component-wise ridge recalibration",
+   "description": "Fit TreeHFD, predict the components on a held-out calibration set, and regress the model's predictions on the intercept plus all components with non-negative ridge regression. Apply the learned scalar weights to each component on test data. Each component stays a function of its own variables, and the systematic residual bias shrinks."
+  }
+ ],
+ "raw_reply": "[\n  {\n    \"name\": \"Interaction screening by importance\",\n    \"description\": \"Fit TreeHFD with interaction_order=1 to get main effects. Then rank variable pairs by how often they co-occur on tree paths, or by the variance of the residual explained by a pair, and pass only the top-k pairs as interaction_list. This avoids noisy, unneeded interactions and cuts runtime. Choose k on a validation split.\"\n  },\n  {\n    \"name\": \"Depth-limited variable selection\",\n    \"description\": \"Sweep depth_variable over small values (e.g. 2 to 6). Fit TreeHFD for each on training data and compute Residual MSE on a validation split. Keep the depth with the best validation MSE and runtime tradeoff. This addresses the shallow-tree limit and finds the depth where the decomposition is most faithful.\"\n  },\n  {\n    \"name\": \"Component-wise ridge recalibration\",\n    \"description\": \"Fit TreeHFD, predict the components on a held-out calibration set, and regress the model's predictions on the intercept plus all components with non-negative ridge regression. Apply the learned scalar weights to each component on test data. Each component stays a function of its own variables, and the systematic residual bias shrinks.\"\n  }\n]"
+}

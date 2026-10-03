@@ -1010,3 +1010,72 @@ def test_seeded_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> None
     result = run("check_seeded_v2.py", tmp_path)
     assert result.returncode == 2
     assert message in result.stderr
+
+
+# ── topic_runs ────────────────────────────────────────────────────────────────
+
+TOPICS = {"t-a": True, "t-b": True, "t-c": False}  # topic id -> empirical
+
+
+def ledger_file(root: Path, run_id: str, cost: float) -> None:
+    write(root, f"data/ledger/run_{run_id}.jsonl", json.dumps({"cost_usd": cost}) + "\n")
+
+
+def topic_runs_fixture(root: Path, *, incomplete: str | None = None, self_graded: bool = False, no_audit: bool = False,
+                       no_reading: bool = False, no_loop: bool = False, drop_stage: str | None = None,
+                       ledger_drift: bool = False, over_cap: bool = False) -> None:  # fmt: skip
+    write(root, "data/topics/manifest.json", json.dumps({"topics": {t: {} for t in TOPICS}}))
+    costs: dict = {}
+    for tid, empirical in TOPICS.items():
+        run_id = f"scope-{tid}-1"
+        write(root, f"data/topics/scope_{tid}.json", json.dumps({"run_id": run_id, "empirical": empirical}))
+        stages = ["scope", "retrieve", "read", "synthesize"] + (["parent"] if empirical else [])
+        stages = [s for s in stages if s != drop_stage]
+
+        def gate(s: str) -> dict:
+            judge = f"p3.{s}" if self_graded else "p2.judge"
+            return {"question": "q", "answer": True, "confidence": 0.9, "judge": judge, "producer": f"p3.{s}"}
+
+        rec = {"run_id": run_id, "topic_id": tid, "completed": incomplete != tid, "stop_reason": "x",
+               "stages": [{"stage": s, "decision": "accept", "producer": f"p3.{s}", "gates": [gate(s)]}
+                          for s in stages],
+               "ledger_total_usd": (3.0 if over_cap else 0.5) + (1.0 if ledger_drift else 0.0),
+               "audit": None if no_audit else {"overall": "amber"}}  # fmt: skip
+        write(root, f"data/results/topic_run_{run_id}.json", json.dumps(rec))
+        ledger_file(root, run_id, 3.0 if over_cap else 0.5)
+        picked = "https://github.com/a/b" if empirical else None
+        review = {"right": True, "by": "Chris", "at": "2026-10-03T10:00:00Z"}
+        parent = {
+            "picked": picked,
+            "none_fits_reason": None if picked else "not empirical",
+            "user_review": None if (no_reading or not empirical) else review,
+        }
+        write(root, f"data/topics/parent_{tid}.json", json.dumps(parent))
+        costs[tid] = {"loop": {"run_id": "loop-t-a"}} if tid == "t-a" and not no_loop else {}
+    write(root, "data/results/topic_costs.json", json.dumps(costs))
+    write(root, "docs/results/topic_costs.md", "# Cost per topic\n\n" + "\n".join(TOPICS) + "\n")
+    loop_stages = ["baseline", "ideate", "subset_exp", "write_up", "audit"]
+    report = {"stages": [{"stage": s} for s in loop_stages], "total_cost_usd": 0.2, "audit": {"overall": "green"}}
+    write(root, "data/results/run_loop-t-a.json", json.dumps(report))
+    ledger_file(root, "loop-t-a", 0.2)
+
+
+def test_topic_runs_check_passes_three_completed_topics_and_a_loop_run(tmp_path: Path) -> None:
+    topic_runs_fixture(tmp_path)
+    result = run("check_topic_runs.py", tmp_path)
+    assert result.returncode == 0, result.stderr
+    assert "loop run loop-t-a audit green" in result.stdout
+
+
+@pytest.mark.parametrize(
+    ("kwargs", "message"),
+    [({"incomplete": "t-b"}, "did not complete"), ({"self_graded": True}, "not independent"),
+     ({"no_audit": True}, "no audit result"), ({"no_reading": True}, "reading of the parent selection"),
+     ({"no_loop": True}, "no topic has a research-loop run"), ({"drop_stage": "parent"}, "stages not recorded"),
+     ({"ledger_drift": True}, "differs from the ledger"), ({"over_cap": True}, "per-topic cap")],
+)  # fmt: skip
+def test_topic_runs_check_blocks(tmp_path: Path, kwargs: dict, message: str) -> None:
+    topic_runs_fixture(tmp_path, **kwargs)
+    result = run("check_topic_runs.py", tmp_path)
+    assert result.returncode == 2
+    assert message in result.stderr

@@ -1,0 +1,20 @@
+[
+ {
+  "was": "Errors concentrated in the task types that resemble multi-step numeric claims.",
+  "source_key": "R15",
+  "outcome": "rewritten",
+  "now": "False acceptances concentrated in exact recall (50%), multi-hop (46%), and threshold (33%) categories."
+ },
+ {
+  "was": "The same study found that zero-shot, context-free judging often performed best, which sits oddly beside the financial finding that source access matters.",
+  "source_key": "R46",
+  "outcome": "rewritten",
+  "now": "The same study reported that zero-shot, context-free judging often yields the best evaluation performance."
+ },
+ {
+  "was": "A survey notes that explanation before or after rating gave higher correlations with human ratings, but this is for general evaluation, not numeric claims.",
+  "source_key": "R37",
+  "outcome": "rewritten",
+  "now": "A survey reports that combining rating with explanation, in either order, leads to higher correlations with human ratings."
+ }
+]

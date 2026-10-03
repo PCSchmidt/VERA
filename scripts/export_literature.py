@@ -26,6 +26,13 @@ def main() -> None:
         for name, src in (("literature.md", run / "literature.md"), ("claims.jsonl", run / "claims.jsonl"),
                           ("literature.json", run / "artifacts" / "literature.json")):  # fmt: skip
             shutil.copy(src, dest / name)
+        for name, src in (("audit.md", run / "audit.md"),
+                          ("audit_repair.json", run / "artifacts" / "audit_repair.json"),
+                          ("literature.pre_audit_repair.md", run / "literature.pre_audit_repair.md"),
+                          ("claims.pre_audit_repair.jsonl", run / "claims.pre_audit_repair.jsonl"),
+                          ("parent.json", run / "parent.json")):  # fmt: skip
+            if src.exists():  # present once the final audit (and, if it failed claims, the repair) have run
+                shutil.copy(src, dest / name)
         print(f"{tid}: exported from {run.name}")
 
 

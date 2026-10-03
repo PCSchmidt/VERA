@@ -63,6 +63,39 @@ def stage_costs(run_id: str) -> list[dict]:
     return out
 
 
+def run_record(run_id: str, topic_id: str) -> dict:
+    """The committed record of a topic run (data/results/topic_run_<id>.json): each stage with its verdicts, the
+    audit's result, the parent selection and the spend, from the checkpoint and the (git-ignored) run directory."""
+    run_dir = ROOT / "runs" / run_id
+    saver = sqlite_checkpointer(run_dir / "checkpoints.sqlite")
+    tup = saver.get_tuple(run_config(run_id))
+    values = tup.checkpoint["channel_values"] if tup else {}
+    best = json.loads((run_dir / "best_so_far.json").read_text(encoding="utf-8"))
+    stages = [{"stage": r["stage"], "decision": r["decision"], "producer": r["producer_id"], "reason": r.get("reason"),
+               "metrics": r["metrics"],
+               "gates": [{"question": g["question_id"], "answer": g["answer"], "confidence": g["confidence"],
+                          "judge": g["judge_id"], "producer": g.get("producer_id")} for g in r["gates"]]}
+              for r in values.get("stage_results", [])]  # fmt: skip
+    audit_file = run_dir / "artifacts" / "audit_report.json"
+    audit = json.loads(audit_file.read_text(encoding="utf-8")) if audit_file.exists() else None
+    parent_file = run_dir / "parent.json"
+    parent = json.loads(parent_file.read_text(encoding="utf-8")) if parent_file.exists() else None
+    ledger = read_ledger(run_id)
+    return {
+        "run_id": run_id, "topic_id": topic_id, "completed": best["stop_reason"] == "completed",
+        "stop_reason": best["stop_reason"], "stages": stages, "stages_completed": best["stages_completed"],
+        "ledger_total_usd": total(ledger), "ledger": f"data/ledger/run_{run_id}.jsonl", "n_ledger_records": len(ledger),
+        "audit": None if audit is None else {
+            "overall": audit["overall"], "checks_run": audit["checks_run"],
+            "fail": sum(f["severity"] == "fail" for f in audit["findings"]),
+            "warn": sum(f["severity"] == "warn" for f in audit["findings"]),
+            "findings": [f["summary"][:240] for f in audit["findings"] if f["severity"] in ("fail", "warn")]},
+        "parent": None if parent is None else {
+            "picked": parent["picked"], "none_fits_reason": parent["none_fits_reason"],
+            "n_candidates": len(parent["candidates"])},
+    }  # fmt: skip
+
+
 def earlier_attempts(run_id: str) -> list[str]:
     """Ledgers of the same run family with a lower trailing number (scope-x-1 for scope-x-2)."""
     stem, _, number = run_id.rpartition("-")
@@ -82,6 +115,7 @@ def main() -> None:
     loops = dict(item.split("=", 1) for item in args.loop)
     manifest = json.loads((ROOT / "data" / "topics" / "manifest.json").read_text(encoding="utf-8"))["topics"]
     topics = {}
+    (ROOT / "data" / "results").mkdir(parents=True, exist_ok=True)
     for tid in manifest:
         scope = json.loads((ROOT / "data" / "topics" / f"scope_{tid}.json").read_text(encoding="utf-8"))
         run_id = scope["run_id"]
@@ -89,6 +123,10 @@ def main() -> None:
         earlier = {r: total(read_ledger(r)) for r in earlier_attempts(run_id)}
         entry = {"run_id": run_id, "total_usd": total(ledger), "earlier_attempts_usd": earlier,
                  "stages": stage_costs(run_id), "components": by_component(ledger)}  # fmt: skip
+        record = run_record(run_id, tid)
+        (ROOT / "data" / "results" / f"topic_run_{run_id}.json").write_text(
+            json.dumps(record, indent=1), encoding="utf-8"
+        )
         if tid in loops:
             loop_ledger = read_ledger(loops[tid])
             entry["loop"] = {
@@ -97,7 +135,6 @@ def main() -> None:
                 "components": by_component(loop_ledger),
             }
         topics[tid] = entry
-    (ROOT / "data" / "results").mkdir(parents=True, exist_ok=True)
     (ROOT / "data" / "results" / "topic_costs.json").write_text(json.dumps(topics, indent=1), encoding="utf-8")
 
     lines = ["# Cost per topic", "",

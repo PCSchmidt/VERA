@@ -388,8 +388,8 @@ gates:
   # ── Increment 3: topic front end and literature stage (SPEC.md) ───────────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
   # Defined so far: incr3_scoped, lit_core_ready, topics_chosen, scoping_ready,
-  # retrieval_ready, literature_ready, audit3_ready. Still to add:
-  # trades_decided_3, topic_runs, judge_retest_3, incr3_review.
+  # retrieval_ready, literature_ready, audit3_ready, trades_decided_3, topic_runs. Still to add:
+  # judge_retest_3, incr3_review.
 
   - id: incr3_scoped
     label: "Increment 3 scope confirmed"
@@ -502,3 +502,30 @@ gates:
         - gate-tests.sh             # ruff + the full suite
         - gate-vendor-imports.sh    # FND-C-01 still holds
         - gate-seeded-v2.sh         # test hash recomputed, frozen audit hash equals the run's and the current source, intervals reported
+
+  - id: trades_decided_3
+    label: "T3, T5, T7 and T10 decided from this increment's measurements"
+    type: human_approval
+    required: true
+    approval_token: "T3 T5 T7 T10 DECIDED"
+    requires:
+      - audit3_ready
+    hooks:
+      pre:
+        - gate-trades-incr3.sh      # T3, T5, T7, T10 decided (Scores, Decision, Reverse if); spend so far within the caps
+
+  - id: topic_runs
+    label: "Three topics run to their final stage with costs measured; one carried through the research loop"
+    type: automated
+    required: true
+    requires:
+      - trades_decided_3
+    requires_artifacts:
+      - docs/results/topic_costs.md
+      - data/results/topic_costs.json
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+        - gate-topic-runs.sh        # 3 completed topic runs with audits, parent readings, loop run with every stage, within $8
+        - gate-ledger.sh            # every ledger equals its recorded spend; the increment is within its cap

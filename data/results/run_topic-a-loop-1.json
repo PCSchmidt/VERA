@@ -1,0 +1,144 @@
+{
+ "run_id": "topic-a-loop-1",
+ "models": {
+  "ideate": "sonnet",
+  "subset_exp": "sonnet",
+  "write_up": "sonnet"
+ },
+ "completed": true,
+ "stop": null,
+ "total_cost_usd": 0.082005,
+ "budget": {
+  "max_usd": 1.5,
+  "spent_usd": 0.082005236,
+  "max_wall_seconds": 5400,
+  "elapsed_seconds": 851
+ },
+ "by_component": {
+  "p2.cheap_path": {
+   "calls": 14,
+   "cost_usd": 0.000613,
+   "input_tokens": 8614,
+   "output_tokens": 505
+  },
+  "p3.ideate": {
+   "calls": 1,
+   "cost_usd": 0.008192,
+   "input_tokens": 2031,
+   "output_tokens": 413
+  },
+  "p3.subset_exp": {
+   "calls": 3,
+   "cost_usd": 0.050114,
+   "input_tokens": 3577,
+   "output_tokens": 4296
+  },
+  "p3.write_up": {
+   "calls": 1,
+   "cost_usd": 0.023086,
+   "input_tokens": 3278,
+   "output_tokens": 1653
+  }
+ },
+ "stages": [
+  {
+   "stage": "baseline",
+   "decision": "accept",
+   "producer": "p3.baseline",
+   "gate_question": "loop.baseline_reproduced",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "confidence": 0.95
+   },
+   "spent_usd_after": 5.1244e-05
+  },
+  {
+   "stage": "ideate",
+   "decision": "accept",
+   "producer": "p3.ideate",
+   "gate_question": "loop.idea_worth_run",
+   "gate_answer": 3,
+   "gate_judge": "p2.judge",
+   "n_gates": 3,
+   "metrics": {
+    "n_selected": 2.0
+   },
+   "spent_usd_after": 0.008396435999999998
+  },
+  {
+   "stage": "subset_exp",
+   "decision": "reject",
+   "producer": "p3.subset_exp",
+   "gate_question": "loop.beats_baseline",
+   "gate_answer": false,
+   "gate_judge": "p2.judge",
+   "n_gates": 4,
+   "metrics": {
+    "n_ideas_run": 2.0,
+    "n_beating_baseline": 0.0
+   },
+   "spent_usd_after": 0.058628919999999994
+  },
+  {
+   "stage": "write_up",
+   "decision": "accept",
+   "producer": "p3.write_up",
+   "gate_question": "loop.guidance_met",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "words": 982.0,
+    "problems": 0.0
+   },
+   "spent_usd_after": 0.081826118
+  },
+  {
+   "stage": "audit",
+   "decision": "accept",
+   "producer": "p1.audit",
+   "gate_question": "loop.audit_clean",
+   "gate_answer": true,
+   "gate_judge": "p1.audit_gate",
+   "n_gates": 1,
+   "metrics": {
+    "fail": 0.0,
+    "warn": 1.0,
+    "info": 0.0,
+    "claims": 27.0
+   },
+   "spent_usd_after": 0.082005236
+  }
+ ],
+ "audit": {
+  "overall": "amber",
+  "fail": 0,
+  "warn": 1,
+  "info": 0,
+  "checks_skipped": {
+   "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+   "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+   "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+   "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+  }
+ },
+ "best_idea": null,
+ "held_out_residual_mse_pct": {
+  "TreeHFD (baseline)": {
+   "analytical": 2.792,
+   "airfoil": 4.733
+  },
+  "C1: Interaction screening by importance": {
+   "analytical": 2.554,
+   "airfoil": 6.075
+  },
+  "C3: Component-wise ridge recalibration": {
+   "analytical": 2.929,
+   "airfoil": 559431187.582
+  }
+ },
+ "baseline_name": "TreeHFD (baseline)",
+ "ledger": "data/ledger/run_topic-a-loop-1.jsonl"
+}

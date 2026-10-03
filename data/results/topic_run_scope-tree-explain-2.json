@@ -1,0 +1,917 @@
+{
+ "run_id": "scope-tree-explain-2",
+ "topic_id": "tree-explain",
+ "completed": true,
+ "stop_reason": "completed",
+ "stages": [
+  {
+   "stage": "scope",
+   "decision": "accept",
+   "producer": "p3.scope",
+   "reason": null,
+   "metrics": {
+    "confidence": 0.9
+   },
+   "gates": [
+    {
+     "question": "lit.question_scoped",
+     "answer": true,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.scope"
+    }
+   ]
+  },
+  {
+   "stage": "retrieve",
+   "decision": "accept",
+   "producer": "p3.retrieve",
+   "reason": null,
+   "metrics": {
+    "n_screened": 100.0,
+    "n_kept": 31.0,
+    "n_unsure": 13.0
+   },
+   "gates": [
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.97,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.7,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.75,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.75,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.97,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.7,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.75,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.7,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.97,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.97,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.97,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.7,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.7,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.97,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.97,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.7,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.75,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.7,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.7,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.75,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.75,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.75,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.99,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.75,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": false,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    },
+    {
+     "question": "lit.relevant",
+     "answer": true,
+     "confidence": 0.6,
+     "judge": "p2.judge",
+     "producer": "p3.retrieve"
+    }
+   ]
+  },
+  {
+   "stage": "read",
+   "decision": "accept",
+   "producer": "p3.read",
+   "reason": null,
+   "metrics": {
+    "n_passages": 56.0,
+    "n_papers": 26.0
+   },
+   "gates": [
+    {
+     "question": "lit.evidence_sufficient",
+     "answer": true,
+     "confidence": 0.85,
+     "judge": "p2.judge",
+     "producer": "p3.read"
+    }
+   ]
+  },
+  {
+   "stage": "synthesize",
+   "decision": "accept",
+   "producer": "p3.synthesize",
+   "reason": null,
+   "metrics": {
+    "drafted": 13.0,
+    "failed_first": 0.0,
+    "repaired": 0.0,
+    "removed": 0.0,
+    "stray_attributions_removed": 0.0,
+    "n_claims_kept": 13.0
+   },
+   "gates": [
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.95,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.95,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.95,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.95,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.98,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.claim_supported",
+     "answer": true,
+     "confidence": 0.95,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    },
+    {
+     "question": "lit.section_answers",
+     "answer": true,
+     "confidence": 0.92,
+     "judge": "p2.judge",
+     "producer": "p3.synthesize"
+    }
+   ]
+  },
+  {
+   "stage": "parent",
+   "decision": "accept",
+   "producer": "p3.parent",
+   "reason": null,
+   "metrics": {
+    "n_candidates": 3.0,
+    "n_judged": 1.0,
+    "picked": 1.0
+   },
+   "gates": [
+    {
+     "question": "lit.parent_fits",
+     "answer": true,
+     "confidence": 0.9,
+     "judge": "p2.judge",
+     "producer": "p3.parent"
+    }
+   ]
+  }
+ ],
+ "stages_completed": [
+  "scope",
+  "retrieve",
+  "read",
+  "synthesize",
+  "parent"
+ ],
+ "ledger_total_usd": 0.1707,
+ "ledger": "data/ledger/run_scope-tree-explain-2.jsonl",
+ "n_ledger_records": 365,
+ "audit": {
+  "overall": "green",
+  "checks_run": [
+   "citation",
+   "claim_support"
+  ],
+  "fail": 0,
+  "warn": 0,
+  "findings": []
+ },
+ "parent": {
+  "picked": "https://github.com/ThalesGroup/treehfd",
+  "none_fits_reason": null,
+  "n_candidates": 3
+ }
+}

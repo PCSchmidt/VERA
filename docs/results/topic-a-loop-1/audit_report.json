@@ -1,0 +1,39 @@
+{
+ "paper_id": "topic-a-loop-1",
+ "paper_source": "paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:42"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:42",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'They do not vary pairwise correlation from 0 to 0.95, do not compare against TreeSHAP, do not measure error against ground-truth components, do not test bootstr'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'They do not vary pairwise correlation from 0 to 0.95, do not compare against TreeSHAP, do not measure error against ground-truth components, do not test bootstr'"
+  }
+ ],
+ "overall": "amber",
+ "checks_run": [
+  "citation",
+  "numeric"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.00014858399999999997,
+ "wall_seconds": 5,
+ "schema_version": "0.9"
+}

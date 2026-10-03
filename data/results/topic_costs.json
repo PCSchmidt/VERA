@@ -1,7 +1,7 @@
 {
  "credal-dro": {
   "run_id": "scope-credal-dro-2",
-  "total_usd": 0.0903,
+  "total_usd": 0.2186,
   "earlier_attempts_usd": {
    "scope-credal-dro-1": 0.0075
   },
@@ -45,10 +45,10 @@
   "components": [
    {
     "component": "p2.cheap_path",
-    "calls": 343,
-    "cost_usd": 0.007859,
-    "input_tokens": 149723,
-    "output_tokens": 7989,
+    "calls": 402,
+    "cost_usd": 0.009757,
+    "input_tokens": 175092,
+    "output_tokens": 9420,
     "largest_prompt_tokens": 1956,
     "input_share": 0.949
    },
@@ -81,18 +81,18 @@
    },
    {
     "component": "p3.synthesize",
-    "calls": 1,
-    "cost_usd": 0.06052,
-    "input_tokens": 20005,
-    "output_tokens": 2051,
-    "largest_prompt_tokens": 20005,
-    "input_share": 0.907
+    "calls": 4,
+    "cost_usd": 0.186948,
+    "input_tokens": 80019,
+    "output_tokens": 2691,
+    "largest_prompt_tokens": 20030,
+    "input_share": 0.967
    }
   ]
  },
  "llm-judge-numbers": {
   "run_id": "scope-llm-judge-numbers-3",
-  "total_usd": 0.1062,
+  "total_usd": 0.1428,
   "earlier_attempts_usd": {
    "scope-llm-judge-numbers-1": 0.0069,
    "scope-llm-judge-numbers-2": 0.0061
@@ -130,12 +130,12 @@
   "components": [
    {
     "component": "p2.cheap_path",
-    "calls": 257,
-    "cost_usd": 0.006472,
-    "input_tokens": 119026,
-    "output_tokens": 6315,
+    "calls": 290,
+    "cost_usd": 0.00762,
+    "input_tokens": 134266,
+    "output_tokens": 7188,
     "largest_prompt_tokens": 884,
-    "input_share": 0.95
+    "input_share": 0.949
    },
    {
     "component": "p3.retrieve",
@@ -157,18 +157,18 @@
    },
    {
     "component": "p3.synthesize",
-    "calls": 2,
-    "cost_usd": 0.086228,
-    "input_tokens": 31959,
-    "output_tokens": 2231,
-    "largest_prompt_tokens": 16012,
-    "input_share": 0.935
+    "calls": 3,
+    "cost_usd": 0.121656,
+    "input_tokens": 48213,
+    "output_tokens": 2523,
+    "largest_prompt_tokens": 16254,
+    "input_share": 0.95
    }
   ]
  },
  "tree-explain": {
   "run_id": "scope-tree-explain-2",
-  "total_usd": 0.1703,
+  "total_usd": 0.1707,
   "earlier_attempts_usd": {
    "scope-tree-explain-1": 0.0056
   },
@@ -212,10 +212,10 @@
   "components": [
    {
     "component": "p2.cheap_path",
-    "calls": 342,
-    "cost_usd": 0.007929,
-    "input_tokens": 172970,
-    "output_tokens": 7366,
+    "calls": 355,
+    "cost_usd": 0.008343,
+    "input_tokens": 178710,
+    "output_tokens": 7655,
     "largest_prompt_tokens": 1973,
     "input_share": 0.959
    },
@@ -255,6 +255,48 @@
     "largest_prompt_tokens": 21074,
     "input_share": 0.889
    }
-  ]
+  ],
+  "loop": {
+   "run_id": "topic-a-loop-1",
+   "total_usd": 0.082,
+   "components": [
+    {
+     "component": "p2.cheap_path",
+     "calls": 14,
+     "cost_usd": 0.000613,
+     "input_tokens": 8614,
+     "output_tokens": 505,
+     "largest_prompt_tokens": 1919,
+     "input_share": 0.945
+    },
+    {
+     "component": "p3.ideate",
+     "calls": 1,
+     "cost_usd": 0.008192,
+     "input_tokens": 2031,
+     "output_tokens": 413,
+     "largest_prompt_tokens": 2031,
+     "input_share": 0.831
+    },
+    {
+     "component": "p3.subset_exp",
+     "calls": 3,
+     "cost_usd": 0.050114,
+     "input_tokens": 3577,
+     "output_tokens": 4296,
+     "largest_prompt_tokens": 2224,
+     "input_share": 0.454
+    },
+    {
+     "component": "p3.write_up",
+     "calls": 1,
+     "cost_usd": 0.023086,
+     "input_tokens": 3278,
+     "output_tokens": 1653,
+     "largest_prompt_tokens": 3278,
+     "input_share": 0.665
+    }
+   ]
+  }
  }
 }
