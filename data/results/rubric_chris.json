@@ -1,0 +1,53 @@
+{
+ "by": "Chris",
+ "entries": [
+  {
+   "output": "A-lit",
+   "at": "2026-10-03T14:07:19Z",
+   "note": "Answers the question honestly, but misses key SHAP/fANOVA coverage.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 2,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 4
+   }
+  },
+  {
+   "output": "A-paper",
+   "at": "2026-10-03T14:07:19Z",
+   "note": "Traceable negative result, but it studies a narrower question than the confirmed one.",
+   "scores": {
+    "answers_question": 2,
+    "coverage": 2,
+    "correctness": 3,
+    "reproducibility": 4,
+    "honesty": 4
+   }
+  },
+  {
+   "output": "B",
+   "at": "2026-10-03T14:07:19Z",
+   "note": "Honest thin review, but retrieval misses core credal coverage.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 1,
+    "correctness": 3,
+    "reproducibility": 4,
+    "honesty": 3
+   }
+  },
+  {
+   "output": "C",
+   "at": "2026-10-03T14:07:20Z",
+   "note": "Traceable but thin, with major retrieval gaps and a few overstated claims.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 1,
+    "correctness": 2,
+    "reproducibility": 4,
+    "honesty": 3
+   }
+  }
+ ]
+}

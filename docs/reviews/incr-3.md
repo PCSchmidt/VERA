@@ -237,10 +237,13 @@ subagent told to read only the committed outputs, not this project's reviews), C
 | B credal-dro review | 3 | 1 | 3 | 4 | 3 | not as is |
 | C llm-judge-numbers review | 3 | 1 | 2 | 4 | 3 | no |
 
-**Chris's scores: not yet recorded, and the SPEC requires them** (`docs/results/rubric_sheet.md` explains how; the
-recorder is `scripts/record_rubric.py`). Until they are, this review is incomplete on that point and T5's added reverse-if (5)
-(a coverage score under 3 on named positions) cannot be settled; on the independent reviewer's scores alone it would fire.
-They are added here unedited when recorded.
+**Chris did not score the outputs himself, and the SPEC requires his scores beside the reviewer's: that is unmet.** Two other
+files exist and are not his (`data/results/rubric_provenance.md` says what each is): `rubric_chris.json` is labelled with his
+name but equals the reviewer's scores in all 20 cells and was written by a script within one second, and Chris has said it
+must not count as independent evidence; `rubric_codex.json` is a re-read of B and C by the Codex assistant that had already
+seen the reviewer's scores, so it is not blind. The rubric therefore has **one independent scoring (the subagent's)** and
+no human one. T5's added reverse-if (5) (a coverage score under 3 on named positions) **fires on the independent scores**
+(coverage 2, 2, 1, 1); it is not waiting on anything.
 
 Scores below 3 are findings, not repaired: coverage on all four, answers on the paper, correctness on C. The reviewer's
 factual claims are the reviewer's: I verified three (the quote-anchoring examples, the in-sample comparison, the lost LCX
@@ -307,7 +310,8 @@ cents) were deleted with their raw files before any result was read; the single 
 9. **A reproduction basis chosen after seeing results** is only partly disclosed in the paper (see above).
 10. **Seeded faults are easier than real errors**; literature faults rest on two documents.
 11. **Four checks stay skipped** (method-code alignment, leakage, novelty, re-running experiments), so a green audit is narrow.
-12. **Escapes recorded** (`.meridian/dogfood.jsonl`): `literature_ready` passed with 4 claims the final audit failed; `audit3_ready` froze an audit with a dataset-name limitation; quote anchoring is partial.
+12. **Chris's rubric scores are missing** (see above): the product-quality measure rests on one independent scorer, a language model.
+13. **Escapes recorded** (`.meridian/dogfood.jsonl`): `literature_ready` passed with 4 claims the final audit failed; `audit3_ready` froze an audit with a dataset-name limitation; quote anchoring is partial.
 
 ## Dogfood: Meridian overhead
 
@@ -332,7 +336,7 @@ verdicts (it counts the verdict files in `.meridian/evaluator/`, not `dogfood.js
 
 - Retrieval quality and its disclosure in the review text (the first change to make).
 - A rule-based gate for `loop.beats_baseline`; the claim judge's instability on borderline claims.
-- Chris's rubric scores and a label check by Chris on a few of the real claims (the AI-labelled 30).
+- Chris's own blind rubric scores (the SPEC requirement left unmet) and a label check by Chris on a few of the real claims (the AI-labelled 30).
 - The `lit.*` routing, on a larger labelled set.
 
 ## Next SPEC (Increment 4 — paper quality and the measured comparison)

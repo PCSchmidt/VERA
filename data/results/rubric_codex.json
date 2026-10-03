@@ -1,0 +1,29 @@
+{
+ "by": "Codex",
+ "entries": [
+  {
+   "output": "B",
+   "at": "2026-10-03T15:53:40Z",
+   "note": "Direct re-read by Codex; not blind because I had already seen rubric_evaluator.json.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 1,
+    "correctness": 3,
+    "reproducibility": 4,
+    "honesty": 3
+   }
+  },
+  {
+   "output": "C",
+   "at": "2026-10-03T15:53:40Z",
+   "note": "Direct re-read by Codex; not blind because I had already seen rubric_evaluator.json.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 1,
+    "correctness": 2,
+    "reproducibility": 4,
+    "honesty": 3
+   }
+  }
+ ]
+}
