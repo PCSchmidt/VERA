@@ -82,7 +82,8 @@ Key-paper recall (`docs/results/retrieval_recall.md`; failed earlier attempts `_
 |---|---|---|---|
 | v1 Crossref + arXiv keyword search | 30% | 0% | 20% |
 | v2 papers-only Crossref, OpenAlex primary | 50% | 12% | 20% |
-| v3 snowballing added | **70%** | **38%** | **20%** |
+| v3 snowballing added (screen kept 40%, 12%, 0%) | 70% | 38% | 20% |
+| v4 broader relevance wording (the final run; recall before the screen unchanged, screen kept 70%, 38%, 10%) | **70%** | **38%** | **20%** |
 
 | Final | tree-explain | credal-dro | llm-judge-numbers |
 |---|---|---|---|
@@ -103,8 +104,8 @@ decisions on the 7 disputed rows is on record in the conversation only, not in a
 
 **Audit against synthesis.** The synthesis stage asks `lit.claim_supported` once per claim and passed everything first
 time except one repair. The final audit asks it again on the text as written and failed 1 claim (credal-dro) and 3
-(llm-judge-numbers). Read by hand, all four were sentences that add the review's own comparison or caveat under a
-source's citation ("which sits oddly beside the financial finding", "but this is for general evaluation, not numeric
+(llm-judge-numbers). Read by hand, three were sentences that add the review's own comparison or caveat under a
+source's citation, and one (llm-judge-numbers R15, "task types that resemble multi-step numeric claims") an interpretive gloss on the source's categories ("which sits oddly beside the financial finding", "but this is for general evaluation, not numeric
 claims"). Repair (rewrite to what the quote supports, or drop) cleared them, but credal-dro needed three passes because
 a different borderline claim flipped to fail each time: the claim judge is not stable on borderline claims. The repair
 keeps only what the passage supports, so it can remove a correct caveat that no passage states: the credal-dro review
@@ -114,7 +115,7 @@ bootstrapping so as to guarantee a desired reliability level"). The first versio
 (`literature.pre_audit_repair.md`). **The per-pass repair log is incomplete:** `audit_repair.json` kept only the last pass
 for credal-dro (it became cumulative after the first two passes), so the deletion is not in it; the complete record of
 what the repair changed is the comparison of the first and final claims, now committed as `audit_repair_diff.json` in
-each topic's folder (3 claims replaced in each of the two repaired reviews, none dropped).
+each topic's folder (3 claims replaced in each of the two repaired reviews, none dropped; credal-dro's three are one claim per pass, each the one the audit failed that time, because the judge's verdict on borderline claims changed between audits).
 
 **Quote anchoring.** A claim is checked for a verbatim quote in a passage of its source and judged against the whole
 passage, so a quote can support only part of its sentence. The independent reviewer's examples (R20 "step-by-step
@@ -146,8 +147,10 @@ run to a non-empirical paper even when the question is runnable on simulated dat
 Each used Sonnet 5.5 for every stage, with the topic's verified section as related work and as background for the ideas.
 `topic-a-loop-2` failed because the frozen audit reads a dataset's name back from its lower-cased column label, so a name
 with an underscore never matches (an escape from `audit3_ready`); I renamed the datasets rather than edit the frozen
-audit, and recorded that in the registered target. The amber warnings of loops 1 and 3 are numbers from the question or
-the dataset descriptions (0.95, 5000) restated in the text.
+audit, and recorded that in the registered target. Both audits ran only the citation and numeric checks (loop 1: 27 claims, 1 warn;
+loop 3: 42 claims, 4 warns). Loop 1's warn and three of loop 3's are numbers from the question or the dataset descriptions
+(0.95, 5000) restated in the text; loop 3's fourth is different: the comparison judge could not confirm against the table the
+sentence that two corrections do not reduce residual error at either correlation level.
 
 **What the baseline row shows, which the paper does not say.** TreeHFD's held-out residual error (percent of the
 ensemble's variance) falls as pairwise correlation rises: **5.54% at 0, 2.79% at 0.5 (the paper's analytical case),
@@ -171,7 +174,8 @@ held-out, but not that the analytical case was reproduced held-out and Airfoil i
 | llm-judge-numbers | $0.143 | n/a | non-empirical |
 
 The per-topic figures are the final run's ledger; earlier attempts (scoping, kept separately in `topic_costs.md`) add
-$0.006 to $0.013 per topic. Input dominates the synthesis generator's cost (89% to 97% of its tokens; largest prompts 21,074,
+$0.006 to $0.013 per topic. Input dominates the synthesis generator's cost (89% to 97% of its tokens; a token share, not a cost share: Sonnet prices output tokens higher, so the cost share of input
+is lower than the token share, and `topic_costs.md` does not give it; largest prompts 21,074,
 20,030 and 16,254 input tokens); the synthesis component is 2 to 4 calls per topic (credal-dro's include the repairs) and
 the biggest single line. Per-stage and per-component tables: `docs/results/topic_costs.md`.
 
@@ -242,8 +246,10 @@ files exist and are not his (`data/results/rubric_provenance.md` says what each 
 name but equals the reviewer's scores in all 20 cells and was written by a script within one second, and Chris has said it
 must not count as independent evidence; `rubric_codex.json` is a re-read of B and C by the Codex assistant that had already
 seen the reviewer's scores, so it is not blind. The rubric therefore has **one independent scoring (the subagent's)** and
-no human one. T5's added reverse-if (5) (a coverage score under 3 on named positions) **fires on the independent scores**
-(coverage 2, 2, 1, 1); it is not waiting on anything.
+no human one. T5's added reverse-if (5) is worded as a coverage score under 3 "by the user"; with no user scores, I read it on
+the independent scores (coverage 2, 2, 1, 1), where the condition is met, and treat it as fired. Its remedy (query generation
+from the confirmed question, or a second keyed source, "built before the next topic is run") is **moved to the Increment 4 SPEC**
+below, a departure from the wording that Chris's approval of the Increment 4 SPEC would confirm.
 
 Scores below 3 are findings, not repaired: coverage on all four, answers on the paper, correctness on C. The reviewer's
 factual claims are the reviewer's: I verified three (the quote-anchoring examples, the in-sample comparison, the lost LCX
@@ -295,7 +301,8 @@ The $1.66 is the sum of the Increment 3 ledgers by name (`scope-*`, `topic-a-loo
 `realclaims-*`, `retest3-*`); the Increment 2 re-test and earlier runs are not in it. The $0.75 for topic runs is the three
 final topic runs and the three loop attempts ($0.747); the earlier scoping attempts ($0.026) are counted under debugging.
 All inside the monthly $20. The two ledgers of an accidental double launch of the claim benchmark (duplicate rows, a few
-cents) were deleted with their raw files before any result was read; the single rerun is the record.
+cents, not measured before deletion) were deleted with their raw files before any result was read, so the totals are
+understated by that amount; the single rerun is the record (listed as deviation 14).
 
 ## Deviations and caveats
 
@@ -312,6 +319,7 @@ cents) were deleted with their raw files before any result was read; the single 
 11. **Four checks stay skipped** (method-code alignment, leakage, novelty, re-running experiments), so a green audit is narrow.
 12. **Chris's rubric scores are missing** (see above): the product-quality measure rests on one independent scorer, a language model.
 13. **Escapes recorded** (`.meridian/dogfood.jsonl`): `literature_ready` passed with 4 claims the final audit failed; `audit3_ready` froze an audit with a dataset-name limitation; quote anchoring is partial.
+14. **Spend is understated by a few cents:** the two ledgers of the claim benchmark's accidental double launch were deleted before any result was read (see Spend).
 
 ## Dogfood: Meridian overhead
 
@@ -319,7 +327,8 @@ Overhead recorded for this increment: **4 hours (Chris's figure)** for 2026-10-0
 because it was not logged per session (the Increment 2 carry-over asked for per-session entries; this is the same lapse).
 The 5-hour entry of 2026-10-02 10:42 (note: "hours") was recorded before `incr2_review` passed at 15:15 that day, so it
 belongs to Increment 2; `check_dogfood.py` counts it as recorded before this increment opened, and passes with 7 gates
-on 2026-10-02 and 3 on 2026-10-03. Project total 10.5 hours: 1.5 (Increment 1) + 5 (Increment 2) + 4 (this increment).
+on 2026-10-02 and 3 on 2026-10-03; **that pass is a technicality for 2026-10-02**: the only entry for that day is Increment 2's,
+so no Increment 3 overhead was logged on the day itself, and the check does not tell the two apart. Project total 10.5 hours: 1.5 (Increment 1) + 5 (Increment 2) + 4 (this increment).
 The dogfood report also shows 0 stops recorded, 4 escapes (3 new, all recorded this session) and 7 passed evaluator
 verdicts (it counts the verdict files in `.meridian/evaluator/`, not `dogfood.jsonl` records).
 
@@ -341,14 +350,18 @@ verdicts (it counts the verdict files in `.meridian/evaluator/`, not `dogfood.js
 
 ## Next SPEC (Increment 4 — paper quality and the measured comparison)
 
-Rewrite `SPEC.md` for Increment 4 and add its gates after this gate passes. Scope per docs/07. Carry in:
+Rewrite `SPEC.md` for Increment 4 and add its gates after this gate passes. Scope per docs/07: a paper-shaped write-up
+(abstract, related work, method, results with figures, limitations, references), ablations (RSH-F-04), method-code
+alignment on the loop's own code (AUD-F-05), novelty of the loop's idea against the retrieved literature (AUD-F-07), a second
+parent problem, and cost and quality against ScientistTwo on both (RSH-P-02, MOE-3), with T10's decision deciding how the
+second problem gets its baseline. No result from ScientistTwo's paper on these topics has been read. Carry in:
 
 - **Make the loop answer the confirmed question for topic (a):** TreeHFD against TreeSHAP and against known components on
   the correlated synthetic datasets, and bootstrap rank stability; a correlation sweep, not two levels. This is what the
   independent reviewer scored lowest on the paper and what the product bar needs.
 - **Retrieval:** query generation from the confirmed question (several phrasings, venue and author hints) or a second
   keyed source; the review states how many candidates were retrieved, kept and read and what the screen dropped
-  (T5's added reverse-if (5) would fire on the independent coverage scores; Chris's are pending).
+  (T5's added reverse-if (5) is read on the independent coverage scores, as stated in the rubric section).
 - **Anchoring:** require a claim's quote to cover its whole sentence, or split the claim; the repair must not drop a
   caveat silently (list what it removed in the review).
 - **Rule-based gate** for `loop.beats_baseline` and `loop.baseline_reproduced`, where the table decides; keep the judge
@@ -364,3 +377,18 @@ Rewrite `SPEC.md` for Increment 4 and add its gates after this gate passes. Scop
 
 Rounds are added below, each by a fresh subagent that did not write this review, with every verdict kept unedited in
 `.meridian/evaluator/incr3_review-verdict-r<N>.json`.
+
+**Round 1** (fail, 6.2): the main blocker was the missing rubric scores of Chris; other issues (an Outcome sentence on loop 2,
+omitted top-30 and kept-by-screen recall, the spend selection, no same-model-overlap section, the repair-log claim, R10,
+loop 1's "no idea beat", the scoping timestamps) were fixed in the review. Verdict: `incr3_review-verdict-r1.json`.
+
+**Round 2** (pass, 7.3; completeness 8, quality 8, consistency 7, spec adherence 6): both unmet SPEC items (Chris's rubric
+scores, per-session overhead) are stated plainly; the weak points were internal inconsistencies and omissions, none
+falsifying a headline number. Verdict: `incr3_review-verdict-r2.json`. After it, these points were fixed in the text (the
+round-2 evaluator saw the version before): the amber-warn description (one warn is a comparison the judge could not
+confirm), the contradictory wording of T5's reverse-if (5) and the departure in its remedy, the missing Increment 4 scope
+(write-up, ablations, ScientistTwo), the dogfood check's technicality for 2026-10-02, the deleted ledgers as a
+deviation, the unlabelled v4 row, "all four" as three plus a gloss, and token share against cost share.
+
+Two SPEC items remain unmet and are the user's to accept or not when approving: Chris's own blind rubric scores, and
+per-session overhead logging.
