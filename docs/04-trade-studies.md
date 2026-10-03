@@ -209,7 +209,7 @@ Keep each to one short section. Status: **open** until decided.
   Docker proves unreliable, then fall back to Docling for references too
   (84.5% here) and accept its failure mode.
 
-- **Increment 3 test of the reverse-if (2026-10-03; proposed, decided at `trades_decided_3`):**
+- **Increment 3 test of the reverse-if (2026-10-03; decided at `trades_decided_3`):**
   (1) *tested, not fired.* On the seeded set v2 test split (43 planted faults, 6 controls, audit frozen) every
   reference-type fault was caught (fabricated_citation 4/4, unretrieved_citation 4/4, altered_reference 4/4,
   unresolved_citation 2/2, moved_citation 2/2) and no control failed on a citation check. The audit's one false fail
@@ -219,7 +219,7 @@ Keep each to one short section. Status: **open** until decided.
   were beyond the top-6 cap or had no open PDF link) and for the snowballing step's reference lists.
   (2) *not tested:* this increment read no table-heavy external paper, so Docling stayed unused; the literature stage
   needs body text, which GROBID supplied. (3) *not fired:* GROBID in Docker stayed up for the whole increment.
-  **Decision:** (proposed) keep both parsers by content as decided; the literature stage uses GROBID only.
+  **Decision:** (Chris, 2026-10-03, by approving `trades_decided_3` on the proposal as written) keep both parsers by content as decided; the literature stage uses GROBID only.
 
 ## T4 — Sandbox (decided 2026-10-01, Increment 2)
 
@@ -327,7 +327,7 @@ Keep each to one short section. Status: **open** until decided.
   show false "fail" findings on real references above AUD-P-01's 10%, then
   add the fallback tiers before widening the checks.
 
-- **Increment 3 test of the reverse-if (2026-10-03; proposed, decided at `trades_decided_3`):** (1) **fired.** Recall of
+- **Increment 3 test of the reverse-if (2026-10-03; decided at `trades_decided_3`):** (1) **fired.** Recall of
   the key papers fixed before the first retrieval (`docs/results/retrieval_recall.md`; the failed first attempts are
   `retrieval_recall_v1.md` to `_v3.md`): Crossref + arXiv alone, 30% / 0% / 20% on the three topics (tree-explain,
   credal-dro, llm-judge-numbers) and the relevance screen kept 4, 0 and 4 of 60 candidates; with a papers-only Crossref
@@ -339,7 +339,7 @@ Keep each to one short section. Status: **open** until decided.
   it" (they are in the index; the keyword queries did not reach them); the relevance screen, which is strict,
   screened out one key paper of those retrieved. (2) not fired in this increment's runs (a whole topic run took 215 to 276 seconds). (3) not fired.
   (4) the seeded citation faults gave 0 false fails among the 6 test controls on citation checks.
-  **Decision:** (proposed) OpenAlex with the user's own key is the primary when present, Crossref + arXiv the keyless
+  **Decision:** (Chris, 2026-10-03, by approving `trades_decided_3` on the proposal as written) OpenAlex with the user's own key is the primary when present, Crossref + arXiv the keyless
   fallback (as implemented); snowballing stays; the weakness is recorded, not hidden: a literature section is only as
   complete as retrieval, and the review's coverage score reflects it. **Reverse if (added):** (5) a topic's
   literature section is scored below 3 on coverage by the user because named positions are missing, then query
@@ -399,14 +399,14 @@ Keep each to one short section. Status: **open** until decided.
   grow past a fixed size (say 20,000 input tokens per call); (3) the REPL idea is wanted for another reason, to let
   the model test code as it writes it, which is a separate design question about the sandbox, not a cost trick.
 
-- **Increment 3 test of the reverse-if (2026-10-03; proposed, decided at `trades_decided_3`):** (1) **fired:** in the
+- **Increment 3 test of the reverse-if (2026-10-03; decided at `trades_decided_3`):** (1) **fired:** in the
   literature stage input dominates the generator's cost. Synthesis sends the evidence passages in one prompt of up to
   21,074 input tokens (tree-explain 21,074, credal-dro 20,030, llm-judge-numbers 16,254); input is 89% to 97% of the
   synthesize component's tokens (`docs/results/topic_costs.md`). (2) **fired for two of three topics:** the largest
   prompt passed 20,000 input tokens (21,074 and 20,030). (3) not wanted. The cost of the whole synthesis generator per
   topic was $0.11 (tree-explain), $0.19 (credal-dro, including three repair passes) and $0.12 (llm-judge-numbers); a
   technique that halved the synthesis input would save at most about $0.05 per topic, and a topic costs $0.14 to
-  $0.22 in all. **Decision:** (proposed) still (a), plain LangGraph state with prompts built by the stage; the
+  $0.22 in all. **Decision:** (Chris, 2026-10-03, by approving `trades_decided_3` on the proposal as written) still (a), plain LangGraph state with prompts built by the stage; the
   prompt-as-variable arm is not built, because its ceiling is a few cents per topic at the current evidence size
   (120 passages, 6 full texts). **Reverse if (added):** (4) a topic's synthesis prompt passes 50,000 input tokens
   (more full texts, longer sources), or a bring-your-own-key user's model prices make input cost more than $0.50
@@ -498,7 +498,7 @@ Keep each to one short section. Status: **open** until decided.
   cheaper-arm test for bring-your-own-key users is not worth running now; T9 reverse-if (2), a reasoning control that
   makes MiMo or DeepSeek usable, moves to Increment 5 as planned.
 
-## T10 — Where a problem's baseline comes from (decided 2026-10-03, Increment 3; the decision is Chris's at `trades_decided_3`)
+## T10 — Where a problem's baseline comes from (decided 2026-10-03, Increment 3)
 
 - **Options:** (a) a harness per problem written by hand (what Increment 2 did
   for TreeHFD: `docker/sandbox-treehfd/harness.py`); (b) a model-written baseline
@@ -535,7 +535,7 @@ Keep each to one short section. Status: **open** until decided.
   repository is not a runnable baseline: two of the four have no licence recorded or are a library, and the one for
   topic (b) is a deep-learning portfolio method whose datasets and CPU cost the evidence did not establish, so the stage
   refused it.
-- **Decision:** (proposed) (a) for Increment 4's second parent problem: a hand-built harness for one more repository,
+- **Decision:** (Chris, 2026-10-03, by approving `trades_decided_3` on the proposal as written) (a) for Increment 4's second parent problem: a hand-built harness for one more repository,
   chosen from the candidates the literature stage finds, with its target registered before any run. Increment 4 also
   measures (c) on that same problem (time to write the adapter against a generic harness, and whether the baseline gate
   accepts it), so the choice between (a) and (c) rests on one problem done both ways. (b) is not built: with no
