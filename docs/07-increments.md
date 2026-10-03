@@ -86,7 +86,7 @@ Docker), T5 (Crossref + arXiv), T6 (ledger only), T7 (plain state), T9 (Sonnet
 5.5) decided; the judge re-test on the loop's real decisions gave 97.4% (95% CI
 91.0-99.3), so T1's reverse-if did not fire.
 
-## Increment 3 — Topic front end and literature stage ← CURRENT
+## Increment 3 — Topic front end and literature stage (complete 2026-10-03)
 
 Scope, gates and caps proposed in SPEC.md (2026-10-02); `incr3_scoped` is Chris's approval of them.
 
@@ -100,7 +100,9 @@ Exit: three topics taken to a scoped question and a literature section with
 verified citations; cost per topic measured; one of them carried through
 the Increment 2 loop end to end.
 
-## Increment 4 — Paper quality and the measured comparison
+## Increment 4 — Paper quality and the measured comparison ← CURRENT
+
+Scope, gates and caps proposed in SPEC.md (2026-10-03); `incr4_scoped` is Chris's approval of them.
 
 Paper-shaped write-up (abstract, related work, method, results with
 figures, limitations, references) following the output guidance; ablations

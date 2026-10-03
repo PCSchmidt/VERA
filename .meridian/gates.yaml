@@ -560,3 +560,26 @@ gates:
         - gate-traceability.sh
         - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
         - run-evaluator.sh          # independent Evaluator verdict on the review
+
+  # ── Increment 4: paper quality and the measured comparison (SPEC.md) ───────
+  # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
+  # Defined so far: incr4_scoped. Still to add: carry_in_ready, topics4_chosen, lit2_ready,
+  # problem2_ready, protocol_ready, writeup2_ready, audit4_ready, runs4, comparison4,
+  # rubric_scored, incr4_review.
+
+  - id: incr4_scoped
+    label: "Increment 4 scope confirmed"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 4 SCOPED"
+    requires:
+      - incr3_review
+    requires_artifacts:
+      - SPEC.md
+      - CONTRACT.md
+      - docs/reviews/incr-3.md
+    hooks:
+      pre:
+        - validate-contract.sh      # Meridian: Purpose + Scope sections present
+        - validate-spec.sh          # Meridian: SPEC.md is structured
+        - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount
