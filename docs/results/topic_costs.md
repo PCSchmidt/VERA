@@ -9,7 +9,7 @@ all tokens.
 |---|---|---|---|---|---|---|
 | credal-dro | scope-credal-dro-2 | 0.2186 | 0.0075 | - | - | 0.2186 |
 | llm-judge-numbers | scope-llm-judge-numbers-3 | 0.1428 | 0.0130 | - | - | 0.1428 |
-| tree-explain | scope-tree-explain-2 | 0.1707 | 0.0056 | topic-a-loop-1 | 0.082 | 0.2527 |
+| tree-explain | scope-tree-explain-2 | 0.1707 | 0.0056 | topic-a-loop-3 | 0.0564 | 0.2271 |
 
 ## credal-dro (scope-credal-dro-2)
 
@@ -69,11 +69,11 @@ Components of the topic run:
 | p3.scope | 1 | 0.0072 | 509 | 618 | 0.452 | 509 |
 | p3.synthesize | 2 | 0.1091 | 33624 | 4189 | 0.889 | 21074 |
 
-Components of the research-loop run topic-a-loop-1:
+Components of the research-loop run topic-a-loop-3:
 
 | component | calls | cost (USD) | input tokens | output tokens | input share | largest prompt (tokens) |
 |---|---|---|---|---|---|---|
-| p2.cheap_path | 14 | 0.0006 | 8614 | 505 | 0.945 | 1919 |
-| p3.ideate | 1 | 0.0082 | 2031 | 413 | 0.831 | 2031 |
-| p3.subset_exp | 3 | 0.0501 | 3577 | 4296 | 0.454 | 2224 |
-| p3.write_up | 1 | 0.0231 | 3278 | 1653 | 0.665 | 3278 |
+| p2.cheap_path | 22 | 0.0014 | 17271 | 1098 | 0.94 | 2242 |
+| p3.ideate | 1 | 0.0084 | 2296 | 383 | 0.857 | 2296 |
+| p3.subset_exp | 2 | 0.0212 | 1339 | 1849 | 0.42 | 671 |
+| p3.write_up | 1 | 0.0255 | 3665 | 1813 | 0.669 | 3665 |

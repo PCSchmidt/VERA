@@ -1,0 +1,57 @@
+{
+ "runs": [
+  "scope-credal-dro-2",
+  "scope-llm-judge-numbers-3",
+  "scope-tree-explain-2",
+  "topic-a-loop-1",
+  "topic-a-loop-2",
+  "topic-a-loop-3"
+ ],
+ "records": 977,
+ "by_question": {
+  "lit.claim_supported": {
+   "records": 56,
+   "disposition": "used: the constructed claim benchmark and the 30 real claims labelled by an AI helper (data/claim_bench/); the other records are the same claims asked again (repairs, the final audit)"
+  },
+  "lit.evidence_sufficient": {
+   "records": 4,
+   "disposition": "excluded: no label (one verdict per topic)"
+  },
+  "lit.parent_fits": {
+   "records": 1,
+   "disposition": "excluded: no label (the user's reading of the selection is the check)"
+  },
+  "lit.parent_refusal": {
+   "records": 3,
+   "disposition": "excluded: no label (the user's reading of the refusal is the check)"
+  },
+  "lit.question_scoped": {
+   "records": 3,
+   "disposition": "excluded: no label (one verdict per topic, the user confirms the question)"
+  },
+  "lit.relevant": {
+   "records": 871,
+   "disposition": "measured by the retrieval check: the screen against 45 helper-labelled candidates (docs/results/retrieval_recall.md, data/retrieval/relevance_check.csv)"
+  },
+  "lit.section_answers": {
+   "records": 4,
+   "disposition": "excluded: no label (one verdict per section, read by the user and the rubric scorers)"
+  },
+  "loop.baseline_reproduced": {
+   "records": 3,
+   "disposition": "used: re-test of the loop's gates (data/retest3), label = the programmatic shadow"
+  },
+  "loop.beats_baseline": {
+   "records": 20,
+   "disposition": "used: re-test of the loop's gates (data/retest3), label = the shadow answer"
+  },
+  "loop.guidance_met": {
+   "records": 3,
+   "disposition": "used: re-test of the loop's gates (data/retest3); these runs' guidance has no free-text constraint, so the programmatic shadow answer exists"
+  },
+  "loop.idea_worth_run": {
+   "records": 9,
+   "disposition": "reported separately: a Score with no computable label (distribution and outcome in data/retest3/results.json)"
+  }
+ }
+}

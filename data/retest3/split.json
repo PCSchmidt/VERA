@@ -1,0 +1,21 @@
+{
+ "runs": [
+  "topic-a-loop-1",
+  "topic-a-loop-2",
+  "topic-a-loop-3"
+ ],
+ "items": 24,
+ "test_sha256": "eb0d0f99afce50d27e9947ac27c7150d4fbda604b257ab3e9afc40ade72371d8",
+ "coverage": {
+  "records": 35,
+  "excluded_no_shadow_answer": 9,
+  "duplicates_merged": 2,
+  "distinct_real_items": 24
+ },
+ "by_kind": {
+  "loop.baseline_reproduced": 1,
+  "loop.beats_baseline": 20,
+  "loop.guidance_met": 3
+ },
+ "note": "all items are evaluated (no dev split); fixed before any backend ran"
+}

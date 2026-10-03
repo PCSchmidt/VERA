@@ -257,44 +257,44 @@
    }
   ],
   "loop": {
-   "run_id": "topic-a-loop-1",
-   "total_usd": 0.082,
+   "run_id": "topic-a-loop-3",
+   "total_usd": 0.0564,
    "components": [
     {
      "component": "p2.cheap_path",
-     "calls": 14,
-     "cost_usd": 0.000613,
-     "input_tokens": 8614,
-     "output_tokens": 505,
-     "largest_prompt_tokens": 1919,
-     "input_share": 0.945
+     "calls": 22,
+     "cost_usd": 0.001359,
+     "input_tokens": 17271,
+     "output_tokens": 1098,
+     "largest_prompt_tokens": 2242,
+     "input_share": 0.94
     },
     {
      "component": "p3.ideate",
      "calls": 1,
-     "cost_usd": 0.008192,
-     "input_tokens": 2031,
-     "output_tokens": 413,
-     "largest_prompt_tokens": 2031,
-     "input_share": 0.831
+     "cost_usd": 0.008422,
+     "input_tokens": 2296,
+     "output_tokens": 383,
+     "largest_prompt_tokens": 2296,
+     "input_share": 0.857
     },
     {
      "component": "p3.subset_exp",
-     "calls": 3,
-     "cost_usd": 0.050114,
-     "input_tokens": 3577,
-     "output_tokens": 4296,
-     "largest_prompt_tokens": 2224,
-     "input_share": 0.454
+     "calls": 2,
+     "cost_usd": 0.021168,
+     "input_tokens": 1339,
+     "output_tokens": 1849,
+     "largest_prompt_tokens": 671,
+     "input_share": 0.42
     },
     {
      "component": "p3.write_up",
      "calls": 1,
-     "cost_usd": 0.023086,
-     "input_tokens": 3278,
-     "output_tokens": 1653,
-     "largest_prompt_tokens": 3278,
-     "input_share": 0.665
+     "cost_usd": 0.02546,
+     "input_tokens": 3665,
+     "output_tokens": 1813,
+     "largest_prompt_tokens": 3665,
+     "input_share": 0.669
     }
    ]
   }

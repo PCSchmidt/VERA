@@ -1,0 +1,111 @@
+{
+ "paper_id": "topic-a-loop-3",
+ "paper_source": "paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:22"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:22",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "5000 in the text is not a value in results.json (nor a difference or ratio of two): 'Uncorrelated: the analytical function with independent inputs (pairwise correlation 0), same noise, n = 5000 and model.'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "5000 in the text is not a value in results.json (nor a difference or ratio of two): 'Uncorrelated: the analytical function with independent inputs (pairwise correlation 0), same noise, n = 5000 and model.'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:23"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:23",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "0.95, 5000 in the text is not a value in results.json (nor a difference or ratio of two): 'Correlated95: the analytical function with pairwise correlation 0.95 between all six Gaussian inputs, same noise, n = 5000 and model.'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "0.95, 5000 in the text is not a value in results.json (nor a difference or ratio of two): 'Correlated95: the analytical function with pairwise correlation 0.95 between all six Gaussian inputs, same noise, n = 5000 and model.'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:43"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:43",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'Relation to the literature research question: the Uncorrelated and Correlated95 datasets give two correlation levels (0 and 0.95), not a sweep.'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'Relation to the literature research question: the Uncorrelated and Correlated95 datasets give two correlation levels (0 and 0.95), not a sweep.'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:47"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:47",
+     "source": "log",
+     "reference": "results.json (rendered table)",
+     "matched": false,
+     "detail": "Could not confirm the comparison against the table: 'They bear on the question only by showing that two post-hoc corrections do not reduce residual error at either correlation level.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "num.claim_consistent",
+     "answer": false,
+     "probabilities": {
+      "false": 0.9999453863143271,
+      "true": 5.461368567292507e-05
+     },
+     "confidence": 0.9999453863143271,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.000163005,
+     "latency_ms": 21178,
+     "trace_id": "84454e233a554f86ae73dae5781a17fc",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "Could not confirm the comparison against the table: 'They bear on the question only by showing that two post-hoc corrections do not reduce residual error at either correlation level.'"
+  }
+ ],
+ "overall": "amber",
+ "checks_run": [
+  "citation",
+  "numeric"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.000463476,
+ "wall_seconds": 42,
+ "schema_version": "0.9"
+}

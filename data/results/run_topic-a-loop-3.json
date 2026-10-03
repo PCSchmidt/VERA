@@ -1,0 +1,150 @@
+{
+ "run_id": "topic-a-loop-3",
+ "models": {
+  "ideate": "sonnet",
+  "subset_exp": "sonnet",
+  "write_up": "sonnet"
+ },
+ "completed": true,
+ "stop": null,
+ "total_cost_usd": 0.056409,
+ "budget": {
+  "max_usd": 1.5,
+  "spent_usd": 0.05640888150000001,
+  "max_wall_seconds": 5400,
+  "elapsed_seconds": 1829
+ },
+ "by_component": {
+  "p2.cheap_path": {
+   "calls": 22,
+   "cost_usd": 0.001359,
+   "input_tokens": 17271,
+   "output_tokens": 1098
+  },
+  "p3.ideate": {
+   "calls": 1,
+   "cost_usd": 0.008422,
+   "input_tokens": 2296,
+   "output_tokens": 383
+  },
+  "p3.subset_exp": {
+   "calls": 2,
+   "cost_usd": 0.021168,
+   "input_tokens": 1339,
+   "output_tokens": 1849
+  },
+  "p3.write_up": {
+   "calls": 1,
+   "cost_usd": 0.02546,
+   "input_tokens": 3665,
+   "output_tokens": 1813
+  }
+ },
+ "stages": [
+  {
+   "stage": "baseline",
+   "decision": "accept",
+   "producer": "p3.baseline",
+   "gate_question": "loop.baseline_reproduced",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "confidence": 0.95
+   },
+   "spent_usd_after": 5.2836e-05
+  },
+  {
+   "stage": "ideate",
+   "decision": "accept",
+   "producer": "p3.ideate",
+   "gate_question": "loop.idea_worth_run",
+   "gate_answer": 1,
+   "gate_judge": "p2.judge",
+   "n_gates": 3,
+   "metrics": {
+    "n_selected": 2.0
+   },
+   "spent_usd_after": 0.008674126
+  },
+  {
+   "stage": "subset_exp",
+   "decision": "reject",
+   "producer": "p3.subset_exp",
+   "gate_question": "loop.beats_baseline",
+   "gate_answer": false,
+   "gate_judge": "p2.judge",
+   "n_gates": 8,
+   "metrics": {
+    "n_ideas_run": 2.0,
+    "n_beating_baseline": 0.0
+   },
+   "spent_usd_after": 0.030165311500000003
+  },
+  {
+   "stage": "write_up",
+   "decision": "accept",
+   "producer": "p3.write_up",
+   "gate_question": "loop.guidance_met",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "words": 1158.0,
+    "problems": 0.0
+   },
+   "spent_usd_after": 0.05576640150000001
+  },
+  {
+   "stage": "audit",
+   "decision": "accept",
+   "producer": "p1.audit",
+   "gate_question": "loop.audit_clean",
+   "gate_answer": true,
+   "gate_judge": "p1.audit_gate",
+   "n_gates": 1,
+   "metrics": {
+    "fail": 0.0,
+    "warn": 4.0,
+    "info": 0.0,
+    "claims": 42.0
+   },
+   "spent_usd_after": 0.05640888150000001
+  }
+ ],
+ "audit": {
+  "overall": "amber",
+  "fail": 0,
+  "warn": 4,
+  "info": 0,
+  "checks_skipped": {
+   "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+   "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+   "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+   "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+  }
+ },
+ "best_idea": null,
+ "held_out_residual_mse_pct": {
+  "TreeHFD (baseline)": {
+   "analytical": 2.792,
+   "uncorrelated": 5.543,
+   "correlated95": 1.025,
+   "airfoil": 4.733
+  },
+  "C3: Residual spline main effects": {
+   "analytical": 2.81,
+   "uncorrelated": 5.58,
+   "correlated95": 1.025,
+   "airfoil": 4.763
+  },
+  "C2: Residual refit on components": {
+   "analytical": 2.921,
+   "uncorrelated": 5.791,
+   "correlated95": 1.087,
+   "airfoil": 4.882
+  }
+ },
+ "baseline_name": "TreeHFD (baseline)",
+ "ledger": "data/ledger/run_topic-a-loop-3.jsonl"
+}

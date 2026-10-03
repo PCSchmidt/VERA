@@ -29,7 +29,8 @@ REASONS = {
     "loop.baseline_reproduced": "used: re-test of the loop's gates (data/retest3), label = the programmatic shadow",
     "loop.beats_baseline": "used: re-test of the loop's gates (data/retest3), label = the shadow answer",
     "loop.best_method": "used: re-test of the loop's gates (data/retest3), label = the shadow answer",
-    "loop.guidance_met": "excluded: no shadow answer (free-text constraints in the guidance)",
+    "loop.guidance_met": "used: re-test of the loop's gates (data/retest3); these runs' guidance has no free-text "
+    "constraint, so the programmatic shadow answer exists",
     "loop.idea_worth_run": "reported separately: a Score with no computable label (distribution and outcome in "
     "data/retest3/results.json)",
 }

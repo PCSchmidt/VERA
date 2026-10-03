@@ -1,0 +1,17 @@
+{
+ "ideas": [
+  {
+   "name": "C1: Restrict to active interactions",
+   "description": "Compute the xgboost model's actual co-occurring variable pairs along tree paths (from the trees' split structure). Pass only those pairs, ranked by gain or frequency and truncated to the top few, as interaction_list. This drops empty interaction components, which cuts runtime and removes noisy components. Keep the number of pairs fixed across seeds."
+  },
+  {
+   "name": "C2: Residual refit on components",
+   "description": "After fitting TreeHFD on the training data, compute the residuals between the model predictions and the component sum. Fit a ridge regression of the model predictions on the stacked component columns (main effects and interactions) to get per-component scalar weights and an intercept. Apply these weights on test data. Each component still depends only on its own variables."
+  },
+  {
+   "name": "C3: Residual spline main effects",
+   "description": "Take the residual (model prediction minus current component sum) on training data. For each variable, fit a low-order spline or binned smoother on that variable alone. Do the same for each selected variable pair, using a 2D binned smoother or tensor spline. Add these corrections to the matching components. Evaluate on held-out data."
+  }
+ ],
+ "raw_reply": "[\n{\"name\": \"Restrict to active interactions\", \"description\": \"Compute the xgboost model's actual co-occurring variable pairs along tree paths (from the trees' split structure). Pass only those pairs, ranked by gain or frequency and truncated to the top few, as interaction_list. This drops empty interaction components, which cuts runtime and removes noisy components. Keep the number of pairs fixed across seeds.\"},\n{\"name\": \"Residual refit on components\", \"description\": \"After fitting TreeHFD on the training data, compute the residuals between the model predictions and the component sum. Fit a ridge regression of the model predictions on the stacked component columns (main effects and interactions) to get per-component scalar weights and an intercept. Apply these weights on test data. Each component still depends only on its own variables.\"},\n{\"name\": \"Residual spline main effects\", \"description\": \"Take the residual (model prediction minus current component sum) on training data. For each variable, fit a low-order spline or binned smoother on that variable alone. Do the same for each selected variable pair, using a 2D binned smoother or tensor spline. Add these corrections to the matching components. Evaluate on held-out data.\"}\n]"
+}

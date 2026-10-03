@@ -57,7 +57,7 @@ CHECK_ROWS = 40  # rows per component in the dependence check
 
 
 def analytical(seed: int, data_dir: Path, rho: float = 0.5):
-    """The paper's analytical case; `rho` is the pairwise correlation of the six Gaussian inputs (the paper uses 1/2)."""
+    """The paper's analytical case; `rho` is the pairwise correlation of the six inputs (the paper uses 1/2)."""
     rng = default_rng(seed)
     dim, n = 6, 5000
     cov = np.full((dim, dim), rho)

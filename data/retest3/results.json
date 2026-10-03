@@ -1,0 +1,302 @@
+{
+ "items": 24,
+ "test_sha256": "eb0d0f99afce50d27e9947ac27c7150d4fbda604b257ab3e9afc40ade72371d8",
+ "repeats": {
+  "decided": 3,
+  "reference": 2
+ },
+ "runs": [
+  "topic-a-loop-1",
+  "topic-a-loop-2",
+  "topic-a-loop-3"
+ ],
+ "decided_path": {
+  "agreement": {
+   "k": 24,
+   "n": 24,
+   "rate": 1.0,
+   "ci95": [
+    0.862,
+    1.0
+   ]
+  },
+  "by_kind": {
+   "loop.baseline_reproduced": {
+    "k": 1,
+    "n": 1,
+    "rate": 1.0,
+    "ci95": [
+     0.2065,
+     1.0
+    ]
+   },
+   "loop.beats_baseline": {
+    "k": 20,
+    "n": 20,
+    "rate": 1.0,
+    "ci95": [
+     0.8389,
+     1.0
+    ]
+   },
+   "loop.guidance_met": {
+    "k": 3,
+    "n": 3,
+    "rate": 1.0,
+    "ci95": [
+     0.4385,
+     1.0
+    ]
+   }
+  },
+  "wrong": [],
+  "metrics": {
+   "verdicts": 72,
+   "items": 24,
+   "repeats": 3,
+   "agreement_label": 1.0,
+   "agreement_reference": 1.0,
+   "ece": 0.003393197404335746,
+   "flip_rate": 0.0,
+   "flip_rate_verdicts": 0.0,
+   "malformed_rate": 0.0,
+   "confidence_sources": {
+    "logprobs": 58,
+    "self_report": 14
+   },
+   "cost_per_item_usd": 4.1713791666666675e-05,
+   "latency_p50_ms": 2027.0,
+   "latency_p95_ms": 5393.0,
+   "agreement_label_by_task": {
+    "loop_gate": 1.0
+   }
+  },
+  "agreement_with_reference": {
+   "k": 24,
+   "n": 24,
+   "rate": 1.0,
+   "ci95": [
+    0.862,
+    1.0
+   ]
+  }
+ },
+ "reference": {
+  "agreement": {
+   "k": 24,
+   "n": 24,
+   "rate": 1.0,
+   "ci95": [
+    0.862,
+    1.0
+   ]
+  },
+  "by_kind": {
+   "loop.baseline_reproduced": {
+    "k": 1,
+    "n": 1,
+    "rate": 1.0,
+    "ci95": [
+     0.2065,
+     1.0
+    ]
+   },
+   "loop.beats_baseline": {
+    "k": 20,
+    "n": 20,
+    "rate": 1.0,
+    "ci95": [
+     0.8389,
+     1.0
+    ]
+   },
+   "loop.guidance_met": {
+    "k": 3,
+    "n": 3,
+    "rate": 1.0,
+    "ci95": [
+     0.4385,
+     1.0
+    ]
+   }
+  },
+  "wrong": [],
+  "metrics": {
+   "verdicts": 48,
+   "items": 24,
+   "repeats": 2,
+   "agreement_label": 1.0,
+   "agreement_reference": 1.0,
+   "ece": 0.02395833333333356,
+   "flip_rate": 0.0,
+   "flip_rate_verdicts": 0.0,
+   "malformed_rate": 0.0,
+   "confidence_sources": {
+    "self_report": 48
+   },
+   "cost_per_item_usd": 0.003274541666666667,
+   "latency_p50_ms": 1172.0,
+   "latency_p95_ms": 4558.0,
+   "agreement_label_by_task": {
+    "loop_gate": 1.0
+   }
+  }
+ },
+ "t1_reverse_if_1": {
+  "rule": "decided path below 95% agreement with the reference on the real decisions",
+  "agreement_point": 1.0,
+  "ci95": [
+   0.862,
+   1.0
+  ],
+  "fired": false,
+  "fired_on_upper_bound": false
+ },
+ "increment2_confident_misses": [
+  {
+   "id": "retest-0008",
+   "label": true,
+   "question": "Does \"C2: Depth-variable tuning\" beat the TreeHFD baseline on Residual MSE (%) for the Airfoil dataset? It beats it only if its mean is strictly better (lower is better for this metric); ignore the \u00b1 spread.",
+   "state": "Results from a research-loop run on the TreeHFD problem (mean \u00b1 std over 3 seeds). \u2193 = lower is better; \u2191 = higher is better.\n\n| Method | Analytical \u00b7 Residual MSE (%) \u2193 | Analytical \u00b7 Runtime (s) \u2193 | Airfoil \u00b7 Residual MSE (%) \u2193 | Airfoil \u00b7 Runtime (s) \u2193 |\n|---|---|---|---|---|\n| TreeHFD (baseline) | 2.79 \u00b1 0.32 | 27.2 \u00b1 0.97 | 4.73 \u00b1 0.11 | 3.49 \u00b1 0.094 |\n| C3: Refit intercept residual | 3.61 \u00b1 2.6 | 30.9 \u00b1 0.48 | 4.37 \u00b1 1750 | 3.77 \u00b1 0.14 |\n| C2: Depth-variable tuning | 2.82 \u00b1 0.16 | 52.2 \u00b1 3.1 | 4.70 \u00b1 0.66 | 10.2 \u00b1 0.63 |",
+   "answers": {
+    "decided": [
+     [
+      false,
+      0.99
+     ],
+     [
+      false,
+      0.99
+     ],
+     [
+      false,
+      0.99
+     ]
+    ],
+    "reference": [
+     [
+      true,
+      0.98
+     ],
+     [
+      true,
+      0.98
+     ]
+    ]
+   }
+  },
+  {
+   "id": "retest-0038",
+   "label": true,
+   "question": "Does \"C3: Residual boosting correction\" beat the TreeHFD baseline on Residual MSE (%) for the Analytical dataset? It beats it only if its mean is strictly better (lower is better for this metric); ignore the \u00b1 spread.",
+   "state": "Results from a research-loop run on the TreeHFD problem (mean \u00b1 std over 3 seeds). \u2193 = lower is better; \u2191 = higher is better.\n\n| Method | Analytical \u00b7 Residual MSE (%) \u2193 | Analytical \u00b7 Runtime (s) \u2193 | Airfoil \u00b7 Residual MSE (%) \u2193 | Airfoil \u00b7 Runtime (s) \u2193 |\n|---|---|---|---|---|\n| TreeHFD (baseline) | 2.79 \u00b1 0.32 | 27.5 \u00b1 0.58 | 4.73 \u00b1 0.11 | 3.42 \u00b1 0.058 |\n| C3: Residual boosting correction | 2.78 \u00b1 0.12 | 35.6 \u00b1 1.5 | 3.82 \u00b1 0.024 | 4.88 \u00b1 0.16 |\n| C1: Filter weak interactions | 2.77 \u00b1 0.32 | 64.5 \u00b1 2.2 | 3.22 \u00b1 0.11 | 7.17 \u00b1 0.24 |",
+   "answers": {
+    "decided": [
+     [
+      false,
+      0.95
+     ],
+     [
+      false,
+      0.95
+     ],
+     [
+      false,
+      0.95
+     ]
+    ],
+    "reference": [
+     [
+      true,
+      0.97
+     ],
+     [
+      true,
+      0.97
+     ]
+    ]
+   }
+  }
+ ],
+ "idea_worth_run": {
+  "rows": [
+   {
+    "run": "topic-a-loop-1",
+    "idea": "C1: Interaction screening by importance",
+    "score": 3,
+    "ran": true,
+    "beat_baseline_everywhere": false
+   },
+   {
+    "run": "topic-a-loop-1",
+    "idea": "C2: Depth-limited variable selection",
+    "score": 1,
+    "ran": false,
+    "beat_baseline_everywhere": null
+   },
+   {
+    "run": "topic-a-loop-1",
+    "idea": "C3: Component-wise ridge recalibration",
+    "score": 3,
+    "ran": true,
+    "beat_baseline_everywhere": false
+   },
+   {
+    "run": "topic-a-loop-2",
+    "idea": "C1: Shallow depth_variable sweep",
+    "score": 3,
+    "ran": true,
+    "beat_baseline_everywhere": false
+   },
+   {
+    "run": "topic-a-loop-2",
+    "idea": "C2: Importance-screened interaction list",
+    "score": 2,
+    "ran": false,
+    "beat_baseline_everywhere": null
+   },
+   {
+    "run": "topic-a-loop-2",
+    "idea": "C3: Residual ridge recalibration",
+    "score": 4,
+    "ran": true,
+    "beat_baseline_everywhere": false
+   },
+   {
+    "run": "topic-a-loop-3",
+    "idea": "C1: Restrict to active interactions",
+    "score": 1,
+    "ran": false,
+    "beat_baseline_everywhere": null
+   },
+   {
+    "run": "topic-a-loop-3",
+    "idea": "C2: Residual refit on components",
+    "score": 3,
+    "ran": true,
+    "beat_baseline_everywhere": false
+   },
+   {
+    "run": "topic-a-loop-3",
+    "idea": "C3: Residual spline main effects",
+    "score": 5,
+    "ran": true,
+    "beat_baseline_everywhere": false
+   }
+  ],
+  "score_counts": {
+   "3": 4,
+   "1": 2,
+   "2": 1,
+   "4": 1,
+   "5": 1
+  },
+  "ran": 6,
+  "beat": 0
+ },
+ "spend_usd": {
+  "decided": 0.0030033930000000005,
+  "reference": 0.157178
+ },
+ "ledger": "data/ledger/run_retest3-1.jsonl"
+}
