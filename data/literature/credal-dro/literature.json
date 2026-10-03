@@ -7,5 +7,27 @@
   "stray_attributions_removed": 0
  },
  "failure_reasons": {},
- "n_claims_kept": 14
+ "n_claims_kept": 14,
+ "audit_repair": {
+  "passes": [
+   {
+    "failed": 1,
+    "rewritten": 1,
+    "removed": 0
+   },
+   {
+    "failed": 1,
+    "rewritten": 1,
+    "removed": 0
+   },
+   {
+    "failed": 1,
+    "rewritten": 1,
+    "removed": 0
+   }
+  ],
+  "failed": 3,
+  "rewritten": 3,
+  "removed": 0
+ }
 }

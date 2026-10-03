@@ -31,7 +31,7 @@ from vera.graph import run_config, sqlite_checkpointer
 from vera.judge.cheap_path import cheap_path
 from vera.keepawake import keep_awake
 from vera.ledger import Ledger
-from vera.loop import references
+from vera.loop import literature_context, references
 from vera.loop.generators import ByStage
 from vera.loop.graph import run_loop
 from vera.loop.report import write_report
@@ -62,6 +62,10 @@ GUIDANCE = OutputGuidance(
     emphasis="Say plainly what the crude loop did and did not establish; report a negative result as one.",
     constraints=["forbid: state of the art", "forbid: breakthrough"],
 )
+LITERATURE_GUIDANCE = GUIDANCE.model_copy(update={  # with a literature review: a related-work section, and room for it
+    "max_words": 1700,
+    "required_sections": ["Abstract", "Related work", "Method", "Results", "Limitations", "References"],
+})  # fmt: skip
 REASONING = {"effort": "minimal"}  # every generator, so arms differ by model and not by thinking budget
 
 
@@ -92,6 +96,12 @@ def main() -> None:
     ap.add_argument("--arm", choices=sorted(ARMS), default=None, help="a per-stage generator preset (docs/04 T9)")
     ap.add_argument("--from-run", default=None, help="start at the ideas stage from this run's recorded baseline")
     ap.add_argument("--max-tokens", type=int, default=8000, help="output-token cap per generator call")
+    ap.add_argument(
+        "--literature",
+        default=None,
+        help="a finished topic run (runs/<id>/): its verified section is "
+        "the paper's related work and informs the ideas; its cited sources are the paper's references",
+    )
     ap.add_argument("--resume", action="store_true")
     args = ap.parse_args()
 
@@ -106,7 +116,7 @@ def main() -> None:
             datasets=args.datasets.split(","),
             subset={"n_seeds": args.seeds, "n_ideas": args.ideas, "n_run": args.run},
         ),
-        guidance=GUIDANCE,
+        guidance=LITERATURE_GUIDANCE if args.literature else GUIDANCE,
         budget=Budget(max_usd=args.max_usd, max_wall_seconds=args.max_wall),
         models=per_stage,
     )  # fmt: skip
@@ -123,6 +133,9 @@ def main() -> None:
         shutil.copy(source / "retrieved.jsonl", run_dir / "retrieved.jsonl")
     elif args.from_run:
         start_at = "ideate"
+    lit = None
+    if args.literature:
+        lit = literature_context.prepare(run_dir, ROOT / "runs" / args.literature, write=not args.resume)
     references.retrieve_seed_references(run_dir)
     generators = {
         name: OpenRouterGenerator(
@@ -136,6 +149,8 @@ def main() -> None:
         judge=cheap_path(ledger=ledger, budget=budget), sandbox=run_script, budget=budget, run_dir=run_dir,
         data_dir=ROOT / "data" / "raw" / "datasets", ledger=ledger,
     )  # fmt: skip
+    if lit:
+        deps.extra["literature"] = lit
     with keep_awake():  # a standby in the middle of a run makes its wall-clock limits jump (vera/keepawake.py)
         state = run_loop(deps, resume_run=args.resume, start_at=start_at, initial_state=initial)
     report = write_report(deps, state, ROOT)  # data/results/run_<id>.json: per-stage cost table and outcome

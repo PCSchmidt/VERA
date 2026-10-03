@@ -9,5 +9,17 @@
  "failure_reasons": {
   "unresolved_source": 1
  },
- "n_claims_kept": 15
+ "n_claims_kept": 15,
+ "audit_repair": {
+  "passes": [
+   {
+    "failed": 3,
+    "rewritten": 3,
+    "removed": 0
+   }
+  ],
+  "failed": 3,
+  "rewritten": 3,
+  "removed": 0
+ }
 }

@@ -17,7 +17,7 @@ import json
 import re
 from collections.abc import Callable
 
-from vera.loop import references, tables
+from vera.loop import literature_context, references, tables
 from vera.loop.stages import LoopDeps, _stop, _write_json, ask_gate, finish, stage_result
 from vera.schemas import OutputGuidance, Question, QuestionType
 
@@ -121,6 +121,7 @@ def writeup_prompt(deps: LoopDeps, state: dict, refs: list[dict], problems: list
         + "\nBe honest: say what the crude loop did and did not establish, state plainly if no idea beat the "
         "baseline, and describe the limits (few seeds, two datasets, one model configuration, ideas produced "
         "and implemented by a language model). Do not state any number that is not in the table or the facts."
+        + (literature_context.for_write_up(deps.extra["literature"]) if deps.extra.get("literature") else "")
     )
     if problems:
         prompt += f"\n\nYour previous draft was rejected: {'; '.join(problems)}.\nPrevious draft:\n{previous}\nFix it."

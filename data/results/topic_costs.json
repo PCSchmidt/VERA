@@ -1,0 +1,260 @@
+{
+ "credal-dro": {
+  "run_id": "scope-credal-dro-2",
+  "total_usd": 0.0903,
+  "earlier_attempts_usd": {
+   "scope-credal-dro-1": 0.0075
+  },
+  "stages": [
+   {
+    "stage": "scope",
+    "decision": "accept",
+    "cost_usd": 0.008686,
+    "n_gates": 1,
+    "reason": null
+   },
+   {
+    "stage": "retrieve",
+    "decision": "accept",
+    "cost_usd": 0.015567,
+    "n_gates": 100,
+    "reason": null
+   },
+   {
+    "stage": "read",
+    "decision": "accept",
+    "cost_usd": 3.1e-05,
+    "n_gates": 1,
+    "reason": null
+   },
+   {
+    "stage": "synthesize",
+    "decision": "accept",
+    "cost_usd": 0.060845,
+    "n_gates": 15,
+    "reason": null
+   },
+   {
+    "stage": "parent",
+    "decision": "accept",
+    "cost_usd": 0.005158,
+    "n_gates": 1,
+    "reason": null
+   }
+  ],
+  "components": [
+   {
+    "component": "p2.cheap_path",
+    "calls": 343,
+    "cost_usd": 0.007859,
+    "input_tokens": 149723,
+    "output_tokens": 7989,
+    "largest_prompt_tokens": 1956,
+    "input_share": 0.949
+   },
+   {
+    "component": "p3.parent",
+    "calls": 1,
+    "cost_usd": 0.005122,
+    "input_tokens": 1426,
+    "output_tokens": 227,
+    "largest_prompt_tokens": 1426,
+    "input_share": 0.863
+   },
+   {
+    "component": "p3.retrieve",
+    "calls": 4,
+    "cost_usd": 0.00813,
+    "input_tokens": 1520,
+    "output_tokens": 509,
+    "largest_prompt_tokens": 380,
+    "input_share": 0.749
+   },
+   {
+    "component": "p3.scope",
+    "calls": 1,
+    "cost_usd": 0.008656,
+    "input_tokens": 553,
+    "output_tokens": 755,
+    "largest_prompt_tokens": 553,
+    "input_share": 0.423
+   },
+   {
+    "component": "p3.synthesize",
+    "calls": 1,
+    "cost_usd": 0.06052,
+    "input_tokens": 20005,
+    "output_tokens": 2051,
+    "largest_prompt_tokens": 20005,
+    "input_share": 0.907
+   }
+  ]
+ },
+ "llm-judge-numbers": {
+  "run_id": "scope-llm-judge-numbers-3",
+  "total_usd": 0.1062,
+  "earlier_attempts_usd": {
+   "scope-llm-judge-numbers-1": 0.0069,
+   "scope-llm-judge-numbers-2": 0.0061
+  },
+  "stages": [
+   {
+    "stage": "scope",
+    "decision": "accept",
+    "cost_usd": 0.006368,
+    "n_gates": 1,
+    "reason": null
+   },
+   {
+    "stage": "retrieve",
+    "decision": "accept",
+    "cost_usd": 0.013217,
+    "n_gates": 60,
+    "reason": null
+   },
+   {
+    "stage": "read",
+    "decision": "accept",
+    "cost_usd": 4.7e-05,
+    "n_gates": 1,
+    "reason": null
+   },
+   {
+    "stage": "synthesize",
+    "decision": "accept",
+    "cost_usd": 0.08655,
+    "n_gates": 16,
+    "reason": null
+   }
+  ],
+  "components": [
+   {
+    "component": "p2.cheap_path",
+    "calls": 257,
+    "cost_usd": 0.006472,
+    "input_tokens": 119026,
+    "output_tokens": 6315,
+    "largest_prompt_tokens": 884,
+    "input_share": 0.95
+   },
+   {
+    "component": "p3.retrieve",
+    "calls": 4,
+    "cost_usd": 0.007152,
+    "input_tokens": 1256,
+    "output_tokens": 464,
+    "largest_prompt_tokens": 314,
+    "input_share": 0.73
+   },
+   {
+    "component": "p3.scope",
+    "calls": 1,
+    "cost_usd": 0.00633,
+    "input_tokens": 495,
+    "output_tokens": 534,
+    "largest_prompt_tokens": 495,
+    "input_share": 0.481
+   },
+   {
+    "component": "p3.synthesize",
+    "calls": 2,
+    "cost_usd": 0.086228,
+    "input_tokens": 31959,
+    "output_tokens": 2231,
+    "largest_prompt_tokens": 16012,
+    "input_share": 0.935
+   }
+  ]
+ },
+ "tree-explain": {
+  "run_id": "scope-tree-explain-2",
+  "total_usd": 0.1703,
+  "earlier_attempts_usd": {
+   "scope-tree-explain-1": 0.0056
+  },
+  "stages": [
+   {
+    "stage": "scope",
+    "decision": "accept",
+    "cost_usd": 0.007226,
+    "n_gates": 1,
+    "reason": null
+   },
+   {
+    "stage": "retrieve",
+    "decision": "accept",
+    "cost_usd": 0.063229,
+    "n_gates": 100,
+    "reason": null
+   },
+   {
+    "stage": "read",
+    "decision": "accept",
+    "cost_usd": 4.5e-05,
+    "n_gates": 1,
+    "reason": null
+   },
+   {
+    "stage": "synthesize",
+    "decision": "accept",
+    "cost_usd": 0.061767,
+    "n_gates": 14,
+    "reason": null
+   },
+   {
+    "stage": "parent",
+    "decision": "accept",
+    "cost_usd": 0.038052,
+    "n_gates": 1,
+    "reason": null
+   }
+  ],
+  "components": [
+   {
+    "component": "p2.cheap_path",
+    "calls": 342,
+    "cost_usd": 0.007929,
+    "input_tokens": 172970,
+    "output_tokens": 7366,
+    "largest_prompt_tokens": 1973,
+    "input_share": 0.959
+   },
+   {
+    "component": "p3.parent",
+    "calls": 3,
+    "cost_usd": 0.037864,
+    "input_tokens": 11002,
+    "output_tokens": 1586,
+    "largest_prompt_tokens": 4452,
+    "input_share": 0.874
+   },
+   {
+    "component": "p3.retrieve",
+    "calls": 4,
+    "cost_usd": 0.00819,
+    "input_tokens": 1680,
+    "output_tokens": 483,
+    "largest_prompt_tokens": 420,
+    "input_share": 0.777
+   },
+   {
+    "component": "p3.scope",
+    "calls": 1,
+    "cost_usd": 0.007198,
+    "input_tokens": 509,
+    "output_tokens": 618,
+    "largest_prompt_tokens": 509,
+    "input_share": 0.452
+   },
+   {
+    "component": "p3.synthesize",
+    "calls": 2,
+    "cost_usd": 0.109138,
+    "input_tokens": 33624,
+    "output_tokens": 4189,
+    "largest_prompt_tokens": 21074,
+    "input_share": 0.889
+   }
+  ]
+ }
+}

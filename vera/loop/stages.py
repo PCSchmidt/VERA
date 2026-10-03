@@ -23,7 +23,7 @@ from typing import Annotated, Any, Protocol, TypedDict
 
 from vera.graph import Judge
 from vera.ledger import Ledger
-from vera.loop import questions, tables
+from vera.loop import literature_context, questions, tables
 from vera.sandbox import SandboxLimits, SandboxResult
 from vera.schemas import STAGES, Budget, Question, RunSpec, SelfGradingError, StageResult, Verdict
 
@@ -285,6 +285,7 @@ def ideate_prompt(deps: LoopDeps, baseline_table: str, n: int) -> str:
         "components, combining fits). An idea must keep every component a function of only its own variables. "
         'Reply with a JSON array of objects {"name": "<2-5 words>", "description": "<about 50 words: exactly what '
         'is computed>"} and nothing else.'
+        + (literature_context.for_ideas(deps.extra["literature"]) if deps.extra.get("literature") else "")
     )
 
 
