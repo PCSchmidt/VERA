@@ -96,6 +96,10 @@ def verify_node(deps: LitDeps) -> Callable[[dict], dict]:
                 if marker:  # an editorial connective the quote does not contain: the sentence says more than it quotes
                     out[i] = f"unanchored: the sentence adds {marker!r}, which the quote does not say"
                     continue
+                dangling = anchoring.dangling_reference(s["text"])
+                if dangling:  # the sentence leans on an earlier one for its subject
+                    out[i] = f"unanchored: the sentence refers back ({dangling!r}) instead of naming its subject"
+                    continue
                 qa, material = anchoring.quote_covers_claim(
                     s["text"], s["claim"]["quote"], records[s["claim"]["source_key"]]["title"]
                 )

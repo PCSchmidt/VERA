@@ -28,7 +28,9 @@ ANCHOR_RULE = (
     "beside', 'but this is for general evaluation') to a sentence that carries a citation: put it in a separate "
     "sentence with no claim, or leave it out. The quote must be the complete sentence (or sentences) of the passage, "
     "copied word for word, that states what your sentence says, not a fragment: someone who reads only the quote "
-    "should find the whole assertion in it, including who or what it is about."
+    "should find the whole assertion in it, including who or what it is about. Name the subject of every sentence "
+    "with a claim (the study, the method, the authors): do not start it with 'It', 'They' or 'This', and do not "
+    "write 'this advantage' or 'these results' for something a previous sentence said."
 )
 # editorial connectives: each is fine inside a quote and a problem when only the sentence has it
 MARKERS = (
@@ -41,6 +43,18 @@ def marker_problem(sentence: str, quote: str) -> str | None:
     """The first editorial connective the sentence has and the quote does not, or None."""
     s, q = sentence.lower(), quote.lower()
     return next((m for m in MARKERS if m in s and m not in q), None)
+
+
+_DANGLING = re.compile(
+    r"^\s*(?:it|they|this|these|that|those|its|their|such)\b|\b(?:that|and|but)\s+(?:this|these|those)\s+\w+", re.I
+)
+
+
+def dangling_reference(sentence: str) -> str | None:
+    """The opening words of a sentence that refers back to a sentence the reader may not have read ('It also reports
+    that this advantage grows'), or None. A claim sentence must say whose finding it is."""
+    m = _DANGLING.search(sentence)
+    return m.group(0).strip() if m else None
 
 
 def quote_covers_claim(sentence: str, quote: str, title: str | None = None) -> tuple[Question, str]:

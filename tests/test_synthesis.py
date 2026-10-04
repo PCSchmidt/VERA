@@ -73,7 +73,7 @@ def claim(source: str, passage: str, quote: str) -> dict:
 
 
 GOOD1 = {"text": "TreeHFD interactions become unstable under strong correlation.", "claim": claim("R1", "R1-P1", Q1)}
-GOOD2 = {"text": "Its main effects stay accurate.", "claim": claim("R1", "R1-P1", Q2)}
+GOOD2 = {"text": "TreeHFD's main effects stay accurate.", "claim": claim("R1", "R1-P1", Q2)}
 GOOD3 = {"text": "Purification keeps predictions fixed.", "claim": claim("R2", "R2-P1", Q3)}
 FAKE = {"text": "Rankings are always stable.", "claim": claim("R1", "R1-P1", "rankings are always perfectly stable")}
 WRONG = {"text": "Purification is unstable.", "claim": claim("R1", "R1-P1", Q3)}  # R2's quote under R1's key
@@ -171,7 +171,7 @@ def test_RSH_F_09_the_section_keeps_only_claims_that_passed_every_check(tmp_path
 
 
 def test_RSH_F_09_a_failed_claim_is_sent_back_once_and_kept_if_the_repair_passes(tmp_path: Path) -> None:
-    fixed = {"text": "Its interactions are unstable at high correlation.", "claim": claim("R1", "R1-P1", Q1)}
+    fixed = {"text": "TreeHFD interactions are unstable at high correlation.", "claim": claim("R1", "R1-P1", Q1)}
     draft = [[GOOD2, GOOD3, FAKE, GOOD1, BRIDGE]]
     deps = deps_with_evidence(tmp_path, draft, [fixed])
     state = run_nodes(deps)

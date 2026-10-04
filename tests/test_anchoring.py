@@ -78,3 +78,11 @@ def test_the_note_is_inserted_once_and_works_without_a_reference_list() -> None:
         .rstrip()
         .endswith("topic given without a list of its key papers.")
     )
+
+
+def test_dangling_reference_flags_sentences_that_lean_on_an_earlier_one():
+    assert anchoring.dangling_reference("It also reports that this advantage grows with tuning time.")
+    assert anchoring.dangling_reference("They report that TreeSHAP is unstable.")
+    assert anchoring.dangling_reference("The authors find that this gap widens.")
+    assert anchoring.dangling_reference("Grinsztajn et al. find that trees win on medium-sized data.") is None
+    assert anchoring.dangling_reference("The survey reports that its authors tested nine models.") is None
