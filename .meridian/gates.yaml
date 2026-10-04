@@ -563,8 +563,8 @@ gates:
 
   # ── Increment 4: paper quality and the measured comparison (SPEC.md) ───────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
-  # Defined so far: incr4_scoped, carry_in_ready, topics4_chosen, protocol_ready, lit2_ready, writeup2_ready.
-  # Still to add: problem2_ready, audit4_ready, runs4, comparison4, rubric_scored, incr4_review.
+  # All defined: incr4_scoped, carry_in_ready, topics4_chosen, protocol_ready, lit2_ready, writeup2_ready,
+  # problem2_ready, audit4_ready, runs4, comparison4, rubric_scored, incr4_review.
 
   - id: incr4_scoped
     label: "Increment 4 scope confirmed"
@@ -656,3 +656,94 @@ gates:
       pre:
         - gate-tests.sh             # ruff + the full suite (RSH-F-04 and figure demonstrations)
         - gate-writeup2.sh          # sections, figure data equal cells, audit with the figure check, ablation record
+
+  - id: problem2_ready
+    label: "Second parent problem: target registered first, baseline reproduced, both harness variants built and costed"
+    type: automated
+    required: true
+    requires:
+      - carry_in_ready
+    requires_artifacts:
+      - docs/results/credal_baseline_target.json
+      - docker/sandbox-credal/harness.py
+      - docker/sandbox-credal/generic_harness.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-problem2.sh          # target hash and date, baseline within tolerance (or evidenced failure), harness variants, effort and cost
+
+  - id: audit4_ready
+    label: "Audit v3 tested once on the seeded set and the novelty gold set, with the audit frozen first"
+    type: automated
+    required: true
+    requires:
+      - writeup2_ready
+      - lit2_ready
+    requires_artifacts:
+      - data/seeded_v3/results_test.json
+      - data/novelty_gold/results_test.json
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-audit4.sh            # test hashes recomputed, frozen audit hash equal to the run's and the source, intervals, caps
+
+  - id: runs4
+    label: "The tree-explain run and the credal run, each from the confirmed question to the final audit"
+    type: automated
+    required: true
+    requires:
+      - audit4_ready
+      - lit2_ready
+      - protocol_ready
+      - writeup2_ready
+      - problem2_ready
+    requires_artifacts:
+      - docs/results/runs4.json
+    hooks:
+      pre:
+        - gate-runs4.sh             # two completed runs, ledgers equal spend, verdicts from others, audit stated, papers committed, cap kept
+        - gate-ledger.sh            # every ledger equals its recorded spend; the increment is within its cap
+
+  - id: comparison4
+    label: "The ScientistTwo comparison, made under a protocol fixed before the gain was read, read by Chris"
+    type: human_approval
+    required: true
+    approval_token: "COMPARISON READ"
+    requires:
+      - runs4
+    requires_artifacts:
+      - docs/results/comparison_protocol.md
+      - docs/results/comparison_table.md
+    hooks:
+      pre:
+        - gate-comparison.sh        # protocol hash intact and committed before the table; both problems; caveats; no MOE-3 overclaim
+
+  - id: rubric_scored
+    label: "Outputs scored by Chris blind before the independent scorer; claim re-labels recorded"
+    type: human_approval
+    required: true
+    approval_token: "RUBRIC SCORED"
+    requires:
+      - comparison4
+    requires_artifacts:
+      - data/results/rubric4_chris.json
+      - data/results/rubric4_evaluator.json
+    hooks:
+      pre:
+        - gate-rubric.sh            # a named human, blind, earlier than the independent scorer, not a copy; at least 10 re-labels
+
+  - id: incr4_review
+    label: "Increment 4 review"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 4 COMPLETE"
+    requires:
+      - rubric_scored
+    requires_artifacts:
+      - docs/reviews/incr-4.md
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-traceability.sh
+        - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
+        - run-evaluator.sh          # independent Evaluator verdict on the review
