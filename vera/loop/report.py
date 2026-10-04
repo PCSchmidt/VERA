@@ -24,7 +24,7 @@ def _gate(stage: dict) -> dict:
 def build_report(deps: LoopDeps, state: dict) -> dict:
     ledger = deps.ledger.records() if deps.ledger is not None else []
     by_component: dict[str, dict] = defaultdict(
-        lambda: {"calls": 0, "cost_usd": 0.0, "input_tokens": 0, "output_tokens": 0}
+        lambda: {"calls": 0, "cost_usd": 0.0, "input_tokens": 0, "output_tokens": 0, "max_input_tokens": 0}
     )
     for r in ledger:
         c = by_component[r.component]
@@ -32,6 +32,7 @@ def build_report(deps: LoopDeps, state: dict) -> dict:
         c["cost_usd"] += r.cost_usd
         c["input_tokens"] += r.input_tokens or 0
         c["output_tokens"] += r.output_tokens or 0
+        c["max_input_tokens"] = max(c["max_input_tokens"], r.input_tokens or 0)  # the largest prompt of the component
     stages = [
         {
             "stage": s["stage"], "decision": s["decision"], "producer": s["producer_id"],
@@ -64,7 +65,11 @@ def build_report(deps: LoopDeps, state: dict) -> dict:
             "max_wall_seconds": deps.budget.max_wall_seconds,
             "elapsed_seconds": deps.budget.elapsed_seconds,
         },  # fmt: skip
-        "by_component": {k: {**v, "cost_usd": round(v["cost_usd"], 6)} for k, v in sorted(by_component.items())},
+        "by_component": {
+            k: {**v, "cost_usd": round(v["cost_usd"], 6),
+                "input_share": round(v["input_tokens"] / max(v["input_tokens"] + v["output_tokens"], 1), 3)}
+            for k, v in sorted(by_component.items())
+        },  # fmt: skip
         "stages": stages,
         "audit": None
         if audit is None
