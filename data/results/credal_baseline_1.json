@@ -1,0 +1,174 @@
+{
+ "run": "credal-baseline-1",
+ "target_sha256": "142cf11e851223f14fefa30b5344b0094101c567866865ba887e11d321225fd6",
+ "image": "vera-sandbox-credal:506c17f",
+ "n_replications": 100,
+ "lv": [
+  {
+   "metric": "mae",
+   "name": "MAE (1e4)",
+   "mean": 10.684,
+   "sd": 0.7,
+   "paper_mean": 10.7,
+   "paper_sd": 0.72,
+   "relative_difference": -0.0015,
+   "within_tolerance": true
+  },
+  {
+   "metric": "rmse",
+   "name": "RMSE (1e4)",
+   "mean": 12.182,
+   "sd": 0.746,
+   "paper_mean": 12.2,
+   "paper_sd": 0.77,
+   "relative_difference": -0.0014,
+   "within_tolerance": true
+  },
+  {
+   "metric": "p98_abs_error",
+   "name": "p98 absolute error (1e4)",
+   "mean": 21.852,
+   "sd": 1.183,
+   "paper_mean": 21.9,
+   "paper_sd": 1.23,
+   "relative_difference": -0.0022,
+   "within_tolerance": true
+  },
+  {
+   "metric": "cvar_abs_error",
+   "name": "CVaR 2% absolute error (1e4)",
+   "mean": 23.881,
+   "sd": 1.072,
+   "paper_mean": 23.9,
+   "paper_sd": 1.1,
+   "relative_difference": -0.0008,
+   "within_tolerance": true
+  }
+ ],
+ "lv_runtime_s": 1.74,
+ "other_methods": {
+  "cvar": {
+   "mae": {
+    "mean": 12.968,
+    "paper_mean": 13.0
+   },
+   "rmse": {
+    "mean": 14.371,
+    "paper_mean": 14.4
+   },
+   "p98_abs_error": {
+    "mean": 24.676,
+    "paper_mean": 24.7
+   },
+   "cvar_abs_error": {
+    "mean": 27.237,
+    "paper_mean": 27.2
+   },
+   "runtime_s": 17.58
+  },
+  "wass": {
+   "mae": {
+    "mean": 12.774,
+    "paper_mean": 12.3
+   },
+   "rmse": {
+    "mean": 14.203,
+    "paper_mean": 13.7
+   },
+   "p98_abs_error": {
+    "mean": 24.903,
+    "paper_mean": 24.3
+   },
+   "cvar_abs_error": {
+    "mean": 27.163,
+    "paper_mean": 26.5
+   },
+   "runtime_s": 41.75
+  },
+  "ridge": {
+   "mae": {
+    "mean": 13.211,
+    "paper_mean": 13.2
+   },
+   "rmse": {
+    "mean": 14.612,
+    "paper_mean": 14.6
+   },
+   "p98_abs_error": {
+    "mean": 25.186,
+    "paper_mean": 25.2
+   },
+   "cvar_abs_error": {
+    "mean": 27.691,
+    "paper_mean": 27.7
+   },
+   "runtime_s": 0.0
+  },
+  "erm": {
+   "mae": {
+    "mean": 12.885,
+    "paper_mean": 12.7
+   },
+   "rmse": {
+    "mean": 14.31,
+    "paper_mean": 14.1
+   },
+   "p98_abs_error": {
+    "mean": 25.02,
+    "paper_mean": 24.7
+   },
+   "cvar_abs_error": {
+    "mean": 28.043,
+    "paper_mean": 27.7
+   },
+   "runtime_s": 1.03
+  }
+ },
+ "lv_best_on_all_four": true,
+ "all_within_tolerance": true,
+ "gate_rule_shadow": true,
+ "first_attempt_started": "2026-10-04T13:41:11Z",
+ "run_of_record_started": "2026-10-04T15:06:46Z",
+ "attempts": [
+  {
+   "started": "2026-10-04T13:41:11Z",
+   "outcome": "setup-lv failed",
+   "found": "the package does not install its SLURM template, which `setup-lv` reads next to main.py: copied into the image"
+  },
+  {
+   "started": "2026-10-04T13:52:16Z",
+   "outcome": "batch failed",
+   "found": "numpy 2.4 raises on the parent's `np.sum(<generator>)`: numpy pinned below 2.3"
+  },
+  {
+   "started": "2026-10-04T14:02:27Z",
+   "outcome": "batch failed",
+   "found": "cvxpy 1.9 no longer has `cp.settings.PARAM_THRESHOLD`: cvxpy pinned below 1.8"
+  },
+  {
+   "started": "2026-10-04T14:12:03Z",
+   "outcome": "batch failed",
+   "found": "Geo-block CV 'no finite fold scores': the parent passes MOSEK-only options (`mosek_params`) that Clarabel rejects, and its cross-validation swallows the error: the options are dropped"
+  },
+  {
+   "started": "2026-10-04T14:22:44Z",
+   "outcome": "batch failed",
+   "found": "the same symptom from a second MOSEK-only option (`accept_unknown`): found by wrapping `Problem.solve` to print the swallowed error; dropped"
+  },
+  {
+   "started": "2026-10-04T14:47:10Z",
+   "outcome": "batch failed after about 6 minutes",
+   "found": "`cannot pickle 'DefaultSolver'`: a solved cvxpy problem holding a Clarabel solver is sent to joblib workers; the solver cache is cleared first"
+  },
+  {
+   "started": "2026-10-04T15:06:46Z",
+   "outcome": "batch completed (5/5 configurations, 100 replications each, about 19 minutes on 8 CPUs)",
+   "found": "the parent's `csv` step then ran over an hour at 100% CPU on five 13 MB files and was stopped at 16:23Z; the harness joins the per-configuration files itself"
+  },
+  {
+   "started": "2026-10-04T16:24:11Z",
+   "outcome": "result read from the finished batch (`--reuse`)",
+   "found": "the baseline run of record"
+  }
+ ]
+}

@@ -47,21 +47,27 @@ def summary(values: list[float]) -> dict:
 # ── the parent's own experiment ─────────────────────────────────────────────────────────────────────
 
 
-def run_parent(data_dir: Path, work: Path, n_expected: int) -> dict:
+def run_parent(data_dir: Path, work: Path, n_expected: int, reuse: bool = False) -> dict:
     """Run the parent's experiment through its CLI; return {method: {metric: summary, 'total_time_s': summary}}."""
     exp, runs = work / "exp", work / "expdata"
     env = {**os.environ, "CALIFORNIA_HOUSING_DATASET_DIR": str(data_dir), "OMP_NUM_THREADS": "1"}
-    for args in (
+    commands = [
         ["setup-lv", EXPERIMENT, str(exp), "--overwrite", "--experiment-data-dir", str(runs)],
         ["batch", str(exp), "0", "99999", "--experiment-data-dir", str(runs)],
-        ["csv", str(exp), "--experiment-data-dir", str(runs)],
-    ):
+    ]
+    if reuse:  # a finished batch is read again, not run again
+        commands = []
+    for args in commands:
         proc = subprocess.run(["credaldro", *args], env=env, capture_output=True, text=True)
         (work / f"log_{args[0]}.txt").write_text(proc.stdout + "\n--- stderr ---\n" + proc.stderr, encoding="utf-8")
         if proc.returncode != 0:
             text = [ln for ln in (proc.stderr + proc.stdout).splitlines() if ln.strip() and ln[0] not in "│╭╰"]
             raise RuntimeError(f"credaldro {args[0]} failed: " + " | ".join(text[-6:])[-900:])
-    df = pd.read_csv(runs / "results.csv")
+    # the parent's `csv` step only joins the per-configuration files; it took over an hour on these (13 MB each), so the
+    # harness joins them itself, reading just the columns it reports
+    columns = ["algorithm", *METRICS, "validation_time", "solve_time", "likelihood_time"]
+    frames = [pd.read_csv(f, usecols=lambda c: c in columns) for f in sorted(runs.glob("*.csv")) if f.name != "results.csv"]
+    df = pd.concat(frames, ignore_index=True)
     out: dict = {}
     for algo, name in ALGORITHMS.items():
         rows = df[df["algorithm"] == algo]
@@ -137,12 +143,13 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--seeds", type=int, default=100)
     ap.add_argument("--data-dir", default="/work/data")
     ap.add_argument("--datasets", default="california_housing", help="accepted for the loop's driver; one dataset exists")
+    ap.add_argument("--reuse", action="store_true", help="baseline: read the per-configuration files of a finished batch")
     args = ap.parse_args(argv)
     out: dict = {"method": args.method, "datasets": {}}
     data_dir = Path(args.data_dir)
     try:
         if args.method == "baseline":
-            methods = run_parent(data_dir, Path(args.out).parent, args.seeds)
+            methods = run_parent(data_dir, Path(args.out).parent, args.seeds, args.reuse)
             lv = methods["lv"]
             out["datasets"]["california_housing"] = {
                 **lv, "n_seeds": args.seeds, "reference_methods": {k: v for k, v in methods.items() if k != "lv"}}
