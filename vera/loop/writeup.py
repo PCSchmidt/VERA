@@ -113,14 +113,18 @@ def facts(state: dict, deps: LoopDeps) -> str:
     ]
     shown = tables.valid_datasets(results, deps.datasets)
     if all("residual_in_sample_pct" in results[tables.BASELINE][d] for d in shown):  # absent in older results
-        in_sample = "; ".join(
-            f"{tables.dataset_label(d)} {tables.fmt_sig(results[tables.BASELINE][d]['residual_in_sample_pct']['mean'])}"
-            for d in shown
-        )
+        registered = {d: deps.target.get("datasets", {}).get(d, {}).get("reproduction_metric") for d in shown}
+        parts = []
+        for d in shown:
+            basis_in_sample = registered[d] == "residual_in_sample_pct"
+            key = "residual_in_sample_pct" if basis_in_sample else "residual_mse_pct"
+            parts.append(f"{tables.dataset_label(d)} {'in-sample' if basis_in_sample else 'held-out'} "
+                         f"{tables.fmt_sig(results[tables.BASELINE][d][key]['mean'])}")  # fmt: skip
         lines.insert(
             1,
-            f"- Baseline residual MSE (%), in-sample (the paper's convention): {in_sample}. "
-            "The results table shows held-out values, which are higher.",
+            "- The baseline was reproduced on the row set the registered target names for each dataset (the paper's own "
+            f"convention for that dataset), with these baseline values (residual MSE, %): {'; '.join(parts)}. "
+            "The results table shows held-out values for every dataset, which are higher than in-sample ones.",
         )
     lines += [
         f"- Dataset {tables.dataset_label(d)}: {text}" for d, text in extension_datasets(deps).items() if d in shown
