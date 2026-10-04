@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import time
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
@@ -66,7 +67,7 @@ def run_dataset(deps: LoopDeps, dataset: str, index: int, ideas: dict[str, str],
         f"harness.main(['--protocol', '--method', {methods!r}, '--protocol-datasets', {dataset!r}, "
         f"'--seeds', '{seeds}', '--boot', '{boot}'])\n"
     )
-    res = deps.sandbox(driver, wd, limits=PROTOCOL_LIMITS, budget=deps.budget)
+    res = deps.sandbox(driver, wd, limits=PROTOCOL_LIMITS, budget=None)  # the stage charges its wall time once
     if res.timed_out or res.oom_killed or res.workdir_over_limit:
         why = "timed out" if res.timed_out else "ran out of memory" if res.oom_killed else "wrote too much"
         raise RuntimeError(f"the protocol run for {dataset} {why}")
@@ -86,6 +87,7 @@ def protocol_node(deps: LoopDeps) -> Callable[[dict], dict]:
         spec, target = reg
         ideas = idea_sources(state, deps)
         datasets = list(spec["datasets"])
+        started = time.monotonic()
         try:
             with ThreadPoolExecutor(min(len(datasets), 8)) as pool:
                 parts = list(
@@ -96,6 +98,8 @@ def protocol_node(deps: LoopDeps) -> Callable[[dict], dict]:
                 )
         except RuntimeError as exc:
             return _stop(STAGE, f"protocol: {exc}")
+        finally:  # the datasets ran side by side: the run's clock advances by the elapsed time, not their sum
+            deps.budget.charge(0.0, seconds=int(time.monotonic() - started), calls=0)
         methods = [*REFERENCE.values(), *ideas]
         results = {m: {ds: part[m] for ds, part in zip(datasets, parts, strict=True)} for m in methods}
         protocol = {"protocol_id": spec["id"], "target_sha256": spec["target_sha256"], "datasets": datasets,

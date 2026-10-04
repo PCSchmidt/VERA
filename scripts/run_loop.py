@@ -37,7 +37,7 @@ from vera.loop.graph import run_loop
 from vera.loop.report import write_report
 from vera.loop.stages import LoopDeps
 from vera.sandbox import check_available, run_script
-from vera.schemas import Budget, OutputGuidance, ProblemSpec, RunSpec
+from vera.schemas import Budget, OutputGuidance, ProblemSpec, ProtocolSpec, RunSpec
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGET = ROOT / "docs" / "results" / "treehfd_baseline_target.json"
@@ -102,6 +102,13 @@ def main() -> None:
         help="a finished topic run (runs/<id>/): its verified section is "
         "the paper's related work and informs the ideas; its cited sources are the paper's references",
     )
+    ap.add_argument(
+        "--protocol",
+        nargs="?",
+        const="docs/results/tree_explain_protocol_spec.json",
+        default=None,
+        help="run a registered protocol (a ProtocolSpec JSON; default the tree-explain one) after the idea stages",
+    )
     ap.add_argument("--resume", action="store_true")
     args = ap.parse_args()
 
@@ -151,6 +158,9 @@ def main() -> None:
     )  # fmt: skip
     if lit:
         deps.extra["literature"] = lit
+    if args.protocol:
+        proto = ProtocolSpec.model_validate_json((ROOT / args.protocol).read_text(encoding="utf-8"))
+        deps.extra["protocol"] = {"spec": proto, "root": ROOT}
     with keep_awake():  # a standby in the middle of a run makes its wall-clock limits jump (vera/keepawake.py)
         state = run_loop(deps, resume_run=args.resume, start_at=start_at, initial_state=initial)
     report = write_report(deps, state, ROOT)  # data/results/run_<id>.json: per-stage cost table and outcome
