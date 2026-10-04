@@ -1,6 +1,6 @@
 {
  "run_id": "protocol-live-1",
- "spent_usd": 0.116,
+ "spent_usd": 0.1188,
  "cap_usd": 1.0,
  "protocol_artifact": "docs/results/protocol-live-1/protocol.json",
  "paper": "docs/results/protocol-live-1/paper.md",
@@ -8,9 +8,9 @@
  "arm": "glm-sonnet",
  "baseline_from": "topic-a-loop-3",
  "literature": "scope-tree-explain-2",
- "audit": "red (as first run); see notes",
+ "audit": "amber (5 warnings, no failures) after the audit learned to read the protocol tables",
  "notes": [
   "The first attempt stopped at the write-up gate: 1814 words against a 1700 limit that counted VERA's own protocol tables. The limit now counts prose only; the run was then resumed (--retry-from protocol), so the protocol stage ran once.",
-  "The audit of the resumed run is red: the audit's table check parses the first results table only and fails every cell of the protocol tables (104 failing findings, all 'table row has no counterpart'). It is not a finding about the numbers; the audit v3 feature makes the audit read the protocol tables, and this record is updated with that audit's result."
+  "The first audit of this run was red: the audit's table check parsed the first results table only and failed every cell of the protocol tables (104 findings, none about the numbers). The audit now checks each protocol table cell against results.json (vera/audit/numbers.py: protocol_table_findings), counts the registered correlations, seeds and refits as configuration, and shows the judge the protocol tables; the same paper was then audited again (write-up stage re-run through the graph, same model-written text), amber. The audit changed after the run, so this is a development result, not a test of the audit."
  ]
 }

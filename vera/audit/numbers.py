@@ -41,7 +41,8 @@ TABLE_NAMES = {
     "Runtime (s)": "runtime_s",
 }
 RESULT_WORDS = re.compile(
-    r"residual|mse|runtime|seconds|baseline|beat|better|worse|lower|higher|improv|reduc|increase|slower|faster",
+    r"residual|mse|mae|rmse|error|cvar|stability|spearman|runtime|seconds|baseline|beat|better|worse|lower|higher|"
+    r"improv|reduc|increase|slower|faster",
     re.IGNORECASE,
 )  # a bare "%" or "±" does not make a sentence a results claim: "top-k covering 95% of the gain" is a method choice
 COMPARISON = re.compile(
@@ -74,10 +75,17 @@ def matches(x: str, known: set[float]) -> bool:
     return any(abs(k - v) <= half for k in known)
 
 
+def metric_defs(results_json: dict) -> tuple[tuple[str, str], ...]:
+    """(key, column name) of the metrics the run reports: its own list when results.json has one, else TreeHFD's."""
+    return tuple((k, n) for k, n in results_json["metrics"]) if results_json.get("metrics") else AUDIT_METRICS
+
+
 def metrics_of(results_json: dict) -> tuple[tuple[str, str], ...]:
     """The audit metrics every method has on every dataset (results from before the in-sample residual lack it)."""
     results, datasets = results_json["results"], results_json["datasets"]
-    return tuple((k, n) for k, n in AUDIT_METRICS if all(k in res[d] for res in results.values() for d in datasets))
+    return tuple(
+        (k, n) for k, n in metric_defs(results_json) if all(k in res[d] for res in results.values() for d in datasets)
+    )
 
 
 def known_values(results_json: dict, target: dict | None = None) -> set[float]:
@@ -104,7 +112,19 @@ def result_values(results_json: dict) -> set[float]:
                     known |= {diff, abs(diff)}
                     if b:
                         known |= {abs(diff) / abs(b) * 100, cell["mean"] / b, cell["mean"] / b * 100}
-    return {round(k, 6) for k in known}
+    return {round(k, 6) for k in known | protocol_values(results_json)}
+
+
+def protocol_values(results_json: dict) -> set[float]:
+    """The means and stds of every cell of the registered protocol, when the run has one (Increment 4)."""
+    out: set[float] = set()
+    for cells in (results_json.get("protocol") or {}).get("results", {}).values():
+        for cell in cells.values():
+            if cell.get("valid"):
+                for v in cell.values():
+                    if isinstance(v, dict) and "mean" in v:
+                        out |= {v["mean"], v["std"]}
+    return {round(v, 6) for v in out}
 
 
 def direct_values(results_json: dict) -> set[float]:
@@ -114,7 +134,7 @@ def direct_values(results_json: dict) -> set[float]:
         for d in results_json["datasets"]:
             for key, _ in metrics_of(results_json):
                 out |= {res[d][key]["mean"], res[d][key]["std"]}
-    return {round(v, 6) for v in out}
+    return {round(v, 6) for v in out | protocol_values(results_json)}
 
 
 def config_values(results_json: dict, target: dict | None = None) -> set[float]:
@@ -127,9 +147,16 @@ def config_values(results_json: dict, target: dict | None = None) -> set[float]:
         float(len(results_json["datasets"])),
         100.0,
     }
-    if target:
+    protocol = results_json.get("protocol")
+    if protocol:  # the registered design: the correlations, seeds and refits are configuration, not results
+        known |= {float(d.split("@")[1]) for d in protocol["datasets"] if "@" in d}
+        known |= {float(protocol["n_seeds"]), float(protocol["n_boot"]), float(len(protocol["methods"]))}
+    if target and "absolute_pct_points" in target.get("tolerance", {}):
         known.add(float(target["tolerance"]["absolute_pct_points"]))
-        known |= {float(v["reference_pct"]) for v in target["datasets"].values()}
+        known |= {float(v["reference_pct"]) for v in target["datasets"].values() if "reference_pct" in v}
+    elif target and "relative" in target.get("tolerance", {}):  # the second problem's registered target
+        known.add(float(target["tolerance"]["relative"]) * 100)
+        known |= {float(m[0]) for ref in target["reference"].values() if isinstance(ref, dict) for m in ref.values() if isinstance(m, list)}
     return {round(k, 6) for k in known}
 
 
@@ -183,17 +210,75 @@ def dataset_key(label: str, results_json: dict) -> str:
     return next((n for n in sorted(names) if re.sub(r"[^a-z0-9]", "", n.lower()) == flat), label.strip().lower())
 
 
+def table_blocks(text: str) -> list[tuple[str, list[str]]]:
+    """(the non-empty line before it, its rows) for each markdown table in the body before the reference list."""
+    lines = text.partition("## References")[0].splitlines()
+    blocks, i = [], 0
+    while i < len(lines):
+        if not lines[i].startswith("|"):
+            i += 1
+            continue
+        j = i
+        while j < len(lines) and lines[j].startswith("|"):
+            j += 1
+        before = next((ln.strip() for ln in reversed(lines[:i]) if ln.strip()), "")
+        blocks.append((before, lines[i:j]))
+        i = j
+    return blocks
+
+
+def protocol_table_findings(text: str, results_json: dict) -> tuple[list[Claim], list[Finding]]:
+    """Every cell of the registered protocol's tables against `results_json["protocol"]`: a bold title names the metric,
+    each column a dataset, each row a method; `invalid` and `n/a` must be what the results say."""
+    claims: list[Claim] = []
+    findings: list[Finding] = []
+    protocol = results_json.get("protocol")
+    if not protocol:
+        return claims, findings
+    by_title = {title: key for key, title, _ in tables.PROTOCOL_METRICS}
+    by_label = {tables.protocol_dataset_label(d): d for d in protocol["datasets"]}
+    for before, rows in table_blocks(text):
+        title = re.match(r"\*\*(.+?)\*\*", before)
+        metric = by_title.get(title.group(1)) if title else None
+        if metric is None or len(rows) < 3:
+            continue
+        header = [c.strip() for c in rows[0].strip("|").split("|")]
+        cols = [by_label.get(re.sub(r"\s*[↓↑]$", "", h)) for h in header[1:]]
+        for ln in rows[2:]:
+            cells = [c.strip() for c in ln.strip("|").split("|")]
+            method = cells[0]
+            for dataset, cell in zip(cols, cells[1:], strict=False):
+                where = Location(section="Results", table=f"{dataset} · {metric}", quote=ln[:200])
+                claim = Claim(id=f"num:ptable:{method}:{dataset}:{metric}", kind="numeric",
+                              text=f"{method}: {cell}", location=where)  # fmt: skip
+                claims.append(claim)
+                truth = (protocol["results"].get(method) or {}).get(dataset)
+                ref = f"results.json:protocol/{method}/{dataset}/{metric}"
+                if truth is None:
+                    why = f"The protocol table row {method!r} / {dataset} has no counterpart in results.json."
+                    findings.append(_f("numeric", "fail", claim, "log", ref, False, why))
+                    continue
+                want = tables.protocol_cell_text(truth, metric)
+                if cell != want:
+                    findings.append(_f("numeric", "fail", claim, "log", ref, False,
+                                       f"The protocol table says {cell!r} for {method} on {dataset} ({metric}); "
+                                       f"results.json has {want!r}."))  # fmt: skip
+    return claims, findings
+
+
 def table_findings(text: str, results_json: dict) -> tuple[list[Claim], list[Finding]]:
     claims, findings = [], []
     results = results_json["results"]
-    rows = [ln for ln in text.partition("## References")[0].splitlines() if ln.startswith("|")]
+    main = [rows for _, rows in table_blocks(text) if " · " in rows[0]]  # the results table: "Dataset · Metric" columns
+    rows = main[0] if main else []
     if len(rows) < 3:
         return claims, findings
     header = [c.strip() for c in rows[0].strip("|").split("|")]
+    names = {**TABLE_NAMES, **{label: key for key, label in metric_defs(results_json)}}
     cols = []
     for h in header[1:]:
         m = re.match(r"(.+?) · (.+?) ↓$", h)
-        cols.append((dataset_key(m.group(1), results_json), TABLE_NAMES.get(m.group(2).strip())) if m else (None, None))
+        cols.append((dataset_key(m.group(1), results_json), names.get(m.group(2).strip())) if m else (None, None))
     for ln in rows[2:]:
         cells = [c.strip() for c in ln.strip("|").split("|")]
         method = cells[0]
@@ -254,10 +339,15 @@ def audit_numbers(
     text: str, results_json: dict, ask: Ask, target: dict | None = None
 ) -> tuple[list[Claim], list[Finding]]:
     claims, findings = table_findings(text, results_json)
+    more_claims, more_findings = protocol_table_findings(text, results_json)
+    claims, findings = claims + more_claims, findings + more_findings
     known = known_values(results_json, target)
     from_table = direct_values(results_json)
     results, datasets = results_json["results"], results_json["datasets"]
     material = tables.render_results(results, datasets, results_json["n_seeds"], metrics_of(results_json))
+    proto = protocol_values(results_json)
+    if results_json.get("protocol"):  # the judge reads the protocol's tables too
+        material += "\n\n" + tables.render_protocol(results_json["protocol"])
     context: list[str] = []  # the ideas the text has been discussing, for sentences that name none ("Its MSE was ...")
     last_section = None
     for n, (section, sentence) in enumerate(sentences(text)):
@@ -317,7 +407,9 @@ def audit_numbers(
             continue
         if not is_result or not any(matches(x, from_table) for x in nums):
             continue  # not a results claim, or none of its numbers comes from the table: nothing for the judge to check
-        misplaced = alignment.misplaced(sentence, nums, results_json, from_table, mine)
+        # a protocol value sits in many cells of its own tables: only the results table's numbers are placed by name
+        placed = [x for x in nums if not matches(x, proto)]
+        misplaced = alignment.misplaced(sentence, placed, results_json, from_table, mine)
         if misplaced:
             where = "; ".join(f"{x} is a value of {', '.join(w)}" for x, w in misplaced)
             findings.append(

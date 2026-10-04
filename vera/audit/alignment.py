@@ -29,7 +29,7 @@ def aliases(method: str) -> list[str]:
         code, name = (p.strip() for p in method.split(":", 1))
         out += [code, name]
     if method == tables.BASELINE:
-        out += ["baseline", "TreeHFD"]
+        out += ["baseline", tables.PROBLEM_NAME]
     return [a for a in out if a]
 
 
@@ -51,11 +51,13 @@ IN_SAMPLE = re.compile(r"in[- ]sample|training", re.IGNORECASE)
 HELD_OUT = re.compile(r"held[- ]out|test set|out[- ]of[- ]sample", re.IGNORECASE)
 
 
-def metric_keys(sentence: str) -> set[str]:
+def metric_keys(sentence: str, available: set[str] | None = None) -> set[str]:
     """The metrics a sentence may be quoting. The write-ups report a held-out residual (the default), an in-sample
     residual (when the sentence says in-sample or training) and the runtime, and the one thing wording settles is
     which residual: a sentence that says "in-sample" quotes the in-sample column, any other sentence the held-out one.
     Runtime is always allowed (a sentence on residuals and runtime may quote both)."""
+    if available is not None and "residual_mse_pct" not in available:
+        return set(available)  # another problem's metrics: the wording does not tell them apart, all are allowed
     keys = {"runtime_s"}
     in_sample, held_out = bool(IN_SAMPLE.search(sentence)), bool(HELD_OUT.search(sentence))
     if in_sample:
@@ -115,7 +117,8 @@ def misplaced(
     allowed_methods = {*methods, tables.BASELINE}
     if not idea_methods(sentence, results):
         allowed_methods |= set(context or [])  # no idea named: the sentence is about the one under discussion
-    allowed = cell_values(results_json, sorted(allowed_methods & set(results)), ds, metric_keys(sentence))
+    available = {k for k, _ in metrics_of(results_json)}
+    allowed = cell_values(results_json, sorted(allowed_methods & set(results)), ds, metric_keys(sentence, available))
     bad = []
     for x in numbers:
         if significant_digits(x) < 3 or matches(x, allowed) or not matches(x, direct):

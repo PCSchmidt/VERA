@@ -5,24 +5,21 @@
   "subset_exp": "glm-flash",
   "write_up": "sonnet"
  },
- "completed": false,
- "stop": {
-  "stage": "audit",
-  "reason": "gate: audit failed with 104 failing finding(s): [\"The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↓'.\", \"The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↓'.\", \"The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↓'.\"]"
- },
- "total_cost_usd": 0.115964,
+ "completed": true,
+ "stop": null,
+ "total_cost_usd": 0.118752,
  "budget": {
   "max_usd": 1.0,
-  "spent_usd": 0.11596356999999999,
+  "spent_usd": 0.11875218600000001,
   "max_wall_seconds": 21600,
-  "elapsed_seconds": 1222
+  "elapsed_seconds": 1274
  },
  "by_component": {
   "p2.cheap_path": {
-   "calls": 15,
-   "cost_usd": 0.00095,
-   "input_tokens": 14405,
-   "output_tokens": 667
+   "calls": 47,
+   "cost_usd": 0.003738,
+   "input_tokens": 71218,
+   "output_tokens": 1812
   },
   "p3.ideate": {
    "calls": 1,
@@ -127,12 +124,72 @@
     "claims": 132.0
    },
    "spent_usd_after": 0.11596356999999999
+  },
+  {
+   "stage": "write_up",
+   "decision": "accept",
+   "producer": "p3.write_up",
+   "gate_question": "loop.guidance_met",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "words": 909.0,
+    "problems": 0.0
+   },
+   "spent_usd_after": 0.11617021799999999
+  },
+  {
+   "stage": "audit",
+   "decision": "reject",
+   "producer": "p1.audit",
+   "gate_question": "loop.audit_clean",
+   "gate_answer": false,
+   "gate_judge": "p1.audit_gate",
+   "n_gates": 1,
+   "metrics": {
+    "fail": 2.0,
+    "warn": 10.0,
+    "info": 0.0,
+    "claims": 131.0
+   },
+   "spent_usd_after": 0.116535848
+  },
+  {
+   "stage": "write_up",
+   "decision": "accept",
+   "producer": "p3.write_up",
+   "gate_question": "loop.guidance_met",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "words": 909.0,
+    "problems": 0.0
+   },
+   "spent_usd_after": 0.116757512
+  },
+  {
+   "stage": "audit",
+   "decision": "accept",
+   "producer": "p1.audit",
+   "gate_question": "loop.audit_clean",
+   "gate_answer": true,
+   "gate_judge": "p1.audit_gate",
+   "n_gates": 1,
+   "metrics": {
+    "fail": 0.0,
+    "warn": 5.0,
+    "info": 0.0,
+    "claims": 131.0
+   },
+   "spent_usd_after": 0.11875218600000001
   }
  ],
  "audit": {
-  "overall": "red",
-  "fail": 104,
-  "warn": 6,
+  "overall": "amber",
+  "fail": 0,
+  "warn": 5,
   "info": 0,
   "checks_skipped": {
    "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
