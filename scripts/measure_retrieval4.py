@@ -5,7 +5,7 @@ data/topics/manifest.json). Reports key papers found before the screen, kept by 
 classified as in scripts/measure_retrieval.py, the retrieval stats the review carries, and the number of claims.
 Copies each run's retrieval log and scope into data/ for the record. Writes docs/results/retrieval_recall_v2.md.
 
-Usage: uv run python scripts/measure_retrieval4.py research-agents-eval:topic4-agents-1 conformal-shift:topic4-conformal-2
+Usage: uv run python scripts/measure_retrieval4.py <topic>:<run> [<topic>:<run> ...]
 """
 
 from __future__ import annotations
