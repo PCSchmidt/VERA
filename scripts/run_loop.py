@@ -60,7 +60,12 @@ GUIDANCE = OutputGuidance(
     max_words=1200,
     required_sections=["Abstract", "Method", "Results", "Limitations", "References"],
     emphasis="Say plainly what the crude loop did and did not establish; report a negative result as one.",
-    constraints=["forbid: state of the art", "forbid: breakthrough"],
+    constraints=[
+        "forbid: state of the art",
+        "forbid: breakthrough",
+        "state which row set (held-out or in-sample) the baseline was reproduced on, for each dataset",
+        "remark on any trend the baseline's own results show across the datasets or correlation values",
+    ],
 )
 LITERATURE_GUIDANCE = GUIDANCE.model_copy(update={  # with a literature review: a related-work section, and room for it
     "max_words": 1700,

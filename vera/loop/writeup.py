@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """The write-up stage (RSH-F-07): a crude, honest paper-shaped document, checked against the run's output guidance.
 
 The model writes the prose. VERA writes what must not come from a model: the results table (rendered from the
@@ -135,6 +136,25 @@ def protocol_facts(protocol: dict) -> list[str]:
     """What the registered protocol measured, in words a model may use: the design, not the numbers (those are in
     the tables VERA renders)."""
     invalid = sum(not cell.get("valid") for cells in protocol["results"].values() for cell in cells.values())
+    return [*trend_facts(protocol), *protocol_design_facts(protocol, invalid)]
+
+
+def trend_facts(protocol: dict) -> list[str]:
+    """What the parent's own method's rows show as the correlation rises (the Increment 3 paper did not remark on it)."""
+    rows = sorted((float(d.split("@")[1]), d) for d in protocol["datasets"] if d.startswith("analytical@"))
+    parent = protocol["methods"][0]
+    out = []
+    for key, name in (("residual_mse_pct", "residual MSE (%)"), ("component_mse_pct", "component error (% of signal variance)")):
+        pts = [(r, protocol["results"][parent][d].get(key)) for r, d in rows if protocol["results"][parent][d].get("valid")]
+        pts = [(r, v["mean"]) for r, v in pts if v]
+        if len(pts) >= 2:
+            (r0, v0), (r1, v1) = pts[0], pts[-1]
+            out.append(f"- Trend in {parent}'s own {name}: {tables.fmt_sig(v0)} at correlation {r0:g} and {tables.fmt_sig(v1)} at {r1:g}; "
+                       "the paper should remark on it.")  # fmt: skip
+    return out
+
+
+def protocol_design_facts(protocol: dict, invalid: int) -> list[str]:
     return [
         "- A registered protocol was run (written down, dated and hashed before any run): methods "
         + ", ".join(protocol["methods"])
