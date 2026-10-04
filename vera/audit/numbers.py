@@ -156,7 +156,8 @@ def config_values(results_json: dict, target: dict | None = None) -> set[float]:
         known |= {float(v["reference_pct"]) for v in target["datasets"].values() if "reference_pct" in v}
     elif target and "relative" in target.get("tolerance", {}):  # the second problem's registered target
         known.add(float(target["tolerance"]["relative"]) * 100)
-        known |= {float(m[0]) for ref in target["reference"].values() if isinstance(ref, dict) for m in ref.values() if isinstance(m, list)}
+        refs = [ref for ref in target["reference"].values() if isinstance(ref, dict)]
+        known |= {float(m[0]) for ref in refs for m in ref.values() if isinstance(m, list)}
     return {round(k, 6) for k in known}
 
 

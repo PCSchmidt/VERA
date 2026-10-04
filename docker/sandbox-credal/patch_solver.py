@@ -25,7 +25,13 @@ for path in sorted((root / "credal_dro").glob("*.py")):
     new, n3 = re.subn(r"^[ \t]*mosek_params=mosek_params,[ \t]*\n", "", new, flags=re.M)  # a MOSEK-only option
     new, n4 = re.subn(r"^[ \t]*accept_unknown=True,[ \t]*\n", "", new, flags=re.M)  # also MOSEK-only
     new, n5 = re.subn(r",\s*accept_unknown=True", "", new)  # the same, inline
-    n3 += n4 + n5
+    new, n6 = re.subn(
+        r"^([ \t]*)(list_of_replication_stats = Parallel\()",
+        r"\1problem._solver_cache = {}  # a Clarabel solver object cannot be pickled to the workers\n\1\2",
+        new,
+        flags=re.M,
+    )
+    n3 += n4 + n5 + n6
     new = new.replace('preferred_solvers = ["CLARABEL", "GUROBI", "ECOS", "OSQP", "SCS"]', 'preferred_solvers = ["CLARABEL", "SCS"]')
     if new != text:
         path.write_text(new, encoding="utf-8")

@@ -57,8 +57,10 @@ def run_parent(data_dir: Path, work: Path, n_expected: int) -> dict:
         ["csv", str(exp), "--experiment-data-dir", str(runs)],
     ):
         proc = subprocess.run(["credaldro", *args], env=env, capture_output=True, text=True)
+        (work / f"log_{args[0]}.txt").write_text(proc.stdout + "\n--- stderr ---\n" + proc.stderr, encoding="utf-8")
         if proc.returncode != 0:
-            raise RuntimeError(f"credaldro {args[0]} failed: {(proc.stderr or proc.stdout)[-800:]}")
+            text = [ln for ln in (proc.stderr + proc.stdout).splitlines() if ln.strip() and ln[0] not in "│╭╰"]
+            raise RuntimeError(f"credaldro {args[0]} failed: " + " | ".join(text[-6:])[-900:])
     df = pd.read_csv(runs / "results.csv")
     out: dict = {}
     for algo, name in ALGORITHMS.items():
