@@ -561,3 +561,24 @@ Keep each to one short section. Status: **open** until decided.
   that runs on CPU in minutes, then pick the problem by hand from the corpus and record that the literature stage did
   not supply it; (3) the generic part of `harness.py` turns out to be small (under a quarter of it), then (c) buys
   little and (a) stays.
+
+- **Increment 4 measurement, both ways on one problem (2026-10-04; `docs/results/problem2_baseline.md`,
+  `problem2_effort.json`, `data/results/t10_adapter_trial.json`, adapter in `docs/results/t10_adapter.py.txt`):** the second problem
+  is the credal ambiguity sets (California Housing, Table 3 of the parent paper).
+  (a) **by hand:** about 2.9 hours from the registered target to the baseline of record (plus about an hour of feasibility the day
+  before), seven failed or partial runs each exposing one way the parent's repository does not run as published in a fresh
+  environment (an uninstalled template, unpinned numpy and cvxpy, MOSEK-only solver options its cross-validation swallows, an
+  unpicklable solver, an aggregation step that takes over an hour), an image built seven times. The baseline then reproduces the
+  paper: LV within 0.2% of Table 3 on all four metrics and best of the five methods. No model calls.
+  (c) **thin generic harness plus a model-written adapter:** the generic harness is 64 lines against the by-hand harness's 131
+  (49%); Sonnet 5.5 wrote the adapter from the parent's README and the registered target, with each failed attempt's error fed
+  back: **not accepted in four attempts**, $0.16, about 1.5 hours of wall time. Two attempts ran the parent's whole batch (about 45
+  minutes each) and then failed reading its output (the model guessed the result file and its column names); two failed within a
+  second editing a read-only installed file. The image, which the by-hand route spent most of its time on, was shared and is not
+  part of this comparison.
+  **Reading against the reverse-ifs:** (1) the by-hand harness took under a working day: **not fired**. (2) not fired (the
+  candidate was found by the literature stage's feasibility check and runs on CPU). (3) the generic part is 49% of the by-hand
+  harness, above a quarter: **not fired**, so (c) does buy something. But (c) did not reproduce the baseline in four attempts at
+  one problem, and each failed attempt cost most of an hour because the parent's own batch had to be run to find the mistake.
+  The evidence supports keeping (a) as the default and treating (c) as promising, not shown; one problem is one problem.
+  **Decision: Chris's at the Increment 4 review** (this text is the evidence, not the decision).
