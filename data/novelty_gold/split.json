@@ -1,0 +1,25 @@
+{
+ "seed": 20261010,
+ "rule": "by source paper: the relabelled pair and the unrelated pair of one paper share a split",
+ "n_pairs": 60,
+ "n_dev": 24,
+ "n_test": 24,
+ "n_test_not_distinct": 12,
+ "n_test_distinct": 12,
+ "n_real_ideas_for_chris": 12,
+ "chris_sheet": [
+  "r-07",
+  "r-05",
+  "r-11",
+  "r-10",
+  "r-04",
+  "r-00",
+  "r-06",
+  "r-02",
+  "r-03",
+  "r-08"
+ ],
+ "test_sha256": "b3115e41af640039d5f66ecf74cf724c5da51a45cd63eb245dad08be2276936c",
+ "frozen_audit_sha256": null,
+ "generation_cost_usd": 0.074
+}
