@@ -1,3 +1,4 @@
+# ruff: noqa: E501  (registered prose is kept as written)
 """Register the tree-explain protocol (Increment 4, protocol_ready) before any protocol run.
 
 Writes, once:
