@@ -347,6 +347,22 @@ Keep each to one short section. Status: **open** until decided.
   before the next topic is run; (6) the user's own key is withdrawn or its limit changes, then re-measure on the
   keyless pair.
 
+- **Increment 4 test of the reverse-ifs (2026-10-04; `docs/results/lit2_summary.md`, tables in `retrieval_recall_lit2.md` and
+  `retrieval_recall_lit2_old.md`):** the stage now runs 12 queries over seven angles (up to 120 records) before the screen.
+  (1) on the **fresh** topics, key-paper recall after retrieval is **40%** (research-agents-eval), **90%** (conformal-shift) and
+  **90%** (tabular-trees-vs-nets): one of three below the 70% starting threshold, and that one's key list is partly off its scoped
+  question (the five papers it missed are all indexed: the queries missed them). Re-run on the three Increment 3 topics under
+  Chris's earlier scope confirmations (not independent: their lists were known when the stage was tuned): **50%** (was 70%),
+  **62%** (was 38%) and **20%** (was 20%). Pooled over six topics: 34 of 58 key papers retrieved (59%), 27 kept by the screen (47%).
+  The new queries are not shown to be better: the old topics moved in both directions by amounts one differently worded query
+  changes at ten papers per topic. (5) a reader of three fresh reviews found the conformal review dense and jargon-heavy, and
+  two sections list-like; readability is not coverage, and the coverage scores come with the blind rubric (`rubric_scored`).
+  Two defects found by running the stage on new topics and fixed: the GitHub check did not follow 301 redirects for renamed
+  repositories, and an empty answer from GROBID's reference service crashed the snowball step.
+  **Reading:** reverse-if (1) is **not fired for the fresh topics taken together** (two of three above 70%, the third explained)
+  and **stays open as evidence**: no step of Increment 4 made retrieval reliably better, and the review says the coverage of any
+  review is only as good as what retrieval found; the retrieval note each review now carries says so to its reader.
+
 ## T6 — Tracing/observability (decided 2026-10-02, Increment 2)
 
 - **Options:** LangSmith; OpenTelemetry + local store; ledger-only.
