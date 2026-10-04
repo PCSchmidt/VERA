@@ -31,10 +31,12 @@ def main() -> None:
     ap.add_argument("--topic", required=True)
     ap.add_argument("--run-id", required=True)
     ap.add_argument("--max-usd", default="1.0")
+    ap.add_argument("--skip-start", action="store_true", help="the run was started already (its scope is then replaced)")
     args = ap.parse_args()
     common = ["--topic", args.topic, "--run-id", args.run_id, "--max-usd", args.max_usd]
-    start = run(*common, "--phase", "start")
-    print(start.stdout[-400:])
+    if not args.skip_start:
+        start = run(*common, "--phase", "start")
+        print(start.stdout[-400:], start.stderr[-400:])
     old = json.loads((ROOT / "data" / "topics" / f"scope_{args.topic}.json").read_text(encoding="utf-8"))
     if old.get("status") != "confirmed" or not old.get("confirmed_by"):
         raise SystemExit("the topic's earlier scope was not confirmed by a person")

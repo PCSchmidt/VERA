@@ -17,12 +17,13 @@ import json
 import re
 from collections.abc import Callable
 
-from vera.loop import literature_context, problem, references, tables
+from vera.loop import figures, literature_context, problem, references, tables
 from vera.loop.stages import LoopDeps, _stop, _write_json, ask_gate, extension_datasets, finish, stage_result
 from vera.schemas import OutputGuidance, Question, QuestionType
 
 TABLE_TOKEN = "[[RESULTS_TABLE]]"
 PROTOCOL_TOKEN = "[[PROTOCOL_TABLES]]"
+FIGURE_TOKEN = "[[FIGURE:{}]]"
 DEFAULT_SECTIONS = ["Abstract", "Method", "Results", "Limitations", "References"]
 MAX_ATTEMPTS = 2
 WRITE_SYSTEM = (
@@ -59,7 +60,7 @@ def free_text_constraints(guidance: OutputGuidance) -> list[str]:
     return [c for c in guidance.constraints if not c.lower().startswith("forbid:")]
 
 
-def check_guidance(text: str, guidance: OutputGuidance, refs: list[dict]) -> list[str]:
+def check_guidance(text: str, guidance: OutputGuidance, refs: list[dict], figs: list[dict] | None = None) -> list[str]:
     """Deterministic problems with `text`; empty means it passes the checks a program can make."""
     problems = []
     if guidance.max_words is not None and prose_word_count(text) > guidance.max_words:
@@ -71,6 +72,15 @@ def check_guidance(text: str, guidance: OutputGuidance, refs: list[dict]) -> lis
     for phrase in forbidden(guidance):
         if phrase.lower() in lowered:
             problems.append(f"contains forbidden content: {phrase!r}")
+    for n, fig in enumerate(figs or [], start=1):  # every figure is in the report and referred to in its prose
+        if f"figures/{fig['file']}" not in text:
+            problems.append(f"figure {n} ({fig['id']}) is missing from the report")
+        caption = re.compile(r"\s*Figure \d+\.")
+        prose = "\n".join(
+            ln for ln in text.splitlines() if not ln.lstrip().startswith(("!", "|")) and not caption.match(ln)
+        )
+        if not re.search(rf"\bFigure {n}\b", prose):
+            problems.append(f"Figure {n} is not referred to in the text")
     known = {r["key"] for r in refs}
     cited = set(re.findall(r"\[(R\d+)\]", text.split("## References")[0]))
     if cited - known:
@@ -137,7 +147,10 @@ def protocol_facts(protocol: dict) -> list[str]:
     ]
 
 
-def writeup_prompt(deps: LoopDeps, state: dict, refs: list[dict], problems: list[str] | None, previous: str | None):
+def writeup_prompt(
+    deps: LoopDeps, state: dict, refs: list[dict], problems: list[str] | None, previous: str | None,
+    figs: list[dict] | None = None,
+):
     g = deps.spec.guidance
     sections = g.required_sections or DEFAULT_SECTIONS
     table = tables.render_results(state["results"], deps.datasets, deps.n_seeds)
@@ -158,6 +171,7 @@ def writeup_prompt(deps: LoopDeps, state: dict, refs: list[dict], problems: list
             if state.get("protocol")
             else ""
         )
+        + figure_instructions(figs)
         + "References you may cite, only as [R1], [R2], ... (the reference list is added for you; do not write one):\n"
         + "\n".join(references.format_reference(r) for r in refs)
         + "\n\nOutput guidance (follow every item):\n"
@@ -180,10 +194,11 @@ def writeup_prompt(deps: LoopDeps, state: dict, refs: list[dict], problems: list
     return prompt
 
 
-def assemble(text: str, state: dict, deps: LoopDeps, refs: list[dict]) -> str:
+def assemble(text: str, state: dict, deps: LoopDeps, refs: list[dict], figs: list[dict] | None = None) -> str:
     """Put VERA's own table and reference list into the model's prose."""
     body = text.split("## References")[0].rstrip() if "## References" in text else text.rstrip()
     table = tables.render_results(state["results"], deps.datasets, deps.n_seeds)
+    body = place_figures(body, figs or [])
     if state.get("protocol"):
         protocol_tables = tables.render_protocol(state["protocol"])
         if PROTOCOL_TOKEN in body:
@@ -205,6 +220,35 @@ def assemble(text: str, state: dict, deps: LoopDeps, refs: list[dict]) -> str:
     return body + "\n\n## References\n\n" + "\n".join(references.format_reference(r) for r in refs) + "\n"
 
 
+def figure_instructions(figs: list[dict] | None) -> str:
+    """The part of the prompt about figures VERA drew: where to put each, and what the model writes (the captions)."""
+    if not figs:
+        return ""
+    lines = [
+        f"Figure {n}: {f['title']} (put the exact token {FIGURE_TOKEN.format(f['id'])} on its own line in the Results "
+        f"section, then one caption sentence starting 'Figure {n}.')"
+        for n, f in enumerate(figs, start=1)
+    ]
+    return (
+        "Figures (drawn for you from the results; do not describe values you cannot read from the tables; write only "
+        "each caption and refer to every figure in the text as 'Figure N'):\n" + "\n".join(lines) + "\n\n"
+    )
+
+
+def place_figures(body: str, figs: list[dict]) -> str:
+    """Replace each figure token by the image VERA drew; a figure the model left out is appended with a plain caption
+    and a sentence that refers to it."""
+    for n, f in enumerate(figs, start=1):
+        image = f"![Figure {n}](figures/{f['file']})"
+        token = FIGURE_TOKEN.format(f["id"])
+        if token in body:
+            body = body.replace(token, image)
+        elif f"figures/{f['file']}" not in body:
+            body += f"\n\n{image}\n\nFigure {n}. {f['title']}, drawn from results.json."
+            body += f"\n\nFigure {n} shows the same numbers as the tables, drawn from results.json."
+    return body
+
+
 def results_json(state: dict, deps: LoopDeps) -> dict:
     """The run's numbers, as the harness reported them: what the audit matches the write-up against."""
     return {
@@ -219,12 +263,14 @@ def results_json(state: dict, deps: LoopDeps) -> dict:
 def write_up_node(deps: LoopDeps) -> Callable[[dict], dict]:
     def node(state: dict) -> dict:
         refs = references.load_references(deps.run_dir)
+        rj_now = results_json(state, deps)
+        figs = figures.draw(rj_now, figures.plan(rj_now), deps.run_dir / "figures")
         text, problems = None, None
         for _ in range(MAX_ATTEMPTS):
-            prompt = writeup_prompt(deps, state, refs, problems, text)
+            prompt = writeup_prompt(deps, state, refs, problems, text, figs)
             reply = deps.generator.generate(WRITE_SYSTEM, prompt, component="p3.write_up")
-            text = assemble(reply, state, deps, refs)
-            problems = check_guidance(text, deps.spec.guidance, refs)
+            text = assemble(reply, state, deps, refs, figs)
+            problems = check_guidance(text, deps.spec.guidance, refs, figs)
             if not problems:
                 break
         paper = deps.run_dir / "paper.md"
@@ -250,7 +296,9 @@ def writeup_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
         refs = references.load_references(deps.run_dir)
         text = (deps.run_dir / "paper.md").read_text(encoding="utf-8")
         g = deps.spec.guidance
-        problems = check_guidance(text, g, refs)
+        fig_file = deps.run_dir / "figures" / "figures.json"
+        figs = json.loads(fig_file.read_text(encoding="utf-8")) if fig_file.exists() else []
+        problems = check_guidance(text, g, refs, figs)
         material = (
             "Output guidance:\n"
             f"- Format: {g.format}; sections: {', '.join(g.required_sections or DEFAULT_SECTIONS)}"
