@@ -49,6 +49,7 @@ def main() -> None:
     ap.add_argument("--tag", required=True)
     ap.add_argument("--methods", default="treehfd,treeshap")
     ap.add_argument("--workers", type=int, default=3)
+    ap.add_argument("--only", help="comma list of the registered datasets to run (a re-run after a harness bug fix)")
     ap.add_argument("--data-dir", default=str(ROOT / "data" / "raw" / "datasets"))
     args = ap.parse_args()
     spec = json.loads((ROOT / "docs" / "results" / "tree_explain_protocol_spec.json").read_text(encoding="utf-8"))
@@ -57,6 +58,8 @@ def main() -> None:
         raise SystemExit("the protocol target file changed after registration: refusing to run")
     registered = json.loads(target.read_text(encoding="utf-8"))
     datasets, seeds, boot = registered["datasets"], registered["n_seeds"], registered["n_boot"]
+    if args.only:
+        datasets = [d for d in datasets if d in args.only.split(",")]
     out_path = ROOT / "data" / "results" / f"protocol_{args.tag}.json"
     if out_path.exists():
         raise SystemExit(f"{out_path.name} exists: results are never overwritten")

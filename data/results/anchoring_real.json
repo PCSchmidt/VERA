@@ -1,0 +1,230 @@
+{
+ "claims": 30,
+ "failed_anchoring": 18,
+ "rate": 0.6,
+ "ci95": [
+  0.4232,
+  0.7541
+ ],
+ "marker": 2,
+ "dangling_reference": 2,
+ "quote_does_not_cover": 16,
+ "labelled_supported": 26,
+ "labelled_supported_failing_anchoring": 15,
+ "labelled_unsupported": 4,
+ "labelled_unsupported_failing_anchoring": 3,
+ "rows": [
+  {
+   "id": "real-credal-dro-00",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  },
+  {
+   "id": "real-credal-dro-01",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": "It",
+   "quote_covers": true
+  },
+  {
+   "id": "real-credal-dro-03",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  },
+  {
+   "id": "real-credal-dro-04",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  },
+  {
+   "id": "real-credal-dro-05",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-credal-dro-06",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  },
+  {
+   "id": "real-credal-dro-07",
+   "supported_label": "no",
+   "marker": "so this",
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-credal-dro-09",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  },
+  {
+   "id": "real-credal-dro-12",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-llm-judge-numbers-01",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-llm-judge-numbers-02",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-llm-judge-numbers-03",
+   "supported_label": "no",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  },
+  {
+   "id": "real-llm-judge-numbers-04",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-llm-judge-numbers-05",
+   "supported_label": "no",
+   "marker": "sits oddly",
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-llm-judge-numbers-06",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-llm-judge-numbers-07",
+   "supported_label": "no",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-llm-judge-numbers-08",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": "Its",
+   "quote_covers": true
+  },
+  {
+   "id": "real-llm-judge-numbers-09",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  },
+  {
+   "id": "real-llm-judge-numbers-10",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-llm-judge-numbers-11",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-llm-judge-numbers-13",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-tree-explain-01",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  },
+  {
+   "id": "real-tree-explain-02",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-tree-explain-03",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-tree-explain-04",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  },
+  {
+   "id": "real-tree-explain-07",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-tree-explain-09",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": false
+  },
+  {
+   "id": "real-tree-explain-10",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  },
+  {
+   "id": "real-tree-explain-11",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  },
+  {
+   "id": "real-tree-explain-12",
+   "supported_label": "yes",
+   "marker": null,
+   "dangling": null,
+   "quote_covers": true
+  }
+ ],
+ "ledger": "data/ledger/run_anchorreal-1.jsonl",
+ "labels_by": "an AI helper blind to every verdict (see real_claims_labels.csv), not Chris"
+}

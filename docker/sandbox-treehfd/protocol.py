@@ -39,8 +39,9 @@ def treeshap(model, X_train, X_test):
     """xgboost's TreeSHAP (path-dependent) with interactions: main effect j is the diagonal, the pair (a, b) the sum of
     the two off-diagonal entries; the bias is the constant term."""
     m = model.get_booster().predict(xgb.DMatrix(X_test), pred_interactions=True)
-    comps = {(j,): m[:, j, j] for j in range(truth.DIM)}
-    for a, b in truth.PAIRS:
+    p = X_test.shape[1]  # the dataset's own number of variables (6 on the analytical case, 5 on Airfoil)
+    comps = {(j,): m[:, j, j] for j in range(p)}
+    for a, b in itertools.combinations(range(p), 2):
         comps[(a, b)] = m[:, a, b] + m[:, b, a]
     return float(m[0, -1, -1]), comps
 

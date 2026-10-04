@@ -563,9 +563,8 @@ gates:
 
   # ── Increment 4: paper quality and the measured comparison (SPEC.md) ───────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
-  # Defined so far: incr4_scoped, carry_in_ready, topics4_chosen. Still to add: lit2_ready,
-  # problem2_ready, protocol_ready, writeup2_ready, audit4_ready, runs4, comparison4,
-  # rubric_scored, incr4_review.
+  # Defined so far: incr4_scoped, carry_in_ready, topics4_chosen, protocol_ready. Still to add: lit2_ready,
+  # problem2_ready, writeup2_ready, audit4_ready, runs4, comparison4, rubric_scored, incr4_review.
 
   - id: incr4_scoped
     label: "Increment 4 scope confirmed"
@@ -601,7 +600,7 @@ gates:
         - gate-schema-version.sh    # schemas 0.10 match docs/03 and have a changelog line
 
   - id: topics4_chosen
-    label: "A fresh topic and its key-paper list fixed and hashed before any retrieval for it"
+    label: "Fresh topics and their key-paper lists fixed and hashed before any retrieval for them"
     type: human_approval
     required: true
     approval_token: "TOPICS 4 CHOSEN"
@@ -611,4 +610,19 @@ gates:
       - data/topics/manifest.json
     hooks:
       pre:
-        - gate-topics4.sh           # 4 topics: the three original, hashes unchanged, plus one fresh, its date before its retrieval
+        - gate-topics4.sh           # 6 topics (Chris chose three fresh ones), hashes match, each dated before its retrieval
+
+  - id: protocol_ready
+    label: "The registered protocol, its ground truth checked against Table 3, results and one live run"
+    type: automated
+    required: true
+    requires:
+      - carry_in_ready
+    requires_artifacts:
+      - docker/sandbox-treehfd/protocol.py
+      - docker/sandbox-treehfd/truth.py
+      - docs/results/tree_explain_protocol_spec.json
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite (offline fake-sandbox tests of the stage)
+        - gate-protocol.sh          # registration hash, Table 3 within 1%, every cell valid or reasoned, live run <= $1
