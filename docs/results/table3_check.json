@@ -1,0 +1,37 @@
+{
+ "checked": "2026-10-04T13:13:35Z",
+ "tolerance": 0.01,
+ "worst_relative_difference": 1.1619084375338872e-05,
+ "per_rho": [
+  {
+   "rho": 0.0,
+   "max_relative_difference": 1.1619084375338872e-05,
+   "max_abs_of_components_listed_as_zero": 3.076191652128206e-14
+  },
+  {
+   "rho": 0.25,
+   "max_relative_difference": 5.10702591327572e-15,
+   "max_abs_of_components_listed_as_zero": 1.4186609224905993e-14
+  },
+  {
+   "rho": 0.5,
+   "max_relative_difference": 1.21279788740809e-14,
+   "max_abs_of_components_listed_as_zero": 7.852757458565958e-14
+  },
+  {
+   "rho": 0.75,
+   "max_relative_difference": 9.211226705834735e-15,
+   "max_abs_of_components_listed_as_zero": 2.7629303951442368e-14
+  },
+  {
+   "rho": 0.9,
+   "max_relative_difference": 1.8816612147079272e-14,
+   "max_abs_of_components_listed_as_zero": 5.2972881603331125e-14
+  },
+  {
+   "rho": 0.95,
+   "max_relative_difference": 3.4902329893728867e-14,
+   "max_abs_of_components_listed_as_zero": 6.110329988528917e-14
+  }
+ ]
+}

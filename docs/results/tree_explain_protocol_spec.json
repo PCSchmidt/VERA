@@ -1,0 +1,30 @@
+{
+ "id": "tree-explain-1",
+ "question": "How does TreeHFD's decomposition compare with TreeSHAP's, and with the true components, on the analytical case as the pairwise correlation of the inputs rises from 0 to 0.95, and how stable are the component importances under bootstrap refits of the ensemble?",
+ "methods": [
+  "treehfd",
+  "treeshap"
+ ],
+ "datasets": [
+  "analytical@0",
+  "analytical@0.25",
+  "analytical@0.5",
+  "analytical@0.75",
+  "analytical@0.9",
+  "analytical@0.95",
+  "airfoil"
+ ],
+ "metrics": [
+  "component_mse_pct",
+  "component_mse",
+  "residual_mse_pct",
+  "rank_stability",
+  "rank_vs_truth",
+  "runtime_s",
+  "own_variables_only"
+ ],
+ "primary_metric": "component_mse_pct",
+ "n_seeds": 3,
+ "target_file": "docs/results/tree_explain_protocol.json",
+ "target_sha256": "3ba3df6662a28b3872c83ecdf6b1b2c30c8ce51e2b195de8ae883fec04d4a328"
+}

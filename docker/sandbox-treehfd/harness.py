@@ -203,7 +203,21 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--datasets", default="analytical,airfoil")
     ap.add_argument("--seeds", type=int, default=3)
     ap.add_argument("--data-dir", default="/work/data")
+    ap.add_argument("--protocol", action="store_true", help="run the registered protocol (protocol.py), not datasets")
+    ap.add_argument("--protocol-datasets", default="analytical@0.5", help="comma list: analytical@<rho>, airfoil")
+    ap.add_argument("--boot", type=int, default=5, help="bootstrap refits per data draw (protocol)")
     args = ap.parse_args(argv)
+    if args.protocol:
+        from protocol import REFERENCE_METHODS, run_protocol
+
+        names = args.method.split(",")
+        methods = {m: REFERENCE_METHODS[m] if m in REFERENCE_METHODS else load_method(m) for m in names}
+        out = {"protocol": True, "n_estimators": N_ESTIMATORS, "seeds": args.seeds, "boot": args.boot,
+               "results": run_protocol(methods, args.protocol_datasets.split(","), args.seeds, args.boot,
+                                       Path(args.data_dir))}  # fmt: skip
+        Path(args.out).write_text(json.dumps(out, indent=1), encoding="utf-8")
+        print(json.dumps(out)[:2000])
+        return
     out: dict = {"method": args.method, "n_estimators": N_ESTIMATORS, "datasets": {}}
     try:
         method = load_method(args.method)

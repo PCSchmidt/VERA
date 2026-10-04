@@ -118,7 +118,9 @@ def _prepare_workdir(deps: LoopDeps, name: str) -> Path:
     if wd.exists():
         shutil.rmtree(wd)
     (wd / "data").mkdir(parents=True)
-    shutil.copy(HARNESS, wd / "harness.py")
+    for module in HARNESS.parent.glob("*.py"):  # harness.py and the trusted modules it imports (truth, protocol)
+        if not module.name.startswith(("baseline_smoke", "_")):
+            shutil.copy(module, wd / module.name)
     for f in deps.data_dir.glob("*"):
         if f.is_file():
             shutil.copy(f, wd / "data" / f.name)
