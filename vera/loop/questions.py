@@ -8,7 +8,7 @@ label for the Increment 2 re-test on real gate decisions.
 
 from __future__ import annotations
 
-from vera.loop import tables
+from vera.loop import problem, tables
 from vera.schemas import Question, QuestionType
 
 
@@ -20,6 +20,8 @@ def baseline_reproduced(
     `datasets` are the datasets this run uses (default: all in the registered target); the registered references
     and tolerance are unchanged, a run is checked on the datasets it runs that have a registered reference. The
     target's `extension_datasets` have none: the gate node only requires their baseline result to be valid."""
+    if problem.active().baseline_reproduced:
+        return problem.active().baseline_reproduced(target, results, n_seeds, datasets)
     datasets = [d for d in (datasets or target["datasets"]) if d in target["datasets"]]  # not the extensions
     tol = target["tolerance"]["absolute_pct_points"]
     means = tables.rendered_means(results, datasets, tables.REPRO_METRICS)
@@ -56,6 +58,8 @@ def baseline_reproduced(
 
 
 def idea_worth_run(name: str, description: str, baseline_table: str) -> tuple[Question, str]:
+    if problem.active().idea_worth_run:
+        return problem.active().idea_worth_run(name, description, baseline_table)
     question = Question(
         id="loop.idea_worth_run",
         type=QuestionType.SCORE,
@@ -83,7 +87,7 @@ def beats_baseline(method: str, dataset: str, results: dict[str, dict], datasets
         id="loop.beats_baseline",
         type=QuestionType.BOOLEAN,
         text=(
-            f'Does "{method}" beat the TreeHFD baseline on {tables.METRIC_NAME[tables.PRIMARY]} for the '
+            f'Does "{method}" beat the {tables.PROBLEM_NAME} baseline on {tables.METRIC_NAME[tables.PRIMARY]} for the '
             f"{tables.dataset_label(dataset)} dataset? It beats it only if its mean is strictly better (lower "
             "is better for this metric); ignore the ± spread."
         ),

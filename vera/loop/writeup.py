@@ -17,7 +17,7 @@ import json
 import re
 from collections.abc import Callable
 
-from vera.loop import literature_context, references, tables
+from vera.loop import literature_context, problem, references, tables
 from vera.loop.stages import LoopDeps, _stop, _write_json, ask_gate, extension_datasets, finish, stage_result
 from vera.schemas import OutputGuidance, Question, QuestionType
 
@@ -74,6 +74,10 @@ def check_guidance(text: str, guidance: OutputGuidance, refs: list[dict]) -> lis
 
 
 def facts(state: dict, deps: LoopDeps) -> str:
+    kit_facts = problem.active().extra.get("facts")
+    if kit_facts:
+        text = kit_facts(state, deps)
+        return text + ("\n" + "\n".join(protocol_facts(state["protocol"])) if state.get("protocol") else "")
     results = state["results"]
     ideas = {i["name"]: i["description"] for i in state["ideas"]}
     ran = [m for m in results if m != tables.BASELINE]
@@ -130,8 +134,12 @@ def writeup_prompt(deps: LoopDeps, state: dict, refs: list[dict], problems: list
     sections = g.required_sections or DEFAULT_SECTIONS
     table = tables.render_results(state["results"], deps.datasets, deps.n_seeds)
     prompt = (
-        "Write a short research report on an attempt to improve TreeHFD, a method that decomposes an xgboost model "
-        "into main effects and second-order interactions. Facts you may use (nothing else):\n\n"
+        (
+            problem.active().writeup_intro
+            or "Write a short research report on an attempt to improve TreeHFD, a method that decomposes an xgboost "
+            "model into main effects and second-order interactions. "
+        )
+        + "Facts you may use (nothing else):\n\n"
         f"{facts(state, deps)}\n\nResults table (do not retype it; put the exact token {TABLE_TOKEN} where it "
         f"belongs, in the Results section):\n\n{table}\n\n"
         + (
@@ -151,8 +159,12 @@ def writeup_prompt(deps: LoopDeps, state: dict, refs: list[dict], problems: list
         + (f"- Emphasis: {g.emphasis}\n" if g.emphasis else "")
         + "".join(f"- {c}\n" for c in g.constraints)
         + "\nBe honest: say what the crude loop did and did not establish, state plainly if no idea beat the "
-        "baseline, and describe the limits (few seeds, two datasets, one model configuration, ideas produced "
-        "and implemented by a language model). Do not state any number that is not in the table or the facts."
+        "baseline, and describe the limits "
+        + (
+            problem.active().writeup_limits
+            or "(few seeds, two datasets, one model configuration, ideas produced and implemented by a language model)"
+        )
+        + ". Do not state any number that is not in the table or the facts."
         + (literature_context.for_write_up(deps.extra["literature"]) if deps.extra.get("literature") else "")
     )
     if problems:
@@ -188,7 +200,8 @@ def assemble(text: str, state: dict, deps: LoopDeps, refs: list[dict]) -> str:
 def results_json(state: dict, deps: LoopDeps) -> dict:
     """The run's numbers, as the harness reported them: what the audit matches the write-up against."""
     return {
-        "run_id": deps.spec.run_id, "metric": "residual_mse_pct", "n_seeds": deps.n_seeds,
+        "run_id": deps.spec.run_id, "metric": tables.PRIMARY, "n_seeds": deps.n_seeds,
+        "metrics": [list(m) for m in tables.METRICS], "baseline_label": tables.BASELINE,
         "datasets": tables.valid_datasets(state["results"], deps.datasets), "results": state["results"],
         "best": state.get("best"), "ideas": state["ideas"],
         **({"protocol": state["protocol"]} if state.get("protocol") else {}),

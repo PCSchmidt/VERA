@@ -24,7 +24,7 @@ from typing import Annotated, Any, Protocol, TypedDict
 
 from vera.graph import Judge
 from vera.ledger import Ledger
-from vera.loop import literature_context, questions, tables
+from vera.loop import literature_context, problem, questions, tables
 from vera.sandbox import SandboxLimits, SandboxResult
 from vera.schemas import STAGES, Budget, Question, RunSpec, SelfGradingError, StageResult, Verdict
 
@@ -119,12 +119,15 @@ def _prepare_workdir(deps: LoopDeps, name: str) -> Path:
     if wd.exists():
         shutil.rmtree(wd)
     (wd / "data").mkdir(parents=True)
-    for module in HARNESS.parent.glob("*.py"):  # harness.py and the trusted modules it imports (truth, protocol)
-        if not module.name.startswith(("baseline_smoke", "_")):
+    harness_dir = problem.active().harness_dir
+    for module in harness_dir.glob("*.py"):  # harness.py and the trusted modules it imports (truth, protocol)
+        if not module.name.startswith(("baseline_smoke", "_", "patch_")):
             shutil.copy(module, wd / module.name)
     for f in deps.data_dir.glob("*"):
         if f.is_file():
             shutil.copy(f, wd / "data" / f.name)
+        elif f.is_dir():
+            shutil.copytree(f, wd / "data" / f.name)
     return wd
 
 
@@ -143,7 +146,10 @@ def run_harness(deps: LoopDeps, name: str, method_source: str | None) -> tuple[d
         f"harness.main(['--method', {method!r}, '--datasets', {','.join(deps.datasets)!r}, "
         f"'--seeds', '{deps.n_seeds}'])\n"
     )
-    res = deps.sandbox(driver, wd, limits=EXPERIMENT_LIMITS, budget=deps.budget)
+    kit = problem.active()
+    limits = (kit.baseline_limits if method_source is None else kit.experiment_limits) or EXPERIMENT_LIMITS
+    extra = {"image": kit.image} if kit.image else {}
+    res = deps.sandbox(driver, wd, limits=limits, budget=deps.budget, **extra)
     if res.timed_out or res.oom_killed or res.workdir_over_limit:
         why = "timed out" if res.timed_out else "ran out of memory" if res.oom_killed else "wrote too much"
         return None, f"the experiment {why}"
@@ -249,12 +255,15 @@ def _extract_json(text: str, opener: str, closer: str) -> Any | None:
 
 def extract_code(text: str) -> str | None:
     blocks = re.findall(r"```(?:python)?\s*\n(.*?)```", text, re.DOTALL)
-    blocks = [b for b in blocks if "def decompose" in b]
+    blocks = [b for b in blocks if f"def {problem.active().function_name}" in b]
     return blocks[-1].strip() + "\n" if blocks else None
 
 
 def baseline_example() -> str:
     """The baseline method's source from the harness, shown to the generator as the interface example."""
+    kit = problem.active()
+    if kit.baseline_example:
+        return kit.baseline_example()
     text = HARNESS.read_text(encoding="utf-8")
     return text[text.index("def baseline(") : text.index("def load_method(")].strip()
 
@@ -311,6 +320,8 @@ IDEATE_SYSTEM = (
 
 
 def ideate_prompt(deps: LoopDeps, baseline_table: str, n: int) -> str:
+    if problem.active().ideate_prompt:
+        return problem.active().ideate_prompt(deps, baseline_table, n)
     return (
         "The method is TreeHFD (Benard, NeurIPS 2025), which decomposes an xgboost regression model into an "
         "intercept, main effects (one variable each) and second-order interactions (two variables each), using the "
@@ -336,7 +347,8 @@ def ideate_node(deps: LoopDeps) -> Callable[[dict], dict]:
 
     def node(state: dict) -> dict:
         table = tables.render_results({tables.BASELINE: state["baseline"]}, deps.datasets, deps.n_seeds)
-        reply = deps.generator.generate(IDEATE_SYSTEM, ideate_prompt(deps, table, n_ideas), component="p3.ideate")
+        system = problem.active().ideate_system or IDEATE_SYSTEM
+        reply = deps.generator.generate(system, ideate_prompt(deps, table, n_ideas), component="p3.ideate")
         raw = _extract_json(reply, "[", "]")
         ideas = []
         for item in raw if isinstance(raw, list) else []:
@@ -391,6 +403,8 @@ IMPLEMENT_SYSTEM = (
 
 
 def implement_prompt(idea: dict, error: str | None, previous: str | None) -> str:
+    if problem.active().implement_prompt:
+        return problem.active().implement_prompt(idea, error, previous)
     prompt = (
         "Implement this idea as a Python module defining\n\n"
         "    def decompose(model, X_train, X_test):\n"
@@ -423,7 +437,8 @@ def subset_exp_node(deps: LoopDeps) -> Callable[[dict], dict]:
                 )
                 code = extract_code(reply)
                 if code is None:
-                    error, code = "the reply had no Python code block defining decompose()", reply[-2000:]
+                    fn = problem.active().function_name
+                    error, code = f"the reply had no Python code block defining {fn}()", reply[-2000:]
                     attempts.append({"attempt": attempt, "error": error})
                     continue
                 res, error = run_harness(deps, f"idea_{len(log) + 1}_{attempt}", code)

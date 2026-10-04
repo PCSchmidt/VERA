@@ -19,6 +19,7 @@ REPRO_METRICS: tuple[tuple[str, str], ...] = (
 )
 METRIC_NAME = dict(METRICS)  # the names the benchmark-format tables use; all metrics are lower-is-better
 SIG = 3
+PROBLEM_NAME = "TreeHFD"  # set by vera.loop.problem.use: the parent problem the tables describe
 
 
 def fmt_sig(x: float, sig: int = SIG) -> str:
@@ -39,9 +40,10 @@ def valid_datasets(results: dict[str, dict], datasets: list[str]) -> list[str]:
 
 
 def render_results(
-    results: dict[str, dict], datasets: list[str], n_seeds: int, metrics: tuple[tuple[str, str], ...] = METRICS
+    results: dict[str, dict], datasets: list[str], n_seeds: int, metrics: tuple[tuple[str, str], ...] | None = None
 ) -> str:
     """`results`: method name -> the harness's per-dataset results. Only datasets valid for every method appear."""
+    metrics = metrics or METRICS
     shown = valid_datasets(results, datasets)
     columns = [(d, key) for d in shown for key, _ in metrics]
     names = dict(metrics)
@@ -51,15 +53,16 @@ def render_results(
         cells = [f"{fmt_sig(res[d][k]['mean'])} ± {fmt_sig(res[d][k]['std'], 2)}" for d, k in columns]
         lines.append("| " + " | ".join([method, *cells]) + " |")
     return (
-        f"Results from a research-loop run on the TreeHFD problem (mean ± std over {n_seeds} seeds). "
+        f"Results from a research-loop run on the {PROBLEM_NAME} problem (mean ± std over {n_seeds} seeds). "
         "↓ = lower is better; ↑ = higher is better.\n\n" + "\n".join(lines)
     )
 
 
 def rendered_means(
-    results: dict[str, dict], datasets: list[str], metrics: tuple[tuple[str, str], ...] = METRICS
+    results: dict[str, dict], datasets: list[str], metrics: tuple[tuple[str, str], ...] | None = None
 ) -> dict[tuple[str, str, str], float]:
     """(method, dataset, metric key) -> the mean as the table shows it."""
+    metrics = metrics or METRICS
     out = {}
     for method, res in results.items():
         for d in valid_datasets(results, datasets):
