@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """The loop's final gate: the audit of its own write-up (RSH-F-05).
 
 `audit_node` runs `vera.audit.run_audit` on `paper.md` against the run's `results.json` and retrieval log, writes the
@@ -19,6 +20,7 @@ from collections.abc import Callable
 from vera import audit
 from vera.audit.bibliography import SourceLookup
 from vera.loop import references
+from vera.loop.protocol_stage import idea_sources
 from vera.loop.stages import LoopDeps, _stop, _write_json, ask_gate, finish, stage_result
 from vera.schemas import Question, Verdict
 
@@ -47,9 +49,17 @@ def audit_node(deps: LoopDeps) -> Callable[[dict], dict]:
 
         fig_file = deps.run_dir / "figures" / "figures.json"
         figs = json.loads(fig_file.read_text(encoding="utf-8")) if fig_file.exists() else None
+        try:
+            methods = idea_sources(state, deps)  # the code of each idea with a valid run
+        except (KeyError, FileNotFoundError):
+            methods = {}
+        ran_ideas = {i["name"]: i["description"] for i in state.get("ideas", []) if i["name"] in methods}
+        records_file = deps.run_dir / "retrieved.jsonl"
+        records = [json.loads(ln) for ln in records_file.read_text(encoding="utf-8").splitlines() if ln.strip()] if records_file.exists() else []
         run = audit.run_audit(
             text, results_json, references.load_references(deps.run_dir), ask=ask, lookup=lookup,
-            paper_id=deps.spec.run_id, paper_source="paper.md", target=deps.target, figures=figs,
+            paper_id=deps.spec.run_id, paper_source="paper.md", target=deps.target, figures=figs, basis=True,
+            methods=methods or None, ideas=ran_ideas or None, records=records, search=deps.extra.get("search"),
         )  # fmt: skip
         report = run.report
         artifact = _write_json(deps, "audit_report", report.model_dump(mode="json"))

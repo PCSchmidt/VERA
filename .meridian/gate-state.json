@@ -39,7 +39,8 @@
     "topics_chosen",
     "trades_decided_1",
     "trades_decided_2",
-    "trades_decided_3"
+    "trades_decided_3",
+    "writeup2_ready"
   ],
   "approvals": {
     "confirmed": {
