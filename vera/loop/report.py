@@ -47,7 +47,9 @@ def build_report(deps: LoopDeps, state: dict) -> dict:
     headline = {}
     for method, res in results.items():
         headline[method] = {
-            d: round(v[tables.PRIMARY]["mean"], 3) for d, v in res.items() if d in deps.datasets and v.get(tables.PRIMARY)
+            d: round(v[tables.PRIMARY]["mean"], 3)
+            for d, v in res.items()
+            if d in deps.datasets and v.get(tables.PRIMARY)
         }
     stop = state.get("stop")
     return {

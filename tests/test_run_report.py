@@ -46,7 +46,7 @@ def test_RSH_P_01_the_report_tabulates_cost_per_stage_and_matches_the_ledger(tmp
     )
     assert {"p3.ideate", "p3.subset_exp", "p3.write_up", "p2.judge"} <= set(report["by_component"])
     assert [s["stage"] for s in report["stages"]] == ["baseline", "ideate", "subset_exp", "write_up", "audit"]
-    assert report["audit"]["overall"] == "green" and "method_code" in report["audit"]["checks_skipped"]
+    assert report["audit"]["overall"] == "green" and "spec_leakage" in report["audit"]["checks_skipped"]
     assert report["best_idea"] == "C1: shared knots" and "TreeHFD (baseline)" in report["held_out_residual_mse_pct"]
 
 
