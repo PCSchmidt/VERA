@@ -1,0 +1,116 @@
+fault_id,doc,kind,fault_type,location,description,subtle,split
+gen-sonnet-2:control,gen-sonnet-2,paper,control,,unmodified document,,dev
+gen-sonnet-2:fabricated_citation,gen-sonnet-2,paper,fabricated_citation,References and Abstract,fabricated reference 'Hierarchical Shapley Surrogates for Tree Ensembles under Dependence',,dev
+gen-sonnet-2:unretrieved_citation,gen-sonnet-2,paper,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",,dev
+gen-sonnet-2:altered_reference,gen-sonnet-2,paper,altered_reference,References,'Tree' changed to 'Forest',,dev
+gen-sonnet-2:numeric_table,gen-sonnet-2,paper,numeric_table,Results table,table mean 2.83 changed to 4.83,,dev
+gen-sonnet-2:numeric_prose,gen-sonnet-2,paper,numeric_prose,Results,3.42 changed to 3.44 in prose,,dev
+gen-sonnet-2:misattributed_number,gen-sonnet-2,paper,misattributed_number,Results,"2.83 replaced by 6.73, a real value elsewhere",yes,dev
+gen-sonnet-2:reversed_comparison,gen-sonnet-2,paper,reversed_comparison,Results,"direction word flipped: 'C2 was also slower on both datasets (33.4 s vs 27.5 s, and 4'",yes,dev
+gen-sonnet-2:swapped_method,gen-sonnet-2,paper,swapped_method,Results,C2 named as C3,yes,dev
+gen-sonnet-2:method_code_missing_step,gen-sonnet-2,paper,method_code_missing_step,"Method, C3: Residual backfitting of components",added a step with no code: 'A final step rescales every component by its bootstrap standard deviation.',,dev
+gen-sonnet-2:method_code_undescribed,gen-sonnet-2,paper,method_code_undescribed,code of C3: Residual backfitting of components,added a substantial function the paper does not describe,yes,dev
+gen-sonnet-3:control,gen-sonnet-3,paper,control,,unmodified document,,dev
+gen-sonnet-3:fabricated_citation,gen-sonnet-3,paper,fabricated_citation,References and Abstract,fabricated reference 'Hierarchical Shapley Surrogates for Tree Ensembles under Dependence',,dev
+gen-sonnet-3:unretrieved_citation,gen-sonnet-3,paper,unretrieved_citation,body,"[R1] replaced by [R7], which was never retrieved",,dev
+gen-sonnet-3:altered_reference,gen-sonnet-3,paper,altered_reference,References,'Tree' changed to 'Forest',,dev
+gen-sonnet-3:numeric_table,gen-sonnet-3,paper,numeric_table,Results table,table mean 60.8 changed to 70.8,,dev
+gen-sonnet-3:numeric_prose,gen-sonnet-3,paper,numeric_prose,Results,0.11 changed to 0.51 in prose,,dev
+gen-sonnet-3:misattributed_number,gen-sonnet-3,paper,misattributed_number,Results,"2.97 replaced by 4.73, a real value elsewhere",yes,dev
+gen-sonnet-3:reversed_comparison,gen-sonnet-3,paper,reversed_comparison,Results,direction word flipped: 'The other (C1) was worse on Analytical and unchanged on Airf',yes,dev
+gen-sonnet-3:swapped_method,gen-sonnet-3,paper,swapped_method,Results,C3 named as C1,yes,dev
+gen-sonnet-3:method_code_missing_step,gen-sonnet-3,paper,method_code_missing_step,"Method, C1: Importance-ranked interaction selection",added a step with no code: 'It then refits each component by isotonic regression to smooth the result.',,dev
+gen-sonnet-3:method_code_undescribed,gen-sonnet-3,paper,method_code_undescribed,code of C1: Importance-ranked interaction selection,added a substantial function the paper does not describe,yes,dev
+topic-a-loop-1:control,topic-a-loop-1,paper,control,,unmodified document,,dev
+topic-a-loop-1:fabricated_citation,topic-a-loop-1,paper,fabricated_citation,References and Abstract,fabricated reference 'Cartesian Partition Refinement for Piecewise Constant Explainers',,dev
+topic-a-loop-1:altered_reference,topic-a-loop-1,paper,altered_reference,References,'Tree' changed to 'Forest',,dev
+topic-a-loop-1:numeric_table,topic-a-loop-1,paper,numeric_table,Results table,table mean 2.93 changed to 5.93,,dev
+topic-a-loop-1:numeric_prose,topic-a-loop-1,paper,numeric_prose,Results,12.3 changed to 62.3 in prose,,dev
+topic-a-loop-1:misattributed_number,topic-a-loop-1,paper,misattributed_number,Results,"2.93 replaced by 2.79, a real value elsewhere",yes,dev
+topic-a-loop-1:reversed_comparison,topic-a-loop-1,paper,reversed_comparison,Results,direction word flipped: 'C1 was worse on Airfoil (6.07 ± 1.1 vs 4.73 ± 0.11) and slow',yes,dev
+topic-a-loop-1:swapped_method,topic-a-loop-1,paper,swapped_method,Results,C1 named as C3,yes,dev
+topic-a-loop-1:method_code_missing_step,topic-a-loop-1,paper,method_code_missing_step,"Method, C3: Component-wise ridge recalibration",added a step with no code: 'The depth parameter is chosen by five-fold cross-validation on the training rows.',,dev
+topic-a-loop-1:method_code_undescribed,topic-a-loop-1,paper,method_code_undescribed,code of C3: Component-wise ridge recalibration,added a substantial function the paper does not describe,yes,dev
+protocol-live-3:control,protocol-live-3,paper,control,,unmodified document,,dev
+protocol-live-3:fabricated_citation,protocol-live-3,paper,fabricated_citation,References and Abstract,fabricated reference 'Cartesian Partition Refinement for Piecewise Constant Explainers',,dev
+protocol-live-3:altered_reference,protocol-live-3,paper,altered_reference,References,'Tree' changed to 'Forest',,dev
+protocol-live-3:numeric_table,protocol-live-3,paper,numeric_table,Results table,table mean 27.6 changed to 27.0,,dev
+protocol-live-3:numeric_prose,protocol-live-3,paper,numeric_prose,Results,0.95 changed to 9.95 in prose,,dev
+protocol-live-3:misattributed_number,protocol-live-3,paper,misattributed_number,Results,"5.54 replaced by 1.98, a real value elsewhere",yes,dev
+protocol-live-3:reversed_comparison,protocol-live-3,paper,reversed_comparison,Results,direction word flipped: '**Rank stability of component importances across bootstrap r',yes,dev
+protocol-live-3:swapped_method,protocol-live-3,paper,swapped_method,Results,C3 named as C2,yes,dev
+protocol-live-3:method_code_missing_step,protocol-live-3,paper,method_code_missing_step,"Method, C3: Residual refit calibration",added a step with no code: 'A final step rescales every component by its bootstrap standard deviation.',,dev
+protocol-live-3:method_code_undescribed,protocol-live-3,paper,method_code_undescribed,code of C2: Vary depth_variable,added a substantial function the paper does not describe,yes,dev
+protocol-live-3:figure_altered,protocol-live-3,paper,figure_altered,figure fig_residual_mse_pct,one plotted point changed (results/C2: Vary depth_variable/airfoil/residual_mse_pct),,dev
+protocol-live-3:reproduction_basis_wrong,protocol-live-3,paper,reproduction_basis_wrong,Method,reproduction basis swapped: 'The baseline reproduction passed the registered tolerance gate on both datasets (held-out residual M',yes,dev
+topic-tabular:control,topic-tabular,lit,control,,unmodified document,,dev
+topic-tabular:unresolved_citation,topic-tabular,lit,unresolved_citation,body,[R66] changed to [R999],,dev
+topic-tabular:moved_citation,topic-tabular,lit,moved_citation,body,[R29] changed to [R1],,dev
+topic-tabular:fabricated_quote,topic-tabular,lit,fabricated_quote,claims,quote of claim 0 fabricated,,dev
+topic-tabular:overstated_claim,topic-tabular,lit,overstated_claim,body,overstated: 'TabPFN is reported to clearly outperform boosted t',yes,dev
+topic-tabular:swapped_claim_text,topic-tabular,lit,swapped_claim_text,body,texts of [R29] and [R6] exchanged,yes,dev
+topic-credal-dro:control,topic-credal-dro,lit,control,,unmodified document,,dev
+topic-credal-dro:unresolved_citation,topic-credal-dro,lit,unresolved_citation,body,[R57] changed to [R999],,dev
+topic-credal-dro:moved_citation,topic-credal-dro,lit,moved_citation,body,[R7] changed to [R37],,dev
+topic-credal-dro:fabricated_quote,topic-credal-dro,lit,fabricated_quote,claims,quote of claim 0 fabricated,,dev
+topic-credal-dro:changed_qualifier,topic-credal-dro,lit,changed_qualifier,claims,'could' -> 'does',yes,dev
+topic-credal-dro:overstated_claim,topic-credal-dro,lit,overstated_claim,body,overstated: 'It adds that the optimal value of the robust probl',yes,dev
+topic-credal-dro:swapped_claim_text,topic-credal-dro,lit,swapped_claim_text,body,texts of [R57] and [R7] exchanged,yes,dev
+protocol-live-1:control,protocol-live-1,paper,control,,unmodified document,,test
+protocol-live-1:fabricated_citation,protocol-live-1,paper,fabricated_citation,References and Abstract,fabricated reference 'Orthogonal Boosting Decompositions with Calibrated Interaction Budgets',,test
+protocol-live-1:altered_reference,protocol-live-1,paper,altered_reference,References,'Tree' changed to 'Forest',,test
+protocol-live-1:numeric_table,protocol-live-1,paper,numeric_table,Results table,table mean 42.5 changed to 02.5,,test
+protocol-live-1:numeric_prose,protocol-live-1,paper,numeric_prose,Results,1.03 changed to 2.03 in prose,,test
+protocol-live-1:misattributed_number,protocol-live-1,paper,misattributed_number,Results,"0.948 replaced by 0.227, a real value elsewhere",yes,test
+protocol-live-1:reversed_comparison,protocol-live-1,paper,reversed_comparison,Results,direction word flipped: '**Runtime of the decomposition call (s)** (↓: lower is bette',yes,test
+protocol-live-1:method_code_missing_step,protocol-live-1,paper,method_code_missing_step,"Method, C2: Deeper variable selection",added a step with no code: 'It then refits each component by isotonic regression to smooth the result.',,test
+protocol-live-1:method_code_undescribed,protocol-live-1,paper,method_code_undescribed,code of C2: Deeper variable selection,added a substantial function the paper does not describe,yes,test
+protocol-live-1:figure_altered,protocol-live-1,paper,figure_altered,figure fig_rank_stability,one plotted point changed (protocol/TreeSHAP/analytical@0/rank_stability),,test
+protocol-live-1:reproduction_basis_wrong,protocol-live-1,paper,reproduction_basis_wrong,Method,"reproduction basis swapped: ""The reproduction used the paper's held-out convention on both datasets: residual MSE was 0.570 on An""",yes,test
+protocol-live-2:control,protocol-live-2,paper,control,,unmodified document,,test
+protocol-live-2:fabricated_citation,protocol-live-2,paper,fabricated_citation,References and Abstract,fabricated reference 'Adaptive Cartesian Priors for Additive Tree Explanations',,test
+protocol-live-2:altered_reference,protocol-live-2,paper,altered_reference,References,'Tree' changed to 'Forest',,test
+protocol-live-2:numeric_table,protocol-live-2,paper,numeric_table,Results table,table mean 0.868 changed to 0.838,,test
+protocol-live-2:numeric_prose,protocol-live-2,paper,numeric_prose,Results,1.03 changed to 9.03 in prose,,test
+protocol-live-2:misattributed_number,protocol-live-2,paper,misattributed_number,Results,"7.94 replaced by 29.80, a real value elsewhere",yes,test
+protocol-live-2:reversed_comparison,protocol-live-2,paper,reversed_comparison,Results,"direction word flipped: 'For random forests, its authors report lower accuracy than w'",yes,test
+protocol-live-2:swapped_method,protocol-live-2,paper,swapped_method,Results,C1 named as C2,yes,test
+protocol-live-2:method_code_missing_step,protocol-live-2,paper,method_code_missing_step,"Method, C1: Interaction screening by strength",added a step with no code: 'Components whose variance falls below one percent of the total are set to zero.',,test
+protocol-live-2:method_code_undescribed,protocol-live-2,paper,method_code_undescribed,code of C2: Residual backfitting refit,added a substantial function the paper does not describe,yes,test
+protocol-live-2:figure_altered,protocol-live-2,paper,figure_altered,figure fig_residual_mse_pct,one plotted point changed (results/C1: Interaction screening by strength/analytical/residual_mse_pct),,test
+protocol-live-2:reproduction_basis_wrong,protocol-live-2,paper,reproduction_basis_wrong,Method,"reproduction basis swapped: ""The reproduction used the paper's held-out convention, giving a residual MSE of 0.570% on Analytical""",yes,test
+topic-a-loop-2:control,topic-a-loop-2,paper,control,,unmodified document,,test
+topic-a-loop-2:fabricated_citation,topic-a-loop-2,paper,fabricated_citation,References and Abstract,fabricated reference 'Orthogonal Boosting Decompositions with Calibrated Interaction Budgets',,test
+topic-a-loop-2:altered_reference,topic-a-loop-2,paper,altered_reference,References,'Tree' changed to 'Forest',,test
+topic-a-loop-2:numeric_table,topic-a-loop-2,paper,numeric_table,Results table,table mean 24.9 changed to 25.9,,test
+topic-a-loop-2:numeric_prose,topic-a-loop-2,paper,numeric_prose,Results,5.54 changed to 0.54 in prose,,test
+topic-a-loop-2:misattributed_number,topic-a-loop-2,paper,misattributed_number,Results,"2.41 replaced by 2.79, a real value elsewhere",yes,test
+topic-a-loop-2:reversed_comparison,topic-a-loop-2,paper,reversed_comparison,Results,direction word flipped: 'C3 was not better on any dataset.',yes,test
+topic-a-loop-2:swapped_method,topic-a-loop-2,paper,swapped_method,Results,C1 named as C3,yes,test
+topic-a-loop-2:method_code_missing_step,topic-a-loop-2,paper,method_code_missing_step,"Method, C1: Shallow depth_variable sweep",added a step with no code: 'The depth parameter is chosen by five-fold cross-validation on the training rows.',,test
+topic-a-loop-2:method_code_undescribed,topic-a-loop-2,paper,method_code_undescribed,code of C3: Residual ridge recalibration,added a substantial function the paper does not describe,yes,test
+topic-a-loop-2:reproduction_basis_wrong,topic-a-loop-2,paper,reproduction_basis_wrong,Method,"reproduction basis swapped: ""The tables report held-out values, while the reproduction gate used the paper's held-out convention;""",yes,test
+topic-a-loop-3:control,topic-a-loop-3,paper,control,,unmodified document,,test
+topic-a-loop-3:fabricated_citation,topic-a-loop-3,paper,fabricated_citation,References and Abstract,fabricated reference 'Cartesian Partition Refinement for Piecewise Constant Explainers',,test
+topic-a-loop-3:altered_reference,topic-a-loop-3,paper,altered_reference,References,'Tree' changed to 'Forest',,test
+topic-a-loop-3:numeric_table,topic-a-loop-3,paper,numeric_table,Results table,table mean 21.3 changed to 01.3,,test
+topic-a-loop-3:numeric_prose,topic-a-loop-3,paper,numeric_prose,Results,2.81 changed to 2.86 in prose,,test
+topic-a-loop-3:misattributed_number,topic-a-loop-3,paper,misattributed_number,Results,"2.81 replaced by 1.48, a real value elsewhere",yes,test
+topic-a-loop-3:reversed_comparison,topic-a-loop-3,paper,reversed_comparison,Results,direction word flipped: 'Results from a research-loop run on the TreeHFD problem (mea',yes,test
+topic-a-loop-3:swapped_method,topic-a-loop-3,paper,swapped_method,Results,C3 named as C2,yes,test
+topic-a-loop-3:method_code_missing_step,topic-a-loop-3,paper,method_code_missing_step,"Method, C3: Residual spline main effects",added a step with no code: 'The depth parameter is chosen by five-fold cross-validation on the training rows.',,test
+topic-a-loop-3:method_code_undescribed,topic-a-loop-3,paper,method_code_undescribed,code of C3: Residual spline main effects,added a substantial function the paper does not describe,yes,test
+topic-conformal:control,topic-conformal,lit,control,,unmodified document,,test
+topic-conformal:unresolved_citation,topic-conformal,lit,unresolved_citation,body,[R8] changed to [R999],,test
+topic-conformal:moved_citation,topic-conformal,lit,moved_citation,body,[R139] changed to [R11],,test
+topic-conformal:fabricated_quote,topic-conformal,lit,fabricated_quote,claims,quote of claim 0 fabricated,,test
+topic-conformal:changed_qualifier,topic-conformal,lit,changed_qualifier,claims,'can' -> 'must',yes,test
+topic-conformal:overstated_claim,topic-conformal,lit,overstated_claim,body,"overstated: 'For adaptive conformal inference, the authors stat'",yes,test
+topic-conformal:swapped_claim_text,topic-conformal,lit,swapped_claim_text,body,texts of [R3] and [R84] exchanged,yes,test
+topic-research-agents:control,topic-research-agents,lit,control,,unmodified document,,test
+topic-research-agents:unresolved_citation,topic-research-agents,lit,unresolved_citation,body,[R10] changed to [R999],,test
+topic-research-agents:moved_citation,topic-research-agents,lit,moved_citation,body,[R87] changed to [R10],,test
+topic-research-agents:fabricated_quote,topic-research-agents,lit,fabricated_quote,claims,quote of claim 0 fabricated,,test
+topic-research-agents:changed_qualifier,topic-research-agents,lit,changed_qualifier,claims,'can' -> 'must',yes,test
+topic-research-agents:overstated_claim,topic-research-agents,lit,overstated_claim,body,overstated: 'SciReplicate-Bench addresses contamination by its ',yes,test
+topic-research-agents:swapped_claim_text,topic-research-agents,lit,swapped_claim_text,body,texts of [R58] and [R11] exchanged,yes,test

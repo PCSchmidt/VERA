@@ -1,0 +1,1450 @@
+{
+ "split": "dev",
+ "summary": {
+  "planted": 51,
+  "red": {
+   "k": 45,
+   "n": 51,
+   "rate": 0.8824,
+   "ci95": [
+    0.7662,
+    0.945
+   ]
+  },
+  "flagged": {
+   "k": 51,
+   "n": 51,
+   "rate": 1.0,
+   "ci95": [
+    0.93,
+    1.0
+   ]
+  },
+  "subtle_red": {
+   "k": 16,
+   "n": 22,
+   "rate": 0.7273,
+   "ci95": [
+    0.5185,
+    0.8685
+   ]
+  },
+  "deterministic_red": {
+   "k": 29,
+   "n": 29,
+   "rate": 1.0,
+   "ci95": [
+    0.883,
+    1.0
+   ]
+  },
+  "controls": 6,
+  "false_fails": 1,
+  "controls_flagged": 5,
+  "controls_with_method_code_warns": 4,
+  "by_type": {
+   "altered_reference": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "changed_qualifier": {
+    "red": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "fabricated_citation": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "fabricated_quote": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "figure_altered": {
+    "red": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "method_code_missing_step": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "method_code_undescribed": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "misattributed_number": {
+    "red": {
+     "k": 3,
+     "n": 4,
+     "rate": 0.75,
+     "ci95": [
+      0.3006,
+      0.9544
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "moved_citation": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "numeric_prose": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "numeric_table": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "overstated_claim": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "reproduction_basis_wrong": {
+    "red": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 1,
+     "n": 1,
+     "rate": 1.0,
+     "ci95": [
+      0.2065,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "reversed_comparison": {
+    "red": {
+     "k": 1,
+     "n": 4,
+     "rate": 0.25,
+     "ci95": [
+      0.0456,
+      0.6994
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "swapped_claim_text": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "swapped_method": {
+    "red": {
+     "k": 2,
+     "n": 4,
+     "rate": 0.5,
+     "ci95": [
+      0.15,
+      0.85
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "unresolved_citation": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "unretrieved_citation": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": false
+   }
+  },
+  "by_doc_kind": {
+   "paper": {
+    "k": 34,
+    "n": 40,
+    "rate": 0.85,
+    "ci95": [
+     0.7093,
+     0.9294
+    ]
+   },
+   "lit": {
+    "k": 11,
+    "n": 11,
+    "rate": 1.0,
+    "ci95": [
+     0.7412,
+     1.0
+    ]
+   }
+  },
+  "spent_usd": 0.08576626799999999,
+  "audit_sha256": "2195e928d9adb3add30976f6f912468dcd9eb34342401324e6095c0ec3de1643",
+  "ledger": "data/ledger/run_seededv3-dev-2.jsonl"
+ },
+ "items": [
+  {
+   "fault_id": "gen-sonnet-2:control",
+   "fault_type": "control",
+   "detected": false,
+   "n_method_code_warns": 10,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 12,
+   "first_fail": null,
+   "cost_usd": 0.0014639059999999998
+  },
+  {
+   "fault_id": "gen-sonnet-2:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "n_method_code_warns": 9,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 10,
+   "first_fail": "R3 ('Hierarchical Shapley Surrogates for Tree Ensembles under Dependence') is not in the retrieval log, and the records returned for it are different papers.",
+   "cost_usd": 0.0014718639999999998
+  },
+  {
+   "fault_id": "gen-sonnet-2:unretrieved_citation",
+   "fault_type": "unretrieved_citation",
+   "detected": true,
+   "n_method_code_warns": 11,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 13,
+   "first_fail": "[R7] is cited but is not a retrieved record or listed.",
+   "cost_usd": 0.0014145939999999995
+  },
+  {
+   "fault_id": "gen-sonnet-2:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "n_method_code_warns": 10,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 11,
+   "first_fail": "Reference R1 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble Explainability through the Hoeffding Fu",
+   "cost_usd": 0.0014623999999999998
+  },
+  {
+   "fault_id": "gen-sonnet-2:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 13,
+   "first_fail": "The table says '4.83 \u00b1 0.33' for C3: Residual backfitting of components on analytical (residual_mse_pct); results.json has 2.83 \u00b1 0.33.",
+   "cost_usd": 0.0014588559999999997
+  },
+  {
+   "fault_id": "gen-sonnet-2:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "n_method_code_warns": 9,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 10,
+   "first_fail": "3.44 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Both differences are well inside the seed spread, so C3 is at best equal to the baseline, and it cost more time (33.8 s vs 27.5 s on Analytical, 4.5",
+   "cost_usd": 0.0014274140000000001
+  },
+  {
+   "fault_id": "gen-sonnet-2:misattributed_number",
+   "fault_type": "misattributed_number",
+   "detected": true,
+   "n_method_code_warns": 11,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 13,
+   "first_fail": "A real number on the wrong method or dataset: 6.73 is a value of C2: Co-occurrence pair selection / airfoil, not of the cell this sentence names: 'On Analytical it gave 6.73 \u00b1 0.33 against 2.79 \u00b1 0.32 for the baseline, and on Airfoil 4.79 \u00b1",
+   "cost_usd": 0.001428518
+  },
+  {
+   "fault_id": "gen-sonnet-2:reversed_comparison",
+   "fault_type": "reversed_comparison",
+   "detected": false,
+   "n_method_code_warns": 11,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 13,
+   "first_fail": null,
+   "cost_usd": 0.0014368019999999998
+  },
+  {
+   "fault_id": "gen-sonnet-2:swapped_method",
+   "fault_type": "swapped_method",
+   "detected": true,
+   "n_method_code_warns": 10,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 11,
+   "first_fail": "A real number on the wrong method or dataset: 2.69 is a value of C2: Co-occurrence pair selection / analytical, not of the cell this sentence names: 'C3 gave 2.69 \u00b1 0.30 on Analytical, a small improvement relative to the spread, which we do",
+   "cost_usd": 0.001336048
+  },
+  {
+   "fault_id": "gen-sonnet-2:method_code_missing_step",
+   "fault_type": "method_code_missing_step",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 13,
+   "first_fail": null,
+   "cost_usd": 0.0015247699999999995
+  },
+  {
+   "fault_id": "gen-sonnet-2:method_code_undescribed",
+   "fault_type": "method_code_undescribed",
+   "detected": true,
+   "n_method_code_warns": 11,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 12,
+   "first_fail": null,
+   "cost_usd": 0.0014435140000000001
+  },
+  {
+   "fault_id": "gen-sonnet-3:control",
+   "fault_type": "control",
+   "detected": false,
+   "n_method_code_warns": 10,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 12,
+   "first_fail": null,
+   "cost_usd": 0.0015315399999999999
+  },
+  {
+   "fault_id": "gen-sonnet-3:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "n_method_code_warns": 9,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 11,
+   "first_fail": "R3 ('Hierarchical Shapley Surrogates for Tree Ensembles under Dependence') is not in the retrieval log, and the records returned for it are different papers.",
+   "cost_usd": 0.0015319979999999997
+  },
+  {
+   "fault_id": "gen-sonnet-3:unretrieved_citation",
+   "fault_type": "unretrieved_citation",
+   "detected": true,
+   "n_method_code_warns": 10,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 13,
+   "first_fail": "[R7] is cited but is not a retrieved record or listed.",
+   "cost_usd": 0.0015777919999999997
+  },
+  {
+   "fault_id": "gen-sonnet-3:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "n_method_code_warns": 10,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 12,
+   "first_fail": "Reference R1 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble Explainability through the Hoeffding Fu",
+   "cost_usd": 0.00150352
+  },
+  {
+   "fault_id": "gen-sonnet-3:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "n_method_code_warns": 9,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 10,
+   "first_fail": "The table says '70.8 \u00b1 2.4' for C3: Residual-pair greedy refinement on analytical (runtime_s); results.json has 60.8 \u00b1 2.4.",
+   "cost_usd": 0.001391112
+  },
+  {
+   "fault_id": "gen-sonnet-3:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "n_method_code_warns": 9,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 10,
+   "first_fail": "0.51 in a results claim is not a value in results.json (nor a difference or ratio of two): 'On Airfoil, MSE (4.73 \u00b1 0.51) and runtime (3.43 s versus 3.42 s) matched the baseline.'",
+   "cost_usd": 0.0014250279999999998
+  },
+  {
+   "fault_id": "gen-sonnet-3:misattributed_number",
+   "fault_type": "misattributed_number",
+   "detected": true,
+   "n_method_code_warns": 10,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 11,
+   "first_fail": "A real number on the wrong method or dataset: 4.73 is a value of C1: Importance-ranked interaction selection / airfoil, C3: Residual-pair greedy refinement / airfoil, TreeHFD (baseline) / airfoil, not of the cell this sentence names: '**C1*",
+   "cost_usd": 0.0014399579999999999
+  },
+  {
+   "fault_id": "gen-sonnet-3:reversed_comparison",
+   "fault_type": "reversed_comparison",
+   "detected": false,
+   "n_method_code_warns": 10,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 12,
+   "first_fail": null,
+   "cost_usd": 0.001504356
+  },
+  {
+   "fault_id": "gen-sonnet-3:swapped_method",
+   "fault_type": "swapped_method",
+   "detected": false,
+   "n_method_code_warns": 11,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 13,
+   "first_fail": null,
+   "cost_usd": 0.0015349559999999999
+  },
+  {
+   "fault_id": "gen-sonnet-3:method_code_missing_step",
+   "fault_type": "method_code_missing_step",
+   "detected": true,
+   "n_method_code_warns": 11,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 13,
+   "first_fail": null,
+   "cost_usd": 0.0014823059999999996
+  },
+  {
+   "fault_id": "gen-sonnet-3:method_code_undescribed",
+   "fault_type": "method_code_undescribed",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 14,
+   "first_fail": null,
+   "cost_usd": 0.0015480479999999998
+  },
+  {
+   "fault_id": "topic-a-loop-1:control",
+   "fault_type": "control",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 15,
+   "first_fail": "0.95 in a results claim is not a value in results.json (nor a difference or ratio of two): 'They do not vary pairwise correlation from 0 to 0.95, do not compare against TreeSHAP, do not measure error against ground-truth components, do not ",
+   "cost_usd": 0.0013671739999999999
+  },
+  {
+   "fault_id": "topic-a-loop-1:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "n_method_code_warns": 13,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 16,
+   "first_fail": "R3 ('Cartesian Partition Refinement for Piecewise Constant Explainers') is not in the retrieval log, and the records returned for it are different papers.",
+   "cost_usd": 0.0014401699999999997
+  },
+  {
+   "fault_id": "topic-a-loop-1:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 15,
+   "first_fail": "Reference R5 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble Explainability through the Hoeffding Fu",
+   "cost_usd": 0.001348146
+  },
+  {
+   "fault_id": "topic-a-loop-1:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 14,
+   "first_fail": "The table says '5.93 \u00b1 0.34' for C3: Component-wise ridge recalibration on analytical (residual_mse_pct); results.json has 2.93 \u00b1 0.34.",
+   "cost_usd": 0.0013693219999999999
+  },
+  {
+   "fault_id": "topic-a-loop-1:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 15,
+   "first_fail": "62.3 in a results claim is not a value in results.json (nor a difference or ratio of two): \"C1 was worse on Airfoil (6.07 \u00b1 1.1 vs 4.73 \u00b1 0.11) and slower on both datasets (48.1 s vs 28.0 s; 62.3 s vs 3.35 s), contrary to the idea's runtime",
+   "cost_usd": 0.0012979399999999998
+  },
+  {
+   "fault_id": "topic-a-loop-1:misattributed_number",
+   "fault_type": "misattributed_number",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 15,
+   "first_fail": "0.95 in a results claim is not a value in results.json (nor a difference or ratio of two): 'They do not vary pairwise correlation from 0 to 0.95, do not compare against TreeSHAP, do not measure error against ground-truth components, do not ",
+   "cost_usd": 0.0014135139999999998
+  },
+  {
+   "fault_id": "topic-a-loop-1:reversed_comparison",
+   "fault_type": "reversed_comparison",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 16,
+   "first_fail": "0.95 in a results claim is not a value in results.json (nor a difference or ratio of two): 'They do not vary pairwise correlation from 0 to 0.95, do not compare against TreeSHAP, do not measure error against ground-truth components, do not ",
+   "cost_usd": 0.0013967139999999999
+  },
+  {
+   "fault_id": "topic-a-loop-1:swapped_method",
+   "fault_type": "swapped_method",
+   "detected": true,
+   "n_method_code_warns": 13,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 15,
+   "first_fail": "A real number on the wrong method or dataset: 2.55 is a value of C1: Interaction screening by importance / analytical, not of the cell this sentence names: 'C3 lowered Analytical residual MSE (2.55 \u00b1 0.32 vs 2.79 \u00b1 0.32), but the difference",
+   "cost_usd": 0.001393232
+  },
+  {
+   "fault_id": "topic-a-loop-1:method_code_missing_step",
+   "fault_type": "method_code_missing_step",
+   "detected": true,
+   "n_method_code_warns": 15,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 17,
+   "first_fail": "0.95 in a results claim is not a value in results.json (nor a difference or ratio of two): 'They do not vary pairwise correlation from 0 to 0.95, do not compare against TreeSHAP, do not measure error against ground-truth components, do not ",
+   "cost_usd": 0.0014391059999999997
+  },
+  {
+   "fault_id": "topic-a-loop-1:method_code_undescribed",
+   "fault_type": "method_code_undescribed",
+   "detected": true,
+   "n_method_code_warns": 13,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 15,
+   "first_fail": "0.95 in a results claim is not a value in results.json (nor a difference or ratio of two): 'They do not vary pairwise correlation from 0 to 0.95, do not compare against TreeSHAP, do not measure error against ground-truth components, do not ",
+   "cost_usd": 0.001388354
+  },
+  {
+   "fault_id": "protocol-live-3:control",
+   "fault_type": "control",
+   "detected": false,
+   "n_method_code_warns": 8,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 11,
+   "first_fail": null,
+   "cost_usd": 0.001439488
+  },
+  {
+   "fault_id": "protocol-live-3:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "n_method_code_warns": 8,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 11,
+   "first_fail": "R3 ('Cartesian Partition Refinement for Piecewise Constant Explainers') is not in the retrieval log, and the records returned for it are different papers.",
+   "cost_usd": 0.001544518
+  },
+  {
+   "fault_id": "protocol-live-3:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "n_method_code_warns": 8,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 12,
+   "first_fail": "Reference R5 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble Explainability through the Hoeffding Fu",
+   "cost_usd": 0.001462984
+  },
+  {
+   "fault_id": "protocol-live-3:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "n_method_code_warns": 8,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 12,
+   "first_fail": "The protocol table says '27.0 \u00b1 0.32' for TreeHFD on analytical@0.9 (runtime_s); results.json has '27.6 \u00b1 0.32'.",
+   "cost_usd": 0.0014641839999999999
+  },
+  {
+   "fault_id": "protocol-live-3:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "n_method_code_warns": 8,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 11,
+   "first_fail": "9.95 in a results claim is not a value in results.json (nor a difference or ratio of two): 'They do measure (a) component error against a known ground truth across rho from 0 to 9.95 and (b) bootstrap-refit rank stability, for one xgboost c",
+   "cost_usd": 0.0013083399999999999
+  },
+  {
+   "fault_id": "protocol-live-3:misattributed_number",
+   "fault_type": "misattributed_number",
+   "detected": false,
+   "n_method_code_warns": 8,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 12,
+   "first_fail": null,
+   "cost_usd": 0.001463584
+  },
+  {
+   "fault_id": "protocol-live-3:reversed_comparison",
+   "fault_type": "reversed_comparison",
+   "detected": false,
+   "n_method_code_warns": 8,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 12,
+   "first_fail": null,
+   "cost_usd": 0.001582984
+  },
+  {
+   "fault_id": "protocol-live-3:swapped_method",
+   "fault_type": "swapped_method",
+   "detected": false,
+   "n_method_code_warns": 7,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 10,
+   "first_fail": null,
+   "cost_usd": 0.001600626
+  },
+  {
+   "fault_id": "protocol-live-3:method_code_missing_step",
+   "fault_type": "method_code_missing_step",
+   "detected": true,
+   "n_method_code_warns": 9,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 12,
+   "first_fail": null,
+   "cost_usd": 0.0015252319999999996
+  },
+  {
+   "fault_id": "protocol-live-3:method_code_undescribed",
+   "fault_type": "method_code_undescribed",
+   "detected": true,
+   "n_method_code_warns": 9,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 13,
+   "first_fail": null,
+   "cost_usd": 0.001550938
+  },
+  {
+   "fault_id": "protocol-live-3:figure_altered",
+   "fault_type": "figure_altered",
+   "detected": true,
+   "n_method_code_warns": 8,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 12,
+   "first_fail": "fig_residual_mse_pct: results/C2: Vary depth_variable/airfoil/residual_mse_pct was plotted as 35.0458 \u00b1 0.912443, results.json has 22.6972 \u00b1 0.912443",
+   "cost_usd": 0.001474626
+  },
+  {
+   "fault_id": "protocol-live-3:reproduction_basis_wrong",
+   "fault_type": "reproduction_basis_wrong",
+   "detected": true,
+   "n_method_code_warns": 8,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 12,
+   "first_fail": "The paper says the baseline was reproduced on held-out rows for Airfoil; the registered target compares in-sample rows: \"The baseline reproduction passed the registered tolerance gate on both datasets (held-out residual MSE, the paper's con",
+   "cost_usd": 0.001464784
+  },
+  {
+   "fault_id": "topic-tabular:control",
+   "fault_type": "control",
+   "detected": false,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "first_fail": null,
+   "cost_usd": 0.00031658
+  },
+  {
+   "fault_id": "topic-tabular:unresolved_citation",
+   "fault_type": "unresolved_citation",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 0,
+   "first_fail": "[R999] is cited but is not a retrieved record or listed.",
+   "cost_usd": 0.00027303199999999993
+  },
+  {
+   "fault_id": "topic-tabular:moved_citation",
+   "fault_type": "moved_citation",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The sentence cites [R1] but its claim is linked to [R29]: 'The same abstract names a stabilisation point of 2,500 rows.'",
+   "cost_usd": 0.000287268
+  },
+  {
+   "fault_id": "topic-tabular:fabricated_quote",
+   "fault_type": "fabricated_quote",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The quote behind this claim is not in [R29]: it appears in any passage or nowhere (fabricated_quote): 'the effect is large and consistent across all of the datasets that were examined here'",
+   "cost_usd": 0.00029069199999999995
+  },
+  {
+   "fault_id": "topic-tabular:overstated_claim",
+   "fault_type": "overstated_claim",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The passage cited does not support the claim as written: 'It has been conclusively proven that tabPFN is reported to clearly outperform boosted trees on datasets with up to 1,000 training points.'",
+   "cost_usd": 0.00034600799999999997
+  },
+  {
+   "fault_id": "topic-tabular:swapped_claim_text",
+   "fault_type": "swapped_claim_text",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 0,
+   "first_fail": "The passage cited does not support the claim as written: 'The estimation study comparing tree ensembles and deep learning reports that deep neural networks achieve the minimal MSE when facing strong'",
+   "cost_usd": 0.00030883600000000005
+  },
+  {
+   "fault_id": "topic-credal-dro:control",
+   "fault_type": "control",
+   "detected": false,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 1,
+   "first_fail": null,
+   "cost_usd": 0.00048310399999999993
+  },
+  {
+   "fault_id": "topic-credal-dro:unresolved_citation",
+   "fault_type": "unresolved_citation",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 0,
+   "first_fail": "[R999] is cited but is not a retrieved record or listed.",
+   "cost_usd": 0.00040351199999999997
+  },
+  {
+   "fault_id": "topic-credal-dro:moved_citation",
+   "fault_type": "moved_citation",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "first_fail": "The sentence cites [R37] but its claim is linked to [R7]: 'In the portfolio experiments, the LCX ambiguity set was calibrated by bootstrapping so as to guarantee a desired reliability level 1 - \u03b2.'",
+   "cost_usd": 0.000425756
+  },
+  {
+   "fault_id": "topic-credal-dro:fabricated_quote",
+   "fault_type": "fabricated_quote",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 1,
+   "first_fail": "The quote behind this claim is not in [R7]: it appears in any passage or nowhere (fabricated_quote): 'the effect is large and consistent across all of the datasets that were examined here'",
+   "cost_usd": 0.000442236
+  },
+  {
+   "fault_id": "topic-credal-dro:changed_qualifier",
+   "fault_type": "changed_qualifier",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 2,
+   "first_fail": "The quote behind this claim is not in [R52]: it appears in any passage or nowhere (fabricated_quote): 'The results show that our DR-MCO models does outperform MRCO and MSCO models when the data size is s'",
+   "cost_usd": 0.00047672799999999994
+  },
+  {
+   "fault_id": "topic-credal-dro:overstated_claim",
+   "fault_type": "overstated_claim",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The passage cited does not support the claim as written: 'It has been conclusively proven that it adds that the optimal value of the robust problem then gives an upper confidence bound on out-of-sam'",
+   "cost_usd": 0.00046815599999999995
+  },
+  {
+   "fault_id": "topic-credal-dro:swapped_claim_text",
+   "fault_type": "swapped_claim_text",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 0,
+   "first_fail": "The passage cited does not support the claim as written: 'On contamination, one framework based on trimmings is said to address decision problems under contaminated samples, illustrated on newsvendo'",
+   "cost_usd": 0.00043218399999999995
+  }
+ ]
+}

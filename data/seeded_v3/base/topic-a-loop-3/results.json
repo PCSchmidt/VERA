@@ -1,0 +1,418 @@
+{
+ "run_id": "topic-a-loop-3",
+ "metric": "residual_mse_pct",
+ "n_seeds": 3,
+ "datasets": [
+  "analytical",
+  "uncorrelated",
+  "correlated95",
+  "airfoil"
+ ],
+ "results": {
+  "TreeHFD (baseline)": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.7922779073042854,
+     "std": 0.322855299765166,
+     "values": [
+      3.145743556617016,
+      2.3652455761629287,
+      2.8658445891329105
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5695270989668413,
+     "std": 0.024874808467098025,
+     "values": [
+      0.5850437308043616,
+      0.5891103218988181,
+      0.5344272441973442
+     ]
+    },
+    "runtime_s": {
+     "mean": 29.79564978967149,
+     "std": 0.6518444529385797,
+     "values": [
+      29.181866726998123,
+      30.698196045006625,
+      29.506886597009725
+     ]
+    }
+   },
+   "uncorrelated": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 5.5431428373128,
+     "std": 0.3986005121642262,
+     "values": [
+      5.923345894148419,
+      5.713468526410559,
+      4.992614091379425
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.7924193643925191,
+     "std": 0.08960384058718934,
+     "values": [
+      0.8403066162233142,
+      0.8700797773044842,
+      0.6668716996497592
+     ]
+    },
+    "runtime_s": {
+     "mean": 30.984187954333418,
+     "std": 0.6915846761470413,
+     "values": [
+      30.099394750999636,
+      31.06562778999796,
+      31.787541322002653
+     ]
+    }
+   },
+   "correlated95": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 1.0251194747014507,
+     "std": 0.022129046133958368,
+     "values": [
+      1.0411836782690296,
+      0.9938280082014265,
+      1.040346737633896
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.12575942969616147,
+     "std": 0.03407941187381294,
+     "values": [
+      0.10339808428819593,
+      0.17391424396092584,
+      0.09996596083936263
+     ]
+    },
+    "runtime_s": {
+     "mean": 21.349482685671926,
+     "std": 0.2457134655368799,
+     "values": [
+      21.61702678501024,
+      21.02367476200743,
+      21.407746509998105
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.732528004675472,
+     "std": 0.11249578737353107,
+     "values": [
+      4.8150211208663505,
+      4.80909111342034,
+      4.573471779739722
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.522466107765438,
+     "std": 0.15158697779427285,
+     "values": [
+      1.7222609132043591,
+      1.4898698532153793,
+      1.3552675568765755
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.2584829420035626,
+     "std": 0.054103524138897505,
+     "values": [
+      3.3274587680061813,
+      3.195315096003469,
+      3.252674962001038
+     ]
+    }
+   }
+  },
+  "C3: Residual spline main effects": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.80990243979212,
+     "std": 0.32842142169435684,
+     "values": [
+      3.162644568705406,
+      2.3718623320596133,
+      2.895200418611341
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5479250887611425,
+     "std": 0.022792654332702843,
+     "values": [
+      0.5645326193085913,
+      0.5635462076905189,
+      0.5156964392843173
+     ]
+    },
+    "runtime_s": {
+     "mean": 32.08315355133285,
+     "std": 0.5388331289829407,
+     "values": [
+      31.726954634999856,
+      32.84465120999084,
+      31.67785480900784
+     ]
+    }
+   },
+   "uncorrelated": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 5.5798800759871865,
+     "std": 0.4061727760520012,
+     "values": [
+      5.96997146154941,
+      5.749986432620138,
+      5.019682333792009
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.7636292282910628,
+     "std": 0.08297398737374151,
+     "values": [
+      0.808787567669411,
+      0.8348454058185241,
+      0.6472547113852535
+     ]
+    },
+    "runtime_s": {
+     "mean": 33.82965562933532,
+     "std": 0.7911584125380698,
+     "values": [
+      33.63521388299705,
+      32.97265338600846,
+      34.88109961900045
+     ]
+    }
+   },
+   "correlated95": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 1.0252662209829022,
+     "std": 0.017124860916287156,
+     "values": [
+      1.0343601269251337,
+      1.0012804679423724,
+      1.0401580680812006
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.12242838168042565,
+     "std": 0.033394265980319096,
+     "values": [
+      0.09978244042027253,
+      0.16964197098555037,
+      0.09786073363545403
+     ]
+    },
+    "runtime_s": {
+     "mean": 25.943613086332334,
+     "std": 0.4557371620764555,
+     "values": [
+      26.58033454499673,
+      25.71176177500456,
+      25.53874293899571
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.7631850599052195,
+     "std": 0.1340873251816651,
+     "values": [
+      4.839141103827436,
+      4.875680044511154,
+      4.574734031377069
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.4833385099659726,
+     "std": 0.1629771444459617,
+     "values": [
+      1.7007417395436406,
+      1.4409256668095929,
+      1.3083481235446845
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.862380762666968,
+     "std": 0.09727130424093396,
+     "values": [
+      3.9839366050000535,
+      3.745829256004072,
+      3.8573764269967796
+     ]
+    }
+   }
+  },
+  "C2: Residual refit on components": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.9205258946459316,
+     "std": 0.3443658178265527,
+     "values": [
+      3.3109026055651163,
+      2.473174412599669,
+      2.97750066577301
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5568215631624314,
+     "std": 0.024250891968285764,
+     "values": [
+      0.5706751796162656,
+      0.5770648971001909,
+      0.5227246127708376
+     ]
+    },
+    "runtime_s": {
+     "mean": 33.14754990733733,
+     "std": 0.12871456902820344,
+     "values": [
+      33.32163840600697,
+      33.1065605860058,
+      33.014450729999226
+     ]
+    }
+   },
+   "uncorrelated": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 5.7909451904431535,
+     "std": 0.3612397419040744,
+     "values": [
+      6.197219343908005,
+      5.856037886230854,
+      5.319578341190605
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.7743631746485783,
+     "std": 0.09376899350587047,
+     "values": [
+      0.8226343582028549,
+      0.8571918565489534,
+      0.6432633091939267
+     ]
+    },
+    "runtime_s": {
+     "mean": 35.008373194999876,
+     "std": 0.9284911198960023,
+     "values": [
+      35.63782228800119,
+      33.69565615399915,
+      35.69164114299929
+     ]
+    }
+   },
+   "correlated95": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 1.087121309838376,
+     "std": 0.04274962270500654,
+     "values": [
+      1.1302536226662396,
+      1.028867307279977,
+      1.1022429995689116
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.12163872998101195,
+     "std": 0.0346243504211405,
+     "values": [
+      0.09738362075916766,
+      0.17060425034204307,
+      0.09692831884182514
+     ]
+    },
+    "runtime_s": {
+     "mean": 25.829689516336657,
+     "std": 0.15657163207509672,
+     "values": [
+      25.618290458005504,
+      25.992440272995736,
+      25.87833781800873
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.882303410084821,
+     "std": 0.17213647686574296,
+     "values": [
+      5.0736408625428036,
+      4.916976290669589,
+      4.65629307704207
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.4972335284187615,
+     "std": 0.1467175978827923,
+     "values": [
+      1.6871546405704787,
+      1.4746370425852284,
+      1.3299089021005772
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.9551422656707778,
+     "std": 0.10412460369713983,
+     "values": [
+      3.9940582039998844,
+      3.8126921750081237,
+      4.058676418004325
+     ]
+    }
+   }
+  }
+ },
+ "best": null,
+ "ideas": [
+  {
+   "name": "C1: Restrict to active interactions",
+   "description": "Compute the xgboost model's actual co-occurring variable pairs along tree paths (from the trees' split structure). Pass only those pairs, ranked by gain or frequency and truncated to the top few, as interaction_list. This drops empty interaction components, which cuts runtime and removes noisy components. Keep the number of pairs fixed across seeds."
+  },
+  {
+   "name": "C2: Residual refit on components",
+   "description": "After fitting TreeHFD on the training data, compute the residuals between the model predictions and the component sum. Fit a ridge regression of the model predictions on the stacked component columns (main effects and interactions) to get per-component scalar weights and an intercept. Apply these weights on test data. Each component still depends only on its own variables."
+  },
+  {
+   "name": "C3: Residual spline main effects",
+   "description": "Take the residual (model prediction minus current component sum) on training data. For each variable, fit a low-order spline or binned smoother on that variable alone. Do the same for each selected variable pair, using a 2D binned smoother or tensor spline. Add these corrections to the matching components. Evaluate on held-out data."
+  }
+ ]
+}

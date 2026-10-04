@@ -1,0 +1,50 @@
+{
+ "seed": 20261012,
+ "rule": "by source run (document): dev and test share no document; the test sources were not used to develop the v3 audit",
+ "dev_docs": [
+  "gen-sonnet-2",
+  "gen-sonnet-3",
+  "protocol-live-3",
+  "topic-a-loop-1",
+  "topic-credal-dro",
+  "topic-tabular"
+ ],
+ "test_docs": [
+  "protocol-live-1",
+  "protocol-live-2",
+  "topic-a-loop-2",
+  "topic-a-loop-3",
+  "topic-conformal",
+  "topic-research-agents"
+ ],
+ "n_items": 115,
+ "n_test_faults": 52,
+ "n_test_controls": 6,
+ "test_fault_types": [
+  "altered_reference",
+  "changed_qualifier",
+  "fabricated_citation",
+  "fabricated_quote",
+  "figure_altered",
+  "method_code_missing_step",
+  "method_code_undescribed",
+  "misattributed_number",
+  "moved_citation",
+  "numeric_prose",
+  "numeric_table",
+  "overstated_claim",
+  "reproduction_basis_wrong",
+  "reversed_comparison",
+  "swapped_claim_text",
+  "swapped_method",
+  "unresolved_citation"
+ ],
+ "test_sha256": "add9e17c304613afad4eb44599a1bb1e578901b82ff2be79ac817647dc2a48d9",
+ "frozen_audit_sha256": null,
+ "known_misses_not_tuned_for": [
+  "reversed_comparison",
+  "misattributed_number",
+  "overstated_claim"
+ ],
+ "note": "fixed before the v3 audit ran on any test item; the audit's own hash is frozen before the test run"
+}
