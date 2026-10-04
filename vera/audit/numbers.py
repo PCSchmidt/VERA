@@ -112,6 +112,11 @@ def result_values(results_json: dict) -> set[float]:
                     known |= {diff, abs(diff)}
                     if b:
                         known |= {abs(diff) / abs(b) * 100, cell["mean"] / b, cell["mean"] / b * 100}
+    for d in datasets:  # the baseline's own values for every metric it has: the paper states them (the basis)
+        for key, _ in metric_defs(results_json):
+            cell = base.get(d, {}).get(key)
+            if isinstance(cell, dict) and "mean" in cell:
+                known |= {cell["mean"], cell["std"]}
     return {round(k, 6) for k in known | protocol_values(results_json)}
 
 

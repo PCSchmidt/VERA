@@ -1,0 +1,153 @@
+{
+ "run_id": "protocol-live-3",
+ "models": {
+  "ideate": "glm-flash",
+  "subset_exp": "glm-flash",
+  "write_up": "glm-flash"
+ },
+ "completed": false,
+ "stop": {
+  "stage": "audit",
+  "reason": "gate: audit failed with 2 failing finding(s): ['0.570, 1.52 in a results claim is not a value in results.json (nor a difference or ratio of two): \"The baseline reproduction passed the registered tolerance gate on both datasets (in-sample residual MSE, the paper\\'s convention: Analytical 0.570%, Airfoil 1.52\"', '0.570, 1.52 in a results claim is not a value in results.json (nor a difference or ratio of two): \"Note the row set: the reproduced values are in-sample residual MSE under the paper\\'s convention — Analytical 0.570%, Airfoil 1.52% — while the results table bel\"']"
+ },
+ "total_cost_usd": 0.005722,
+ "budget": {
+  "max_usd": 1.0,
+  "spent_usd": 0.005721680800000002,
+  "max_wall_seconds": 21600,
+  "elapsed_seconds": 2833
+ },
+ "by_component": {
+  "p2.cheap_path": {
+   "calls": 37,
+   "cost_usd": 0.002461,
+   "input_tokens": 47796,
+   "output_tokens": 1231,
+   "max_input_tokens": 4630,
+   "input_share": 0.975
+  },
+  "p3.ideate": {
+   "calls": 1,
+   "cost_usd": 0.000163,
+   "input_tokens": 1304,
+   "output_tokens": 234,
+   "max_input_tokens": 1304,
+   "input_share": 0.848
+  },
+  "p3.subset_exp": {
+   "calls": 2,
+   "cost_usd": 0.00101,
+   "input_tokens": 928,
+   "output_tokens": 1955,
+   "max_input_tokens": 466,
+   "input_share": 0.322
+  },
+  "p3.write_up": {
+   "calls": 2,
+   "cost_usd": 0.002088,
+   "input_tokens": 14177,
+   "output_tokens": 3178,
+   "max_input_tokens": 9318,
+   "input_share": 0.817
+  }
+ },
+ "stages": [
+  {
+   "stage": "baseline",
+   "decision": "accept",
+   "producer": "p3.baseline",
+   "gate_question": "loop.baseline_reproduced",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "confidence": 0.95
+   },
+   "spent_usd_after": 5.2836e-05
+  },
+  {
+   "stage": "ideate",
+   "decision": "accept",
+   "producer": "p3.ideate",
+   "gate_question": "loop.idea_worth_run",
+   "gate_answer": 1,
+   "gate_judge": "p2.judge",
+   "n_gates": 3,
+   "metrics": {
+    "n_selected": 2.0
+   },
+   "spent_usd_after": 0.0003374008
+  },
+  {
+   "stage": "subset_exp",
+   "decision": "reject",
+   "producer": "p3.subset_exp",
+   "gate_question": "loop.beats_baseline",
+   "gate_answer": false,
+   "gate_judge": "loop.rule_gate",
+   "n_gates": 4,
+   "metrics": {
+    "n_ideas_run": 2.0,
+    "n_beating_baseline": 0.0
+   },
+   "spent_usd_after": 0.0014515024
+  },
+  {
+   "stage": "write_up",
+   "decision": "accept",
+   "producer": "p3.write_up",
+   "gate_question": "loop.guidance_met",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "words": 1096.0,
+    "problems": 0.0
+   },
+   "spent_usd_after": 0.0037906528
+  },
+  {
+   "stage": "audit",
+   "decision": "reject",
+   "producer": "p1.audit",
+   "gate_question": "loop.audit_clean",
+   "gate_answer": false,
+   "gate_judge": "p1.audit_gate",
+   "n_gates": 1,
+   "metrics": {
+    "fail": 2.0,
+    "warn": 11.0,
+    "info": 0.0,
+    "claims": 179.0
+   },
+   "spent_usd_after": 0.005721680800000002
+  }
+ ],
+ "audit": {
+  "overall": "red",
+  "fail": 2,
+  "warn": 11,
+  "info": 0,
+  "checks_skipped": {
+   "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+   "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+  }
+ },
+ "best_idea": null,
+ "held_out_residual_mse_pct": {
+  "TreeHFD (baseline)": {
+   "analytical": 2.792,
+   "airfoil": 4.733
+  },
+  "C2: Vary depth_variable": {
+   "analytical": 12.806,
+   "airfoil": 22.697
+  },
+  "C3: Residual refit calibration": {
+   "analytical": 2.799,
+   "airfoil": 4.734
+  }
+ },
+ "baseline_name": "TreeHFD (baseline)",
+ "ledger": "data/ledger/run_protocol-live-3.jsonl"
+}
