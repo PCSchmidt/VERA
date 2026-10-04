@@ -1,0 +1,470 @@
+{
+ "paper_id": "runs4-credal",
+ "paper_source": "paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:0"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:0",
+     "source": "log",
+     "reference": "results.json (rendered table)",
+     "matched": false,
+     "detail": "Could not confirm the comparison against the table: 'We tried to improve LV, a bulk-calibrated credal-ambiguity-set method for robust linear regression, on California Housing under an East-to-West geographic shift'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "num.claim_consistent",
+     "answer": false,
+     "probabilities": {
+      "true": 0.28,
+      "false": 0.72
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.0702e-05,
+     "latency_ms": 247,
+     "trace_id": "66cc69c256604580a74f97dbd2403970",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "Could not confirm the comparison against the table: 'We tried to improve LV, a bulk-calibrated credal-ambiguity-set method for robust linear regression, on California Housing under an East-to-West geographic shift'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:17"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:17",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "50, 30 in the text is not a value in results.json (nor a difference or ratio of two): 'Data: California Housing, trained on the Eastern 50% and tested on the Western 20%, with a 30% gap between them.'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "50, 30 in the text is not a value in results.json (nor a difference or ratio of two): 'Data: California Housing, trained on the Eastern 50% and tested on the Western 20%, with a 30% gap between them.'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:27"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:27",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "0.5 in the text is not a value in results.json (nor a difference or ratio of two): '**C2, Huber-quantile hybrid loss.** The absolute loss is replaced by a Huberized quantile loss at tau=0.5.'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "0.5 in the text is not a value in results.json (nor a difference or ratio of two): '**C2, Huber-quantile hybrid loss.** The absolute loss is replaced by a Huberized quantile loss at tau=0.5.'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:49"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:49",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "200 in the text is not a value in results.json (nor a difference or ratio of two): 'Relation to the research question: that question concerns credal, Wasserstein and mean-covariance ambiguity sets under a common tuning rule, with sample sizes o'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "200 in the text is not a value in results.json (nor a difference or ratio of two): 'Relation to the research question: that question concerns credal, Wasserstein and mean-covariance ambiguity sets under a common tuning rule, with sample sizes o'"
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C1: Covariate-shift importance reweighting:step0"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C1: Covariate-shift importance reweighting:step0",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: 'Ideas: three were generated and two were run on the subset.', and the code of C1: Covariate-shift importance reweighting does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.04,
+      "false": 0.96
+     },
+     "confidence": 0.96,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.8808e-05,
+     "latency_ms": 183,
+     "trace_id": "7b27db1571534bfc9bd2d70b3cc03921",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: 'Ideas: three were generated and two were run on the subset.', and the code of C1: Covariate-shift importance reweighting does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C1: Covariate-shift importance reweighting:step3"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C1: Covariate-shift importance reweighting:step3",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: '**C2, Huber-quantile hybrid loss.** The absolute loss is replaced by a Huberized quantile loss at tau=0.5.', and the code of C1: Covariate-shift importance reweighting does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.04,
+      "false": 0.96
+     },
+     "confidence": 0.96,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.9648e-05,
+     "latency_ms": 148,
+     "trace_id": "34bac6d97fe141248462ca4d3e2ebbed",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: '**C2, Huber-quantile hybrid loss.** The absolute loss is replaced by a Huberized quantile loss at tau=0.5.', and the code of C1: Covariate-shift importance reweighting does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C1: Covariate-shift importance reweighting:step4"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C1: Covariate-shift importance reweighting:step4",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: 'It is quadratic for small residuals and linear beyond a cross-validated threshold, and is solved by scipy least_squares or IRLS.', and the code of C1: Covariate-shift importance reweighting does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.03,
+      "false": 0.97
+     },
+     "confidence": 0.97,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.9606e-05,
+     "latency_ms": 144,
+     "trace_id": "fc151e25ab774ccd88325832f3a69a08",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: 'It is quadratic for small residuals and linear beyond a cross-validated threshold, and is solved by scipy least_squares or IRLS.', and the code of C1: Covariate-shift importance reweighting does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C1: Covariate-shift importance reweighting:fit_predict"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C1: Covariate-shift importance reweighting:fit_predict",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The code of C1: Covariate-shift importance reweighting has a function 'fit_predict' that the paper does not describe."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.paper_describes_code",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.000107144,
+     "latency_ms": 18613,
+     "trace_id": "5db7442291e64614860c27a43c679ac5",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The code of C1: Covariate-shift importance reweighting has a function 'fit_predict' that the paper does not describe."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Huber-quantile hybrid loss:step0"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Huber-quantile hybrid loss:step0",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: 'Ideas: three were generated and two were run on the subset.', and the code of C2: Huber-quantile hybrid loss does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.1,
+      "false": 0.9
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 4.3049999999999996e-05,
+     "latency_ms": 271,
+     "trace_id": "9dd511e9746b4de6a2191f9bcf8f9728",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: 'Ideas: three were generated and two were run on the subset.', and the code of C2: Huber-quantile hybrid loss does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Huber-quantile hybrid loss:step1"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Huber-quantile hybrid loss:step1",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: '**C1, covariate-shift importance reweighting.** A logistic classifier (sklearn) separates eastern training rows from western unlabeled test covariates.', and the code of C2: Huber-quantile hybrid loss does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.01,
+      "false": 0.99
+     },
+     "confidence": 0.99,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 4.4058e-05,
+     "latency_ms": 181,
+     "trace_id": "91de3f26d8b441debc7458217c175323",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: '**C1, covariate-shift importance reweighting.** A logistic classifier (sklearn) separates eastern training rows from western unlabeled test covariates.', and the code of C2: Huber-quantile hybrid loss does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Huber-quantile hybrid loss:step2"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Huber-quantile hybrid loss:step2",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: 'Its predicted odds serve as density-ratio weights, clipped to a robust cap, in the absolute-loss fit.', and the code of C2: Huber-quantile hybrid loss does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.03,
+      "false": 0.97
+     },
+     "confidence": 0.97,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 4.3428e-05,
+     "latency_ms": 180,
+     "trace_id": "8e472dba389e4bcab3aae10e02314753",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: 'Its predicted odds serve as density-ratio weights, clipped to a robust cap, in the absolute-loss fit.', and the code of C2: Huber-quantile hybrid loss does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Huber-quantile hybrid loss:step3"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Huber-quantile hybrid loss:step3",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: '**C2, Huber-quantile hybrid loss.** The absolute loss is replaced by a Huberized quantile loss at tau=0.5.', and the code of C2: Huber-quantile hybrid loss does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.05,
+      "false": 0.95
+     },
+     "confidence": 0.95,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 4.389e-05,
+     "latency_ms": 172,
+     "trace_id": "4ba5fbd588c444d0b9912e5c10596c44",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: '**C2, Huber-quantile hybrid loss.** The absolute loss is replaced by a Huberized quantile loss at tau=0.5.', and the code of C2: Huber-quantile hybrid loss does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Huber-quantile hybrid loss:_design"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Huber-quantile hybrid loss:_design",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The code of C2: Huber-quantile hybrid loss has a function '_design' that the paper does not describe."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.paper_describes_code",
+     "answer": false,
+     "probabilities": {
+      "true": 0.12,
+      "false": 0.88
+     },
+     "confidence": 0.88,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.4066e-05,
+     "latency_ms": 162,
+     "trace_id": "f4e3ab541c304b5197e320fa612fcfe6",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The code of C2: Huber-quantile hybrid loss has a function '_design' that the paper does not describe."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Huber-quantile hybrid loss:fit_predict"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Huber-quantile hybrid loss:fit_predict",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The code of C2: Huber-quantile hybrid loss has a function 'fit_predict' that the paper does not describe."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.paper_describes_code",
+     "answer": false,
+     "probabilities": {
+      "true": 0.19,
+      "false": 0.81
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.8556e-05,
+     "latency_ms": 149,
+     "trace_id": "00aac60166e74d39bbdc2cb6c065b694",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The code of C2: Huber-quantile hybrid loss has a function 'fit_predict' that the paper does not describe."
+  }
+ ],
+ "overall": "amber",
+ "checks_run": [
+  "citation",
+  "numeric",
+  "figure",
+  "reproduction_basis",
+  "method_code",
+  "novelty"
+ ],
+ "checks_skipped": {
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.0009906799999999999,
+ "wall_seconds": 27,
+ "schema_version": "0.10"
+}

@@ -1,0 +1,26 @@
+{
+ "runs": [
+  {
+   "id": "runs4-tree-explain",
+   "problem": "treehfd",
+   "spent_usd": 0.1016,
+   "cap_usd": 1.5,
+   "completed": true,
+   "audit": "amber",
+   "ledger": "data/ledger/run_runs4-tree-explain.jsonl",
+   "note": "One session. The audit is amber: the method-code check raised warnings on sentences that describe the protocol rather than the idea."
+  },
+  {
+   "id": "runs4-credal",
+   "problem": "credal",
+   "spent_usd": 0.059,
+   "cap_usd": 1.5,
+   "completed": true,
+   "audit": "amber",
+   "ledger": "data/ledger/run_runs4-credal.jsonl",
+   "note": "The first attempt stopped with a crash at the results gate after the baseline and both idea runs (tables.beats read the previous problem's primary metric); the bug was fixed and the same run resumed from its checkpoint, so the baseline and ideas ran once. One run, two sessions, one ledger."
+  }
+ ],
+ "cap_usd_both": 6.0,
+ "fresh_topics": "the three fresh topics ran the literature stage only (data/literature/)"
+}

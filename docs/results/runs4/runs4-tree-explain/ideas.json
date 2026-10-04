@@ -1,0 +1,17 @@
+{
+ "ideas": [
+  {
+   "name": "C1: Prune weak interactions",
+   "description": "Run TreeHFD with interaction_order=2, inspect .interaction_list component magnitudes on a validation split, drop interactions whose mean absolute contribution is below a small threshold (e.g., 1% of total), then refit with interaction_list restricted to the retained pairs to reduce residual noise and speed prediction."
+  },
+  {
+   "name": "C2: Shallower variable selection depth",
+   "description": "Tune depth_variable on a validation split: fit TreeHFD with several depth_variable values (e.g., 1, 2, 3), evaluate held-out Residual MSE for each, and pick the depth minimizing it. Shallower selection can reduce overfitting of component estimates while keeping every component a function of its own variables only."
+  },
+  {
+   "name": "C3: Ensemble over bootstrap fits",
+   "description": "Fit TreeHFD on several bootstrap resamples of X_train with the same interaction_list, then average the predicted main-effect and interaction matrices across fits before computing the Residual MSE. Averaging reduces variance of estimated component functions, improving accuracy at modest extra CPU cost using only numpy and the treehfd API."
+  }
+ ],
+ "raw_reply": "[{\"name\": \"Prune weak interactions\", \"description\": \"Run TreeHFD with interaction_order=2, inspect .interaction_list component magnitudes on a validation split, drop interactions whose mean absolute contribution is below a small threshold (e.g., 1% of total), then refit with interaction_list restricted to the retained pairs to reduce residual noise and speed prediction.\"}, {\"name\": \"Shallower variable selection depth\", \"description\": \"Tune depth_variable on a validation split: fit TreeHFD with several depth_variable values (e.g., 1, 2, 3), evaluate held-out Residual MSE for each, and pick the depth minimizing it. Shallower selection can reduce overfitting of component estimates while keeping every component a function of its own variables only.\"}, {\"name\": \"Ensemble over bootstrap fits\", \"description\": \"Fit TreeHFD on several bootstrap resamples of X_train with the same interaction_list, then average the predicted main-effect and interaction matrices across fits before computing the Residual MSE. Averaging reduces variance of estimated component functions, improving accuracy at modest extra CPU cost using only numpy and the treehfd API.\"}]"
+}

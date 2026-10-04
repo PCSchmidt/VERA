@@ -1,0 +1,17 @@
+{
+ "ideas": [
+  {
+   "name": "C1: Covariate-shift importance reweighting",
+   "description": "Fit a logistic classifier (sklearn) distinguishing eastern training rows from the western unlabeled test covariates; use predicted odds as density-ratio weights in the absolute-loss fit, clipped to a robust cap. This reweights training rows toward the deployment region's covariate distribution, directly targeting the geographic shift that inflates MAE."
+  },
+  {
+   "name": "C2: Huber-quantile hybrid loss",
+   "description": "Replace the absolute loss with a Huberized quantile loss at tau=0.5: quadratic for small residuals, linear beyond a cross-validated threshold, solved by scipy least_squares or IRLS. The bulk-calibrated credal set in LV mainly protects the tail; a Huber-quantile fit may achieve lower central MAE while retaining mild tail robustness under the western shift."
+  },
+  {
+   "name": "C3: Shrunk robust ensemble",
+   "description": "Fit LV, plain LAD, and ridge on the training split; also fit LAD on reweighted rows. Average the three predictors with weights chosen by leave-one-out cross-validation on eastern absolute error, then shrink the ensemble coefficients toward the LAD fit by a CV-tuned factor. Combining complementary robust fits often reduces MAE beyond any single fit."
+  }
+ ],
+ "raw_reply": "```json\n[\n  {\"name\": \"Covariate-shift importance reweighting\", \"description\": \"Fit a logistic classifier (sklearn) distinguishing eastern training rows from the western unlabeled test covariates; use predicted odds as density-ratio weights in the absolute-loss fit, clipped to a robust cap. This reweights training rows toward the deployment region's covariate distribution, directly targeting the geographic shift that inflates MAE.\"},\n  {\"name\": \"Huber-quantile hybrid loss\", \"description\": \"Replace the absolute loss with a Huberized quantile loss at tau=0.5: quadratic for small residuals, linear beyond a cross-validated threshold, solved by scipy least_squares or IRLS. The bulk-calibrated credal set in LV mainly protects the tail; a Huber-quantile fit may achieve lower central MAE while retaining mild tail robustness under the western shift.\"},\n  {\"name\": \"Shrunk robust ensemble\", \"description\": \"Fit LV, plain LAD, and ridge on the training split; also fit LAD on reweighted rows. Average the three predictors with weights chosen by leave-one-out cross-validation on eastern absolute error, then shrink the ensemble coefficients toward the LAD fit by a CV-tuned factor. Combining complementary robust fits often reduces MAE beyond any single fit.\"}\n]\n```"
+}

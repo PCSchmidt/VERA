@@ -1,0 +1,148 @@
+{
+ "results": {
+  "TreeHFD (baseline)": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.7922779073042854,
+     "std": 0.322855299765166,
+     "values": [
+      3.145743556617016,
+      2.3652455761629287,
+      2.8658445891329105
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5695270989668413,
+     "std": 0.024874808467098025,
+     "values": [
+      0.5850437308043616,
+      0.5891103218988181,
+      0.5344272441973442
+     ]
+    },
+    "runtime_s": {
+     "mean": 30.75640732132403,
+     "std": 0.12974774977883324,
+     "values": [
+      30.838303005992202,
+      30.57325701598893,
+      30.857661941990955
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.732528004675472,
+     "std": 0.11249578737353107,
+     "values": [
+      4.8150211208663505,
+      4.80909111342034,
+      4.573471779739722
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.522466107765438,
+     "std": 0.15158697779427285,
+     "values": [
+      1.7222609132043591,
+      1.4898698532153793,
+      1.3552675568765755
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.7605163136710567,
+     "std": 0.07722948370592467,
+     "values": [
+      3.8577671670063864,
+      3.6688409929920454,
+      3.7549407810147386
+     ]
+    }
+   }
+  },
+  "C2: Shallower variable selection depth": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.722071242300371,
+     "std": 1.0164138257072168,
+     "values": [
+      4.658821203871987,
+      3.510054362850691,
+      5.997338160178432
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 3.244634086885085,
+     "std": 0.49235668683849076,
+     "values": [
+      3.400856902373008,
+      2.5788846234021903,
+      3.754160734880056
+     ]
+    },
+    "runtime_s": {
+     "mean": 15.030629826670824,
+     "std": 0.30616757648341314,
+     "values": [
+      15.234184931992786,
+      15.259808263013838,
+      14.597896285005845
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 6.380632135638016,
+     "std": 0.5661780732440185,
+     "values": [
+      6.079926715983327,
+      5.888319610777666,
+      7.173650080153052
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 4.06748523091858,
+     "std": 0.4893245373736776,
+     "values": [
+      3.8086938464795184,
+      3.6410679880430097,
+      4.752693858233211
+     ]
+    },
+    "runtime_s": {
+     "mean": 4.648054996330757,
+     "std": 0.15640673937591196,
+     "values": [
+      4.848989997990429,
+      4.467503502004547,
+      4.627671488997294
+     ]
+    }
+   }
+  }
+ },
+ "log": {
+  "C2: Shallower variable selection depth": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "error": null,
+     "code": "import numpy as np\nfrom treehfd import XGBTreeHFD\n\n\ndef _residual_mse(model, X, eta0, comps):\n    pred = model.predict(X)\n    approx = np.full(X.shape[0], eta0, dtype=float)\n    for idx, vals in comps.items():\n        approx = approx + vals\n    return float(np.mean((approx - pred) ** 2))\n\n\ndef _fit_predict(model, X_tr, X_va, depth_variable):\n    hfd = XGBTreeHFD(model)\n    hfd.fit(X_tr, interaction_order=2, depth_variable=depth_variable, verbose=False)\n    y_main, y_order2 = hfd.predict(X_va, verbose=False)\n    comps = {(j,): y_main[:, j] for j in range(y_main.shape[1])}\n    for k, (a, b) in enumerate(hfd.interaction_list):\n        comps[(int(a), int(b))] = y_order2[:, k]\n    return float(hfd.eta0), comps\n\n\ndef decompose(model, X_train, X_test):\n    n = X_train.shape[0]\n    rng = np.random.RandomState(0)\n    perm = rng.permutation(n)\n    n_val = max(1, int(0.25 * n))\n    va_idx, tr_idx = perm[:n_val], perm[n_val:]\n    X_tr, X_va = X_train[tr_idx], X_train[va_idx]\n\n    candidates = [1, 2, 3]\n    best = None\n    best_mse = np.inf\n    for dv in candidates:\n        try:\n            eta0, comps = _fit_predict(model, X_tr, X_va, dv)\n        except Exception:\n            continue\n        mse = _residual_mse(model, X_va, eta0, comps)\n        if mse < best_mse:\n            best_mse = mse\n            best = dv\n\n    if best is None:\n        best = 2\n\n    hfd = XGBTreeHFD(model)\n    hfd.fit(X_train, interaction_order=2, depth_variable=best, verbose=False)\n    y_main, y_order2 = hfd.predict(X_test, verbose=False)\n    comps = {(j,): y_main[:, j] for j in range(y_main.shape[1])}\n    for k, (a, b) in enumerate(hfd.interaction_list):\n        comps[(int(a), int(b))] = y_order2[:, k]\n    return float(hfd.eta0), comps\n"
+    }
+   ]
+  }
+ }
+}

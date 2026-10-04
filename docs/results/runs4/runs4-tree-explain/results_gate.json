@@ -1,0 +1,11 @@
+{
+ "beats_all_datasets": {
+  "C2: Shallower variable selection depth": false
+ },
+ "wins": {
+  "TreeHFD (baseline)": 0,
+  "C2: Shallower variable selection depth": 0
+ },
+ "best": null,
+ "best_method_tied_not_asked": []
+}

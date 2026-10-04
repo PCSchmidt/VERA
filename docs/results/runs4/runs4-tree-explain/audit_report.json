@@ -1,0 +1,557 @@
+{
+ "paper_id": "runs4-tree-explain",
+ "paper_source": "paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:8"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:8",
+     "source": "log",
+     "reference": "results.json (rendered table)",
+     "matched": false,
+     "detail": "Could not confirm the comparison against the table: 'The TreeHFD paper states that the Hoeffding decomposition breaks black-box models into a unique sum of lower-dimensional functions, provided the inputs are inde'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "num.claim_consistent",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.000144724,
+     "latency_ms": 1612,
+     "trace_id": "58cb1242e54e4d6bb29267539c5b8314",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "Could not confirm the comparison against the table: 'The TreeHFD paper states that the Hoeffding decomposition breaks black-box models into a unique sum of lower-dimensional functions, provided the inputs are inde'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:57"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:57",
+     "source": "log",
+     "reference": "results.json (rendered table)",
+     "matched": false,
+     "detail": "Could not confirm the comparison against the table: 'Since nothing beat the baseline, no ablation was run.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "num.claim_consistent",
+     "answer": false,
+     "probabilities": {
+      "true": 0.03,
+      "false": 0.97
+     },
+     "confidence": 0.97,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 0.000109662,
+     "latency_ms": 221,
+     "trace_id": "d5ef7f3bc1bb4b1c96ef26cea8c3706c",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "Could not confirm the comparison against the table: 'Since nothing beat the baseline, no ablation was run.'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:59"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:59",
+     "source": "log",
+     "reference": "results.json (rendered table)",
+     "matched": false,
+     "detail": "Every number exists in results.json, but the judge could not confirm the claim: \"In Figure 2, its rank stability is lower than TreeHFD's at every Analytical rho and on Airfoil (0.979 vs 0.987).\""
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "num.claim_consistent",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.000148864,
+     "latency_ms": 1175,
+     "trace_id": "29354cc0c8a647bdaf7da7896a0f129c",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "Every number exists in results.json, but the judge could not confirm the claim: \"In Figure 2, its rank stability is lower than TreeHFD's at every Analytical rho and on Airfoil (0.979 vs 0.987).\""
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:74"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:74",
+     "source": "log",
+     "reference": "results.json (rendered table)",
+     "matched": false,
+     "detail": "Every number exists in results.json, but the judge could not confirm the claim: 'Addressed from the research question: on simulated Analytical data with a known decomposition, component error against the truth and bootstrap rank stability as'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "num.claim_consistent",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 0.00011113199999999999,
+     "latency_ms": 160,
+     "trace_id": "349d5fd727834d66a656a52696810bd5",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "Every number exists in results.json, but the judge could not confirm the claim: 'Addressed from the research question: on simulated Analytical data with a known decomposition, component error against the truth and bootstrap rank stability as'"
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Shallower variable selection depth:step1"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Shallower variable selection depth:step1",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: 'The aim was to reduce overfitting while keeping each component a function of its own variables only.', and the code of C2: Shallower variable selection depth does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.3,
+      "false": 0.7
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.675e-05,
+     "latency_ms": 162,
+     "trace_id": "4638b9d6aee94e68af5c3182cf7b8f32",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: 'The aim was to reduce overfitting while keeping each component a function of its own variables only.', and the code of C2: Shallower variable selection depth does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Shallower variable selection depth:step2"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Shallower variable selection depth:step2",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: 'Three ideas were generated; only C2 was run on the subset.', and the code of C2: Shallower variable selection depth does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.16,
+      "false": 0.84
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.6456e-05,
+     "latency_ms": 152,
+     "trace_id": "2e1cee4f2df545209bf6cc8ead28f549",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: 'Three ideas were generated; only C2 was run on the subset.', and the code of C2: Shallower variable selection depth does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Shallower variable selection depth:step3"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Shallower variable selection depth:step3",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: 'Ideas were produced and implemented by a language model.', and the code of C2: Shallower variable selection depth does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.6288e-05,
+     "latency_ms": 156,
+     "trace_id": "895a3d99c06f4ec197631e641bc03eff",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: 'Ideas were produced and implemented by a language model.', and the code of C2: Shallower variable selection depth does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Shallower variable selection depth:step4"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Shallower variable selection depth:step4",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: 'Registered protocol (written down, dated and hashed before any run): methods TreeHFD, TreeSHAP and C2; Analytical at six rho values and Airfoil; 3 seeds with 5 ', and the code of C2: Shallower variable selection depth does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.04,
+      "false": 0.96
+     },
+     "confidence": 0.96,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.7925999999999996e-05,
+     "latency_ms": 164,
+     "trace_id": "3138b054b57a49c1aa4fb64c040f8bc0",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: 'Registered protocol (written down, dated and hashed before any run): methods TreeHFD, TreeSHAP and C2; Analytical at six rho values and Airfoil; 3 seeds with 5 ', and the code of C2: Shallower variable selection depth does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Shallower variable selection depth:step5"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Shallower variable selection depth:step5",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: \"Component error compares components with the true decomposition of the analytical function, which has a closed form checked against the TreeHFD paper's Table 3.\", and the code of C2: Shallower variable selection depth does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.7128e-05,
+     "latency_ms": 481,
+     "trace_id": "696b3abdb65a4eae814c7d4cb7e0f3a7",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: \"Component error compares components with the true decomposition of the analytical function, which has a closed form checked against the TreeHFD paper's Table 3.\", and the code of C2: Shallower variable selection depth does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Shallower variable selection depth:step6"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Shallower variable selection depth:step6",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: 'Airfoil has no true components.', and the code of C2: Shallower variable selection depth does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.21,
+      "false": 0.79
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.6204e-05,
+     "latency_ms": 153,
+     "trace_id": "0b3ade08c9b14862a99e649a791eca91",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: 'Airfoil has no true components.', and the code of C2: Shallower variable selection depth does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Shallower variable selection depth:step7"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Shallower variable selection depth:step7",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: 'Rank stability is the mean Spearman correlation of component importances between bootstrap refits.', and the code of C2: Shallower variable selection depth does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.04,
+      "false": 0.96
+     },
+     "confidence": 0.96,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.6666e-05,
+     "latency_ms": 154,
+     "trace_id": "1629bf8700b84d49a96b7f16ccb55dda",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: 'Rank stability is the mean Spearman correlation of component importances between bootstrap refits.', and the code of C2: Shallower variable selection depth does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Shallower variable selection depth:step8"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Shallower variable selection depth:step8",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: \"TreeSHAP is xgboost's path-dependent TreeSHAP with interaction values.\", and the code of C2: Shallower variable selection depth does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.16,
+      "false": 0.84
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.6624e-05,
+     "latency_ms": 155,
+     "trace_id": "0aa2d6383dd246b298f8794ec8821108",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: \"TreeSHAP is xgboost's path-dependent TreeSHAP with interaction values.\", and the code of C2: Shallower variable selection depth does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Shallower variable selection depth:step9"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Shallower variable selection depth:step9",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The paper says: 'No cells were invalid.', and the code of C2: Shallower variable selection depth does not do it."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.code_implements_step",
+     "answer": false,
+     "probabilities": {
+      "true": 0.25,
+      "false": 0.75
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.6077999999999996e-05,
+     "latency_ms": 234,
+     "trace_id": "ae0875cb61d74a1d9aca3c43aab5d767",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The paper says: 'No cells were invalid.', and the code of C2: Shallower variable selection depth does not do it."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Shallower variable selection depth:_residual_mse"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Shallower variable selection depth:_residual_mse",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The code of C2: Shallower variable selection depth has a function '_residual_mse' that the paper does not describe."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.paper_describes_code",
+     "answer": false,
+     "probabilities": {
+      "true": 0.3,
+      "false": 0.7
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.5704e-05,
+     "latency_ms": 167,
+     "trace_id": "87f557e98fc843e8b2090aee25c71be6",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The code of C2: Shallower variable selection depth has a function '_residual_mse' that the paper does not describe."
+  },
+  {
+   "check": "method_code",
+   "severity": "warn",
+   "claim_ids": [
+    "code:C2: Shallower variable selection depth:_fit_predict"
+   ],
+   "evidence": [
+    {
+     "claim_id": "code:C2: Shallower variable selection depth:_fit_predict",
+     "source": "repo",
+     "reference": "method.py",
+     "matched": false,
+     "detail": "The code of C2: Shallower variable selection depth has a function '_fit_predict' that the paper does not describe."
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "audit.paper_describes_code",
+     "answer": false,
+     "probabilities": {
+      "true": 0.26,
+      "false": 0.74
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.8308e-05,
+     "latency_ms": 156,
+     "trace_id": "2b751c14d6eb436687f9aa7142328b30",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "The code of C2: Shallower variable selection depth has a function '_fit_predict' that the paper does not describe."
+  }
+ ],
+ "overall": "amber",
+ "checks_run": [
+  "citation",
+  "numeric",
+  "figure",
+  "reproduction_basis",
+  "method_code",
+  "novelty"
+ ],
+ "checks_skipped": {
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.0023552,
+ "wall_seconds": 11,
+ "schema_version": "0.10"
+}

@@ -1,0 +1,10 @@
+{
+ "scores": {
+  "C1: Prune weak interactions": 1,
+  "C2: Shallower variable selection depth": 3,
+  "C3: Ensemble over bootstrap fits": 1
+ },
+ "selected": [
+  "C2: Shallower variable selection depth"
+ ]
+}

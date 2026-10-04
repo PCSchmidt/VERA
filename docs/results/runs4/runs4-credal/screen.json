@@ -1,0 +1,11 @@
+{
+ "scores": {
+  "C1: Covariate-shift importance reweighting": 3,
+  "C2: Huber-quantile hybrid loss": 3,
+  "C3: Shrunk robust ensemble": 3
+ },
+ "selected": [
+  "C1: Covariate-shift importance reweighting",
+  "C2: Huber-quantile hybrid loss"
+ ]
+}

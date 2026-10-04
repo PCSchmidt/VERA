@@ -1,0 +1,13 @@
+{
+ "beats_all_datasets": {
+  "C1: Covariate-shift importance reweighting": false,
+  "C2: Huber-quantile hybrid loss": false
+ },
+ "wins": {
+  "LV (baseline)": 0,
+  "C1: Covariate-shift importance reweighting": 0,
+  "C2: Huber-quantile hybrid loss": 0
+ },
+ "best": null,
+ "best_method_tied_not_asked": []
+}

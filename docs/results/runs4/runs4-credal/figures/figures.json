@@ -1,0 +1,39 @@
+[
+ {
+  "id": "fig_mae",
+  "kind": "bar",
+  "cells": [
+   "results/LV (baseline)/california_housing/mae",
+   "results/C1: Covariate-shift importance reweighting/california_housing/mae",
+   "results/C2: Huber-quantile hybrid loss/california_housing/mae"
+  ],
+  "file": "fig_mae.png",
+  "title": "MAE (1e4) by method and dataset (held-out)",
+  "data": {
+   "LV (baseline)": [
+    {
+     "x": "california_housing",
+     "mean": 10.6835391552381,
+     "std": 0.6995229874948858,
+     "cell": "results/LV (baseline)/california_housing/mae"
+    }
+   ],
+   "C1: Covariate-shift importance reweighting": [
+    {
+     "x": "california_housing",
+     "mean": 24.61214141773995,
+     "std": 1.2677531763338576e-13,
+     "cell": "results/C1: Covariate-shift importance reweighting/california_housing/mae"
+    }
+   ],
+   "C2: Huber-quantile hybrid loss": [
+    {
+     "x": "california_housing",
+     "mean": 47.38956839957649,
+     "std": 4.748535447831952e-06,
+     "cell": "results/C2: Huber-quantile hybrid loss/california_housing/mae"
+    }
+   ]
+  }
+ }
+]
