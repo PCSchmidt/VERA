@@ -20,6 +20,7 @@
   "r-08"
  ],
  "test_sha256": "b3115e41af640039d5f66ecf74cf724c5da51a45cd63eb245dad08be2276936c",
- "frozen_audit_sha256": null,
- "generation_cost_usd": 0.074
+ "frozen_audit_sha256": "2195e928d9adb3add30976f6f912468dcd9eb34342401324e6095c0ec3de1643",
+ "generation_cost_usd": 0.074,
+ "frozen_at": "2026-10-04T18:56:03Z"
 }

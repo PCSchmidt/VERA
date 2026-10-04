@@ -40,11 +40,12 @@
   "unresolved_citation"
  ],
  "test_sha256": "add9e17c304613afad4eb44599a1bb1e578901b82ff2be79ac817647dc2a48d9",
- "frozen_audit_sha256": null,
+ "frozen_audit_sha256": "2195e928d9adb3add30976f6f912468dcd9eb34342401324e6095c0ec3de1643",
  "known_misses_not_tuned_for": [
   "reversed_comparison",
   "misattributed_number",
   "overstated_claim"
  ],
- "note": "fixed before the v3 audit ran on any test item; the audit's own hash is frozen before the test run"
+ "note": "fixed before the v3 audit ran on any test item; the audit's own hash is frozen before the test run",
+ "frozen_at": "2026-10-04T18:56:03Z"
 }
