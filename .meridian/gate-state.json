@@ -32,6 +32,7 @@
     "protocol_ready",
     "retrieval_ready",
     "run_core_ready",
+    "runs4",
     "sandbox_ready",
     "scaffold_ready",
     "scoping_ready",
