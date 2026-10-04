@@ -3,7 +3,7 @@
 Reads each listed run (topic id : run id) and the topic's key papers (fixed and hashed before any retrieval:
 data/topics/manifest.json). Reports key papers found before the screen, kept by it and in the top 30, each miss
 classified as in scripts/measure_retrieval.py, the retrieval stats the review carries, and the number of claims.
-Copies each run's retrieval log and scope into data/ for the record. Writes docs/results/retrieval_recall_v2.md.
+Copies each run's retrieval log and scope into data/ for the record. Writes docs/results/retrieval_recall_lit2.md.
 
 Usage: uv run python scripts/measure_retrieval4.py <topic>:<run> [<topic>:<run> ...]
 """
@@ -64,7 +64,7 @@ def main() -> None:
                          f"{'yes' if row['kept'] else 'no'} | {row['position'] or ''} | {why} |\n")  # fmt: skip
         lines.append(f"\nRecall after retrieval {result['found']:.0%} "
                      f"({'at or above' if result['found'] >= THRESHOLD else 'BELOW'} {THRESHOLD:.0%}).\n")  # fmt: skip
-    (ROOT / "docs" / "results" / "retrieval_recall_v2.md").write_text("".join(lines), encoding="utf-8")
+    (ROOT / "docs" / "results" / "retrieval_recall_lit2.md").write_text("".join(lines), encoding="utf-8")
     print("".join(lines))
 
 
