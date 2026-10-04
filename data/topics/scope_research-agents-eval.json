@@ -1,0 +1,11 @@
+{
+ "topic_id": "research-agents-eval",
+ "question": "In published benchmarks and studies of automated research agents (for example MLE-bench, PaperBench, SciReplicate-Bench, CORE-Bench, and LLM-judged idea-novelty evaluations), which operational measures are used to decide whether an agent's output is correct, reproducible, or novel, and what validity weaknesses does each measure have, such as reliance on LLM judges, rubric leniency, test-set contamination, medal or threshold cutoffs that ignore variance across runs, and novelty scored without checking against the prior literature?",
+ "why_researchable": "The question can be answered with a literature-and-analysis review. Each benchmark paper states its scoring procedure (for example leaderboard medal thresholds, weighted rubric trees graded by an LLM judge, output-matching checks, or LLM or human novelty ratings) and often reports its own limitations, such as judge-versus-human agreement, number of runs, and contamination checks. A short review can tabulate these measures by construct (correctness, reproducibility, novelty) and state what the sources establish and what they leave unestablished, for example whether the measures have been validated against expert judgment or repeated across seeds. It needs no experiments, only careful reading and comparison of the retrieved sources. The reviewer can assess the synthesis directly because it sits in the evaluation-methodology domain.",
+ "empirical": false,
+ "candidate_parent": null,
+ "no_parent_reason": "The question is a non-empirical literature review, so no parent method paper is needed.",
+ "status": "confirmed",
+ "confirmed_by": "Chris",
+ "confirmed_at": "2026-10-04T11:42:45Z"
+}
