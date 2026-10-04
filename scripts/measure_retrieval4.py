@@ -30,7 +30,7 @@ def main() -> None:
     client.headers["User-Agent"] = USER_AGENT.replace("citation existence checks", "key-paper lookup")
     lines = ["# Retrieval v2: recall of the key papers on the fresh topics\n",
              f"Key papers fixed and hashed before any retrieval for the topic. Starting threshold {THRESHOLD:.0%} "
-             "(T5 reverse-if (1)), not a target. Retrieval v2: 12 queries, seven angles, up to 120 records.\n"]  # fmt: skip
+             "(T5 reverse-if (1)), not a target. Retrieval v2: 12 queries, seven angles, 120 records.\n"]  # fmt: skip
     for tid, run_id in pairs:
         run = ROOT / "runs" / run_id
         records = [json.loads(ln) for ln in (run / "retrieved.jsonl").read_text(encoding="utf-8").splitlines() if ln]
