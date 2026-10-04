@@ -1,4 +1,4 @@
-"""Run the v3 audit over the seeded-fault set v3 (Increment 4), live: the real judge path and the real bibliographic sources.
+"""Run the v3 audit over the seeded-fault set v3 (Increment 4), live: the real judge path and bibliographic sources.
 
   --split dev     free to repeat: the audit is developed against dev only
   --freeze        records the audit's own source hash in data/seeded_v3/split.json (once), before the test run

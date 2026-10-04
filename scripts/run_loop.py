@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Run (or resume) the research loop on TreeHFD: baseline, ideas, subset experiments, write-up, audit (Increment 2).
 
 One run = one directory `runs/<run_id>/` (git-ignored) with the checkpoints, artifacts, gates.jsonl, paper.md,
@@ -31,7 +32,7 @@ from vera.graph import run_config, sqlite_checkpointer
 from vera.judge.cheap_path import cheap_path
 from vera.keepawake import keep_awake
 from vera.ledger import Ledger
-from vera.loop import literature_context, references
+from vera.loop import credal, literature_context, problem, references
 from vera.loop.generators import ByStage
 from vera.loop.graph import run_loop
 from vera.loop.report import write_report
@@ -41,6 +42,7 @@ from vera.schemas import Budget, OutputGuidance, ProblemSpec, ProtocolSpec, RunS
 
 ROOT = Path(__file__).resolve().parents[1]
 TARGET = ROOT / "docs" / "results" / "treehfd_baseline_target.json"
+CREDAL_TARGET = ROOT / "docs" / "results" / "credal_baseline_target.json"
 GENERATORS = {
     "glm-flash": "z-ai/glm-5.3-flash",
     "sonnet": "anthropic/claude-sonnet-5.5",
@@ -114,6 +116,7 @@ def main() -> None:
         default=None,
         help="run a registered protocol (a ProtocolSpec JSON; default the tree-explain one) after the idea stages",
     )
+    ap.add_argument("--problem", choices=["treehfd", "credal"], default="treehfd", help="the parent problem (vera.loop.problem)")
     ap.add_argument("--resume", action="store_true")
     ap.add_argument(
         "--retry-from",
@@ -124,13 +127,21 @@ def main() -> None:
     args = ap.parse_args()
 
     check_available()
-    target = json.loads(TARGET.read_text(encoding="utf-8"))
+    if args.problem == "credal":  # the second parent problem: its kit, registered target, one dataset, the paper's 100 replications
+        problem.use(credal.CREDAL)
+        if args.datasets == "analytical,airfoil":
+            args.datasets = "california_housing"
+        if args.seeds == 3:
+            args.seeds = 100
+    target = json.loads(CREDAL_TARGET.read_text(encoding="utf-8") if args.problem == "credal" else TARGET.read_text(encoding="utf-8"))
     per_stage = ARMS[args.arm] if args.arm else dict.fromkeys(STAGES, args.generator or "glm-flash")
     spec = RunSpec(
         run_id=args.run_id,
         problem=ProblemSpec(
-            parent_id="2510.24815", repo_url="https://github.com/ThalesGroup/treehfd",
-            repo_commit="dd021526a9c97424334361d97cb88efe6f4e1b39", metric="residual_mse_pct",
+            parent_id="2601.21324" if args.problem == "credal" else "2510.24815",
+            repo_url="https://github.com/MengqiChenMC/credal-ambiguity-sets-code-repo" if args.problem == "credal" else "https://github.com/ThalesGroup/treehfd",
+            repo_commit="506c17fc28e87619e4532afeff8389083e578557" if args.problem == "credal" else "dd021526a9c97424334361d97cb88efe6f4e1b39",
+            metric="mae" if args.problem == "credal" else "residual_mse_pct",
             datasets=args.datasets.split(","),
             subset={"n_seeds": args.seeds, "n_ideas": args.ideas, "n_run": args.run},
         ),

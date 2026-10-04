@@ -46,7 +46,9 @@ def build_report(deps: LoopDeps, state: dict) -> dict:
     results = state.get("results") or {}
     headline = {}
     for method, res in results.items():
-        headline[method] = {d: round(v["residual_mse_pct"]["mean"], 3) for d, v in res.items() if d in deps.datasets}
+        headline[method] = {
+            d: round(v[tables.PRIMARY]["mean"], 3) for d, v in res.items() if d in deps.datasets and v.get(tables.PRIMARY)
+        }
     stop = state.get("stop")
     return {
         "run_id": deps.spec.run_id,

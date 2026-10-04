@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Freeze the audit v3's source hash in both the seeded-set and the novelty gold-set splits (Increment 4, audit4_ready).
 
 One freeze covers both test runs: after it, any change to a file in `vera.audit.seeded_v3.FROZEN_FILES` spends both test sets.
