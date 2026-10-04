@@ -34,6 +34,14 @@ WRITE_SYSTEM = (
 # ── guidance checks ──────────────────────────────────────────────────────────────────────────────────
 
 
+def prose_word_count(text: str) -> int:
+    """Words of the report's prose: what the length limit counts. VERA's own tables (their rows and bold titles) and
+    the reference list are not the writer's words."""
+    body = text.split("## References")[0]
+    prose = [ln for ln in body.splitlines() if not ln.lstrip().startswith(("|", "**"))]
+    return word_count("\n".join(prose))
+
+
 def word_count(text: str) -> int:
     return len(re.findall(r"\b\w[\w'-]*\b", text))
 
@@ -54,8 +62,8 @@ def free_text_constraints(guidance: OutputGuidance) -> list[str]:
 def check_guidance(text: str, guidance: OutputGuidance, refs: list[dict]) -> list[str]:
     """Deterministic problems with `text`; empty means it passes the checks a program can make."""
     problems = []
-    if guidance.max_words is not None and word_count(text) > guidance.max_words:
-        problems.append(f"too long: {word_count(text)} words, the limit is {guidance.max_words}")
+    if guidance.max_words is not None and prose_word_count(text) > guidance.max_words:
+        problems.append(f"too long: {prose_word_count(text)} words, the limit is {guidance.max_words}")
     for section in guidance.required_sections:
         if not has_section(text, section):
             problems.append(f"missing required section: {section}")
@@ -155,7 +163,7 @@ def writeup_prompt(deps: LoopDeps, state: dict, refs: list[dict], problems: list
         + "\n\nOutput guidance (follow every item):\n"
         f"- Format: {g.format}. Use markdown headings (## Section) for these sections, in this order: "
         f"{', '.join(sections)}.\n"
-        + (f"- At most {g.max_words} words.\n" if g.max_words else "")
+        + (f"- At most {g.max_words} words, not counting tables or the reference list.\n" if g.max_words else "")
         + (f"- Emphasis: {g.emphasis}\n" if g.emphasis else "")
         + "".join(f"- {c}\n" for c in g.constraints)
         + "\nBe honest: say what the crude loop did and did not establish, state plainly if no idea beat the "
@@ -246,7 +254,7 @@ def writeup_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
         material = (
             "Output guidance:\n"
             f"- Format: {g.format}; sections: {', '.join(g.required_sections or DEFAULT_SECTIONS)}"
-            + (f"; at most {g.max_words} words (the report has {word_count(text)})" if g.max_words else "")
+            + (f"; at most {g.max_words} words (the report's prose has {prose_word_count(text)})" if g.max_words else "")
             + (f"\n- Emphasis: {g.emphasis}" if g.emphasis else "")
             + "".join(f"\n- {c}" for c in g.constraints)
             + f"\n\nReport:\n\n{text}"
@@ -254,7 +262,7 @@ def writeup_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
         shadow = (not problems) if not free_text_constraints(g) else None
         verdict, confident = ask_gate(deps, "write_up", GUIDANCE_QUESTION, material, shadow, state)
         passed = not problems and confident and verdict.answer is True
-        metrics = {"words": float(word_count(text)), "problems": float(len(problems))}
+        metrics = {"words": float(prose_word_count(text)), "problems": float(len(problems))}
         reason = "; ".join(problems) if problems and not passed else None  # a deterministic cause, not a verdict
         deciding = [0] if not passed and not (confident and verdict.answer is True) else []
         sr = stage_result(

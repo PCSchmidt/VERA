@@ -91,6 +91,7 @@ def run_loop(
     extra_nodes: list[tuple[str, str, NodeFactory]] = (),
     start_at: str | None = None,
     initial_state: dict | None = None,
+    retry_from: str | None = None,
 ) -> dict:
     """Run (or resume) the loop for `deps.spec`; returns the final state. The run directory holds everything."""
     deps.run_dir.mkdir(parents=True, exist_ok=True)
@@ -100,6 +101,8 @@ def run_loop(
     if resume_run:
         snapshot = graph.get_state(run_config(thread)).values.get("budget")
         restore_budget(deps, snapshot)
+        if retry_from:  # clear a stop so the run continues after `retry_from` (its results are kept as they are)
+            graph.update_state(run_config(thread), {"stop": None}, as_node=retry_from)
         state = resume(graph, thread)
     else:
         state = run(graph, initial_state or {"trail": []}, thread)

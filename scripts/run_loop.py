@@ -110,6 +110,12 @@ def main() -> None:
         help="run a registered protocol (a ProtocolSpec JSON; default the tree-explain one) after the idea stages",
     )
     ap.add_argument("--resume", action="store_true")
+    ap.add_argument(
+        "--retry-from",
+        default=None,
+        help="with --resume: clear the run's stop and continue after this node (e.g. protocol, to write up again)",
+    )
+    ap.add_argument("--max-words", type=int, default=None, help="override the guidance word limit (prose only)")
     args = ap.parse_args()
 
     check_available()
@@ -123,7 +129,9 @@ def main() -> None:
             datasets=args.datasets.split(","),
             subset={"n_seeds": args.seeds, "n_ideas": args.ideas, "n_run": args.run},
         ),
-        guidance=LITERATURE_GUIDANCE if args.literature else GUIDANCE,
+        guidance=(LITERATURE_GUIDANCE if args.literature else GUIDANCE).model_copy(
+            update={"max_words": args.max_words} if args.max_words else {}
+        ),
         budget=Budget(max_usd=args.max_usd, max_wall_seconds=args.max_wall),
         models=per_stage,
     )  # fmt: skip
@@ -162,7 +170,9 @@ def main() -> None:
         proto = ProtocolSpec.model_validate_json((ROOT / args.protocol).read_text(encoding="utf-8"))
         deps.extra["protocol"] = {"spec": proto, "root": ROOT}
     with keep_awake():  # a standby in the middle of a run makes its wall-clock limits jump (vera/keepawake.py)
-        state = run_loop(deps, resume_run=args.resume, start_at=start_at, initial_state=initial)
+        state = run_loop(
+            deps, resume_run=args.resume, start_at=start_at, initial_state=initial, retry_from=args.retry_from
+        )
     report = write_report(deps, state, ROOT)  # data/results/run_<id>.json: per-stage cost table and outcome
     stop = state.get("stop")
     print(f"arm: {args.arm or args.generator or 'glm-flash'}; trail: {' > '.join(state['trail'])}")

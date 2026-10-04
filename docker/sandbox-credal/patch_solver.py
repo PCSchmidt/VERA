@@ -3,7 +3,8 @@
 
 Why: the repository's baselines name `cp.MOSEK` / "MOSEK" in about twenty places, and a MOSEK licence is tied to a person, so
 it cannot be baked into an image. Clarabel is an open conic solver cvxpy supports. This is a documented modification of
-the parent's code (docs/results/problem2_feasibility.md, option (a), accepted by Chris 2026-10-04): values and times can
+the parent's code (and the MOSEK-only `mosek_params=` solve option, which Clarabel rejects, is dropped: the parent's
+cross-validation swallows that error and then reports no finite fold scores) (docs/results/problem2_feasibility.md, option (a), accepted by Chris 2026-10-04): values and times can
 differ slightly from the paper's MOSEK runs, which is why the reproduction tolerance is registered before any run.
 
 Usage: python patch_solver.py <clone dir>   (run at image build time; prints how many substitutions it made)
@@ -21,9 +22,13 @@ for path in sorted((root / "credal_dro").glob("*.py")):
     text = path.read_text(encoding="utf-8")
     new, n1 = re.subn(r"cp\.MOSEK\b", "cp.CLARABEL", text)
     new, n2 = re.subn(r'"MOSEK"', '"CLARABEL"', new)
+    new, n3 = re.subn(r"^[ \t]*mosek_params=mosek_params,[ \t]*\n", "", new, flags=re.M)  # a MOSEK-only option
+    new, n4 = re.subn(r"^[ \t]*accept_unknown=True,[ \t]*\n", "", new, flags=re.M)  # also MOSEK-only
+    new, n5 = re.subn(r",\s*accept_unknown=True", "", new)  # the same, inline
+    n3 += n4 + n5
     new = new.replace('preferred_solvers = ["CLARABEL", "GUROBI", "ECOS", "OSQP", "SCS"]', 'preferred_solvers = ["CLARABEL", "SCS"]')
     if new != text:
         path.write_text(new, encoding="utf-8")
-        print(f"{path.name}: {n1 + n2} substitutions")
-        total += n1 + n2
+        print(f"{path.name}: {n1 + n2} substitutions, {n3} MOSEK-only options removed")
+        total += n1 + n2 + n3
 print(f"total {total}")
