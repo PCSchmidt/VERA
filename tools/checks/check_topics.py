@@ -7,7 +7,7 @@ Requires data/topics/manifest.json (scripts/build_topics_manifest.py) with:
 - no retrieval output older than the topic's key papers: any data/retrieval/<topic>/retrieved.jsonl record must carry
   a retrieval date no earlier than the day the topic's entry was recorded (the key papers come first; the entry's own
   `recorded_at`, else the manifest's). With `--expect 4` (Increment 4) the manifest holds the three original topics
-  plus one fresh one, whose paths need only be among the three.
+  plus fresh ones (Increment 4: three, so `--expect 6`), whose paths need only be among the three.
 """
 
 from __future__ import annotations

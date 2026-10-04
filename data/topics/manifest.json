@@ -1,24 +1,48 @@
 {
- "recorded_at": "2026-10-02T16:50:50Z",
+ "recorded_at": "2026-10-04T11:27:31Z",
  "note": "Fixed before the first retrieval for these topics (SPEC 'Topics and key papers').",
  "topics": {
+  "conformal-shift": {
+   "file": "conformal-shift.json",
+   "sha256": "e271691ff34035fcf9a520839867ca6d2eba1bc908b0bb024b7b4a0d319520ae",
+   "path": "non_empirical",
+   "n_key_papers": 10,
+   "recorded_at": "2026-10-04T11:27:31Z"
+  },
   "credal-dro": {
    "file": "credal-dro.json",
    "sha256": "544b7eb6ca41bac3a0724066a15422ec2dd0fd968ff9dba8d5def31d9580104e",
    "path": "empirical_without_harness",
-   "n_key_papers": 8
+   "n_key_papers": 8,
+   "recorded_at": "2026-10-02T16:50:50Z"
   },
   "llm-judge-numbers": {
    "file": "llm-judge-numbers.json",
    "sha256": "7eb1a5d725ced5bb6c4fc82feb8205c7cbbf74559278f4f55a3d5479bef25794",
    "path": "non_empirical",
-   "n_key_papers": 10
+   "n_key_papers": 10,
+   "recorded_at": "2026-10-02T16:50:50Z"
+  },
+  "research-agents-eval": {
+   "file": "research-agents-eval.json",
+   "sha256": "99dbee965b4e787652064ec64fd6fd5859501dab949cb1120d6255e6ec0ce9a3",
+   "path": "non_empirical",
+   "n_key_papers": 10,
+   "recorded_at": "2026-10-04T11:27:31Z"
+  },
+  "tabular-trees-vs-nets": {
+   "file": "tabular-trees-vs-nets.json",
+   "sha256": "7d5d49bec689596938e546f35dab3c2608d4dee12a2d0eb53592430cfbbda08f",
+   "path": "empirical_without_harness",
+   "n_key_papers": 10,
+   "recorded_at": "2026-10-04T11:27:31Z"
   },
   "tree-explain": {
    "file": "tree-explain.json",
    "sha256": "fb260373311573b08c3d4c7588dcfba051511d41b03c96e6f049e0339c6e15b7",
    "path": "empirical_with_harness",
-   "n_key_papers": 10
+   "n_key_papers": 10,
+   "recorded_at": "2026-10-02T16:50:50Z"
   }
  }
 }
