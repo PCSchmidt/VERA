@@ -231,7 +231,7 @@ def test_RSH_F_05_a_clean_run_is_green_and_its_audit_judge_calls_are_logged_with
     deps = make_deps(tmp_path)
     state = run_loop(deps)
     assert state.get("stop") is None and audit_of(deps)["overall"] == "green"
-    assert audit_of(deps)["checks_run"] == ["citation", "numeric"] and "method_code" in audit_of(deps)["checks_skipped"]
+    assert audit_of(deps)["checks_run"] == ["citation", "numeric", "figure"] and "method_code" in audit_of(deps)["checks_skipped"]
 
 
 def test_RSH_F_05_the_audit_judge_may_not_be_the_writeup_producer(tmp_path: Path) -> None:

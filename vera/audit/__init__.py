@@ -14,6 +14,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 
 from vera.audit.citations import audit_citations
+from vera.audit.figure_check import audit_figures
 from vera.audit.literature import audit_literature
 from vera.audit.numbers import audit_numbers
 from vera.schemas import AuditReport, Claim, Finding, Question, Verdict
@@ -50,6 +51,7 @@ def run_audit(
     paper_id: str,
     paper_source: str,
     target: dict | None = None,
+    figures: list[dict] | None = None,
 ) -> AuditRun:
     start = time.perf_counter()
     cost = [0.0]
@@ -61,19 +63,20 @@ def run_audit(
 
     cite_claims, cite_findings = audit_citations(text, retrieved, metered, lookup)
     num_claims, num_findings = audit_numbers(text, results_json, metered, target)
-    findings = [*cite_findings, *num_findings]
+    fig_claims, fig_findings = audit_figures(text, results_json, figures) if figures is not None else ([], [])
+    findings = [*cite_findings, *num_findings, *fig_findings]
     report = AuditReport(
         paper_id=paper_id,
         paper_source=paper_source,
         repo=None,
         findings=findings,
         overall=overall_of(findings),
-        checks_run=["citation", "numeric"],
+        checks_run=["citation", "numeric", *(["figure"] if figures is not None else [])],
         checks_skipped=dict(SKIPPED),
         total_cost_usd=cost[0],
         wall_seconds=round(time.perf_counter() - start),
     )
-    return AuditRun(report, [*cite_claims, *num_claims])
+    return AuditRun(report, [*cite_claims, *num_claims, *fig_claims])
 
 
 def run_literature_audit(

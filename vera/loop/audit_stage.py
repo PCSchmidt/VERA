@@ -45,9 +45,11 @@ def audit_node(deps: LoopDeps) -> Callable[[dict], dict]:
         def ask(question: Question, material: str) -> tuple[Verdict, bool]:
             return ask_gate(deps, "audit", question, material, None, state, producer=WRITE_UP_PRODUCER)
 
+        fig_file = deps.run_dir / "figures" / "figures.json"
+        figs = json.loads(fig_file.read_text(encoding="utf-8")) if fig_file.exists() else None
         run = audit.run_audit(
             text, results_json, references.load_references(deps.run_dir), ask=ask, lookup=lookup,
-            paper_id=deps.spec.run_id, paper_source="paper.md", target=deps.target,
+            paper_id=deps.spec.run_id, paper_source="paper.md", target=deps.target, figures=figs,
         )  # fmt: skip
         report = run.report
         artifact = _write_json(deps, "audit_report", report.model_dump(mode="json"))
