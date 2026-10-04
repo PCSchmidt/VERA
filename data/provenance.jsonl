@@ -242,3 +242,4 @@
 {"path": "data/raw/parents/camera_agcXjEHmyW.pdf", "url": "https://openreview.net/forum?id=agcXjEHmyW", "retrieved": "2026-09-30", "sha256": "a40a1fc33ed6d1b4dcb6f054f461723eda835abd3fb7c4a96d4bc7e670b6511c"}
 {"path": "data/raw/parents/camera_zwCb9cKHpd.pdf", "url": "https://openreview.net/forum?id=zwCb9cKHpd", "retrieved": "2026-09-30", "sha256": "8506076944110e5cdfd6a20ee8864b688ca08310c4ba3f64260b43f73e859f91"}
 {"path": "data/raw/datasets/airfoil_self_noise.dat", "url": "https://archive.ics.uci.edu/static/public/291/airfoil+self+noise.zip", "retrieved": "2026-10-01", "sha256": "74c75fd71783f1e6b71f8a622b993dc592897a97cd689c5090a07147a1b097b3"}
+{"path": "data/raw/datasets/CaliforniaHousing/cal_housing.data", "url": "https://s3.amazonaws.com/sagemaker-sample-files/datasets/tabular/california_housing/cal_housing.tgz", "retrieved": "2026-10-04", "sha256": "a2b44dcc7e1c9091b43c4f458b25cbd1f7e8068d08edd26bc4703108d3fa6214"}
