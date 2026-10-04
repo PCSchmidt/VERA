@@ -1,8 +1,12 @@
 # Provenance of the labels on the 10 real loop ideas (2026-10-04)
 
-`helper_labels.csv` was saved as `chris_labels.csv` and carries ten `distinct` labels. The row-by-row rationale that came with it
-says it applied "the abstract-only standard you gave" and "labeled all 10 as distinct", which reads as the output of a language-model
-assistant working from the sheet, not as Chris's own reading. It is therefore recorded as **helper labels from a language model
-(unnamed), not Chris's labels**, and is reported as such. Chris's own labels, if he gives them, go in `chris_labels.csv` and are
-reported separately; nothing here counts as his unless he says he read the abstracts and made each call himself.
-All ten labels are the same value, so they cannot show the judge's `not distinct` calls to be right or wrong.
+`helper_labels.csv` holds ten `distinct` labels, with a row-by-row rationale, produced by a language-model assistant working from the
+sheet (the rationale says it applied "the abstract-only standard you gave"). Chris was asked which of three things they were and
+answered, in his words: **"A model produced these and I adopt them after checking each."**
+
+So they are recorded as **model-produced labels that Chris checked and adopted**: not a blind, independent human labelling. They
+are reported under the `helper` key (not `chris`), and the review says this. They do not count as a second, independent labeller of
+the judge's calls. All ten labels are the same value (`distinct`), so they cannot show the judge's `not distinct` calls (r-03 and
+r-04 in the dev run) to be right or wrong, only that it agreed on the other eight.
+
+If Chris later labels the rows himself without the model's rationale, those go in `chris_labels.csv` and are reported separately.
