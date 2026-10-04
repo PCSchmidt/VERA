@@ -9,7 +9,7 @@ attempts it took, the model cost, the wall time, the adapter's size, and what sh
 the generic part. The image is the by-hand one (patched solver, pinned numpy and cvxpy): building the image is not part
 of what this compares.
 
-Writes data/results/t10_adapter_trial.json and docs/results/t10_adapter.py (the accepted or last adapter).
+Writes data/results/t10_adapter_trial.json and docs/results/t10_adapter.py.txt (the accepted or last adapter).
 
 Usage: uv run python scripts/t10_adapter_trial.py [--max-attempts 5] [--max-usd 0.5]
 """
@@ -150,7 +150,7 @@ def main() -> None:
            "generic_share_of_by_hand_pct": round(100 * generic / by_hand, 1),
            "note": "the image is the by-hand one; the generic harness is a separate file written for this comparison"}  # fmt: skip
     (ROOT / "data" / "results" / "t10_adapter_trial.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
-    shutil.copy(work / "adapter.py", ROOT / "docs" / "results" / "t10_adapter.py")
+    shutil.copy(work / "adapter.py", ROOT / "docs" / "results" / "t10_adapter.py.txt")
     print({k: v for k, v in out.items() if k != "gate"}, "gate:", None if gate is None else {k: v for k, v in gate.items() if k != "material"})
 
 
