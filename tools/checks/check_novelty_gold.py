@@ -66,7 +66,7 @@ def main() -> None:
     nd, d = results["not_distinct"], results["distinct"]
     chris = results.get("chris")
     ok(f"test run on {nd['n']} + {d['n']} pairs, frozen audit: not_distinct {nd['correct']}/{nd['n']} (unsure {nd['unsure']}), "
-       f"distinct {d['correct']}/{d['n']} (unsure {d['unsure']}); Chris's labels: {'n=' + str(chris['n']) if chris else 'not yet given'}")
+       f"distinct {d['correct']}/{d['n']} (unsure {d['unsure']}); Chris's own labels: {"n=" + str(chris["n"]) if chris else "not given"}; helper labels: {"n=" + str(results["helper"]["n"]) if results.get("helper") else "none"}")
 
 
 if __name__ == "__main__":

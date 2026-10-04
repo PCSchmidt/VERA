@@ -81,13 +81,15 @@ def main() -> None:
                          "ci95": [round(lo, 4), round(hi, 4)], "wrong": [r["id"] for r in sub if r["judged_distinct"] is (not right)]}  # fmt: skip
     real = [r for r in rows if r["label"] == "unlabelled"]
     result["real_ideas"] = {r["id"]: r["judged_distinct"] for r in real}
-    chris = GOLD / "chris_labels.csv"
-    if chris.exists():
-        labels = {r["id"]: r["your_label"].strip() for r in csv.DictReader(chris.open(encoding="utf-8"))}
+    for who, name in (("chris", "chris_labels.csv"), ("helper", "helper_labels.csv")):  # a person's labels and a model helper's, apart
+        f = GOLD / name
+        if not f.exists():
+            continue
+        labels = {r["id"]: r["your_label"].strip() for r in csv.DictReader(f.open(encoding="utf-8"))}
         pairs_h = [(r, labels[r["id"]]) for r in real if labels.get(r["id"])]
         agree = sum((r["judged_distinct"] is True and lab == "distinct") or (r["judged_distinct"] is False and lab == "not_distinct") for r, lab in pairs_h)
         lo, hi = wilson(agree, len(pairs_h)) if pairs_h else (0, 0)
-        result["chris"] = {"n": len(pairs_h), "agree": agree, "ci95": [round(lo, 4), round(hi, 4)]}
+        result[who] = {"n": len(pairs_h), "agree": agree, "ci95": [round(lo, 4), round(hi, 4)]}
     out_file.write_text(json.dumps(result, indent=1), encoding="utf-8")
     print(json.dumps({k: v for k, v in result.items() if k not in ("real_ideas",)}, indent=1))
 
