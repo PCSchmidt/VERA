@@ -563,8 +563,8 @@ gates:
 
   # ── Increment 4: paper quality and the measured comparison (SPEC.md) ───────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
-  # Defined so far: incr4_scoped, carry_in_ready, topics4_chosen, protocol_ready, lit2_ready. Still to add:
-  # problem2_ready, writeup2_ready, audit4_ready, runs4, comparison4, rubric_scored, incr4_review.
+  # Defined so far: incr4_scoped, carry_in_ready, topics4_chosen, protocol_ready, lit2_ready, writeup2_ready.
+  # Still to add: problem2_ready, audit4_ready, runs4, comparison4, rubric_scored, incr4_review.
 
   - id: incr4_scoped
     label: "Increment 4 scope confirmed"
@@ -641,3 +641,18 @@ gates:
       pre:
         - gate-tests.sh             # ruff + the full suite
         - gate-lit2.sh              # recall tables, anchoring measurements, fresh reviews with their retrieval note, audits not red
+
+  - id: writeup2_ready
+    label: "Paper-shaped write-up: figures drawn by VERA match their cells, reproduction basis stated, ablation stage demonstrated"
+    type: automated
+    required: true
+    requires:
+      - protocol_ready
+    requires_artifacts:
+      - vera/loop/figures.py
+      - vera/loop/ablation.py
+      - docs/results/protocol-live-1/paper.md
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite (RSH-F-04 and figure demonstrations)
+        - gate-writeup2.sh          # sections, figure data equal cells, audit with the figure check, ablation record

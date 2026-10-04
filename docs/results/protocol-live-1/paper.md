@@ -1,22 +1,22 @@
 ## Abstract
 
-We tried to improve TreeHFD, a method that decomposes an xgboost model into main effects and second-order interactions. A language-model-driven loop generated 3 ideas and ran 1 of them on a subset: C2, deeper variable selection (a higher depth_variable). The baseline reproduced the paper's reference values within the registered tolerance. C2 did not beat the baseline: on held-out Residual MSE it was worse on both datasets. In the registered protocol on correlated analytical data, TreeHFD recovered the true components far better than TreeSHAP at moderate to high correlation. C2 was close to TreeHFD on component error but less stable across bootstrap refits. This is a negative result.
+We tried to improve TreeHFD, a method that decomposes an xgboost model into main effects and second-order interactions. A language-model research loop generated 3 ideas and ran 1 of them, C2 (deeper variable selection). It was tested on Analytical and Airfoil data with 3 seeds, and under a registered protocol that also compared TreeHFD and TreeSHAP across correlation levels. The result is negative: no idea beat the baseline on every dataset. C2 had higher held-out residual MSE than the baseline on both datasets. It was faster on Analytical and slower on Airfoil. No ablation was run.
 
 ## Related work
 
-The TreeHFD paper frames the problem as one of dependence: the Hoeffding decomposition is unique only for independent inputs, and under dependence it is generalized through hierarchical orthogonality constraints [R5]. A related review notes that mutual orthogonality follows from independence and so generally fails under realistic correlations [R10]. Another source describes the generalized decomposition as existing and unique under bounded-density assumptions, with its geometry still implicit [R35].
+The TreeHFD paper treats correlated inputs as a problem of dependence. The Hoeffding decomposition is unique only for independent inputs, and under dependence it is generalized through hierarchical orthogonality constraints [R5]. A related review notes that mutual orthogonality follows from independence and so generally fails under realistic correlations [R10]. Another source says the generalized decomposition exists and is unique under bounded-density assumptions, though its geometry is still implicit [R35].
 
-On accuracy, TreeHFD's own experiments show it approximates the decomposition of fitted xgboost models well on real data, and its components are nearly hierarchically orthogonal, whereas TreeSHAP's are often entangled [R5]. These are orthogonality and residual measures on fitted models, not errors against ground-truth components across a correlation sweep.
+On accuracy, TreeHFD's own experiments show it approximates the decomposition of fitted xgboost models well on real data. It reports that TreeHFD's components are nearly hierarchically orthogonal while TreeSHAP's are often entangled [R5]. These are orthogonality and residual measures on fitted models, not errors against ground-truth components across a correlation sweep.
 
-Other sources suggest TreeSHAP and HFD-style methods often agree in global rankings [R10][R35], which contrasts with TreeHFD's finding that TreeSHAP decompositions are noisy and entangled. Evidence on TreeSHAP under correlation is partial: one construction shows exact TreeSHAP giving unequal importance to interchangeable redundant channels [R6], and a neural-network study found that correlation may greatly increase attribution variance [R41]. TreeHFD is computationally limited to shallow trees [R15] and inherits any overfitting of the ensemble [R5].
+Other sources suggest TreeSHAP and HFD-style methods often agree in global rankings [R10][R35], which contrasts with TreeHFD's finding that TreeSHAP decompositions are noisy. Evidence on TreeSHAP under correlation is partial: exact TreeSHAP can give unequal importance to interchangeable redundant channels [R6], and a neural-network study found that correlation may greatly increase attribution variance [R41]. TreeHFD is limited to shallow trees [R15] and inherits any overfitting of the underlying ensemble [R5].
 
 ## Method
 
-Baseline: TreeHFD on xgboost with 100 trees [R101], following [R5]. Baseline in-sample residual MSE (the paper's convention) was 0.570% on Analytical and 1.52% on Airfoil; the results table reports held-out values, which are higher.
+The baseline is TreeHFD on an xgboost model [R101] with 100 trees. Datasets were Analytical and Airfoil, with 3 seeds and held-out data. The metric is residual MSE (%), lower is better. The baseline was reproduced against the paper's reference values [R5] within the registered tolerance (gate verdict True). The reproduction used the paper's in-sample convention on both datasets: residual MSE was 0.570 on Analytical and 1.52 on Airfoil. The results table reports held-out values, which are higher, so the two are not directly comparable.
 
-Idea C2: set depth_variable higher than the default in XGBTreeHFD.fit, so variables for main effects and interactions are selected from deeper tree structure. Values 1–3 were compared on validation data, choosing the one minimizing held-out Residual MSE.
+C2 sets depth_variable higher than the default in XGBTreeHFD.fit, so variables are selected from deeper tree structure. Values 1 to 3 were compared on validation data and the one with the lowest held-out residual MSE was chosen.
 
-Registered protocol (written down, dated and hashed before any run): methods TreeHFD, TreeSHAP (xgboost's path-dependent TreeSHAP with interaction values) and C2. Datasets: Analytical at rho 0, 0.25, 0.5, 0.75, 0.9, 0.95, and Airfoil. 3 seeds, 5 bootstrap refits per seed. Component error compares against the closed-form true decomposition of the analytical function, checked against Table 3 of the TreeHFD paper; Airfoil has no true components. Rank stability is the mean Spearman correlation of component importances between refits. No cells were invalid.
+A protocol was registered (written down, dated and hashed before any run). Methods: TreeHFD, TreeSHAP and C2. Datasets: Analytical at rho 0, 0.25, 0.5, 0.75, 0.9 and 0.95, plus Airfoil. It used 3 seeds and 5 bootstrap refits per seed. Component error is measured against the true decomposition of the analytical function, which has a closed form checked against the TreeHFD paper's Table 3. Airfoil has no true components. Rank stability is the mean Spearman correlation of component importances between refits. TreeSHAP is xgboost's path-dependent TreeSHAP with interaction values. No cells were invalid.
 
 ## Results
 
@@ -26,8 +26,6 @@ Results from a research-loop run on the TreeHFD problem (mean ± std over 3 seed
 |---|---|---|---|---|
 | TreeHFD (baseline) | 2.79 ± 0.32 | 29.8 ± 0.65 | 4.73 ± 0.11 | 3.26 ± 0.054 |
 | C2: Deeper variable selection | 4.72 ± 1.0 | 16.5 ± 1.5 | 6.38 ± 0.57 | 5.62 ± 0.28 |
-
-C2 had higher held-out Residual MSE than the baseline on both datasets (Analytical 4.72 vs 2.79; Airfoil 6.38 vs 4.73). Its runtime was lower on Analytical (16.5 s vs 29.8 s) but higher on Airfoil (5.62 s vs 3.26 s). No idea beat the baseline on every dataset.
 
 Mean ± std over 3 seeds; stability from 5 bootstrap refits each.
 
@@ -71,21 +69,39 @@ Mean ± std over 3 seeds; stability from 5 bootstrap refits each.
 | TreeSHAP | 2.51 ± 0.21 | 3.09 ± 0.090 | 2.63 ± 0.18 | 2.63 ± 0.31 | 2.86 ± 0.10 | 3.24 ± 0.060 | 0.270 ± 0.014 |
 | C2: Deeper variable selection | 16.7 ± 1.9 | 17.4 ± 0.56 | 17.5 ± 1.0 | 17.9 ± 1.8 | 17.2 ± 0.47 | 16.5 ± 1.5 | 6.14 ± 0.46 |
 
-Reading the protocol tables:
-- Component error: TreeHFD ranged from 8.52 at rho 0 down to 2.99 at rho 0.95. TreeSHAP was slightly lower at rho 0 (7.94) but much higher at the other correlations (20.4 to 34.0). C2 was similar to or worse than TreeHFD at most correlations, with overlapping spreads at rho 0.9 (2.82 vs 3.05) and 0.95.
-- Residual MSE against the fitted ensemble: TreeSHAP is essentially zero, as expected from an exact additive attribution. This metric is therefore not comparable to the component error. C2 was worse than TreeHFD at most settings.
-- Rank stability across refits: C2 was lower than TreeHFD at every Analytical rho and on Airfoil (0.979 vs 0.987). TreeHFD stability fell to 0.800 at rho 0.95, below TreeSHAP's 0.872.
-- Rank agreement with the true importances: methods were broadly similar, with differences often within the spread; C2 was higher at rho 0.95 (0.767 vs 0.699) but lower at rho 0.25 (0.787 vs 0.881).
-- Runtime: TreeSHAP was much faster than both TreeHFD variants.
+Figure 1 shows component error against the true decomposition by method and correlation.
+
+![Figure 1](figures/fig_component_mse_pct.png)
+
+Figure 1. Component error against the true decomposition (% of signal variance) by method and correlation.
+
+Figure 2 shows rank stability of component importances across bootstrap refits.
+
+![Figure 2](figures/fig_rank_stability.png)
+
+Figure 2. Rank stability of component importances across bootstrap refits.
+
+Figure 3 shows held-out residual MSE by method and dataset.
+
+![Figure 3](figures/fig_residual_mse_pct.png)
+
+Figure 3. Residual MSE (%) by method and dataset (held-out).
+
+**Main comparison.** C2 did not beat the baseline (Figure 3): held-out residual MSE was 4.72 vs 2.79 on Analytical and 6.38 vs 4.73 on Airfoil. Runtime was lower on Analytical (16.5 s vs 29.8 s) but higher on Airfoil (5.62 s vs 3.26 s). Since it lost on the primary metric on both datasets, no ablation was run.
+
+**Trends in the baseline.** TreeHFD's own residual MSE falls as correlation rises, from 5.54 at rho 0 to 1.03 at 0.95. Its component error against the truth also falls, from 8.52 to 2.99 (Figure 1). Higher correlation therefore did not make TreeHFD worse on these measures. We did not investigate why, and the paper should remark on it. TreeHFD's rank stability (Figure 2) is not monotone: 0.948 at rho 0.25 and 0.800 at 0.95.
+
+**TreeHFD vs TreeSHAP.** TreeSHAP's component error is similar to TreeHFD's at rho 0 (7.94 vs 8.52) but much larger at higher correlation (34.0 vs 5.99 at rho 0.5, and 28.2 vs 2.99 at 0.95). TreeSHAP's residual MSE is essentially zero, as expected for an exact additive attribution of the model, so low residual does not imply accurate components. TreeSHAP's rank stability is higher than TreeHFD's at rho 0.9 and 0.95 (0.914 vs 0.866, 0.872 vs 0.800). Rank agreement with the true importances is mixed, with no consistent winner between the two.
+
+**C2 in the protocol.** C2's component error is within noise of TreeHFD at several correlations, and numerically lower at rho 0.9 (2.82 vs 3.05, with std 0.54 and 0.23). Its rank stability is lower than the baseline's at most levels, and its residual MSE is higher at most levels.
 
 ## Limitations
 
-- Only 3 seeds, two dataset types, and one model configuration (xgboost, 100 trees). Many differences are within one or two standard deviations.
-- Only one of three ideas was run, and ideas and code were produced by a language model; the idea space was barely explored.
-- Question coverage: the experiments address the analytical-data part of the research question for xgboost only: component error against true components and bootstrap rank stability as rho goes from 0 to 0.95, for TreeHFD, TreeSHAP and C2. They do not address random forests, California Housing, Adult, or top-k component stability on public data. Airfoil was used only for residual MSE, runtime and rank stability, with no ground truth.
-- The analytical function has one fixed form, so the correlation sweep may not generalize.
-- Residual MSE in the main table is held-out and not directly comparable to the in-sample baseline values quoted in the Method section.
-- The loop shows C2 did not help in this setup; it does not show that deeper variable selection can never help.
+- Only 3 seeds, two datasets, one xgboost configuration (100 trees), and one idea run out of three. Differences within the stated standard deviations should not be read as real.
+- Ideas were produced and implemented by a language model, and the implementation may be imperfect.
+- The main table is held-out while the paper's convention is in-sample, so the numbers differ.
+- Relative to the research question, these experiments address component error against known components and bootstrap rank stability across rho 0 to 0.95, on an analytical function with xgboost. They do not cover random forests, California housing or Adult, or top-k component stability on public datasets. Airfoil has only rank stability and residual MSE, with no ground truth.
+- The reason for the trends across correlation was not tested.
 
 ## References
 

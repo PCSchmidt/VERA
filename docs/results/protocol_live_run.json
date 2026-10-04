@@ -1,6 +1,6 @@
 {
  "run_id": "protocol-live-1",
- "spent_usd": 0.1188,
+ "spent_usd": 0.2049,
  "cap_usd": 1.0,
  "protocol_artifact": "docs/results/protocol-live-1/protocol.json",
  "paper": "docs/results/protocol-live-1/paper.md",
@@ -8,9 +8,10 @@
  "arm": "glm-sonnet",
  "baseline_from": "topic-a-loop-3",
  "literature": "scope-tree-explain-2",
- "audit": "amber (5 warnings, no failures) after the audit learned to read the protocol tables",
+ "audit": "amber (3 warnings, no failures; checks run: citation, numeric, figure)",
  "notes": [
   "The first attempt stopped at the write-up gate: 1814 words against a 1700 limit that counted VERA's own protocol tables. The limit now counts prose only; the run was then resumed (--retry-from protocol), so the protocol stage ran once.",
-  "The first audit of this run was red: the audit's table check parsed the first results table only and failed every cell of the protocol tables (104 findings, none about the numbers). The audit now checks each protocol table cell against results.json (vera/audit/numbers.py: protocol_table_findings), counts the registered correlations, seeds and refits as configuration, and shows the judge the protocol tables; the same paper was then audited again (write-up stage re-run through the graph, same model-written text), amber. The audit changed after the run, so this is a development result, not a test of the audit."
+  "The first audit of this run was red: the audit's table check parsed the first results table only and failed every cell of the protocol tables (104 findings, none about the numbers). The audit now checks each protocol table cell against results.json (vera/audit/numbers.py: protocol_table_findings), counts the registered correlations, seeds and refits as configuration, and shows the judge the protocol tables; the same paper was then audited again (write-up stage re-run through the graph, same model-written text), amber. The audit changed after the run, so this is a development result, not a test of the audit.",
+  "The write-up was produced a third time after the figures, the reproduction-basis and baseline-trend constraints and the ablation stage were added (--retry-from protocol; the protocol stage ran once and its cells were kept). The paper in docs/results/protocol-live-1/ is that one: three figures drawn from results.json, the reproduction basis stated per dataset, the ablation skipped with its reason (no idea beat the baseline)."
  ]
 }

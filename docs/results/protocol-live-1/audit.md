@@ -1,17 +1,13 @@
 # Audit of protocol-live-1: **AMBER**
 
-Checks run: citation, numeric. Claims checked: 131. Findings: 0 fail, 5 warn, 0 info. Judge cost $0.00155.
+Checks run: citation, numeric, figure. Claims checked: 134. Findings: 0 fail, 3 warn, 0 info. Judge cost $0.00156.
 
 - **warn** (numeric) Could not confirm the comparison against the table: 'We tried to improve TreeHFD, a method that decomposes an xgboost model into main effects and second-order interactions.'
   - evidence: log `results.json (rendered table)` matched=None
-- **warn** (numeric) Could not confirm the comparison against the table: 'A language-model-driven loop generated 3 ideas and ran 1 of them on a subset: C2, deeper variable selection (a higher depth_variable).'
-  - evidence: log `results.json (rendered table)` matched=False
-- **warn** (numeric) Could not confirm the comparison against the table: 'In the registered protocol on correlated analytical data, TreeHFD recovered the true components far better than TreeSHAP at moderate to high correlation.'
-  - evidence: log `results.json (rendered table)` matched=False
-- **warn** (numeric) 0.570, 1.52 in the text is not a value in results.json (nor a difference or ratio of two): "Baseline in-sample residual MSE (the paper's convention) was 0.570% on Analytical and 1.52% on Airfoil; the results table reports held-out values, which are hig"
+- **warn** (numeric) 0.570, 1.52 in the text is not a value in results.json (nor a difference or ratio of two): "The reproduction used the paper's in-sample convention on both datasets: residual MSE was 0.570 on Analytical and 1.52 on Airfoil."
   - evidence: log `results.json` matched=False
-- **warn** (numeric) Every number exists in results.json, but the judge could not confirm the claim: 'Question coverage: the experiments address the analytical-data part of the research question for xgboost only: component error against true components and boots'
-  - evidence: log `results.json (rendered table)` matched=False
+- **warn** (numeric) Could not confirm against the table (the judge was not confident): 'Relative to the research question, these experiments address component error against known components and bootstrap rank stability across rho 0 to 0.95, on an a'
+  - evidence: log `results.json (rendered table)` matched=None
 
 Skipped checks:
 - method_code: AUD-F-05: method-code alignment arrives in Increment 4

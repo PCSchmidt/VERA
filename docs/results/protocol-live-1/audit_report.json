@@ -27,9 +27,9 @@
      "confidence_source": "self_report",
      "backend": "glm-flash",
      "escalated": true,
-     "cost_usd": 0.000121036,
-     "latency_ms": 1757,
-     "trace_id": "6a7c5ca66ded4706a351454ff5cab159",
+     "cost_usd": 0.00012558,
+     "latency_ms": 3497,
+     "trace_id": "479f2672022746188a9fe14d7baceaa2",
      "producer_id": "p3.write_up",
      "judge_id": "p2.judge"
     }
@@ -40,105 +40,33 @@
    "check": "numeric",
    "severity": "warn",
    "claim_ids": [
-    "num:1"
+    "num:21"
    ],
    "evidence": [
     {
-     "claim_id": "num:1",
-     "source": "log",
-     "reference": "results.json (rendered table)",
-     "matched": false,
-     "detail": "Could not confirm the comparison against the table: 'A language-model-driven loop generated 3 ideas and ran 1 of them on a subset: C2, deeper variable selection (a higher depth_variable).'"
-    }
-   ],
-   "verdicts": [
-    {
-     "question_id": "num.claim_consistent",
-     "answer": false,
-     "probabilities": {
-      "true": 0.29,
-      "false": 0.71
-     },
-     "confidence": 0.71,
-     "confidence_source": "logprobs",
-     "backend": "jev",
-     "escalated": false,
-     "cost_usd": 0.00011004,
-     "latency_ms": 184,
-     "trace_id": "66e3713b8fd64d8c99893cdbd0229fd4",
-     "producer_id": "p3.write_up",
-     "judge_id": "p2.judge"
-    }
-   ],
-   "summary": "Could not confirm the comparison against the table: 'A language-model-driven loop generated 3 ideas and ran 1 of them on a subset: C2, deeper variable selection (a higher depth_variable).'"
-  },
-  {
-   "check": "numeric",
-   "severity": "warn",
-   "claim_ids": [
-    "num:4"
-   ],
-   "evidence": [
-    {
-     "claim_id": "num:4",
-     "source": "log",
-     "reference": "results.json (rendered table)",
-     "matched": false,
-     "detail": "Could not confirm the comparison against the table: 'In the registered protocol on correlated analytical data, TreeHFD recovered the true components far better than TreeSHAP at moderate to high correlation.'"
-    }
-   ],
-   "verdicts": [
-    {
-     "question_id": "num.claim_consistent",
-     "answer": false,
-     "probabilities": {
-      "true": 0.06,
-      "false": 0.94
-     },
-     "confidence": 0.94,
-     "confidence_source": "logprobs",
-     "backend": "jev",
-     "escalated": false,
-     "cost_usd": 0.00010991399999999999,
-     "latency_ms": 171,
-     "trace_id": "3c6ef22a04eb4665b777a70a0aa8dadc",
-     "producer_id": "p3.write_up",
-     "judge_id": "p2.judge"
-    }
-   ],
-   "summary": "Could not confirm the comparison against the table: 'In the registered protocol on correlated analytical data, TreeHFD recovered the true components far better than TreeSHAP at moderate to high correlation.'"
-  },
-  {
-   "check": "numeric",
-   "severity": "warn",
-   "claim_ids": [
-    "num:16"
-   ],
-   "evidence": [
-    {
-     "claim_id": "num:16",
+     "claim_id": "num:21",
      "source": "log",
      "reference": "results.json",
      "matched": false,
-     "detail": "0.570, 1.52 in the text is not a value in results.json (nor a difference or ratio of two): \"Baseline in-sample residual MSE (the paper's convention) was 0.570% on Analytical and 1.52% on Airfoil; the results table reports held-out values, which are hig\""
+     "detail": "0.570, 1.52 in the text is not a value in results.json (nor a difference or ratio of two): \"The reproduction used the paper's in-sample convention on both datasets: residual MSE was 0.570 on Analytical and 1.52 on Airfoil.\""
     }
    ],
    "verdicts": [],
-   "summary": "0.570, 1.52 in the text is not a value in results.json (nor a difference or ratio of two): \"Baseline in-sample residual MSE (the paper's convention) was 0.570% on Analytical and 1.52% on Airfoil; the results table reports held-out values, which are hig\""
+   "summary": "0.570, 1.52 in the text is not a value in results.json (nor a difference or ratio of two): \"The reproduction used the paper's in-sample convention on both datasets: residual MSE was 0.570 on Analytical and 1.52 on Airfoil.\""
   },
   {
    "check": "numeric",
    "severity": "warn",
    "claim_ids": [
-    "num:48"
+    "num:71"
    ],
    "evidence": [
     {
-     "claim_id": "num:48",
+     "claim_id": "num:71",
      "source": "log",
      "reference": "results.json (rendered table)",
-     "matched": false,
-     "detail": "Every number exists in results.json, but the judge could not confirm the claim: 'Question coverage: the experiments address the analytical-data part of the research question for xgboost only: component error against true components and boots'"
+     "matched": null,
+     "detail": "Could not confirm against the table (the judge was not confident): 'Relative to the research question, these experiments address component error against known components and bootstrap rank stability across rho 0 to 0.95, on an a'"
     }
    ],
    "verdicts": [
@@ -146,24 +74,25 @@
      "question_id": "num.claim_consistent",
      "answer": false,
      "probabilities": null,
-     "confidence": 0.85,
+     "confidence": 0.6,
      "confidence_source": "self_report",
      "backend": "glm-flash",
      "escalated": true,
-     "cost_usd": 0.000136624,
-     "latency_ms": 6439,
-     "trace_id": "e722035b14f74a7ebc1f1ae25cb595f8",
+     "cost_usd": 0.000151384,
+     "latency_ms": 2666,
+     "trace_id": "2c4a6def060545338b39743c6779d160",
      "producer_id": "p3.write_up",
      "judge_id": "p2.judge"
     }
    ],
-   "summary": "Every number exists in results.json, but the judge could not confirm the claim: 'Question coverage: the experiments address the analytical-data part of the research question for xgboost only: component error against true components and boots'"
+   "summary": "Could not confirm against the table (the judge was not confident): 'Relative to the research question, these experiments address component error against known components and bootstrap rank stability across rho 0 to 0.95, on an a'"
   }
  ],
  "overall": "amber",
  "checks_run": [
   "citation",
-  "numeric"
+  "numeric",
+  "figure"
  ],
  "checks_skipped": {
   "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
@@ -171,7 +100,7 @@
   "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
   "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
  },
- "total_cost_usd": 0.0015539259999999997,
- "wall_seconds": 28,
+ "total_cost_usd": 0.0015586019999999999,
+ "wall_seconds": 12,
  "schema_version": "0.10"
 }
