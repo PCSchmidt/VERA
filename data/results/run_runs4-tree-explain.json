@@ -1,0 +1,146 @@
+{
+ "run_id": "runs4-tree-explain",
+ "models": {
+  "ideate": "glm-flash",
+  "subset_exp": "glm-flash",
+  "write_up": "sonnet"
+ },
+ "completed": true,
+ "stop": null,
+ "total_cost_usd": 0.101613,
+ "budget": {
+  "max_usd": 1.5,
+  "spent_usd": 0.1016130816,
+  "max_wall_seconds": 21600,
+  "elapsed_seconds": 1466
+ },
+ "by_component": {
+  "p2.cheap_path": {
+   "calls": 42,
+   "cost_usd": 0.003236,
+   "input_tokens": 66206,
+   "output_tokens": 1369,
+   "max_input_tokens": 4415,
+   "input_share": 0.98
+  },
+  "p3.ideate": {
+   "calls": 1,
+   "cost_usd": 0.000165,
+   "input_tokens": 1244,
+   "output_tokens": 243,
+   "max_input_tokens": 1244,
+   "input_share": 0.837
+  },
+  "p3.subset_exp": {
+   "calls": 1,
+   "cost_usd": 0.000292,
+   "input_tokens": 469,
+   "output_tokens": 550,
+   "max_input_tokens": 469,
+   "input_share": 0.46
+  },
+  "p3.write_up": {
+   "calls": 2,
+   "cost_usd": 0.09792,
+   "input_tokens": 18595,
+   "output_tokens": 6073,
+   "max_input_tokens": 12324,
+   "input_share": 0.754
+  }
+ },
+ "stages": [
+  {
+   "stage": "baseline",
+   "decision": "accept",
+   "producer": "p3.baseline",
+   "gate_question": "loop.baseline_reproduced",
+   "gate_answer": true,
+   "gate_judge": "loop.rule_gate",
+   "n_gates": 1,
+   "metrics": {
+    "confidence": 1.0
+   },
+   "spent_usd_after": 5.2104e-05
+  },
+  {
+   "stage": "ideate",
+   "decision": "accept",
+   "producer": "p3.ideate",
+   "gate_question": "loop.idea_worth_run",
+   "gate_answer": 1,
+   "gate_judge": "p2.judge",
+   "n_gates": 3,
+   "metrics": {
+    "n_selected": 1.0
+   },
+   "spent_usd_after": 0.00039982480000000007
+  },
+  {
+   "stage": "subset_exp",
+   "decision": "reject",
+   "producer": "p3.subset_exp",
+   "gate_question": "loop.beats_baseline",
+   "gate_answer": false,
+   "gate_judge": "loop.rule_gate",
+   "n_gates": 2,
+   "metrics": {
+    "n_ideas_run": 1.0,
+    "n_beating_baseline": 0.0
+   },
+   "spent_usd_after": 0.0007358616000000002
+  },
+  {
+   "stage": "write_up",
+   "decision": "accept",
+   "producer": "p3.write_up",
+   "gate_question": "loop.guidance_met",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "words": 885.0,
+    "problems": 0.0
+   },
+   "spent_usd_after": 0.0988891216
+  },
+  {
+   "stage": "audit",
+   "decision": "accept",
+   "producer": "p1.audit",
+   "gate_question": "loop.audit_clean",
+   "gate_answer": true,
+   "gate_judge": "p1.audit_gate",
+   "n_gates": 1,
+   "metrics": {
+    "fail": 0.0,
+    "warn": 15.0,
+    "info": 0.0,
+    "claims": 152.0
+   },
+   "spent_usd_after": 0.1016130816
+  }
+ ],
+ "audit": {
+  "overall": "amber",
+  "fail": 0,
+  "warn": 15,
+  "info": 0,
+  "checks_skipped": {
+   "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+   "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+  }
+ },
+ "best_idea": null,
+ "held_out_residual_mse_pct": {
+  "TreeHFD (baseline)": {
+   "analytical": 2.792,
+   "airfoil": 4.733
+  },
+  "C2: Shallower variable selection depth": {
+   "analytical": 4.722,
+   "airfoil": 6.381
+  }
+ },
+ "baseline_name": "TreeHFD (baseline)",
+ "ledger": "data/ledger/run_runs4-tree-explain.jsonl"
+}

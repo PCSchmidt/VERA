@@ -71,13 +71,15 @@ def rendered_means(
     return out
 
 
-def beats(means: dict, method: str, dataset: str, metric: str = PRIMARY) -> bool:
+def beats(means: dict, method: str, dataset: str, metric: str | None = None) -> bool:
     """Strictly better (lower) rendered mean than the baseline's."""
+    metric = metric or PRIMARY
     return means[(method, dataset, metric)] < means[(BASELINE, dataset, metric)]
 
 
-def best(means: dict, methods: list[str], dataset: str, metric: str = PRIMARY) -> str | None:
+def best(means: dict, methods: list[str], dataset: str, metric: str | None = None) -> str | None:
     """The method with the lowest rendered mean, or None if the best is tied."""
+    metric = metric or PRIMARY
     values = {m: means[(m, dataset, metric)] for m in methods}
     low = min(values.values())
     winners = [m for m, v in values.items() if v == low]
