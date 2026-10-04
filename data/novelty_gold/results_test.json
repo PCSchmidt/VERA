@@ -1,0 +1,52 @@
+{
+ "split": "test",
+ "audit_sha256": "2195e928d9adb3add30976f6f912468dcd9eb34342401324e6095c0ec3de1643",
+ "spend_usd": 0.0014,
+ "ledger": "data/ledger/run_noveltygold-test-2.jsonl",
+ "not_distinct": {
+  "n": 12,
+  "correct": 11,
+  "unsure": 0,
+  "rate": 0.9167,
+  "ci95": [
+   0.6461,
+   0.9851
+  ],
+  "wrong": [
+   "nd-01"
+  ]
+ },
+ "distinct": {
+  "n": 12,
+  "correct": 12,
+  "unsure": 0,
+  "rate": 1.0,
+  "ci95": [
+   0.7575,
+   1.0
+  ],
+  "wrong": []
+ },
+ "real_ideas": {
+  "r-00": true,
+  "r-01": null,
+  "r-02": true,
+  "r-03": false,
+  "r-04": false,
+  "r-05": true,
+  "r-06": false,
+  "r-07": true,
+  "r-08": true,
+  "r-09": false,
+  "r-10": true,
+  "r-11": true
+ },
+ "helper": {
+  "n": 10,
+  "agree": 7,
+  "ci95": [
+   0.3968,
+   0.8922
+  ]
+ }
+}

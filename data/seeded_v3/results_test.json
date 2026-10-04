@@ -1,0 +1,1455 @@
+{
+ "split": "test",
+ "summary": {
+  "planted": 52,
+  "red": {
+   "k": 50,
+   "n": 52,
+   "rate": 0.9615,
+   "ci95": [
+    0.8702,
+    0.9894
+   ]
+  },
+  "flagged": {
+   "k": 51,
+   "n": 52,
+   "rate": 0.9808,
+   "ci95": [
+    0.8988,
+    0.9966
+   ]
+  },
+  "subtle_red": {
+   "k": 22,
+   "n": 24,
+   "rate": 0.9167,
+   "ci95": [
+    0.7415,
+    0.9768
+   ]
+  },
+  "deterministic_red": {
+   "k": 28,
+   "n": 28,
+   "rate": 1.0,
+   "ci95": [
+    0.8794,
+    1.0
+   ]
+  },
+  "controls": 6,
+  "false_fails": 3,
+  "controls_flagged": 4,
+  "controls_with_method_code_warns": 4,
+  "by_type": {
+   "altered_reference": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "changed_qualifier": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "fabricated_citation": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "fabricated_quote": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "figure_altered": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "method_code_missing_step": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "method_code_undescribed": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "misattributed_number": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "moved_citation": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "numeric_prose": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "numeric_table": {
+    "red": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": false
+   },
+   "overstated_claim": {
+    "red": {
+     "k": 1,
+     "n": 2,
+     "rate": 0.5,
+     "ci95": [
+      0.0945,
+      0.9055
+     ]
+    },
+    "flagged": {
+     "k": 1,
+     "n": 2,
+     "rate": 0.5,
+     "ci95": [
+      0.0945,
+      0.9055
+     ]
+    },
+    "subtle": true
+   },
+   "reproduction_basis_wrong": {
+    "red": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "reversed_comparison": {
+    "red": {
+     "k": 3,
+     "n": 4,
+     "rate": 0.75,
+     "ci95": [
+      0.3006,
+      0.9544
+     ]
+    },
+    "flagged": {
+     "k": 4,
+     "n": 4,
+     "rate": 1.0,
+     "ci95": [
+      0.5101,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "swapped_claim_text": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "swapped_method": {
+    "red": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 3,
+     "n": 3,
+     "rate": 1.0,
+     "ci95": [
+      0.4385,
+      1.0
+     ]
+    },
+    "subtle": true
+   },
+   "unresolved_citation": {
+    "red": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "flagged": {
+     "k": 2,
+     "n": 2,
+     "rate": 1.0,
+     "ci95": [
+      0.3424,
+      1.0
+     ]
+    },
+    "subtle": false
+   }
+  },
+  "by_doc_kind": {
+   "paper": {
+    "k": 39,
+    "n": 40,
+    "rate": 0.975,
+    "ci95": [
+     0.8712,
+     0.9956
+    ]
+   },
+   "lit": {
+    "k": 11,
+    "n": 12,
+    "rate": 0.9167,
+    "ci95": [
+     0.6461,
+     0.9851
+    ]
+   }
+  },
+  "spent_usd": 0.13224576999999998,
+  "audit_sha256": "2195e928d9adb3add30976f6f912468dcd9eb34342401324e6095c0ec3de1643",
+  "ledger": "data/ledger/run_seededv3-test-1.jsonl"
+ },
+ "items": [
+  {
+   "fault_id": "protocol-live-1:control",
+   "fault_type": "control",
+   "detected": true,
+   "n_method_code_warns": 10,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 14,
+   "first_fail": "The paper says the baseline was reproduced on in-sample rows for Analytical; the registered target compares held-out rows: \"The reproduction used the paper's in-sample convention on both datasets: residual MSE was 0.570 on Analytical and 1.",
+   "cost_usd": 0.0022835099999999994
+  },
+  {
+   "fault_id": "protocol-live-1:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 17,
+   "first_fail": "R3 ('Orthogonal Boosting Decompositions with Calibrated Interaction Budgets') is not in the retrieval log, and the records returned for it are different papers.",
+   "cost_usd": 0.0021678240000000005
+  },
+  {
+   "fault_id": "protocol-live-1:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 16,
+   "first_fail": "Reference R5 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble Explainability through the Hoeffding Fu",
+   "cost_usd": 0.002315108
+  },
+  {
+   "fault_id": "protocol-live-1:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 15,
+   "first_fail": "The protocol table says '02.5 \u00b1 5.5' for TreeHFD on analytical@0 (runtime_s); results.json has '42.5 \u00b1 5.5'.",
+   "cost_usd": 0.002185508
+  },
+  {
+   "fault_id": "protocol-live-1:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 16,
+   "first_fail": "2.03 in a results claim is not a value in results.json (nor a difference or ratio of two): \"**Trends in the baseline.** TreeHFD's own residual MSE falls as correlation rises, from 5.54 at rho 0 to 2.03 at 0.95.\"",
+   "cost_usd": 0.0021409220000000004
+  },
+  {
+   "fault_id": "protocol-live-1:misattributed_number",
+   "fault_type": "misattributed_number",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 16,
+   "first_fail": "The paper says the baseline was reproduced on in-sample rows for Analytical; the registered target compares held-out rows: \"The reproduction used the paper's in-sample convention on both datasets: residual MSE was 0.570 on Analytical and 1.",
+   "cost_usd": 0.0022251080000000004
+  },
+  {
+   "fault_id": "protocol-live-1:reversed_comparison",
+   "fault_type": "reversed_comparison",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 15,
+   "first_fail": "The paper says the baseline was reproduced on in-sample rows for Analytical; the registered target compares held-out rows: \"The reproduction used the paper's in-sample convention on both datasets: residual MSE was 0.570 on Analytical and 1.",
+   "cost_usd": 0.0021849080000000006
+  },
+  {
+   "fault_id": "protocol-live-1:method_code_missing_step",
+   "fault_type": "method_code_missing_step",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 16,
+   "first_fail": "The paper says the baseline was reproduced on in-sample rows for Analytical; the registered target compares held-out rows: \"The reproduction used the paper's in-sample convention on both datasets: residual MSE was 0.570 on Analytical and 1.",
+   "cost_usd": 0.002245262
+  },
+  {
+   "fault_id": "protocol-live-1:method_code_undescribed",
+   "fault_type": "method_code_undescribed",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 15,
+   "first_fail": "The paper says the baseline was reproduced on in-sample rows for Analytical; the registered target compares held-out rows: \"The reproduction used the paper's in-sample convention on both datasets: residual MSE was 0.570 on Analytical and 1.",
+   "cost_usd": 0.0024262859999999997
+  },
+  {
+   "fault_id": "protocol-live-1:figure_altered",
+   "fault_type": "figure_altered",
+   "detected": true,
+   "n_method_code_warns": 11,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 14,
+   "first_fail": "fig_rank_stability: protocol/TreeSHAP/analytical@0/rank_stability was plotted as 2.31487 \u00b1 0.0222775, results.json has 0.87658 \u00b1 0.0222775",
+   "cost_usd": 0.002245508
+  },
+  {
+   "fault_id": "protocol-live-1:reproduction_basis_wrong",
+   "fault_type": "reproduction_basis_wrong",
+   "detected": true,
+   "n_method_code_warns": 12,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 15,
+   "first_fail": "The paper says the baseline was reproduced on held-out rows for Airfoil; the registered target compares in-sample rows: \"The reproduction used the paper's held-out convention on both datasets: residual MSE was 0.570 on Analytical and 1.52 o",
+   "cost_usd": 0.0021795080000000006
+  },
+  {
+   "fault_id": "protocol-live-2:control",
+   "fault_type": "control",
+   "detected": true,
+   "n_method_code_warns": 26,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 31,
+   "first_fail": "The paper says the baseline was reproduced on in-sample rows for Analytical; the registered target compares held-out rows: \"The reproduction used the paper's in-sample convention, giving a residual MSE of 0.570% on Analytical and 1.52% on A",
+   "cost_usd": 0.0038354120000000007
+  },
+  {
+   "fault_id": "protocol-live-2:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "n_method_code_warns": 24,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 27,
+   "first_fail": "R3 ('Adaptive Cartesian Priors for Additive Tree Explanations') is not in the retrieval log, and the records returned for it are different papers.",
+   "cost_usd": 0.003958042000000001
+  },
+  {
+   "fault_id": "protocol-live-2:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "n_method_code_warns": 26,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 30,
+   "first_fail": "Reference R5 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble Explainability through the Hoeffding Fu",
+   "cost_usd": 0.003748724000000001
+  },
+  {
+   "fault_id": "protocol-live-2:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "n_method_code_warns": 26,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 30,
+   "first_fail": "The protocol table says '0.838 \u00b1 0.036' for C2: Residual backfitting refit on analytical@0 (rank_stability); results.json has '0.868 \u00b1 0.036'.",
+   "cost_usd": 0.003732716000000001
+  },
+  {
+   "fault_id": "protocol-live-2:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "n_method_code_warns": 27,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 30,
+   "first_fail": "9.03 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Its residual MSE against the fitted ensemble also falls, from 5.54% to 9.03%.'",
+   "cost_usd": 0.0036320059999999997
+  },
+  {
+   "fault_id": "protocol-live-2:misattributed_number",
+   "fault_type": "misattributed_number",
+   "detected": true,
+   "n_method_code_warns": 25,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 31,
+   "first_fail": "The paper says the baseline was reproduced on in-sample rows for Analytical; the registered target compares held-out rows: \"The reproduction used the paper's in-sample convention, giving a residual MSE of 0.570% on Analytical and 1.52% on A",
+   "cost_usd": 0.003769358000000001
+  },
+  {
+   "fault_id": "protocol-live-2:reversed_comparison",
+   "fault_type": "reversed_comparison",
+   "detected": true,
+   "n_method_code_warns": 26,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 30,
+   "first_fail": "The paper says the baseline was reproduced on in-sample rows for Analytical; the registered target compares held-out rows: \"The reproduction used the paper's in-sample convention, giving a residual MSE of 0.570% on Analytical and 1.52% on A",
+   "cost_usd": 0.003741716000000001
+  },
+  {
+   "fault_id": "protocol-live-2:swapped_method",
+   "fault_type": "swapped_method",
+   "detected": true,
+   "n_method_code_warns": 27,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 31,
+   "first_fail": "The paper says the baseline was reproduced on in-sample rows for Analytical; the registered target compares held-out rows: \"The reproduction used the paper's in-sample convention, giving a residual MSE of 0.570% on Analytical and 1.52% on A",
+   "cost_usd": 0.0037461720000000007
+  },
+  {
+   "fault_id": "protocol-live-2:method_code_missing_step",
+   "fault_type": "method_code_missing_step",
+   "detected": true,
+   "n_method_code_warns": 29,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 32,
+   "first_fail": "The paper says the baseline was reproduced on in-sample rows for Analytical; the registered target compares held-out rows: \"The reproduction used the paper's in-sample convention, giving a residual MSE of 0.570% on Analytical and 1.52% on A",
+   "cost_usd": 0.003957496000000001
+  },
+  {
+   "fault_id": "protocol-live-2:method_code_undescribed",
+   "fault_type": "method_code_undescribed",
+   "detected": true,
+   "n_method_code_warns": 28,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 30,
+   "first_fail": "The paper says the baseline was reproduced on in-sample rows for Analytical; the registered target compares held-out rows: \"The reproduction used the paper's in-sample convention, giving a residual MSE of 0.570% on Analytical and 1.52% on A",
+   "cost_usd": 0.003888512
+  },
+  {
+   "fault_id": "protocol-live-2:figure_altered",
+   "fault_type": "figure_altered",
+   "detected": true,
+   "n_method_code_warns": 27,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 30,
+   "first_fail": "fig_residual_mse_pct: results/C1: Interaction screening by strength/analytical/residual_mse_pct was plotted as 5.51213 \u00b1 0.402067, results.json has 3.00809 \u00b1 0.402067",
+   "cost_usd": 0.0038665160000000004
+  },
+  {
+   "fault_id": "protocol-live-2:reproduction_basis_wrong",
+   "fault_type": "reproduction_basis_wrong",
+   "detected": true,
+   "n_method_code_warns": 27,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "figure",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 31,
+   "first_fail": "The paper says the baseline was reproduced on held-out rows for Airfoil; the registered target compares in-sample rows: \"The reproduction used the paper's held-out convention, giving a residual MSE of 0.570% on Analytical and 1.52% on Airfo",
+   "cost_usd": 0.003884516
+  },
+  {
+   "fault_id": "topic-a-loop-2:control",
+   "fault_type": "control",
+   "detected": true,
+   "n_method_code_warns": 15,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 17,
+   "first_fail": "A real number on the wrong method or dataset: 4.37 is a value of C1: Shallow depth_variable sweep / analytical_rho0; 5.54 is a value of TreeHFD (baseline) / analytical_rho0; 0.712 is a value of C1: Shallow depth_variable sweep / analytical_",
+   "cost_usd": 0.0015036180000000002
+  },
+  {
+   "fault_id": "topic-a-loop-2:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "n_method_code_warns": 13,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 3,
+   "n_warn": 16,
+   "first_fail": "R3 ('Orthogonal Boosting Decompositions with Calibrated Interaction Budgets') is not in the retrieval log, and the records returned for it are different papers.",
+   "cost_usd": 0.001621832
+  },
+  {
+   "fault_id": "topic-a-loop-2:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "n_method_code_warns": 13,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 3,
+   "n_warn": 15,
+   "first_fail": "Reference R5 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble Explainability through the Hoeffding Fu",
+   "cost_usd": 0.00152469
+  },
+  {
+   "fault_id": "topic-a-loop-2:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "n_method_code_warns": 13,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 3,
+   "n_warn": 16,
+   "first_fail": "The table says '25.9 \u00b1 0.43' for C3: Residual ridge recalibration on analytical_rho95 (runtime_s); results.json has 24.9 \u00b1 0.43.",
+   "cost_usd": 0.0015660759999999998
+  },
+  {
+   "fault_id": "topic-a-loop-2:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "n_method_code_warns": 13,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 15,
+   "first_fail": "0.54 in a results claim is not a value in results.json (nor a difference or ratio of two): 'C1 lowered residual MSE on Analytical (2.41 vs 2.79), rho0 (4.37 vs 0.54) and rho95 (0.712 vs 1.03), and lowered runtime on those three.'",
+   "cost_usd": 0.001461434
+  },
+  {
+   "fault_id": "topic-a-loop-2:misattributed_number",
+   "fault_type": "misattributed_number",
+   "detected": true,
+   "n_method_code_warns": 13,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 16,
+   "first_fail": "A real number on the wrong method or dataset: 4.37 is a value of C1: Shallow depth_variable sweep / analytical_rho0; 5.54 is a value of TreeHFD (baseline) / analytical_rho0; 0.712 is a value of C1: Shallow depth_variable sweep / analytical_",
+   "cost_usd": 0.0015664340000000004
+  },
+  {
+   "fault_id": "topic-a-loop-2:reversed_comparison",
+   "fault_type": "reversed_comparison",
+   "detected": true,
+   "n_method_code_warns": 13,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 16,
+   "first_fail": "A real number on the wrong method or dataset: 4.37 is a value of C1: Shallow depth_variable sweep / analytical_rho0; 5.54 is a value of TreeHFD (baseline) / analytical_rho0; 0.712 is a value of C1: Shallow depth_variable sweep / analytical_",
+   "cost_usd": 0.001534034
+  },
+  {
+   "fault_id": "topic-a-loop-2:swapped_method",
+   "fault_type": "swapped_method",
+   "detected": true,
+   "n_method_code_warns": 13,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 17,
+   "first_fail": "A real number on the wrong method or dataset: 4.37 is a value of C1: Shallow depth_variable sweep / analytical_rho0; 5.54 is a value of TreeHFD (baseline) / analytical_rho0; 0.712 is a value of C1: Shallow depth_variable sweep / analytical_",
+   "cost_usd": 0.001533946
+  },
+  {
+   "fault_id": "topic-a-loop-2:method_code_missing_step",
+   "fault_type": "method_code_missing_step",
+   "detected": true,
+   "n_method_code_warns": 15,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 17,
+   "first_fail": "A real number on the wrong method or dataset: 4.37 is a value of C1: Shallow depth_variable sweep / analytical_rho0; 5.54 is a value of TreeHFD (baseline) / analytical_rho0; 0.712 is a value of C1: Shallow depth_variable sweep / analytical_",
+   "cost_usd": 0.0016218360000000002
+  },
+  {
+   "fault_id": "topic-a-loop-2:method_code_undescribed",
+   "fault_type": "method_code_undescribed",
+   "detected": true,
+   "n_method_code_warns": 14,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 16,
+   "first_fail": "A real number on the wrong method or dataset: 4.37 is a value of C1: Shallow depth_variable sweep / analytical_rho0; 5.54 is a value of TreeHFD (baseline) / analytical_rho0; 0.712 is a value of C1: Shallow depth_variable sweep / analytical_",
+   "cost_usd": 0.0015967079999999999
+  },
+  {
+   "fault_id": "topic-a-loop-2:reproduction_basis_wrong",
+   "fault_type": "reproduction_basis_wrong",
+   "detected": true,
+   "n_method_code_warns": 13,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 16,
+   "first_fail": "A real number on the wrong method or dataset: 4.37 is a value of C1: Shallow depth_variable sweep / analytical_rho0; 5.54 is a value of TreeHFD (baseline) / analytical_rho0; 0.712 is a value of C1: Shallow depth_variable sweep / analytical_",
+   "cost_usd": 0.0015478339999999999
+  },
+  {
+   "fault_id": "topic-a-loop-3:control",
+   "fault_type": "control",
+   "detected": false,
+   "n_method_code_warns": 6,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 12,
+   "first_fail": null,
+   "cost_usd": 0.001695472
+  },
+  {
+   "fault_id": "topic-a-loop-3:fabricated_citation",
+   "fault_type": "fabricated_citation",
+   "detected": true,
+   "n_method_code_warns": 5,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 10,
+   "first_fail": "R3 ('Cartesian Partition Refinement for Piecewise Constant Explainers') is not in the retrieval log, and the records returned for it are different papers.",
+   "cost_usd": 0.0016344439999999999
+  },
+  {
+   "fault_id": "topic-a-loop-3:altered_reference",
+   "fault_type": "altered_reference",
+   "detected": true,
+   "n_method_code_warns": 5,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 10,
+   "first_fail": "Reference R5 differs from the record the loop retrieved: the list says 'Forest Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm', the log has 'Tree Ensemble Explainability through the Hoeffding Fu",
+   "cost_usd": 0.0015852239999999999
+  },
+  {
+   "fault_id": "topic-a-loop-3:numeric_table",
+   "fault_type": "numeric_table",
+   "detected": true,
+   "n_method_code_warns": 6,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 12,
+   "first_fail": "The table says '01.3 \u00b1 0.25' for TreeHFD (baseline) on correlated95 (runtime_s); results.json has 21.3 \u00b1 0.25.",
+   "cost_usd": 0.0015335299999999997
+  },
+  {
+   "fault_id": "topic-a-loop-3:numeric_prose",
+   "fault_type": "numeric_prose",
+   "detected": true,
+   "n_method_code_warns": 7,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 12,
+   "first_fail": "2.86 in a results claim is not a value in results.json (nor a difference or ratio of two): 'C3 was essentially tied with the baseline: for example 2.86 \u00b1 0.33 vs 2.79 \u00b1 0.32 on Analytical, and 1.03 on Correlated95 for both, with differences",
+   "cost_usd": 0.001429678
+  },
+  {
+   "fault_id": "topic-a-loop-3:misattributed_number",
+   "fault_type": "misattributed_number",
+   "detected": true,
+   "n_method_code_warns": 6,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 11,
+   "first_fail": "A real number on the wrong method or dataset: 1.48 is a value of C3: Residual spline main effects / airfoil, not of the cell this sentence names: 'C3 was essentially tied with the baseline: for example 1.48 \u00b1 0.33 vs 2.79 \u00b1 0.32 on Analytic",
+   "cost_usd": 0.0015888719999999999
+  },
+  {
+   "fault_id": "topic-a-loop-3:reversed_comparison",
+   "fault_type": "reversed_comparison",
+   "detected": false,
+   "n_method_code_warns": 6,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 12,
+   "first_fail": null,
+   "cost_usd": 0.0016747840000000001
+  },
+  {
+   "fault_id": "topic-a-loop-3:swapped_method",
+   "fault_type": "swapped_method",
+   "detected": true,
+   "n_method_code_warns": 5,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 11,
+   "first_fail": "A real number on the wrong method or dataset: 2.81 is a value of C3: Residual spline main effects / analytical, not of the cell this sentence names: 'C2 was essentially tied with the baseline: for example 2.81 \u00b1 0.33 vs 2.79 \u00b1 0.32 on Analy",
+   "cost_usd": 0.001595072
+  },
+  {
+   "fault_id": "topic-a-loop-3:method_code_missing_step",
+   "fault_type": "method_code_missing_step",
+   "detected": true,
+   "n_method_code_warns": 8,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 13,
+   "first_fail": null,
+   "cost_usd": 0.001672034
+  },
+  {
+   "fault_id": "topic-a-loop-3:method_code_undescribed",
+   "fault_type": "method_code_undescribed",
+   "detected": true,
+   "n_method_code_warns": 6,
+   "checks_run": [
+    "citation",
+    "numeric",
+    "reproduction_basis",
+    "method_code",
+    "novelty"
+   ],
+   "overall": "amber",
+   "n_fail": 0,
+   "n_warn": 11,
+   "first_fail": null,
+   "cost_usd": 0.0015680520000000001
+  },
+  {
+   "fault_id": "topic-conformal:control",
+   "fault_type": "control",
+   "detected": false,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "first_fail": null,
+   "cost_usd": 0.00044110800000000006
+  },
+  {
+   "fault_id": "topic-conformal:unresolved_citation",
+   "fault_type": "unresolved_citation",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 0,
+   "first_fail": "[R999] is cited but is not a retrieved record or listed.",
+   "cost_usd": 0.00039792399999999997
+  },
+  {
+   "fault_id": "topic-conformal:moved_citation",
+   "fault_type": "moved_citation",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The sentence cites [R11] but its claim is linked to [R139]: \"The robust validation paper's abstract says its conformal-based method achieves nearly valid coverage in finite samples, under only the cond\"",
+   "cost_usd": 0.000396438
+  },
+  {
+   "fault_id": "topic-conformal:fabricated_quote",
+   "fault_type": "fabricated_quote",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The quote behind this claim is not in [R29]: it appears in any passage or nowhere (fabricated_quote): 'the effect is large and consistent across all of the datasets that were examined here'",
+   "cost_usd": 0.0003986000000000001
+  },
+  {
+   "fault_id": "topic-conformal:changed_qualifier",
+   "fault_type": "changed_qualifier",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The quote behind this claim is not in [R32]: it appears in any passage or nowhere (fabricated_quote): 'it must suffer from significant undercoverage when the density ratio between the distributions is un'",
+   "cost_usd": 0.00038170000000000006
+  },
+  {
+   "fault_id": "topic-conformal:overstated_claim",
+   "fault_type": "overstated_claim",
+   "detected": false,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "first_fail": null,
+   "cost_usd": 0.000436696
+  },
+  {
+   "fault_id": "topic-conformal:swapped_claim_text",
+   "fault_type": "swapped_claim_text",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 0,
+   "first_fail": "The passage cited does not support the claim as written: 'Under unrestricted conditional shift, one audit paper shows that target coverage is only identified to the full interval from 0 to 1.'",
+   "cost_usd": 0.000453436
+  },
+  {
+   "fault_id": "topic-research-agents:control",
+   "fault_type": "control",
+   "detected": false,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "green",
+   "n_fail": 0,
+   "n_warn": 0,
+   "first_fail": null,
+   "cost_usd": 0.00051962
+  },
+  {
+   "fault_id": "topic-research-agents:unresolved_citation",
+   "fault_type": "unresolved_citation",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 0,
+   "first_fail": "[R999] is cited but is not a retrieved record or listed.",
+   "cost_usd": 0.000464312
+  },
+  {
+   "fault_id": "topic-research-agents:moved_citation",
+   "fault_type": "moved_citation",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The sentence cites [R10] but its claim is linked to [R87]: 'HindSight reports that its future-impact scores correlate negatively with LLM-judged novelty.'",
+   "cost_usd": 0.00045928
+  },
+  {
+   "fault_id": "topic-research-agents:fabricated_quote",
+   "fault_type": "fabricated_quote",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The quote behind this claim is not in [R11]: it appears in any passage or nowhere (fabricated_quote): 'the effect is large and consistent across all of the datasets that were examined here'",
+   "cost_usd": 0.00047068
+  },
+  {
+   "fault_id": "topic-research-agents:changed_qualifier",
+   "fault_type": "changed_qualifier",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The quote behind this claim is not in [R58]: it appears in any passage or nowhere (fabricated_quote): 'simply telling the judge that reviewers found one idea novel and the other not must change its verdi'",
+   "cost_usd": 0.0004603760000000001
+  },
+  {
+   "fault_id": "topic-research-agents:overstated_claim",
+   "fault_type": "overstated_claim",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 1,
+   "n_warn": 0,
+   "first_fail": "The passage cited does not support the claim as written: 'It has been conclusively proven that sciReplicate-Bench addresses contamination by its choice of paper dates.'",
+   "cost_usd": 0.000503056
+  },
+  {
+   "fault_id": "topic-research-agents:swapped_claim_text",
+   "fault_type": "swapped_claim_text",
+   "detected": true,
+   "n_method_code_warns": 0,
+   "checks_run": [
+    "citation",
+    "claim_support"
+   ],
+   "overall": "red",
+   "n_fail": 2,
+   "n_warn": 0,
+   "first_fail": "The passage cited does not support the claim as written: 'A study of novelty judges reports that prompt wording can strongly change verdicts.'",
+   "cost_usd": 0.000499484
+  }
+ ]
+}

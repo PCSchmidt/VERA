@@ -85,7 +85,9 @@ def main() -> None:
         f = GOLD / name
         if not f.exists():
             continue
-        labels = {r["id"]: r["your_label"].strip() for r in csv.DictReader(f.open(encoding="utf-8"))}
+        rows_in = list(csv.DictReader(f.open(encoding="utf-8")))
+        column = next(c for c in rows_in[0] if c.startswith("your_label"))  # the sheet's column name carries the choices
+        labels = {r["id"]: r[column].strip() for r in rows_in}
         pairs_h = [(r, labels[r["id"]]) for r in real if labels.get(r["id"])]
         agree = sum((r["judged_distinct"] is True and lab == "distinct") or (r["judged_distinct"] is False and lab == "not_distinct") for r, lab in pairs_h)
         lo, hi = wilson(agree, len(pairs_h)) if pairs_h else (0, 0)
