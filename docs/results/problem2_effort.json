@@ -1,0 +1,30 @@
+{
+ "by_hand": {
+  "started": "2026-10-04T13:30:14Z",
+  "finished": "2026-10-04T16:24:13Z",
+  "hours": 2.9,
+  "note": "registration of the target to the baseline of record; the feasibility note (about an hour, 2026-10-03) came before; most of the clock is waiting for image builds and runs, each failed run exposing one dependency or solver problem",
+  "attempts": 7,
+  "image_builds": 7,
+  "harness_lines": 131,
+  "model_cost_usd": 0.0,
+  "reverse_if_1_fired": false,
+  "reverse_if_1_reading": "under a working day (about 4 hours with the feasibility note), so T10 reverse-if (1) did not fire"
+ },
+ "adapter_trial": {
+  "attempts": 4,
+  "accepted": false,
+  "model_cost_usd": 0.1599,
+  "wall_seconds": 5418,
+  "adapter_lines": 146,
+  "generic_harness_lines": 64,
+  "generic_share_of_by_hand_pct": 48.9,
+  "failures": [
+   "(files in work_dir: __pycache__, adapter.py, agg, data, generic_harness.py, progress.txt, result.json, runs)",
+   "(files in work_dir: __pycache__, adapter.py, agg, data, generic_harness.py, progress.txt, result.json, runs)",
+   "(files in work_dir: __pycache__, adapter.py, agg, data, generic_harness.py, progress.txt, result.json, runs)",
+   "(files in work_dir: __pycache__, adapter.py, agg, data, generic_harness.py, progress.txt, result.json, runs)"
+  ],
+  "reading": "not accepted in four attempts at $0.16: two attempts ran the parent's whole batch (about 45 minutes each) and failed reading its output (the model guessed the result file and its columns), two failed in a second at editing a read-only installed file. The generic part is 49% of the by-hand harness's lines, above T10's quarter."
+ }
+}

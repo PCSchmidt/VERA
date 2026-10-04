@@ -1,0 +1,144 @@
+{
+ "run_id": "protocol-live-2",
+ "models": {
+  "ideate": "sonnet",
+  "subset_exp": "sonnet",
+  "write_up": "sonnet"
+ },
+ "completed": true,
+ "stop": null,
+ "total_cost_usd": 0.130356,
+ "budget": {
+  "max_usd": 1.0,
+  "spent_usd": 0.13035597599999998,
+  "max_wall_seconds": 21600,
+  "elapsed_seconds": 2375
+ },
+ "by_component": {
+  "p2.cheap_path": {
+   "calls": 27,
+   "cost_usd": 0.003302,
+   "input_tokens": 65190,
+   "output_tokens": 1222
+  },
+  "p3.ideate": {
+   "calls": 1,
+   "cost_usd": 0.008412,
+   "input_tokens": 2031,
+   "output_tokens": 435
+  },
+  "p3.subset_exp": {
+   "calls": 2,
+   "cost_usd": 0.02399,
+   "input_tokens": 1395,
+   "output_tokens": 2120
+  },
+  "p3.write_up": {
+   "calls": 2,
+   "cost_usd": 0.094652,
+   "input_tokens": 20656,
+   "output_tokens": 5334
+  }
+ },
+ "stages": [
+  {
+   "stage": "baseline",
+   "decision": "accept",
+   "producer": "p3.baseline",
+   "gate_question": "loop.baseline_reproduced",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "confidence": 0.95
+   },
+   "spent_usd_after": 5.2836e-05
+  },
+  {
+   "stage": "ideate",
+   "decision": "accept",
+   "producer": "p3.ideate",
+   "gate_question": "loop.idea_worth_run",
+   "gate_answer": 3,
+   "gate_judge": "p2.judge",
+   "n_gates": 3,
+   "metrics": {
+    "n_selected": 2.0
+   },
+   "spent_usd_after": 0.008565828
+  },
+  {
+   "stage": "subset_exp",
+   "decision": "reject",
+   "producer": "p3.subset_exp",
+   "gate_question": "loop.beats_baseline",
+   "gate_answer": false,
+   "gate_judge": "loop.rule_gate",
+   "n_gates": 4,
+   "metrics": {
+    "n_ideas_run": 2.0,
+    "n_beating_baseline": 0.0
+   },
+   "spent_usd_after": 0.032653692000000005
+  },
+  {
+   "stage": "write_up",
+   "decision": "accept",
+   "producer": "p3.write_up",
+   "gate_question": "loop.guidance_met",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "words": 869.0,
+    "problems": 0.0
+   },
+   "spent_usd_after": 0.12756536400000001
+  },
+  {
+   "stage": "audit",
+   "decision": "accept",
+   "producer": "p1.audit",
+   "gate_question": "loop.audit_clean",
+   "gate_answer": true,
+   "gate_judge": "p1.audit_gate",
+   "n_gates": 1,
+   "metrics": {
+    "fail": 0.0,
+    "warn": 6.0,
+    "info": 0.0,
+    "claims": 173.0
+   },
+   "spent_usd_after": 0.13035597599999998
+  }
+ ],
+ "audit": {
+  "overall": "amber",
+  "fail": 0,
+  "warn": 6,
+  "info": 0,
+  "checks_skipped": {
+   "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+   "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+   "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+   "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+  }
+ },
+ "best_idea": null,
+ "held_out_residual_mse_pct": {
+  "TreeHFD (baseline)": {
+   "analytical": 2.792,
+   "airfoil": 4.733
+  },
+  "C2: Residual backfitting refit": {
+   "analytical": 2.869,
+   "airfoil": 4.806
+  },
+  "C1: Interaction screening by strength": {
+   "analytical": 3.008,
+   "airfoil": 4.733
+  }
+ },
+ "baseline_name": "TreeHFD (baseline)",
+ "ledger": "data/ledger/run_protocol-live-2.jsonl"
+}

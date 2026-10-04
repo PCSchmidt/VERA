@@ -1,0 +1,38 @@
+{
+ "started": "2026-10-04T16:25:41Z",
+ "attempts": [
+  {
+   "attempt": 1,
+   "seconds": 2677,
+   "error": "Traceback (most recent call last):\n  File \"/work/generic_harness.py\", line 68, in main\n    raw = load_adapter(args.adapter)(args.data_dir, str(Path(args.out).parent), args.seeds)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/adapter.py\", line 84, in run\n    raise RuntimeError(\"expected %d replications for %s/%s, got %d\"\nRuntimeError: expected 100 replications for cvar/mae, got 0\n\n(files in work_dir: __pycache__, adapter.py, agg, data, generic_harness.py, progress.txt, result.json, runs)",
+   "adapter_lines": 74
+  },
+  {
+   "attempt": 2,
+   "seconds": 2739,
+   "error": "Traceback (most recent call last):\n  File \"/work/generic_harness.py\", line 68, in main\n    raw = load_adapter(args.adapter)(args.data_dir, str(Path(args.out).parent), args.seeds)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/adapter.py\", line 114, in run\n    raise RuntimeError(\"expected %d replications for %s/%s, got %d (check \"\nRuntimeError: expected 100 replications for lv/mae, got 1 (check CALIFORNIA_HOUSING_NUM_REPLICATIONS in parameter_settings)\n\n(files in work_dir: __pycache__, adapter.py, agg, data, generic_harness.py, progress.txt, result.json, runs)",
+   "adapter_lines": 100
+  },
+  {
+   "attempt": 3,
+   "seconds": 1,
+   "error": "Traceback (most recent call last):\n  File \"/work/generic_harness.py\", line 68, in main\n    raw = load_adapter(args.adapter)(args.data_dir, str(Path(args.out).parent), args.seeds)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/adapter.py\", line 74, in run\n    path, orig = _patch_settings(n_replications)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/adapter.py\", line 56, in _patch_settings\n    raise RuntimeError(\"CALIFORNIA_HOUSING_NUM_REPLICATIONS not found in %s\" % path)\nRuntimeError: CALIFORNIA_HOUSING_NUM_REPLICATIONS not found in /usr/local/lib/python3.11/site-packages/credal_dro/parameter_settings.py\n\n(files in work_dir: __pycache__, adapter.py, agg, data, generic_harness.py, progress.txt, result.json, runs)",
+   "adapter_lines": 123
+  },
+  {
+   "attempt": 4,
+   "seconds": 1,
+   "error": "Traceback (most recent call last):\n  File \"/work/generic_harness.py\", line 68, in main\n    raw = load_adapter(args.adapter)(args.data_dir, str(Path(args.out).parent), args.seeds)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/adapter.py\", line 98, in run\n    origs = _patch_settings(n_replications)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/adapter.py\", line 80, in _patch_settings\n    with open(p, \"w\") as f:\n         ^^^^^^^^^^^^\nPermissionError: [Errno 13] Permission denied: '/usr/local/lib/python3.11/site-packages/credal_dro/parameter_settings.py'\n\n(files in work_dir: __pycache__, adapter.py, agg, data, generic_harness.py, progress.txt, result.json, runs)",
+   "adapter_lines": 146
+  }
+ ],
+ "accepted": false,
+ "gate": null,
+ "model_cost_usd": 0.1599,
+ "ledger": "data/ledger/run_t10-adapter-1.jsonl",
+ "adapter_lines": 146,
+ "by_hand_harness_lines": 131,
+ "generic_harness_lines": 64,
+ "generic_share_of_by_hand_pct": 48.9,
+ "note": "the image is the by-hand one; the generic harness is a separate file written for this comparison"
+}
