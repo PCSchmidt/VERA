@@ -26,6 +26,7 @@
     "literature_ready",
     "loop_run",
     "parser_decided",
+    "protocol_ready",
     "retrieval_ready",
     "run_core_ready",
     "sandbox_ready",
