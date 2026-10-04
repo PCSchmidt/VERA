@@ -1,5 +1,5 @@
 {
- "recorded_at": "2026-10-04T11:27:31Z",
+ "recorded_at": "2026-10-04T12:25:31Z",
  "note": "Fixed before the first retrieval for these topics (SPEC 'Topics and key papers').",
  "topics": {
   "conformal-shift": {
@@ -32,10 +32,10 @@
   },
   "tabular-trees-vs-nets": {
    "file": "tabular-trees-vs-nets.json",
-   "sha256": "7d5d49bec689596938e546f35dab3c2608d4dee12a2d0eb53592430cfbbda08f",
+   "sha256": "f4487ca9a1f10fe9356d3e2dab6026ac6ae0e1ffa9f06e8614506ed4dffeee28",
    "path": "empirical_without_harness",
    "n_key_papers": 10,
-   "recorded_at": "2026-10-04T11:27:31Z"
+   "recorded_at": "2026-10-04T12:25:31Z"
   },
   "tree-explain": {
    "file": "tree-explain.json",

@@ -176,3 +176,19 @@ def test_RSH_F_10_the_model_reads_the_sentences_about_datasets_and_compute() -> 
     item = {"title": "T", "paper_id": "arXiv:1", "repo_url": "https://github.com/a/b", "url_context": "c",
             "abstract": "abs", "excerpt": ex}  # fmt: skip
     assert "Airfoil" in parent.assess_prompt("q?", [item])
+
+
+def test_repo_lookup_follows_a_renamed_repository(tmp_path):
+    """GitHub answers 301 for a repository that moved; the check must follow it (found live on automl/TabPFN)."""
+    import httpx
+
+    from vera.literature.retrieval import HttpCache
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/repos/automl/TabPFN":
+            return httpx.Response(301, headers={"location": "https://api.github.com/repositories/1"})
+        return httpx.Response(200, json={"license": {"spdx_id": "MIT"}, "pushed_at": "2026-01-01T00:00:00Z"})
+
+    client = httpx.Client(transport=httpx.MockTransport(handler), follow_redirects=True)
+    meta = parent.RepoLookup(HttpCache(tmp_path), client)("https://github.com/automl/TabPFN")
+    assert meta["resolves"] is True and meta["licence"] == "MIT"

@@ -127,7 +127,7 @@ class RepoLookup:
         headers = {"User-Agent": "VERA-research/0.1", "Accept": "application/vnd.github+json"}
         if os.environ.get("GITHUB_TOKEN"):
             headers["Authorization"] = f"Bearer {os.environ['GITHUB_TOKEN']}"
-        self.client = client or httpx.Client(timeout=30, headers=headers)
+        self.client = client or httpx.Client(timeout=30, headers=headers, follow_redirects=True)
 
     def __call__(self, repo_url: str) -> dict:
         owner, name = repo_url.removeprefix("https://github.com/").split("/", 1)

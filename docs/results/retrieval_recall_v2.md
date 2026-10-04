@@ -48,3 +48,27 @@ Run `topic4-conformal-2`: 12 queries, 160 candidates, 57 kept by the screen, 18 
 | Predictive inference with the jackknife+ | yes | no | 125 | screened out |
 
 Recall after retrieval 90% (at or above 70%).
+
+## tabular-trees-vs-nets
+Run `topic4-tabular-3`: 12 queries, 160 candidates, 32 kept by the screen, 13 claims drafted, 10 kept (first-draft failures 6).
+
+| | Key papers found | Share |
+|---|---|---|
+| Retrieved (before the screen) | 9 of 10 | 90% |
+| Kept by the screen | 8 | 80% |
+| In the top 30 by rank | 3 | 30% |
+
+| Key paper | Found | Kept | Position | Miss, classified |
+|---|---|---|---|---|
+| Why do tree-based models still outperform deep learning on tabular dat | yes | yes | 32 |  |
+| Tabular Data: Deep Learning is Not All You Need | yes | yes | 28 |  |
+| Revisiting Deep Learning Models for Tabular Data | yes | yes | 119 |  |
+| TabPFN: A Transformer That Solves Small Tabular Classification Problem | yes | yes | 1 |  |
+| XGBoost: A Scalable Tree Boosting System | no | no |  | indexed, queries missed it |
+| CatBoost: unbiased boosting with categorical features | yes | no | 130 | screened out |
+| When Do Neural Nets Outperform Boosted Trees on Tabular Data? | yes | yes | 64 |  |
+| Deep Neural Networks and Tabular Data: A Survey | yes | yes | 102 |  |
+| Well-tuned Simple Nets Excel on Tabular Datasets | yes | yes | 8 |  |
+| SAINT: Improved Neural Networks for Tabular Data via Row Attention and | yes | yes | 158 |  |
+
+Recall after retrieval 90% (at or above 70%).

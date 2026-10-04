@@ -1,0 +1,11 @@
+{
+ "topic_id": "tabular-trees-vs-nets",
+ "question": "On public tabular classification datasets, how does the accuracy gap between gradient-boosted trees (e.g., XGBoost, LightGBM) and small, tuned MLPs change as the training set is subsampled from a few hundred to a few tens of thousands of rows, and is there a training-set size at which the gap shrinks, closes, or reverses, under an equal hyperparameter-search budget on a CPU?",
+ "why_researchable": "The literature already includes benchmark studies of trees versus deep models on tabular data, which a short review can summarise: what they report about dataset size, which datasets and tuning budgets they used, and where they leave the size dependence unresolved. The experiment is small. Public datasets (e.g., OpenML-CC18 or the benchmark suites from the parent work) can be subsampled at about 6 log-spaced sizes with several seeds. LightGBM or XGBoost and a small scikit-learn or PyTorch MLP each train in seconds, and a fixed random-search budget per model and size keeps the comparison fair. The outcome is the accuracy (or AUC) gap as a function of n with confidence intervals across seeds and datasets. This can be checked on a laptop with public code. The review can say plainly what prior work establishes (trees are often competitive or better at medium sizes) and what it does not (a controlled, equal-budget size sweep with small MLPs). The experiments can only speak to the datasets, model families and budgets tested, so they would not support general claims.",
+ "empirical": true,
+ "candidate_parent": "arXiv:2207.08815 (Grinsztajn, Oyallon, Varoquaux, 'Why do tree-based models still outperform deep learning on typical tabular data?', with public benchmark code)",
+ "no_parent_reason": null,
+ "status": "confirmed",
+ "confirmed_by": "Chris",
+ "confirmed_at": "2026-10-04T12:26:07Z"
+}

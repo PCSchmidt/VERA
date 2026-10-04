@@ -3,7 +3,7 @@
  "text": "Tree ensembles versus deep learning on tabular data",
  "path": "empirical_without_harness",
  "path_note": "Empirical and CPU-scale (gradient boosting and small MLPs on a few public datasets run in seconds to minutes), but the loop has no harness or sandbox image for it: this tests whether the second-problem machinery of this increment generalises.",
- "good_question": "One specific question about when gradient-boosted trees beat neural networks on tabular data (dataset size, feature types, noise), small enough to test on a few public datasets on a CPU.",
+"good_question": "One specific question about how the accuracy gap between gradient-boosted trees and small tuned neural networks on public tabular classification datasets changes as the training set is subsampled from a few hundred to a few tens of thousands of rows, small enough to run on a CPU.",
  "status": "draft, proposed by the agent; Chris chooses one (or edits), moves it to data/topics/ and approves topics4_chosen",
  "key_papers_note": "Identifiers checked by looking up each arXiv id (arXiv API) for its title, first author and year on 2026-10-03; an id that returned the wrong paper was replaced. This is a metadata check of the listed papers, not a topic search; no query built from the topic or its question has been run.",
  "key_papers": [
