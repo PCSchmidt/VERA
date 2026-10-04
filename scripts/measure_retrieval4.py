@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Key-paper recall for the fresh Increment 4 topics (lit2_ready), with retrieval v2 (12 queries, seven angles).
 
 Reads each listed run (topic id : run id) and the topic's key papers (fixed and hashed before any retrieval:
@@ -24,7 +25,13 @@ from vera.literature.retrieval import HttpCache, Retriever, recall  # noqa: E402
 
 
 def main() -> None:
-    pairs = [a.split(":", 1) for a in sys.argv[1:]]
+    args = sys.argv[1:]
+    out_name = "retrieval_recall_lit2.md"
+    old_topics = "--old" in args  # the Increment 3 topics re-run: their own scope files and retrieval logs stay as they are
+    if old_topics:
+        args.remove("--old")
+        out_name = "retrieval_recall_lit2_old.md"
+    pairs = [a.split(":", 1) for a in args]
     manifest = json.loads((TOPICS / "manifest.json").read_text(encoding="utf-8"))["topics"]
     client = Retriever(cache=HttpCache(ROOT / "data" / "cache" / "http")).client
     client.headers["User-Agent"] = USER_AGENT.replace("citation existence checks", "key-paper lookup")
@@ -40,9 +47,13 @@ def main() -> None:
         result = recall(key_papers, records, kept, TOP_N)
         lit = json.loads((run / "artifacts" / "literature.json").read_text(encoding="utf-8"))
         queries = json.loads((run / "artifacts" / "queries.json").read_text(encoding="utf-8"))["queries"]
-        (OUT / tid).mkdir(parents=True, exist_ok=True)
-        shutil.copy(run / "retrieved.jsonl", OUT / tid / "retrieved.jsonl")
-        shutil.copy(run / "scope.json", TOPICS / f"scope_{tid}.json")
+        if old_topics:
+            (OUT / tid / "lit2").mkdir(parents=True, exist_ok=True)
+            shutil.copy(run / "retrieved.jsonl", OUT / tid / "lit2" / "retrieved.jsonl")
+        else:
+            (OUT / tid).mkdir(parents=True, exist_ok=True)
+            shutil.copy(run / "retrieved.jsonl", OUT / tid / "retrieved.jsonl")
+            shutil.copy(run / "scope.json", TOPICS / f"scope_{tid}.json")
         lines += [f"\n## {tid}\n",
                   f"Run `{run_id}`: {len(queries)} queries, {len(records)} candidates, {len(kept)} kept by the screen, "
                   f"{lit['stats']['drafted']} claims drafted, {lit['n_claims_kept']} kept "
@@ -64,7 +75,7 @@ def main() -> None:
                          f"{'yes' if row['kept'] else 'no'} | {row['position'] or ''} | {why} |\n")  # fmt: skip
         lines.append(f"\nRecall after retrieval {result['found']:.0%} "
                      f"({'at or above' if result['found'] >= THRESHOLD else 'BELOW'} {THRESHOLD:.0%}).\n")  # fmt: skip
-    (ROOT / "docs" / "results" / "retrieval_recall_lit2.md").write_text("".join(lines), encoding="utf-8")
+    (ROOT / "docs" / "results" / out_name).write_text("".join(lines), encoding="utf-8")
     print("".join(lines))
 
 

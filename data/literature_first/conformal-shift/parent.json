@@ -1,0 +1,10 @@
+{
+ "run_id": "topic4-conformal-2",
+ "topic_id": "conformal-shift",
+ "question": "For each of the main conformal prediction methods designed for distribution shift (weighted conformal prediction under covariate shift, Tibshirani et al. 2019; its label-shift extension; conformal prediction beyond exchangeability via weighting or randomization, Barber et al. 2023; adaptive conformal inference for temporal drift, Gibbs & Candès 2021; and f-divergence or worst-case-shift robust conformal methods), what coverage guarantee is actually proved (marginal vs conditional, finite-sample vs asymptotic, exact vs lower bound or long-run average), and what must be assumed or known (for example, the density ratio known or estimated, shift type, bounded divergence, or no assumption on the data process), and where do the proofs stop covering cases such as estimated weights or shifts of mixed type?",
+ "candidates": [],
+ "picked": null,
+ "none_fits_reason": "the confirmed question is not empirical, so no parent problem is needed",
+ "verdicts": [],
+ "user_review": null
+}

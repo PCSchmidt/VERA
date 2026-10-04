@@ -1,0 +1,222 @@
+{
+ "papers_scanned": [
+  {
+   "key": "R1",
+   "repos": 4
+  },
+  {
+   "key": "R6",
+   "repos": 0
+  },
+  {
+   "key": "R8",
+   "repos": 4
+  },
+  {
+   "key": "R18",
+   "repos": 0
+  },
+  {
+   "key": "R28",
+   "repos": 1
+  },
+  {
+   "key": "R33",
+   "repos": 1
+  },
+  {
+   "key": "R4",
+   "repos": 0
+  },
+  {
+   "key": "R12",
+   "repos": 0,
+   "note": "no PDF"
+  },
+  {
+   "key": "R29",
+   "repos": 0,
+   "note": "no PDF"
+  },
+  {
+   "key": "R32",
+   "repos": 0,
+   "note": "no PDF"
+  },
+  {
+   "key": "R41",
+   "repos": 0,
+   "note": "no PDF"
+  },
+  {
+   "key": "R44",
+   "repos": 0,
+   "note": "no PDF"
+  }
+ ],
+ "candidates": [
+  {
+   "source_key": "R1",
+   "paper_id": "arXiv:2207.01848",
+   "title": "TabPFN: A Transformer That Solves Small Tabular Classification Problems in a Second",
+   "repo_url": "https://github.com/automl/TabPFN.1",
+   "repo_resolves": false,
+   "licence": null,
+   "pushed_at": null,
+   "archived": false,
+   "own_code": "yes",
+   "url_context": "We provide all our code, the trained TabPFN, an interactive browser demo and a Colab notebook at https://github.com/automl/TabPFN.1 INTRODUCTION Tabular data has long been overlooked by deep learning research, despite being the most common data type in real-world machine learning (ML) applications",
+   "datasets": [
+    "OpenML-CC18 (18 small numerical datasets)",
+    "67 additional small numerical OpenML datasets",
+    "OpenML-AutoML Benchmark"
+   ],
+   "compute": "Single forward pass of a pretrained Transformer; runs on CPU (about 1.3 s for N_ens=1) or GPU",
+   "compute_basis": "stated",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "The sentence presents the repository as the authors' own code. The table lists a mean time of 1.301 s on CPU for TabPFN with N_ens=1, but the sentences do not say which baseline that refers to or what a laptop would need, so cpu_minutes is left null."
+  },
+  {
+   "source_key": "R1",
+   "paper_id": "arXiv:2207.01848",
+   "title": "TabPFN: A Transformer That Solves Small Tabular Classification Problems in a Second",
+   "repo_url": "https://github.com/automl/TabPFN",
+   "repo_resolves": true,
+   "licence": "Apache-2.0",
+   "pushed_at": "2026-10-03T15:27:21Z",
+   "archived": false,
+   "own_code": "yes",
+   "url_context": "8 REPRODUCIBILITY Code release In an effort to ensure reproducibility, we release code alongside our pre-trained TabPFN and notebooks to reproduce our experiments at https://github.com/automl/TabPFN . Application to public benchmarks In our work, we evaluate TabPFN to publicly available bench- marks: the OpenML-CC18 Benchmark and the OpenML-AutoML Benchmark.",
+   "datasets": [
+    "OpenML-CC18",
+    "OpenML-AutoML Benchmark"
+   ],
+   "compute": "Pretrained TabPFN inference on CPU or GPU",
+   "compute_basis": "stated",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "The repository is released with the pretrained TabPFN and notebooks to reproduce the experiments. No laptop CPU time for a baseline is given."
+  },
+  {
+   "source_key": "R1",
+   "paper_id": "arXiv:2207.01848",
+   "title": "TabPFN: A Transformer That Solves Small Tabular Classification Problems in a Second",
+   "repo_url": "https://github.com/openml/automlbenchmark",
+   "repo_resolves": true,
+   "licence": "MIT",
+   "pushed_at": "2026-09-28T19:57:11Z",
+   "archived": false,
+   "own_code": "no",
+   "url_context": "We acknowledge funding through the 7Available at https://github.com/openml/automlbenchmark 11 Published as a conference paper at ICLR 2023 European Research Council (ERC) Consolidator Grant “Deep Learning 2.0” (grant no. 101045765). Funded by the European",
+   "datasets": [
+    "OpenML-AutoML Benchmark"
+   ],
+   "compute": "Not stated for this repository; it is the external AutoML benchmark framework, used for official baseline results and evaluation scripts",
+   "compute_basis": "unknown",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "This is a third-party benchmark repository, not the paper's own code."
+  },
+  {
+   "source_key": "R1",
+   "paper_id": "arXiv:2207.01848",
+   "title": "TabPFN: A Transformer That Solves Small Tabular Classification Problems in a Second",
+   "repo_url": "https://github.com/automl/TabPFNResults",
+   "repo_resolves": true,
+   "licence": null,
+   "pushed_at": "2022-11-29T17:03:56Z",
+   "archived": false,
+   "own_code": "yes",
+   "url_context": "We do show results for all datasets one-by-one at https://github.com/automl/TabPFNResults/blob/main/individual_plots.pdf. The dataset with the worst relative performance for TabPFN is collins, with results shown in Figure 15. While most other methods",
+   "datasets": [
+    "OpenML-CC18 (per-dataset results, for example collins)"
+   ],
+   "compute": "Not stated; the repository holds results and per-dataset plots",
+   "compute_basis": "unknown",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "It is the authors' results repository, containing individual per-dataset plots rather than a method implementation."
+  },
+  {
+   "source_key": "R8",
+   "paper_id": "arXiv:2106.11189",
+   "title": "Well-tuned Simple Nets Excel on Tabular Datasets",
+   "repo_url": "https://github.com/releaunifreiburg/WellTunedSimpleNets",
+   "repo_resolves": true,
+   "licence": "Apache-2.0",
+   "pushed_at": "2023-02-28T11:05:27Z",
+   "archived": false,
+   "own_code": "yes",
+   "url_context": "We provide the code for our implementation at the following link: https://github.com/releaunifreiburg/WellTunedSimpleNets. To optimally utilize resources, we ran BOHB with 10 workers in parallel, where each worker had access to 2 CPU cores and 12GB of memory, executing one conﬁguration",
+   "datasets": [
+    "40 OpenML datasets, 31 of them from the OpenML AutoML Benchmark, with 452 to 416,188 rows"
+   ],
+   "compute": "BOHB hyperparameter search with 10 parallel workers, each with 2 CPU cores and 12GB memory, on a CPU cluster (2x Intel Xeon E5-2630v4)",
+   "compute_basis": "stated",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "The sentence presents the repository as the authors' own implementation. Per-run time on a laptop is not given."
+  },
+  {
+   "source_key": "R8",
+   "paper_id": "arXiv:2106.11189",
+   "title": "Well-tuned Simple Nets Excel on Tabular Datasets",
+   "repo_url": "https://github.com/automl/HpBandSter",
+   "repo_resolves": true,
+   "licence": "BSD-3-Clause",
+   "pushed_at": "2022-10-16T06:18:34Z",
+   "archived": false,
+   "own_code": "no",
+   "url_context": "We do not activate any preprocessing since our regularization 3https://github.com/automl/HpBandSter 15 cocktails also do not make use of preprocessing algorithms in the pipeline. The time left is always selected based on the time it took BOHB to ﬁnd the hyperparameter",
+   "datasets": [
+    "40 OpenML datasets"
+   ],
+   "compute": "HpBandSter, the BOHB library used for hyperparameter optimization",
+   "compute_basis": "unknown",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "This is a library the paper uses, not its own code."
+  },
+  {
+   "source_key": "R8",
+   "paper_id": "arXiv:2106.11189",
+   "title": "Well-tuned Simple Nets Excel on Tabular Datasets",
+   "repo_url": "https://github.com/automl/auto-sklearn",
+   "repo_resolves": true,
+   "licence": "BSD-3-Clause",
+   "pushed_at": "2026-09-15T14:03:23Z",
+   "archived": false,
+   "own_code": "no",
+   "url_context": "For all 4https://github.com/automl/auto-sklearn/blob/v.0.4.2/autosklearn/pipeline/components/classification/xgradient_boosting.py 5https://docs.aws.amazon.com/sagemaker/latest/dg/xgboost-tuning.html We reduced",
+   "datasets": [
+    "40 OpenML datasets"
+   ],
+   "compute": "Auto-sklearn's XGBoost component, used as the XGBoost baseline implementation or search space",
+   "compute_basis": "unknown",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "This is a third-party baseline reference, not the paper's own code."
+  },
+  {
+   "source_key": "R8",
+   "paper_id": "arXiv:2106.11189",
+   "title": "Well-tuned Simple Nets Excel on Tabular Datasets",
+   "repo_url": "https://github.com/Qwicen/node",
+   "repo_resolves": true,
+   "licence": "MIT",
+   "pushed_at": "2021-01-21T18:03:12Z",
+   "archived": false,
+   "own_code": "no",
+   "url_context": "6We used version 0.2.0 of the AutoGluon library 7https://github.com/Qwicen/node 17 Hyperparameter Type Range Log scale learning_rate Continuous [e−7, 1] ✓ random_strength Integer [1, 20] - one_hot_max_size Integer [0, 25] - num_round Integer",
+   "datasets": [
+    "40 OpenML datasets"
+   ],
+   "compute": "NODE, a baseline neural architecture, with its public implementation",
+   "compute_basis": "unknown",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "This is a baseline's repository, not the paper's own code."
+  }
+ ]
+}

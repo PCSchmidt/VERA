@@ -1,0 +1,15 @@
+{
+ "stats": {
+  "drafted": 18,
+  "failed_first": 3,
+  "repaired": 3,
+  "removed": 0,
+  "stray_attributions_removed": 0
+ },
+ "failure_reasons": {
+  "unanchored: the sentence adds 'rather than', which the quote does not say": 1,
+  "judge_unsure": 1,
+  "unanchored: the quote alone does not state the claim": 1
+ },
+ "n_claims_kept": 18
+}

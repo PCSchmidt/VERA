@@ -1,0 +1,264 @@
+{
+ "n_full_text": 6,
+ "n_abstract_only": 35,
+ "papers": [
+  {
+   "key": "R2",
+   "title": "On the Limits of LLM-as-Judge for Scientific Novelty Assessment",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 250,
+   "seconds": 4.5
+  },
+  {
+   "key": "R7",
+   "title": "An Empirical Study of LLM-as-a-Judge: How Design Choices Impact Evaluation Reliability",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R10",
+   "title": "Benchmark Data Contamination of Large Language Models: A Survey",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 85,
+   "seconds": 3.3
+  },
+  {
+   "key": "R11",
+   "title": "CORE-Bench: Fostering the Credibility of Published Research Through a Computational Reproducibility Agent Benchmark",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 128,
+   "seconds": 2.5
+  },
+  {
+   "key": "R12",
+   "title": "Chain of Ideas: Revolutionizing Research via Novel Idea Development with LLM Agents",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R24",
+   "title": "PaperBench: Evaluating AI's Ability to Replicate AI Research",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 185,
+   "seconds": 3.1
+  },
+  {
+   "key": "R27",
+   "title": "Same Patient, Different Order: Action-Level Reliability of Clinical LLM Agents Under Repeated Runs",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 60,
+   "seconds": 1.8
+  },
+  {
+   "key": "R28",
+   "title": "SciReplicate-Bench: Benchmarking LLMs in Agent-driven Algorithmic Reproduction from Research Papers",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 78,
+   "seconds": 3.9
+  },
+  {
+   "key": "R30",
+   "title": "The Coin Flip Judge? Reliability and Bias in LLM-as-a-Judge Evaluation",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R33",
+   "title": "Training AI Scientists to Replicate Research",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R36",
+   "title": "A Survey of 80 \"AI Scientist\" Systems: From Evaluator Quality to Validated Discovery and Feedback Loops",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R42",
+   "title": "Counting Species of Ideas: A Bayesian Capture–Recapture Ecology Framework for Estimating LLM Novelty",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R52",
+   "title": "Life After Benchmark Saturation: A Case Study of CORE-Bench",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R55",
+   "title": "Measurement Without Validity: The Compounding Reliability Problem in Agentic AI Evaluation",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R58",
+   "title": "Old Ideas, Novel Problems: The Instability of LLM-Based Novelty Evaluation",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R59",
+   "title": "OpenNovelty: An LLM-powered Agentic System for Verifiable Scholarly Novelty Assessment",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R62",
+   "title": "Reliability without Validity: A Systematic, Large-Scale Evaluation of LLM-as-a-Judge Models Across Agreement, Consistency, and Bias",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R63",
+   "title": "Rethinking Benchmark and Contamination for Language Models with Rephrased Samples",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R66",
+   "title": "TimeSeriesGym: A Scalable Benchmark for (Time Series) Machine Learning Engineering Agents",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R69",
+   "title": "A Survey on LLM-as-a-Judge",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R73",
+   "title": "A Survey of&amp;nbsp; \"AI Scientist\" Systems: From Evaluator Quality to Validated Discovery and Feedback Loops",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R74",
+   "title": "ADRA-Bank: A Modular Benchmark for Academic Deep Research Agents",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R76",
+   "title": "An Open Source Data Contamination Report for Large Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R85",
+   "title": "Frontis-MA1: Training an AI4AI Model towards Recursive Self-Improvement in Machine Learning Engineering",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R87",
+   "title": "HindSight: Evaluating LLM-Generated Research Ideas via Future Impact",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R90",
+   "title": "MLE-Dojo: Interactive Environments for Empowering LLM Agents in Machine Learning Engineering",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R96",
+   "title": "SA-Bench: Evaluating Semantic Alignment in LLM-Based Paper Reproduction",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R107",
+   "title": "Can LLMs Generate Novel Research Ideas? A Large-Scale Human Study with 100+ NLP Researchers",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R108",
+   "title": "Claw AI Lab: An Autonomous Multi-Agent Research Team",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R113",
+   "title": "FIRE-Bench: Evaluating AI Agents on the Rediscovery of Scientific Insights",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R119",
+   "title": "Intent-Description Anchoring Bias in LLM-as-a-Judge Evaluation of Recommender Systems",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R120",
+   "title": "Judging the Judges: A Systematic Study of Position Bias in LLM-as-a-Judge",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R121",
+   "title": "The AI Scientist: Towards Fully Automated Open-Ended Scientific Discovery",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R128",
+   "title": "Large Language Models for Automated Open-domain Scientific Hypotheses Discovery",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R129",
+   "title": "ResearchAgent: Iterative Research Idea Generation over Scientific Literature with Large Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R131",
+   "title": "IdeaBench: Benchmarking Large Language Models for Research Idea Generation",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R136",
+   "title": "ResearchBench: Benchmarking LLMs in Scientific Discovery via Inspiration-Based Task Decomposition",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R137",
+   "title": "LiveIdeaBench: Evaluating LLMs' Scientific Creativity and Idea Generation with Minimal Context",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R144",
+   "title": "Leak, Cheat, Repeat: Data Contamination and Evaluation Malpractices in Closed-Source LLMs",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R150",
+   "title": "Elephants Never Forget: Memorization and Learning of Tabular Data in Large Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R154",
+   "title": "TRUCE: Private Benchmarking to Prevent Contamination and Improve Comparative Evaluation of LLMs",
+   "mode": "abstract",
+   "n_passages": 1
+  }
+ ]
+}

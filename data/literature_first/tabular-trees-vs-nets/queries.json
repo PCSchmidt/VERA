@@ -1,0 +1,17 @@
+{
+ "question": "On public tabular classification datasets, how does the accuracy gap between gradient-boosted trees (e.g., XGBoost, LightGBM) and small, tuned MLPs change as the training set is subsampled from a few hundred to a few tens of thousands of rows, and is there a training-set size at which the gap shrinks, closes, or reverses, under an equal hyperparameter-search budget on a CPU?",
+ "queries": [
+  "XGBoost LightGBM versus multilayer perceptron tabular data",
+  "why tree-based models outperform deep learning on tabular data",
+  "deep learning tabular data small sample size performance",
+  "regularization cocktails well-tuned MLP tabular",
+  "gradient boosted decision trees small datasets learning curves",
+  "neural network inductive bias rotation invariance tabular features",
+  "tabular benchmark OpenML-CC18 suite classification datasets",
+  "survey deep neural networks tabular data review",
+  "TabPFN prior-data fitted network small tabular classification",
+  "hyperparameter optimization budget comparison GBDT neural networks tabular",
+  "tabular deep learning negative results not better than boosting",
+  "sample size effect on algorithm ranking tabular classifiers"
+ ]
+}

@@ -1,0 +1,360 @@
+{
+ "n_full_text": 6,
+ "n_abstract_only": 51,
+ "papers": [
+  {
+   "key": "R2",
+   "title": "Conformal Predictive Systems Under Covariate Shift",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 73,
+   "seconds": 2.1
+  },
+  {
+   "key": "R3",
+   "title": "Auditing Conformal Prediction under Distribution Shift: A Detectability Boundary, Exact Label-Budget Design, and Repair",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 61,
+   "seconds": 1.9
+  },
+  {
+   "key": "R4",
+   "title": "Conformal Prediction Sets for Tabular Regression Under Covariate Shift",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 46,
+   "seconds": 2.2
+  },
+  {
+   "key": "R8",
+   "title": "Adaptive Conformal Inference Under Distribution Shift",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 137,
+   "seconds": 2.5
+  },
+  {
+   "key": "R10",
+   "title": "Audited Conformal Prediction for Classification under Unknown Distribution Shift",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 212,
+   "seconds": 5.4
+  },
+  {
+   "key": "R11",
+   "title": "Conformal Inference for Online Prediction with Arbitrary Distribution Shifts",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 132,
+   "seconds": 3.9
+  },
+  {
+   "key": "R12",
+   "title": "Conformal prediction beyond exchangeability",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R15",
+   "title": "Conformal Prediction With Conditional Guarantees",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R16",
+   "title": "Conformal Prediction for Federated Uncertainty Quantification Under Label Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R18",
+   "title": "Adaptive Conformal Predictions for Time Series",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R23",
+   "title": "Not all distributional shifts are equal: Fine-grained robust conformal inference",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R24",
+   "title": "Weighted Conformal Prediction for Survival Analysis under Covariate Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R26",
+   "title": "Conformal Prediction Sets for Tabular Regression Under Covariate Shift: Finite-Sample Marginal and Conditional Coverage Guarantees for Gradient-Boosted Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R28",
+   "title": "Sequentially Valid Uncertainty: A Bound on Coverage Degradation for Dropout-Informed Conformal Prediction under Regime Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R29",
+   "title": "Conformal Prediction Under Covariate Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R31",
+   "title": "Conformal Prediction for Molecular Properties under Label Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R32",
+   "title": "Weight Clipping for Robust Conformal Inference under Unbounded Covariate Shifts",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R36",
+   "title": "Conformal PID Control for Time Series Prediction",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R45",
+   "title": "Coverage Guarantees for Pseudo-Calibrated Conformal Prediction under Distribution Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R48",
+   "title": "CoDrug: Conformal Drug Property Prediction with Density Estimation under Covariate Shift",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R49",
+   "title": "CondSR: Conditional Shift-Robust Conformal Prediction for Graph Neural Networks",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R51",
+   "title": "Robust Conformal Prediction for STL Runtime Verification under Distribution Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R52",
+   "title": "Theoretical Foundations of Conformal Prediction",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R53",
+   "title": "A note on adaptive conformal prediction for time series with structural breaks",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R57",
+   "title": "Error-quantified Conformal Inference for Time Series",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R58",
+   "title": "Multi-Source Conformal Inference Under Distribution Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R59",
+   "title": "Non-exchangeable Conformal Prediction with Optimal Transport: Tackling Distribution Shift with Unlabeled Data",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R62",
+   "title": "Split Conformal Prediction and Non-Exchangeable Data",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R67",
+   "title": "Sharp training-conditional coverage for conformal prediction under covariate shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R71",
+   "title": "Adaptive Conformal Prediction Intervals Using Data-Dependent Weights With Application to Seismic Response Prediction",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R73",
+   "title": "Beyond exchangeability",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R74",
+   "title": "Bias-Corrected Adaptive Conformal Inference for Multi-Horizon Time Series Forecasting",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R76",
+   "title": "Conformal Drug Property Prediction with Density Estimation under Covariate Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R77",
+   "title": "Generative Conformal Prediction Under Covariate Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R78",
+   "title": "JAWS: Auditing Predictive Uncertainty Under Covariate Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R79",
+   "title": "Multi-Distribution Robust Conformal Prediction",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R82",
+   "title": "Online conformal inference with retrospective adjustment for faster adaptation to distribution shift",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R84",
+   "title": "Split Conformal Prediction with Label-Shift-Adjusted Bayesian Scores",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R89",
+   "title": "Conformal Prediction Under Generalized Covariate Shift with Posterior Drift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R96",
+   "title": "Generalization and Informativeness of Weighted Conformal Risk Control Under Covariate Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R98",
+   "title": "Improving predictive inference under covariate shift by weighting the log-likelihood function",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R103",
+   "title": "Robust Conditional Conformal Prediction via Branched Normalizing Flow",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R110",
+   "title": "Conditional-Rank Conformity Scores for Conformal Prediction under Scale-Driven Dependence",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R111",
+   "title": "Conformal Bayes under Label Shift: Post-Hoc Calibration vs. In-Training Adaptation",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R113",
+   "title": "Efficient Conformal Prediction under Data Heterogeneity",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R115",
+   "title": "Generalized Conformal Predictive Systems Under Distributional Shifts",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R116",
+   "title": "Model-free selective inference under covariate shift via weighted conformal <i>p</i> -values",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R118",
+   "title": "Sequential Predictive Conformal Inference for Time Series",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R120",
+   "title": "Wasserstein-regularized Conformal Prediction under General Distribution Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R121",
+   "title": "Algorithmic Learning in a Random World",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R122",
+   "title": "Distribution-Free Predictive Inference for Regression",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R129",
+   "title": "Doubly robust calibration of prediction sets under covariate shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R139",
+   "title": "Robust Validation: Confident Predictions Even When Distributions Shift",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R145",
+   "title": "Conformal prediction under feedback covariate shift for biomolecular design",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R148",
+   "title": "Covariate Shift by Kernel Mean Matching",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R151",
+   "title": "Conformal Convolution and Monte Carlo Meta-learners for Predictive Inference of Individual Treatment Effects",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R153",
+   "title": "Distribution-free uncertainty quantification for classification under label shift",
+   "mode": "abstract",
+   "n_passages": 1
+  }
+ ]
+}

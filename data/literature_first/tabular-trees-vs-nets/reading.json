@@ -1,0 +1,212 @@
+{
+ "n_full_text": 6,
+ "n_abstract_only": 26,
+ "papers": [
+  {
+   "key": "R1",
+   "title": "TabPFN: A Transformer That Solves Small Tabular Classification Problems in a Second",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 126,
+   "seconds": 3.2
+  },
+  {
+   "key": "R4",
+   "title": "Tabular Deep Learning: A Survey from Small Neural Networks to Large Language Models",
+   "mode": "abstract",
+   "n_passages": 1,
+   "reason": "no PDF: HTTP 403",
+   "seconds": 0.2
+  },
+  {
+   "key": "R6",
+   "title": "Machine Learning for Estimation: Comparing Tree Ensembles and Deep Learning on Tabular Data",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 32,
+   "seconds": 1.3
+  },
+  {
+   "key": "R8",
+   "title": "Well-tuned Simple Nets Excel on Tabular Datasets",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 78,
+   "seconds": 2.2
+  },
+  {
+   "key": "R12",
+   "title": "An Inductive Bias for Tabular Deep Learning",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R18",
+   "title": "LassoFlexNet: Flexible Neural Architecture for Tabular Data",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 220,
+   "seconds": 3.9
+  },
+  {
+   "key": "R28",
+   "title": "Tabular data: Deep learning is not all you need",
+   "mode": "fulltext",
+   "n_passages": 5,
+   "n_paragraphs": 57,
+   "seconds": 1.7
+  },
+  {
+   "key": "R29",
+   "title": "The Small-Sample Illusion: How Data Quantity, Not Quality, Drives Machine Learning Performance on Tabular Data",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R32",
+   "title": "Why Do Tree-Based Models Still Outperform Deep Learning on Typical Tabular Data?",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R33",
+   "title": "Why do tree-based models still outperform deep learning on tabular data?",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 62,
+   "seconds": 5.8
+  },
+  {
+   "key": "R41",
+   "title": "Why is deep learning struggling on tabular data?",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R44",
+   "title": "Beyond Accuracy: A Comprehensive Comparative Study of Gradient Boosting Versus Tabular Deep Learning and Explainability Techniques for Mixed-Type Tabular Data Models Using SHAP and LIME",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R49",
+   "title": "HyperTab: Hypernetwork Approach for Deep Learning on Small Tabular Datasets",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R60",
+   "title": "Team up GBDTs and DNNs: Advancing Efficient and Effective Tabular Prediction with Tree-hybrid MLPs",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R64",
+   "title": "When Do Neural Nets Outperform Boosted Trees on Tabular Data?",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R66",
+   "title": "Accurate predictions on small data with a tabular foundation model",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R70",
+   "title": "A Comparative Study: Can Deep Learning Outperform Tree-Based Models in Tabular Data Classification?&lt;b&gt;&lt;/b&gt;",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R73",
+   "title": "Can AutoML outperform humans? An evaluation on popular OpenML datasets using AutoML Benchmark",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R75",
+   "title": "ExcelFormer: A neural network surpassing GBDTs on tabular data",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R85",
+   "title": "Sample Size Requirements for Popular Classification Algorithms in Tabular Clinical Data: Empirical Study (Preprint)",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R88",
+   "title": "TabTransformer: Tabular Data Modeling Using Contextual Embeddings",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R95",
+   "title": "Anomaly-based error and intrusion detection in tabular data: No DNN outperforms tree-based classifiers",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R99",
+   "title": "Application of a novel TabPFN model for tabular data classification",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R102",
+   "title": "Deep Neural Networks and Tabular Data: A Survey",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R106",
+   "title": "Gradient Boosted Decision Tree Neural Network",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R119",
+   "title": "Revisiting Deep Learning Models for Tabular Data",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R121",
+   "title": "TabNet: Attentive Interpretable Tabular Learning",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R122",
+   "title": "Random Forests",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R125",
+   "title": "Greedy function approximation: A gradient boosting machine.",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R126",
+   "title": "LightGBM: A Highly Efficient Gradient Boosting Decision Tree",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R147",
+   "title": "Transformers Can Do Bayesian Inference",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R158",
+   "title": "SAINT: Improved Neural Networks for Tabular Data via Row Attention and Contrastive Pre-Training",
+   "mode": "abstract",
+   "n_passages": 1
+  }
+ ]
+}

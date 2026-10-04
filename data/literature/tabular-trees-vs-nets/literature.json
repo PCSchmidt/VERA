@@ -1,0 +1,18 @@
+{
+ "stats": {
+  "drafted": 13,
+  "failed_first": 7,
+  "repaired": 5,
+  "removed": 2,
+  "stray_attributions_removed": 0
+ },
+ "failure_reasons": {
+  "unanchored: the sentence refers back ('That') instead of naming its subject": 1,
+  "unanchored: the sentence refers back ('They') instead of naming its subject": 1,
+  "unanchored: the quote alone does not state the claim": 2,
+  "unanchored: the sentence refers back ('Their') instead of naming its subject": 1,
+  "unsupported": 1,
+  "unanchored: the sentence refers back ('It') instead of naming its subject": 1
+ },
+ "n_claims_kept": 11
+}

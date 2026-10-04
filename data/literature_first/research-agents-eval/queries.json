@@ -1,0 +1,17 @@
+{
+ "question": "In published benchmarks and studies of automated research agents (for example MLE-bench, PaperBench, SciReplicate-Bench, CORE-Bench, and LLM-judged idea-novelty evaluations), which operational measures are used to decide whether an agent's output is correct, reproducible, or novel, and what validity weaknesses does each measure have, such as reliance on LLM judges, rubric leniency, test-set contamination, medal or threshold cutoffs that ignore variance across runs, and novelty scored without checking against the prior literature?",
+ "queries": [
+  "MLE-bench machine learning engineering agents benchmark",
+  "PaperBench replicating AI research agents",
+  "SciReplicate-Bench reproducing algorithms from papers",
+  "CORE-Bench computational reproducibility agent benchmark",
+  "LLM-judged novelty of research ideas evaluation",
+  "LLM-as-a-judge reliability bias evaluation",
+  "rubric-based grading of paper replication",
+  "benchmark data contamination in language model evaluation",
+  "variance across runs agent evaluation statistical reliability",
+  "survey of AI scientist automated scientific discovery agents",
+  "novelty assessment against prior literature retrieval",
+  "limitations and failure modes of research agent benchmarks"
+ ]
+}
