@@ -22,6 +22,7 @@
     "judge_core_ready",
     "judge_retest",
     "judge_retest_3",
+    "lit2_ready",
     "lit_core_ready",
     "literature_ready",
     "loop_run",
