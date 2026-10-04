@@ -50,7 +50,8 @@ def register(tmp_path: Path) -> dict:
     target.write_text(json.dumps({"datasets": DATASETS, "n_boot": 5}), encoding="utf-8")
     spec = ProtocolSpec(id="p", question="q?", methods=["treehfd", "treeshap"], datasets=DATASETS,
                         metrics=["component_mse_pct"], primary_metric="component_mse_pct", n_seeds=3,
-                        target_file="target.json", target_sha256=hashlib.sha256(target.read_bytes()).hexdigest())  # fmt: skip
+                        target_file="target.json",
+                        target_sha256=hashlib.sha256(target.read_bytes()).hexdigest())
     return {"spec": spec, "root": tmp_path}
 
 
