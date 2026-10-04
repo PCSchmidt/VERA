@@ -64,9 +64,11 @@ def main() -> None:
     if results["spend_usd"] > args.cap_usd:
         block(f"${results['spend_usd']:.3f} spent, over the ${args.cap_usd} cap")
     nd, d = results["not_distinct"], results["distinct"]
-    chris = results.get("chris")
+    chris, helper = results.get("chris"), results.get("helper")
+    own = f"n={chris['n']}" if chris else "not given"
+    aid = f"n={helper['n']}" if helper else "none"
     ok(f"test run on {nd['n']} + {d['n']} pairs, frozen audit: not_distinct {nd['correct']}/{nd['n']} (unsure {nd['unsure']}), "
-       f"distinct {d['correct']}/{d['n']} (unsure {d['unsure']}); Chris's own labels: {"n=" + str(chris["n"]) if chris else "not given"}; helper labels: {"n=" + str(results["helper"]["n"]) if results.get("helper") else "none"}")
+       f"distinct {d['correct']}/{d['n']} (unsure {d['unsure']}); Chris's own labels: {own}; helper labels: {aid}")
 
 
 if __name__ == "__main__":
