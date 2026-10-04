@@ -160,8 +160,8 @@ class FakeGenerator:
     attempt fail in the sandbox; `crash_on` runs a callback before the n-th implementation call."""
 
     def __init__(self, ledger: Ledger, budget: Budget, *, cost: float = 0.01, no_code: set | None = None,
-                 on_implement=None, ideas: dict | None = None) -> None:  # fmt: skip
-        self.ledger, self.budget, self.cost = ledger, budget, cost
+                 on_implement=None, ideas: dict | None = None, ablate: bool = False) -> None:  # fmt: skip
+        self.ledger, self.budget, self.cost, self.ablate = ledger, budget, cost, ablate
         self.no_code, self.on_implement, self.ideas = no_code or set(), on_implement, ideas or IDEAS
         self.calls: list[str] = []
         self.implemented = 0
@@ -185,6 +185,8 @@ class FakeGenerator:
         if component == "p3.ideate":
             items = [{"name": n, "description": d} for n, d in self.ideas.values()]
             return "Here are the ideas:\n```json\n" + json.dumps(items) + "\n```"
+        if component == "p3.ablation":
+            return "```json\n" + json.dumps(ABLATION_VARIANTS) + "\n```" if self.ablate else "No ablation."
         if component == "p3.write_up":
             return self.drafts.pop(0) if len(self.drafts) > 1 else (self.drafts[0] if self.drafts else paper())
         if marker in self.no_code:
@@ -246,3 +248,9 @@ def make_deps(tmp_path: Path, *, judge=None, generator=None, sandbox=None, spec:
 
 def question_for_tests() -> Question:
     return Question(id="loop.x", type=QuestionType.BOOLEAN, text="?")
+
+
+ABLATION_VARIANTS = [  # what the scripted generator answers when asked to ablate the winning idea
+    {"component": "shared knots", "code": "# IDEA:A1\ndef decompose(model, X_train, X_test):\n    return 0.0, {}\n"},
+    {"component": "refit step", "code": "# IDEA:A2\ndef decompose(model, X_train, X_test):\n    return 0.0, {}\n"},
+]

@@ -80,8 +80,9 @@ def test_RSH_F_02_an_accepted_baseline_runs_every_idea_stage(tmp_path: Path) -> 
     deps = make_deps(tmp_path)
     state = run_loop(deps)
     assert state.get("stop") is None
-    assert state["trail"] == ["baseline", "baseline_gate", "ideate", "screen", "subset_exp", "results_gate", "write_up",
-                              "writeup_gate", "audit"]  # fmt: skip
+    assert state["trail"] == ["baseline", "baseline_gate", "ideate", "screen", "subset_exp", "results_gate", "ablation",
+                              "write_up", "writeup_gate", "audit"]  # a winner exists, so the ablation stage ran
+
     assert [i["name"] for i in state["ideas"]] == ["C1: shared knots", "C2: ridge leaves", "C3: pruned pairs",
                                                    "C4: deeper variables"]  # fmt: skip
     assert state["selected"] == ["C1: shared knots", "C2: ridge leaves"]  # scores 5 and 4; 3 and 2 not both kept
@@ -335,7 +336,7 @@ def test_RSH_F_02_stages_can_use_different_generators_through_one_ledger(tmp_pat
     state = run_loop(deps)
     assert state.get("stop") is None
     assert strong.calls == ["p3.write_up"]  # only the write-up went to the strong model
-    assert set(cheap.calls) == {"p3.ideate", "p3.subset_exp"}
+    assert set(cheap.calls) == {"p3.ideate", "p3.subset_exp", "p3.ablation"}
     assert deps.budget.spent_usd == pytest.approx(ledger.total_cost())  # one ledger, one budget
     with pytest.raises(KeyError):
         ByStage({}).generate("s", "p", component="p3.ideate")

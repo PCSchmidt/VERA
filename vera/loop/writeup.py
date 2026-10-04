@@ -17,7 +17,7 @@ import json
 import re
 from collections.abc import Callable
 
-from vera.loop import figures, literature_context, problem, references, tables
+from vera.loop import ablation, figures, literature_context, problem, references, tables
 from vera.loop.stages import LoopDeps, _stop, _write_json, ask_gate, extension_datasets, finish, stage_result
 from vera.schemas import OutputGuidance, Question, QuestionType
 
@@ -95,10 +95,11 @@ def facts(state: dict, deps: LoopDeps) -> str:
     kit_facts = problem.active().extra.get("facts")
     if kit_facts:
         text = kit_facts(state, deps)
-        return text + ("\n" + "\n".join(protocol_facts(state["protocol"])) if state.get("protocol") else "")
+        extra = [*ablation.facts(state), *(protocol_facts(state["protocol"]) if state.get("protocol") else [])]
+        return text + ("\n" + "\n".join(extra) if extra else "")
     results = state["results"]
     ideas = {i["name"]: i["description"] for i in state["ideas"]}
-    ran = [m for m in results if m != tables.BASELINE]
+    ran = [m for m in results if m != tables.BASELINE and " without " not in m]  # ablation rows are not ideas
     best = state.get("best")
     lines = [
         f"- Baseline reproduced against the paper's reference values within the registered tolerance: yes "
@@ -123,7 +124,8 @@ def facts(state: dict, deps: LoopDeps) -> str:
     lines += [
         f"- Dataset {tables.dataset_label(d)}: {text}" for d, text in extension_datasets(deps).items() if d in shown
     ]
-    lines += [f"- {m}: {ideas.get(m, '')}" for m in ran]
+    lines += [f"- {m}: {ideas.get(m, '')}" for m in ran if " without " not in m]
+    lines += ablation.facts(state)
     if state.get("protocol"):
         lines += protocol_facts(state["protocol"])
     return "\n".join(lines)

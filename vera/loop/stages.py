@@ -62,6 +62,7 @@ class LoopState(TypedDict, total=False):
     results: dict  # method name -> per-dataset results (baseline first), valid runs only
     best: str | None  # the best idea that beats the baseline everywhere, if any
     protocol: dict  # the registered protocol's cells (vera.loop.protocol_stage), when the run has one
+    ablation_note: str | None  # why the ablation was not run or did not produce variants (vera.loop.ablation)
     artifacts: Annotated[dict, _merge]  # stage -> artifact path
     verdicts: Annotated[dict, _merge]  # question key -> Verdict JSON
     stage_results: Annotated[list, operator.add]  # StageResult JSON, in order

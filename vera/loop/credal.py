@@ -147,7 +147,7 @@ def baseline_reproduced(target: dict, results: dict[str, dict], n_seeds: int, da
 def facts(state: dict, deps) -> str:
     results = state["results"]
     ideas = {i["name"]: i["description"] for i in state["ideas"]}
-    ran = [m for m in results if m != tables.BASELINE]
+    ran = [m for m in results if m != tables.BASELINE and " without " not in m]  # ablation rows are not ideas
     best = state.get("best")
     lines = [
         "- Baseline reproduced against the parent paper's Table 3 (LV row) within the registered 5% tolerance, with LV "
