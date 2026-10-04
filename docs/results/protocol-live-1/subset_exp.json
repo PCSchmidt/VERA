@@ -1,0 +1,232 @@
+{
+ "results": {
+  "TreeHFD (baseline)": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 2.7922779073042854,
+     "std": 0.322855299765166,
+     "values": [
+      3.145743556617016,
+      2.3652455761629287,
+      2.8658445891329105
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.5695270989668413,
+     "std": 0.024874808467098025,
+     "values": [
+      0.5850437308043616,
+      0.5891103218988181,
+      0.5344272441973442
+     ]
+    },
+    "runtime_s": {
+     "mean": 29.79564978967149,
+     "std": 0.6518444529385797,
+     "values": [
+      29.181866726998123,
+      30.698196045006625,
+      29.506886597009725
+     ]
+    }
+   },
+   "uncorrelated": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 5.5431428373128,
+     "std": 0.3986005121642262,
+     "values": [
+      5.923345894148419,
+      5.713468526410559,
+      4.992614091379425
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.7924193643925191,
+     "std": 0.08960384058718934,
+     "values": [
+      0.8403066162233142,
+      0.8700797773044842,
+      0.6668716996497592
+     ]
+    },
+    "runtime_s": {
+     "mean": 30.984187954333418,
+     "std": 0.6915846761470413,
+     "values": [
+      30.099394750999636,
+      31.06562778999796,
+      31.787541322002653
+     ]
+    }
+   },
+   "correlated95": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 1.0251194747014507,
+     "std": 0.022129046133958368,
+     "values": [
+      1.0411836782690296,
+      0.9938280082014265,
+      1.040346737633896
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 0.12575942969616147,
+     "std": 0.03407941187381294,
+     "values": [
+      0.10339808428819593,
+      0.17391424396092584,
+      0.09996596083936263
+     ]
+    },
+    "runtime_s": {
+     "mean": 21.349482685671926,
+     "std": 0.2457134655368799,
+     "values": [
+      21.61702678501024,
+      21.02367476200743,
+      21.407746509998105
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.732528004675472,
+     "std": 0.11249578737353107,
+     "values": [
+      4.8150211208663505,
+      4.80909111342034,
+      4.573471779739722
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 1.522466107765438,
+     "std": 0.15158697779427285,
+     "values": [
+      1.7222609132043591,
+      1.4898698532153793,
+      1.3552675568765755
+     ]
+    },
+    "runtime_s": {
+     "mean": 3.2584829420035626,
+     "std": 0.054103524138897505,
+     "values": [
+      3.3274587680061813,
+      3.195315096003469,
+      3.252674962001038
+     ]
+    }
+   }
+  },
+  "C2: Deeper variable selection": {
+   "analytical": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 4.722071242300371,
+     "std": 1.0164138257072168,
+     "values": [
+      4.658821203871987,
+      3.510054362850691,
+      5.997338160178432
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 3.244634086885085,
+     "std": 0.49235668683849076,
+     "values": [
+      3.400856902373008,
+      2.5788846234021903,
+      3.754160734880056
+     ]
+    },
+    "runtime_s": {
+     "mean": 16.468651361006778,
+     "std": 1.5456909732139115,
+     "values": [
+      14.290685789019335,
+      17.71915923000779,
+      17.396109063993208
+     ]
+    }
+   },
+   "airfoil": {
+    "valid": true,
+    "invalid_reason": null,
+    "n_seeds": 3,
+    "residual_mse_pct": {
+     "mean": 6.380632135638016,
+     "std": 0.5661780732440185,
+     "values": [
+      6.079926715983327,
+      5.888319610777666,
+      7.173650080153052
+     ]
+    },
+    "residual_in_sample_pct": {
+     "mean": 4.06748523091858,
+     "std": 0.4893245373736776,
+     "values": [
+      3.8086938464795184,
+      3.6410679880430097,
+      4.752693858233211
+     ]
+    },
+    "runtime_s": {
+     "mean": 5.6222637036601855,
+     "std": 0.2794056990761822,
+     "values": [
+      5.962696906004567,
+      5.278322483994998,
+      5.6257717209809925
+     ]
+    }
+   }
+  }
+ },
+ "log": {
+  "C2: Deeper variable selection": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "error": "the method raised: rness.py\", line 137, in run_method\n    eta0, comps = method(model, X_train, X_eval)  # components needed to know which sets to check\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/method.py\", line 25, in decompose\n    eta0, comps, mse = _run_depth(model, X_train, X_test, depth_variable)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/method.py\", line 14, in _run_depth\n    y_order2[:, hfd.interaction_list.index((a, b))], dtype=float)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'numpy.ndarray' object has no attribute 'index'\n",
+     "code": "import numpy as np\nfrom treehfd import XGBTreeHFD\n\n\ndef _run_depth(model, X_train, X_test, depth_variable):\n    hfd = XGBTreeHFD(model)\n    hfd.fit(X_train, interaction_order=2, verbose=False,\n            depth_variable=depth_variable)\n    y_main, y_order2 = hfd.predict(X_test, verbose=False)\n    comps = {(j,): np.asarray(y_main[:, j], dtype=float)\n             for j in range(y_main.shape[1])}\n    for (a, b) in hfd.interaction_list:\n        comps[(int(a), int(b))] = np.asarray(\n            y_order2[:, hfd.interaction_list.index((a, b))], dtype=float)\n    eta0 = float(hfd.eta0)\n    pred = eta0 + sum(comps.values())\n    target = np.asarray(model.predict(X_test), dtype=float)\n    mse = float(np.mean((pred - target) ** 2))\n    return eta0, comps, mse\n\n\ndef decompose(model, X_train, X_test):\n    best = None\n    for depth_variable in (1, 2, 3):\n        eta0, comps, mse = _run_depth(model, X_train, X_test, depth_variable)\n        if best is None or mse < best[2]:\n            best = (eta0, comps, mse)\n    eta0, comps, _ = best\n    return eta0, comps\n"
+    },
+    {
+     "attempt": 2,
+     "error": null,
+     "code": "import numpy as np\nfrom treehfd import XGBTreeHFD\n\n\ndef _run_depth(model, X_train, X_test, depth_variable):\n    hfd = XGBTreeHFD(model)\n    hfd.fit(X_train, interaction_order=2, verbose=False,\n            depth_variable=depth_variable)\n    y_main, y_order2 = hfd.predict(X_test, verbose=False)\n    y_main = np.asarray(y_main, dtype=float)\n    y_order2 = np.asarray(y_order2, dtype=float)\n    comps = {(j,): y_main[:, j] for j in range(y_main.shape[1])}\n    pairs = [(int(a), int(b)) for a, b in np.asarray(hfd.interaction_list).tolist()]\n    for k, (a, b) in enumerate(pairs):\n        comps[(a, b)] = y_order2[:, k]\n    return float(hfd.eta0), comps\n\n\ndef _holdout_mse(model, X_train, depth_variable, rng):\n    n = X_train.shape[0]\n    idx = rng.permutation(n)\n    n_val = max(1, int(0.25 * n))\n    val_idx, fit_idx = idx[:n_val], idx[n_val:]\n    if fit_idx.shape[0] < 2:\n        fit_idx = val_idx\n        val_idx = idx\n    hfd = XGBTreeHFD(model)\n    hfd.fit(X_train[fit_idx], interaction_order=2, verbose=False,\n            depth_variable=depth_variable)\n    y_main, y_order2 = hfd.predict(X_train[val_idx], verbose=False)\n    y_main = np.asarray(y_main, dtype=float)\n    y_order2 = np.asarray(y_order2, dtype=float)\n    pred = float(hfd.eta0) + y_main.sum(axis=1) + y_order2.sum(axis=1)\n    target = np.asarray(model.predict(X_train[val_idx]), dtype=float)\n    return float(np.mean((pred - target) ** 2))\n\n\ndef decompose(model, X_train, X_test):\n    rng = np.random.RandomState(0)\n    best_depth, best_mse = 1, np.inf\n    for depth_variable in (1, 2, 3):\n        mse = _holdout_mse(model, X_train, depth_variable, rng)\n        if mse < best_mse:\n            best_depth, best_mse = depth_variable, mse\n    eta0, comps = _run_depth(model, X_train, X_test, best_depth)\n    return eta0, comps\n"
+    }
+   ]
+  },
+  "C1: Prune small interactions": {
+   "ok": false,
+   "attempts": [
+    {
+     "attempt": 1,
+     "error": "the method raised: ^^^^^^^^^^^^^^^^^^^^\n  File \"/work/harness.py\", line 137, in run_method\n    eta0, comps = method(model, X_train, X_eval)  # components needed to know which sets to check\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/method.py\", line 38, in decompose\n    y_main_t, y_int_t = hfd.predict(X_test, verbose=False)\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/treehfd/ensemble.py\", line 248, in predict\n    self.interaction_list.shape[0]))\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAttributeError: 'list' object has no attribute 'shape'\n",
+     "code": "import numpy as np\nfrom treehfd import XGBTreeHFD\n\n\ndef decompose(model, X_train, X_test, val_frac=0.3, rel_tol=1e-3, seed=0):\n    \"\"\"C1: fit TreeHFD on a training subset, prune interactions whose\n    inclusion reduces validation Residual MSE by less than rel_tol\n    (relative), then return components (main effects + kept pairs).\"\"\"\n    rng = np.random.RandomState(seed)\n    n = X_train.shape[0]\n    n_val = max(1, int(round(val_frac * n)))\n    idx = rng.permutation(n)\n    val_idx, fit_idx = idx[:n_val], idx[n_val:]\n    X_fit, X_val = X_train[fit_idx], X_train[val_idx]\n\n    hfd = XGBTreeHFD(model)\n    hfd.fit(X_fit, interaction_order=2, verbose=False)\n    y_main, y_int = hfd.predict(X_val, verbose=False)\n    eta0 = float(hfd.eta0)\n\n    target = model.predict(X_val).astype(float)\n    base = eta0 + y_main.sum(axis=1) + y_int.sum(axis=1)\n    mse_with = float(np.mean((target - base) ** 2))\n\n    # Residual MSE when interaction k is excluded, vectorized over k.\n    resid_without = target[:, None] - (base[:, None] - y_int)\n    mse_without = np.mean(resid_without ** 2, axis=0)\n\n    keep_mask = mse_without > mse_with * (1.0 + rel_tol)\n    # Guard: if mse_with is ~0, keep everything.\n    if not np.isfinite(mse_with) or mse_with <= 0:\n        keep_mask = np.ones(len(keep_mask), dtype=bool)\n\n    kept = [k for k in range(y_int.shape[1]) if keep_mask[k]]\n\n    # Predict on test data with the reduced interaction list.\n    hfd.interaction_list = [hfd.interaction_list[k] for k in kept]\n    y_main_t, y_int_t = hfd.predict(X_test, verbose=False)\n\n    comps = {(j,): y_main_t[:, j] for j in range(y_main_t.shape[1])}\n    for col, (a, b) in enumerate(hfd.interaction_list):\n        comps[(int(a), int(b))] = y_int_t[:, col]\n    return eta0, comps\n"
+    },
+    {
+     "attempt": 2,
+     "error": "the method raised: rness.py\", line 137, in run_method\n    eta0, comps = method(model, X_train, X_eval)  # components needed to know which sets to check\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/work/method.py\", line 39, in decompose\n    y_main_t, y_int_t = hfd.predict(X_test, verbose=False)\n                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/local/lib/python3.12/site-packages/treehfd/ensemble.py\", line 261, in predict\n    y_order2[:, output_idx, interaction_index] += y_order2_tree\nValueError: operands could not be broadcast together with shapes (10000,3) (10000,12) (10000,3) \n",
+     "code": "import numpy as np\nfrom treehfd import XGBTreeHFD\n\n\ndef decompose(model, X_train, X_test, val_frac=0.3, rel_tol=1e-3, seed=0):\n    \"\"\"C1: fit TreeHFD on a training subset, prune interactions whose\n    inclusion reduces validation Residual MSE by less than rel_tol\n    (relative), then return components (main effects + kept pairs).\"\"\"\n    rng = np.random.RandomState(seed)\n    n = X_train.shape[0]\n    n_val = max(1, int(round(val_frac * n)))\n    idx = rng.permutation(n)\n    val_idx, fit_idx = idx[:n_val], idx[n_val:]\n    X_fit, X_val = X_train[fit_idx], X_train[val_idx]\n\n    hfd = XGBTreeHFD(model)\n    hfd.fit(X_fit, interaction_order=2, verbose=False)\n    y_main, y_int = hfd.predict(X_val, verbose=False)\n    eta0 = float(hfd.eta0)\n\n    target = model.predict(X_val).astype(float)\n    base = eta0 + y_main.sum(axis=1) + y_int.sum(axis=1)\n    mse_with = float(np.mean((target - base) ** 2))\n\n    # Residual MSE when interaction k is excluded, vectorized over k.\n    resid_without = target[:, None] - (base[:, None] - y_int)\n    mse_without = np.mean(resid_without ** 2, axis=0)\n\n    keep_mask = mse_without > mse_with * (1.0 + rel_tol)\n    # Guard: if mse_with is ~0, keep everything.\n    if not np.isfinite(mse_with) or mse_with <= 0:\n        keep_mask = np.ones(len(keep_mask), dtype=bool)\n\n    kept = [k for k in range(y_int.shape[1]) if keep_mask[k]]\n\n    # Predict on test data with the reduced interaction list.\n    full_list = np.asarray(hfd.interaction_list)\n    hfd.interaction_list = full_list[np.asarray(kept, dtype=int)]\n    y_main_t, y_int_t = hfd.predict(X_test, verbose=False)\n\n    comps = {(j,): y_main_t[:, j] for j in range(y_main_t.shape[1])}\n    for col, pair in enumerate(np.asarray(hfd.interaction_list)):\n        a, b = int(pair[0]), int(pair[1])\n        comps[(min(a, b), max(a, b))] = y_int_t[:, col]\n    return eta0, comps\n"
+    }
+   ]
+  }
+ }
+}

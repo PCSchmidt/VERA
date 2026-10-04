@@ -1,0 +1,16 @@
+{
+ "run_id": "protocol-live-1",
+ "spent_usd": 0.116,
+ "cap_usd": 1.0,
+ "protocol_artifact": "docs/results/protocol-live-1/protocol.json",
+ "paper": "docs/results/protocol-live-1/paper.md",
+ "ledger": "data/ledger/run_protocol-live-1.jsonl",
+ "arm": "glm-sonnet",
+ "baseline_from": "topic-a-loop-3",
+ "literature": "scope-tree-explain-2",
+ "audit": "red (as first run); see notes",
+ "notes": [
+  "The first attempt stopped at the write-up gate: 1814 words against a 1700 limit that counted VERA's own protocol tables. The limit now counts prose only; the run was then resumed (--retry-from protocol), so the protocol stage ran once.",
+  "The audit of the resumed run is red: the audit's table check parses the first results table only and fails every cell of the protocol tables (104 failing findings, all 'table row has no counterpart'). It is not a finding about the numbers; the audit v3 feature makes the audit read the protocol tables, and this record is updated with that audit's result."
+ ]
+}

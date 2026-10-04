@@ -1,0 +1,157 @@
+{
+ "run_id": "protocol-live-1",
+ "models": {
+  "ideate": "glm-flash",
+  "subset_exp": "glm-flash",
+  "write_up": "sonnet"
+ },
+ "completed": false,
+ "stop": {
+  "stage": "audit",
+  "reason": "gate: audit failed with 104 failing finding(s): [\"The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↓'.\", \"The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↓'.\", \"The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↓'.\"]"
+ },
+ "total_cost_usd": 0.115964,
+ "budget": {
+  "max_usd": 1.0,
+  "spent_usd": 0.11596356999999999,
+  "max_wall_seconds": 21600,
+  "elapsed_seconds": 1222
+ },
+ "by_component": {
+  "p2.cheap_path": {
+   "calls": 15,
+   "cost_usd": 0.00095,
+   "input_tokens": 14405,
+   "output_tokens": 667
+  },
+  "p3.ideate": {
+   "calls": 1,
+   "cost_usd": 0.000174,
+   "input_tokens": 1304,
+   "output_tokens": 256
+  },
+  "p3.subset_exp": {
+   "calls": 4,
+   "cost_usd": 0.00133,
+   "input_tokens": 3056,
+   "output_tokens": 2445
+  },
+  "p3.write_up": {
+   "calls": 3,
+   "cost_usd": 0.11351,
+   "input_tokens": 22805,
+   "output_tokens": 6790
+  }
+ },
+ "stages": [
+  {
+   "stage": "baseline",
+   "decision": "accept",
+   "producer": "p3.baseline",
+   "gate_question": "loop.baseline_reproduced",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "confidence": 0.95
+   },
+   "spent_usd_after": 5.2836e-05
+  },
+  {
+   "stage": "ideate",
+   "decision": "accept",
+   "producer": "p3.ideate",
+   "gate_question": "loop.idea_worth_run",
+   "gate_answer": 3,
+   "gate_judge": "p2.judge",
+   "n_gates": 3,
+   "metrics": {
+    "n_selected": 2.0
+   },
+   "spent_usd_after": 0.0004301048
+  },
+  {
+   "stage": "subset_exp",
+   "decision": "reject",
+   "producer": "p3.subset_exp",
+   "gate_question": "loop.beats_baseline",
+   "gate_answer": false,
+   "gate_judge": "loop.rule_gate",
+   "n_gates": 2,
+   "metrics": {
+    "n_ideas_run": 1.0,
+    "n_beating_baseline": 0.0
+   },
+   "spent_usd_after": 0.001804784
+  },
+  {
+   "stage": "write_up",
+   "decision": "reject",
+   "producer": "p3.write_up",
+   "gate_question": "loop.guidance_met",
+   "gate_answer": false,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "words": 1814.0,
+    "problems": 1.0
+   },
+   "spent_usd_after": 0.08335445999999999
+  },
+  {
+   "stage": "write_up",
+   "decision": "accept",
+   "producer": "p3.write_up",
+   "gate_question": "loop.guidance_met",
+   "gate_answer": true,
+   "gate_judge": "p2.judge",
+   "n_gates": 1,
+   "metrics": {
+    "words": 909.0,
+    "problems": 0.0
+   },
+   "spent_usd_after": 0.11572672399999999
+  },
+  {
+   "stage": "audit",
+   "decision": "reject",
+   "producer": "p1.audit",
+   "gate_question": "loop.audit_clean",
+   "gate_answer": false,
+   "gate_judge": "p1.audit_gate",
+   "n_gates": 1,
+   "metrics": {
+    "fail": 104.0,
+    "warn": 6.0,
+    "info": 0.0,
+    "claims": 132.0
+   },
+   "spent_usd_after": 0.11596356999999999
+  }
+ ],
+ "audit": {
+  "overall": "red",
+  "fail": 104,
+  "warn": 6,
+  "info": 0,
+  "checks_skipped": {
+   "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+   "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+   "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+   "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+  }
+ },
+ "best_idea": null,
+ "held_out_residual_mse_pct": {
+  "TreeHFD (baseline)": {
+   "analytical": 2.792,
+   "airfoil": 4.733
+  },
+  "C2: Deeper variable selection": {
+   "analytical": 4.722,
+   "airfoil": 6.381
+  }
+ },
+ "baseline_name": "TreeHFD (baseline)",
+ "ledger": "data/ledger/run_protocol-live-1.jsonl"
+}

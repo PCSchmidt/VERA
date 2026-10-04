@@ -1,0 +1,230 @@
+# Audit of protocol-live-1: **RED**
+
+Checks run: citation, numeric. Claims checked: 132. Findings: 104 fail, 6 warn, 0 info. Judge cost $0.00019.
+
+- **fail** (numeric) The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↓'.
+  - evidence: log `results.json:Method/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↓'.
+  - evidence: log `results.json:Method/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↓'.
+  - evidence: log `results.json:Method/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↓'.
+  - evidence: log `results.json:Method/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '8.52 ± 0.23'.
+  - evidence: log `results.json:TreeHFD/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '7.15 ± 0.35'.
+  - evidence: log `results.json:TreeHFD/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '5.99 ± 0.21'.
+  - evidence: log `results.json:TreeHFD/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '3.93 ± 0.22'.
+  - evidence: log `results.json:TreeHFD/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '7.94 ± 0.40'.
+  - evidence: log `results.json:TreeSHAP/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '20.4 ± 0.56'.
+  - evidence: log `results.json:TreeSHAP/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '34.0 ± 2.8'.
+  - evidence: log `results.json:TreeSHAP/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '29.9 ± 0.44'.
+  - evidence: log `results.json:TreeSHAP/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table says '8.91 ± 1.2' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0.
+  - evidence: log `results.json:C2: Deeper variable selection/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table says '8.15 ± 1.3' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5.
+  - evidence: log `results.json:C2: Deeper variable selection/analytical/runtime_s` matched=False
+- **fail** (numeric) The table says '8.39 ± 1.0' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57.
+  - evidence: log `results.json:C2: Deeper variable selection/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table says '4.65 ± 1.1' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28.
+  - evidence: log `results.json:C2: Deeper variable selection/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↑'.
+  - evidence: log `results.json:Method/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↑'.
+  - evidence: log `results.json:Method/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↑'.
+  - evidence: log `results.json:Method/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↑'.
+  - evidence: log `results.json:Method/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.867 ± 0.037'.
+  - evidence: log `results.json:TreeHFD/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.948 ± 0.017'.
+  - evidence: log `results.json:TreeHFD/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.937 ± 0.010'.
+  - evidence: log `results.json:TreeHFD/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.936 ± 0.018'.
+  - evidence: log `results.json:TreeHFD/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.877 ± 0.022'.
+  - evidence: log `results.json:TreeSHAP/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.923 ± 0.0018'.
+  - evidence: log `results.json:TreeSHAP/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.913 ± 0.00032'.
+  - evidence: log `results.json:TreeSHAP/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.907 ± 0.019'.
+  - evidence: log `results.json:TreeSHAP/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table says '0.705 ± 0.016' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0.
+  - evidence: log `results.json:C2: Deeper variable selection/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table says '0.838 ± 0.014' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5.
+  - evidence: log `results.json:C2: Deeper variable selection/analytical/runtime_s` matched=False
+- **fail** (numeric) The table says '0.876 ± 0.0057' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57.
+  - evidence: log `results.json:C2: Deeper variable selection/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table says '0.879 ± 0.0090' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28.
+  - evidence: log `results.json:C2: Deeper variable selection/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↑'.
+  - evidence: log `results.json:Method/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↑'.
+  - evidence: log `results.json:Method/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↑'.
+  - evidence: log `results.json:Method/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↑'.
+  - evidence: log `results.json:Method/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.397 ± 0.051'.
+  - evidence: log `results.json:TreeHFD/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.881 ± 0.0071'.
+  - evidence: log `results.json:TreeHFD/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.639 ± 0.034'.
+  - evidence: log `results.json:TreeHFD/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.636 ± 0.010'.
+  - evidence: log `results.json:TreeHFD/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.415 ± 0.033'.
+  - evidence: log `results.json:TreeSHAP/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.869 ± 0.034'.
+  - evidence: log `results.json:TreeSHAP/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.643 ± 0.017'.
+  - evidence: log `results.json:TreeSHAP/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.778 ± 0.039'.
+  - evidence: log `results.json:TreeSHAP/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table says '0.388 ± 0.045' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0.
+  - evidence: log `results.json:C2: Deeper variable selection/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table says '0.787 ± 0.041' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5.
+  - evidence: log `results.json:C2: Deeper variable selection/analytical/runtime_s` matched=False
+- **fail** (numeric) The table says '0.613 ± 0.033' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57.
+  - evidence: log `results.json:C2: Deeper variable selection/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table says '0.763 ± 0.024' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28.
+  - evidence: log `results.json:C2: Deeper variable selection/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↓'.
+  - evidence: log `results.json:Method/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↓'.
+  - evidence: log `results.json:Method/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↓'.
+  - evidence: log `results.json:Method/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↓'.
+  - evidence: log `results.json:Method/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '5.54 ± 0.40'.
+  - evidence: log `results.json:TreeHFD/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '3.80 ± 0.52'.
+  - evidence: log `results.json:TreeHFD/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '2.79 ± 0.32'.
+  - evidence: log `results.json:TreeHFD/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '1.66 ± 0.084'.
+  - evidence: log `results.json:TreeHFD/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.0000000000556 ± 0.0000000000055'.
+  - evidence: log `results.json:TreeSHAP/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.0000000000608 ± 0.0000000000052'.
+  - evidence: log `results.json:TreeSHAP/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.0000000000523 ± 0.0000000000088'.
+  - evidence: log `results.json:TreeSHAP/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.0000000000418 ± 0.0000000000098'.
+  - evidence: log `results.json:TreeSHAP/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table says '4.59 ± 0.51' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0.
+  - evidence: log `results.json:C2: Deeper variable selection/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table says '5.09 ± 0.89' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5.
+  - evidence: log `results.json:C2: Deeper variable selection/analytical/runtime_s` matched=False
+- **fail** (numeric) The table says '4.72 ± 1.0' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57.
+  - evidence: log `results.json:C2: Deeper variable selection/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table says '2.59 ± 0.59' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28.
+  - evidence: log `results.json:C2: Deeper variable selection/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↓'.
+  - evidence: log `results.json:Method/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↓'.
+  - evidence: log `results.json:Method/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↓'.
+  - evidence: log `results.json:Method/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↓'.
+  - evidence: log `results.json:Method/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'.
+  - evidence: log `results.json:---/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '42.5 ± 5.5'.
+  - evidence: log `results.json:TreeHFD/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '40.4 ± 4.0'.
+  - evidence: log `results.json:TreeHFD/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '37.0 ± 5.4'.
+  - evidence: log `results.json:TreeHFD/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '35.2 ± 4.0'.
+  - evidence: log `results.json:TreeHFD/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '2.51 ± 0.21'.
+  - evidence: log `results.json:TreeSHAP/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '3.09 ± 0.090'.
+  - evidence: log `results.json:TreeSHAP/analytical/runtime_s` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '2.63 ± 0.18'.
+  - evidence: log `results.json:TreeSHAP/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '2.63 ± 0.31'.
+  - evidence: log `results.json:TreeSHAP/airfoil/runtime_s` matched=False
+- **fail** (numeric) The table says '16.7 ± 1.9' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0.
+  - evidence: log `results.json:C2: Deeper variable selection/analytical/residual_mse_pct` matched=False
+- **fail** (numeric) The table says '17.4 ± 0.56' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5.
+  - evidence: log `results.json:C2: Deeper variable selection/analytical/runtime_s` matched=False
+- **fail** (numeric) The table says '17.5 ± 1.0' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57.
+  - evidence: log `results.json:C2: Deeper variable selection/airfoil/residual_mse_pct` matched=False
+- **fail** (numeric) The table says '17.9 ± 1.8' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28.
+  - evidence: log `results.json:C2: Deeper variable selection/airfoil/runtime_s` matched=False
+- **warn** (numeric) Could not confirm the comparison against the table: 'A language-model-driven loop generated 3 ideas and ran 1 of them on a subset: C2, deeper variable selection (a higher depth_variable).'
+  - evidence: log `results.json (rendered table)` matched=False
+- **warn** (numeric) Could not confirm the comparison against the table: 'In the registered protocol on correlated analytical data, TreeHFD recovered the true components far better than TreeSHAP at moderate to high correlation.'
+  - evidence: log `results.json (rendered table)` matched=False
+- **warn** (numeric) 0.25, 0.75, 0.9, 0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'Datasets: Analytical at rho 0, 0.25, 0.5, 0.75, 0.9, 0.95, and Airfoil. 3 seeds, 5 bootstrap refits per seed.'
+  - evidence: log `results.json` matched=False
+- **warn** (numeric) 8.52, 2.99, 0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'Component error: TreeHFD ranged from 8.52 at rho 0 down to 2.99 at rho 0.95.'
+  - evidence: log `results.json` matched=False
+- **fail** (numeric) 7.94, 20.4, 34.0 in a results claim is not a value in results.json (nor a difference or ratio of two): 'TreeSHAP was slightly lower at rho 0 (7.94) but much higher at the other correlations (20.4 to 34.0).'
+  - evidence: log `results.json` matched=False
+- **fail** (numeric) 0.9, 2.82, 3.05, 0.95 in a results claim is not a value in results.json (nor a difference or ratio of two): 'C2 was similar to or worse than TreeHFD at most correlations, with overlapping spreads at rho 0.9 (2.82 vs 3.05) and 0.95.'
+  - evidence: log `results.json` matched=False
+- **fail** (numeric) 0.979, 0.987 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Rank stability across refits: C2 was lower than TreeHFD at every Analytical rho and on Airfoil (0.979 vs 0.987).'
+  - evidence: log `results.json` matched=False
+- **warn** (numeric) 0.800, 0.95, 0.872 in the text is not a value in results.json (nor a difference or ratio of two): "TreeHFD stability fell to 0.800 at rho 0.95, below TreeSHAP's 0.872."
+  - evidence: log `results.json` matched=False
+- **fail** (numeric) 0.95, 0.767, 0.699, 0.25, 0.787, 0.881 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Rank agreement with the true importances: methods were broadly similar, with differences often within the spread; C2 was higher at rho 0.95 (0.767 vs 0.699) but'
+  - evidence: log `results.json` matched=False
+- **warn** (numeric) 0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'Question coverage: the experiments address the analytical-data part of the research question for xgboost only: component error against true components and boots'
+  - evidence: log `results.json` matched=False
+
+Skipped checks:
+- method_code: AUD-F-05: method-code alignment arrives in Increment 4
+- spec_leakage: AUD-F-06: leakage checks arrive in Increment 6
+- novelty: AUD-F-07: novelty against retrieved literature arrives in Increment 4
+- rerun: AUD-F-08: re-running experiments is optional, Increment 6

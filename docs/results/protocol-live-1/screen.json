@@ -1,0 +1,11 @@
+{
+ "scores": {
+  "C1: Prune small interactions": 3,
+  "C2: Deeper variable selection": 4,
+  "C3: Least-squares recalibration": 2
+ },
+ "selected": [
+  "C2: Deeper variable selection",
+  "C1: Prune small interactions"
+ ]
+}

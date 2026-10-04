@@ -1,0 +1,17 @@
+{
+ "ideas": [
+  {
+   "name": "C1: Prune small interactions",
+   "description": "After fitting TreeHFD, compute per-interaction residual contribution on validation data; drop interactions whose inclusion reduces Residual MSE by less than a threshold (e.g., 0.1% relative), then refit/predict with the reduced interaction_list. This removes noisy low-signal interaction columns that add approximation error without benefit, at negligible extra cost."
+  },
+  {
+   "name": "C2: Deeper variable selection",
+   "description": "Set depth_variable higher than default in XGBTreeHFD.fit so variables for main effects and interactions are selected from deeper tree structure, capturing interactions the shallow default misses. Compare depth_variable values 1-3 on validation data and pick the one minimizing held-out Residual MSE; runtime scales mildly since only selection depth changes."
+  },
+  {
+   "name": "C3: Least-squares recalibration",
+   "description": "After TreeHFD.predict on training data, solve a constrained least-squares problem (scipy.optimize.nnls or lstsq) that rescales main-effect and interaction columns plus intercept so their sum best matches model predictions, keeping each component a function of only its own variables. Refit coefficients on a validation split to avoid overfitting, then apply to test predictions."
+  }
+ ],
+ "raw_reply": "[{\"name\": \"Prune small interactions\", \"description\": \"After fitting TreeHFD, compute per-interaction residual contribution on validation data; drop interactions whose inclusion reduces Residual MSE by less than a threshold (e.g., 0.1% relative), then refit/predict with the reduced interaction_list. This removes noisy low-signal interaction columns that add approximation error without benefit, at negligible extra cost.\"}, {\"name\": \"Deeper variable selection\", \"description\": \"Set depth_variable higher than default in XGBTreeHFD.fit so variables for main effects and interactions are selected from deeper tree structure, capturing interactions the shallow default misses. Compare depth_variable values 1-3 on validation data and pick the one minimizing held-out Residual MSE; runtime scales mildly since only selection depth changes.\"}, {\"name\": \"Least-squares recalibration\", \"description\": \"After TreeHFD.predict on training data, solve a constrained least-squares problem (scipy.optimize.nnls or lstsq) that rescales main-effect and interaction columns plus intercept so their sum best matches model predictions, keeping each component a function of only its own variables. Refit coefficients on a validation split to avoid overfitting, then apply to test predictions.\"}]"
+}

@@ -1,0 +1,2037 @@
+{
+ "paper_id": "protocol-live-1",
+ "paper_source": "paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:Method/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:Method/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:Method/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:Method/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:---/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:---/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:---/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:---/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeHFD/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '8.52 ± 0.23'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '8.52 ± 0.23'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeHFD/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '7.15 ± 0.35'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '7.15 ± 0.35'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeHFD/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '5.99 ± 0.21'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '5.99 ± 0.21'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeHFD/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '3.93 ± 0.22'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '3.93 ± 0.22'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '7.94 ± 0.40'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '7.94 ± 0.40'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '20.4 ± 0.56'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '20.4 ± 0.56'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '34.0 ± 2.8'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '34.0 ± 2.8'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '29.9 ± 0.44'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '29.9 ± 0.44'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table says '8.91 ± 1.2' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '8.91 ± 1.2' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table says '8.15 ± 1.3' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '8.15 ± 1.3' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table says '8.39 ± 1.0' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '8.39 ± 1.0' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table says '4.65 ± 1.1' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '4.65 ± 1.1' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:Method/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↑'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↑'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:Method/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↑'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↑'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:Method/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↑'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↑'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:Method/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↑'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↑'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:---/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:---/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:---/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:---/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeHFD/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.867 ± 0.037'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.867 ± 0.037'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeHFD/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.948 ± 0.017'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.948 ± 0.017'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeHFD/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.937 ± 0.010'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.937 ± 0.010'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeHFD/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.936 ± 0.018'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.936 ± 0.018'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.877 ± 0.022'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.877 ± 0.022'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.923 ± 0.0018'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.923 ± 0.0018'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.913 ± 0.00032'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.913 ± 0.00032'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.907 ± 0.019'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.907 ± 0.019'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table says '0.705 ± 0.016' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '0.705 ± 0.016' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table says '0.838 ± 0.014' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '0.838 ± 0.014' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table says '0.876 ± 0.0057' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '0.876 ± 0.0057' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table says '0.879 ± 0.0090' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '0.879 ± 0.0090' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:Method/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↑'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↑'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:Method/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↑'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↑'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:Method/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↑'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↑'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:Method/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↑'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↑'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:---/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:---/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:---/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:---/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeHFD/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.397 ± 0.051'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.397 ± 0.051'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeHFD/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.881 ± 0.0071'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.881 ± 0.0071'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeHFD/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.639 ± 0.034'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.639 ± 0.034'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeHFD/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.636 ± 0.010'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.636 ± 0.010'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.415 ± 0.033'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.415 ± 0.033'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.869 ± 0.034'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.869 ± 0.034'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.643 ± 0.017'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.643 ± 0.017'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.778 ± 0.039'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.778 ± 0.039'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table says '0.388 ± 0.045' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '0.388 ± 0.045' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table says '0.787 ± 0.041' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '0.787 ± 0.041' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table says '0.613 ± 0.033' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '0.613 ± 0.033' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table says '0.763 ± 0.024' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '0.763 ± 0.024' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:Method/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:Method/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:Method/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:Method/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:---/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:---/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:---/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:---/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeHFD/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '5.54 ± 0.40'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '5.54 ± 0.40'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeHFD/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '3.80 ± 0.52'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '3.80 ± 0.52'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeHFD/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '2.79 ± 0.32'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '2.79 ± 0.32'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeHFD/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '1.66 ± 0.084'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '1.66 ± 0.084'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.0000000000556 ± 0.0000000000055'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.0000000000556 ± 0.0000000000055'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.0000000000608 ± 0.0000000000052'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.0000000000608 ± 0.0000000000052'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.0000000000523 ± 0.0000000000088'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '0.0000000000523 ± 0.0000000000088'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.0000000000418 ± 0.0000000000098'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '0.0000000000418 ± 0.0000000000098'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table says '4.59 ± 0.51' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '4.59 ± 0.51' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table says '5.09 ± 0.89' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '5.09 ± 0.89' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table says '4.72 ± 1.0' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '4.72 ± 1.0' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table says '2.59 ± 0.59' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '2.59 ± 0.59' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:Method/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:Method/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.25 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:Method/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.5 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:Method:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:Method:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:Method/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↓'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'Method' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': 'Analytical, rho 0.75 ↓'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:---/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:---/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:---/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:---:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:---:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:---/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row '---' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '---'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeHFD/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '42.5 ± 5.5'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '42.5 ± 5.5'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeHFD/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '40.4 ± 4.0'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '40.4 ± 4.0'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeHFD/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '37.0 ± 5.4'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '37.0 ± 5.4'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeHFD:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeHFD:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeHFD/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '35.2 ± 4.0'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeHFD' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '35.2 ± 4.0'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '2.51 ± 0.21'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / analytical / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '2.51 ± 0.21'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '3.09 ± 0.090'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / analytical / runtime_s has no counterpart in results.json or is not 'mean ± std': '3.09 ± 0.090'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '2.63 ± 0.18'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / airfoil / residual_mse_pct has no counterpart in results.json or is not 'mean ± std': '2.63 ± 0.18'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:TreeSHAP:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:TreeSHAP:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:TreeSHAP/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '2.63 ± 0.31'."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table row 'TreeSHAP' / airfoil / runtime_s has no counterpart in results.json or is not 'mean ± std': '2.63 ± 0.31'."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:analytical:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:analytical:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/analytical/residual_mse_pct",
+     "matched": false,
+     "detail": "The table says '16.7 ± 1.9' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '16.7 ± 1.9' for C2: Deeper variable selection on analytical (residual_mse_pct); results.json has 4.72 ± 1.0."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:analytical:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:analytical:runtime_s",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/analytical/runtime_s",
+     "matched": false,
+     "detail": "The table says '17.4 ± 0.56' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '17.4 ± 0.56' for C2: Deeper variable selection on analytical (runtime_s); results.json has 16.5 ± 1.5."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:airfoil:residual_mse_pct"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:airfoil:residual_mse_pct",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/airfoil/residual_mse_pct",
+     "matched": false,
+     "detail": "The table says '17.5 ± 1.0' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '17.5 ± 1.0' for C2: Deeper variable selection on airfoil (residual_mse_pct); results.json has 6.38 ± 0.57."
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:table:C2: Deeper variable selection:airfoil:runtime_s"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:table:C2: Deeper variable selection:airfoil:runtime_s",
+     "source": "log",
+     "reference": "results.json:C2: Deeper variable selection/airfoil/runtime_s",
+     "matched": false,
+     "detail": "The table says '17.9 ± 1.8' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28."
+    }
+   ],
+   "verdicts": [],
+   "summary": "The table says '17.9 ± 1.8' for C2: Deeper variable selection on airfoil (runtime_s); results.json has 5.62 ± 0.28."
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:1"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:1",
+     "source": "log",
+     "reference": "results.json (rendered table)",
+     "matched": false,
+     "detail": "Could not confirm the comparison against the table: 'A language-model-driven loop generated 3 ideas and ran 1 of them on a subset: C2, deeper variable selection (a higher depth_variable).'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "num.claim_consistent",
+     "answer": false,
+     "probabilities": {
+      "true": 0.26,
+      "false": 0.74
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.6376e-05,
+     "latency_ms": 174,
+     "trace_id": "f042ce7530724288aeac7440be7bbf79",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "Could not confirm the comparison against the table: 'A language-model-driven loop generated 3 ideas and ran 1 of them on a subset: C2, deeper variable selection (a higher depth_variable).'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:4"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:4",
+     "source": "log",
+     "reference": "results.json (rendered table)",
+     "matched": false,
+     "detail": "Could not confirm the comparison against the table: 'In the registered protocol on correlated analytical data, TreeHFD recovered the true components far better than TreeSHAP at moderate to high correlation.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "num.claim_consistent",
+     "answer": false,
+     "probabilities": {
+      "true": 0.1,
+      "false": 0.9
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.6249999999999998e-05,
+     "latency_ms": 155,
+     "trace_id": "96287403146d4b5d95ffd7924f0a3b62",
+     "producer_id": "p3.write_up",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "Could not confirm the comparison against the table: 'In the registered protocol on correlated analytical data, TreeHFD recovered the true components far better than TreeSHAP at moderate to high correlation.'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:20"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:20",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "0.25, 0.75, 0.9, 0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'Datasets: Analytical at rho 0, 0.25, 0.5, 0.75, 0.9, 0.95, and Airfoil. 3 seeds, 5 bootstrap refits per seed.'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "0.25, 0.75, 0.9, 0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'Datasets: Analytical at rho 0, 0.25, 0.5, 0.75, 0.9, 0.95, and Airfoil. 3 seeds, 5 bootstrap refits per seed.'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:35"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:35",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "8.52, 2.99, 0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'Component error: TreeHFD ranged from 8.52 at rho 0 down to 2.99 at rho 0.95.'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "8.52, 2.99, 0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'Component error: TreeHFD ranged from 8.52 at rho 0 down to 2.99 at rho 0.95.'"
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:36"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:36",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "7.94, 20.4, 34.0 in a results claim is not a value in results.json (nor a difference or ratio of two): 'TreeSHAP was slightly lower at rho 0 (7.94) but much higher at the other correlations (20.4 to 34.0).'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "7.94, 20.4, 34.0 in a results claim is not a value in results.json (nor a difference or ratio of two): 'TreeSHAP was slightly lower at rho 0 (7.94) but much higher at the other correlations (20.4 to 34.0).'"
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:37"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:37",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "0.9, 2.82, 3.05, 0.95 in a results claim is not a value in results.json (nor a difference or ratio of two): 'C2 was similar to or worse than TreeHFD at most correlations, with overlapping spreads at rho 0.9 (2.82 vs 3.05) and 0.95.'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "0.9, 2.82, 3.05, 0.95 in a results claim is not a value in results.json (nor a difference or ratio of two): 'C2 was similar to or worse than TreeHFD at most correlations, with overlapping spreads at rho 0.9 (2.82 vs 3.05) and 0.95.'"
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:41"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:41",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "0.979, 0.987 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Rank stability across refits: C2 was lower than TreeHFD at every Analytical rho and on Airfoil (0.979 vs 0.987).'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "0.979, 0.987 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Rank stability across refits: C2 was lower than TreeHFD at every Analytical rho and on Airfoil (0.979 vs 0.987).'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:42"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:42",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "0.800, 0.95, 0.872 in the text is not a value in results.json (nor a difference or ratio of two): \"TreeHFD stability fell to 0.800 at rho 0.95, below TreeSHAP's 0.872.\""
+    }
+   ],
+   "verdicts": [],
+   "summary": "0.800, 0.95, 0.872 in the text is not a value in results.json (nor a difference or ratio of two): \"TreeHFD stability fell to 0.800 at rho 0.95, below TreeSHAP's 0.872.\""
+  },
+  {
+   "check": "numeric",
+   "severity": "fail",
+   "claim_ids": [
+    "num:43"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:43",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "0.95, 0.767, 0.699, 0.25, 0.787, 0.881 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Rank agreement with the true importances: methods were broadly similar, with differences often within the spread; C2 was higher at rho 0.95 (0.767 vs 0.699) but'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "0.95, 0.767, 0.699, 0.25, 0.787, 0.881 in a results claim is not a value in results.json (nor a difference or ratio of two): 'Rank agreement with the true importances: methods were broadly similar, with differences often within the spread; C2 was higher at rho 0.95 (0.767 vs 0.699) but'"
+  },
+  {
+   "check": "numeric",
+   "severity": "warn",
+   "claim_ids": [
+    "num:48"
+   ],
+   "evidence": [
+    {
+     "claim_id": "num:48",
+     "source": "log",
+     "reference": "results.json",
+     "matched": false,
+     "detail": "0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'Question coverage: the experiments address the analytical-data part of the research question for xgboost only: component error against true components and boots'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "0.95 in the text is not a value in results.json (nor a difference or ratio of two): 'Question coverage: the experiments address the analytical-data part of the research question for xgboost only: component error against true components and boots'"
+  }
+ ],
+ "overall": "red",
+ "checks_run": [
+  "citation",
+  "numeric"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.000185018,
+ "wall_seconds": 3,
+ "schema_version": "0.10"
+}
