@@ -31,7 +31,7 @@ def main() -> None:
     ap.add_argument("--topic", required=True)
     ap.add_argument("--run-id", required=True)
     ap.add_argument("--max-usd", default="1.0")
-    ap.add_argument("--skip-start", action="store_true", help="the run was started already (its scope is then replaced)")
+    ap.add_argument("--skip-start", action="store_true", help="the run was started (its scope is replaced)")
     args = ap.parse_args()
     common = ["--topic", args.topic, "--run-id", args.run_id, "--max-usd", args.max_usd]
     if not args.skip_start:
