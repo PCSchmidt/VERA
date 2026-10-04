@@ -254,7 +254,7 @@ def writeup_gate_node(deps: LoopDeps) -> Callable[[dict], dict]:
         material = (
             "Output guidance:\n"
             f"- Format: {g.format}; sections: {', '.join(g.required_sections or DEFAULT_SECTIONS)}"
-            + (f"; at most {g.max_words} words (the report's prose has {prose_word_count(text)})" if g.max_words else "")
+            + (f"; at most {g.max_words} words (its prose has {prose_word_count(text)})" if g.max_words else "")
             + (f"\n- Emphasis: {g.emphasis}" if g.emphasis else "")
             + "".join(f"\n- {c}" for c in g.constraints)
             + f"\n\nReport:\n\n{text}"
