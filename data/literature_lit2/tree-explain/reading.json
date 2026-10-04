@@ -1,0 +1,242 @@
+{
+ "n_full_text": 6,
+ "n_abstract_only": 31,
+ "papers": [
+  {
+   "key": "R5",
+   "title": "Fourier Analysis on the Boolean Hypercube via Hoeffding Functional Decomposition",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 140,
+   "seconds": 0.0
+  },
+  {
+   "key": "R9",
+   "title": "Bias in random forest variable importance measures: Illustrations, sources and a solution",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R11",
+   "title": "Conditional variable importance for random forests",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 63,
+   "seconds": 8.2
+  },
+  {
+   "key": "R12",
+   "title": "Consistent Individualized Feature Attribution for Tree Ensembles",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 63,
+   "seconds": 0.0
+  },
+  {
+   "key": "R19",
+   "title": "Explaining individual predictions when features are dependent: More accurate approximations to Shapley values",
+   "mode": "abstract",
+   "n_passages": 1,
+   "reason": "no PDF: HTTP 403",
+   "seconds": 0.2
+  },
+  {
+   "key": "R20",
+   "title": "Faith-Shap: The Faithful Shapley Interaction Index",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 619,
+   "seconds": 22.6
+  },
+  {
+   "key": "R22",
+   "title": "Generalized Functional ANOVA: A Complete Theoretical Framework",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 215,
+   "seconds": 0.1
+  },
+  {
+   "key": "R25",
+   "title": "Manifold-Based Shapley Explanations for High Dimensional Correlated Features",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R30",
+   "title": "The Shapley Taylor Interaction Index",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 105,
+   "seconds": 3.1
+  },
+  {
+   "key": "R31",
+   "title": "The Shapley Value in Machine Learning",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R32",
+   "title": "Tree Ensemble Explainability through the Hoeffding Functional Decomposition and TreeHFD Algorithm",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R35",
+   "title": "A Generalized ANOVA Dimensional Decomposition for Dependent Probability Measures",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R42",
+   "title": "Beyond TreeSHAP: Efficient Computation of Any-Order Shapley Interactions for Tree Ensembles",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R47",
+   "title": "Generalized Functional ANOVA Diagnostics for High-Dimensional Functions of Dependent Variables",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R48",
+   "title": "Global Sensitivity Analysis Through Advanced Ancova Decomposition for Correlated Inputs",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R50",
+   "title": "Individualized and Global Feature Attributions for Gradient Boosted Trees in the Presence of $\\ell_2$ Regularization",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R52",
+   "title": "Joint Shapley values: a measure of joint feature importance",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R53",
+   "title": "Letter to the Editor: On the stability and ranking of predictors from random forest variable importance measures",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R55",
+   "title": "On the Tractability of SHAP Explanations",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R59",
+   "title": "Synthetic Benchmarks for Scientific Research in Explainable Machine Learning",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R64",
+   "title": "iAdditive: Fast and Fair Feature Importance Estimation for Correlated Features Using Shapley Values",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R65",
+   "title": "shapiq: Shapley Interactions for Machine Learning",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R72",
+   "title": "Correlated variable importance for random forests",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R75",
+   "title": "Generalized Sobol sensitivity indices for dependent variables: numerical methods",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R88",
+   "title": "On marginal feature attributions of tree-based models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R98",
+   "title": "A Shapley--Owen Index for Interaction Quantification",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R100",
+   "title": "Approximating Shapley Interactions with Marginal Contributions",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R102",
+   "title": "Consistent feature attribution for tree ensembles",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R109",
+   "title": "Feature Importance: A Closer Look at Shapley Values and LOCO",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R111",
+   "title": "Generalized hoeffding-sobol decomposition for dependent variables -application to sensitivity analysis",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R121",
+   "title": "Classification and Regression Trees.",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R123",
+   "title": "Random Forests",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R124",
+   "title": "The Elements of Statistical Learning",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R128",
+   "title": "Explaining prediction models and individual predictions with feature contributions",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R138",
+   "title": "On Shapley Value for Measuring Importance of Dependent Inputs",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R139",
+   "title": "Shapley Effects for Global Sensitivity Analysis: Theory and Computation",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R140",
+   "title": "Greedy function approximation: A gradient boosting machine.",
+   "mode": "abstract",
+   "n_passages": 1
+  }
+ ]
+}

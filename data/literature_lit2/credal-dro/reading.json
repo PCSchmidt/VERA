@@ -1,0 +1,410 @@
+{
+ "n_full_text": 6,
+ "n_abstract_only": 59,
+ "papers": [
+  {
+   "key": "R1",
+   "title": "A Unified Theory of Robust and Distributionally Robust Optimization via the Primal-Worst-Equals-Dual-Best Principle",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 394,
+   "seconds": 5.1
+  },
+  {
+   "key": "R2",
+   "title": "Wasserstein Distributionally Robust Estimation in High Dimensions: Performance Analysis and Optimal Hyperparameter Tuning",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 488,
+   "seconds": 0.0
+  },
+  {
+   "key": "R3",
+   "title": "Data-Driven Distributionally Robust CVaR Portfolio Optimization Under Regime-Switching Ambiguity Set",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R4",
+   "title": "Data-Driven Distributionally Robust Optimization Using the Wasserstein Metric: Performance Guarantees and Tractable Reformulations",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 213,
+   "seconds": 0.1
+  },
+  {
+   "key": "R5",
+   "title": "Finite-Sample Guarantees for Wasserstein Distributionally Robust Optimization: Breaking the Curse of Dimensionality",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 363,
+   "seconds": 4.7
+  },
+  {
+   "key": "R6",
+   "title": "Frameworks and Results in Distributionally Robust Optimization",
+   "mode": "abstract",
+   "n_passages": 1,
+   "reason": "no PDF: transport error ConnectError",
+   "seconds": 18.2
+  },
+  {
+   "key": "R8",
+   "title": "Convex Chance-Constrained Programs with Wasserstein Ambiguity",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 386,
+   "seconds": 5.9
+  },
+  {
+   "key": "R9",
+   "title": "Distributionally robust optimization with decision dependent ambiguity sets",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 145,
+   "seconds": 3.5
+  },
+  {
+   "key": "R14",
+   "title": "Comparing Mixture, Box, and Wasserstein Ambiguity Sets in Distributionally Robust Asset Liability Management",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R15",
+   "title": "Controlling risk and demand ambiguity in newsvendor models",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R18",
+   "title": "From Data to Decisions: Distributionally Robust Optimization Is Optimal",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R19",
+   "title": "Learning models with uniform performance via distributionally robust optimization",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R22",
+   "title": "Outlier-Robust Wasserstein DRO",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R25",
+   "title": "Robust Portfolio Optimization Using Pseudodistances",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R29",
+   "title": "Two-Stage Newsvendor Network Problem: A Data-driven Distributionally Robust Optimization Approach",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R31",
+   "title": "Moment-Based Distributionally Robust Optimization",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R32",
+   "title": "Residuals-based distributionally robust optimization with covariate information",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R33",
+   "title": "Wasserstein Distributionally Robust Optimization and Variation Regularization",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R36",
+   "title": "Data-Driven Distributionally Robust Chance-Constrained Optimization With Wasserstein Metric",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R38",
+   "title": "Data-Driven Distributionally Robust Shortest Path Problem Using the Wasserstein Ambiguity Set",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R39",
+   "title": "Decision-dependent distributionally robust standard quadratic optimization with Wasserstein ambiguity",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R41",
+   "title": "Distributionally Robust Optimization with Adversarial Data Contamination",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R43",
+   "title": "Distributionally robust stochastic programs with side information based on trimmings -- Extended version",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R44",
+   "title": "Fuzzy decision making using the imprecise Dirichlet model",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R47",
+   "title": "On the Heavy-Tail Behavior of the Distributionally Robust Newsvendor",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R54",
+   "title": "A cutting surface algorithm for semi-infinite convex programming with an application to moment robust optimization",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R56",
+   "title": "Decision making under incomplete data using the imprecise Dirichlet model",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R57",
+   "title": "A survey of cross-validation procedures for model selection",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R59",
+   "title": "Distributionally Robust Density Control with Wasserstein Ambiguity Sets",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R60",
+   "title": "Distributionally Robust Optimization under Mean-Covariance Ambiguity Set and Half-Space Support for Bivariate Problems",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R61",
+   "title": "Distributionally robust appointment scheduling with moment-based ambiguity set",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R71",
+   "title": "Robust Bayes and Empirical Bayes Analysis with $_\\epsilon$-Contaminated Priors",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R74",
+   "title": "Robust Mean-Variance Portfolio Selection",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R77",
+   "title": "Robust approaches in portfolio optimization with stochastic dominance constraints",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R79",
+   "title": "Simultaneous outlier-exclusion and distributionally robust learning through partial optimal transport",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R80",
+   "title": "Wasserstein Distributionally Robust Optimization with Wasserstein Barycenters",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R82",
+   "title": "Consistency of Distributionally Robust Risk- and Chance-Constrained Optimization under Wasserstein Ambiguity Sets",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R83",
+   "title": "Regularization for Wasserstein Distributionally Robust Optimization",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R84",
+   "title": "A Robust Data-Driven Approach for the Newsvendor Problem with Nonparametric Information",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R85",
+   "title": "Computationally Efficient Approximations for Distributionally Robust Optimization Under Moment and Wasserstein Ambiguity",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R88",
+   "title": "Data-Driven Bayesian Nonparametric Wasserstein Distributionally Robust Optimization",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R89",
+   "title": "Data-Driven Chance Constrained Optimization under Wasserstein Ambiguity Sets",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R90",
+   "title": "Data-Driven DRO and Economic Decision Theory: An Analytical Synthesis With Bayesian Nonparametric Advancements",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R91",
+   "title": "Distributionally Robust Newsvendor with Moment Constraints",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R93",
+   "title": "Learning and Optimal Control of Imprecise Markov Decision Processes by Dynamic Programming Using the Imprecise Dirichlet Model",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R99",
+   "title": "Partition-based distributionally robust optimization via optimal transport with order cone constraints",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R103",
+   "title": "Structured ambiguity sets for distributionally robust optimization",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R108",
+   "title": "Wasserstein Distributionally Robust Optimization: Theory and Applications in Machine Learning",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R112",
+   "title": "On Distributionally Robust Multistage Convex Optimization: Data-driven Models and Performance",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R113",
+   "title": "A General Wasserstein Framework for Data-driven Distributionally Robust Optimization: Tractability and Applications",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R116",
+   "title": "A nonparametric predictive alternative to the Imprecise Dirichlet Model: The case of a known number of categories",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R119",
+   "title": "Data-driven distributed optimization using Wasserstein ambiguity sets",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R120",
+   "title": "Distributionally Robust Optimisation with Bayesian Ambiguity Sets",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R122",
+   "title": "Robust Solutions of Optimization Problems Affected by Uncertain Probabilities",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R123",
+   "title": "The Price of Robustness",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R124",
+   "title": "Distributionally Robust Optimization Under Moment Uncertainty with Application to Data-Driven Problems",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R125",
+   "title": "Distributionally Robust Convex Optimization",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R127",
+   "title": "Ambiguity in portfolio selection",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R135",
+   "title": "Robust Convex Optimization",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R138",
+   "title": "Robust solutions of uncertain linear programs",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R144",
+   "title": "Data-driven robust optimization",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R146",
+   "title": "Worst-Case Conditional Value-at-Risk with Application to Robust Portfolio Management",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R150",
+   "title": "Quantifying Distributional Model Risk via Optimal Transport",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R152",
+   "title": "Data-driven risk-averse stochastic optimization with Wasserstein metric",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R155",
+   "title": "Distributionally robust multi-item newsvendor problems with multimodal demand distributions",
+   "mode": "abstract",
+   "n_passages": 0
+  }
+ ]
+}

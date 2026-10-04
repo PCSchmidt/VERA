@@ -1,0 +1,17 @@
+{
+ "question": "In published evaluation studies of LLM-as-judge systems, under what conditions (for example, whether the judge sees the source table or only text, whether the claim needs arithmetic or multi-step numeric reasoning, and whether the judge is given tools or a recomputation step) is judge agreement with human or programmatically verified labels on numeric and table-grounded claims reliable, and under what conditions does it break down? What does the literature establish about these conditions, and what does it leave unestablished?",
+ "queries": [
+  "LLM-as-a-judge evaluation of table-grounded claims",
+  "LLM judge numerical reasoning verification reliability",
+  "table fact verification large language models",
+  "tool-augmented LLM judge code execution recomputation",
+  "agreement between LLM judges and human annotators",
+  "survey of LLM-as-a-judge",
+  "LLM evaluators fail on arithmetic errors in math solutions",
+  "faithfulness evaluation table-to-text generation numeric hallucination",
+  "benchmark for numerical claim fact-checking with tables",
+  "TabFact FEVEROUS SciTab claim verification benchmark",
+  "judge bias and limitations of LLM evaluators negative results",
+  "financial report numeric reasoning evaluation automated judge"
+ ]
+}

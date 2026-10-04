@@ -1,0 +1,168 @@
+{
+ "n_full_text": 6,
+ "n_abstract_only": 19,
+ "papers": [
+  {
+   "key": "R3",
+   "title": "A Survey on LLM-as-a-Judge",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 245,
+   "seconds": 6.7
+  },
+  {
+   "key": "R4",
+   "title": "LLMs-as-Judges: A Comprehensive Survey on LLM-based Evaluation Methods",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 235,
+   "seconds": 0.1
+  },
+  {
+   "key": "R5",
+   "title": "Reassessing Extractive QA Datasets at Scale: LLM-as-a-Judge and In-Depth Analyses",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 62,
+   "seconds": 0.0
+  },
+  {
+   "key": "R6",
+   "title": "Can LLMs Judge Legal Accuracy? Reliability of LLM Evaluators for High-Stakes Insurance QA in a Low-Resource Language",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R10",
+   "title": "QuanTemp: A real-world open-domain benchmark for fact-checking numerical claims",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 72,
+   "seconds": 2.4
+  },
+  {
+   "key": "R11",
+   "title": "SCITAB: A Challenging Benchmark for Compositional Reasoning and Claim Verification on Scientific Tables",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 116,
+   "seconds": 2.8
+  },
+  {
+   "key": "R20",
+   "title": "Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena",
+   "mode": "fulltext",
+   "n_passages": 6,
+   "n_paragraphs": 79,
+   "seconds": 3.0
+  },
+  {
+   "key": "R21",
+   "title": "LLM Evaluations: A Survey of Programmatic, Human, and LLM-as-Judge Approaches",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R33",
+   "title": "CoverBench: A Challenging Benchmark for Complex Claim Verification",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R35",
+   "title": "When the Judge is Wrong: Measuring LLM-as-Judge Reliability Against Graph-Verified Ground Truth in Financial Documents",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R39",
+   "title": "Arithmetic Reasoning with LLM: Prolog Generation & Permutation",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R50",
+   "title": "LLM as a Judge",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R68",
+   "title": "Cognitive Camouflage: Specification Gaming in LLM-Generated Code Evades Holistic Evaluation but Not Adversarial Execution",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R88",
+   "title": "Judging the Judges: A Systematic Study of Position Bias in LLM-as-a-Judge",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R97",
+   "title": "FinDVer: Explainable Claim Verification over Long and Hybrid-Content Financial Documents",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R104",
+   "title": "Post-Generation Audit for Detecting Unsupported Claims in KPI-Grounded LLM Performance Feedback",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R107",
+   "title": "Split and Merge: Aligning Position Biases in LLM-based Evaluators",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R112",
+   "title": "Trust or Escalate: LLM Judges with Provable Guarantees for Human Agreement",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R114",
+   "title": "A Judge Should Know What Changed:Construct Validity for LLM-as-a-Judge Evaluation",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R119",
+   "title": "Can LLM-as-a-Judge Reliably Verify Rubrics in Agentic Scenarios?",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R120",
+   "title": "ClaimDB: A Fact Verification Benchmark over Large Structured Data",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R124",
+   "title": "ChatEval: Towards Better LLM-based Evaluators through Multi-Agent Debate",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R126",
+   "title": "Automated Evaluation of Large Vision-Language Models on Self-Driving Corner Cases",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R127",
+   "title": "L-Eval: Instituting Standardized Evaluation for Long Context Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R145",
+   "title": "GPTScore: Evaluate as You Desire",
+   "mode": "abstract",
+   "n_passages": 1
+  }
+ ]
+}

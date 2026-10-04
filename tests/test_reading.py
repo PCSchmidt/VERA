@@ -218,3 +218,10 @@ def test_the_passages_are_the_only_evidence_the_gate_sees(tmp_path: Path) -> Non
     gate = [json.loads(ln) for ln in (deps.run_dir / "gates.jsonl").read_text(encoding="utf-8").splitlines()]
     sufficient = [g for g in gate if g["question"]["id"] == "lit.evidence_sufficient"]
     assert len(sufficient) == 1 and "Evidence gathered (8 papers)" in sufficient[0]["material"]
+
+
+def test_references_from_an_empty_grobid_answer_is_an_empty_list() -> None:
+    from vera.literature.reading import references_from_tei
+
+    assert references_from_tei("") == []
+    assert references_from_tei("   ") == []

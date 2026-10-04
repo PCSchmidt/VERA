@@ -135,7 +135,11 @@ def _tei_text(el: ET.Element | None) -> str:
 def references_from_tei(tei: str) -> list[dict]:
     """The reference list of a GROBID TEI document: title, authors, year, DOI and arXiv id where it found them."""
     out = []
-    for b in ET.fromstring(tei).findall(".//t:listBibl/t:biblStruct", TEI):
+    try:
+        root = ET.fromstring(tei)
+    except ET.ParseError:  # GROBID answered with nothing (found in Increment 4 on one PDF): no references, not a crash
+        return []
+    for b in root.findall(".//t:listBibl/t:biblStruct", TEI):
         analytic = b.find("t:analytic/t:title", TEI)
         title = _tei_text(analytic) or _tei_text(b.find("t:monogr/t:title", TEI))
         authors = []

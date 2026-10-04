@@ -1,0 +1,126 @@
+{
+ "run_id": "lit2-tree-explain",
+ "topic_id": "tree-explain",
+ "question": "When input features are correlated, does the functional decomposition of a tree ensemble produced by TreeHFD (arXiv 2510.24815) remain accurate and stable compared with TreeSHAP-style attributions and with the true additive/interaction components in synthetic data? Concretely, as pairwise feature correlation rho increases from 0 to 0.95 in simulated data with known main effects and one known pairwise interaction, how do (a) the error of the recovered components against the ground-truth components and (b) the rank stability of the estimated component importances across bootstrap-refit random forests and gradient-boosted ensembles change? The same comparison would then be repeated on a few public tabular datasets (e.g., California housing, Adult) by measuring bootstrap stability of the top-k components, with no ground truth available.",
+ "candidates": [
+  {
+   "source_key": "R22",
+   "paper_id": "arXiv:2605.18422",
+   "title": "Generalized Functional ANOVA: A Complete Theoretical Framework",
+   "repo_url": "https://github.com/ThalesGroup/treehfd",
+   "repo_resolves": true,
+   "licence": "Apache-2.0",
+   "pushed_at": "2026-09-29T16:26:31Z",
+   "archived": false,
+   "own_code": "yes",
+   "url_context": "For each evaluation instance x and each feature j, the main effect hj(xj) is extracted directly via the eval_terms method of the 1https://github.com/shap/shap 2https://github.com/ThalesGroup/treehfd 24 Preprint. interpretML3 package Nori et al. (2019), which returns the contribution of every univariate (and bivariate) shape function to the model output. Displayed",
+   "datasets": [
+    "California Housing",
+    "Adult Census Income",
+    "UCI Machine Learning Repository datasets (six real-world and classical datasets in total; the others are not named in the given sentences)"
+   ],
+   "compute": "model-agnostic estimator of generalized functional ANOVA coefficients in a distribution-adapted basis, implemented in the treehfd package",
+   "compute_basis": "stated",
+   "cpu_minutes": null,
+   "harness_in_docker": "docker/sandbox-treehfd",
+   "notes": "The sentence lists ThalesGroup/treehfd only as a footnote and does not say it is the paper's own code. The name suggests it is the authors' package, but the text given does not confirm that, so 'yes' is a judgement from the name; the paper's timing (about 0.6 s for 48,842 Adult instances with an MLP"
+  },
+  {
+   "source_key": "R12",
+   "paper_id": "arXiv:1802.03888",
+   "title": "Consistent Individualized Feature Attribution for Tree Ensembles",
+   "repo_url": "https://github.com/slundberg/shap",
+   "repo_resolves": true,
+   "licence": "MIT",
+   "pushed_at": "2026-10-04T11:03:27Z",
+   "archived": false,
+   "own_code": "yes",
+   "url_context": "An implementation of our algorithm has also been merged into XGBoost and LightGBM, see http://github.com/slundberg/shap for details. 1 INTRODUCTION Understanding why a model made a prediction is important for trust, actionability, accountability, debugging, and many other tasks.",
+   "datasets": [
+    "UCI census dataset"
+   ],
+   "compute": "fast exact tree SHAP algorithm on trained tree ensembles (XGBoost, LightGBM, random forests); stated run time O(TLD^2) per sample for the polynomial-time algorithm, with Saabas-style cost compared",
+   "compute_basis": "stated",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "The sentence presents the shap repository as the authors' own implementation, merged into XGBoost and LightGBM; the evidence gives no wall-clock time for a laptop CPU."
+  },
+  {
+   "source_key": "R22",
+   "paper_id": "arXiv:2605.18422",
+   "title": "Generalized Functional ANOVA: A Complete Theoretical Framework",
+   "repo_url": "https://github.com/shap/shap",
+   "repo_resolves": true,
+   "licence": "MIT",
+   "pushed_at": "2026-10-02T13:42:02Z",
+   "archived": false,
+   "own_code": "no",
+   "url_context": "For each evaluation instance x and each feature j, the main effect hj(xj) is extracted directly via the eval_terms method of the 1https://github.com/shap/shap 2https://github.com/ThalesGroup/treehfd 24 Preprint. interpretML3 package Nori et al. (2019), which returns the contribution of every univariate (and bivariate)",
+   "datasets": [
+    "California Housing",
+    "Adult Census Income",
+    "UCI Machine Learning Repository datasets (six real-world and classical datasets in total; the others are not named in the given sentences)"
+   ],
+   "compute": "model-agnostic estimator of generalized functional ANOVA coefficients in a distribution-adapted basis; the interpretML package is used to extract main effects, and the shap package appears as a compar",
+   "compute_basis": "stated",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "The shap/shap repository appears only as a footnote for a comparison library, not as this paper's own code; the one timing given (about 0.6 s to explain all 48,842 Adult instances with an MLP) is not a full replication time."
+  },
+  {
+   "source_key": "R31",
+   "paper_id": "arXiv:2202.05594",
+   "title": "The Shapley Value in Machine Learning",
+   "repo_url": "https://github.com/AstraZeneca/awesome-shapley-value",
+   "repo_resolves": true,
+   "licence": "Apache-2.0",
+   "pushed_at": "2022-08-08T08:53:10Z",
+   "archived": false,
+   "own_code": "no",
+   "url_context": "(a link in the paper's PDF)",
+   "datasets": [],
+   "compute": "none; this is a survey with no method to run",
+   "compute_basis": "unknown",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "The repository link is the same related-work collection as in entry 3, and no sentence presents it as the paper's own code."
+  },
+  {
+   "source_key": "R31",
+   "paper_id": "arXiv:2202.05594",
+   "title": "The Shapley Value in Machine Learning",
+   "repo_url": "https://github.com/AstraZeneca/awesome-shapley-value.input",
+   "repo_resolves": false,
+   "licence": null,
+   "pushed_at": null,
+   "archived": false,
+   "own_code": "no",
+   "url_context": "In a machine learning setting players may be represented by a set of 1The survey is supported by a collection of related work under https://github.com/AstraZeneca/awesome-shapley-value.input features, reinforcement learning agents, data points, models in an ensemble, or data silos. The characteristic function can then describe the goodness of ﬁt for",
+   "datasets": [],
+   "compute": "none; this is a survey with no method to run",
+   "compute_basis": "unknown",
+   "cpu_minutes": null,
+   "harness_in_docker": null,
+   "notes": "The repository is a curated collection of related work supporting the survey, not the paper's own code."
+  }
+ ],
+ "picked": "https://github.com/ThalesGroup/treehfd",
+ "none_fits_reason": null,
+ "verdicts": [
+  {
+   "question_id": "lit.parent_fits",
+   "answer": true,
+   "probabilities": null,
+   "confidence": 0.75,
+   "confidence_source": "self_report",
+   "backend": "glm-flash",
+   "escalated": false,
+   "cost_usd": 0.000070412,
+   "latency_ms": 2456,
+   "trace_id": "438567b73dc040c8b15674f6e2229c27",
+   "producer_id": "p3.parent",
+   "judge_id": "p2.judge"
+  }
+ ],
+ "user_review": null
+}

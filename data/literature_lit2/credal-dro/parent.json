@@ -1,0 +1,25 @@
+{
+ "run_id": "lit2-credal-dro-b",
+ "topic_id": "credal-dro",
+ "question": "In small-sample, contaminated data-driven decision problems (e.g., a mean-risk portfolio or newsvendor-type problem solved as a convex program), how do credal ambiguity sets (such as an imprecise Dirichlet or epsilon-contamination neighborhood around the empirical distribution) compare with Wasserstein-ball and moment-based (mean-covariance) ambiguity sets in out-of-sample cost and in the reliability of the resulting cost guarantee, as the sample size (n of roughly 10 to 200) and the contamination fraction (0 to 20%) vary, when each set's radius is tuned by the same cross-validation or calibration rule?",
+ "candidates": [],
+ "picked": null,
+ "none_fits_reason": "no repository was named in the papers read",
+ "verdicts": [
+  {
+   "question_id": "lit.parent_refusal",
+   "answer": true,
+   "probabilities": null,
+   "confidence": 0.9,
+   "confidence_source": "self_report",
+   "backend": "glm-flash",
+   "escalated": false,
+   "cost_usd": 0.000027784,
+   "latency_ms": 5721,
+   "trace_id": "16213dd618474334bdbe65e6e4bb445e",
+   "producer_id": "p3.parent",
+   "judge_id": "p2.judge"
+  }
+ ],
+ "user_review": null
+}

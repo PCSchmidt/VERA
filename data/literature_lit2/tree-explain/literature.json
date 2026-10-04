@@ -1,0 +1,14 @@
+{
+ "stats": {
+  "drafted": 12,
+  "failed_first": 3,
+  "repaired": 1,
+  "removed": 2,
+  "stray_attributions_removed": 0
+ },
+ "failure_reasons": {
+  "unanchored: the quote alone does not state the claim": 2,
+  "unanchored: the sentence refers back ('that this alignment') instead of naming its subject": 1
+ },
+ "n_claims_kept": 10
+}

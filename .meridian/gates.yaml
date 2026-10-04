@@ -563,7 +563,7 @@ gates:
 
   # ── Increment 4: paper quality and the measured comparison (SPEC.md) ───────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
-  # Defined so far: incr4_scoped, carry_in_ready, topics4_chosen, protocol_ready. Still to add: lit2_ready,
+  # Defined so far: incr4_scoped, carry_in_ready, topics4_chosen, protocol_ready, lit2_ready. Still to add:
   # problem2_ready, writeup2_ready, audit4_ready, runs4, comparison4, rubric_scored, incr4_review.
 
   - id: incr4_scoped
@@ -626,3 +626,18 @@ gates:
       pre:
         - gate-tests.sh             # ruff + the full suite (offline fake-sandbox tests of the stage)
         - gate-protocol.sh          # registration hash, Table 3 within 1%, every cell valid or reasoned, live run <= $1
+
+  - id: lit2_ready
+    label: "Literature stage v2 measured: recall on fresh and old topics, anchoring on all claims, retrieval statement in each review"
+    type: automated
+    required: true
+    requires:
+      - topics4_chosen
+      - carry_in_ready
+    requires_artifacts:
+      - vera/literature/anchoring.py
+      - docs/results/retrieval_recall_lit2.md
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite
+        - gate-lit2.sh              # recall tables, anchoring measurements, fresh reviews with their retrieval note, audits not red

@@ -1,0 +1,54 @@
+{
+ "papers_scanned": [
+  {
+   "key": "R1",
+   "repos": 0
+  },
+  {
+   "key": "R2",
+   "repos": 0
+  },
+  {
+   "key": "R4",
+   "repos": 0
+  },
+  {
+   "key": "R5",
+   "repos": 0
+  },
+  {
+   "key": "R8",
+   "repos": 0
+  },
+  {
+   "key": "R9",
+   "repos": 0
+  },
+  {
+   "key": "R3",
+   "repos": 0,
+   "note": "no PDF"
+  },
+  {
+   "key": "R6",
+   "repos": 0
+  },
+  {
+   "key": "R14",
+   "repos": 0
+  },
+  {
+   "key": "R15",
+   "repos": 0
+  },
+  {
+   "key": "R18",
+   "repos": 0
+  },
+  {
+   "key": "R19",
+   "repos": 0
+  }
+ ],
+ "candidates": []
+}
