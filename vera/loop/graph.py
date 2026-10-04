@@ -1,6 +1,6 @@
 """The loop graph: baseline -> ideas -> subset experiments, each stage a producer node then a gate node.
 
-    baseline ─► baseline_gate ─► ideate ─► screen ─► subset_exp ─► results_gate
+    baseline ─► baseline_gate ─► ideate ─► screen ─► subset_exp ─► results_gate ─► protocol (if registered)
         ─► write_up ─► writeup_gate ─► audit ─► END
 
 After every node a `stop` in the state (a rejected gate, an unsure judge, an exhausted budget) routes straight to
@@ -19,7 +19,7 @@ from typing import Any
 from langgraph.graph import END, START, StateGraph
 
 from vera.graph import resume, run, run_config, sqlite_checkpointer
-from vera.loop import audit_stage, stages, writeup
+from vera.loop import audit_stage, protocol_stage, stages, writeup
 from vera.loop.stages import LoopDeps, LoopState
 from vera.loop.stop import guard_stage, route_after, write_best_so_far
 
@@ -32,6 +32,7 @@ CORE_NODES: list[tuple[str, str, NodeFactory]] = [  # (node name, stage it belon
     ("screen", "ideate", stages.screen_node),
     ("subset_exp", "subset_exp", stages.subset_exp_node),
     ("results_gate", "subset_exp", stages.results_gate_node),
+    ("protocol", "subset_exp", protocol_stage.protocol_node),
     ("write_up", "write_up", writeup.write_up_node),
     ("writeup_gate", "write_up", writeup.writeup_gate_node),
     ("audit", "audit", audit_stage.audit_node),

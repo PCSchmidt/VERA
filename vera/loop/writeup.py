@@ -22,6 +22,7 @@ from vera.loop.stages import LoopDeps, _stop, _write_json, ask_gate, extension_d
 from vera.schemas import OutputGuidance, Question, QuestionType
 
 TABLE_TOKEN = "[[RESULTS_TABLE]]"
+PROTOCOL_TOKEN = "[[PROTOCOL_TABLES]]"
 DEFAULT_SECTIONS = ["Abstract", "Method", "Results", "Limitations", "References"]
 MAX_ATTEMPTS = 2
 WRITE_SYSTEM = (
@@ -101,7 +102,27 @@ def facts(state: dict, deps: LoopDeps) -> str:
         f"- Dataset {tables.dataset_label(d)}: {text}" for d, text in extension_datasets(deps).items() if d in shown
     ]
     lines += [f"- {m}: {ideas.get(m, '')}" for m in ran]
+    if state.get("protocol"):
+        lines += protocol_facts(state["protocol"])
     return "\n".join(lines)
+
+
+def protocol_facts(protocol: dict) -> list[str]:
+    """What the registered protocol measured, in words a model may use: the design, not the numbers (those are in
+    the tables VERA renders)."""
+    invalid = sum(not cell.get("valid") for cells in protocol["results"].values() for cell in cells.values())
+    return [
+        "- A registered protocol was run (written down, dated and hashed before any run): methods "
+        + ", ".join(protocol["methods"])
+        + "; datasets "
+        + ", ".join(tables.protocol_dataset_label(d) for d in protocol["datasets"])
+        + f"; {protocol['n_seeds']} seeds and {protocol['n_boot']} bootstrap refits of the ensemble per seed.",
+        "- Component error compares each method's components with the TRUE decomposition of the analytical function, "
+        "which has a closed form checked against the TreeHFD paper's Table 3; Airfoil has no true components. "
+        "Rank stability is the mean Spearman correlation of component importances between bootstrap refits. "
+        "TreeSHAP here is xgboost's path-dependent TreeSHAP with interaction values.",
+        f"- Cells the harness could not compute: {invalid} (marked invalid in the tables).",
+    ]
 
 
 def writeup_prompt(deps: LoopDeps, state: dict, refs: list[dict], problems: list[str] | None, previous: str | None):
@@ -113,7 +134,15 @@ def writeup_prompt(deps: LoopDeps, state: dict, refs: list[dict], problems: list
         "into main effects and second-order interactions. Facts you may use (nothing else):\n\n"
         f"{facts(state, deps)}\n\nResults table (do not retype it; put the exact token {TABLE_TOKEN} where it "
         f"belongs, in the Results section):\n\n{table}\n\n"
-        "References you may cite, only as [R1], [R2], ... (the reference list is added for you; do not write one):\n"
+        + (
+            "Protocol results (do not retype; put the exact token "
+            f"{PROTOCOL_TOKEN} in the Results section, after the table above):\n\n"
+            + tables.render_protocol(state["protocol"])
+            + "\n\n"
+            if state.get("protocol")
+            else ""
+        )
+        + "References you may cite, only as [R1], [R2], ... (the reference list is added for you; do not write one):\n"
         + "\n".join(references.format_reference(r) for r in refs)
         + "\n\nOutput guidance (follow every item):\n"
         f"- Format: {g.format}. Use markdown headings (## Section) for these sections, in this order: "
@@ -135,6 +164,12 @@ def assemble(text: str, state: dict, deps: LoopDeps, refs: list[dict]) -> str:
     """Put VERA's own table and reference list into the model's prose."""
     body = text.split("## References")[0].rstrip() if "## References" in text else text.rstrip()
     table = tables.render_results(state["results"], deps.datasets, deps.n_seeds)
+    if state.get("protocol"):
+        protocol_tables = tables.render_protocol(state["protocol"])
+        if PROTOCOL_TOKEN in body:
+            body = body.replace(PROTOCOL_TOKEN, protocol_tables)
+        else:  # the model left the token out: the tables go straight after the main table's section start
+            body += f"\n\n{protocol_tables}"
     if TABLE_TOKEN in body:
         body = body.replace(TABLE_TOKEN, table)
     elif re.search(r"^\s*#{1,6}\s*(?:\d+\.?\s*)?Results\b.*$", body, re.IGNORECASE | re.MULTILINE):
@@ -156,6 +191,7 @@ def results_json(state: dict, deps: LoopDeps) -> dict:
         "run_id": deps.spec.run_id, "metric": "residual_mse_pct", "n_seeds": deps.n_seeds,
         "datasets": tables.valid_datasets(state["results"], deps.datasets), "results": state["results"],
         "best": state.get("best"), "ideas": state["ideas"],
+        **({"protocol": state["protocol"]} if state.get("protocol") else {}),
     }  # fmt: skip
 
 
