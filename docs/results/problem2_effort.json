@@ -25,6 +25,6 @@
    "(files in work_dir: __pycache__, adapter.py, agg, data, generic_harness.py, progress.txt, result.json, runs)",
    "(files in work_dir: __pycache__, adapter.py, agg, data, generic_harness.py, progress.txt, result.json, runs)"
   ],
-  "reading": "not accepted in four attempts at $0.16: two attempts ran the parent's whole batch (about 45 minutes each) and failed reading its output (the model guessed the result file and its columns), two failed in a second at editing a read-only installed file. The generic part is 49% of the by-hand harness's lines, above T10's quarter."
+  "reading": "not accepted in four attempts at $0.16: two attempts ran the parent's whole batch (about 45 minutes each) and failed reading its output (the model guessed the result file and its columns), one failed in a second on a settings name it assumed and one in a second editing a read-only installed file. The generic part is 49% of the by-hand harness's lines, above T10's quarter."
  }
 }

@@ -573,8 +573,8 @@ Keep each to one short section. Status: **open** until decided.
   (c) **thin generic harness plus a model-written adapter:** the generic harness is 64 lines against the by-hand harness's 131
   (49%); Sonnet 5.5 wrote the adapter from the parent's README and the registered target, with each failed attempt's error fed
   back: **not accepted in four attempts**, $0.16, about 1.5 hours of wall time. Two attempts ran the parent's whole batch (about 45
-  minutes each) and then failed reading its output (the model guessed the result file and its column names); two failed within a
-  second editing a read-only installed file. The image, which the by-hand route spent most of its time on, was shared and is not
+  minutes each) and then failed reading its output (the model guessed the result file and its column names); one failed within a
+  second on a settings name it assumed and one within a second editing a read-only installed file. The image, which the by-hand route spent most of its time on, was shared and is not
   part of this comparison.
   **Reading against the reverse-ifs:** (1) the by-hand harness took under a working day: **not fired**. (2) not fired (the
   candidate was found by the literature stage's feasibility check and runs on CPU). (3) the generic part is 49% of the by-hand

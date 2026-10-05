@@ -1,0 +1,12 @@
+{
+ "gate": "incr4_review",
+ "score": 8.3,
+ "verdict": "pass",
+ "evaluator": "fresh-subagent",
+ "completeness": 8.5,
+ "quality": 8,
+ "consistency": 8.5,
+ "spec_adherence": 8.5,
+ "notes": "No falsified headline number. The freeze event is described accurately. Gaps: (1) incr-4.md:58 '1e-14 from Table 3' overstated: table3_check.json worst relative difference 1.16e-5 at rho 0. (2) incr-4.md:149-150 'two failed in a second editing a read-only file': attempt 3 failed on 'CALIFORNIA_HOUSING_NUM_REPLICATIONS not found', only attempt 4 on PermissionError; same wording in docs/04 and problem2_effort.json. (3) fresh-topic literature spend $0.57 vs ledgers $0.5605. (4) 'Tests: 606' unverified by the evaluator (pytest not installed in its shell). (5) 10-04 and 10-05 'need entries too' not what check_dogfood shows (blocks only on 2026-10-03). (6) the review notes coverage 2 or lower on five of eight outputs but never says whether T5 reverse-if (5) fired. (7) no interval for the judge (excused: not done). (8) credal-dro has 8 key papers, not ten. (9) 'baseline and ideas run once' for credal not independently verified. (10) comparison_table.md calls it a 'three-idea loop' while the runs had one and two ideas. (11) audit_v3_results.md does not mention the later tables.py change. (12) process slip: a grep returned part of the round-1 verdict file; not used for scoring. Not checked: 606 tests, rubric provenance, the T1 judge reverse-if, the comparison protocol hash timing, same-model overlap against configs.",
+ "note_from_author": "verdict text copied from the subagent's report; its 'checked' list (22 items) is omitted here for length"
+}

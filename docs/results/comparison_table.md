@@ -46,7 +46,7 @@ make; the loop's own gain there is negative.
 
 It does not show that ScientistTwo's reported gains are wrong or that the loop could not reach them: ScientistTwo's numbers are self-reported ranges in generated
 papers, on its own choice of in-sample rows and (for the credal problem) a different benchmark, and its own held-out figures are much worse than its headline. It
-does not show a cost ratio, because the other side's cost is not published. It shows that, with one run per problem, a three-idea loop at about ten cents of model
+does not show a cost ratio, because the other side's cost is not published. It shows that, with one run per problem, a loop that ran one idea (tree-explain) or two (credal) at about ten cents of model
 spend did not improve either parent's baseline on this project's harness, that it reproduced both baselines, and that its audit and write-up said so plainly.
 The comparison is not a fair test of ideas: each side chose different ideas on different data subsets; a negative result from two or three ideas per run is weak
 evidence about a method class.

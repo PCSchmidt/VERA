@@ -13,7 +13,7 @@ much each statement should be trusted:
 
 1. **The protocol run answers part of the confirmed tree-explain question, and its pre-registered expectations mostly failed.** TreeHFD against
    TreeSHAP and the true components over six correlations (0 to 0.95), three seeds, five bootstrap refits; the closed-form truth reproduces the
-   TreeHFD paper's Table 3. TreeHFD's component error is below TreeSHAP's at every correlation above 0 (rho 0.5: 5.99% against 34.0% of the
+   TreeHFD paper's Table 3 (worst relative difference 1.2e-5, at rho 0 where the table's components are zero; about 1e-14 at the other correlations). TreeHFD's component error is below TreeSHAP's at every correlation above 0 (rho 0.5: 5.99% against 34.0% of the
    signal variance) and about equal at rho 0 (8.52% against 7.94%). Of four expectations written before the run: E1 (TreeHFD below TreeSHAP at every
    rho) **failed** (rho 0); E2 for TreeHFD (error rises with rho) **failed** (the percentage error falls from 8.52% to 2.99%, a scaling effect: the unscaled
    error is flat near 0.21 to 0.24); E3 (TreeHFD rank stability at least 0.8 everywhere) **failed by 0.0004** (0.7996 at rho 0.95); E4 (TreeSHAP's
@@ -30,7 +30,7 @@ much each statement should be trusted:
 5. **The v3 audit caught 50 of 52 planted faults in one frozen test run** (96%, 87-99%), and failed 3 of 6 unmodified controls, two of them because the
    papers misstated the reproduction basis (a real defect, now fixed in the write-up facts).
 6. **Retrieval did not get demonstrably better.** Fresh topics: 4, 9 and 9 of 10 key papers retrieved (40%, 90%, 90%; 95% intervals 17-69%, 60-98%, 60-98%); the three Increment 3 topics re-run (not independent), against their
-   Increment 3 final values: tree-explain 70% to 50%, credal-dro 38% to 62%, llm-judge-numbers 20% to 20%. Pooled over the six re-runs and fresh topics: 34 of 58 (59%, 46-70%). At ten papers per
+   Increment 3 final values: tree-explain 70% to 50%, credal-dro 38% to 62%, llm-judge-numbers 20% to 20%. Pooled over the six re-runs and fresh topics: 34 of 58 (59%, 46-70%). At eight to ten papers per
    topic a change of one query moves a topic by 10 to 20 points, so no improvement from the new queries is shown.
 
 ## Exit criteria (docs/07, SPEC)
@@ -55,14 +55,14 @@ much each statement should be trusted:
 - **Literature v2:** 12 queries over seven angles; a retrieval paragraph in every review; claim anchoring (a deterministic check of editorial connectives,
   `lit.quote_covers_claim` shown the quote and the source's title, the one-assertion prompt rule, and, added after a reader's note, a refusal of claim
   sentences that lean on an earlier one for their subject).
-- **Protocol experiments:** `docker/sandbox-treehfd/truth.py` (closed-form HFD, 1e-14 from Table 3), `protocol.py` (TreeSHAP, error against truth, bootstrap
+- **Protocol experiments:** `docker/sandbox-treehfd/truth.py` (closed-form HFD, within 1.2e-5 of Table 3), `protocol.py` (TreeSHAP, error against truth, bootstrap
   rank stability), registered and hashed before any run; a `protocol` stage in the loop graph; tables, figures and an audit of every cell.
 - **Problem kits** (`vera/loop/problem.py`, `credal.py`): the stages read the active problem's harness, metrics, prompts and baseline gate; the credal harness
   (`docker/sandbox-credal/`, an image of the parent's repository with deviations documented), a thin generic harness, and `run_loop.py --problem credal`.
 - **Write-up:** figures drawn from `results.json` with the plotted data written beside the image; reproduction-basis and trend statements; a prose-only word
   limit; an ablation stage; `--retry-from`.
 - **Audit v3:** figure data against cells, method-code alignment (AUD-F-05), novelty (AUD-F-07), the reproduction basis, protocol tables.
-- Tests: 606 at the last full run; the gates run ruff and the whole suite.
+- Tests: pytest reports 606 passed at the last full run (parametrised cases included); the gates run ruff and the whole suite.
 
 ## Fresh topics, retrieval, anchoring
 
@@ -138,6 +138,7 @@ Eight outputs: L1 to L3 fresh reviews, L4 to L6 re-run reviews, P1 and P2 the pa
 
 19 of 40 cells are equal and 34 are within one point. Means (Chris / independent): answers 3.6 / 2.5, coverage 2.5 / 2.5, correctness 3.4 / 3.9, reproducibility 4.3 / 3.8, honesty 5.0 / 4.0.
 Coverage is the lowest criterion for both (2.5), and both score five of the eight outputs 2 or lower on it, the criterion T5's added reverse-if (5) reads. They disagree on the papers' correctness (Chris 2; the independent scorer 4, after checking every table cell against `results.json`).
+**T5 reverse-if (5) fired by these scores:** Chris scored coverage below 3 on four reviews (L1 2, L4 2, L5 2, L6 1) and the independent scorer on four (L1, L4, L5, L6 at 2); the remedy it names (query generation from the confirmed question, a second keyed source) was partly built (twelve queries over seven angles) and did not lift recall (59% pooled), so a second keyed source remains to be tried.
 **Provenance caveat (the review states what it can verify):** all eight entries and the twelve re-labels carry the same minute (11:12Z), and the notes are phrased in a
 model's voice citing the recall tables; the message that reported them says the work was assisted by Codex. They are recorded as Chris's blind scores because he reported them as
 his; the independent file did not exist when they were written (the script refuses `--blind` otherwise). If Chris's own reading was not behind each cell, the
@@ -147,16 +148,16 @@ his; the independent file did not exist when they were written (the script refus
 
 Evidence (`docs/04-trade-studies.md`): by hand about 2.9 hours from the registered target to the baseline of record (seven failed or partial runs, each exposing one way the parent's
 repository does not run as published), the adapter route not accepted in four attempts ($0.16, about 1.5 hours; two attempts ran the whole parent batch and failed reading its output,
-two failed in a second editing a read-only file), the generic harness 49% of the by-hand one's lines. **Decision (Chris, 2026-10-05):** keep (a) as the default, (c) as an experimental
+one failed in a second on a settings name it assumed, one in a second editing a read-only installed file), the generic harness 49% of the by-hand one's lines. **Decision (Chris, 2026-10-05):** keep (a) as the default, (c) as an experimental
 fallback to keep measuring, (b) rejected; no reverse-if fired.
 
 ## Judge and review checks; spend; overhead; same-model overlap
 
 - **Spend.** By the ledger files written since the increment opened, **$3.18** against the $9 cap (the $2 debugging, $6 runs, $1 reference-judge and fresh-topic caps are not tracked
-  separately by the ledgers: the two end-to-end runs $0.16; literature-stage runs $2.06 (fresh topics $0.57, their rewrites $0.42, the old topics re-run $0.44, their rewrites $0.63); the three protocol live runs $0.34; the seeded dev and test runs $0.30; the novelty gold set, its generation (two attempts) and runs $0.15; the anchoring measurements $0.005; the adapter trial $0.16; these sum to $3.18). Reference judge spend: none this increment.
+  separately by the ledgers: the two end-to-end runs $0.16; literature-stage runs $2.06 (fresh topics $0.56, their rewrites $0.42, the old topics re-run $0.44, their rewrites $0.63); the three protocol live runs $0.34; the seeded dev and test runs $0.30; the novelty gold set, its generation (two attempts) and runs $0.15; the anchoring measurements $0.005; the adapter trial $0.16; these sum to $3.18). Reference judge spend: none this increment.
   Both end-to-end ledgers equal their recorded spend (`gate-ledger.sh`).
 - **Overhead.** Chris gave 5 hours for 2026-10-03, which I recorded on 2026-10-04 (11:27Z); a day is credited by the day an entry is recorded, so **2026-10-03 has no entry** and
-  `check_dogfood.py` blocks; the 2026-10-04 and 2026-10-05 days need entries too. This is the Increment 3 lapse again (the entry was not logged at the end of the 10-03 session); the
+  `check_dogfood.py` blocks on that day only (2026-10-04 is covered by the entry recorded that day; 2026-10-05 will need one if a gate passes through the engine that day). This is the Increment 3 lapse again (the entry was not logged at the end of the 10-03 session); the
   check is doing its job. How to treat it is Chris's.
 - **Same-model overlap.** Writers are Sonnet 5.5 (literature stages, write-up in the `glm-sonnet` arm, the adapter) and GLM (ideas, experiment code); the cheap judge path is GLM, so in
   the `glm` arm the judge and the code writer are the same model (the audit's judge is never the producer of the text it judges: verdict ids differ). The independent scorer is the
@@ -190,3 +191,7 @@ beyond keyword queries (the pooled recall is the number to move); per-session ov
 ## Independent Evaluator
 
 Rounds are added below, each by a fresh subagent that did not write this review, with every verdict kept unedited in `.meridian/evaluator/incr4_review-verdict-r<N>.json`.
+
+**Round 1** (fail, 6.2; completeness 8, quality 6, consistency 7, spec adherence 5): the main blocker was the claim that the audit freeze was kept, when `vera/loop/tables.py`, a frozen file, had been changed after the test runs; also the retrieval comparison without the Increment 3 values and intervals, and a spend breakdown that did not sum. All were fixed in the text (Audit v3 section, Outcome 6, spend). Verdict: `incr4_review-verdict-r1.json` (the file keeps the notes; the evaluator's list of checked figures is in the session record).
+
+**Round 2** (pass, 8.3; completeness 8.5, quality 8, consistency 8.5, spec adherence 8.5): no falsified headline number, the freeze event described accurately. Verdict: `incr4_review-verdict-r2.json` and the standing `incr4_review-verdict.json`. After it these points were fixed in the text (the round-2 evaluator saw the version before): the closed-form check's precision (1.2e-5 at rho 0, not 1e-14), the adapter attempts' failure reasons (one on a settings name, one on a read-only file), the fresh-topic spend ($0.56), the overhead days the check blocks on, whether T5's reverse-if (5) fired (it did, by both scorers), the key-paper counts (eight to ten per topic), and the `tables.py` change in `audit_v3_results.md` and the comparison table's idea counts. **Process slip disclosed by the round-2 evaluator:** a search for a hash string returned part of the round-1 verdict file; it says it did not use it and recomputed every figure independently.

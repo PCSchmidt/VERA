@@ -45,6 +45,7 @@ labels are all one value and not an independent human's.
 
 ## Disclosed
 
+- **The freeze was broken after these runs:** `vera/loop/tables.py`, a file the freeze covers, was changed at 2026-10-04T21:21Z (a default-argument fix found on the credal run). The numbers above describe the frozen audit (hash `2195e928d9ad`); `check_seeded_v3.py` and `check_novelty_gold.py` block at HEAD for that reason. See `docs/reviews/incr-4.md`.
 - The novelty test run was started twice. The first run (ledger `run_noveltygold-test-1`) judged all pairs and then crashed in the
   script reading the label sheet (a column name), before writing or printing any result; the script was fixed (not an audit file) and
   the run repeated. No test result had been seen before the second run.
