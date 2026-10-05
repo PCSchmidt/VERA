@@ -62,7 +62,7 @@ much each statement should be trusted:
 - **Write-up:** figures drawn from `results.json` with the plotted data written beside the image; reproduction-basis and trend statements; a prose-only word
   limit; an ablation stage; `--retry-from`.
 - **Audit v3:** figure data against cells, method-code alignment (AUD-F-05), novelty (AUD-F-07), the reproduction basis, protocol tables.
-- Tests: pytest reports 606 passed at the last full run (parametrised cases included); the gates run ruff and the whole suite.
+- Tests: pytest reports 609 passed at the last full run (parametrised cases included); the gates run ruff and the whole suite.
 
 ## Fresh topics, retrieval, anchoring
 
