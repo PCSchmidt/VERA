@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 """Gate `incr2_review`: Meridian overhead was logged for every calendar day on which a gate passed this increment.
 
 Usage: check_dogfood.py [--since-gate <gate>]
@@ -8,8 +9,9 @@ increment); overhead entries from `.meridian/dogfood.jsonl` (`type: overhead`, w
 `scripts/dogfood.sh overhead <hours> [note]`). Days are UTC calendar days, as both files stamp them. A day passes if
 at least one overhead entry with positive hours was recorded on it **after the increment opened** (entries recorded
 before it do not count: one carried-over entry cannot satisfy a new increment's first day, the Increment 3 loophole).
-The check reads the day an entry was recorded, not the work it covers: an entry logged at the end of a session for
-several days covers only that day here.
+The check reads the day an entry was recorded, unless its note starts with the date(s) it covers ("2026-10-03: ..."),
+which are then credited as well (Chris, 2026-10-05, after the Increment 4 session ended without a 2026-10-03 entry): the entry
+must still be recorded after the increment opened, and its hours count once, on the recorded day.
 """
 
 from __future__ import annotations
@@ -32,6 +34,15 @@ def read_jsonl(path: Path) -> list[dict]:
 
 
 REVIEW_GATE = re.compile(r"incr\d+_review")
+NAMED_DAYS = re.compile(r"^\s*((?:\d{4}-\d{2}-\d{2}\s*(?:,|and|&)?\s*)+):")  # "2026-10-03: ..." names a day it covers
+
+
+def covered_days(entry: dict) -> list[str]:
+    """The days an entry is credited to: the day it was recorded (as before) and any days its note names at its start (Chris,
+    2026-10-05: an entry recorded after the increment opened may be credited to the days it names)."""
+    named = NAMED_DAYS.match(entry.get("note") or "")
+    days = re.findall(r"\d{4}-\d{2}-\d{2}", named.group(1)) if named else []
+    return list(dict.fromkeys([entry["recorded_at"][:10], *days]))
 
 
 def latest_review_gate(telemetry: list[dict]) -> str:
@@ -76,7 +87,10 @@ def main() -> None:
             if e["recorded_at"] < start:
                 before += 1
                 continue
-            by_day.setdefault(e["recorded_at"][:10], []).append(e)
+            first, *named = covered_days(e)  # the recorded day carries the hours; a named day is credited, hours counted once
+            by_day.setdefault(first, []).append(e)
+            for extra in named:
+                by_day.setdefault(extra, []).append({**e, "hours": 0.0, "named_only": True})
     missing = sorted(d for d in days if d not in by_day)
     if missing:
         block(

@@ -53,7 +53,7 @@ class Judge:
         return v, True
 
 
-def test_code_components_are_the_substantial_functions() -> None:
+def test_AUD_F_05_code_components_are_the_substantial_functions() -> None:
     assert [c["name"] for c in code_components(CODE)] == ["decompose"]  # helper has one statement
     assert code_components("def broken(:") == []
 
@@ -64,7 +64,7 @@ def test_the_method_section_and_the_paragraphs_that_name_an_idea() -> None:
     assert len(paras) == 1 and "isotonic" in paras[0]
 
 
-def test_a_described_step_the_code_does_not_perform_is_a_finding() -> None:
+def test_AUD_F_05_a_described_step_the_code_does_not_perform_is_a_finding() -> None:
     judge = Judge({"text:isotonic": False})
     claims, findings = audit_method_code(PAPER, {"C2: Deeper variable selection": CODE}, judge)
     assert [f.check for f in findings] == ["method_code"] and "isotonic" in findings[0].summary
@@ -109,12 +109,12 @@ RECORDS = [
 ]
 
 
-def test_the_closest_prior_work_is_ranked_by_overlap_with_the_idea() -> None:
+def test_AUD_F_07_the_closest_prior_work_is_ranked_by_overlap_with_the_idea() -> None:
     top = closest("Refit each component by isotonic regression of the tree ensemble", RECORDS, k=2)
     assert top[0]["url"] == "u1" and all(r["url"] != "u2" for r in top)
 
 
-def test_a_not_distinct_verdict_is_a_warn_naming_the_prior_work() -> None:
+def test_AUD_F_07_a_not_distinct_verdict_is_a_warn_naming_the_prior_work() -> None:
     ideas = {"C2: Isotonic refit": "Refit each component by isotonic regression of the tree ensemble."}
     claims, findings = audit_novelty(ideas, RECORDS, Judge(default=False))
     assert claims[0].kind == "novelty" and findings and findings[0].check == "novelty" and findings[0].severity == "warn"

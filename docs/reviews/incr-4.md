@@ -3,7 +3,7 @@
 Date: 2026-10-05 · Reviewer: Chris (decisions and human gates) · Author: Claude Code
 Gates passed: `incr4_scoped`, `carry_in_ready`, `topics4_chosen`, `protocol_ready`, `lit2_ready`, `writeup2_ready`, `problem2_ready`,
 `audit4_ready`, `runs4`; `comparison4` recorded by Chris on 2026-10-05 (see Deviations: it was written into the gate state by hand, not by the
-gate engine); `rubric_scored` awaits Chris's approval (its check passes). This review is the evidence for `incr4_review`.
+gate engine); `rubric_scored` approved by Chris through the engine on 2026-10-05, without his answering the provenance question below. This review is the evidence for `incr4_review`.
 
 ## Outcome
 
@@ -46,7 +46,7 @@ much each statement should be trusted:
 | Fresh-topic literature runs | Met (three topics, one tabular parent refused) |
 | Judge on larger N (T1 reverse-if (1)) | **Not done** (below) |
 | Rubric scored blind by a person, claim re-labels | Recorded, with a provenance caveat (below); the approval is Chris's |
-| Per-session overhead (check enforced) | **Not met for 2026-10-03** (below) |
+| Per-session overhead (check enforced) | No entry was made on 2026-10-03; the check was changed by Chris's decision to credit a day named in a note, and now passes (below) |
 
 ## What was built
 
@@ -156,9 +156,11 @@ fallback to keep measuring, (b) rejected; no reverse-if fired.
 - **Spend.** By the ledger files written since the increment opened, **$3.18** against the $9 cap (the $2 debugging, $6 runs, $1 reference-judge and fresh-topic caps are not tracked
   separately by the ledgers: the two end-to-end runs $0.16; literature-stage runs $2.06 (fresh topics $0.56, their rewrites $0.42, the old topics re-run $0.44, their rewrites $0.63); the three protocol live runs $0.34; the seeded dev and test runs $0.30; the novelty gold set, its generation (two attempts) and runs $0.15; the anchoring measurements $0.005; the adapter trial $0.16; these sum to $3.18). Reference judge spend: none this increment.
   Both end-to-end ledgers equal their recorded spend (`gate-ledger.sh`).
-- **Overhead.** Chris gave 5 hours for 2026-10-03, which I recorded on 2026-10-04 (11:27Z); a day is credited by the day an entry is recorded, so **2026-10-03 has no entry** and
-  `check_dogfood.py` blocks on that day only (2026-10-04 is covered by the entry recorded that day; 2026-10-05 will need one if a gate passes through the engine that day). This is the Increment 3 lapse again (the entry was not logged at the end of the 10-03 session); the
-  check is doing its job. How to treat it is Chris's.
+- **Overhead.** Chris gave 5 hours for 2026-10-03, which I recorded on 2026-10-04 (11:27Z, note starting "2026-10-03:"); the check credited a day only by the day an entry was recorded, so
+  2026-10-03 had no entry and `check_dogfood.py` blocked. This is the Increment 3 lapse again (the entry was not logged at the end of the 10-03 session). **Chris decided on 2026-10-05 to
+  let the check credit a day named at the start of an entry's note** (the entry must still be recorded after the increment opened; its hours count once, on the recorded day; tests in
+  `tests/test_check_dogfood.py`). With that change the check passes (10-03: 2 gates, credited by the named day; 10-04: 7 gates, 5 h; 10-05: 1 gate, 1 h). This is a relaxation of a rule set after the
+  Increment 3 loophole, made by Chris, and the 10-03 day is credited by a note, not by an entry made that day.
 - **Same-model overlap.** Writers are Sonnet 5.5 (literature stages, write-up in the `glm-sonnet` arm, the adapter) and GLM (ideas, experiment code); the cheap judge path is GLM, so in
   the `glm` arm the judge and the code writer are the same model (the audit's judge is never the producer of the text it judges: verdict ids differ). The independent scorer is the
   same family as the writer; the AI helper that labelled 30 real claims is the same family as the reference judge; the novelty labels were produced by a language model.
