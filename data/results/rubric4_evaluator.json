@@ -1,0 +1,109 @@
+{
+ "by": "evaluator",
+ "entries": [
+  {
+   "output": "L1",
+   "at": "2026-10-05T12:18:59Z",
+   "blind": false,
+   "note": "Thin: MLE-bench medal cutoffs, the question's first named measure, are not assessed (retrieved but screened out; 40% key-paper recall), and the retrieval note claims no recall figure exists though a key list did.",
+   "scores": {
+    "answers_question": 2,
+    "coverage": 2,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 3
+   }
+  },
+  {
+   "output": "L2",
+   "at": "2026-10-05T12:18:59Z",
+   "blind": false,
+   "note": "Mostly abstract-level and second-hand (Cauchois and label-shift via other papers' summaries), so what is proved per method is only partly answered; boilerplate retrieval note.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 3,
+    "correctness": 4,
+    "reproducibility": 3,
+    "honesty": 4
+   }
+  },
+  {
+   "output": "L3",
+   "at": "2026-10-05T12:18:59Z",
+   "blind": false,
+   "note": "Does not answer the subsampling-gap question and says so; the evidence is cross-study and mismatched (TabPFN, estimation simulation), and 'benchmark studies agree' rests on one source.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 4,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 4
+   }
+  },
+  {
+   "output": "L4",
+   "at": "2026-10-05T12:18:59Z",
+   "blind": false,
+   "note": "Correctly says nothing reports the experiment, but what remains is background on correlation effects; 50% key-paper recall, with SHAP and rule-ensemble foundations missed.",
+   "scores": {
+    "answers_question": 2,
+    "coverage": 2,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 4
+   }
+  },
+  {
+   "output": "L5",
+   "at": "2026-10-05T12:19:00Z",
+   "blind": false,
+   "note": "Finds no credal-vs-Wasserstein comparison; the Wasserstein evidence offered is tangential (large-N chance-constrained, single-paper citations) and the key credal paper was not retrieved.",
+   "scores": {
+    "answers_question": 2,
+    "coverage": 2,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 4
+   }
+  },
+  {
+   "output": "L6",
+   "at": "2026-10-05T12:19:00Z",
+   "blind": false,
+   "note": "Closing generalisation that agreement is high for simple numeric answers rests on one extractive-QA abstract, and 7.9% lenient-judge figure is loosely phrased; key-paper recall only 20% (Zheng, Survey).",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 2,
+    "correctness": 3,
+    "reproducibility": 4,
+    "honesty": 4
+   }
+  },
+  {
+   "output": "P1",
+   "at": "2026-10-05T12:19:00Z",
+   "blind": false,
+   "note": "Answers only the analytical-xgboost slice of the question (no random forests, no public-data stability) and frames itself around an improvement idea; Airfoil runtimes differ between tables (3.76 vs 6.72 s) unexplained.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 3,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 4
+   }
+  },
+  {
+   "output": "P2",
+   "at": "2026-10-05T12:19:00Z",
+   "blind": false,
+   "note": "Does not address its research question at all (admitted); the only experiment is two failed LLM ideas with suspicious zero variance, and the baseline row set is unknown.",
+   "scores": {
+    "answers_question": 2,
+    "coverage": 2,
+    "correctness": 4,
+    "reproducibility": 3,
+    "honesty": 5
+   }
+  }
+ ]
+}

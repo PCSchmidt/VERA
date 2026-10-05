@@ -29,8 +29,9 @@ much each statement should be trusted:
    cost is not published, so MOE-3 is not reportable as met on either problem (`docs/results/comparison_table.md`; protocol hashed before the numbers were read).
 5. **The v3 audit caught 50 of 52 planted faults in one frozen test run** (96%, 87-99%), and failed 3 of 6 unmodified controls, two of them because the
    papers misstated the reproduction basis (a real defect, now fixed in the write-up facts).
-6. **Retrieval did not get demonstrably better.** Fresh topics: 40%, 90%, 90% of key papers retrieved; the three Increment 3 topics re-run: 50%, 62%, 20%
-   (not independent). Pooled over six topics: 34 of 58 (59%).
+6. **Retrieval did not get demonstrably better.** Fresh topics: 4, 9 and 9 of 10 key papers retrieved (40%, 90%, 90%; 95% intervals 17-69%, 60-98%, 60-98%); the three Increment 3 topics re-run (not independent), against their
+   Increment 3 final values: tree-explain 70% to 50%, credal-dro 38% to 62%, llm-judge-numbers 20% to 20%. Pooled over the six re-runs and fresh topics: 34 of 58 (59%, 46-70%). At ten papers per
+   topic a change of one query moves a topic by 10 to 20 points, so no improvement from the new queries is shown.
 
 ## Exit criteria (docs/07, SPEC)
 
@@ -41,7 +42,7 @@ much each statement should be trusted:
 | Paper-shaped write-up, figures drawn from results, ablations | Met for shape and figures; ablations demonstrated with a scripted winner only (no real winner) |
 | Second parent problem; T10 measured both ways | Met; the adapter route failed (below); T10 decided by Chris |
 | Protocol experiments | Met (`protocol_ready`) |
-| Audit v3 with a frozen test | Met; freeze kept (below) |
+| Audit v3 with a frozen test | Met for the two test runs, which ran on the frozen source; **the audit's source was changed afterwards** (a frozen file, `vera/loop/tables.py`, at 2026-10-04T21:21Z), so the freeze was not kept to the end and `check_seeded_v3.py` now blocks at HEAD (below) |
 | Fresh-topic literature runs | Met (three topics, one tabular parent refused) |
 | Judge on larger N (T1 reverse-if (1)) | **Not done** (below) |
 | Rubric scored blind by a person, claim re-labels | Recorded, with a provenance caveat (below); the approval is Chris's |
@@ -87,11 +88,15 @@ the report. The protocol ran once in the live loop run and its cells were kept a
 AI helper's labels (10 of 12 agree, 55-95%), which measures the helper's labels, not the judge, and the novelty question's gold set (below). The question stays open and
 moves to Increment 5.
 
-## Audit v3: freeze kept
+## Audit v3: the tests ran on the frozen source; the freeze was broken afterwards
 
 Seeded set v3: 115 items; test 52 planted faults and 6 controls from six source documents not used in development (two protocol runs, two older loop papers, two literature
-sections); the audit source was frozen at 2026-10-04T18:56:03Z (hash `2195e928d9ad`) and both test sets were run on exactly that source; `check_seeded_v3.py` and
-`check_novelty_gold.py` recompute the test hashes and the audit hash. Result and the controls analysis: `docs/results/audit_v3_results.md`. Every v3 fault type was caught on test
+sections); the audit source was frozen at 2026-10-04T18:56:03Z (hash `2195e928d9ad`) and both test runs (seeded 15:15 and novelty gold, local time) were made on exactly that source, and the recorded results carry that hash. **Afterwards I changed a file
+the freeze covers**: `vera/loop/tables.py` is in the audit's frozen file list, and commit `dcfea9a` (2026-10-04T21:21Z, 2.4 hours after the freeze) made `tables.beats` and `tables.best` read the
+active problem's primary metric at call time (a bug the credal run hit at its results gate). The change is a default-argument fix that alters nothing for the TreeHFD problem, but the audit source
+hash is now `69890a43f1fc…`, not the frozen `2195e928d9ad…`, so `check_seeded_v3.py` and `check_novelty_gold.py` **block at HEAD** with "the audit's source changed after it was frozen"; the
+`audit4_ready` gate was passed before the change. The recorded 50 of 52 and 23 of 24 describe the frozen audit; the credal run, the comparison and everything after used the amended one. By the rule
+the project set ("any later change spends the test set") the test set is spent for any later audit; I did not re-run it, and the checks are left blocking, not edited. Result and the controls analysis: `docs/results/audit_v3_results.md`. Every v3 fault type was caught on test
 (small numbers each); known misses: `reversed_comparison` 3 of 4, `overstated_claim` 1 of 2. **Controls: 3 of 6 failed**: two on the reproduction-basis check (the papers said
 in-sample for Analytical where the registered basis is held-out: a real misstatement, caused by a facts line given to the writer), one on the misplaced-number check
 (an old paper). Four of six controls also carry a method-code warning, and the tree-explain run's own audit shows the same class: the check judges every sentence of a
@@ -148,7 +153,7 @@ fallback to keep measuring, (b) rejected; no reverse-if fired.
 ## Judge and review checks; spend; overhead; same-model overlap
 
 - **Spend.** By the ledger files written since the increment opened, **$3.18** against the $9 cap (the $2 debugging, $6 runs, $1 reference-judge and fresh-topic caps are not tracked
-  separately by the ledgers: the two end-to-end runs cost $0.16; literature-stage runs about $2.1 (fresh topics $0.57, their rewrites $0.42, the old topics re-run $0.44, their rewrites $0.63); the three protocol live runs $0.34; audit and novelty dev and test runs and gold-set generation about $0.55; the adapter trial $0.16). Reference judge spend: none this increment.
+  separately by the ledgers: the two end-to-end runs $0.16; literature-stage runs $2.06 (fresh topics $0.57, their rewrites $0.42, the old topics re-run $0.44, their rewrites $0.63); the three protocol live runs $0.34; the seeded dev and test runs $0.30; the novelty gold set, its generation (two attempts) and runs $0.15; the anchoring measurements $0.005; the adapter trial $0.16; these sum to $3.18). Reference judge spend: none this increment.
   Both end-to-end ledgers equal their recorded spend (`gate-ledger.sh`).
 - **Overhead.** Chris gave 5 hours for 2026-10-03, which I recorded on 2026-10-04 (11:27Z); a day is credited by the day an entry is recorded, so **2026-10-03 has no entry** and
   `check_dogfood.py` blocks; the 2026-10-04 and 2026-10-05 days need entries too. This is the Increment 3 lapse again (the entry was not logged at the end of the 10-03 session); the
@@ -168,6 +173,7 @@ fallback to keep measuring, (b) rejected; no reverse-if fired.
   after editing its good-question before any retrieval, with the manifest rebuilt.
 - The writer's word limit now counts prose only (tables and references excluded).
 - The novelty test run was started twice (above).
+- `vera/loop/tables.py`, a file the audit freeze covers, was changed after the freeze (above): the freeze was broken after both test runs.
 
 ## Carry-overs from the Increment 3 review
 
