@@ -1,12 +1,12 @@
-# 04 — Trade studies
+﻿# 04 â€” Trade studies
 
-Each trade: options → criteria → decision → what would reverse it.
+Each trade: options â†’ criteria â†’ decision â†’ what would reverse it.
 Keep each to one short section. Status: **open** until decided.
 
-## T1 — Cheap judge backend (decided 2026-10-01, Increment 1)
+## T1 â€” Cheap judge backend (decided 2026-10-01, Increment 1)
 
 - **Options:** (a) TypeSafe Jev (hosted decision model); (b) small local
-  model (e.g. a 1–8B instruct model with constrained/logprob output);
+  model (e.g. a 1â€“8B instruct model with constrained/logprob output);
   (c) fine-tuned classifier on labeled judge data; (d) frontier LLM only
   (baseline).
 - **Criteria:** agreement with reference, calibration, consistency, cost,
@@ -31,16 +31,16 @@ Keep each to one short section. Status: **open** until decided.
   is self-reported, and it reported 1.0 on all 10: the router cannot
   escalate on it unless the benchmark shows otherwise.
 - **Jev terms (Master Customer Agreement, typesafe.ai/legal/mca, read
-  2026-09-30):** no benchmarking clause. §2.3(b) forbids using Jev output to
+  2026-09-30):** no benchmarking clause. Â§2.3(b) forbids using Jev output to
   distil or train a model, so option (c) must never train on Jev answers.
-  §14.1 counts "non-public information with respect to the Services" as
+  Â§14.1 counts "non-public information with respect to the Services" as
   TypeSafe's confidential information, which is ambiguous for published
   performance results. **Decision (Chris):** benchmark Jev; get TypeSafe's
   written consent before publishing any Jev results (risk R4).
   **Revised (Chris, 2026-09-30):** publish Jev results, ledgers included,
   without seeking consent: Jev benchmarks and comparisons are already
   public, as are open-source Jev clones, so published performance figures
-  are not treated as TypeSafe confidential information. §2.3(b) still
+  are not treated as TypeSafe confidential information. Â§2.3(b) still
   stands: never train on Jev output.
 - **Smoke run (2026-09-30, 10 dev items each, $0.038 in all):** all five
   answer through the ledger. OpenRouter's endpoints for Sonnet 5.5 and
@@ -51,7 +51,7 @@ Keep each to one short section. Status: **open** until decided.
   the cheap path; the benchmark will measure how much. Settings in
   `vera/bench/candidates.py`. Ledger: `data/ledger/smoke.jsonl`.
 - **Benchmark run (2026-10-01):** the 115-item test split (hash
-  `0ae2c8d6f11a…`, fixed before any run), cheap backends 10 repeats, Sonnet
+  `0ae2c8d6f11aâ€¦`, fixed before any run), cheap backends 10 repeats, Sonnet
   3; 6,095 verdicts, $1.61; 3 failed calls, each retried successfully (`data/benchmark/results.json`,
   `docs/figures/threshold_curve.png`, raw verdicts and ledgers committed).
   OpenRouter routes a model to many providers at different prices (DeepSeek
@@ -94,11 +94,11 @@ Keep each to one short section. Status: **open** until decided.
   working as the offline fallback (R4), not used by default. DeepSeek and
   MiMo are dropped (flip rate above JDG-P-03).
 - **Reverse if:** (1) a harder benchmark (the Increment 2 loop's real gate
-  decisions, or a new test split that is not near ceiling) shows Jev → GLM
+  decisions, or a new test split that is not near ceiling) shows Jev â†’ GLM
   below 95% agreement with the reference; (2) Jev's price, terms or
   availability change (R4), then GLM alone (or Gemma offline); (3) GLM's
   latency starts to matter for a user-facing path, then re-run the sweep
-  with Jev → Sonnet; (4) Ollama returns answer-token log-probabilities,
+  with Jev â†’ Sonnet; (4) Ollama returns answer-token log-probabilities,
   then re-test Gemma, whose agreement is too low only because escalation
   can't see its errors.
 - **Re-test (Increment 2, 2026-10-02):** reverse-if (1) was tested on the loop's
@@ -107,13 +107,13 @@ Keep each to one short section. Status: **open** until decided.
   reference (95% CI 91.0-99.3), so it did **not fire**; the lower bound is below
   95% and both misses are confident perturbed items. docs/reviews/incr-2.md.
 
-## T2 — Orchestration runtime (decided 2026-10-01, Increment 1)
+## T2 â€” Orchestration runtime (decided 2026-10-01, Increment 1)
 
 - **Options:** (a) LangGraph directly; (b) Meridian's DAG gates as the
   control layer on top of LangGraph; (c) Meridian standalone.
 - **Criteria:** checkpoint/resume, human-in-the-loop interrupts, tracing,
   reuse of Meridian's evaluator separation, effort.
-- **Leaning:** (b) — LangGraph for durability, Meridian for gate semantics.
+- **Leaning:** (b) â€” LangGraph for durability, Meridian for gate semantics.
 - **Reverse if:** the integration costs more than reimplementing the gates.
 - **Evidence so far (2026-09-30, `vera/graph/`, LangGraph 1.2.12 with the
   SQLite checkpointer):** checkpoint/resume works across a killed process
@@ -131,7 +131,7 @@ Keep each to one short section. Status: **open** until decided.
   | Checkpoint/resume | yes, with `durability="sync"` (tested by killing a run) | same | no run-time checkpointing; Meridian gates whole build stages |
   | Human-in-the-loop | interrupts built in | same | human gates, at build time only |
   | No self-grading, fail-closed routing | not provided | `judge_node`, `route_on_verdict` (tested) | yes, but for build gates, not run-time steps |
-  | Effort | — | ~100 lines, about half a session | would mean reimplementing durable execution |
+  | Effort | â€” | ~100 lines, about half a session | would mean reimplementing durable execution |
   | Tracing | checkpoints + VERA's ledger | same | telemetry of build events only |
 
 - **Decision:** (Chris, 2026-10-01) (b). LangGraph runs the loop with the
@@ -147,7 +147,7 @@ Keep each to one short section. Status: **open** until decided.
   with it as an option; (3) synchronous checkpoints make multi-hour runs too
   slow.
 
-## T3 — PDF parsing (decided 2026-09-30, Increment 0)
+## T3 â€” PDF parsing (decided 2026-09-30, Increment 0)
 
 - **Options:** GROBID (strong on references), a Markdown converter
   (e.g. Marker/Docling), plain PyMuPDF text, LLM-based extraction.
@@ -221,7 +221,7 @@ Keep each to one short section. Status: **open** until decided.
   needs body text, which GROBID supplied. (3) *not fired:* GROBID in Docker stayed up for the whole increment.
   **Decision:** (Chris, 2026-10-03, by approving `trades_decided_3` on the proposal as written) keep both parsers by content as decided; the literature stage uses GROBID only.
 
-## T4 — Sandbox (decided 2026-10-01, Increment 2)
+## T4 â€” Sandbox (decided 2026-10-01, Increment 2)
 
 - **Options:** (a) local Docker (network off by default); (b) a hosted sandbox
   service.
@@ -265,7 +265,7 @@ Keep each to one short section. Status: **open** until decided.
   same image runs under a hosted container service instead, so this decision
   carries over unless that service cannot run it with the network off.
 
-## T5 — Bibliographic source for citation checks and literature retrieval (decided 2026-10-01, Increment 2-3)
+## T5 â€” Bibliographic source for citation checks and literature retrieval (decided 2026-10-01, Increment 2-3)
 
 - **Options:** Crossref, arXiv API, Semantic Scholar, OpenAlex (likely a
   combination with fallbacks).
@@ -363,7 +363,7 @@ Keep each to one short section. Status: **open** until decided.
   and **stays open as evidence**: no step of Increment 4 made retrieval reliably better, and the review says the coverage of any
   review is only as good as what retrieval found; the retrieval note each review now carries says so to its reader.
 
-## T6 — Tracing/observability (decided 2026-10-02, Increment 2)
+## T6 â€” Tracing/observability (decided 2026-10-02, Increment 2)
 
 - **Options:** LangSmith; OpenTelemetry + local store; ledger-only.
 - **Criteria:** cost, lock-in, ability to publish traces with results.
@@ -380,7 +380,7 @@ Keep each to one short section. Status: **open** until decided.
   retrieval produced which claim; (2) a failure needs the full prompt and reply of every call, which the ledger
   deliberately does not store; (3) results need to be published with browsable traces.
 
-## T7 — Loop context management (decided 2026-10-02, Increment 2)
+## T7 â€” Loop context management (decided 2026-10-02, Increment 2)
 
 - **Options:** (a) plain LangGraph state plus summarisation; (b) prime-agent style Recursive Language Model patterns:
   papers, logs, and code held as REPL variables instead of in the context window, recursive sub-calls, bounded
@@ -428,7 +428,7 @@ Keep each to one short section. Status: **open** until decided.
   (more full texts, longer sources), or a bring-your-own-key user's model prices make input cost more than $0.50
   per topic, then build and measure the arm first on the synthesis stage.
 
-## T8 — App delivery and bring-your-own-key (open, decide in Increment 5)
+## T8 â€” App delivery and bring-your-own-key (open, decide in Increment 5)
 
 - **Options:** (a) local app: the user runs VERA on their own machine with
   a web UI on localhost and their key in their own environment; (b) hosted
@@ -448,7 +448,7 @@ Keep each to one short section. Status: **open** until decided.
   full hosted app; or a local install proves too hard for the intended
   users, then invest in packaging.
 
-## T9 — Generator model(s) for the loop's producers (decided 2026-10-02, Increment 2)
+## T9 â€” Generator model(s) for the loop's producers (decided 2026-10-02, Increment 2)
 
 - **Options (arms):** (A) GLM-5.3 Flash for every stage; (B) GLM for ideas and code with Claude Sonnet 5.5 writing the
   report; (C) MiMo-V2.6-Pro for every stage; (D) DeepSeek V4.1 Flash for every stage; (E) Sonnet 5.5 for every stage
@@ -514,7 +514,7 @@ Keep each to one short section. Status: **open** until decided.
   cheaper-arm test for bring-your-own-key users is not worth running now; T9 reverse-if (2), a reasoning control that
   makes MiMo or DeepSeek usable, moves to Increment 5 as planned.
 
-## T10 — Where a problem's baseline comes from (decided 2026-10-03, Increment 3)
+## T10 â€” Where a problem's baseline comes from (decided 2026-10-03, Increment 3)
 
 - **Options:** (a) a harness per problem written by hand (what Increment 2 did
   for TreeHFD: `docker/sandbox-treehfd/harness.py`); (b) a model-written baseline
@@ -581,4 +581,8 @@ Keep each to one short section. Status: **open** until decided.
   harness, above a quarter: **not fired**, so (c) does buy something. But (c) did not reproduce the baseline in four attempts at
   one problem, and each failed attempt cost most of an hour because the parent's own batch had to be run to find the mistake.
   The evidence supports keeping (a) as the default and treating (c) as promising, not shown; one problem is one problem.
-  **Decision: Chris's at the Increment 4 review** (this text is the evidence, not the decision).
+  **Decision (Chris, 2026-10-05, Increment 4 review):** keep **(a)**, a hand-built harness per problem, as the default.
+  Keep **(c)**, a thin generic harness plus a model-written adapter, as an experimental fallback to keep measuring on later
+  problems, because its generic share is real (49% of the by-hand harness) but it did not reproduce the baseline here in four
+  attempts. Keep **(b)** rejected. The reverse-ifs did not fire: the by-hand harness took under a working day, the candidate ran
+  on CPU, and the generic share was above a quarter; the missing part is successful reproduction by the adapter route.

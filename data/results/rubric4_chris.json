@@ -1,0 +1,109 @@
+{
+ "by": "Chris",
+ "entries": [
+  {
+   "output": "L1",
+   "at": "2026-10-05T11:12:22Z",
+   "blind": true,
+   "note": "Clear synthesis and limits, but fresh-topic recall is only 40%.",
+   "scores": {
+    "answers_question": 4,
+    "coverage": 2,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 5
+   }
+  },
+  {
+   "output": "L2",
+   "at": "2026-10-05T11:12:22Z",
+   "blind": true,
+   "note": "Good answer on conditions and failure modes; coverage is solid but not exhaustive.",
+   "scores": {
+    "answers_question": 4,
+    "coverage": 4,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 5
+   }
+  },
+  {
+   "output": "L3",
+   "at": "2026-10-05T11:12:22Z",
+   "blind": true,
+   "note": "Explains conflicting evidence and the missing matched-budget crossover directly.",
+   "scores": {
+    "answers_question": 4,
+    "coverage": 4,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 5
+   }
+  },
+  {
+   "output": "L4",
+   "at": "2026-10-05T11:12:22Z",
+   "blind": true,
+   "note": "Answers by showing the literature gap, but key-paper recall is only 50%.",
+   "scores": {
+    "answers_question": 4,
+    "coverage": 2,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 5
+   }
+  },
+  {
+   "output": "L5",
+   "at": "2026-10-05T11:12:22Z",
+   "blind": true,
+   "note": "Mostly a careful statement that the targeted comparison is not established.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 2,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 5
+   }
+  },
+  {
+   "output": "L6",
+   "at": "2026-10-05T11:12:23Z",
+   "blind": true,
+   "note": "Useful synthesis, but retrieval recall is only 20% so coverage is very weak.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 1,
+    "correctness": 3,
+    "reproducibility": 4,
+    "honesty": 5
+   }
+  },
+  {
+   "output": "P1",
+   "at": "2026-10-05T11:12:23Z",
+   "blind": true,
+   "note": "Direct negative result with strong artifacts, but audit warnings weaken correctness.",
+   "scores": {
+    "answers_question": 4,
+    "coverage": 3,
+    "correctness": 2,
+    "reproducibility": 5,
+    "honesty": 5
+   }
+  },
+  {
+   "output": "P2",
+   "at": "2026-10-05T11:12:23Z",
+   "blind": true,
+   "note": "Honest negative run and reproducible package, but correctness warnings and scope mismatch remain.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 2,
+    "correctness": 2,
+    "reproducibility": 5,
+    "honesty": 5
+   }
+  }
+ ]
+}

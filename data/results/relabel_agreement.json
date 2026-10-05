@@ -1,0 +1,16 @@
+{
+ "by": "Chris",
+ "at": "2026-10-05T11:12:23Z",
+ "n": 12,
+ "agree_with_helper": 10,
+ "rate": 0.8333,
+ "ci95": [
+  0.552,
+  0.953
+ ],
+ "differ": [
+  "real-llm-judge-numbers-03",
+  "real-llm-judge-numbers-10"
+ ],
+ "helper": "an AI helper blind to every verdict (real_claims_labels.csv), not a person"
+}
