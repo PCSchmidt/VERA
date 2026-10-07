@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import datetime as dt
 import json
+import re
 from collections import Counter
 
 from vera.literature import retrieval
@@ -76,6 +77,12 @@ MAX_REFS_PER_SEED = 60  # reference-list entries resolved per seed on the GROBID
 YEAR_SLACK = 1
 
 
+def _year_gap(a: object, b: object) -> int | None:
+    """The distance in years between two year strings, or None when either has no four-digit year in it."""
+    ya, yb = re.search(r"\d{4}", str(a or "")), re.search(r"\d{4}", str(b or ""))
+    return abs(int(ya.group()) - int(yb.group())) if ya and yb else None
+
+
 def resolve(retriever: Retriever, ref: dict) -> dict | None:
     """The OpenAlex record for one parsed reference (by DOI, else by title and year); None when it is not found."""
     key = retrieval.api_key("OPENALEX_API_KEY")
@@ -92,7 +99,9 @@ def resolve(retriever: Retriever, ref: dict) -> dict | None:
     except Exception:  # noqa: BLE001 - one reference that cannot be looked up is skipped
         return None
     for rec in found:
-        year_ok = not (ref.get("year") and rec.get("year")) or abs(int(ref["year"]) - int(rec["year"])) <= YEAR_SLACK
+        gap = _year_gap(ref.get("year"), rec.get("year"))
+        # an unreadable year (a parser fragment like "Apri") does not rule a match out
+        year_ok = gap is None or gap <= YEAR_SLACK
         if year_ok and retrieval.title_similarity(ref["title"], rec["title"]) >= retrieval.TITLE_MATCH:
             return rec
     return None

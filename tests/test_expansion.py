@@ -96,3 +96,10 @@ def test_the_expansion_is_capped_and_the_key_stays_out_of_the_cache(tmp_path: Pa
     stored = " ".join(p.read_text(encoding="utf-8") for p in tmp_path.glob("*.json"))
     assert stored and "secret-key-123" not in stored
     assert json.loads(json.dumps(added[0]))["key"] == "R1"
+
+
+def test_a_garbled_reference_year_from_the_parser_does_not_crash_the_snowball() -> None:
+    from vera.literature.expansion import _year_gap  # noqa: PLC0415
+
+    assert _year_gap("Apri", "2024") is None and _year_gap("", "2024") is None and _year_gap(None, None) is None
+    assert _year_gap("2021", "2024") == 3 and _year_gap("Apr 2022", "2021") == 1  # a year inside text still counts
