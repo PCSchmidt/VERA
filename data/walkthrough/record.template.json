@@ -1,0 +1,22 @@
+{
+  "person": "a first name or a role, as the person agrees (for example: 'PhD student, ML')",
+  "independent_of_builder": true,
+  "setup": "from what state it started (for example: fresh clone on the person's own Windows laptop, Python 3.12, no Docker)",
+  "observer": "who watched and wrote this down",
+  "coached": false,
+  "key_provided_by": "the maintainer, a small credit, switched off afterwards",
+  "started_at": "2026-10-00T00:00:00Z",
+  "first_run_started_at": "2026-10-00T00:00:00Z",
+  "finished_at": "2026-10-00T00:00:00Z",
+  "run_id": "the run the person made (its evidence is in data/walkthrough/<run_id>/)",
+  "confusions": [
+    {"at": "00:07", "where": "the screen or step", "what": "what the person said or did, in their words where possible", "observer_helped": false}
+  ],
+  "answers": {
+    "whose_money_and_how_they_know": "",
+    "trusted_the_spend_display_and_why": "",
+    "review_worth_reading_and_what_better": "",
+    "what_would_stop_them_using_it": ""
+  },
+  "notes": "anything else, including anything the observer did that might have influenced the person"
+}
