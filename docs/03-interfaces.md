@@ -317,6 +317,42 @@ class RetrievalStats(BaseModel):  # what the literature stage did, stated in the
 A `ProtocolSpec` with an empty list, a `primary_metric` outside `metrics`, fewer than 1 seed or a malformed hash
 raises; a `FigureSpec` with no cells or a blank caption raises.
 
+### App types (APP-F-01, APP-F-02, APP-C-02; 0.11)
+
+```python
+class RunRequest(BaseModel):  # what the run form sends; extra fields are refused
+    run_id: str  # ^[a-z0-9][a-z0-9-]{2,63}$ (a directory name and a ledger name)
+    topic: str  # non-blank, at most 2000 characters
+    guidance: OutputGuidance = OutputGuidance()
+    max_usd: float  # > 0 and at most 25: the cap the Budget enforces; the app never raises it
+    max_wall_seconds: int  # > 0
+    allow_experiments: bool = False  # needs Docker and a parent problem the loop has a harness for
+
+
+class RunStatus(BaseModel):  # read from the run's own files; the app computes nothing a run did not record
+    run_id: str
+    state: Literal["queued", "scoping", "awaiting_confirmation", "running", "stopping", "stopped", "complete", "failed"]
+    stage: str | None  # the stage entered last
+    spent_usd: float  # from the run's ledger
+    max_usd: float
+    started_at: str | None
+    updated_at: str | None
+    last_verdict: dict | None  # the latest stage verdict: answer, confidence, backend
+    message: str | None  # why it stopped or failed, in words
+    audit: Literal["green", "amber", "red"] | None  # the final audit's summary, once there is one
+
+
+class AppConfig(BaseModel):  # what the first-run checklist shows; it never carries a key (APP-C-02)
+    docker_available: bool
+    grobid_available: bool
+    key_source: Literal["env", "session", "none"]
+    openalex_key: bool
+    semantic_scholar_key: bool
+```
+
+A `RunRequest` with a malformed `run_id`, a blank or over-long topic, `max_usd` outside (0, 25], a non-positive wall limit or an
+unknown field raises. `AppConfig` and `RunStatus` forbid extra fields, so no key can ride along on them.
+
 ### Run specification (RSH-F-01)
 
 ```python

@@ -1,14 +1,15 @@
 """The T1 cheap judge path, as one function (docs/04 T1, decided 2026-10-01).
 
-Jev answers first; GLM-5.3 Flash takes anything below the default threshold 0.7. The loop's own questions (ids
-starting with `vera.loop.LOOP_PREFIX`, "loop.") skip Jev and go straight to GLM. Nothing else in VERA builds its
-own router.
+Jev answers first; GLM-5.3 Flash takes anything below the default threshold 0.7 (and answers alone when no Jev
+key is set). The loop's own questions (ids starting with `vera.loop.LOOP_PREFIX`, "loop.") skip Jev and go straight
+to GLM. Nothing else in VERA builds its own router.
 """
 
 from __future__ import annotations
 
 from collections.abc import Sequence
 
+from vera.backends import api_key
 from vera.bench.candidates import make_backend
 from vera.judge.router import Router
 from vera.ledger import Ledger
@@ -52,12 +53,24 @@ def cheap_path(
 ) -> CheapPath:
     """The T1 path, writing to `ledger` and charging `budget`. `backends` = (jev, glm) overrides, for tests."""
     if backends is None:
-        jev = make_backend("jev", ledger=ledger, budget=budget, component=component)
         glm = make_backend("glm-flash", ledger=ledger, budget=budget, component=component)
-        jev.cost_rank, glm.cost_rank = 1, 2  # both are rank 1 in the benchmark; here Jev goes first
         glm.max_tokens = max(glm.max_tokens, LOOP_JUDGE_MAX_TOKENS)
         glm.reasoning = LOOP_JUDGE_REASONING
+        if not jev_available():  # no Jev key: GLM answers every question (the app's bring-your-own-key case)
+            glm.cost_rank = 1
+            return CheapPath(Router([glm], RoutingPolicy()), Router([glm], RoutingPolicy()))
+        jev = make_backend("jev", ledger=ledger, budget=budget, component=component)
+        jev.cost_rank, glm.cost_rank = 1, 2  # both are rank 1 in the benchmark; here Jev goes first
         backends = (jev, glm)
     jev, glm = backends
     policy = RoutingPolicy()  # default threshold 0.7, one escalation
     return CheapPath(Router([jev, glm], policy), Router([glm], policy))
+
+
+def jev_available() -> bool:
+    """Is the user's own Jev (TypeSafe) key set? Bring-your-own-key users usually have only an OpenRouter key."""
+    try:
+        api_key("TYPESAFE_AI_API_KEY")
+    except KeyError:
+        return False
+    return True

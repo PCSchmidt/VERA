@@ -1,5 +1,6 @@
 """VERA data contracts. docs/03-interfaces.md is normative; these models follow it."""
 
+from vera.schemas.app import AppConfig, RunRequest, RunStatus
 from vera.schemas.auditor import AuditReport, Claim, Evidence, Finding, Location
 from vera.schemas.foundation import Budget, BudgetExceeded, LedgerRecord
 from vera.schemas.judge import (
@@ -27,6 +28,7 @@ from vera.schemas.version import SCHEMA_VERSION
 __all__ = [
     "SCHEMA_VERSION",
     "STAGES",
+    "AppConfig",
     "AuditReport",
     "BenchmarkItem",
     "Budget",
@@ -53,6 +55,8 @@ __all__ = [
     "ScopedQuestion",
     "SelfGradingError",
     "SourceRecord",
+    "RunRequest",
+    "RunStatus",
     "StageResult",
     "Topic",
     "Verdict",
