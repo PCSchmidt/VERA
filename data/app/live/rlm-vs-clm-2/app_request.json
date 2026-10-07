@@ -1,0 +1,14 @@
+{
+ "run_id": "rlm-vs-clm-2",
+ "topic": "RLM (recursive language models: a model that programmatically inspects and recursively calls itself over a long prompt held in an external environment) versus CLM (Context Language Models, introduced in a September 2026 paper by Shao et al.: language models that natively manage their own context by treating the context as a file the model can update, with suffix cache reuse for serving). Overlaps, similarities, distinctions, and validity as improvements for production coding: qualitative differences, cost efficiency, ability to reuse traces, and similar practical criteria.",
+ "guidance": {
+  "format": "paper",
+  "max_words": 1500,
+  "required_sections": [],
+  "emphasis": "Say plainly what the literature establishes and what it does not; cite only retrieved sources. Be explicit about which claims concern production coding specifically.",
+  "constraints": []
+ },
+ "max_usd": 1.0,
+ "max_wall_seconds": 7200,
+ "allow_experiments": false
+}

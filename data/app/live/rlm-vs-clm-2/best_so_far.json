@@ -1,0 +1,28 @@
+{
+  "run_id": "rlm-vs-clm-2",
+  "stop_reason": "completed",
+  "stage_reached": "none",
+  "stages_completed": [
+    "scope",
+    "retrieve",
+    "read",
+    "synthesize",
+    "parent"
+  ],
+  "artifacts": {
+    "scope": "artifacts/scope.json",
+    "retrieve": "artifacts/relevance.json",
+    "read": "artifacts/reading.json",
+    "synthesize": "artifacts/literature.json",
+    "parent": "parent.json"
+  },
+  "budget": {
+    "max_usd": 1.0,
+    "max_wall_seconds": 7200,
+    "max_model_calls": null,
+    "spent_usd": 0.18453440065,
+    "elapsed_seconds": 637,
+    "model_calls_used": 206
+  },
+  "timestamp": "2026-10-07T14:30:58+00:00"
+}
