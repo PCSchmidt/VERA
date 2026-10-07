@@ -1,0 +1,28 @@
+{
+ "items": 150,
+ "test_sha256": "78ece15709195944de0471ebd1e4e3d83a3fa09c7fa2469873eb4f1ad26648a7",
+ "coverage": {
+  "records": 243,
+  "excluded_no_shadow_answer": 102,
+  "duplicates_merged": 9,
+  "excluded_older_question_wording": 24,
+  "distinct_real_items": 108,
+  "real_new_items": 14
+ },
+ "by_origin_kind": {
+  "perturbed:loop.beats_baseline": 90,
+  "perturbed:loop.best_method": 46,
+  "real:loop.beats_baseline": 12,
+  "real:loop.guidance_met": 2
+ },
+ "by_label": {
+  "False": 67,
+  "True": 37,
+  "TreeHFD (baseline)": 23,
+  "LV (baseline)": 4,
+  "C2: Huber-quantile hybrid loss": 8,
+  "C2: Shallower variable selection depth": 8,
+  "C1: Covariate-shift importance reweighting": 3
+ },
+ "note": "all items are evaluated (no dev split); fixed before any backend ran"
+}
