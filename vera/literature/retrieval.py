@@ -30,6 +30,8 @@ from vera.backends import api_key
 
 # v1 returned figure and table captions and dataset components from Crossref; v2 asks for papers only
 OPENALEX_FIELDS = "id,doi,title,publication_year,authorships,abstract_inverted_index,best_oa_location"
+# Semantic Scholar asks for about one request a second; kept here because the audit module is frozen
+PACING = {**PAUSE, "semanticscholar": 1.1}
 S2_FIELDS = "title,year,authors,abstract,externalIds,openAccessPdf,venue"
 PAPER_TYPES = ("journal-article", "proceedings-article", "posted-content", "book-chapter", "report")
 CROSSREF_TYPES = ",".join(f"type:{t}" for t in PAPER_TYPES)
@@ -164,7 +166,7 @@ class Retriever:
             return cached["text"]
         for attempt in range(4):
             if self.pace:
-                wait = PAUSE[source] - (self._now() - self._last.get(source, -1e9))
+                wait = PACING[source] - (self._now() - self._last.get(source, -1e9))
                 if wait > 0:
                     time.sleep(wait)
             self._last[source] = self._now()

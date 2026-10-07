@@ -19,7 +19,7 @@ from vera.backends import api_key
 
 USER_AGENT = "VERA-research/0.1 (+https://github.com/PCSchmidt/VERA; citation existence checks)"
 ATOM = {"a": "http://www.w3.org/2005/Atom"}
-PAUSE = {"crossref": 0.3, "arxiv": 3.1, "openalex": 0.2, "semanticscholar": 1.1}
+PAUSE = {"crossref": 0.3, "arxiv": 3.1, "openalex": 0.2}
 TOP = 3
 
 
