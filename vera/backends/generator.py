@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import httpx
 
-from vera.backends import api_key, post_with_retry
+from vera.backends import api_key, post_with_retry, redact
 from vera.backends.openrouter import API, Prices, catalogue_prices
 from vera.ledger import CallResult, Ledger, metered_call, new_trace_id
 from vera.schemas import Budget
@@ -55,11 +55,13 @@ class OpenRouterGenerator:
         if self.provider_sort:
             body["provider"] = {"sort": self.provider_sort}
         resp = post_with_retry(
-            self.client, f"{API}/chat/completions", json=body,
+            self.client,
+            f"{API}/chat/completions",
+            json=body,
             headers={"Authorization": f"Bearer {api_key('OPENROUTER_API_KEY')}"},
         )
         if resp.is_error:
-            raise RuntimeError(f"OpenRouter HTTP {resp.status_code}: {resp.text[:300]}")
+            raise RuntimeError(f"OpenRouter HTTP {resp.status_code}: {redact(resp.text[:300])}")
         data = resp.json()
         if "error" in data:
             raise RuntimeError(f"OpenRouter error: {data['error']}")

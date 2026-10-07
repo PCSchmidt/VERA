@@ -36,6 +36,21 @@ def post_with_retry(client: httpx.Client, url: str, *, tries: int = 4, **kwargs)
     raise AssertionError("unreachable")
 
 
+KEY_NAMES = ("OPENROUTER_API_KEY", "TYPESAFE_AI_API_KEY", "OPENALEX_API_KEY", "SEMANTIC_SCHOLAR_API_KEY")
+
+
+def redact(text: str) -> str:
+    """`text` with any key this process holds replaced, so no message or log line can carry one (APP-C-02)."""
+    for name in KEY_NAMES:
+        try:
+            value = api_key(name)
+        except KeyError:
+            continue
+        if len(value) >= 8:
+            text = text.replace(value, "[key removed]")
+    return text
+
+
 def api_key(name: str, env_file: Path | None = None) -> str:
     """The key from the environment, else from the repo's git-ignored .env. Raises if missing."""
     if os.environ.get(name):

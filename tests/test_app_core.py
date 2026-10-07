@@ -130,7 +130,8 @@ def test_the_status_is_read_from_the_runs_own_files(manager, tmp_path: Path) -> 
     (run_dir / "gates.jsonl").write_text(
         json.dumps({"question": {"id": "lit.relevant"}, "verdict": {"answer": True, "confidence": 0.9, "backend": "glm"}})
         + "\n", encoding="utf-8")  # fmt: skip
-    (run_dir / "audit.json").write_text(json.dumps({"summary": "amber"}), encoding="utf-8")
+    (run_dir / "artifacts").mkdir()
+    (run_dir / "artifacts" / "audit_report.json").write_text(json.dumps({"overall": "amber"}), encoding="utf-8")
     app_state.write(run_dir, "running", None)
     st = mgr.status("my-first-run")
     assert st.state == "running" and st.spent_usd == pytest.approx(0.0246) and st.audit == "amber"
@@ -197,3 +198,18 @@ def test_APP_F_01_stop_halts_at_the_next_call_and_resume_finishes_without_repeat
     assert not (deps.run_dir / STOP_FILE).exists()
     assert len(deps.ledger.records()) > records_at_stop and deps.budget.spent_usd >= spent_at_stop
     assert deps.generator.calls.count("p3.scope") == 1  # scoping was not paid for again
+
+
+def test_APP_F_01_a_finished_review_gets_its_audit_light_from_its_own_files(tmp_path: Path) -> None:
+    from tests.test_audit_literature import CLAIMS, PASSAGES, RECORDS, section  # noqa: PLC0415
+
+    deps = make_app_deps(tmp_path)
+    deps.run_dir.mkdir(parents=True, exist_ok=True)
+    (deps.run_dir / "literature.md").write_text(section(), encoding="utf-8")
+    for name, rows in (("claims", CLAIMS), ("passages", PASSAGES), ("retrieved", RECORDS)):
+        (deps.run_dir / f"{name}.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows), encoding="utf-8")
+    assert pipeline.run_audit(deps, judge=LitJudge()) == "green"
+    assert (
+        json.loads((deps.run_dir / "artifacts" / "audit_report.json").read_text(encoding="utf-8"))["overall"] == "green"
+    )
+    assert (deps.run_dir / "audit.md").read_text(encoding="utf-8").startswith("# Audit of app-run: **GREEN**")

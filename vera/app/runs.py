@@ -152,11 +152,8 @@ class RunManager:
 
     @staticmethod
     def _audit(run_dir: Path) -> str | None:
-        for name in ("audit.json", "literature_audit.json"):
-            path = run_dir / name
-            if path.exists():
-                data = json.loads(path.read_text(encoding="utf-8"))
-                light = data.get("summary") or data.get("result")
-                if light in {"green", "amber", "red"}:
-                    return light
+        path = run_dir / "artifacts" / "audit_report.json"
+        if path.exists():
+            light = json.loads(path.read_text(encoding="utf-8")).get("overall")
+            return light if light in {"green", "amber", "red"} else None
         return None

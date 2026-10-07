@@ -13,9 +13,10 @@ import traceback
 from pathlib import Path
 
 from vera.app import state as app_state
-from vera.app.pipeline import real_deps, run_phase
+from vera.app.pipeline import real_deps, run_audit, run_phase
+from vera.backends import redact
 from vera.keepawake import keep_awake
-from vera.schemas import RunRequest
+from vera.schemas import BudgetExceeded, RunRequest
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -47,9 +48,14 @@ def main(argv: list[str], root: Path = ROOT) -> int:
         with keep_awake():
             final = run_phase(deps, phase)
         state, message = finish_state(final, phase)
+        if state == "complete":
+            try:
+                run_audit(deps)
+            except BudgetExceeded:
+                message = "The review is finished but the final audit did not fit in your budget; it is not audited."
     except Exception as exc:  # noqa: BLE001 - the user is told in words; the traceback goes to the run's own log
-        (run_dir / "worker_error.log").write_text(traceback.format_exc(), encoding="utf-8")
-        state, message = "failed", f"The run could not continue: {type(exc).__name__}: {str(exc)[:300]}"
+        (run_dir / "worker_error.log").write_text(redact(traceback.format_exc()), encoding="utf-8")
+        state, message = "failed", f"The run could not continue: {type(exc).__name__}: {redact(str(exc))[:300]}"
     app_state.write(run_dir, state, message)
     print(json.dumps({"run_id": run_id, "state": state}))
     return 0

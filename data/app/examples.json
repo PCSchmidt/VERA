@@ -1,0 +1,109 @@
+{
+ "note": "Which committed runs the Examples page shows. spent_usd is each run's ledger total when this file was written; the page reads everything else from the run's committed files.",
+ "examples": [
+  {
+   "id": "conformal-shift",
+   "title": "Conformal prediction under distribution shift",
+   "kind": "literature",
+   "dir": "data/literature/conformal-shift",
+   "document": "literature.md",
+   "evidence": [
+    "claims.jsonl",
+    "audit.md"
+   ],
+   "topic_file": "data/topics/conformal-shift.json",
+   "scope_file": "data/topics/scope_conformal-shift.json",
+   "guidance": {
+    "format": "paper",
+    "max_words": 1500,
+    "emphasis": "Say plainly what the literature establishes and what it does not; cite only retrieved sources."
+   },
+   "budget_cap_usd": 1.0,
+   "ledger": "data/ledger/run_topic4-conformal-2.jsonl",
+   "outcome": "A literature review with no experiments; the audit found every cited claim supported by its quoted passage.",
+   "spent_usd": 0.1649
+  },
+  {
+   "id": "research-agents-eval",
+   "title": "Evaluating AI research agents",
+   "kind": "literature",
+   "dir": "data/literature/research-agents-eval",
+   "document": "literature.md",
+   "evidence": [
+    "claims.jsonl",
+    "audit.md"
+   ],
+   "topic_file": "data/topics/research-agents-eval.json",
+   "scope_file": "data/topics/scope_research-agents-eval.json",
+   "guidance": {
+    "format": "paper",
+    "max_words": 1500,
+    "emphasis": "Say plainly what the literature establishes and what it does not; cite only retrieved sources."
+   },
+   "budget_cap_usd": 1.0,
+   "ledger": "data/ledger/run_topic4-agents-1.jsonl",
+   "outcome": "A literature review; retrieval missed most of the key papers fixed beforehand for this topic, and the review says what it could not establish.",
+   "spent_usd": 0.1664
+  },
+  {
+   "id": "tree-explain",
+   "title": "Tree-ensemble explanations under correlated features (with experiments)",
+   "kind": "paper",
+   "dir": "docs/results/runs4/runs4-tree-explain",
+   "document": "paper.md",
+   "evidence": [
+    "results.json",
+    "audit.md"
+   ],
+   "topic_file": "data/topics/tree-explain.json",
+   "scope_file": "data/topics/scope_tree-explain.json",
+   "guidance": {
+    "format": "paper",
+    "max_words": 1700,
+    "required_sections": [
+     "Abstract",
+     "Related work",
+     "Method",
+     "Results",
+     "Limitations",
+     "References"
+    ],
+    "emphasis": "Say plainly what the crude loop did and did not establish; report a negative result as one."
+   },
+   "budget_cap_usd": 1.5,
+   "ledger": "data/ledger/run_runs4-tree-explain.jsonl",
+   "outcome": "The registered comparison ran; the one idea tried did not beat the baseline, and the paper reports that as a negative result.",
+   "spent_usd": 0.1016
+  },
+  {
+   "id": "credal-dro",
+   "title": "Credal ambiguity sets, reproduced and extended (with experiments)",
+   "kind": "paper",
+   "dir": "docs/results/runs4/runs4-credal",
+   "document": "paper.md",
+   "evidence": [
+    "results.json",
+    "audit.md"
+   ],
+   "topic_file": "data/topics/credal-dro.json",
+   "scope_file": "data/topics/scope_credal-dro.json",
+   "guidance": {
+    "format": "paper",
+    "max_words": 1700,
+    "required_sections": [
+     "Abstract",
+     "Related work",
+     "Method",
+     "Results",
+     "Limitations",
+     "References"
+    ],
+    "emphasis": "Say plainly what the crude loop did and did not establish; report a negative result as one."
+   },
+   "budget_cap_usd": 1.5,
+   "ledger": "data/ledger/run_runs4-credal.jsonl",
+   "outcome": "The parent's baseline was reproduced; both ideas were far worse than it, and the paper says an implementation fault is likely.",
+   "spent_usd": 0.059
+  }
+ ]
+}

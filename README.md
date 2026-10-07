@@ -48,6 +48,28 @@ Users bring their own model key; VERA never spends the maintainer's.
 Layers connect through **data contracts** (see `docs/03-interfaces.md`), not
 shared internals. Every judgment anywhere in the system is a `Verdict`.
 
+## Try it: the local app
+
+VERA runs on your own computer with **your own** OpenRouter key and your own money. The maintainer pays nothing and has no
+access to your key or your runs; the key is held in the program's memory and is never written to a file, a log or a run record.
+
+You need Python 3.11 or later and [uv](https://docs.astral.sh/uv/). Then:
+
+```
+git clone https://github.com/PCSchmidt/VERA.git
+cd VERA
+uv sync
+uv run vera-app
+```
+
+Open http://127.0.0.1:8765, press **Connect my key**, paste an OpenRouter key (get one in your OpenRouter account, under Keys, and
+add a small credit), and start a run. VERA proposes a question for you to confirm, then searches, reads, writes a review with each
+claim tied to a quote, audits it and shows you the audit. You set a spending cap on every run; VERA stops before passing it.
+
+Optional: Docker, with the GROBID image running on port 8070 (`docker run --rm -p 8070:8070 lfoppiano/grobid:0.8.2`; on WSL2 add
+`-e JAVA_TOOL_OPTIONS=-XX:-UseContainerSupport`), lets VERA read full texts; without it, it reads abstracts and says so. A `SEMANTIC_SCHOLAR_API_KEY` or `OPENALEX_API_KEY` in a `.env` file
+adds paper-search sources. Experiments (a parent paper's code re-run in a sandbox) are not started from the app yet; see `docs/`.
+
 ## Docs
 
 | File | Purpose |

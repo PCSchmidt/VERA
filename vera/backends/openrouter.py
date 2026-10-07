@@ -31,7 +31,7 @@ from dataclasses import dataclass
 
 import httpx
 
-from vera.backends import api_key, post_with_retry
+from vera.backends import api_key, post_with_retry, redact
 from vera.judge import build_messages, parse_answer, to_verdict
 from vera.ledger import CallResult, Ledger, metered_call, new_trace_id
 from vera.schemas import Budget, Question, QuestionType, Verdict
@@ -152,7 +152,7 @@ class OpenRouterBackend:
             headers={"Authorization": f"Bearer {api_key('OPENROUTER_API_KEY')}"},
         )  # fmt: skip
         if resp.is_error:  # keep the provider's reason: metered_call writes it to the ledger
-            raise RuntimeError(f"OpenRouter HTTP {resp.status_code}: {resp.text[:300]}")
+            raise RuntimeError(f"OpenRouter HTTP {resp.status_code}: {redact(resp.text[:300])}")
         data = resp.json()
         if "error" in data:
             raise RuntimeError(f"OpenRouter error: {data['error']}")

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VERA</title>
+<meta name="description" content="Research from a topic, with your own model key, checked by an audit you can read.">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to the content</a>
+<header class="bar">
+  <a class="brand" href="#/">VERA</a>
+  <nav aria-label="Main">
+    <a href="#/new" data-nav="new">New run</a>
+    <a href="#/runs" data-nav="runs">My runs</a>
+    <a href="#/examples" data-nav="examples">Examples</a>
+  </nav>
+  <button id="keypill" class="pill" type="button" aria-haspopup="dialog">Checking key…</button>
+</header>
+
+<main id="main" tabindex="-1"></main>
+
+<dialog id="keydialog" aria-labelledby="keytitle">
+  <form method="dialog" id="keyform" autocomplete="off">
+    <h2 id="keytitle">Connect your OpenRouter key</h2>
+    <p>VERA uses <strong>your</strong> key and <strong>your</strong> money. The key is held in this program's memory only, until you close it or press Forget. It is never saved to a file, a log or the run record.</p>
+    <label for="keyinput">OpenRouter API key</label>
+    <input id="keyinput" type="password" autocomplete="off" spellcheck="false" required>
+    <p id="keyerror" class="error" role="alert" hidden></p>
+    <div class="row">
+      <button type="submit" class="primary">Check and connect</button>
+      <button type="button" id="keyforget" class="quiet">Forget the key</button>
+      <button type="button" id="keyclose" class="quiet">Close</button>
+    </div>
+    <p class="small">Where to get one: your OpenRouter account, under Keys. Add a small credit; VERA stops at the cap you set on each run.</p>
+  </form>
+</dialog>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

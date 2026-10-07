@@ -8,11 +8,13 @@ environment (the app's server hands it to the worker that way); nothing here wri
 
 from __future__ import annotations
 
+import json
 import os
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from vera import audit
 from vera.app.appbudget import STOP_FILE, AppBudget
 from vera.backends.generator import OpenRouterGenerator
 from vera.graph import run_config
@@ -95,6 +97,38 @@ def run_phase(deps: LitDeps, phase: str) -> dict:
         stop.unlink(missing_ok=True)
         return rerun_from(deps, resume_node(deps), extra_nodes=STAGE_NODES)
     raise ValueError(f"unknown phase {phase!r}")
+
+
+MIN_CONFIDENCE = 0.7
+
+
+def _jsonl(path: Path) -> list[dict]:
+    return [json.loads(ln) for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip()]
+
+
+def run_audit(deps: LitDeps, judge: Any = None) -> str:
+    """The final audit of the finished literature section, as `scripts/audit_topic.py` does it: citations exist and each
+    claim is supported by the passage it quotes. Writes `audit.md` and `artifacts/audit_report.json`; returns the light.
+    The section's producer is `p3.synthesize`, so no judge grades its own text. Charged to the run's own budget."""
+    run_dir = deps.run_dir
+    judge = judge or cheap_path(ledger=deps.ledger, budget=deps.budget)
+
+    def ask(question, material):
+        (verdict,) = judge.ask(material, [question])
+        verdict = verdict.model_copy(update={"producer_id": "p3.synthesize"})
+        return verdict, verdict.confidence_source != "none" and verdict.confidence >= MIN_CONFIDENCE
+
+    run = audit.run_literature_audit(
+        (run_dir / "literature.md").read_text(encoding="utf-8"), _jsonl(run_dir / "claims.jsonl"),
+        _jsonl(run_dir / "passages.jsonl"), _jsonl(run_dir / "retrieved.jsonl"), ask=ask, paper_id=deps.spec.run_id,
+        paper_source="literature.md",
+    )  # fmt: skip
+    (run_dir / "artifacts").mkdir(parents=True, exist_ok=True)
+    (run_dir / "artifacts" / "audit_report.json").write_text(
+        json.dumps(run.report.model_dump(mode="json"), indent=1, ensure_ascii=False), encoding="utf-8"
+    )
+    (run_dir / "audit.md").write_text(audit.render_markdown(run), encoding="utf-8")
+    return run.report.overall
 
 
 def confirm(run_dir: Path, question: str | None, who: str = "the app user") -> Any:
