@@ -213,3 +213,19 @@ def test_APP_F_01_a_finished_review_gets_its_audit_light_from_its_own_files(tmp_
         json.loads((deps.run_dir / "artifacts" / "audit_report.json").read_text(encoding="utf-8"))["overall"] == "green"
     )
     assert (deps.run_dir / "audit.md").read_text(encoding="utf-8").startswith("# Audit of app-run: **GREEN**")
+
+
+def test_APP_F_01_a_question_the_judge_rejected_can_be_edited_and_the_run_continues(
+    tmp_path: Path, monkeypatch
+) -> None:
+    monkeypatch.setattr(pipeline, "STAGE_NODES", RETRIEVAL_NODES)
+    deps = make_app_deps(tmp_path)
+    deps.judge = LitJudge(deps.ledger, deps.budget, answers={"lit.question_scoped": False})
+    rejected = pipeline.run_phase(deps, "start")
+    assert finish_state(rejected, "start")[0] == "awaiting_confirmation"  # not a dead end
+    assert "too broad" in finish_state(rejected, "start")[1]
+    pipeline.confirm(deps.run_dir, "Does X hold under Y?")
+    deps.judge = LitJudge(deps.ledger, deps.budget)
+    done = pipeline.run_phase(deps, "continue")
+    assert not done.get("stop") and done["trail"][-1] == "rescreen"
+    assert scoping.read_scope(deps.run_dir).status == "edited"

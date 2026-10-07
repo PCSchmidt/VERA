@@ -28,6 +28,11 @@ def finish_state(final: dict, phase: str) -> tuple[str, str | None]:
     reason = stop.get("reason", "")
     if reason.startswith("awaiting confirmation"):
         return "awaiting_confirmation", "Check the question VERA proposes, then confirm it or edit it."
+    if reason.startswith("gate: the scoped question was rejected"):
+        return "awaiting_confirmation", (
+            "VERA's own check thought this question is too broad or not specific enough. "
+            "Edit it so it asks one thing, or confirm it as it is."
+        )
     if "stopped by the user" in reason:
         return "stopped", "Stopped at your request. Everything done so far is kept; you can resume."
     if reason.startswith("budget:"):

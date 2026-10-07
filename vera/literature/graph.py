@@ -111,7 +111,13 @@ def continue_topic_run(deps: LitDeps, *, extra_nodes: list[tuple[str, str, NodeF
     graph = _graph(deps, extra_nodes)
     thread = deps.spec.run_id
     deps.budget.max_usd = deps.spec.budget.max_usd
-    restore_budget(deps, graph.get_state(run_config(thread)).values.get("budget"))
+    values = graph.get_state(run_config(thread)).values
+    stop = values.get("stop") or {}
+    rejected = "gate: the scoped question was rejected"
+    if stop.get("stage") == "scope" and str(stop.get("reason", "")).startswith(rejected):
+        # the user has now read the proposal (and perhaps edited it): the judge's rejection no longer stops the run
+        graph.update_state(run_config(thread), {"stop": None}, as_node=PAUSE_AFTER)
+    restore_budget(deps, values.get("budget"))
     state = resume(graph, thread)
     write_best_so_far(state, deps.spec, deps.budget, deps.run_dir / "best_so_far.json")
     return state
