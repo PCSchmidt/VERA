@@ -229,3 +229,14 @@ def test_APP_F_01_a_question_the_judge_rejected_can_be_edited_and_the_run_contin
     done = pipeline.run_phase(deps, "continue")
     assert not done.get("stop") and done["trail"][-1] == "rescreen"
     assert scoping.read_scope(deps.run_dir).status == "edited"
+
+
+def test_a_literature_only_run_tells_the_scoper_to_propose_one_literature_question() -> None:
+    spec = pipeline.make_spec(REQUEST)
+    assert "literature review alone" in spec.topic.scope_hint and "companion study" in spec.topic.scope_hint
+    from vera.literature.scoping import scope_prompt  # noqa: PLC0415
+
+    deps = type("D", (), {"spec": spec})()
+    assert "follow it" in scope_prompt(deps) and "exactly one question" in scope_prompt(deps)
+    with_experiments = pipeline.make_spec(REQUEST.model_copy(update={"allow_experiments": True}))
+    assert with_experiments.topic.scope_hint is None

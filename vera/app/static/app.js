@@ -164,7 +164,7 @@ async function newRun() {
     el("h1", {}, "New run"),
     el("label", { for: "topic" }, "Your topic"),
     topic,
-    el("p", { class: "hint" }, "VERA will propose one researchable question from this and wait for you to confirm or edit it before spending more."),
+    el("p", { class: "hint" }, "VERA will propose one researchable question from this and wait for you to confirm or edit it before spending more. If your topic uses acronyms or new terms, define them here: the proposal is only as good as the topic you give it."),
     el("label", { for: "emphasis" }, "Guidance for the write-up"),
     emphasis,
     el("label", { for: "cap" }, "Spending cap (US dollars)"),

@@ -42,8 +42,15 @@ def generator_model() -> tuple[str, str]:
     return (override.rsplit("/", 1)[-1], override) if override else DEFAULT_MODEL
 
 
+LITERATURE_ONLY_HINT = (
+    "This run produces a literature review only: the app cannot run experiments. Propose exactly one question, "
+    "phrased as one question, that a literature review alone can answer. Do not propose an experiment or a "
+    "companion study, and set empirical to false."
+)
+
+
 def make_spec(request: RunRequest) -> RunSpec:
-    topic = Topic(id=request.run_id, text=request.topic)
+    topic = Topic(id=request.run_id, text=request.topic, scope_hint=None if request.allow_experiments else LITERATURE_ONLY_HINT)
     return RunSpec(
         run_id=request.run_id, topic=topic, guidance=request.guidance,
         budget=Budget(max_usd=request.max_usd, max_wall_seconds=request.max_wall_seconds),
