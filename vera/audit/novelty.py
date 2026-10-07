@@ -22,7 +22,9 @@ from vera.schemas import Claim, Evidence, Finding, Location, Question, QuestionT
 
 Ask = Callable[[Question, str], tuple[Verdict, bool]]
 TOP_K = 3
-STOP = set("the a an of and or to in for on with by is are as at from that this these those it its be can we our their using use via based".split())
+STOP = set(
+    "the a an of and or to in for on with by is are as at from that this these those it its be can we our their using use via based".split()
+)
 
 
 def tokens(text: str) -> list[str]:
@@ -61,7 +63,9 @@ def judge_pair(idea: str, prior_title: str, prior_text: str, ask: Ask) -> tuple[
     return (verdict.answer if confident and isinstance(verdict.answer, bool) else None), verdict
 
 
-def audit_novelty(ideas: dict[str, str], records: list[dict], ask: Ask, search: Callable[[str], list[dict]] | None = None) -> tuple[list[Claim], list[Finding]]:
+def audit_novelty(
+    ideas: dict[str, str], records: list[dict], ask: Ask, search: Callable[[str], list[dict]] | None = None
+) -> tuple[list[Claim], list[Finding]]:
     """`ideas`: name -> description. One claim per idea; a `warn` finding per prior work judged not distinct."""
     claims: list[Claim] = []
     findings: list[Finding] = []
@@ -76,7 +80,9 @@ def audit_novelty(ideas: dict[str, str], records: list[dict], ask: Ask, search: 
             except Exception:  # noqa: BLE001 - a failed search leaves the retrieved records as the pool
                 pass
         for prior in closest(f"{name}. {description}", pool):
-            distinct, verdict = judge_pair(f"{name}: {description}", prior.get("title", ""), prior.get("abstract", ""), ask)
+            distinct, verdict = judge_pair(
+                f"{name}: {description}", prior.get("title", ""), prior.get("abstract", ""), ask
+            )
             if distinct is False:
                 summary = f"{name} may not be materially distinct from prior work: {prior.get('title', '')!r}."
                 findings.append(Finding(check="novelty", severity="warn", claim_ids=[claim.id], verdicts=[verdict], summary=summary,

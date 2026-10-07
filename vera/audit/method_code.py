@@ -46,14 +46,22 @@ def code_components(code: str) -> list[dict]:
 
 def method_section(text: str) -> str:
     body = text.partition("## References")[0]
-    m = re.search(r"^#{1,6}\s*(?:\d+\.?\s*)?(?:Method|Approach)\b.*?$(.*?)(?=^#{1,6}\s|\Z)", body, re.IGNORECASE | re.MULTILINE | re.DOTALL)
+    m = re.search(
+        r"^#{1,6}\s*(?:\d+\.?\s*)?(?:Method|Approach)\b.*?$(.*?)(?=^#{1,6}\s|\Z)",
+        body,
+        re.IGNORECASE | re.MULTILINE | re.DOTALL,
+    )
     return m.group(1).strip() if m else ""
 
 
 def idea_paragraphs(method: str, idea: str) -> list[str]:
     """The Method paragraphs that name the idea (by its label, its code or its name)."""
     words = aliases(idea)
-    return [p for p in re.split(r"\n\s*\n", method) if any(re.search(rf"(?<!\w){re.escape(w)}(?!\w)", p, re.IGNORECASE) for w in words)]
+    return [
+        p
+        for p in re.split(r"\n\s*\n", method)
+        if any(re.search(rf"(?<!\w){re.escape(w)}(?!\w)", p, re.IGNORECASE) for w in words)
+    ]
 
 
 def audit_method_code(text: str, methods: dict[str, str], ask: Ask) -> tuple[list[Claim], list[Finding]]:
@@ -78,7 +86,9 @@ def audit_method_code(text: str, methods: dict[str, str], ask: Ask) -> tuple[lis
             )  # fmt: skip
             verdict, confident = ask(question, f"Code of the method:\n```python\n{code}\n```")
             if confident and verdict.answer is False:
-                findings.append(_finding(claim, f"The paper says: {step[:160]!r}, and the code of {idea} does not do it.", verdict))
+                findings.append(
+                    _finding(claim, f"The paper says: {step[:160]!r}, and the code of {idea} does not do it.", verdict)
+                )
         for comp in code_components(code):
             claim = Claim(id=f"code:{idea}:{comp['name']}", kind="method", text=f"function {comp['name']}",
                           location=Location(section="Method", quote=comp["source"][:200]))  # fmt: skip
@@ -88,9 +98,18 @@ def audit_method_code(text: str, methods: dict[str, str], ask: Ask) -> tuple[lis
                 text=("Does the paper's description of the method cover what this function of its code does? Answer false if "
                       "the function performs a step, transformation or choice that the description does not mention."),
             )  # fmt: skip
-            verdict, confident = ask(question, f"Paper's description of {idea}:\n{described}\n\nFunction `{comp['name']}`:\n```python\n{comp['source']}\n```")
+            verdict, confident = ask(
+                question,
+                f"Paper's description of {idea}:\n{described}\n\nFunction `{comp['name']}`:\n```python\n{comp['source']}\n```",
+            )
             if confident and verdict.answer is False:
-                findings.append(_finding(claim, f"The code of {idea} has a function {comp['name']!r} that the paper does not describe.", verdict))
+                findings.append(
+                    _finding(
+                        claim,
+                        f"The code of {idea} has a function {comp['name']!r} that the paper does not describe.",
+                        verdict,
+                    )
+                )
     return claims, findings
 
 

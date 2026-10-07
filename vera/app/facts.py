@@ -40,7 +40,7 @@ def example(root: Path, spec: dict) -> dict:
         "question": scope.get("question"), "guidance": spec["guidance"], "budget_cap_usd": spec["budget_cap_usd"],
         "spent_usd": spec["spent_usd"], "audit": light,
         "outcome": spec["outcome"], "document": f"{spec['dir']}/{spec['document']}",
-        "evidence": [f"{spec['dir']}/{n}" for n in spec.get("evidence", [])],
+        "evidence": [f"{spec['dir']}/{n}" for n in spec.get("evidence", [])], "retrieved": spec.get("retrieved"),
     }  # fmt: skip
 
 

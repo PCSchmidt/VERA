@@ -55,7 +55,9 @@ def plan(results_json: dict) -> list[dict]:
                      if cell_value(results_json, cell_id("protocol", m, d, key))]  # fmt: skip
             if cells:
                 spec = FigureSpec(id=f"fig_{key}", kind="line", cells=cells, caption="(to be written)")
-                out.append({"spec": spec, "title": title, "xlabel": "pairwise correlation of the inputs", "ylabel": ylabel})
+                out.append(
+                    {"spec": spec, "title": title, "xlabel": "pairwise correlation of the inputs", "ylabel": ylabel}
+                )
     names = tables.METRIC_NAME
     primary = tables.PRIMARY
     datasets = tables.valid_datasets(results_json["results"], results_json["datasets"])[:MAX_BAR_DATASETS]

@@ -58,8 +58,15 @@ def audit_source_sha256(root: Path) -> str:
     return h.hexdigest()
 
 
-def plant_paper(kind: str, text: str, results_json: dict, rng: random.Random, *, methods: dict[str, str] | None = None,
-                figures: list[dict] | None = None) -> tuple[str, str, str, dict[str, str]] | None:
+def plant_paper(
+    kind: str,
+    text: str,
+    results_json: dict,
+    rng: random.Random,
+    *,
+    methods: dict[str, str] | None = None,
+    figures: list[dict] | None = None,
+) -> tuple[str, str, str, dict[str, str]] | None:
     if kind in seeded_v2.PAPER_FAULTS:
         planted = seeded_v2.plant_paper(kind, text, results_json, rng)
         return None if planted is None else (*planted, {})
@@ -80,7 +87,12 @@ def plant_paper(kind: str, text: str, results_json: dict, rng: random.Random, *,
                 new_code = code.rstrip() + "\n" + EXTRA_FUNCTION
                 if "import numpy" not in new_code:
                     new_code = "import numpy as np\n" + new_code
-                return text, f"code of {idea}", "added a substantial function the paper does not describe", {"methods.json": json.dumps({**methods, idea: new_code})}
+                return (
+                    text,
+                    f"code of {idea}",
+                    "added a substantial function the paper does not describe",
+                    {"methods.json": json.dumps({**methods, idea: new_code})},
+                )
         return None
     if kind == "figure_altered":
         if not figures:
@@ -91,7 +103,12 @@ def plant_paper(kind: str, text: str, results_json: dict, rng: random.Random, *,
         for p in points:
             if p["cell"] == point["cell"]:
                 p["mean"] = p["mean"] * 1.5 + 1.0
-        return text, f"figure {rec['id']}", f"one plotted point changed ({point['cell']})", {"figures.json": json.dumps(figures)}
+        return (
+            text,
+            f"figure {rec['id']}",
+            f"one plotted point changed ({point['cell']})",
+            {"figures.json": json.dumps(figures)},
+        )
     if kind == "reproduction_basis_wrong":
         for _, s in sentences(text):
             if re.search(r"reproduc", s, re.IGNORECASE) and re.search(r"in[- ]sample|held[- ]out", s, re.IGNORECASE):

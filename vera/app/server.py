@@ -127,7 +127,7 @@ def create_app(
 
     @app.get("/api/runs", response_model=list[RunStatus])
     def list_runs() -> list[RunStatus]:
-        base = root / "runs"
+        base = manager.root / "runs"
         out = []
         for d in (
             sorted(base.glob("*/app_request.json"), key=lambda p: p.stat().st_mtime, reverse=True)
@@ -208,7 +208,7 @@ def create_app(
         if match is None:
             raise HTTPException(status_code=404, detail="No such example.")
         folder = (root / match["document"]).parent
-        out = read_paper(folder, document=Path(match["document"]).name)
+        out = read_paper(folder, document=Path(match["document"]).name, retrieved=match.get("retrieved"), root=root)
         out["example"] = match
         return out
 
@@ -242,14 +242,16 @@ def _plain(exc: ValidationError) -> str:
     return "; ".join(f"{'.'.join(str(p) for p in e['loc'])}: {e['msg']}" for e in exc.errors())
 
 
-def read_paper(folder: Path, document: str | None = None) -> dict:
+def read_paper(
+    folder: Path, document: str | None = None, retrieved: str | None = None, root: Path | None = None
+) -> dict:
     """The document, its claims with their quotes, its sources and its audit, as the reader shows them."""
     doc = folder / (document or ("literature.md" if (folder / "literature.md").exists() else "paper.md"))
     text = doc.read_text(encoding="utf-8") if doc.exists() else ""
     claims = _jsonl(folder / "claims.jsonl")
     sources = {
         r["key"]: {k: r.get(k) for k in ("title", "authors", "year", "url", "id")}
-        for r in _jsonl(folder / "retrieved.jsonl")
+        for r in _jsonl(root / retrieved if retrieved and root else folder / "retrieved.jsonl")
     }
     report = folder / "artifacts" / "audit_report.json"
     if not report.exists():

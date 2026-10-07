@@ -148,8 +148,13 @@ def trend_facts(protocol: dict) -> list[str]:
     rows = sorted((float(d.split("@")[1]), d) for d in protocol["datasets"] if d.startswith("analytical@"))
     parent = protocol["methods"][0]
     out = []
-    for key, name in (("residual_mse_pct", "residual MSE (%)"), ("component_mse_pct", "component error (% of signal variance)")):
-        pts = [(r, protocol["results"][parent][d].get(key)) for r, d in rows if protocol["results"][parent][d].get("valid")]
+    for key, name in (
+        ("residual_mse_pct", "residual MSE (%)"),
+        ("component_mse_pct", "component error (% of signal variance)"),
+    ):
+        pts = [
+            (r, protocol["results"][parent][d].get(key)) for r, d in rows if protocol["results"][parent][d].get("valid")
+        ]
         pts = [(r, v["mean"]) for r, v in pts if v]
         if len(pts) >= 2:
             (r0, v0), (r1, v1) = pts[0], pts[-1]
@@ -174,7 +179,11 @@ def protocol_design_facts(protocol: dict, invalid: int) -> list[str]:
 
 
 def writeup_prompt(
-    deps: LoopDeps, state: dict, refs: list[dict], problems: list[str] | None, previous: str | None,
+    deps: LoopDeps,
+    state: dict,
+    refs: list[dict],
+    problems: list[str] | None,
+    previous: str | None,
     figs: list[dict] | None = None,
 ):
     g = deps.spec.guidance

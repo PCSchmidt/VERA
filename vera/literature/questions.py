@@ -47,7 +47,7 @@ def relevant(question: str, record: dict) -> tuple[Question, str]:
 
 def claim_supported(claim: str, passage: dict, title: str) -> tuple[Question, str]:
     """(question, material): does the passage support the claim as written? The judge sees the claim and the passage."""
-    material = f"Claim: {claim}\n\nPassage (from \"{title}\", {passage['locator']}): {passage['text']}"
+    material = f'Claim: {claim}\n\nPassage (from "{title}", {passage["locator"]}): {passage["text"]}'
     text = (
         "Does the passage support the claim as written? Answer true only if the passage states, or clearly implies, "
         "what the claim says, including its direction, any numbers and any qualifiers. Answer false if the passage is "

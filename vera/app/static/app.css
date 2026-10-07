@@ -27,6 +27,19 @@
     --focus: #8fb0ff;
   }
 }
+:root[data-theme="dark"] {
+  --bg: #161614;
+  --surface: #201f1c;
+  --text: #efede7;
+  --muted: #a9a59b;
+  --line: #36342f;
+  --accent: #5fbf9a;
+  --accent-text: #0f1a15;
+  --green: #5fc58c;
+  --amber: #e0b04a;
+  --red: #f08d85;
+  --focus: #8fb0ff;
+  }
 * { box-sizing: border-box; }
 html { font-size: 17px; }
 body {
@@ -117,3 +130,9 @@ blockquote { margin: 8px 0; padding: 4px 12px; border-left: 3px solid var(--acce
 dialog { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--text); max-width: 520px; width: calc(100% - 32px); }
 dialog::backdrop { background: rgba(0, 0, 0, 0.45); }
 .tag { font-size: 0.78rem; border: 1px solid var(--line); border-radius: 6px; padding: 1px 7px; color: var(--muted); }
+
+main:focus { outline: none; }
+.card > h2:first-child { margin-top: 0.2em; }
+
+main, .paper, .card { overflow-wrap: anywhere; }
+body { overflow-x: hidden; }

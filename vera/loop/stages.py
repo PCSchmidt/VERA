@@ -180,8 +180,15 @@ def rule_verdict(question: Question, answer: Any, producer: str) -> Verdict:
 
 
 def ask_gate(
-    deps: Any, stage: str, question: Question, material: str, shadow: Any, state: dict, producer: str | None = None,
-    *, rule: bool = False,
+    deps: Any,
+    stage: str,
+    question: Question,
+    material: str,
+    shadow: Any,
+    state: dict,
+    producer: str | None = None,
+    *,
+    rule: bool = False,
 ) -> tuple[Verdict, bool]:
     """Ask the judge one question about `material`. Returns (verdict, confident).
 

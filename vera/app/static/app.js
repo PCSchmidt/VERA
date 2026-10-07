@@ -3,6 +3,8 @@
 
 const $ = (sel, root = document) => root.querySelector(sel);
 const main = $("#main");
+const forced = new URLSearchParams(location.search).get("theme");
+if (forced === "dark" || forced === "light") document.documentElement.dataset.theme = forced;
 const state = { config: null, facts: null, source: null };
 
 function el(tag, attrs = {}, ...kids) {

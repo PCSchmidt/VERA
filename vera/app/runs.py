@@ -12,8 +12,6 @@ from __future__ import annotations
 import json
 import os
 import re
-import subprocess
-import sys
 from collections.abc import Callable
 from pathlib import Path
 
@@ -23,6 +21,7 @@ from vera.app.appbudget import STOP_FILE
 from vera.app.keystore import SessionKey
 from vera.backends import api_key
 from vera.literature import scoping
+from vera.sandbox.host import spawn_worker
 from vera.schemas import RunRequest, RunStatus
 
 Launcher = Callable[[str, str, dict[str, str]], None]
@@ -38,12 +37,7 @@ def subprocess_launcher(root: Path) -> Launcher:
     def launch(run_id: str, phase: str, env: dict[str, str]) -> None:
         log = root / "runs" / run_id / "worker.log"
         log.parent.mkdir(parents=True, exist_ok=True)
-        flags = subprocess.CREATE_NEW_PROCESS_GROUP if sys.platform == "win32" else 0  # outlives the server's console
-        with log.open("ab") as out:
-            subprocess.Popen(  # noqa: S603 - fixed argv, the run id was validated
-                [sys.executable, "-m", "vera.app.worker", run_id, phase], cwd=root, env=env, stdout=out, stderr=out,
-                creationflags=flags,
-            )  # fmt: skip
+        spawn_worker(run_id, phase, cwd=root, env=env, log=log)
 
     return launch
 

@@ -204,9 +204,13 @@ class Retriever:
                                          {"x-api-key": api_key("SEMANTIC_SCHOLAR_API_KEY")})  # fmt: skip
                     found += _s2_records(text, query)
                 else:
-                    params = {"search": query, "per-page": n, "api_key": api_key("OPENALEX_API_KEY"),
-                              "filter": "type:article|preprint",
-                              "select": OPENALEX_FIELDS}
+                    params = {
+                        "search": query,
+                        "per-page": n,
+                        "api_key": api_key("OPENALEX_API_KEY"),
+                        "filter": "type:article|preprint",
+                        "select": OPENALEX_FIELDS,
+                    }
                     text = self._request(source, "https://api.openalex.org/works", params)
                     found += _openalex_records(text, query)
             except (httpx.HTTPError, ET.ParseError, KeyError, ValueError) as exc:

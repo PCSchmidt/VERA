@@ -3,14 +3,13 @@
 from __future__ import annotations
 
 import os
-import shutil
-import subprocess
 from collections.abc import Callable
 
 import httpx
 
 from vera.app.keystore import SessionKey
 from vera.backends import api_key
+from vera.sandbox.host import docker_available
 from vera.schemas import AppConfig
 
 GROBID_URL = "http://localhost:8070/api/isalive"
@@ -24,15 +23,6 @@ def _has(name: str) -> bool:
     return True
 
 
-def docker_probe() -> bool:
-    if not shutil.which("docker"):
-        return False
-    try:
-        return subprocess.run(["docker", "info"], capture_output=True, timeout=8, check=False).returncode == 0
-    except (OSError, subprocess.TimeoutExpired):
-        return False
-
-
 def grobid_probe() -> bool:
     try:
         return httpx.get(GROBID_URL, timeout=2).status_code == 200
@@ -41,7 +31,7 @@ def grobid_probe() -> bool:
 
 
 def detect(
-    session: SessionKey, *, docker: Callable[[], bool] = docker_probe, grobid: Callable[[], bool] = grobid_probe
+    session: SessionKey, *, docker: Callable[[], bool] = docker_available, grobid: Callable[[], bool] = grobid_probe
 ) -> AppConfig:
     if session.present:
         source = "session"

@@ -21,7 +21,8 @@
    "budget_cap_usd": 1.0,
    "ledger": "data/ledger/run_topic4-conformal-2.jsonl",
    "outcome": "A literature review with no experiments; the audit found every cited claim supported by its quoted passage.",
-   "spent_usd": 0.1649
+   "spent_usd": 0.1649,
+   "retrieved": "data/retrieval/conformal-shift/retrieved.jsonl"
   },
   {
    "id": "research-agents-eval",
@@ -43,7 +44,8 @@
    "budget_cap_usd": 1.0,
    "ledger": "data/ledger/run_topic4-agents-1.jsonl",
    "outcome": "A literature review; retrieval missed most of the key papers fixed beforehand for this topic, and the review says what it could not establish.",
-   "spent_usd": 0.1664
+   "spent_usd": 0.1664,
+   "retrieved": "data/retrieval/research-agents-eval/retrieved.jsonl"
   },
   {
    "id": "tree-explain",

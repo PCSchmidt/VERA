@@ -4,7 +4,6 @@ provider echoes the key in its error), and the marker must appear in no file, st
 
 from __future__ import annotations
 
-import subprocess
 from pathlib import Path
 
 import httpx
@@ -88,7 +87,7 @@ def test_APP_C_02_the_key_is_in_the_workers_environment_and_not_its_arguments(tm
     def fake_popen(argv, **kwargs):
         captured["argv"], captured["env"] = argv, kwargs["env"]
 
-    monkeypatch.setattr(subprocess, "Popen", fake_popen)
+    monkeypatch.setattr("vera.sandbox.host.subprocess.Popen", fake_popen)
     runs_module.subprocess_launcher(tmp_path)("my-first-run", "start", {"OPENROUTER_API_KEY": KEY})
     assert KEY not in " ".join(captured["argv"]) and captured["env"]["OPENROUTER_API_KEY"] == KEY
     assert "my-first-run" in captured["argv"] and "start" in captured["argv"]

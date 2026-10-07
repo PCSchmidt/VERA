@@ -7,11 +7,16 @@ license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"
 dependencies = [
+    "fastapi>=0.142.2",
     "httpx>=0.28.1",
     "langgraph>=1.2.12",
     "langgraph-checkpoint-sqlite>=3.1.1",
     "pydantic>=2.7",
+    "uvicorn>=0.54.0",
 ]
+
+[project.scripts]
+vera-app = "vera.app.server:main"
 
 [dependency-groups]
 bench = [

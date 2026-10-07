@@ -66,8 +66,11 @@ def build_report(deps: LoopDeps, state: dict) -> dict:
             "elapsed_seconds": deps.budget.elapsed_seconds,
         },  # fmt: skip
         "by_component": {
-            k: {**v, "cost_usd": round(v["cost_usd"], 6),
-                "input_share": round(v["input_tokens"] / max(v["input_tokens"] + v["output_tokens"], 1), 3)}
+            k: {
+                **v,
+                "cost_usd": round(v["cost_usd"], 6),
+                "input_share": round(v["input_tokens"] / max(v["input_tokens"] + v["output_tokens"], 1), 3),
+            }
             for k, v in sorted(by_component.items())
         },  # fmt: skip
         "stages": stages,

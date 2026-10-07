@@ -63,7 +63,11 @@ def ablation_node(deps: LoopDeps) -> Callable[[dict], dict]:
         reply = deps.generator.generate(ABLATION_SYSTEM, ablation_prompt(name, by_name[name]["description"], code),
                                         component="p3.ablation")  # fmt: skip
         raw = _extract_json(reply, "[", "]")
-        variants = [v for v in (raw if isinstance(raw, list) else []) if isinstance(v, dict) and v.get("component") and v.get("code")]
+        variants = [
+            v
+            for v in (raw if isinstance(raw, list) else [])
+            if isinstance(v, dict) and v.get("component") and v.get("code")
+        ]
         results = dict(state["results"])
         log = []
         for k, v in enumerate(variants[:MAX_COMPONENTS], start=1):
@@ -76,10 +80,19 @@ def ablation_node(deps: LoopDeps) -> Callable[[dict], dict]:
             log.append({"component": v["component"], "label": label, "ok": ok, "error": error})
         artifact = _write_json(deps, "ablation", {"ran": True, "idea": name, "wins_on": datasets, "variants": log})
         if not any(entry["ok"] for entry in log):
-            note = f"an ablation of {name} was attempted and no variant ran: " + "; ".join(
-                f"{e['component']}: {e['error']}" for e in log) if log else f"the generator proposed no ablation of {name}"
+            note = (
+                f"an ablation of {name} was attempted and no variant ran: "
+                + "; ".join(f"{e['component']}: {e['error']}" for e in log)
+                if log
+                else f"the generator proposed no ablation of {name}"
+            )
             return {"artifacts": {"ablation_raw": artifact}, "ablation_note": note, "trail": ["ablation"]}
-        return {"results": results, "artifacts": {"ablation_raw": artifact}, "ablation_note": None, "trail": ["ablation"]}
+        return {
+            "results": results,
+            "artifacts": {"ablation_raw": artifact},
+            "ablation_note": None,
+            "trail": ["ablation"],
+        }
 
     return node
 

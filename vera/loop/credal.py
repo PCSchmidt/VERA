@@ -78,7 +78,8 @@ def implement_prompt(idea: dict, error: str | None, previous: str | None) -> str
         "`fit_predict` a second time with the training rows in another order and rejects the run if the predictions "
         "change, so do not depend on row order or on random state you do not seed. You may import numpy, scipy, sklearn "
         "and cvxpy. There is no network. This is a simple baseline, as the interface example:\n\n```python\n"
-        + EXAMPLE + "\n```\n\n"
+        + EXAMPLE
+        + "\n```\n\n"
         f"Idea: {idea['name']}\n{idea['description']}\n"
     )
     if error:
@@ -123,7 +124,8 @@ def baseline_reproduced(target: dict, results: dict[str, dict], n_seeds: int, da
         "Baseline reproduction check for the credal-ambiguity-sets problem (California Housing, East to West).\n"
         "Reference values from the paper's Table 3 for LV (units of 1e4): "
         + "; ".join(f"{name} {ref[k][0]}" for k, name in REPRO)
-        + f".\nTolerance: {tol:.0%}, relative to the reference value.\n\n" + "\n".join(rows)
+        + f".\nTolerance: {tol:.0%}, relative to the reference value.\n\n"
+        + "\n".join(rows)
     )
     question = Question(
         id="loop.baseline_reproduced",
@@ -138,8 +140,7 @@ def baseline_reproduced(target: dict, results: dict[str, dict], n_seeds: int, da
         abs(means[(tables.BASELINE, "california_housing", k)] - ref[k][0]) <= tol * ref[k][0] + 1e-9 for k, _ in REPRO
     )
     best = bool(others) and all(
-        cell[k]["mean"] <= min(v[k]["mean"] for v in others.values() if v.get("valid") and v.get(k))
-        for k, _ in REPRO
+        cell[k]["mean"] <= min(v[k]["mean"] for v in others.values() if v.get("valid") and v.get(k)) for k, _ in REPRO
     )
     return question, material, bool(within and best)
 
