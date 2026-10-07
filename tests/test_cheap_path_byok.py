@@ -9,6 +9,10 @@ from vera.ledger import Ledger
 from vera.schemas import Budget
 
 
+def names(router) -> list[str]:
+    return [b.name for b in router.backends]
+
+
 def test_without_a_jev_key_every_question_goes_to_glm_alone(monkeypatch, tmp_path: Path) -> None:
     monkeypatch.delenv("TYPESAFE_AI_API_KEY", raising=False)
     monkeypatch.setenv("OPENROUTER_API_KEY", "or-test-key")
