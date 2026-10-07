@@ -64,7 +64,7 @@ class SourceRecord(BaseModel):
     authors: list[str] = []
     year: str | None = None
     venue: str | None = None
-    source: Literal["arxiv", "crossref", "openalex"]
+    source: Literal["arxiv", "crossref", "openalex", "semanticscholar"]
     url: str
     abstract: str | None = None
     pdf_url: str | None = None  # open-access full text, when there is one

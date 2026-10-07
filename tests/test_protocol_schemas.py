@@ -27,8 +27,8 @@ def protocol(**kw) -> ProtocolSpec:
     return ProtocolSpec(**(base | kw))
 
 
-def test_the_schema_version_is_0_10() -> None:
-    assert SCHEMA_VERSION == "0.10"
+def test_the_schema_version_is_at_least_0_10() -> None:  # ProtocolSpec arrived in 0.10
+    assert tuple(map(int, SCHEMA_VERSION.split("."))) >= (0, 10)
 
 
 @pytest.mark.parametrize(

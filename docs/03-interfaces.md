@@ -1,6 +1,6 @@
 # 03 — Interfaces (core schemas)
 
-Version 0.10 · Draft · Changes require a version bump and a changelog line.
+Version 0.11 · Draft · Changes require a version bump and a changelog line.
 
 These are the contracts between layers. Implement as Pydantic v2 models in
 `vera/schemas/`. Field lists are normative; the Python below is a sketch.
@@ -219,7 +219,7 @@ class SourceRecord(BaseModel):
     authors: list[str] = []
     year: str | None = None
     venue: str | None = None
-    source: Literal["arxiv", "crossref", "openalex"]
+    source: Literal["arxiv", "crossref", "openalex", "semanticscholar"]
     url: str
     abstract: str | None = None
     pdf_url: str | None = None  # open-access full text, when there is one
@@ -388,3 +388,5 @@ different artifact producer (`gate.producer_id` set and `!= producer_id`). The
 - 0.10 — `ProtocolSpec`, `FigureSpec` and `RetrievalStats` added; `LiteratureSection.retrieval_stats` and
   `RunSpec.protocol` (Increment 4: protocol experiments, a paper-shaped write-up with figures drawn from
   `results.json`, retrieval statistics disclosed in the review text).
+- 0.11 — `SourceRecord.source` gains `"semanticscholar"` (Increment 5: a second keyed retrieval source, T5 reverse-if (5); used only with the
+  user's own key). App types (`RunRequest`, `RunStatus`, `AppConfig`) are added with the app core.

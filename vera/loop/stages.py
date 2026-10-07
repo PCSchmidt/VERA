@@ -24,7 +24,7 @@ from typing import Annotated, Any, Protocol, TypedDict
 
 from vera.graph import Judge
 from vera.ledger import Ledger
-from vera.loop import literature_context, problem, questions, tables
+from vera.loop import literature_context, problem, questions, spread, tables
 from vera.sandbox import SandboxLimits, SandboxResult
 from vera.schemas import STAGES, Budget, Question, RunSpec, SelfGradingError, StageResult, Verdict
 
@@ -444,6 +444,9 @@ def subset_exp_node(deps: LoopDeps) -> Callable[[dict], dict]:
                     continue
                 res, error = run_harness(deps, f"idea_{len(log) + 1}_{attempt}", code)
                 attempts.append({"attempt": attempt, "error": error, "code": code})
+                if error is None and (flat := spread.degenerate_spread(res, state["baseline"])):
+                    error = "degenerate spread, the results do not vary across seeds: " + "; ".join(flat[:2])
+                    attempts[-1]["error"] = error
                 if error is None:
                     results[name] = res
                     break

@@ -262,7 +262,9 @@ def test_crossref_is_asked_for_papers_only_and_the_request_says_so() -> None:
     assert "component" not in str(crossref.url)  # figure and table captions are not papers
 
 
-def test_openalex_records_carry_the_reconstructed_abstract_and_the_open_access_pdf(monkeypatch) -> None:
+def test_openalex_records_carry_the_reconstructed_abstract_and_the_open_access_pdf(monkeypatch, tmp_path) -> None:
+    monkeypatch.delenv("SEMANTIC_SCHOLAR_API_KEY", raising=False)
+    monkeypatch.setattr("vera.backends.ROOT", tmp_path)  # a real .env must not change what the test sees
     monkeypatch.setenv("OPENALEX_API_KEY", "secret-key-123")
 
     def handler(request: httpx.Request) -> httpx.Response:
@@ -350,3 +352,41 @@ def test_the_expansion_needs_two_seeds_and_a_key(tmp_path: Path) -> None:
                                                                     answers={"lit.relevant": False}))
     assert state["expansion"]["skipped"].startswith("no OpenAlex key") or "seeds" in state["expansion"]["skipped"]
     assert state["stop"]["reason"].startswith("gate: only 0 relevant")  # the stage gate is the second screen
+
+
+# ── Increment 5: Semantic Scholar as a second keyed source (T5 reverse-if (5)) ───────────────────────
+
+S2 = {"data": [
+    {"paperId": "p1", "title": "TreeHFD  decomposition", "year": 2025, "authors": [{"name": "B. Author"}],
+     "abstract": "We decompose.", "venue": "NeurIPS", "externalIds": {"ArXiv": "2510.00001", "DOI": "10.1/x"},
+     "openAccessPdf": {"url": "https://arxiv.org/pdf/2510.00001"}},
+    {"paperId": "p2", "title": "Only an S2 id", "year": None, "authors": [], "abstract": None, "venue": "",
+     "externalIds": {}, "openAccessPdf": None},
+]}
+
+
+def test_semantic_scholar_is_a_source_only_with_the_users_key_and_comes_last(monkeypatch, tmp_path: Path) -> None:
+    monkeypatch.setenv("SEMANTIC_SCHOLAR_API_KEY", "s2-secret-456")
+    monkeypatch.delenv("OPENALEX_API_KEY", raising=False)
+    monkeypatch.setattr("vera.backends.ROOT", tmp_path)
+    assert Retriever(pace=False).sources == ["crossref", "arxiv", "semanticscholar"]
+    monkeypatch.delenv("SEMANTIC_SCHOLAR_API_KEY")
+    assert Retriever(pace=False).sources == ["crossref", "arxiv"]  # unchanged without a key
+
+
+def test_semantic_scholar_records_and_the_key_goes_in_a_header_never_the_cache(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setenv("SEMANTIC_SCHOLAR_API_KEY", "s2-secret-456")
+    seen: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        return httpx.Response(200, json=S2)
+
+    r = Retriever(httpx.Client(transport=httpx.MockTransport(handler)), cache=HttpCache(tmp_path), pace=False,
+                  sources=["semanticscholar"])  # fmt: skip
+    found = r("tree explainability")
+    assert seen[0].headers["x-api-key"] == "s2-secret-456" and "s2-secret-456" not in str(seen[0].url)
+    assert found[0]["id"] == "arXiv:2510.00001" and found[0]["title"] == "TreeHFD decomposition"
+    assert found[0]["pdf_url"] == "https://arxiv.org/pdf/2510.00001" and found[0]["source"] == "semanticscholar"
+    assert found[1]["id"] == "s2:p2" and found[1]["abstract"] is None and found[1]["pdf_url"] is None
+    assert "s2-secret-456" not in " ".join(p.read_text(encoding="utf-8") for p in tmp_path.glob("*.json"))

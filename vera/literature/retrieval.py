@@ -1,4 +1,4 @@
-"""Retrieval (T5 as decided: Crossref and arXiv keyless; OpenAlex only with the user's own key) and its recall measure.
+"""Retrieval (T5 as decided: Crossref and arXiv keyless; OpenAlex, Semantic Scholar only with the user's own keys).
 
 `Retriever` runs a query against the available sources and returns candidate records (title, authors, year, id, url,
 abstract, open-access PDF link, source). Requests carry a User-Agent naming the project and no email, are paced (arXiv
@@ -30,6 +30,7 @@ from vera.backends import api_key
 
 # v1 returned figure and table captions and dataset components from Crossref; v2 asks for papers only
 OPENALEX_FIELDS = "id,doi,title,publication_year,authorships,abstract_inverted_index,best_oa_location"
+S2_FIELDS = "title,year,authors,abstract,externalIds,openAccessPdf,venue"
 PAPER_TYPES = ("journal-article", "proceedings-article", "posted-content", "book-chapter", "report")
 CROSSREF_TYPES = ",".join(f"type:{t}" for t in PAPER_TYPES)
 TITLE_MATCH = 0.90  # normalised-title similarity that counts as a key paper being found (the T5 rule)
@@ -113,8 +114,29 @@ def _openalex_records(text: str, query: str) -> list[dict]:
     return out
 
 
+def _s2_records(text: str, query: str) -> list[dict]:
+    out = []
+    for rank, p in enumerate(json.loads(text).get("data") or [], start=1):
+        ext = p.get("externalIds") or {}
+        if ext.get("ArXiv"):
+            pid, url = f"arXiv:{ext['ArXiv']}", f"https://arxiv.org/abs/{ext['ArXiv']}"
+        elif ext.get("DOI"):
+            pid, url = f"doi:{ext['DOI']}", f"https://doi.org/{ext['DOI']}"
+        else:
+            pid, url = f"s2:{p.get('paperId', '')}", f"https://www.semanticscholar.org/paper/{p.get('paperId', '')}"
+        out.append({
+            "title": " ".join((p.get("title") or "").split()), "year": str(p.get("year") or ""),
+            "authors": [a.get("name", "") for a in p.get("authors") or []], "id": pid, "url": url,
+            "venue": p.get("venue") or None, "abstract": p.get("abstract") or None,
+            "pdf_url": (p.get("openAccessPdf") or {}).get("url"), "source": "semanticscholar",
+            "query": query, "rank": rank,
+        })  # fmt: skip
+    return out
+
+
 class Retriever:
-    """Callable: query -> candidate records from every available source (Crossref and arXiv; OpenAlex with a key)."""
+    """Callable: query -> candidate records from every available source (Crossref and arXiv; OpenAlex and Semantic
+    Scholar with the user's own keys)."""
 
     def __init__(self, client: httpx.Client | None = None, *, cache: HttpCache | None = None, per_query: int = 10,
                  pace: bool = True, now: Callable[[], float] = time.monotonic,
@@ -122,16 +144,21 @@ class Retriever:
         self.client = client or httpx.Client(timeout=30, headers={"User-Agent": USER_AGENT_LIT})
         self.cache, self.per_query, self.pace = cache or HttpCache(None), per_query, pace
         self.sources = list(sources) if sources is not None else ["crossref", "arxiv"]
-        if sources is None:  # OpenAlex only with the user's own key (T5); with one it is the primary source (v2)
+        if sources is None:  # OpenAlex and Semantic Scholar only with the user's own key (T5); OpenAlex is primary (v2)
             try:
                 api_key("OPENALEX_API_KEY")
                 self.sources.insert(0, "openalex")
             except KeyError:
                 pass
+            try:
+                api_key("SEMANTIC_SCHOLAR_API_KEY")
+                self.sources.append("semanticscholar")  # last: a second keyed source adds to, never reorders, the first
+            except KeyError:
+                pass
         self._last: dict[str, float] = {}
         self._now = now
 
-    def _request(self, source: str, url: str, params: dict) -> str:
+    def _request(self, source: str, url: str, params: dict, headers: dict | None = None) -> str:
         cached = self.cache.get(url, params)
         if cached is not None:
             return cached["text"]
@@ -142,7 +169,7 @@ class Retriever:
                     time.sleep(wait)
             self._last[source] = self._now()
             try:
-                resp = self.client.get(url, params=params)
+                resp = self.client.get(url, params=params, headers=headers)
             except httpx.TransportError:
                 if attempt == 3:
                     raise
@@ -169,6 +196,11 @@ class Retriever:
                                          {"query": query, "rows": n, "filter": CROSSREF_TYPES,
                                           "select": "title,issued,DOI,author,container-title,abstract"})  # fmt: skip
                     found += _crossref_records(text, query)
+                elif source == "semanticscholar":
+                    text = self._request(source, "https://api.semanticscholar.org/graph/v1/paper/search",
+                                         {"query": query, "limit": n, "fields": S2_FIELDS},
+                                         {"x-api-key": api_key("SEMANTIC_SCHOLAR_API_KEY")})  # fmt: skip
+                    found += _s2_records(text, query)
                 else:
                     params = {"search": query, "per-page": n, "api_key": api_key("OPENALEX_API_KEY"),
                               "filter": "type:article|preprint",
