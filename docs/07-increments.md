@@ -100,7 +100,7 @@ Exit: three topics taken to a scoped question and a literature section with
 verified citations; cost per topic measured; one of them carried through
 the Increment 2 loop end to end.
 
-## Increment 4 — Paper quality and the measured comparison ← CURRENT
+## Increment 4 — Paper quality and the measured comparison — complete 2026-10-05
 
 Scope, gates and caps proposed in SPEC.md (2026-10-03); `incr4_scoped` is Chris's approval of them.
 
@@ -113,7 +113,9 @@ second parent problem, and cost/quality against ScientistTwo on both
 Exit: two complete runs compared with ScientistTwo; an honest account of
 where the write-ups fall short of an academic paper.
 
-## Increment 5 — App: UI/UX and bring-your-own-key
+## Increment 5 — App: UI/UX and bring-your-own-key ← CURRENT
+
+Scope, gates and caps proposed in SPEC.md (2026-10-06); `incr5_scoped` is Chris's approval of them.
 
 An attractive, functional interface (decide T8): a landing page that
 explains bring-your-own-key and typical costs in plain words; connect a key;

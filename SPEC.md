@@ -1,406 +1,317 @@
-# SPEC — VERA, Increment 4 (paper quality and the measured comparison)
+# SPEC — VERA, Increment 5 (the app: UI/UX and bring-your-own-key)
 
 ## Overview
 
 Current-increment features only, in build order. Each `##` below becomes a
 tracked feature (`scripts/features-init.sh`); do not add `###` headings.
-Source: [docs/07-increments.md](docs/07-increments.md) Increment 4; schemas:
-[docs/03-interfaces.md](docs/03-interfaces.md) v0.9, with v0.10 proposed where
-a feature needs it; requirements due: RSH-F-04, RSH-F-11, AUD-F-05, AUD-F-07,
-RSH-P-02, plus everything due earlier
-([docs/02-requirements.md](docs/02-requirements.md)); trades to decide: T10's
-measured half (a hand-built harness against a thin generic one, on one problem
-done both ways), and the reverse-ifs this increment first tests (T5 (5) and (6),
-T7 (4), T1 (1) again on larger N)
+Source: [docs/07-increments.md](docs/07-increments.md) Increment 5; schemas:
+[docs/03-interfaces.md](docs/03-interfaces.md) v0.10, with v0.11 proposed where
+a feature needs it; requirements due: APP-F-01, APP-F-02, APP-C-01, APP-C-02,
+plus everything due earlier ([docs/02-requirements.md](docs/02-requirements.md));
+trades to decide: **T8** (app delivery and bring-your-own-key), and the
+reverse-ifs this increment first tests: T9 (2) (a reasoning control that makes a
+cheaper model usable), T1 (1) again on larger N, T5 (5) (a second keyed source)
 ([docs/04-trade-studies.md](docs/04-trade-studies.md)). Rewrite this file at each
-increment review. The Increment 3 SPEC is in git history; its review is
-[docs/reviews/incr-3.md](docs/reviews/incr-3.md).
+increment review. The Increment 4 SPEC is in git history; its review is
+[docs/reviews/incr-4.md](docs/reviews/incr-4.md).
 
-The goal, as Chris restated it at the Increment 3 review: **very good research on
-whatever topic is requested**, not novel research. Increment 3 built a pipeline
-that is cheap ($0.14 to $0.22 per topic), traceable and candid, and found where
-it is weak: retrieval recalled 70%, 38% and 20% of the key papers; the loop's
-paper on the tree-explain topic does not answer the question the user confirmed;
-a green audit means citations are real and claims are supported by their
-passage, not that every clause is anchored; and the quality measure rests on one
-language-model scorer because Chris's own blind scores are missing. This
-increment fixes those, then tests the result where it can be measured: **two
-complete runs on two parent problems that ScientistTwo also attempted**
-(RSH-P-02, MOE-3), with an honest account of where the write-ups fall short of an
-academic paper.
+The goal is unchanged: **very good research on whatever topic is requested**, not
+novel research. Increment 4 measured where the loop stands and the answer was
+plain: the pipeline is cheap ($3.18 spent of $9 across the whole increment; about
+$0.10 per loop run) and candid, its literature reviews scored 3 to 4 on most
+criteria, its two papers scored lower (tree-explain 4,3,2,5,5 and credal 3,2,2,5,5
+on Chris's rubric), no idea beat a baseline, the audit caught two real
+misstatements and failed 3 of 6 clean controls, retrieval pooled recall is 59%
+(34 of 58 key papers), and the audit's freeze was broken after its test runs. This
+increment does **not** try to fix research quality wholesale. It makes what exists
+usable by a person who is not Chris, with their own key and their own money, and
+spends a bounded share on the carry-ins that make the app's output more
+trustworthy to read.
 
-The product, one step wider: the loop's experiment stage can run a **registered
-protocol** (the experiment the confirmed question describes) as well as generate
-and screen ideas; the write-up is paper-shaped, with figures VERA draws from the
-results, a related-work section from the verified literature, ablations when
-there is a winner, and a final audit that adds method-code alignment and a novelty
-check; the literature stage discloses its own retrieval statistics and anchors each
-claim to a quote that covers it. Direction B puts an app on this in Increment 5;
-nothing here builds UI.
+The product, one step wider: a **local web app** (T8 leaning (a); see the decision
+below) with a landing page that says in plain words whose key and money are used and
+what a run typically costs (measured, from the ledgers); a place to connect a key; a
+run form (topic, output guidance, budget); a live view of stage progress, verdicts and
+spend read from the run's ledger; a paper reader with evidence links (each claim to its
+quote, each number to its results cell); stop and resume. No maintainer key in any
+shipped artifact. Exit (docs/07): **a new user completes S4 through the app with their
+own key** (MOE-4).
 
-Who does what: Claude Code builds and runs short work; Chris chooses the fresh
-topic and its key papers, confirms or edits the second problem, launches long
-runs from his terminal, approves the human gates, **scores the outputs blind**,
-and reads the ScientistTwo comparison. Chris approves human gates himself;
-the agent reports readiness and never approves for him.
+Who does what: Claude Code builds and runs short work; Chris decides T8, supplies and
+holds his own key, approves human gates himself (the agent reports readiness and never
+approves for him), finds or is the new user for the S4 walkthrough, reads and edits the
+landing-page wording, and scores the outputs. Chris launches long runs from his own
+terminal or the app.
 
-Rules carried from the Increment 3 review:
+Rules carried from the Increment 4 review:
 
-- **Spend.** Every model call goes through a `Budget` that raises before a
-  limit is crossed, inside the $20/month ceiling (ConOps §4). Proposed caps for
-  Chris to confirm at `incr4_scoped`: $2 for debugging and smoke runs; $6 for the
-  end-to-end runs and the fresh topic (a topic and a loop run cost about $0.25
-  together in Increment 3, so this is generous until measured); $1 for
-  reference-judge calls; $9 for the increment, each calendar month inside $20.
-  Jev is billed separately and counts. The OpenRouter key keeps its credit limit.
-  Increment 3 spent $1.66 of its $11.
-- **One ledger file per run**, `data/ledger/run_<run_id>.jsonl`, never deleted,
-  truncated or overwritten (Increment 3 deleted two by accident; a run that must be
-  discarded is marked `discarded` in its report, not deleted). Named result
-  ledgers are committed, the rest are git-ignored.
-- **The cheap judge path is one shared function** (T1: Jev → GLM at 0.7;
-  `loop.*` and `lit.*` straight to GLM). Where a computed answer exists a **rule**
-  decides, not a judge (see the first feature).
-- **Judge and generator configuration is the loop's** (`reasoning: {effort:
-  minimal}`); every judge measurement uses that setting.
-- **No peeking.** A topic's key-paper list is written and hashed before its
-  first retrieval; each registered target and protocol is written, dated and
-  hashed before any run on it; the problem specs and prompts of the two runs never
-  contain ScientistTwo's paper on the problem or its numbers. The inventory
-  (`data/corpus_inventory.csv`) holds my summary of ScientistTwo's reported gains
-  (`reported_gain_pct`); choosing the second problem uses only its compute and
-  code columns, and **no run's design reads that column**; the comparison reads it
-  after both runs, with the comparison protocol fixed first.
-- **Independence (docs/06 §5).** Seeded-fault, novelty gold-set and re-test sets are
-  split dev/test **by source run or topic**, with the test hash recorded before any
-  result on it. **The audit's code is frozen before its test run**: the split file
-  records a hash of the audit's source tree and the results record the hash they
-  ran with; a change after a test run spends that test set and a new one is built.
-  This increment changes the audit (new checks, the dataset-name fix), so the
-  Increment 2 and 3 seeded sets stay as the record of the audits they tested and a
-  new set (v3) tests the new one.
-- **Human scoring is blind and attributed.** Chris's rubric scores are recorded by
-  Chris, before he reads the independent scorer's, with `--blind` stated; a file of
-  scores that equals the independent scorer's cell for cell is not counted.
-  Language-model helpers' labels are disclosed as such wherever they are used.
-- **Same model grading itself.** Every `StageResult` records the generator and the
-  judge; the review has a section on where families coincide (Sonnet 5.5 writes
-  and is the reference judge; the labelling helper is the same family).
-- **Secrets.** No maintainer key in any artifact (APP-C-01), none reaches the
-  sandbox, none in any retrieved or cached page. `tests/test_no_secrets.py` stays.
-- **Long runs** are resumable and launched from Chris's terminal, or split into
-  segments under 10 minutes; the runner keeps the machine awake.
+- **Spend.** Every model call goes through a `Budget` that raises before a limit is
+  crossed, inside the $20/month ceiling (ConOps §4). Proposed caps for Chris to confirm
+  at `incr5_scoped`: **$1** for debugging and smoke runs; **$3** for end-to-end runs
+  through the app (one literature-only run and one run with experiments, and the new
+  user's run, which is billed to the user's own key and not counted, but a maintainer
+  dry run of the same path is); **$1.50** for the judge on a larger labelled set and the
+  T9 (2) reasoning-control test; **$5** for the increment, each calendar month inside
+  $20. Increment 4 spent $3.18 of its $9.
+- **One ledger file per run**, `data/ledger/run_<run_id>.jsonl`, never deleted, truncated
+  or overwritten. The app reads this file for live spend and writes nothing to it that a
+  run did not.
+- **Independence and freezing.** The audit's source tree is frozen at its Increment 4
+  hash for the audit-v3 test sets; **this increment changes no frozen audit file** unless
+  it spends a new test set first (a new seeded set, built before the change, is part of
+  that decision, not a quiet side effect). The scoping of the method-code check is one
+  such change and is listed below with its cost.
+- **Human scoring is blind and attributed**, helper labels disclosed. Provenance of every
+  human score and label is recorded as given (who, when, whether a model assisted).
+- **Secrets.** APP-C-01/02: no maintainer key in the repository, any build artifact, any
+  log, any ledger, any cached page; none reaches the sandbox; the user's key is held in
+  the server process memory (or the environment) only, never written to disk, never
+  echoed to the browser after entry, never in a URL. `tests/test_no_secrets.py` stays and
+  is extended to the app.
 - **Dogfood.** Overhead hours are logged **at the end of every session**
-  (`bash scripts/dogfood.sh overhead <hours> <note naming the dates and work>`);
-  missed in Increments 0 to 3. `check_dogfood.py` treats an entry as covering a day
-  only if it was recorded after the last review gate passed, so one carried-over
-  entry cannot satisfy a new increment's first day (the Increment 3 loophole).
-- **Outward-facing actions** need Chris: an upstream issue, a pushed commit, a
-  request to a bibliographic service beyond polite keyless use.
+  (`scripts/overhead-due.sh` prints the command). The check credits a day named at the
+  start of an entry's note (Chris, 2026-10-05).
+- **Outward-facing actions** need Chris: a public hosted deployment, a pushed commit,
+  a request to a bibliographic service beyond polite keyless use.
 
-Gate DAG proposed for `.meridian/gates.yaml` after `incr4_scoped`:
+Gate DAG proposed for `.meridian/gates.yaml` after `incr5_scoped`:
 
 ```text
-incr3_review ─► incr4_scoped ─┬─► carry_in_ready ─► lit2_ready ─────────────────────┐
-                (human)       │   (automated)       (automated; needs topics4_chosen)│
-                              ├─► topics4_chosen ───────────────┘                    │
-                              │   (human: the fresh topic, key list hashed)          │
-                              └─► problem2_ready ─► protocol_ready ─► writeup2_ready ┤
-                                  (automated:       (automated)       (automated)    │
-                                   harness, target)                                  │
-   ┌─────────────────────────────────────────────────────────────────────────────────┘
-   └─► audit4_ready ─► runs4 ─► comparison4 ─► rubric_scored ─► incr4_review
-       (automated;     (automated;  (human reads;  (human: blind     (human + Evaluator)
-        seeded v3)      two runs)    protocol set)   scores)
+incr4_review ─► incr5_scoped ─┬─► carry5_ready ──────────────────────────────────┐
+                (human)       │   (automated: judge N, checks, T9 (2) test)      │
+                              ├─► t8_decided ─► app_core_ready ─► ui_ready ──────┤
+                              │   (human)       (automated:       (automated:    │
+                              │                  API, runs, key)   UI, landing)  │
+                              └─► key_safety_ready (automated; needs app_core) ──┤
+   ┌─────────────────────────────────────────────────────────────────────────────┘
+   └─► newuser_walkthrough ─► rubric5_scored ─► incr5_review
+       (human: S4, own key)    (human, blind)    (human + Evaluator)
 ```
 
-## Carry-in: rule gates, audit hygiene, dogfood
+## Carry-in: checks and measurements from the Increment 4 review
 
-`vera/loop/`, `vera/audit/`, `tools/checks/`. Fixes the Increment 3 review named,
-built and tested offline before any stage uses them:
+`vera/loop/`, `vera/audit/`, `tools/checks/`, `data/`. Built and tested offline first.
 
-- **Rule verdicts where a table decides.** `loop.beats_baseline`,
-  `loop.baseline_reproduced` and `loop.best_method` have a computed answer (the
-  shadow answer). The gate for each becomes a **rule verdict** (backend `rule`,
-  confidence 1.0, as the audit's gate already is), recorded in `gates.jsonl` beside
-  the judge's answer, which is kept for measurement only. Reason: the Increment 3
-  re-test found both Increment 2 confident misses were near-ties where the table
-  says "strictly better" and the judge applied a statistical sense; the rule
-  cannot. The judge stays where no rule can decide (guidance met, idea worth a
-  run, `lit.*`).
-- **Audit table check robust to dataset names.** The table check reads a dataset
-  name back from its lower-cased column label, so any name with an underscore
-  failed every column (`topic-a-loop-2`). Read the dataset from the run's
-  `results.json` datasets by normalised comparison, not from the label.
-- **Repair log complete.** `audit_repair.json` appends a record per pass (it kept
-  only the last for credal-dro), and a repair that drops a clause from a claim lists
-  the dropped text.
-- **Per-session overhead.** `scripts/overhead-due.sh`, run at the end of every session, prints the
-  overhead command with the dates of gates passed since the last entry; the check
-  rule above.
-- **Schemas 0.10 (docs/03 first):** `ProtocolSpec` (methods, datasets, metrics,
-  seeds, the registered target file and hash), `FigureSpec` (kind, source cells in
-  `results.json`, caption), and `LiteratureSection.retrieval_stats` (queries,
-  candidates, kept, read in full, dropped by the screen).
+- **Overhead per session.** Already enforced; nothing to build beyond using it.
+- **Degenerate-spread check** (new, `vera/loop/`, not an audit file): an idea whose
+  results have a spread of zero or near zero (1e-13 to 1e-5 across 100 replications in
+  the credal run) is flagged invalid at the results gate, with the reason, before it is
+  written up as a result. Rule, not a judge.
+- **Method-code check scoped to the sentences about the idea** (AUD-F-05): the Increment 4
+  check raised a warning on 4 of 6 clean controls. Scoping it is a change to a frozen
+  audit file and **spends the audit v3 test sets**. The decision is Chris's at
+  `incr5_scoped`: either (i) make the change, build seeded set v4 and measure it the way
+  v3 was measured (dev/test by source, freeze before the test run), or (ii) leave the
+  check as a lead for a person and say so in the app's audit panel. Recommendation: (ii)
+  in this increment, because the app shows a warn as "a lead, not a verdict" and the
+  rebuilt test set is the largest cost in the list.
+- **The judge on a larger labelled set** (T1 reverse-if (1), interval stated): at least
+  150 labelled decisions on the loop's gates, interval reported, cost within the cap.
+- **A second keyed source** (T5 reverse-if (5), fired by both scorers' coverage scores):
+  Semantic Scholar through the user's own key when supplied, never a maintainer key, and
+  the stage works unchanged when none is supplied. Recall remeasured on the six topics
+  and reported against the 59% pooled; the key lists are not changed.
+- **T9 reverse-if (2), a reasoning control:** test whether a setting that bounds
+  reasoning (per-provider control through OpenRouter) lets GLM-5.3 Flash or one of the
+  failed arms produce valid experiment code at a lower cost than Sonnet 5.5. Same
+  protocol as the Increment 2 comparison (3 repeats from the same recorded baseline).
+  The result decides what the app offers as its low-cost model; it is not required to
+  succeed.
+- **Credal ideas that run correctly** is *not* in this increment: the loop's credal ideas
+  were far worse than the baseline with implausibly small spreads; the degenerate-spread
+  check above stops them being reported as results. Diagnosing them is Increment 6 or later.
+- **Chris's own labels for the ten novelty ideas** are optional: if he supplies them, the
+  agreement is recomputed. Otherwise the review keeps saying those labels are the model's,
+  adopted by him.
 
-**Acceptance:** a seeded near-tie is decided by the rule and the judge's wrong
-answer is recorded beside it; a table with an underscore dataset name audits
-clean; a repair that drops a clause lists it; `check_dogfood.py` refuses a day
-covered only by an older entry; schemas round-trip and invalid ones raise;
-`check_schema_version.py` passes at 0.10.
-**Gate:** `carry_in_ready`.
+**Acceptance:** `tools/checks/check_carry5.py`: the spread check has a test with a planted
+near-zero spread; the judge result file has at least 150 decisions with the interval; the
+second-source recall table exists with the old and new figures; the T9 (2) result is
+committed with every run's ledger; spend within the cap; no frozen audit file changed
+(hash compared) unless the decision above was (i) and its seeded set exists.
+**Gate:** `carry5_ready`.
 
-## Fresh topic and key papers (human decision, before any retrieval)
+## T8: how the app is delivered (human decision)
 
-`data/topics/`. The key lists of the three Increment 3 topics are no longer
-independent evidence: retrieval was changed after seeing them. A fresh topic
-tests the retrieval changes honestly. Chris chooses it (the agent proposes up to
-three; the proposals follow the Increment 3 rules: a topic with a defensible answer
-in the literature, not one the agent has already seen results for), writes or
-approves 8 to 10 key papers whose identifiers are checked against arXiv and
-Crossref (a metadata check of the listed papers, not a topic search), and the list
-is hashed before the first retrieval. Chris chooses whether the topic is empirical
-with an existing harness, empirical without one, or non-empirical.
+`docs/04-trade-studies.md`. The trade is open since Increment 0 with a leaning. Chris
+decides it after the agent measures what the options cost:
 
-**Acceptance:** `check_topics.py` passes with four topics; the fresh topic's
-hash precedes its first retrieval record.
-**Gate:** `topics4_chosen` (human approval, token "TOPICS 4 CHOSEN").
+- **(a) Local app**, localhost web UI, the user's key in their own environment or pasted
+  into the page and held in process memory. The experiment stage needs Docker for the
+  sandbox, so the app's first-run checklist says whether Docker is present and what is
+  available without it (the literature stage and a paper from the literature alone need
+  no Docker).
+- **(b) Hosted demo**: a public site. BYOK moves model spend to the visitor but not
+  sandbox compute or hosting, and a hosted app has to hold a visitor's key for the length
+  of a run (APP-C-02 says not stored server-side). A hosted demo would run the literature
+  stage only.
+- **(c) Both**, local as the product and hosted as the demo.
 
-## Literature stage v2: retrieval, anchoring, disclosure (T5 reverse-ifs)
+Measured before the decision: the cost of a literature-only run per topic from the ledgers
+(Increment 3 and 4: $0.14 to $0.22 on Sonnet 5.5), the cost of a run with experiments,
+and the cost of hosting a literature-only demo per visitor under a hard cap (a design
+estimate; nothing is deployed). Recommendation: **(a) only in this increment** and (c)
+reconsidered at the review; a public deployment is an outward-facing action and is not
+built here. If Chris picks (c), the hosted part is its own gate and scope change.
 
-`vera/literature/`. T5's reverse-if (5) read on the independent coverage scores
-(2, 2, 1, 1) and its remedy moved here from "before the next topic".
+**Acceptance:** a **Scores / Decision / Reverse if** entry in docs/04 with the measured
+costs, written before the decision.
+**Gate:** `t8_decided` (human approval, token "T8 DECIDED").
 
-- **Query generation from the confirmed question:** several phrasings, the question's
-  named methods and datasets, and, where the scoping step names them, venues and
-  authors; the Increment 3 queries were few and close to the question's wording, and
-  all 16 missed key papers were indexed. Optionally a second keyed source (Semantic
-  Scholar) when the user supplies a key; never a maintainer key.
-- **Retrieval statistics in the review text:** a paragraph the stage writes from its
-  own counts: queries run, candidates retrieved, kept by the screen, read in full,
-  and the number the screen dropped, plus the plain statement that a "what is not
-  established" paragraph is conditional on what retrieval found. No key-paper figure
-  is available for a user's topic, so none is claimed.
-- **Claim anchoring:** a claim is one assertion with one quote that covers it. A new
-  deterministic check rejects a claim sentence that joins two assertions (a
-  conjunction or a comparison clause the quote does not contain), and a new judge
-  question `lit.quote_covers_claim` (shown the quote only, not the passage) must
-  pass; failures go to the repair step, which lists what it drops.
-- **Measured on the fresh topic and re-measured on the three old ones** (reported as
-  not independent). Reverse-ifs restated: recall on the fresh topic below 70% again
-  opens T5; a claim-anchoring failure rate above 10% on the three old sections' claims
-  means the check is too loose or the synthesis prompt needs the one-assertion rule.
+## The app core: runs, ledger, key
 
-**Acceptance:** `test_RSH_F_09_…` extended; recall on the fresh topic and the old three
-reported with the key papers found and missed; every review states its retrieval
-statistics; the anchoring checks are measured on the 56 existing claims and the 30
-labelled real claims.
-**Gate:** `lit2_ready`.
+`vera/app/`. A small server (FastAPI, since the project is Python and the loop is
+callable as a function) with a thin JSON API and server-sent events for progress. No
+framework build step on the front end (plain HTML, a small amount of vanilla JS or HTMX),
+so it runs on Windows with `uv run vera-app` and nothing else installed.
 
-## Second parent problem and T10's measured half
+- **Runs as the user's process, not a shared service.** `POST /runs` starts the existing
+  runner (`scripts/run_loop.py` / the literature stage) as a subprocess with the key in
+  its environment, a per-run directory, the budget and wall limits the form gave, and
+  returns the `run_id`. A run survives the page closing; **stop** sends a clean stop the
+  runner honours at its next stage boundary (so the ledger is consistent) and **resume**
+  restarts from the last completed stage (the loop's `retry_from`).
+- **Live view:** the ledger and gate files already carry everything the UI shows: stage
+  entered, stage verdict (pass, fail, confidence, backend), cumulative spend against the
+  budget, wall time. The API only reads them; it computes nothing a run did not record.
+- **Key handling:** the key is accepted in a POST body, validated by one inexpensive call
+  (model list or a one-token completion, ledgered as a validation), held in process memory,
+  passed to the child process through its environment, never logged, never returned. The
+  server binds to 127.0.0.1 only; a cross-origin request is refused. If the key is in the
+  environment the app says so and never asks for it. A "forget key" button clears it.
+- **Budget form:** a dollar cap (default and maximum shown with a plain note on typical
+  cost), a wall limit, output guidance (format, length, emphasis, constraints), and whether
+  experiments are allowed (needs Docker; shown as unavailable with the reason if it is not
+  found). The cap goes into the `Budget`; the loop never raises it.
+- **Schemas 0.11 (docs/03 first):** `RunRequest` (topic, guidance, budget, wall limit,
+  allow_experiments, run_id), `RunStatus` (stage, state, spend, limit, started, updated,
+  last verdict), `AppConfig` (docker available, key source: `env` or `session`, never the
+  key).
 
-`docker/`, `vera/loop/`, `data/topics/`. The second problem is one that ScientistTwo
-also attempted and that is CPU-scale. The inventory flags three candidates for the
-loop; one is TreeHFD, one is STELLA (a single-GPU model, kept for later), and one is
-**credal ambiguity sets** (Chen et al., arXiv 2601.21324, code
-`MengqiChenMC/credal-ambiguity-sets-code-repo`), the Increment 0 fallback and the paper
-the Increment 3 retrieval missed on the credal-dro topic. Its compute is unresolved
-(some of the parent's experiments used 4-GPU nodes).
+**Acceptance:** tests offline with a fake runner and a fake model: a run starts, streams
+stages, stops at a boundary with a consistent ledger and resumes; the budget form's cap is
+what the `Budget` enforces; a request from another origin is refused; the API never returns
+the key; `test_APP_F_01_…` and `test_APP_C_02_…` exist and pass.
+**Gate:** `app_core_ready`.
 
-1. **Feasibility check first** (an hour, no model calls): read the parent's repository
-   and paper, find the replications that run on a CPU in minutes, and record the
-   result in `docs/results/problem2_feasibility.md` with the evidence. If none do,
-   stop and bring Chris the alternatives from the inventory; the choice is his.
-2. **Register the target** from the parent paper only (the metric, reference values,
-   tolerance, datasets and seeds), dated and hashed before any baseline run.
-3. **Harness by hand** (T10 option (a)): a Dockerfile pinned to a commit, a harness with
-   validity checks, a baseline-reproduction run, timed in hours and logged.
-4. **T10 option (c) measured on the same problem:** a thin generic harness (data
-   loading, seeds, the metric and validity checks, taken from the by-hand one) and a
-   model-written adapter that calls the parent's code, accepted by the same baseline
-   gate. Report whether the gate accepts it, how many generation attempts it took, the
-   cost, and what fraction of the by-hand harness was generic.
-5. Chris reads the evidence and decides T10 at `runs4` review time (the SPEC's
-   review section), with **Scores / Decision / Reverse if** in docs/04.
+## Key safety (APP-C-01, APP-C-02)
 
-**Acceptance:** `tools/checks/check_problem2.py`: the feasibility note, the registered
-target with its hash predating the first baseline run, a baseline-reproduction result
-within the registered tolerance (or a stated, evidenced failure), both harness variants
-built, and the timing and cost of each recorded.
-**Gate:** `problem2_ready`.
+`tests/`, `tools/checks/check_app_secrets.py`. A feature of its own because it is the one
+thing the user trusts without being able to see.
 
-## Protocol experiments: answering the confirmed question
+- A scan of the repository, the built app, every log and ledger a test run produces, and
+  the browser-facing responses for any string shaped like a key (the OpenRouter prefix and
+  the others the project has ever used) and for the actual test key used in the run.
+- An adversarial test: a key with a distinctive marker is entered, a run is made, and the
+  marker must appear in **no file under the data, log or ledger directories**, no response
+  body, no process command line, and no exception message.
+- A statement in the landing page and README of exactly what is held where, checked by a
+  test that the wording matches the behaviour (for instance, "kept in memory only" is
+  tested by the scan above).
+- Windows specifics checked by hand once: the key is not in the environment of the
+  sandbox container (checked with `docker inspect`), nor in the process list.
 
-`vera/loop/`, `docker/sandbox-treehfd/`. The Increment 3 paper on tree-explain
-tested two post-hoc corrections and said so; the confirmed question asked how
-TreeHFD's decomposition compares with TreeSHAP and with the true components as
-pairwise correlation rises, and how stable the component importances are under
-bootstrap refits. The loop gains a second experiment mode: it runs a **registered
-protocol**, the experiment the question describes, and the write-up reports it.
+**Acceptance:** `check_app_secrets.py` passes on the repo and the test artifacts;
+`test_APP_C_01_…` and `test_APP_C_02_…` exist; the sandbox container's environment is
+shown to carry no key.
+**Gate:** `key_safety_ready` (requires `app_core_ready`).
 
-- `ProtocolSpec` for the tree-explain question: methods (TreeHFD, TreeSHAP-based
-  decomposition, and each idea that survives the screen); datasets (the analytical
-  function at a correlation sweep of at least five values from 0 to 0.95, plus the
-  registered public datasets); metrics: error of the recovered components against the
-  analytical true components (the TreeHFD paper gives the closed-form decomposition for
-  the analytical case, Table 3; the derivation is checked against it before use), rank
-  stability of component importances over bootstrap refits (Spearman across refits),
-  residual error as before, runtime.
-- The sandbox image gains the TreeSHAP implementation, pinned; the harness computes the
-  new metrics; validity checks (shape, finite, components depend on their own variables
-  only) stay.
-- The protocol and its target values (where the paper gives any) are registered, dated and
-  hashed before any run. A protocol run produces a results table and figures; the
-  write-up cites them; the audit checks every table cell and figure datum against
-  `results.json`.
-- Ideas still run, judged by the rule gate on the registered primary metric; a protocol
-  run does not need an idea to beat anything.
+## UI/UX: landing page, run form, live view, reader
 
-**Acceptance:** tests offline with a fake sandbox; one live run of the protocol on the
-tree-explain question inside $1, whose results table has every registered cell valid
-(or marked invalid with the reason); the closed-form ground truth reproduces the
-paper's Table 3 values for the analytical case within 1% before any method is scored.
-**Gate:** `protocol_ready`.
+`vera/app/static/`. Attractive and functional, designed for a person who has never seen the
+repo. Text written for that person, not for Chris: plain words, no gate or audit jargon on
+the front page, the audit shown as a traffic light with one sentence per item and the full
+audit one click away.
 
-## Paper-shaped write-up and ablations (RSH-F-11, RSH-F-04)
+- **Landing page:** what VERA does in two sentences; **whose key and money are used**
+  (the visitor's; the maintainer pays nothing and has no access); what a run typically costs
+  with the measured range from the ledgers and the statement that a run can end without a
+  better method, which is normal; what it will not do (no wet-lab, no proprietary data,
+  CPU-scale experiments only); a "connect key" step and a first-run checklist (key found,
+  Docker found, disk space).
+- **Run form and live view:** topic box with a "see the question VERA will research"
+  confirmation step (the scoping stage's output shown for the user to accept or edit, as
+  S4 requires), progress by stage with its verdict, spend against the cap as a bar, stop and
+  resume, and an honest "stopped at budget: best so far" state.
+- **Paper reader:** the paper-shaped write-up rendered with figures; each cited claim opens
+  its quote and source link; each table cell and number opens its `results.json` cell; the
+  audit panel states green, amber or red in words, including "a warning is a lead, not a
+  verdict" for the method-code check and the novelty check.
+- **Accessibility and basics:** keyboard use, readable contrast in light and dark, a phone
+  width layout, no external scripts on the front page beyond what is bundled.
+- **No claims the data does not support:** the landing page's cost figures and the quality
+  statement are generated from files (the ledgers and the rubric summary), not typed, so
+  they change when the evidence does. A test checks the page contains no number that is not
+  in its source file.
 
-`vera/loop/writeup.py`, a new `vera/loop/figures.py`, `vera/loop/ablation.py`.
+**Acceptance:** screenshots of each screen in light and dark and at a narrow width are
+committed; `tests/test_app_ui.py` renders each page against fixture runs (a finished run,
+a stopped run, a budget-exhausted run, a red audit) without error; the landing-page
+numbers test passes.
+**Gate:** `ui_ready` (requires `app_core_ready`).
 
-- **Paper shape:** abstract, introduction, related work (restating the verified section,
-  as now), method (what was run, with the harness and protocol named), results with
-  **figures**, limitations, references, following the output guidance and its word
-  limit. Figures are drawn by VERA from `results.json` (matplotlib, a fixed style), not
-  written by the model; each has a `FigureSpec` naming its source cells, and the model
-  writes the caption and the prose around it. The audit checks that a figure's data
-  equal its source cells (a figure drawn from altered numbers is a fail), and the
-  guidance check requires every figure to be referenced in the text.
-- **Reproduction basis stated:** the paper must state which row set (held-out or
-  in-sample) the baseline was reproduced on, per dataset, as registered, and must note
-  a trend its own baseline row shows (the Increment 3 paper did not remark that
-  TreeHFD's residual falls from 5.5% to 1.0% as correlation rises).
-- **Ablations (RSH-F-04):** when an idea beats the baseline on at least one registered
-  dataset on the primary metric, the loop runs ablations before the write-up (remove or
-  disable each described component of the idea, same seeds) and the paper reports them.
-  When no idea wins (every run so far), no ablation is run and the paper says so; the
-  requirement is verified by a demonstration with a scripted generator whose idea
-  provably helps.
-- **Honest account:** the review states, per section, where the paper falls short of an
-  academic paper (missing baselines, few seeds, no statistical tests, narrow datasets).
+## The new-user walkthrough (MOE-4, human)
 
-**Acceptance:** `test_RSH_F_11_…` and `test_RSH_F_04_…` (demonstrations, D in docs/02);
-a produced paper has every required section and its figures match their cells; the
-ablation stage runs on the scripted winner and is skipped, with the reason, on a run
-with none.
-**Gate:** `writeup2_ready`.
+The increment's exit is a person other than the builder doing S4. Chris decides who: a
+person who has not seen the repo (preferred), or Chris himself from a fresh clone on a
+machine or user account with no project files, stated in the review as a weaker test.
+They are given the repository link, a README, and their own OpenRouter key with a small
+credit; they are **not coached**. An observer (Chris or the agent) records, without
+helping, each point of confusion, each time they stop, and the time to a first finished
+literature-only run and to a run with experiments if Docker is available. Afterward the
+person answers: did the landing page tell you whose money was used; did you trust the
+spend display; was the paper worth reading; what would you not use.
 
-## Audit v3: method-code alignment, novelty, a seeded set that can fail
+The run uses the user's own key and money, so its spend is the user's; the maintainer's
+ledger copy of the run is kept as the evidence, with the key never in it.
 
-`vera/audit/`, `data/seeded_v3/`, `data/novelty_gold/`. Same discipline as Increment 3:
-dev and test split by source, the test hash fixed first, the audit's source frozen by
-hash before the one test run.
+**Acceptance:** `tools/checks/check_newuser.py`: the observation record (who, when, from
+what state, what was shown), the run's ledger and report, the time taken, and the person's
+answers exist; the run completed inside the budget the person set; the record states
+whether the person is independent of the builder.
+**Gate:** `newuser_walkthrough` (human approval, token "NEW USER WALKTHROUGH"; requires
+`ui_ready` and `key_safety_ready`).
 
-- **AUD-F-05, method-code alignment (the loop's own code):** each method component the
-  paper describes must map to code in the run's `method.py` (and the registered harness
-  for the protocol), and each substantial code component must be described. A judge
-  question per component with the code excerpt and the paper's description; unmatched
-  components are findings.
-- **AUD-F-07, novelty:** for the loop's idea, retrieve the closest prior work (the
-  literature stage's records, then one targeted search) and judge whether the core
-  method is materially distinct. Measured on a **gold set** (A in docs/02): pairs of an
-  idea and a known prior method, labelled "distinct" or "not distinct" by construction
-  (a published method relabelled, against an unrelated idea) and by Chris on a drawn
-  sample; reported with intervals. A "not distinct" verdict is a finding, not a block.
-- **Seeded set v3:** the v2 fault types plus method-code faults (a described step with no
-  code, code with no description), figure faults (a figure whose data differ from its
-  table) and a reproduction-basis fault; at least 24 test faults and 6 controls from at
-  least 4 source runs not used for dev; the known misses (`reversed_comparison`,
-  `misattributed_number`, `overstated_claim`) are reported again, not tuned for on test.
-- The v2 audit remains frozen as the record of what it was tested against; the check for
-  v3 refuses results whose audit hash differs from the frozen one.
+## Rubric scoring of the app's output (human, blind)
 
-**Acceptance:** `tools/checks/check_seeded_v3.py` and `check_novelty_gold.py` (test hashes
-recomputed, frozen audit hash equal to the run's and the current source, intervals
-reported, spend within the cap); the AUD-F-05 and AUD-F-07 tests; the results are
-reported, not gated on a level.
-**Gate:** `audit4_ready`.
+The same five criteria, scored 1 to 5 by Chris before he reads any other scorer's, with
+`--blind`, on **the outputs a new user actually receives**: the walkthrough's paper or review
+and two more produced through the app on topics Chris chooses (one empirical, one not). An
+independent scorer follows. Chris's own provenance note is recorded as given (including any
+assistance by another model, which Increment 4 recorded after the fact).
 
-## The two end-to-end runs
+**Acceptance:** `tools/checks/check_rubric.py` adapted to the new files: every output has an
+entry by a named human marked blind and recorded before the independent scorer's file; the
+entries differ from the independent scores in some cell; a provenance field is present.
+**Gate:** `rubric5_scored` (human; requires `newuser_walkthrough`).
 
-The tree-explain run (the question's protocol, with the literature section and the
-ideas) and the credal run (the second problem's registered harness and target), each
-from the confirmed question through retrieval, parent selection, experiments, the
-paper-shaped write-up, ablations if there is a winner, and the final audit. Each has its
-budget, a wall limit, a ledger, a best-so-far report and a per-stage cost table
-(including input share and the largest prompt per stage). Launched from Chris's terminal.
-A run that ends in budget exhaustion or a failed audit is a valid result if it says so,
-but the gate wants two runs that reached their final stage; a second attempt is allowed
-inside the cap and every attempt is kept. The fresh topic runs through the literature
-stage only.
+## Increment 5 review
 
-**Acceptance:** `tools/checks/check_runs4.py`: two runs with every stage recorded, each
-ledger equal to its recorded spend, every verdict from a component other than its producer,
-an audit result stated (green, amber or red), a cost table, and the papers committed;
-spend within the cap.
-**Gate:** `runs4` (requires `audit4_ready`, `lit2_ready`, `protocol_ready`,
-`writeup2_ready`, `problem2_ready`).
+Write `docs/reviews/incr-5.md` against the docs/07 exit criterion: a new user completes S4
+through the app with their own key. Also: the T8 decision and its measured costs; the
+walkthrough's confusions and what the app does about each; the key-safety evidence and its
+limits; the carry-ins closed or restated (the judge's interval on larger N, the second keyed
+source's recall against 59%, the T9 (2) outcome, the spread check, the method-code decision);
+rubric scores of both scorers against Increment 4's; the audit freeze status; spend against the
+caps; per-session overhead; same-model overlap; deviations; and what Increment 6 takes (P1 on
+external papers) or whether the project stops here. Keep it factual and unflattering.
 
-## Comparison with ScientistTwo (RSH-P-02, MOE-3)
+**Acceptance:** `check_dogfood.py` finds an overhead entry recorded after the last review gate
+for each calendar day a gate passed; the review passes the independent Evaluator
+(`run-evaluator.sh`), fresh per round, every verdict kept, the review's numbers checked
+against the ledgers and result files.
+**Gate:** `incr5_review`.
 
-Fixed before reading ScientistTwo's numbers: the **comparison protocol** is written to
-`docs/results/comparison_protocol.md` and hashed first. It names, per problem, the metric
-as ScientistTwo reports it, what the loop's run reports on the same metric and row set (or
-that the two cannot be put on the same row set, and why), the cost per run on each side as
-far as it is known (ScientistTwo's cost is not published per run: the table says so, and
-does not estimate it), and what would count as a meaningful fraction of its gain (MOE-3's
-wording). Then, and not before, the reported gains are read from the inventory and from
-the two papers. Chris reads the result and says whether the comparison is fair enough to
-state.
+## Decisions for Chris at incr5_scoped
 
-**Acceptance:** the protocol and its hash predate any read of the gain column in a run's
-design (the run directories show it); the table covers both problems with the caveats; the
-review states what the comparison does and does not show.
-**Gate:** `comparison4` (human approval, token "COMPARISON READ"; requires `runs4`).
-
-## Rubric scoring (human, blind)
-
-The Increment 3 review had one independent scorer (a language model) and no human scoring:
-the file recorded as Chris's equalled the scorer's cell for cell and was written by a
-script. This increment closes that. After `runs4`, Chris scores each output (the fresh and
-three old reviews, the two papers) 1 to 5 on the five criteria of the product bar **before
-he reads the independent scorer's scores**, with `--blind`; the independent scorer runs
-afterwards on the same files. A drawn sample of at least 10 of the labelled real claims is
-re-labelled by Chris, and agreement with the helper's labels is reported.
-
-**Acceptance:** `tools/checks/check_rubric.py`: every output has an entry by a named human
-marked blind and recorded before the independent scorer's file, the entries are not equal to
-the independent scores in every cell, and the claim re-label sample exists.
-**Gate:** `rubric_scored` (human; requires `comparison4`).
-
-## Increment 4 review
-
-Write `docs/reviews/incr-4.md` against the docs/07 exit criteria: two complete runs compared
-with ScientistTwo; an honest account of where the write-ups fall short of an academic paper.
-Also: retrieval on the fresh topic against the Increment 3 topics; the claim-anchoring
-results; the protocol run's answer to the confirmed question and what it cannot show; T10
-decided with the by-hand and thin-harness evidence; the seeded v3 and novelty gold-set
-results with the freeze rule kept or broken; the judge on larger N (T1 reverse-if (1), with
-the interval stated); the rubric scores of both scorers; spend against the caps; dogfood
-overhead per session (the check now enforces it); same-model overlap; deviations; carry-overs
-from the Increment 3 review closed or restated; and what changes in the Increment 5 SPEC
-(direction B: the app, bring-your-own-key, the T9 reverse-if (2) reasoning control).
-
-**Acceptance:** `tools/checks/check_dogfood.py` finds an overhead entry recorded after the
-last review gate for each calendar day a gate passed; the review passes the independent
-Evaluator (`run-evaluator.sh`), fresh per round, with every verdict kept and the review's
-numbers checked against the ledgers and result files by the Evaluator.
-**Gate:** `incr4_review`.
-
-## Decisions for Chris at incr4_scoped
-
-1. The caps above ($2 / $6 / $1 / $9, inside $20 a month).
-2. The second problem: credal ambiguity sets, subject to the feasibility check, or another
-   from the inventory.
-3. Whether the protocol-experiment mode is in scope (it is the largest piece; without it the
-   tree-explain paper again cannot answer its question, and the product bar scores it 2).
-4. Your blind scoring and claim re-labelling as part of the increment, as above.
-5. Read: this SPEC, the Increment 3 review's open items and its deviations.
+1. The caps above ($1 / $3 / $1.50 / $5, inside $20 a month).
+2. T8's direction going in: local only (recommended) or local and a hosted demo (a larger
+   scope; the hosted part would be its own gate).
+3. The method-code scoping: leave as a lead and say so (recommended), or spend the test sets
+   and build v4.
+4. Who is the new user for the walkthrough, and whether a key and a small credit can be
+   arranged for them.
+5. Whether Increment 5 includes the second keyed source (Semantic Scholar; needs a user key
+   for the test) and the T9 (2) reasoning test, or either is dropped to protect the app work.
+6. Read: this SPEC and the Increment 4 review's open items (judge on larger N, broken freeze,
+   rubric provenance, retrieval recall).

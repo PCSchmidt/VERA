@@ -747,3 +747,24 @@ gates:
         - gate-traceability.sh
         - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
         - run-evaluator.sh          # independent Evaluator verdict on the review
+
+  # ── Increment 5: the app, UI/UX and bring-your-own-key (SPEC.md) ───────────
+  # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
+  # Defined so far: incr5_scoped.
+
+  - id: incr5_scoped
+    label: "Increment 5 scope confirmed"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 5 SCOPED"
+    requires:
+      - incr4_review
+    requires_artifacts:
+      - SPEC.md
+      - CONTRACT.md
+      - docs/reviews/incr-4.md
+    hooks:
+      pre:
+        - validate-contract.sh      # Meridian: Purpose + Scope sections present
+        - validate-spec.sh          # Meridian: SPEC.md is structured
+        - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount

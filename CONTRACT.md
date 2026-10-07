@@ -31,12 +31,12 @@ independent researchers and small labs (P3). See ConOps §2.
 
 ## Scope
 
-**Current increment: Increment 4 — paper quality and the measured comparison** ([docs/07-increments.md](docs/07-increments.md)).
-Increments 0 to 3 are complete ([docs/reviews/incr-0.md](docs/reviews/incr-0.md),
+**Current increment: Increment 5 — the app: UI/UX and bring-your-own-key** ([docs/07-increments.md](docs/07-increments.md)).
+Increments 0 to 4 are complete ([docs/reviews/incr-0.md](docs/reviews/incr-0.md),
 [docs/reviews/incr-1.md](docs/reviews/incr-1.md), [docs/reviews/incr-2.md](docs/reviews/incr-2.md),
-[docs/reviews/incr-3.md](docs/reviews/incr-3.md)).
-Only Increment 4 work is in scope. [SPEC.md](SPEC.md) lists the Increment 4 deliverables
-(proposed; `incr4_scoped` is Chris's approval of them).
+[docs/reviews/incr-3.md](docs/reviews/incr-3.md), [docs/reviews/incr-4.md](docs/reviews/incr-4.md)).
+Only Increment 5 work is in scope. [SPEC.md](SPEC.md) lists the Increment 5 deliverables
+(proposed; `incr5_scoped` is Chris's approval of them).
 
 In scope for the project as a whole: the three layers above, their data
 contracts ([docs/03-interfaces.md](docs/03-interfaces.md)), and the
