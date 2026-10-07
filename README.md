@@ -62,7 +62,8 @@ uv sync
 uv run vera-app
 ```
 
-Open http://127.0.0.1:8765, press **Connect my key**, paste an OpenRouter key (get one in your OpenRouter account, under Keys, and
+The first start can take up to half a minute while Python prepares its files; it prints the address when it is ready. Open
+http://127.0.0.1:8765, press **Connect my key**, paste an OpenRouter key (get one in your OpenRouter account, under Keys, and
 add a small credit), and start a run. VERA proposes a question for you to confirm, then searches, reads, writes a review with each
 claim tied to a quote, audits it and shows you the audit. You set a spending cap on every run; VERA stops before passing it.
 
