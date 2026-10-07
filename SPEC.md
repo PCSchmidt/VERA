@@ -9,8 +9,8 @@ Source: [docs/07-increments.md](docs/07-increments.md) Increment 5; schemas:
 a feature needs it; requirements due: APP-F-01, APP-F-02, APP-C-01, APP-C-02,
 plus everything due earlier ([docs/02-requirements.md](docs/02-requirements.md));
 trades to decide: **T8** (app delivery and bring-your-own-key), and the
-reverse-ifs this increment first tests: T9 (2) (a reasoning control that makes a
-cheaper model usable), T1 (1) again on larger N, T5 (5) (a second keyed source)
+reverse-ifs this increment first tests: T1 (1) again on larger N and T5 (5) (a second keyed source;
+T9 (2), the reasoning-control test, is dropped by Chris's decision, see the last section)
 ([docs/04-trade-studies.md](docs/04-trade-studies.md)). Rewrite this file at each
 increment review. The Increment 4 SPEC is in git history; its review is
 [docs/reviews/incr-4.md](docs/reviews/incr-4.md).
@@ -51,7 +51,7 @@ Rules carried from the Increment 4 review:
   through the app (one literature-only run and one run with experiments, and the new
   user's run, which is billed to the user's own key and not counted, but a maintainer
   dry run of the same path is); **$1.50** for the judge on a larger labelled set and the
-  T9 (2) reasoning-control test; **$5** for the increment, each calendar month inside
+  second-source recall remeasure (the T9 (2) test is dropped); **$5** for the increment, each calendar month inside
   $20. Increment 4 spent $3.18 of its $9.
 - **One ledger file per run**, `data/ledger/run_<run_id>.jsonl`, never deleted, truncated
   or overwritten. The app reads this file for live spend and writes nothing to it that a
@@ -78,7 +78,7 @@ Gate DAG proposed for `.meridian/gates.yaml` after `incr5_scoped`:
 
 ```text
 incr4_review ─► incr5_scoped ─┬─► carry5_ready ──────────────────────────────────┐
-                (human)       │   (automated: judge N, checks, T9 (2) test)      │
+                (human)       │   (automated: judge N, checks, 2nd source)         │
                               ├─► t8_decided ─► app_core_ready ─► ui_ready ──────┤
                               │   (human)       (automated:       (automated:    │
                               │                  API, runs, key)   UI, landing)  │
@@ -108,15 +108,13 @@ incr4_review ─► incr5_scoped ─┬─► carry5_ready ───────
 - **The judge on a larger labelled set** (T1 reverse-if (1), interval stated): at least
   150 labelled decisions on the loop's gates, interval reported, cost within the cap.
 - **A second keyed source** (T5 reverse-if (5), fired by both scorers' coverage scores):
-  Semantic Scholar through the user's own key when supplied, never a maintainer key, and
+  Semantic Scholar through the user's own key when supplied (for testing, Chris's key is `SEMANTIC_SCHOLAR_API_KEY` in the
+  git-ignored `.env`; it is read from the environment and never written to a ledger, cache or log), never a maintainer key, and
   the stage works unchanged when none is supplied. Recall remeasured on the six topics
   and reported against the 59% pooled; the key lists are not changed.
-- **T9 reverse-if (2), a reasoning control:** test whether a setting that bounds
-  reasoning (per-provider control through OpenRouter) lets GLM-5.3 Flash or one of the
-  failed arms produce valid experiment code at a lower cost than Sonnet 5.5. Same
-  protocol as the Increment 2 comparison (3 repeats from the same recorded baseline).
-  The result decides what the app offers as its low-cost model; it is not required to
-  succeed.
+- **T9 reverse-if (2), a reasoning control: dropped from this increment** (Chris, 2026-10-07). A Sonnet run costs
+  about $0.10, so a cheaper model saves cents. The reverse-if stays open and is revisited at each review (see
+  "Model economics" below).
 - **Credal ideas that run correctly** is *not* in this increment: the loop's credal ideas
   were far worse than the baseline with implausibly small spreads; the degenerate-spread
   check above stops them being reported as results. Diagnosing them is Increment 6 or later.
@@ -126,8 +124,7 @@ incr4_review ─► incr5_scoped ─┬─► carry5_ready ───────
 
 **Acceptance:** `tools/checks/check_carry5.py`: the spread check has a test with a planted
 near-zero spread; the judge result file has at least 150 decisions with the interval; the
-second-source recall table exists with the old and new figures; the T9 (2) result is
-committed with every run's ledger; spend within the cap; no frozen audit file changed
+second-source recall table exists with the old and new figures; a null result on recall is reported as such; spend within the cap; no frozen audit file changed
 (hash compared) unless the decision above was (i) and its seeded set exists.
 **Gate:** `carry5_ready`.
 
@@ -237,6 +234,10 @@ audit one click away.
   its quote and source link; each table cell and number opens its `results.json` cell; the
   audit panel states green, amber or red in words, including "a warning is a lead, not a
   verdict" for the method-code check and the novelty check.
+- **Examples page:** two or three finished runs shown beside the exact inputs that produced them (topic, output
+  guidance, budget), each with its audit light, cost and wall time, drawn from committed runs (tree-explain, credal,
+  and a literature review) and not generated for the page. They include the honest outcome (no idea beat its baseline
+  in either paper). Every number and input on the page is read from the run's files.
 - **Accessibility and basics:** keyboard use, readable contrast in light and dark, a phone
   width layout, no external scripts on the front page beyond what is bundled.
 - **No claims the data does not support:** the landing page's cost figures and the quality
@@ -246,7 +247,7 @@ audit one click away.
 
 **Acceptance:** screenshots of each screen in light and dark and at a narrow width are
 committed; `tests/test_app_ui.py` renders each page against fixture runs (a finished run,
-a stopped run, a budget-exhausted run, a red audit) without error; the landing-page
+a stopped run, a budget-exhausted run, a red audit) and the examples page without error; the landing-page
 numbers test passes.
 **Gate:** `ui_ready` (requires `app_core_ready`).
 
@@ -285,13 +286,21 @@ entry by a named human marked blind and recorded before the independent scorer's
 entries differ from the independent scores in some cell; a provenance field is present.
 **Gate:** `rubric5_scored` (human; requires `newuser_walkthrough`).
 
+## Model economics (a standing item, not a gate)
+
+Models, prices and capabilities change quickly (Chris, 2026-10-07). Each review restates, from current price lists and one
+probe run, what a literature run and a loop run cost, and whether T9's reverse-ifs have fired: a cheaper model that matches
+Sonnet's first-try rate (T9 (2)), a price change of more than a few percent of the ceiling (T9 (1)), a long-context change
+that alters T3/T7. The app takes its model from a setting, not from code, and the landing page's cost figures come from
+the ledgers, so they update as the evidence does.
+
 ## Increment 5 review
 
 Write `docs/reviews/incr-5.md` against the docs/07 exit criterion: a new user completes S4
 through the app with their own key. Also: the T8 decision and its measured costs; the
 walkthrough's confusions and what the app does about each; the key-safety evidence and its
 limits; the carry-ins closed or restated (the judge's interval on larger N, the second keyed
-source's recall against 59%, the T9 (2) outcome, the spread check, the method-code decision);
+source's recall against 59%, model economics, the spread check, the method-code decision);
 rubric scores of both scorers against Increment 4's; the audit freeze status; spend against the
 caps; per-session overhead; same-model overlap; deviations; and what Increment 6 takes (P1 on
 external papers) or whether the project stops here. Keep it factual and unflattering.
@@ -304,14 +313,14 @@ against the ledgers and result files.
 
 ## Decisions for Chris at incr5_scoped
 
-1. The caps above ($1 / $3 / $1.50 / $5, inside $20 a month).
-2. T8's direction going in: local only (recommended) or local and a hosted demo (a larger
-   scope; the hosted part would be its own gate).
-3. The method-code scoping: leave as a lead and say so (recommended), or spend the test sets
-   and build v4.
-4. Who is the new user for the walkthrough, and whether a key and a small credit can be
-   arranged for them.
-5. Whether Increment 5 includes the second keyed source (Semantic Scholar; needs a user key
-   for the test) and the T9 (2) reasoning test, or either is dropped to protect the app work.
-6. Read: this SPEC and the Increment 4 review's open items (judge on larger N, broken freeze,
-   rubric provenance, retrieval recall).
+Decided 2026-10-07 (Chris):
+
+1. Caps $1 / $3 / $1.50 / $5, inside $20 a month: **accepted**.
+2. T8 going in: **local only**; a hosted demo is not built here.
+3. Method-code check: **left as a lead for a person** (shown collapsed, outside the traffic light); scoping it and a seeded
+   set v4 are deferred to Increment 6, which builds new seeded sets anyway.
+4. New user: Chris can grant a key and a small credit. Also added: the examples page above.
+5. Second keyed source: **kept** (key supplied in `.env`); T9 (2) reasoning test: **dropped**; model economics kept as a standing review item.
+
+Still to read before approving: this SPEC and the Increment 4 review's open items (judge on larger N, broken freeze, rubric
+provenance, retrieval recall).
