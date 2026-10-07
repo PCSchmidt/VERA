@@ -150,24 +150,21 @@ def server(tmp_path_factory):
     thread.join(timeout=5)
 
 
-def dom(port: int, route: str) -> str:
-    out = subprocess.run(
-        [
-            BROWSER,
-            "--headless=old",
-            "--disable-gpu",
-            "--virtual-time-budget=8000",
-            "--dump-dom",
-            f"http://127.0.0.1:{port}/#/{route}",
-        ],
-        capture_output=True,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-        timeout=60,
-        check=False,
-    )
-    return out.stdout
+def dom(port: int, route: str, tmp_path: Path) -> str:
+    """The page's DOM after its scripts ran. A fresh browser profile per load (a shared one can hang on a lock), one retry."""
+    for attempt in range(2):
+        profile = tmp_path / f"profile-{route.replace('/', '_') or 'home'}-{attempt}"
+        try:
+            out = subprocess.run(
+                [BROWSER, "--headless=old", "--disable-gpu", f"--user-data-dir={profile}", "--no-first-run",
+                 "--virtual-time-budget=8000", "--dump-dom", f"http://127.0.0.1:{port}/#/{route}"],
+                capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120, check=False,
+            )  # fmt: skip
+        except subprocess.TimeoutExpired:
+            continue
+        if out.stdout:
+            return out.stdout
+    return ""
 
 
 @pytest.mark.parametrize("route, must_have", [
@@ -184,7 +181,7 @@ def dom(port: int, route: str) -> str:
     ("example/tree-explain", "The audit"),
     ("example/conformal-shift", "Retrieval and its limits"),
 ])  # fmt: skip
-def test_each_page_renders_against_fixture_runs(server: int, route: str, must_have: str) -> None:
-    html = dom(server, route)
+def test_each_page_renders_against_fixture_runs(server: int, route: str, must_have: str, tmp_path: Path) -> None:
+    html = dom(server, route, tmp_path)
     assert "The app could not start" not in html and "Something went wrong" not in html, route
     assert must_have in html, f"{route}: expected {must_have!r}"

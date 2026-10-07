@@ -1,5 +1,6 @@
 {
   "passed_gates": [
+    "app_core_ready",
     "audit3_ready",
     "audit4_ready",
     "audit_ready",
@@ -27,6 +28,7 @@
     "judge_core_ready",
     "judge_retest",
     "judge_retest_3",
+    "key_safety_ready",
     "lit2_ready",
     "lit_core_ready",
     "literature_ready",
