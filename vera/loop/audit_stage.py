@@ -55,11 +55,7 @@ def audit_node(deps: LoopDeps) -> Callable[[dict], dict]:
             methods = {}
         ran_ideas = {i["name"]: i["description"] for i in state.get("ideas", []) if i["name"] in methods}
         records_file = deps.run_dir / "retrieved.jsonl"
-        records = (
-            [json.loads(ln) for ln in records_file.read_text(encoding="utf-8").splitlines() if ln.strip()]
-            if records_file.exists()
-            else []
-        )
+        records = [json.loads(ln) for ln in records_file.read_text(encoding="utf-8").splitlines() if ln.strip()] if records_file.exists() else []
         run = audit.run_audit(
             text, results_json, references.load_references(deps.run_dir), ask=ask, lookup=lookup,
             paper_id=deps.spec.run_id, paper_source="paper.md", target=deps.target, figures=figs, basis=True,

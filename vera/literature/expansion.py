@@ -82,13 +82,8 @@ def resolve(retriever: Retriever, ref: dict) -> dict | None:
     select = retrieval.OPENALEX_FIELDS
     try:
         if ref.get("doi"):
-            work = json.loads(
-                retriever._request(
-                    "openalex",
-                    f"{OPENALEX}/doi:{ref['doi']}",  # noqa: SLF001
-                    {"select": select, "api_key": key},
-                )
-            )
+            work = json.loads(retriever._request("openalex", f"{OPENALEX}/doi:{ref['doi']}",  # noqa: SLF001
+                                                 {"select": select, "api_key": key}))
             found = _openalex_records(json.dumps({"results": [work]}), "cited by seeds")
         else:
             text = retriever._request("openalex", OPENALEX, {"search": ref["title"], "per-page": 3,  # noqa: SLF001

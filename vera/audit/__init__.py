@@ -76,14 +76,9 @@ def run_audit(
     code_claims, code_findings = audit_method_code(text, methods, metered) if methods else ([], [])
     nov_claims, nov_findings = audit_novelty(ideas, records or [], metered, search) if ideas else ([], [])
     findings = [*cite_findings, *num_findings, *fig_findings, *basis_findings, *code_findings, *nov_findings]
-    ran = [
-        "citation",
-        "numeric",
-        *(["figure"] if figures is not None else []),
-        *(["reproduction_basis"] if basis else []),
-        *(["method_code"] if methods else []),
-        *(["novelty"] if ideas else []),
-    ]
+    ran = ["citation", "numeric", *(["figure"] if figures is not None else []),
+           *(["reproduction_basis"] if basis else []), *(["method_code"] if methods else []),
+           *(["novelty"] if ideas else [])]
     skipped = {k: v for k, v in SKIPPED.items() if k not in ran}
     report = AuditReport(
         paper_id=paper_id,
@@ -100,13 +95,7 @@ def run_audit(
 
 
 def run_literature_audit(
-    text: str,
-    claims: list[dict],
-    passages: list[dict],
-    retrieved: list[dict],
-    *,
-    ask: Ask,
-    paper_id: str,
+    text: str, claims: list[dict], passages: list[dict], retrieved: list[dict], *, ask: Ask, paper_id: str,
     paper_source: str,
 ) -> AuditRun:
     """Audit a literature section against its claims, the passages it may quote and the retrieval log (AUD-F-03 on

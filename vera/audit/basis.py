@@ -38,25 +38,13 @@ def audit_basis(text: str, results_json: dict, target: dict | None) -> tuple[lis
     if not datasets:
         return claims, findings
     sents = [s for _, s in sentences(text)]
-    stated = [
-        i
-        for i, s in enumerate(sents)
-        if re.search(r"reproduc", s, re.IGNORECASE) and (IN_SAMPLE.search(s) or HELD_OUT.search(s))
-    ]
+    stated = [i for i, s in enumerate(sents) if re.search(r"reproduc", s, re.IGNORECASE) and (IN_SAMPLE.search(s) or HELD_OUT.search(s))]
     mentions = any(re.search(r"reproduc", s, re.IGNORECASE) for s in sents)
     if not stated:
         if mentions:
-            claim = Claim(
-                id="basis:none", kind="numeric", text="the reproduction statement", location=Location(section="Method")
-            )
+            claim = Claim(id="basis:none", kind="numeric", text="the reproduction statement", location=Location(section="Method"))
             claims.append(claim)
-            findings.append(
-                _finding(
-                    "warn",
-                    claim,
-                    "The paper mentions the baseline reproduction but does not say whether it was made on held-out or in-sample rows.",
-                )
-            )
+            findings.append(_finding("warn", claim, "The paper mentions the baseline reproduction but does not say whether it was made on held-out or in-sample rows."))
         return claims, findings
     for i in stated:
         s = sents[i]
@@ -66,27 +54,13 @@ def audit_basis(text: str, results_json: dict, target: dict | None) -> tuple[lis
             if not re.search(rf"(?<!\w){re.escape(label)}(?!\w)", context, re.IGNORECASE):
                 continue
             window = s if re.search(rf"(?<!\w){re.escape(label)}(?!\w)", s, re.IGNORECASE) else context
-            says = (
-                "in-sample"
-                if IN_SAMPLE.search(window) and not HELD_OUT.search(window)
-                else "held-out"
-                if HELD_OUT.search(window) and not IN_SAMPLE.search(window)
-                else None
-            )
+            says = "in-sample" if IN_SAMPLE.search(window) and not HELD_OUT.search(window) else "held-out" if HELD_OUT.search(window) and not IN_SAMPLE.search(window) else None
             if says is None:
                 continue  # both words in the window: the sentence contrasts the two, nothing to compare
-            claim = Claim(
-                id=f"basis:{d}:{i}", kind="numeric", text=s, location=Location(section="Method", quote=s[:200])
-            )
+            claim = Claim(id=f"basis:{d}:{i}", kind="numeric", text=s, location=Location(section="Method", quote=s[:200]))
             claims.append(claim)
             if says != registered[d]:
-                findings.append(
-                    _finding(
-                        "fail",
-                        claim,
-                        f"The paper says the baseline was reproduced on {says} rows for {label}; the registered target compares {registered[d]} rows: {s[:160]!r}",
-                    )
-                )
+                findings.append(_finding("fail", claim, f"The paper says the baseline was reproduced on {says} rows for {label}; the registered target compares {registered[d]} rows: {s[:160]!r}"))
     return claims, findings
 
 
