@@ -750,7 +750,7 @@ gates:
 
   # ── Increment 5: the app, UI/UX and bring-your-own-key (SPEC.md) ───────────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
-  # Defined so far: incr5_scoped.
+  # Defined so far: incr5_scoped, carry5_ready, t8_decided.
 
   - id: incr5_scoped
     label: "Increment 5 scope confirmed"
@@ -768,3 +768,33 @@ gates:
         - validate-contract.sh      # Meridian: Purpose + Scope sections present
         - validate-spec.sh          # Meridian: SPEC.md is structured
         - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount
+
+  - id: carry5_ready
+    label: "Carry-ins: spread rule, judge on 150+ items, second keyed source measured, audit files unchanged, schemas 0.11"
+    type: automated
+    required: true
+    requires:
+      - incr5_scoped
+    requires_artifacts:
+      - vera/loop/spread.py
+      - data/retest5/results.json
+      - docs/results/retrieval_recall_s2.md
+    hooks:
+      pre:
+        - gate-tests.sh             # ruff + the full suite
+        - gate-vendor-imports.sh    # FND-C-01 still holds
+        - gate-schema-version.sh    # schemas 0.11 match docs/03 and have a changelog line
+        - gate-carry5.sh            # the checks in tools/checks/check_carry5.py
+
+  - id: t8_decided
+    label: "T8 decided: app delivery and bring-your-own-key"
+    type: human_approval
+    required: true
+    approval_token: "T8 DECIDED"
+    requires:
+      - incr5_scoped
+    requires_artifacts:
+      - docs/04-trade-studies.md
+    hooks:
+      pre:
+        - gate-t8.sh                # the entry has measured costs with sources, scores, a decision and reverse-if

@@ -1,0 +1,22 @@
+{
+ "commit": "73858c807d3be2c1090ba11445dde95828cf7550",
+ "note": "the audit's frozen-file hash when Increment 5 was scoped (2026-10-07); Increment 5 changes none of these files unless it spends a new test set first. This is not the Increment 4 freeze hash (2195e928d9ad), which was broken by the tables.py change after the test runs.",
+ "files": [
+  "vera/audit/__init__.py",
+  "vera/audit/alignment.py",
+  "vera/audit/basis.py",
+  "vera/audit/bibliography.py",
+  "vera/audit/citations.py",
+  "vera/audit/figure_check.py",
+  "vera/audit/literature.py",
+  "vera/audit/method_code.py",
+  "vera/audit/novelty.py",
+  "vera/audit/numbers.py",
+  "vera/literature/questions.py",
+  "vera/literature/reading.py",
+  "vera/literature/synthesis.py",
+  "vera/loop/figures.py",
+  "vera/loop/tables.py"
+ ],
+ "sha256": "69890a43f1fcf046fe99a295715f76b3eb15a266a1806ca526137ba9b70d63e4"
+}

@@ -428,7 +428,7 @@ Keep each to one short section. Status: **open** until decided.
   (more full texts, longer sources), or a bring-your-own-key user's model prices make input cost more than $0.50
   per topic, then build and measure the arm first on the synthesis stage.
 
-## T8 â€” App delivery and bring-your-own-key (open, decide in Increment 5)
+## T8 â€” App delivery and bring-your-own-key (proposed 2026-10-07, Increment 5; decided when Chris approves `t8_decided`)
 
 - **Options:** (a) local app: the user runs VERA on their own machine with
   a web UI on localhost and their key in their own environment; (b) hosted
@@ -447,6 +447,37 @@ Keep each to one short section. Status: **open** until decided.
 - **Reverse if:** hosting cost per visitor can be bounded near zero, then a
   full hosted app; or a local install proves too hard for the intended
   users, then invest in packaging.
+
+- **Measured before the decision (2026-10-07; ledgers named, nothing estimated that was not measured):**
+  - *A literature-only run* (scope, retrieve, read, synthesise, audit) on the three fresh Increment 4 topics cost $0.16 to $0.21 for the
+    final version of each, and $0.12 to $0.16 more for the second write of the section (`data/ledger/run_topic4-*`). Increment 3's three
+    topics cost $0.14 to $0.22 (`docs/results/topic_costs.md`).
+  - *A run with experiments* on top of a topic: $0.10 (tree-explain, 24 minutes of sandbox wall time) and $0.06 (credal, about an
+    hour, most of it the parent's own baseline batch) of model spend (`docs/results/runs4.json`). Together with the topic a user can
+    expect about $0.22 to $0.31 on Sonnet 5.5 (the topic run plus the loop run, from the figures above), of which almost nothing goes on sandbox compute: that is time on the user's
+    own machine.
+  - *Who pays what.* Local (a): model calls, the user's key; sandbox CPU and disk, the user's machine; nothing for the maintainer.
+    Hosted (b): model calls the visitor's, but the server runs GROBID (a Java container) for full-text reading, the HTTP fetches and the
+    web process for every visitor, and for experiments a Docker sandbox with up to an hour of CPU. Those hosting costs have **not** been
+    measured here: nothing was deployed. They are a real, uncapped cost to the maintainer unless a hard per-visitor limit is built, and
+    hosting a visitor's key for the length of a run puts APP-C-02 ("not stored server-side") under strain.
+  - *First-use friction (a).* Python 3.11+, `uv`, and for experiments Docker with the sandbox images built. The literature stage reads
+    full texts through GROBID (a Docker container); whether the app should run without it is a design point for `app_core_ready`, not
+    something measured here.
+- **Scores:**
+
+  | Criterion | (a) Local | (b) Hosted demo | (c) Both |
+  |---|---|---|---|
+  | Who pays | the user, entirely | the visitor for models; the maintainer for hosting, GROBID, any sandbox | both |
+  | Key safety (APP-C-01/02) | key never leaves the user's machine | key crosses to a server for the run's length | as (b) for the hosted part |
+  | First use | install steps; Docker only for experiments | none | either |
+  | UI effort | one UI | the same UI plus accounts, limits, deployment | the same plus operations |
+  | Windows | the workstation's own platform | not relevant | not relevant |
+- **Decision:** (Chris, 2026-10-07: direction (a) only, chosen at `incr5_scoped`; this entry is confirmed by approving `t8_decided` on it as written)
+  **(a), the local app.** A public deployment is an outward-facing action and its running cost is unmeasured; (c) is reconsidered at the Increment 5 review.
+- **Reverse if** (restated): hosting cost per visitor can be bounded near zero and measured, then a hosted literature-only demo (its own gate);
+  or the new-user walkthrough shows the local install is the point where users give up, then invest in packaging before anything hosted.
+
 
 ## T9 â€” Generator model(s) for the loop's producers (decided 2026-10-02, Increment 2)
 
