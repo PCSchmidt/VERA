@@ -42,6 +42,7 @@
     "scaffold_ready",
     "scoping_ready",
     "stages_ready",
+    "t8_decided",
     "topic_runs",
     "topics4_chosen",
     "topics_chosen",
@@ -138,6 +139,10 @@
     "incr5_scoped": {
       "by": "Chris Schmidt",
       "at": "2026-10-07T11:26:43Z"
+    },
+    "t8_decided": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-07T12:44:33Z"
     }
   }
 }
