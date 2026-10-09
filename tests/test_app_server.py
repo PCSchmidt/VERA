@@ -18,7 +18,12 @@ from vera.app.runs import RunError, RunManager  # noqa: E402
 from vera.app.server import create_app  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
-BODY = {"run_id": "my-first-run", "topic": "How do tree ensembles behave under correlated features?", "max_usd": 1.0, "max_wall_seconds": 3600}
+BODY = {
+    "run_id": "my-first-run",
+    "topic": "How do tree ensembles behave under correlated features?",
+    "max_usd": 1.0,
+    "max_wall_seconds": 3600,
+}
 
 
 def make(tmp_path: Path, monkeypatch, *, key_ok: bool = True):
@@ -33,7 +38,14 @@ def make(tmp_path: Path, monkeypatch, *, key_ok: bool = True):
             raise RunError("OpenRouter did not accept that key.")
 
     probes = {"docker": lambda: False, "grobid": lambda: False}
-    app = create_app(ROOT, session=session, manager=RunManager(tmp_path, session, launches), key_check=key_check, probes=probes, poll_seconds=0.01)
+    app = create_app(
+        ROOT,
+        session=session,
+        manager=RunManager(tmp_path, session, launches),
+        key_check=key_check,
+        probes=probes,
+        poll_seconds=0.01,
+    )
     return TestClient(app, base_url="http://127.0.0.1"), session, launches, checked
 
 
@@ -82,7 +94,20 @@ def test_APP_F_01_a_run_goes_from_form_to_confirmation_to_stop_and_resume(tmp_pa
     st = client.post("/api/runs", json=BODY).json()
     assert st["state"] == "queued" and st["max_usd"] == 1.0 and launches.calls[-1][1] == "start"
     run_dir = tmp_path / "runs" / "my-first-run"
-    (run_dir / "scope.json").write_text(json.dumps({"topic_id": "my-first-run", "question": "Does X hold?", "why_researchable": "w", "empirical": False, "candidate_parent": None, "no_parent_reason": "n", "status": "proposed"}), encoding="utf-8")
+    (run_dir / "scope.json").write_text(
+        json.dumps(
+            {
+                "topic_id": "my-first-run",
+                "question": "Does X hold?",
+                "why_researchable": "w",
+                "empirical": False,
+                "candidate_parent": None,
+                "no_parent_reason": "n",
+                "status": "proposed",
+            }
+        ),
+        encoding="utf-8",
+    )
     app_state.write(run_dir, "awaiting_confirmation", "Check the question")
     assert client.get("/api/runs/my-first-run/scope").json()["question"] == "Does X hold?"
     with client.stream("GET", "/api/runs/my-first-run/events") as ev:
@@ -95,7 +120,10 @@ def test_APP_F_01_a_run_goes_from_form_to_confirmation_to_stop_and_resume(tmp_pa
     assert client.post("/api/runs/my-first-run/resume").status_code == 409
     app_state.write(run_dir, "stopped", "x")
     assert client.post("/api/runs/my-first-run/resume").json()["state"] == "queued"
-    assert client.get("/api/runs/nope-nope").status_code == 404 and client.get("/api/runs/..%2f..").status_code in {404, 422}
+    assert client.get("/api/runs/nope-nope").status_code == 404 and client.get("/api/runs/..%2f..").status_code in {
+        404,
+        422,
+    }
 
 
 def test_the_examples_open_with_their_evidence_and_nothing_outside_their_folder(tmp_path: Path, monkeypatch) -> None:
@@ -111,3 +139,58 @@ def test_the_examples_open_with_their_evidence_and_nothing_outside_their_folder(
     for bad in ("../runs4-credal/paper.md", "..%2f..%2f..%2f.env", "run_report.sh", "../../../pyproject.toml"):
         assert client.get(f"/api/examples/tree-explain/files/{bad}").status_code in {404, 422}
     assert client.get("/api/examples/not-an-example/paper").status_code == 404
+
+
+def test_the_pdf_of_an_example_carries_its_text_tables_figures_and_evidence(tmp_path: Path, monkeypatch) -> None:
+    pymupdf = pytest.importorskip("pymupdf")
+    client, *_ = make(tmp_path, monkeypatch)
+    r = client.get("/api/examples/tree-explain/pdf")
+    assert r.status_code == 200 and r.headers["content-type"] == "application/pdf"
+    assert 'filename="vera-example-tree-explain.pdf"' in r.headers["content-disposition"] and r.content[:5] == b"%PDF-"
+    doc = pymupdf.open(stream=r.content, filetype="pdf")
+    text = " ".join(p.get_text() for p in doc)
+    assert doc.page_count >= 4 and "RESEARCH PAPER" in text and "Appendix A. The audit" in text
+    assert "Component error against the true decomposition" in text  # a table's heading and a figure's caption
+    assert sum(len(p.get_images()) for p in doc) >= 3  # the three figures are in the file
+    review = pymupdf.open(stream=client.get("/api/examples/conformal-shift/pdf").content, filetype="pdf")
+    rtext = " ".join(p.get_text() for p in review)
+    assert (
+        "Candès" in rtext and "Appendix B. Claims and the passages" in rtext and "LITERATURE REVIEW" in rtext
+    )  # non-ASCII names, the evidence
+    assert client.get("/api/examples/not-an-example/pdf").status_code == 404
+
+
+def test_the_pdf_of_a_run_is_built_from_the_runs_own_files(tmp_path: Path, monkeypatch) -> None:
+    pymupdf = pytest.importorskip("pymupdf")
+    client, *_ = make(tmp_path, monkeypatch)
+    client.post("/api/key", json={"key": KEY})
+    client.post("/api/runs", json=BODY)
+    run_dir = tmp_path / "runs" / "my-first-run"
+    (run_dir / "artifacts").mkdir()
+    (run_dir / "literature.md").write_text(
+        "## Literature review\n\nA claim long enough to quote [R1].\n\n## References\n\n[R1] A. Author. A title. 2024.\n[R2] B. Author. Another. 2023.\n",
+        encoding="utf-8",
+    )
+    (run_dir / "claims.jsonl").write_text(
+        json.dumps(
+            {
+                "claim": "A claim long enough to quote",
+                "source_key": "R1",
+                "quote": "the exact quote",
+                "locator": "abstract",
+            }
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+    (run_dir / "artifacts" / "audit_report.json").write_text(
+        json.dumps(
+            {"overall": "amber", "checks_run": ["citation"], "findings": [{"severity": "warn", "summary": "a lead"}]}
+        ),
+        encoding="utf-8",
+    )
+    r = client.get("/api/runs/my-first-run/pdf")
+    assert r.status_code == 200 and KEY not in r.content.decode("latin-1")
+    text = " ".join(p.get_text() for p in pymupdf.open(stream=r.content, filetype="pdf"))
+    assert "AMBER" in text and "the exact quote" in text and "[R2] B. Author" in text and "a lead" in text
+    assert client.get("/api/runs/nope-nope/pdf").status_code == 404

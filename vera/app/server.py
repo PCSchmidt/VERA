@@ -17,12 +17,13 @@ from urllib.parse import urlparse
 
 import httpx
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
+from fastapi.responses import FileResponse, JSONResponse, Response, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, ValidationError
 
 from vera.app import config, facts
 from vera.app.keystore import InvalidKey, SessionKey
+from vera.app.pdf import render_pdf
 from vera.app.runs import RunError, RunManager
 from vera.literature import scoping
 from vera.schemas import AppConfig, RunRequest, RunStatus
@@ -211,6 +212,34 @@ def create_app(
         out = read_paper(folder, document=Path(match["document"]).name, retrieved=match.get("retrieved"), root=root)
         out["example"] = match
         return out
+
+    def pdf_response(paper: dict, meta: dict, base: Path, filename: str) -> Response:
+        data = render_pdf(paper, meta, base)
+        return Response(content=data, media_type="application/pdf",
+                        headers={"Content-Disposition": f'attachment; filename="{filename}.pdf"'})  # fmt: skip
+
+    @app.get("/api/runs/{run_id}/pdf")
+    def run_pdf(run_id: str) -> Response:
+        status = run_or_404(run_id)
+        run_dir = manager.run_dir(run_id)
+        request = json.loads((run_dir / "app_request.json").read_text(encoding="utf-8"))
+        scoped = scoping.read_scope(run_dir)
+        topic = request["topic"].strip()
+        meta = {"title": topic if len(topic) <= 110 else topic[:107].rsplit(" ", 1)[0] + "…",
+                "question": scoped.question if scoped else None, "kind": "literature", "run_id": run_id,
+                "date": (status.updated_at or "")[:10], "spent_usd": status.spent_usd, "cap_usd": status.max_usd}  # fmt: skip
+        return pdf_response(read_paper(run_dir), meta, run_dir, f"vera-{run_id}")
+
+    @app.get("/api/examples/{example_id}/pdf")
+    def example_pdf(example_id: str) -> Response:
+        match = next((e for e in facts.examples(root) if e["id"] == example_id), None)
+        if match is None:
+            raise HTTPException(status_code=404, detail="No such example.")
+        folder = (root / match["document"]).parent
+        paper = read_paper(folder, document=Path(match["document"]).name, retrieved=match.get("retrieved"), root=root)
+        meta = {"title": match["title"], "question": match["question"], "kind": match["kind"], "run_id": match["id"],
+                "date": "", "spent_usd": match["spent_usd"], "cap_usd": match["budget_cap_usd"]}  # fmt: skip
+        return pdf_response(paper, meta, folder, f"vera-example-{example_id}")
 
     def safe_file(folder: Path, rel: str) -> FileResponse:
         target = (folder / rel).resolve()
