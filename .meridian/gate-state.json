@@ -33,6 +33,7 @@
     "lit_core_ready",
     "literature_ready",
     "loop_run",
+    "newuser_walkthrough",
     "parser_decided",
     "problem2_ready",
     "protocol_ready",
@@ -146,6 +147,10 @@
     "t8_decided": {
       "by": "Chris Schmidt",
       "at": "2026-10-07T12:44:33Z"
+    },
+    "newuser_walkthrough": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-09T15:50:13Z"
     }
   }
 }
