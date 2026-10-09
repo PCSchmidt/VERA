@@ -225,3 +225,10 @@ seeded set the method-code scoping needs; (5) the judge on harder real decisions
 ## Independent Evaluator
 
 Rounds are added below, each by a fresh subagent that did not write this review, with every verdict kept unedited in `.meridian/evaluator/incr5_review-verdict-r<N>.json`.
+
+**Round 1** (fail, 6.0; completeness 4, quality 7, consistency 8, spec adherence 5): two blockers, the T8 decision and its measured costs were missing, and the comparison of both scorers with Increment 4's scores was missing. Also raised: no
+statement of what the key-safety tests cannot cover; the walkthrough's confusions not mapped one by one to what the app does; model economics as a one-line carry-in; a test count not backed by a record (688 against about 493 test
+functions); the unexplained difference between "claims checked" and the number of saved claims; a rehearsal ledger not in the repository; two of the scorer's CLM-paper findings presented as verified when they were not; scores that repeated
+an example counted without comment; and three of five confusions being the observer's, not the user's. Everything it verified held (spend, the judge and recall figures, the rubric cells and means, the walkthrough record, the gates, the unchanged
+audit files, the fixes' tests). Verdict kept in `incr5_review-verdict-r1.json`. After it, each point was addressed in the text above or backed by a file (the T8 section, the Increment 4 comparison, the key-safety limits, the confusions table,
+model economics, the claim-count explanation, `docs/results/incr5_test_run.txt`, `data/app/live/rehearsal-1/`, and a test that removes the redaction and shows the leak).
