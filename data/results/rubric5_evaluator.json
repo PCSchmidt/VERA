@@ -1,0 +1,44 @@
+{
+ "by": "evaluator",
+ "entries": [
+  {
+   "output": "W1",
+   "at": "2026-10-09T16:44:13Z",
+   "blind": false,
+   "note": "Lowest is coverage: only 10 claims from 39 kept papers, no OpenTelemetry GenAI conventions or SWE-agent trajectory sources used though SWE-agent was retrieved; also a sentence cites R12 with no citation, and the Tracezip claim says sampling forces a trade-off while its quote only says existing work faces one.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 2,
+    "correctness": 3,
+    "reproducibility": 3,
+    "honesty": 4
+   }
+  },
+  {
+   "output": "R1",
+   "at": "2026-10-09T16:44:13Z",
+   "blind": false,
+   "note": "Lowest is reproducibility: no retrieved.jsonl is saved for this run, so the 120 candidates and the 31 kept cannot be inspected; the review also says CLM reports FLOPs not wall-clock while the CLM paper reports 65% greater end-to-end speedup, and one sentence (RLM comparable cost on long-context) is uncited.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 2,
+    "correctness": 3,
+    "reproducibility": 2,
+    "honesty": 3
+   }
+  },
+  {
+   "output": "R2",
+   "at": "2026-10-09T16:44:13Z",
+   "blind": false,
+   "note": "Lowest is answers_question: only Claude Code is covered on storage; Aider and Codex CLI are unaddressed, no cross-harness comparison of granularity or commit history is made, and the vector-database part is answered by one source; the review does admit these gaps.",
+   "scores": {
+    "answers_question": 2,
+    "coverage": 2,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 4
+   }
+  }
+ ]
+}

@@ -1,0 +1,70 @@
+{
+ "by": "Chris",
+ "entries": [
+  {
+   "output": "W1",
+   "at": "2026-10-09T16:24:44Z",
+   "blind": true,
+   "note": "clear on limits; coverage thin; one unsupported sentence",
+   "scores": {
+    "answers_question": 1,
+    "coverage": 2,
+    "correctness": 3,
+    "reproducibility": 4,
+    "honesty": 5
+   }
+  },
+  {
+   "output": "W1",
+   "at": "2026-10-09T16:34:59Z",
+   "blind": true,
+   "note": "clear on limits; coverage thin; one unsupported sentence",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 4,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 5
+   }
+  },
+  {
+   "output": "R1",
+   "at": "2026-10-09T16:38:52Z",
+   "blind": true,
+   "note": "clear on limits; coverage thin; one unsupported sentence",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 4,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 5
+   }
+  },
+  {
+   "output": "R1",
+   "at": "2026-10-09T16:41:12Z",
+   "blind": true,
+   "note": "Answers the questions",
+   "scores": {
+    "answers_question": 4,
+    "coverage": 4,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 5
+   }
+  },
+  {
+   "output": "R2",
+   "at": "2026-10-09T16:43:06Z",
+   "blind": true,
+   "note": "Answers the questions accurately",
+   "scores": {
+    "answers_question": 5,
+    "coverage": 4,
+    "correctness": 5,
+    "reproducibility": 4,
+    "honesty": 5
+   }
+  }
+ ]
+}
