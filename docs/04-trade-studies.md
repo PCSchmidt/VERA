@@ -107,6 +107,12 @@ Keep each to one short section. Status: **open** until decided.
   reference (95% CI 91.0-99.3), so it did **not fire**; the lower bound is below
   95% and both misses are confident perturbed items. docs/reviews/incr-2.md.
 
+- **Increment 5 test of the reverse-if (2026-10-09; `data/retest5/`, `docs/reviews/incr-5.md`):** (1) *tested, not fired.* 150 labelled decisions (14 real new gate decisions and 136 perturbed
+  copies of the Increment 4 results tables, on both parent problems): the decided path (Jev, escalating to GLM) agreed with the Sonnet 5.5 reference on **150 of 150** (95% interval 97.5-100%),
+  and both agreed with the labels on every item. The set is easy by construction, so it shows the path is not near-tie fragile, not that it is accurate on hard real decisions (most real gate
+  decisions are now rule verdicts). Cost $0.615. Also: with no Jev key (a bring-your-own-key user usually has only an OpenRouter key) the cheap path is now GLM alone
+  (`vera.judge.cheap_path`); that variant was not measured separately.
+
 ## T2 â€” Orchestration runtime (decided 2026-10-01, Increment 1)
 
 - **Options:** (a) LangGraph directly; (b) Meridian's DAG gates as the
@@ -363,6 +369,11 @@ Keep each to one short section. Status: **open** until decided.
   and **stays open as evidence**: no step of Increment 4 made retrieval reliably better, and the review says the coverage of any
   review is only as good as what retrieval found; the retrieval note each review now carries says so to its reader.
 
+- **Increment 5 test of the reverse-if (5) (2026-10-09; `docs/results/retrieval_recall_s2.md`):** a second keyed source (Semantic Scholar, the user's own key, used when
+  `SEMANTIC_SCHOLAR_API_KEY` is set) was added and the same queries re-run on the six measured topics with the key lists unchanged: pooled key-paper recall before the screen **34 to 37 of 58
+  (59% to 64%)**; +1 each on research-agents-eval, credal-dro and llm-judge-numbers, 0 on the other three. The screen was not re-run, so kept-by-screen figures are unchanged. A modest gain:
+  (5) is not closed, and recall remains the weakest measured stage.
+
 ## T6 â€” Tracing/observability (decided 2026-10-02, Increment 2)
 
 - **Options:** LangSmith; OpenTelemetry + local store; ledger-only.
@@ -547,6 +558,10 @@ Keep each to one short section. Status: **open** until decided.
   synthesis, repair and parent selection. The whole stage costs $0.14 to $0.22 per topic (`topic_costs.md`), so a
   cheaper-arm test for bring-your-own-key users is not worth running now; T9 reverse-if (2), a reasoning control that
   makes MiMo or DeepSeek usable, moves to Increment 5 as planned.
+
+- **Increment 5 note (2026-10-09):** reverse-if (2) (a reasoning control that makes a cheaper model usable) was **not tested**: Chris dropped it from Increment 5 because a Sonnet 5.5
+  literature review costs $0.11 to $0.21, so a cheaper model saves cents. (1) not fired (those costs are far below a few percent of the $20 ceiling); (3) not tested; (4) the judge is GLM
+  (or Jev then GLM) and the writer is Sonnet, so they do not coincide. The app takes its model from `VERA_GENERATOR_MODEL`. Prices and newer models were not re-checked this increment.
 
 ## T10 â€” Where a problem's baseline comes from (decided 2026-10-03, Increment 3)
 

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -194,3 +195,17 @@ def test_the_pdf_of_a_run_is_built_from_the_runs_own_files(tmp_path: Path, monke
     text = " ".join(p.get_text() for p in pymupdf.open(stream=r.content, filetype="pdf"))
     assert "AMBER" in text and "the exact quote" in text and "[R2] B. Author" in text and "a lead" in text
     assert client.get("/api/runs/nope-nope/pdf").status_code == 404
+
+
+def test_APP_C_03_the_server_answers_only_this_computer_and_loads_nothing_from_outside(
+    tmp_path: Path, monkeypatch
+) -> None:
+    client, *_ = make(tmp_path, monkeypatch)
+    assert (
+        client.get("/api/config", headers={"host": "evil.example"}).status_code == 403
+    )  # another host name (DNS rebinding)
+    cross = client.post("/api/key", json={"key": KEY}, headers={"origin": "https://evil.example"})
+    assert cross.status_code == 403  # a page elsewhere cannot drive it
+    page = client.get("/").text
+    assert not re.search(r'(src|href)="https?://', page)  # nothing is loaded from outside the machine
+    assert "default-src 'self'" in client.get("/").headers["content-security-policy"]

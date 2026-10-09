@@ -58,6 +58,8 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
 | 2026-09-30 | `backends_live` | passed first try (smoke ledger: 50 calls, 5 backends, $0.038 of $1.00) | agent (automated gate) |
 | 2026-09-30 | `graph_ready` | passed first try (187 tests incl. kill-and-resume) | agent (automated gate) |
 
+From Increment 2 on the gate log is `.meridian/telemetry.jsonl` and `.meridian/gate-state.json`; each increment's review lists its gates and what each showed.
+
 ## Observations
 
 - Writing the schemas surfaced a spec gap no gate could catch: docs/03's
@@ -157,3 +159,21 @@ contradictions. Both high gaps (undefined data source; spend ceiling unset so
   and rounds 2 and 3 found things round 1 had missed. The verdicts'
   self-reported timestamps do not match telemetry, so they are not evidence
   of when a round ran.
+
+- **Increments 3 to 5 (2026-10-03 to 10-09): what Meridian did and did not do.**
+  - **The freeze check worked, but after the fact.** In Increment 4 a frozen audit file (`vera/loop/tables.py`) changed after both test runs; the check blocked at HEAD, so the break was
+    visible, but nothing could have prevented it. In Increment 5 a formatter run reformatted seven frozen files; `check_carry5.py` refused the gate and the change was reverted. A check that
+    recomputes the hash catches both; a hook that refuses an edit to a frozen file would stop them.
+  - **A human gate cannot tell who wrote the numbers.** The rubric check enforces a named human, a blind flag, an order (before the independent scorer) and that the scores are not a copy of it. It
+    cannot tell whether the numbers are judgement: Increment 4's scores were stamped at one moment with model-voiced notes, and Increment 5's first entries repeated the format example. The
+    reviews state both; only the record can show it.
+  - **A gate the SPEC drew but `gates.yaml` lacked.** `incr5_review` was missing when the owner tried to approve it (`ERROR: Gate 'incr5_review' not found`); `validate-spec.sh` does not check that
+    the SPEC's DAG exists in the gates file. The fix was a stub; generating stubs from the SPEC's DAG would remove the class.
+  - **The Evaluator caught omissions against the SPEC, not only errors.** Increment 4 round 1 failed (6.2) for claiming the freeze was kept; Increment 5 round 1 failed (6.0) for leaving out two
+    sections the SPEC requires (the T8 decision with measured costs, the comparison with Increment 4's scores) and for numbers with no record behind them. Both passed on round 2 (8.3, 7.8) after the
+    text was revised, and its fresh-agent rounds also found sentences presented as verified that had not been.
+  - **Overhead logging lapsed again.** No entry on 2026-10-03 (Increment 4) or 2026-10-07 (Increment 5); both were credited by naming the day in a later note, a relaxation the owner chose. The check
+    verifies that an entry exists, not that it covers the day's work.
+  - **`mark-passed` re-runs the whole suite for every automated gate** (2 to 3 minutes each), so three gates in a row cost about eight minutes; one run's test hook failed for a reason never found, and a
+    browser-test timeout (a shared profile lock) failed another. Caching a gate's result by tree hash, and a quarantine for flaky hooks, would help.
+  - **A gate was recorded by hand once** (`comparison4`, Increment 4, because the engine could not run in that shell); the check passed but the engine's verification and telemetry did not run.

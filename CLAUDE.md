@@ -60,6 +60,18 @@ Read `README.md` first, then the doc relevant to your task in `docs/`.
 - Health/medical datasets: public and de-identified only; respect license
   and credentialing terms.
 
+## Working notes (learned the hard way)
+
+- **Never run a formatter over `vera/`.** It reformats the audit's frozen files, changes their hash and breaks the freeze (`python tools/checks/check_carry5.py` catches it). Format only files you wrote.
+- **Read and write text with `encoding="utf-8"`.** Windows defaults to cp1252 and fails on names such as "Candès" or on `→`.
+- **`uv sync` strips optional groups.** After adding a dependency run `uv sync --group dev --group bench --group corpus`, or numpy and pymupdf disappear and tests fail to collect.
+- **Process calls live under `vera/sandbox/`** (FND-F-03, `tools/checks/check_sandbox_use.py`); the app's two (`docker info`, starting a worker) are in `vera/sandbox/host.py`.
+- **The app** is `vera/app/` (`uv run vera-app`); the static showcase is built by `scripts/build_pages.py` from committed files and deployed by `.github/workflows/pages.yml`. Keep the two front-end modes
+  (`window.VERA_STATIC`) in step, and keep any figure on a page generated from a file, never typed.
+- **Headless-browser tests** need a fresh `--user-data-dir` per load (a shared profile can lock and time out).
+- **In this Windows shell**, long here-documents containing quotes can fail to parse; write scripts to a file and run them.
+- **Say what was and was not checked.** Reviews and READMEs state limits plainly; a green audit is a floor, not a verdict.
+
 ## When unsure
 
 Prefer a small, testable step and ask. Don't expand scope beyond the current

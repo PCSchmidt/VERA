@@ -64,6 +64,169 @@ platform. Treat the rules below as the contract the commit boundary enforces.
    - depends on: trades_decided_1
    - required artifacts: docs/reviews/incr-1.md
    - verified by: gate-tests.sh, gate-traceability.sh, run-evaluator.sh
+14. **incr2_scoped** — Increment 2 scope confirmed
+   - depends on: incr1_review
+   - required artifacts: SPEC.md, CONTRACT.md, docs/reviews/incr-1.md
+   - verified by: validate-contract.sh, validate-spec.sh, gate-spend-ceiling.sh
+15. **run_core_ready** — Run spec, per-run ledger, cheap path and budget stop, tested offline
+   - depends on: incr2_scoped
+   - required artifacts: vera/loop/__init__.py, vera/loop/stop.py, vera/judge/cheap_path.py
+   - verified by: gate-tests.sh, gate-schema-version.sh, gate-vendor-imports.sh
+16. **design_trades_decided** — T4 sandbox and T5 bibliographic source decided
+   - depends on: incr2_scoped
+   - verified by: gate-trades-design.sh
+17. **sandbox_ready** — Sandbox for generated code (T4: local Docker, FND-F-03)
+   - depends on: design_trades_decided, run_core_ready
+   - required artifacts: vera/sandbox/__init__.py, docker/sandbox-treehfd/Dockerfile
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-sandbox.sh
+18. **stages_ready** — Baseline, idea and write-up stages, gated, with a live smoke run (RSH-F-02, RSH-F-03, RSH-F-07)
+   - depends on: run_core_ready, sandbox_ready
+   - required artifacts: vera/loop/stages.py, vera/loop/graph.py, vera/loop/writeup.py, docker/sandbox-treehfd/harness.py, docs/results/treehfd_baseline_target.json
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-loop-smoke.sh
+19. **audit_ready** — Minimal P1 final gate: citations and numbers against the run's own logs (AUD-F-03, AUD-F-04, AUD-F-09, RSH-F-05)
+   - depends on: design_trades_decided, stages_ready
+   - required artifacts: vera/audit/__init__.py, vera/audit/citations.py, vera/audit/numbers.py, vera/loop/audit_stage.py, data/seeded/manifest.csv, data/seeded/split.json
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-seeded-audit.sh, gate-audit-smoke.sh
+20. **trades_decided_2** — T6, T7 and T9 decided (generator comparison run and within its cap)
+   - depends on: stages_ready, audit_ready
+   - verified by: gate-trades-incr2.sh
+21. **loop_run** — One complete end-to-end run inside its budget, with a per-stage cost ledger and an audit report on its own paper
+   - depends on: trades_decided_2
+   - verified by: gate-loop-run.sh
+22. **judge_retest** — Judge re-tested on the loop's real gate decisions (T1 reverse-if 1)
+   - depends on: loop_run
+   - verified by: gate-retest.sh
+23. **incr2_review** — Increment 2 review
+   - depends on: judge_retest
+   - required artifacts: docs/reviews/incr-2.md
+   - verified by: gate-tests.sh, gate-traceability.sh, gate-dogfood.sh, run-evaluator.sh
+24. **incr3_scoped** — Increment 3 scope confirmed
+   - depends on: incr2_review
+   - required artifacts: SPEC.md, CONTRACT.md, docs/reviews/incr-2.md
+   - verified by: validate-contract.sh, validate-spec.sh, gate-spend-ceiling.sh
+25. **lit_core_ready** — Schemas 0.9, multi-verdict stage results, dogfood check, upstream draft, tested offline
+   - depends on: incr3_scoped
+   - required artifacts: vera/schemas/literature.py, docs/upstream/treehfd-predict-nondeterministic.md
+   - verified by: gate-tests.sh, gate-schema-version.sh, gate-vendor-imports.sh
+26. **topics_chosen** — Three topics and their key-paper lists fixed and hashed before any retrieval
+   - depends on: incr3_scoped
+   - required artifacts: data/topics/manifest.json
+   - verified by: gate-topics.sh
+27. **scoping_ready** — Scoping stage and the confirmation pause, tested offline; the three topics scoped live and confirmed (RSH-F-08)
+   - depends on: lit_core_ready, topics_chosen
+   - required artifacts: vera/literature/scoping.py, vera/literature/graph.py, scripts/confirm_scope.py
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-scoping.sh
+28. **retrieval_ready** — Retrieval and relevance screen tested offline; the three topics retrieved live, key-paper recall measured, screen checked by the user
+   - depends on: scoping_ready
+   - required artifacts: vera/literature/retrieval.py, vera/literature/stages.py, vera/literature/expansion.py, docs/results/retrieval_recall.md, data/retrieval/relevance_check.csv
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-retrieval.sh
+29. **literature_ready** — Reading and synthesis: a literature section per topic in which every claim carries a quote found in its source (RSH-F-09)
+   - depends on: retrieval_ready
+   - required artifacts: vera/literature/reading.py, vera/literature/synthesis.py, vera/literature/synthesis_stage.py
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-literature.sh
+30. **audit3_ready** — Audit v2 tested once on a split fixed before the run, with the audit's source frozen (AUD-F-10)
+   - depends on: literature_ready
+   - required artifacts: vera/audit/seeded_v2.py, scripts/run_seeded_v2.py, data/seeded_v2/results_test.json
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-seeded-v2.sh
+31. **trades_decided_3** — T3, T5, T7 and T10 decided from this increment's measurements
+   - depends on: audit3_ready
+   - verified by: gate-trades-incr3.sh
+32. **topic_runs** — Three topics run to their final stage with costs measured; one carried through the research loop
+   - depends on: trades_decided_3
+   - required artifacts: docs/results/topic_costs.md, data/results/topic_costs.json
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-topic-runs.sh, gate-ledger.sh
+33. **judge_retest_3** — Judge re-tested on this increment's claims (benchmark and real) and on the loop's new real gate decisions
+   - depends on: topic_runs
+   - required artifacts: data/claim_bench/results.json, data/retest3/results.json
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-retest3.sh, gate-ledger.sh
+34. **incr3_review** — Increment 3 review
+   - depends on: judge_retest_3
+   - required artifacts: docs/reviews/incr-3.md
+   - verified by: gate-tests.sh, gate-traceability.sh, gate-dogfood.sh, run-evaluator.sh
+35. **incr4_scoped** — Increment 4 scope confirmed
+   - depends on: incr3_review
+   - required artifacts: SPEC.md, CONTRACT.md, docs/reviews/incr-3.md
+   - verified by: validate-contract.sh, validate-spec.sh, gate-spend-ceiling.sh
+36. **carry_in_ready** — Rule gates, audit dataset-name fix, complete repair log, per-session overhead rule, schemas 0.10
+   - depends on: incr4_scoped
+   - required artifacts: vera/loop/stages.py, tools/checks/check_dogfood.py, vera/schemas/research.py
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-schema-version.sh
+37. **topics4_chosen** — Fresh topics and their key-paper lists fixed and hashed before any retrieval for them
+   - depends on: incr4_scoped
+   - required artifacts: data/topics/manifest.json
+   - verified by: gate-topics4.sh
+38. **protocol_ready** — The registered protocol, its ground truth checked against Table 3, results and one live run
+   - depends on: carry_in_ready
+   - required artifacts: docker/sandbox-treehfd/protocol.py, docker/sandbox-treehfd/truth.py, docs/results/tree_explain_protocol_spec.json
+   - verified by: gate-tests.sh, gate-protocol.sh
+39. **lit2_ready** — Literature stage v2 measured: recall on fresh and old topics, anchoring on all claims, retrieval statement in each review
+   - depends on: topics4_chosen, carry_in_ready
+   - required artifacts: vera/literature/anchoring.py, docs/results/retrieval_recall_lit2.md
+   - verified by: gate-tests.sh, gate-lit2.sh
+40. **writeup2_ready** — Paper-shaped write-up: figures drawn by VERA match their cells, reproduction basis stated, ablation stage demonstrated
+   - depends on: protocol_ready
+   - required artifacts: vera/loop/figures.py, vera/loop/ablation.py, docs/results/protocol-live-1/paper.md
+   - verified by: gate-tests.sh, gate-writeup2.sh
+41. **problem2_ready** — Second parent problem: target registered first, baseline reproduced, both harness variants built and costed
+   - depends on: carry_in_ready
+   - required artifacts: docs/results/credal_baseline_target.json, docker/sandbox-credal/harness.py, docker/sandbox-credal/generic_harness.py
+   - verified by: gate-tests.sh, gate-problem2.sh
+42. **audit4_ready** — Audit v3 tested once on the seeded set and the novelty gold set, with the audit frozen first
+   - depends on: writeup2_ready, lit2_ready
+   - required artifacts: data/seeded_v3/results_test.json, data/novelty_gold/results_test.json
+   - verified by: gate-tests.sh, gate-audit4.sh
+43. **runs4** — The tree-explain run and the credal run, each from the confirmed question to the final audit
+   - depends on: audit4_ready, lit2_ready, protocol_ready, writeup2_ready, problem2_ready
+   - required artifacts: docs/results/runs4.json
+   - verified by: gate-runs4.sh, gate-ledger.sh
+44. **comparison4** — The ScientistTwo comparison, made under a protocol fixed before the gain was read, read by Chris
+   - depends on: runs4
+   - required artifacts: docs/results/comparison_protocol.md, docs/results/comparison_table.md
+   - verified by: gate-comparison.sh
+45. **rubric_scored** — Outputs scored by Chris blind before the independent scorer; claim re-labels recorded
+   - depends on: comparison4
+   - required artifacts: data/results/rubric4_chris.json, data/results/rubric4_evaluator.json
+   - verified by: gate-rubric.sh
+46. **incr4_review** — Increment 4 review
+   - depends on: rubric_scored
+   - required artifacts: docs/reviews/incr-4.md
+   - verified by: gate-tests.sh, gate-traceability.sh, gate-dogfood.sh, run-evaluator.sh
+47. **incr5_scoped** — Increment 5 scope confirmed
+   - depends on: incr4_review
+   - required artifacts: SPEC.md, CONTRACT.md, docs/reviews/incr-4.md
+   - verified by: validate-contract.sh, validate-spec.sh, gate-spend-ceiling.sh
+48. **carry5_ready** — Carry-ins: spread rule, judge on 150+ items, second keyed source measured, audit files unchanged, schemas 0.11
+   - depends on: incr5_scoped
+   - required artifacts: vera/loop/spread.py, data/retest5/results.json, docs/results/retrieval_recall_s2.md
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-schema-version.sh, gate-carry5.sh
+49. **t8_decided** — T8 decided: app delivery and bring-your-own-key
+   - depends on: incr5_scoped
+   - required artifacts: docs/04-trade-studies.md
+   - verified by: gate-t8.sh
+50. **app_core_ready** — App core: run, stream, stop, resume, session key, capped budget, local-only server
+   - depends on: t8_decided, carry5_ready
+   - required artifacts: vera/app/server.py, vera/app/runs.py
+   - verified by: gate-tests.sh, gate-vendor-imports.sh, gate-schema-version.sh, gate-app-core.sh
+51. **key_safety_ready** — Key safety: no key anywhere it should not be, adversarial test, local-only, no external loads
+   - depends on: app_core_ready
+   - required artifacts: tests/test_app_secrets.py
+   - verified by: gate-tests.sh, gate-app-secrets.sh
+52. **ui_ready** — UI: landing page, run form, live view, reader, examples; screenshots in light, dark and narrow
+   - depends on: app_core_ready
+   - required artifacts: vera/app/static/index.html, docs/screenshots/landing-light.png
+   - verified by: gate-tests.sh, gate-app-ui.sh
+53. **newuser_walkthrough** — A person other than the builder completed S4 through the app with their own key
+   - depends on: ui_ready, key_safety_ready
+   - required artifacts: data/walkthrough/record.json
+   - verified by: gate-newuser.sh
+54. **rubric5_scored** — The app's outputs scored by a person, blind, before the independent scorer
+   - depends on: newuser_walkthrough
+   - required artifacts: data/results/rubric5_chris.json, data/results/rubric5_evaluator.json
+   - verified by: gate-rubric5.sh
+55. **incr5_review** — Increment 5 review
+   - depends on: rubric5_scored
+   - required artifacts: docs/reviews/incr-5.md
+   - verified by: gate-tests.sh, gate-traceability.sh, gate-dogfood.sh, run-evaluator.sh
 
 A gate's work is not done until its verifier passes. Before committing, run:
 

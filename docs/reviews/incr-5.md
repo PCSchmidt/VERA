@@ -2,8 +2,8 @@
 
 Date: 2026-10-09 · Reviewer: Chris (decisions and human gates) · Author: Claude Code
 Gates passed: `incr5_scoped`, `t8_decided` (Chris, through the engine), `carry5_ready`, `app_core_ready`, `key_safety_ready`, `ui_ready`
-(automated), `newuser_walkthrough` (Chris, through the engine, recorded as not independent of the builder). `rubric5_scored` and
-`incr5_review` are Chris's to approve. This review is the evidence for `incr5_review`.
+(automated), `newuser_walkthrough` (Chris, through the engine, recorded as not independent of the builder), `rubric5_scored` and `incr5_review`
+(Chris, through the engine, 2026-10-09). This review is the evidence for `incr5_review`.
 
 ## Outcome
 
@@ -238,3 +238,11 @@ ledger sums and the $1.06 total, the rubric means and the new comparison table, 
 text after the round: the word "rehearsal" named two different runs (R2 is the development-folder run, the rehearsal is a separate unscored run); a stale sentence said the rehearsal ledger was not in the repository; the test record was a summary
 with an old commit (it is now the captured output of a full run); the Increment 4 provenance claim could not be found in its sheet (the sentence now says only what the sheet shows); and "tested" for key safety did not say "mocked" until later (now
 in the same sentence). Verdict: `incr5_review-verdict-r2.json` and the standing `incr5_review-verdict.json`.
+
+## After the review (2026-10-09; not evaluated)
+
+Work done after the Evaluator's round 2 and Chris's approval, recorded here so the approved text is not edited: a static, read-only **GitHub Pages showcase** (`scripts/build_pages.py`,
+`.github/workflows/pages.yml`, https://pcschmidt.github.io/VERA/) with seven examples, three of them reviews Chris chose (his RLM and CLM review and two agent-traces reviews) shown with their known
+issues, and a note in T8 that it is a static showcase and not the hosted demo T8 rejected; a rewrite of `README.md` in the style of the author's other project READMEs; and an alignment pass over the
+other documents (the dogfood log, the data dictionary, the risk register with three new risks, the verification plan's "as built" section, requirements APP-F-03 and APP-C-03, the T1, T5 and T9 notes,
+the concept of operations, the contract and SPEC status, and the regenerated `MERIDIAN.md`).

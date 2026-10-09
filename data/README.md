@@ -139,3 +139,19 @@ by id and joined by newlines. It is fixed before any backend sees the test
 split; `tools/checks/check_benchmark_items.py` recomputes it, and a rebuild that
 would change it is refused without `--force`.
 
+## Directories added after Increment 1
+
+| Path | What it holds | Written by |
+|---|---|---|
+| `retest/`, `retest3/`, `retest5/` | Judge re-tests on the loop's real gate decisions: `items.jsonl`, `split.json` (the test items' hash, fixed before any backend ran), `raw/` (every verdict), `results.json`. Increments 2, 3 and 5: 77, 24 and 150 items; `retest5` is mostly perturbed copies of result tables (14 real items) | `scripts/build_retest.py`, `run_retest.py`, `retest3.py`, `retest5.py` |
+| `seeded/`, `seeded_v2/`, `seeded_v3/` | Planted-fault sets for the auditor: `manifest.csv`, `split.json` (dev and test by source, test hash first), `base/` (source documents), `items/` (planted copies), `results_dev.json`, `results_test.json`. The audit's source is frozen by hash before the one test run | `scripts/build_seeded_*.py`, `run_seeded_*.py`, `freeze_audit_v3.py` |
+| `novelty_gold/` | The novelty gold set: `pairs.jsonl` (a published method relabelled against an unrelated one, plus the loop's ideas), `helper_labels.csv` (language-model labels, disclosed), `chris_sheet.csv`, `labels_provenance.md`, results | `scripts/build_novelty_gold.py`, `run_novelty_gold.py` |
+| `claim_bench/` | Claim-support benchmark: `items.jsonl` (constructed claims), `real_claims_*` (30 real claims, an AI helper's labels, Chris's re-labels), label checks | `scripts/build_claim_benchmark.py`, `build_real_claims_sheet.py`, `record_relabels.py` |
+| `topics/` | `manifest.json` (each topic's key-paper list hash, fixed before its first retrieval), `<topic>.json`, `scope_<topic>.json` (the confirmed question), `parent_<topic>.json` | `scripts/build_topics_manifest.py`, `confirm_scope.py` |
+| `literature/<topic>/`, `literature_first/`, `literature_lit2/`, `literature_v2_dev/` | Committed literature reviews with `claims.jsonl` (each claim and its exact quote), `audit.md`, `audit_report.json`: the three fresh Increment 4 topics, their first versions, the stage-v2 re-runs, and development copies | `scripts/run_topic.py`, `export_literature.py`, `export_lit2.py` |
+| `retrieval/<topic>/`, `retrieval_s2/<topic>/` | Retrieval logs (`retrieved.jsonl`) and the recall measurements against each topic's key list; `retrieval_s2/` holds the Semantic Scholar hits for the same queries (Increment 5) | `scripts/measure_retrieval*.py` |
+| `ledger/` | Model-call ledgers, one file per run, never deleted. Named result ledgers are committed; the rest are git-ignored | `vera.ledger` |
+| `results/` | Result files: anchoring measurements, protocol runs, `rubric4_*` and `rubric5_*` scores (Chris's, blind, and the independent scorer's), `relabel_agreement.json`, `audit_hash_incr5.json` (the audit's frozen-file hash at Increment 5's scoping), the credal baseline, the generator comparison | the scripts that name them |
+| `app/` | `examples.json` (the local app's four examples), `showcase.json` (the seven on the GitHub Pages site, with their known issues), `live/` (evidence of runs made through the app: review, claims, audit, ledger) | `vera/app/facts.py`, `scripts/build_pages.py` |
+| `walkthrough/` | The new-user walkthrough: `record.json` (and its template) and the run's evidence | `scripts/collect_walkthrough_run.py`, `tools/checks/check_newuser.py` |
+| `cache/`, `raw/` | Parsed text, HTTP and PDF caches; corpus PDFs. **Git-ignored** | the pipeline |

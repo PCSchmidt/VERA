@@ -69,7 +69,7 @@ You can drive it three ways:
 | Models | Claude Sonnet 5.5 writes (via OpenRouter); GLM-5.3 Flash judges (Jev, a typed-decision model, answers first when a key is set) |
 | Cost | $0.11 to $0.21 of model fees per literature review in this project's runs; the cap you set is the limit |
 | Wall time | 7.5 to 15 minutes per review in this project's runs |
-| Tests | 689 passing (`uv run pytest -q`, about 2.5 minutes), including offline fakes for every model call |
+| Tests | 700 passing (`uv run pytest -q`, about 3 minutes), including offline fakes for every model call |
 | Audit | Frozen-source test of 52 planted faults: 50 caught; **3 of 6 clean controls failed** (two for a real misstatement, one unexamined) |
 | Quality (blind human scores) | 3 to 5 on five criteria for three app reviews; the independent scorer gave the same reviews 2 to 4; coverage is its lowest criterion and tied lowest on the builder's |
 | Licence | MIT (code and docs); the ScientistTwo corpus and other third-party material are never committed |
@@ -129,7 +129,7 @@ be ignored.
 
 ```bash
 uv sync --group dev --group bench --group corpus
-uv run pytest -q          # 689 tests, offline, no keys needed
+uv run pytest -q          # 700 tests, offline, no keys needed
 uv run ruff check .
 ```
 
@@ -234,7 +234,7 @@ are read from your environment. The ScientistTwo corpus is evaluation data: its 
 ### Verify the claims (a reviewer's path)
 
 ```bash
-uv run pytest -q                                          # 689 passed (record: docs/results/incr5_test_run.txt)
+uv run pytest -q                                          # 700 passed (the Increment 5 review recorded 689: docs/results/incr5_test_run.txt)
 python tools/checks/check_app.py --part secrets           # no key-shaped string, local-only server, no external loads
 python tools/checks/check_carry5.py                       # frozen audit files unchanged since Increment 5 was scoped
 python tools/checks/check_rubric5.py                      # human scores blind and earlier than the independent scorer's

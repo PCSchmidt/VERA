@@ -1,11 +1,15 @@
 # SPEC — VERA, Increment 5 (the app: UI/UX and bring-your-own-key)
 
+> **Status (2026-10-09): Increment 5 is complete** (review: [docs/reviews/incr-5.md](docs/reviews/incr-5.md)). This file stays as the record of what was scoped until the next
+> increment is scoped, when it is rewritten. Deviations from it are listed in the review: the experiment checkbox in the form is disabled (experiments run from the command line), the
+> T9 (2) test was dropped by Chris, the rubric's three outputs are all literature reviews, and a Length setting, a PDF export, a static Pages showcase and an academic redesign were added.
+
 ## Overview
 
 Current-increment features only, in build order. Each `##` below becomes a
 tracked feature (`scripts/features-init.sh`); do not add `###` headings.
 Source: [docs/07-increments.md](docs/07-increments.md) Increment 5; schemas:
-[docs/03-interfaces.md](docs/03-interfaces.md) v0.10, with v0.11 proposed where
+[docs/03-interfaces.md](docs/03-interfaces.md) v0.10, with v0.11 (now in force) where
 a feature needs it; requirements due: APP-F-01, APP-F-02, APP-C-01, APP-C-02,
 plus everything due earlier ([docs/02-requirements.md](docs/02-requirements.md));
 trades to decide: **T8** (app delivery and bring-your-own-key), and the

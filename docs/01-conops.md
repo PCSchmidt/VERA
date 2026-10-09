@@ -1,7 +1,7 @@
 # 01 — Concept of Operations
 
 Version 0.2 · Draft (0.2, 2026-10-01: product direction B, decided by Chris: a topic goes in, a
-paper-shaped write-up comes out; app with bring-your-own-key)
+paper-shaped write-up comes out; app with bring-your-own-key; 0.3, 2026-10-09, Increment 5 review: T8 decided (the app is local only; a static read-only showcase is published on GitHub Pages); S4 gains a downloadable PDF)
 
 ## 1. Problem
 
@@ -56,7 +56,7 @@ where the question is empirical and a CPU-scale baseline exists, picks a
 parent problem, reproduces the baseline on a subset, screens ideas and runs
 the best with ablations. It drafts a paper-shaped write-up and passes it
 through the auditor (citations, numbers against the run's own logs). The
-user watches progress and spend live. On budget exhaustion it stops and
+user reads it with its evidence, can download it as a PDF, and watches progress and spend live. On budget exhaustion it stops and
 reports best-so-far honestly. Where the topic is not empirical, the output
 is a literature-and-analysis paper without experiments.
 
@@ -92,8 +92,8 @@ thresholds; publish agreement, calibration, consistency, cost, latency curves.
 
 - Paying for other people's runs. VERA runs with the user's own model key
   (bring-your-own-key); no maintainer key ships in the repo or any deployed
-  artifact. Whether a hosted demo exists, and how its compute is capped, is
-  trade T8.
+  artifact. T8 is decided: the app is local only. A static, read-only showcase
+  is published on GitHub Pages; it has no server, takes no key and runs no model.
 - Non-ML research domains requiring wet-lab or proprietary data.
 - Judging long-form open-ended quality (P2 targets bounded decisions; LLM
   escalation handles the rest).

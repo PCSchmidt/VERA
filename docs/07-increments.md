@@ -124,9 +124,14 @@ verdicts and spend live (the ledger); read the paper with evidence links;
 stop or resume a run. No maintainer key in any shipped artifact.
 Exit: a new user completes S4 through the app with their own key (MOE-4).
 
+Result (docs/reviews/incr-5.md): a local app takes a topic to an audited, downloadable literature review on the user's own key; it ran end to end on real topics and its first live runs found two
+defects that tests had not. T8 decided (local only); a static read-only showcase is published on GitHub Pages. **MOE-4 is not shown**: the one walkthrough was the builder. Review quality did not
+demonstrably improve (the blind human scores averaged 4.27 over three reviews, the independent scorer's 2.93), and the independent scorer found defects in reviews that had passed a green audit.
+Experiments are not started from the app. The review passed the Evaluator on round 2 (7.8).
+
 ## Increment 6 — Optional: P1 on external papers
 
 The auditor on other people's papers: PDF ingest, claim extraction,
 leakage checks, re-runs, seeded-fault dev/test sets, a batch audit of the
 ScientistTwo corpus, and the portfolio papers (judge benchmark; independent
-audit of an AI-generated corpus). Taken up only if Increments 2-5 are done.
+audit of an AI-generated corpus). Increments 2-5 are done; whether to take it up, or an independent walkthrough, a labelled synthesis section or experiments in the app first, is the owner's decision (candidates in docs/reviews/incr-5.md).

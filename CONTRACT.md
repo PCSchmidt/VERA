@@ -31,12 +31,10 @@ independent researchers and small labs (P3). See ConOps §2.
 
 ## Scope
 
-**Current increment: Increment 5 — the app: UI/UX and bring-your-own-key** ([docs/07-increments.md](docs/07-increments.md)).
-Increments 0 to 4 are complete ([docs/reviews/incr-0.md](docs/reviews/incr-0.md),
-[docs/reviews/incr-1.md](docs/reviews/incr-1.md), [docs/reviews/incr-2.md](docs/reviews/incr-2.md),
-[docs/reviews/incr-3.md](docs/reviews/incr-3.md), [docs/reviews/incr-4.md](docs/reviews/incr-4.md)).
-Only Increment 5 work is in scope. [SPEC.md](SPEC.md) lists the Increment 5 deliverables
-(proposed; `incr5_scoped` is Chris's approval of them).
+**Increments 0 to 5 are complete** ([docs/reviews/incr-0.md](docs/reviews/incr-0.md), [incr-1](docs/reviews/incr-1.md), [incr-2](docs/reviews/incr-2.md),
+[incr-3](docs/reviews/incr-3.md), [incr-4](docs/reviews/incr-4.md), [incr-5](docs/reviews/incr-5.md); Increment 5 passed 2026-10-09 with MOE-4 not shown).
+No increment is currently scoped: the next is chosen by the owner from the candidates in the Increment 5 review (an independent walkthrough, a labelled
+synthesis section, experiments in the app, Increment 6 on external papers). [SPEC.md](SPEC.md) is the Increment 5 SPEC until the next increment is scoped.
 
 In scope for the project as a whole: the three layers above, their data
 contracts ([docs/03-interfaces.md](docs/03-interfaces.md)), and the
@@ -74,7 +72,7 @@ Project-level measures of effectiveness (ConOps §6):
 
 The numeric targets behind these (JDG-P, AUD-P, RSH-P) are deliberately TBD
 until baseline data exists (docs/02); each increment review sets the ones its
-data supports. The current increment's deliverables and acceptance tests are in [SPEC.md](SPEC.md). Every requirement due in
+data supports. The deliverables and acceptance tests of the latest scoped increment are in [SPEC.md](SPEC.md). Every requirement due in
 the current increment with verification method **T** has a test named
 `test_<REQ_ID>_…` (checked by `tools/checks/check_traceability.py`).
 

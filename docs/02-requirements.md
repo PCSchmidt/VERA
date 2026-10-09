@@ -1,6 +1,6 @@
 # 02 — Requirements
 
-Version 0.5 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access. 0.3, 2026-10-01: JDG-P-01..03 set from the Increment 1 benchmark; direction B: topic-to-paper and app requirements added, external-paper auditing moved to Increment 6. 0.4, 2026-10-02, Increment 2 review: measurements recorded beside AUD-P-01 and AUD-P-02; no target value changed. 0.5, 2026-10-02, Increment 3 SPEC: AUD-F-10 added, claim-to-source support check)
+Version 0.6 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access. 0.3, 2026-10-01: JDG-P-01..03 set from the Increment 1 benchmark; direction B: topic-to-paper and app requirements added, external-paper auditing moved to Increment 6. 0.4, 2026-10-02, Increment 2 review: measurements recorded beside AUD-P-01 and AUD-P-02; no target value changed. 0.5, 2026-10-02, Increment 3 SPEC: AUD-F-10 added, claim-to-source support check. 0.6, 2026-10-09, Increment 5 review: APP-F-03 (a downloadable PDF with its evidence) and APP-C-03 (the server answers only this computer) added; both were built and tested in Increment 5)
 
 ID format: `<AREA>-<TYPE>-<NN>`. Areas: `FND` foundation, `JDG` judge library
 (P2), `AUD` auditor (P1), `RSH` research agent (P3), `APP` app. Types: `F` functional,
@@ -81,6 +81,8 @@ Suggested starting values are in brackets.
 | APP-F-02 | Bring-your-own-key: every model call uses the user's own key, entered or connected from a landing page that explains in plain words whose key and money are used and what a run typically costs. | D, I | 5 |
 | APP-C-01 | No maintainer API key shall be present in the repository, in any build or deployed artifact, or in logs; the app shall never fall back to one. | T, I | 5 |
 | APP-C-02 | A user's key shall stay on the user's side (their machine or browser session): not written to VERA's logs, ledger or repository, and not stored server-side by a hosted deployment. | T, I | 5 |
+| APP-F-03 | The app shall let a user download a review or paper as a PDF that carries its text, tables and figures, the audit result and, for every claim, its source and exact quote. | D | 5 |
+| APP-C-03 | The app's server shall answer only requests addressed to this computer (host and origin), refuse cross-origin writes, and load nothing from outside the machine. | T | 5 |
 
 ## Traceability
 

@@ -60,3 +60,21 @@ detection rate — split seeded faults into dev and test.
 Before calling P1 "done", have 2–3 people (e.g. JHU classmates) audit a
 paper with and without the tool and say whether the report changed their
 judgment.
+
+## 7. As built (through Increment 5, 2026-10-09)
+
+What the plan became, with where each result is recorded:
+
+- **Seeded faults (§1).** Three sets were built, v1 (Increment 2), v2 (Increment 3) and v3 (Increment 4), under `data/seeded/`, `data/seeded_v2/`, `data/seeded_v3/`, each split dev and test by source
+  with the test hash recorded first and the audit's source frozen by hash before its one test run (`check_seeded_v3.py`). The v3 test caught 50 of 52 planted faults and failed 3 of 6 unmodified controls
+  (`docs/results/audit_v3_results.md`; v2: `seeded_v2.md`). The freeze was broken once, after the Increment 4 test runs, and the review says so.
+- **Gold sets (§2).** A novelty gold set (`data/novelty_gold/`: published methods relabelled against unrelated ones, plus the loop's ideas) and a claim benchmark (`data/claim_bench/`: constructed and real claims,
+  labelled by an AI helper, with a human re-label sample). A set of hand-audited papers (§2) was not built in these increments.
+- **Judge benchmark and re-tests (§3).** The Increment 1 benchmark (`data/benchmark/`) and three re-tests on the loop's real gate decisions (`data/retest/`, `retest3/`, `retest5/`: 77, 24 and 150 items); the last is
+  mostly perturbed items and says so.
+- **Research agent (§4).** Budget and no-self-grading tests in the suite; the ScientistTwo comparison was made under a protocol hashed before the numbers were read (`docs/results/comparison_table.md`): not met.
+- **Independence (§5).** Test sets are split and hashed first; the human's rubric scores are recorded blind and earlier than the independent scorer's (`check_rubric.py`, `check_rubric5.py`); provenance caveats are
+  stated in the reviews. Every increment's review is passed by a fresh Evaluator with all verdicts kept.
+- **The app (Increment 5).** Key safety is tested adversarially (a provider that echoes the key; a counterpart test removes the redaction and shows the leak), the server's host and origin rules, the pages in a
+  headless browser against fixture runs, the PDF's text, tables and figures, and the static showcase build. No independent person has used it.
+- **User validation (§6).** Not yet done with independent people. One walkthrough was recorded (`data/walkthrough/`), by the builder from a clean clone, and is marked not independent.
