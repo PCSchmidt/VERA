@@ -99,3 +99,23 @@ def test_APP_C_01_nothing_the_app_ships_names_a_maintainer_key() -> None:
         if p.is_file() and p.suffix in {".py", ".js", ".html", ".css"}:
             text = p.read_text(encoding="utf-8")
             assert "sk-or-v1-" not in text and "Bearer sk-" not in text, p.name
+
+
+def test_APP_C_02_the_leak_test_has_teeth_it_fails_when_the_redaction_is_removed(tmp_path: Path, monkeypatch) -> None:
+    """The adversarial test above would pass if nothing could leak. With the redaction taken out the same run must put the key on disk."""
+    monkeypatch.setattr("vera.backends.generator.redact", lambda text: text)
+    monkeypatch.setattr("vera.app.worker.redact", lambda text: text)
+    monkeypatch.setattr("vera.backends.ROOT", tmp_path)
+    monkeypatch.setattr(worker, "real_deps", lambda root, request, resume: echoing_deps(root, request))
+    monkeypatch.setattr("vera.backends.time.sleep", lambda s: None)
+    session = SessionKey()
+    session.set(KEY)
+
+    def launch(run_id: str, ph: str, env: dict) -> None:
+        monkeypatch.setenv("OPENROUTER_API_KEY", env["OPENROUTER_API_KEY"])
+        worker.main([run_id, ph], root=tmp_path)
+
+    RunManager(tmp_path, session, launch).create(REQUEST)
+    assert KEY in all_text(tmp_path), (
+        "with no redaction the echoed key should reach the run's log: the leak test would be vacuous"
+    )

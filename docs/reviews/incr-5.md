@@ -17,11 +17,12 @@ started from the app. In order of how much each statement should be trusted:
    a garbled year from the PDF parser (`"Apri"`) crashed the snowball step (fixed; resume restarted from the checkpoint without repeating paid work).
 2. **Bring-your-own-key is enforced and tested.** The key is held in server memory, validated by one OpenRouter call, passed to the worker through
    its environment, and appears in no file, status, error message or process argument in an adversarial test in which the provider echoes the key
-   back in its error. I confirmed the test fails when the redaction is removed. The server answers only on this computer and refuses cross-origin requests.
+   back in its error, and a second test removes the redaction and shows the same run then puts the key in the log (so the first test is not vacuous). What this does not cover is listed under "Key safety". The server answers only on this computer and refuses cross-origin requests.
 3. **The walkthrough was done by the builder, so it does not show MOE-4.** It was a fresh clone at commit 29b7836 with a finished run in 10.8
    minutes for $0.141 of a $1.50 cap, a green audit, and the user's own key. Chris said he cannot tell from one run whether he would keep using it,
    that the interface is "not really user friendly nor attractive", and that he wants a "highly polished, uber professional, academic look", a
-   more detailed review that offers possible conclusions where the question allows, and a downloadable PDF.
+   more detailed review that offers possible conclusions where the question allows, and a downloadable PDF. Two of the five confusions logged in the record were
+   said by Chris (the interface; the review's detail and PDF); three were noted by the observer (the run name, the `uv` warning, the unsupported sentence) and were not raised by him.
 4. **Two of those requests were built the same day:** a redesign (serif reading face, restrained accent, a landing page that explains the four steps,
    a run timeline with a spend meter, a reader with an evidence panel and one reference per line) and a PDF of any review or paper with its
    tables, figures, audit and a claims-and-quotes appendix. Neither has been seen by anyone but the builder; the redesign has screenshots and 15
@@ -82,6 +83,51 @@ does not mean every clause is anchored. It was found by the observer reading the
 audit:** a sentence with no claim that names a source in running text is now removed (test added); it was not re-run on that review, whose text is as it
 was.
 
+## T8 decided: what was decided and what it costs
+
+**Decision (Chris, through `t8_decided`, on the entry in `docs/04-trade-studies.md`):** a **local app only**. A hosted demo is not built; a hosted part would be its own gate. Reverse-ifs as written: hosting cost per
+visitor that can be bounded near zero and measured, or a local install that proves too hard for the intended users. Neither was tested: nothing was deployed.
+
+**Measured costs, from the ledgers and the runs of this increment:**
+
+| What | Measured |
+|---|---|
+| Model fees for a literature review through the app | $0.185 (RLM and CLM topic; its three attempts $0.197), $0.112 (first agent-traces), $0.135 (clean-clone rehearsal, `data/app/live/rehearsal-1/`), $0.141 (the walkthrough, on Chris's own key); the Increment 4 reviews were $0.16 to $0.21 |
+| Wall time of a run | 7.5 minutes (rehearsal), 10.8 minutes (walkthrough); about 15 minutes for the RLM and CLM review including a crash and a resume |
+| Install on a clean clone | `git clone` 2 s, `uv sync` 8 s, first start over 8 s (the README now says up to half a minute); Python 3.11 or later and `uv`; Docker and GROBID optional (without GROBID the app reads abstracts only and says so) |
+| Hosting | **Not measured.** Nothing was deployed; the cost of running GROBID, fetching and the web process for visitors would be the maintainer's and is unknown |
+
+## Key safety: what the tests cover and what they cannot
+
+Tested (`tests/test_app_secrets.py`, `test_app_server.py`, `tools/checks/check_app.py`): the key appears in no file under a run's directory, ledger, log or cache, no status or error message, no PDF, and no process argument; the key is
+redacted from error text; the server answers only for this computer's host names and refuses cross-origin POSTs; the pages load nothing from outside the machine and set a Content-Security-Policy; no tracked file holds a key-shaped
+string; the leak test fails if the redaction is removed.
+
+**Not covered, or covered only by design:**
+
+- The key is in the server's memory, and in the worker's environment for the length of a run. Any program running as the same Windows user can read a process's environment or memory; swap and hibernation files may hold it.
+- OpenRouter and the model provider receive the key because it is the credential; the paper-search services receive their own keys.
+- Redaction replaces the exact string. A truncated or encoded form of a key in an error message would not be caught. The provider-echo test uses a mocked transport, not a live provider.
+- The browser may offer the password box to a password manager (the box sets autocomplete off but cannot force it).
+- A `.env` in the repository folder is read as a fallback (the user's own file); a key kept there is on disk by the user's choice, and the app then reports "found in your environment".
+- Only this operating system was exercised; the sandbox tests for keys in container output are from earlier increments.
+
+## What the walkthrough's confusions led to
+
+| Confusion (who raised it) | What the app does about it now | Seen by a user since? |
+|---|---|---|
+| The interface is not friendly or attractive (Chris) | A redesign the same day (serif reading face, restrained accent, a landing page with the four steps, a run timeline and spend meter) | No. 15 page tests and screenshots; Chris has not said whether it answers his comment |
+| More detail, possible conclusions, a PDF (Chris) | PDF built and tested; a **Length** setting (short, standard, detailed: 1,000, 1,500 or 2,500 words) on the form, whose effect on a real review was not tested; conclusions not built (they change the audit's guarantee) | No |
+| Run name generated from the topic and cut mid-phrase (observer) | The run list and run screen show a shortened topic as the title; the id is still generated | No |
+| `uv` warning about another project's environment (observer) | **Nothing.** The README does not mention it | No |
+| An unsupported sentence naming R12 (observer) | A sentence with no claim that names a source in running text is now removed, with a test; not re-run on that review | No |
+
+## Model economics (standing item)
+
+T9's reverse-ifs restated: (1) price: a Sonnet 5.5 literature review cost $0.11 to $0.21 this increment, far below a few percent of the $20 ceiling: **not fired**; (2) the reasoning-control test was dropped by Chris; (3) not tested; (4) the judge
+is GLM (or Jev then GLM) and the writer is Sonnet, so they do not coincide. **I did not re-read price lists or probe newer models this increment**, and the GLM-only arm's cost (about 25 times lower per loop run in Increment 2: $0.0019
+against $0.049) is not re-measured. The app takes its model from a setting (`VERA_GENERATOR_MODEL`), so a cheaper or newer model can be tried without code changes.
+
 ## Where the app falls short (honest account)
 
 - **No independent user.** MOE-4 is not shown; the walkthrough is the builder from a clean clone, with a `.env` placed in it and a key pasted, and a gap of
@@ -113,20 +159,32 @@ points per cell). The largest gaps are on **coverage** (Chris 4, 4, 4 against 2,
 the independent scorer is the same model family as the writer, and Chris's read is of documents he has also worked on. What the two agree on is that none of the three is a 5 on coverage, and that all three
 are honest about their limits (4 to 5).
 
-**The independent scorer's specific findings, each from reading claims against quotes (model output; I verified the first two myself):**
+**Against Increment 4** (means over the outputs scored; the criteria are answers the question / coverage / correctness / reproducibility / honesty):
+
+| Set | Chris | Independent scorer |
+|---|---|---|
+| Increment 4 reviews (L1 to L6, n = 6) | 3.67 / 2.50 / 3.83 / 4.00 / 5.00, overall 3.80 | 2.50 / 2.50 / 3.83 / 3.83 / 3.83, overall 3.30 |
+| Increment 4 papers (P1, P2, n = 2) | 3.50 / 2.50 / 2.00 / 5.00 / 5.00, overall 3.60 | 2.50 / 2.50 / 4.00 / 3.50 / 4.50, overall 3.40 |
+| Increment 5 reviews (W1, R1, R2, n = 3) | 4.00 / 4.00 / 4.33 / 4.00 / 5.00, overall 4.27 | 2.67 / 2.00 / 3.33 / 3.00 / 3.67, overall 2.93 |
+
+Chris's overall mean on reviews rose from 3.80 to 4.27 and his coverage mean from 2.5 to 4.0; the independent scorer's fell from 3.30 to 2.93 and its coverage mean from 2.5 to 2.0. **The sets are not comparable** (different topics, three reviews against six,
+different retrieval, and in Increment 4 Chris scored with each topic's key-paper list and its recall in front of him, while these three topics have no key list). The two scorers moving in opposite directions is itself the finding: this increment gives no
+evidence that review quality improved. Dropping W1, whose final note is the example text, Chris's mean on R1 and R2 is 4.4 against the independent scorer's 2.9.
+
+**The independent scorer's specific findings, each from reading claims against quotes (model output; I verified the Tracezip claim, the uncited sentence, the pipeline wording and the two CLM-paper points against the files and the paper's text; the rest are the scorer's reading):**
 
 - **An overstated claim passed a green audit.** W1 says "The Tracezip authors say sampling forces a trade-off between completeness of tracing and system overhead"; the quote in `claims.jsonl` says only "existing work
   faces a trade-off between the completeness of tracing and system overhead". Sampling is not in it. This is the known weak class (`overstated_claim`, 1 of 2 on the Increment 4 test set).
 - **R1 ends with an uncited generalisation and pipeline wording.** "RLM reports comparable cost on long-context tasks" has no citation, and the review says "the supplied abstract" and "the evidence supplied", which leaks how the
   pipeline works into the text.
-- **R1 has an inaccuracy about the CLM paper.** It says the CLM metric is prefix-reuse FLOPs "not wall-clock latency", but the paper also reports a 65% greater end-to-end speedup on a 24-hour six-repository task; the review also
-  omits the 35% compute reduction from Suffix Cache Reuse at matched performance. (From the independent scorer's reading of the PDF; I did not re-check these two.)
+- **R1 has an inaccuracy about the CLM paper.** It says the CLM metric is prefix-reuse FLOPs "not wall-clock latency", but the paper also reports a "65% greater end-to-end speedup at the same compute" on a 24-hour six-repository task; the review also
+  omits the 35% server-side compute reduction from Suffix Cache Reuse at matched performance. Both are in the PDF's abstract and introduction (I checked the text).
 - **R2 answers part of the question** (Claude Code's storage is described, SWE-agent and OpenHands get one line each, Aider and Codex CLI are not covered, the vector-database part rests on one source) and leaves out an
   OpenHands qualifier (the quote says the event-sourcing overhead is negligible). It says these gaps exist, which is why its honesty score is 4.
 - **W1 uses 10 claims from 39 kept papers** and never uses two retrieved sources the scorer judged central (OpenTelemetry's GenAI conventions, SWE-agent).
 - **A gap in my committed evidence.** R1's `retrieved.jsonl` was not committed with its other files, so the scorer could not inspect its 120 candidates and gave reproducibility 2 partly for that; I added the file after the scorer had run
   and did not change its scores. R1's reproducibility score is lower than it would be with the file.
-- Not resolved: the audit reports "20 claims checked" for W1 and R2 and "22" for R1, while the saved `claims.jsonl` files have 10, 13 and 11 entries; I did not investigate the difference.
+- Explained: the audit's "claims checked" counts the cited claims plus the reference entries (W1: 10 + 10 = 20; R1: 13 + 9 = 22; R2: 11 + 9 = 20; counts from `claims.jsonl` and each review's reference list).
 
 **Provenance of Chris's scores.** Five entries are on file in `data/results/rubric5_chris.json`: W1 `1 2 3 4 5` (the format example), then `3 4 4 4 5`; R1 `3 4 4 4 5` (identical to W1's, with the same note), then `4 4 4 4 5`; R2 `5 4 5 4 5`.
 The entries that count are the latest per output. Their notes: W1's reads "clear on limits; coverage thin; one unsupported sentence", which is the text of the example command I gave (it says coverage is thin while coverage is scored 4; the unsupported sentence is a
@@ -135,14 +193,14 @@ real one in that review); R1's "Answers the questions"; R2's "Answers the questi
 ## Judge and review checks; spend; overhead; same-model overlap
 
 - **Spend, maintainer's key.** By the ledgers written since Increment 4 closed: the judge re-test $0.615; the app's live runs $0.309 (the RLM and CLM topic's three
-  attempts $0.197, the first agent-traces run $0.112); the clean-clone rehearsal $0.135 (in a scratch clone; its ledger is not in the repository). About **$1.06** against
+  attempts $0.197, the first agent-traces run $0.112); the clean-clone rehearsal $0.135 (in a scratch clone; its ledger is not in the repository). About **$1.06** (ledgers: `data/ledger/` for the judge re-test and live runs, `data/app/live/rehearsal-1/ledger.jsonl` for the rehearsal) against
   the $5 cap and its sub-caps ($1 debugging, $3 end-to-end, $1.50 judge and second-source): the judge re-test is inside its $1.50. The Semantic Scholar queries cost nothing.
   The walkthrough run's $0.141 was spent on Chris's own key and is not counted. The independent scorer's work is a subagent and has no ledger of its own.
 - **Overhead.** Chris reported 3 hours for 2026-10-07 and 2026-10-09 together; one entry (recorded 2026-10-09) credits both days by the named-day rule from Increment 4,
   and the check passes. No entry was made on 2026-10-07 itself, the same lapse as Increments 3 and 4.
 - **Same-model overlap.** The writer is Sonnet 5.5; the cheap judge path is GLM (or Jev then GLM with a Jev key); the independent scorer is a Claude model, the same family as the
   writer; Chris's blind scores are his own except as noted below. The audit's judge is never the producer of the text it judges.
-- **Test suite.** 688 tests pass (the last full run, after the redesign and the rubric tooling); the suite takes 2 to 4 minutes. One gate run failed at its test hook for a reason not found (the suite passed on every later run), and the
+- **Test suite.** 688 tests passed in the last full run (record: `docs/results/incr5_test_run.txt`); 689 are collected now, one test having been added since (the leak test's counterpart). The suite takes 2 to 4 minutes. One gate run failed at its test hook for a reason not found (the suite passed on every later run), and the
   `ui_ready` gate failed once on three browser-test timeouts, fixed with a fresh browser profile per load and one retry.
 
 ## Deviations

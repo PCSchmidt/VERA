@@ -1,0 +1,5 @@
+Full test run for the Increment 5 review: uv run pytest -q (2026-10-09), run before the last review edits; HEAD now d07101f
+Result of that run: 688 passed in 185.82s (0:03:05)
+
+Collected now: 689 tests (pytest --collect-only -q). One test was added after the full run: the leak test's counterpart
+(test_APP_C_02_the_leak_test_has_teeth_...). The count exceeds the number of test functions because parametrized tests expand.

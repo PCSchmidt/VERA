@@ -1,0 +1,11 @@
+{
+ "topic_id": "rehearsal-1",
+ "question": "Across the main conformal prediction methods designed for distribution shift (weighted conformal prediction for covariate shift, label-shift-adapted conformal prediction, adaptive/online conformal methods for temporal drift, and non-exchangeable conformal prediction with weighted or drift-discounted calibration), which finite-sample or asymptotic coverage guarantees does each retain, and what specific assumptions (e.g., known or estimable density ratios, label-conditional shift invariance, bounded total-variation drift, or adversarial-sequence regret-style guarantees) does each require for that guarantee to hold?",
+ "why_researchable": "The literature is well developed and the core papers state their theorems and assumptions explicitly (Tibshirani et al. 2019 on weighted conformal prediction under covariate shift, Podkopaev & Ramdas 2021 on label shift, Gibbs & Cand\u00e8s 2021 on adaptive conformal inference, Barber et al. 2023 on non-exchangeable conformal prediction, and Gibbs & Cand\u00e8s 2022 and Zaffran et al. 2022 on time-series adaptivity). A short review can extract and compare the guarantee type (marginal vs conditional, exact vs approximate, long-run vs finite-sample), the required assumptions, and the failure modes in a structured table. No experiments are needed, so it fits a format-paper literature review.",
+ "empirical": false,
+ "candidate_parent": null,
+ "no_parent_reason": "This is a literature review question answered by synthesizing published theorems and assumptions, so no parent method or experiment is needed.",
+ "status": "confirmed",
+ "confirmed_by": "the app user",
+ "confirmed_at": "2026-10-07T15:10:18Z"
+}

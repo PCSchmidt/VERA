@@ -1,0 +1,14 @@
+{
+ "run_id": "rehearsal-1",
+ "topic": "Conformal prediction under distribution shift: which methods keep their coverage guarantee under covariate shift, label shift or temporal drift, and what each assumes.",
+ "guidance": {
+  "format": "paper",
+  "max_words": 1500,
+  "required_sections": [],
+  "emphasis": null,
+  "constraints": []
+ },
+ "max_usd": 0.5,
+ "max_wall_seconds": 3600,
+ "allow_experiments": false
+}
