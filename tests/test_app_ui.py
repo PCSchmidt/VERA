@@ -180,6 +180,9 @@ def dom(port: int, route: str, tmp_path: Path) -> str:
     ("examples", "What went in"),
     ("example/tree-explain", "The audit"),
     ("example/conformal-shift", "Retrieval and its limits"),
+    ("example/conformal-shift", 'class="ref"'),
+    ("example/conformal-shift", "Download PDF"),
+    ("run/done-run", "Download PDF"),
 ])  # fmt: skip
 def test_each_page_renders_against_fixture_runs(server: int, route: str, must_have: str, tmp_path: Path) -> None:
     html = dom(server, route, tmp_path)

@@ -4,22 +4,28 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VERA</title>
-<meta name="description" content="Research from a topic, with your own model key, checked by an audit you can read.">
+<meta name="description" content="Literature reviews you can check: every claim tied to a quote, audited, on your own model key.">
 <link rel="stylesheet" href="/static/app.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to the content</a>
-<header class="bar">
-  <a class="brand" href="#/">VERA</a>
-  <nav aria-label="Main">
-    <a href="#/new" data-nav="new">New run</a>
-    <a href="#/runs" data-nav="runs">My runs</a>
-    <a href="#/examples" data-nav="examples">Examples</a>
-  </nav>
-  <button id="keypill" class="pill" type="button" aria-haspopup="dialog">Checking key…</button>
+<header class="masthead">
+  <div class="masthead-inner">
+    <a class="wordmark" href="#/" aria-label="VERA home"><span class="wordmark-name">VERA</span><span class="wordmark-tag">Verifiable research agents</span></a>
+    <nav aria-label="Main">
+      <a href="#/new" data-nav="new">New run</a>
+      <a href="#/runs" data-nav="runs">My runs</a>
+      <a href="#/examples" data-nav="examples">Examples</a>
+    </nav>
+    <button id="keypill" class="keystate" type="button" aria-haspopup="dialog"><span class="dot" aria-hidden="true"></span><span id="keytext">Checking key…</span></button>
+  </div>
 </header>
 
 <main id="main" tabindex="-1"></main>
+
+<footer class="colophon">
+  <p>VERA runs on your own model key and your own budget. Nothing you enter is sent anywhere except the model provider and the paper-search services you have chosen.</p>
+</footer>
 
 <dialog id="keydialog" aria-labelledby="keytitle">
   <form method="dialog" id="keyform" autocomplete="off">

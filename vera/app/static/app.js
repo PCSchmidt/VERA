@@ -5,7 +5,7 @@ const $ = (sel, root = document) => root.querySelector(sel);
 const main = $("#main");
 const forced = new URLSearchParams(location.search).get("theme");
 if (forced === "dark" || forced === "light") document.documentElement.dataset.theme = forced;
-const state = { config: null, facts: null, source: null };
+const state = { config: null, facts: null };
 
 function el(tag, attrs = {}, ...kids) {
   const node = document.createElement(tag);
@@ -43,13 +43,11 @@ async function loadBasics() {
 }
 
 function paintKey() {
-  const pill = $("#keypill");
   const c = state.config;
-  pill.className = "pill " + (c && c.key_source !== "none" ? "ok" : "warn");
-  pill.textContent = !c ? "Checking key…"
-    : c.key_source === "session" ? "Key connected (this session)"
-    : c.key_source === "env" ? "Key found in your environment"
-    : "Connect your key";
+  const ok = c && c.key_source !== "none";
+  $("#keypill").className = "keystate" + (ok ? " ok" : "");
+  $("#keytext").textContent = !c ? "Checking key…" : c.key_source === "session" ? "Key connected (this session)"
+    : c.key_source === "env" ? "Key found in your environment" : "Connect your key";
 }
 
 /* ── routing ───────────────────────────────────────────────────────────── */
@@ -69,7 +67,7 @@ async function route() {
   if (closeStream) { closeStream(); closeStream = null; }
   const hash = location.hash || "#/";
   for (const link of document.querySelectorAll("nav a")) link.removeAttribute("aria-current");
-  const nav = hash.startsWith("#/new") ? "new" : hash.startsWith("#/run") ? "runs" : hash.startsWith("#/example") ? "examples" : null;
+  const nav = hash.startsWith("#/new") ? "new" : hash.startsWith("#/run") || hash.startsWith("#/read") ? "runs" : hash.startsWith("#/example") ? "examples" : null;
   if (nav) $(`nav a[data-nav="${nav}"]`).setAttribute("aria-current", "page");
   for (const [re, view] of routes) {
     const m = hash.match(re);
@@ -87,37 +85,51 @@ window.addEventListener("hashchange", route);
 
 /* ── landing ───────────────────────────────────────────────────────────── */
 
-function costRange(r) { return r ? money(r.low) + " and " + money(r.high) : "an amount shown after your first run"; }
+function costRange(r) {
+  if (!r) return "an amount shown after your first run";
+  return r.low === r.high ? money(r.low) : money(r.low) + " and " + money(r.high);
+}
 
 async function landing() {
   const f = state.facts, c = state.config, s = f.review_scores;
-  const checks = el("ul", { class: "checks" },
-    el("li", { class: c.key_source !== "none" ? "yes" : "" }, c.key_source !== "none" ? "A model key is connected." : "No model key yet. Connect your own to start."),
-    el("li", { class: c.docker_available ? "yes" : "" }, c.docker_available ? "Docker was found (needed only for experiments)." : "Docker was not found. Literature reviews work without it; experiments need it."),
-    el("li", { class: c.grobid_available ? "yes" : "" }, c.grobid_available ? "The full-text reader (GROBID) is running." : "The full-text reader (GROBID) is not running. VERA then reads abstracts only and says so in the review."),
-    el("li", { class: c.semantic_scholar_key || c.openalex_key ? "yes" : "" }, c.semantic_scholar_key || c.openalex_key ? "An extra paper-search key was found, so more sources are searched." : "No extra paper-search key. Two free sources are searched; adding your own Semantic Scholar or OpenAlex key widens the search."),
-  );
+  const check = (yes, ok, no) => el("li", { class: yes ? "yes" : "" }, yes ? ok : no);
+  const first = f.examples[0];
   return [
-    el("h1", {}, "Research from a topic, with your own key."),
-    el("p", { class: "lede" }, "Give VERA a topic. It turns it into a question you confirm, searches and reads the literature, writes a review with every claim tied to a quote, and then audits the result and shows you the audit."),
-    el("div", { class: "card key" },
+    el("section", { class: "hero" },
+      el("p", { class: "kicker" }, "Research assistant, on your own key"),
+      el("h1", {}, "Literature reviews you can check."),
+      el("p", { class: "lede" }, "Give VERA a topic. It proposes one research question for you to confirm, searches and reads the literature, writes a review in which every claim is tied to a quote, and audits the result. You see the audit, not just the answer."),
+      el("div", { class: "row" },
+        el("a", { class: "button primary", href: "#/new" }, "Start a run"),
+        el("a", { class: "button", href: first ? "#/example/" + first.id : "#/examples" }, "Read a finished example"))),
+    el("section", {},
+      el("h2", {}, "How it works"),
+      el("ol", { class: "steps" },
+        el("li", {}, el("h3", {}, "Propose"), el("p", {}, "Your topic becomes one researchable question. You confirm it or edit it before anything more is spent.")),
+        el("li", {}, el("h3", {}, "Search and read"), el("p", {}, "Several paper-search services are queried; the most relevant papers are read, in full text where possible.")),
+        el("li", {}, el("h3", {}, "Write with quotes"), el("p", {}, "Every claim in the review is tied to an exact quote from a source. A claim that cannot be quoted is removed.")),
+        el("li", {}, el("h3", {}, "Audit"), el("p", {}, "Citations are checked to exist and each claim to be supported by its quote. The result is shown in plain words.")))),
+    el("div", { class: "callout" },
       el("h2", {}, "Whose key and whose money"),
       el("p", {}, "Yours. VERA runs on the model key you connect, and every model call is charged to your account. The maintainer pays nothing and has no access to your key or your runs. The key stays in this program's memory; it is never written to a file or a log."),
       el("p", {}, "You set a spending cap on every run. VERA stops before it would pass the cap and keeps what it has done so far."),
-      el("div", { class: "row" }, el("a", { class: "button primary", href: "#/new" }, "Start a run"), el("button", { type: "button", onclick: openKeyDialog }, "Connect my key")),
-    ),
-    el("div", { class: "grid" },
-      el("section", { class: "card" }, el("h3", {}, "What a run costs"),
+      el("div", { class: "row" }, el("button", { type: "button", onclick: openKeyDialog }, "Connect my key"))),
+    el("section", { class: "facts" },
+      el("div", { class: "fact" }, el("h3", {}, "What a run costs"),
         el("p", {}, "In our own example runs, a literature review cost between " + costRange(f.literature_cost_usd) + " in model fees, and a run that also ran experiments cost between " + costRange(f.paper_cost_usd) + ". Your cost depends on the topic and the model; the cap you set is the limit."),
         el("p", { class: "hint" }, "Figures are read from the example runs' own ledgers.")),
-      el("section", { class: "card" }, el("h3", {}, "What to expect"),
+      el("div", { class: "fact" }, el("h3", {}, "What to expect"),
         el("p", {}, "These are working drafts, not finished papers. In the maintainer's own blind scoring of " + s.n_reviews + " reviews, the strongest criterion was " + s.strongest + " (average " + s.strongest_mean + " out of " + s.scale + ") and the weakest was " + s.weakest + " (average " + s.weakest_mean + " out of " + s.scale + "). VERA's search misses papers, and the review says so."),
         el("p", { class: "hint" }, "A run can end without a better method than the one it started from. That is a normal result, and it is reported as one.")),
-      el("section", { class: "card" }, el("h3", {}, "What it will not do"),
-        el("p", {}, "It will not produce wet-lab science, use data you do not have the right to use, or run experiments that need more than a laptop. A green audit means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete or the conclusions are right.")),
-    ),
-    el("div", { class: "card" }, el("h2", {}, "Before you start"), checks),
-    el("p", {}, "Not sure what to expect? ", el("a", { href: "#/examples" }, "Read finished examples with the exact inputs that produced them"), "."),
+      el("div", { class: "fact" }, el("h3", {}, "What it will not do"),
+        el("p", {}, "It will not produce wet-lab science, use data you do not have the right to use, or run experiments that need more than a laptop. A green audit means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete or the conclusions are right."))),
+    el("section", {},
+      el("h2", {}, "Before you start"),
+      el("ul", { class: "checks" },
+        check(c.key_source !== "none", "A model key is connected.", "No model key yet. Connect your own to start."),
+        check(c.docker_available, "Docker was found (needed only for experiments).", "Docker was not found. Literature reviews work without it; experiments need it."),
+        check(c.grobid_available, "The full-text reader (GROBID) is running.", "The full-text reader (GROBID) is not running. VERA then reads abstracts only and says so in the review."),
+        check(c.semantic_scholar_key || c.openalex_key, "An extra paper-search key was found, so more sources are searched.", "No extra paper-search key. Two free sources are searched; adding your own Semantic Scholar or OpenAlex key widens the search."))),
   ];
 }
 
@@ -150,38 +162,44 @@ $("#keyform").addEventListener("submit", async (ev) => {
 /* ── new run ───────────────────────────────────────────────────────────── */
 
 function slug(text) {
-  const base = text.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 36) || "run";
-  return base + "-" + Math.random().toString(36).slice(2, 6);
+  const words = text.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim().split(" ").filter(Boolean);
+  let base = "";
+  for (const w of words) { if ((base + "-" + w).length > 34) break; base += (base ? "-" : "") + w; }
+  return (base || "run") + "-" + Math.random().toString(36).slice(2, 6);
 }
+
+const LENGTHS = [["Short (about a page)", 1000], ["Standard", 1500], ["Detailed (a few pages)", 2500]];
 
 async function newRun() {
   const err = el("p", { class: "error", role: "alert", hidden: true });
   const topic = el("textarea", { id: "topic", required: true, placeholder: "For example: how well do conformal prediction methods keep their guarantees when the data distribution shifts?" });
-  const emphasis = el("textarea", { id: "emphasis", placeholder: "Optional. What to emphasise, what to avoid, who it is for." });
+  const emphasis = el("textarea", { id: "emphasis", placeholder: "What to emphasise, what to avoid, who it is for." });
+  const length = el("select", { id: "length" }, ...LENGTHS.map(([label, words], i) => el("option", { value: words, selected: i === 1 }, label)));
   const cap = el("input", { id: "cap", type: "number", min: "0.1", max: "25", step: "0.1", value: "1", required: true });
-  const exp = el("input", { id: "exp", type: "checkbox", disabled: true });
-  const form = el("form", { class: "card" },
-    el("h1", {}, "New run"),
-    el("label", { for: "topic" }, "Your topic"),
+  const form = el("form", {},
+    el("p", { class: "kicker" }, "New run"),
+    el("h1", {}, "What would you like reviewed?"),
+    el("p", { class: "lede" }, "Describe the topic in a sentence or two. VERA will propose one question from it and wait for you to confirm or edit it before spending more."),
+    el("label", { for: "topic" }, "Topic"),
     topic,
-    el("p", { class: "hint" }, "VERA will propose one researchable question from this and wait for you to confirm or edit it before spending more. If your topic uses acronyms or new terms, define them here: the proposal is only as good as the topic you give it."),
-    el("label", { for: "emphasis" }, "Guidance for the write-up"),
-    emphasis,
+    el("p", { class: "hint field-note" }, "If your topic uses acronyms or new terms, define them here. The proposal is only as good as the topic you give it."),
+    el("label", { for: "length" }, "Length of the review"),
+    length,
     el("label", { for: "cap" }, "Spending cap (US dollars)"),
     cap,
-    el("p", { class: "hint" }, "VERA stops before it would pass this. A literature review typically costs a fraction of it."),
-    el("div", { class: "row" }, exp, el("label", { for: "exp" }, "Also run experiments")),
-    el("p", { class: "hint" }, "Experiments are not available from this form in this version. A literature review, audited, is what the app produces; experiments run from the command line (see the README)."),
+    el("p", { class: "hint field-note" }, "VERA stops before it would pass this. A literature review typically costs a fraction of it."),
+    el("details", {}, el("summary", {}, "More guidance for the write-up (optional)"), emphasis),
+    el("p", { class: "hint" }, "This version writes literature reviews. Running experiments is not available from this form; it works from the command line (see the README)."),
     err,
-    el("div", { class: "row" }, el("button", { class: "primary", type: "submit" }, "Propose a question")),
-  );
+    el("div", { class: "row" }, el("button", { class: "primary", type: "submit" }, "Propose a question")));
+  form.style.maxWidth = "40rem";
   form.addEventListener("submit", async (ev) => {
     ev.preventDefault();
     err.hidden = true;
     try {
       const body = {
         run_id: slug(topic.value), topic: topic.value, max_usd: parseFloat(cap.value), max_wall_seconds: 7200,
-        allow_experiments: false, guidance: { format: "paper", max_words: 1500, emphasis: emphasis.value.trim() || null },
+        allow_experiments: false, guidance: { format: "paper", max_words: parseInt(length.value, 10), emphasis: emphasis.value.trim() || null },
       };
       const st = await api("/api/runs", { method: "POST", body });
       location.hash = "#/run/" + st.run_id;
@@ -199,37 +217,62 @@ const STATE_WORDS = {
 
 function lightBadge(audit) {
   const words = { green: "Green: citations real, claims supported", amber: "Amber: read the warnings", red: "Red: failed checks" };
-  return el("span", { class: "light " + (audit || "none") }, audit ? words[audit] : "Not audited");
+  return el("span", { class: "light " + (audit || "none"), title: audit ? words[audit] : "Not audited" }, audit ? audit + " audit" : "Not audited");
+}
+
+function shortTitle(t) {
+  const first = t.split(/(?<=[.?!])\s/)[0];
+  const base = first.length <= 120 ? first : first.slice(0, 117).replace(/\s+\S*$/, "") + "…";
+  return base.replace(/[.]$/, "");
+}
+
+async function titleOf(id) {
+  try { const r = await api("/api/runs/" + id + "/files/app_request.json"); return r.topic; } catch (_) { return id; }
 }
 
 async function runsList() {
   const runs = await api("/api/runs");
-  if (!runs.length) return [el("h1", {}, "My runs"), el("p", {}, "No runs yet. "), el("a", { class: "button primary", href: "#/new" }, "Start one")];
-  return [el("h1", {}, "My runs"), ...runs.map((r) => el("div", { class: "card" },
-    el("a", { href: "#/run/" + r.run_id }, r.run_id), " ", el("span", { class: "tag" }, STATE_WORDS[r.state] || r.state), " ", lightBadge(r.audit),
-    el("p", { class: "small" }, "Spent " + money(r.spent_usd) + " of " + money(r.max_usd) + " · " + when(r.updated_at))))];
+  const head = [el("p", { class: "kicker" }, "My runs"), el("h1", {}, "Your runs")];
+  if (!runs.length) return [...head, el("p", { class: "lede" }, "No runs yet."), el("a", { class: "button primary", href: "#/new" }, "Start one")];
+  const titles = await Promise.all(runs.map((r) => titleOf(r.run_id)));
+  return [...head, el("ul", { class: "runlist" }, ...runs.map((r, i) => el("li", {},
+    el("a", { class: "rl-title", href: "#/run/" + r.run_id }, shortTitle(titles[i])),
+    el("div", { class: "rl-meta" }, el("span", { class: "tag" }, STATE_WORDS[r.state] || r.state), " ", lightBadge(r.audit), " ",
+      "Spent " + money(r.spent_usd) + " of " + money(r.max_usd) + " · " + when(r.updated_at) + " · ", el("code", {}, r.run_id)))))];
 }
 
-const STAGES = [["scope", "Question"], ["retrieve", "Search"], ["read", "Read"], ["synthesize", "Write"], ["parent", "Parent problem"]];
+const STAGES = [
+  ["scope", "Question", "Turning your topic into one researchable question."],
+  ["retrieve", "Search", "Querying the paper-search services and screening what they return."],
+  ["read", "Read", "Reading the most relevant papers, in full text where possible."],
+  ["synthesize", "Write", "Drafting the review and checking every claim against its quote."],
+  ["parent", "Look for a parent problem", "Checking whether a published method with public code fits the question."],
+];
 
-function paintRun(box, r) {
+function paintRun(box, r, title, topic) {
   const doneIdx = STAGES.findIndex((s) => s[0] === r.stage);
   const live = ["queued", "scoping", "running", "stopping"].includes(r.state);
-  const stages = el("ol", { class: "stages", "aria-label": "Stages" }, ...STAGES.map(([id, label], i) =>
-    el("li", { class: i <= doneIdx ? "done" : i === doneIdx + 1 && live ? "now" : "" }, label)));
-  const bar = el("progress", { max: r.max_usd, value: Math.min(r.spent_usd, r.max_usd), "aria-label": "Spend against your cap" });
+  const finished = r.state === "complete";
+  const pct = Math.min(100, (r.spent_usd / r.max_usd) * 100);
+  const bar = el("div", { class: "meter-bar", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": String(r.max_usd), "aria-valuenow": String(r.spent_usd), "aria-label": "Spend against your cap" }, el("span"));
+  bar.firstChild.style.width = pct.toFixed(1) + "%";
+  const timeline = el("ol", { class: "timeline", "aria-label": "Stages" }, ...STAGES.map(([id, label, what], i) =>
+    el("li", { class: finished || i <= doneIdx ? "done" : i === doneIdx + 1 && live ? "now" : "" }, el("span", { class: "t-name" }, label), el("span", { class: "t-what" }, what))));
   const nodes = [
-    el("h1", {}, r.run_id),
-    el("p", {}, el("span", { class: "tag" }, STATE_WORDS[r.state] || r.state), " ", lightBadge(r.audit)),
-    stages,
-    el("p", {}, "Spent " + money(r.spent_usd) + " of your " + money(r.max_usd) + " cap"), bar,
+    el("div", { class: "runhead" },
+      el("p", { class: "kicker" }, "Run"),
+      el("h1", {}, title),
+      topic && topic !== title ? el("p", { class: "small topic" }, topic) : "",
+      el("p", {}, el("span", { class: "tag" + (live ? " live" : "") }, STATE_WORDS[r.state] || r.state), " ", lightBadge(r.audit))),
+    timeline,
+    el("div", { class: "meter" }, bar, el("div", { class: "meter-text" }, el("span", {}, "Spent " + money(r.spent_usd)), el("span", {}, "Your cap " + money(r.max_usd)))),
   ];
   if (r.message) nodes.push(el("p", {}, r.message));
   if (r.last_verdict && r.last_verdict.question) nodes.push(el("p", { class: "small" }, "Latest check: " + r.last_verdict.question + " → " + r.last_verdict.answer + " (confidence " + (r.last_verdict.confidence ?? "n/a") + ", " + (r.last_verdict.backend || "") + ")"));
   const actions = el("div", { class: "row" });
   if (live && r.state !== "stopping") actions.append(el("button", { type: "button", onclick: () => act(r.run_id, "stop") }, "Stop"));
   if (["stopped", "failed"].includes(r.state)) actions.append(el("button", { type: "button", class: "primary", onclick: () => act(r.run_id, "resume") }, "Resume"));
-  if (r.state === "complete") actions.append(el("a", { class: "button primary", href: "#/read/" + r.run_id }, "Read the review"));
+  if (finished) actions.append(el("a", { class: "button primary", href: "#/read/" + r.run_id }, "Read the review"), el("a", { class: "button", href: "/api/runs/" + r.run_id + "/pdf" }, "Download PDF"));
   nodes.push(actions);
   box.replaceChildren(...nodes);
 }
@@ -241,14 +284,15 @@ async function act(id, what, body) {
 async function runView(id) {
   const box = el("div");
   const scopeBox = el("div");
-  const st0 = await api("/api/runs/" + id);
-  paintRun(box, st0);
+  const [st0, topic] = await Promise.all([api("/api/runs/" + id), titleOf(id)]);
+  const title = shortTitle(topic);
+  paintRun(box, st0, title, topic);
   let lastState = null;
   const es = new EventSource("/api/runs/" + id + "/events");
   closeStream = () => es.close();
   es.onmessage = async (ev) => {
     const r = JSON.parse(ev.data);
-    paintRun(box, r);
+    paintRun(box, r, title, topic);
     if (r.state === "awaiting_confirmation" && lastState !== r.state) await paintScope(scopeBox, id);
     else if (r.state !== "awaiting_confirmation") scopeBox.replaceChildren();
     lastState = r.state;
@@ -259,9 +303,9 @@ async function runView(id) {
 
 async function paintScope(box, id) {
   const sc = await api("/api/runs/" + id + "/scope");
-  const q = el("textarea", { id: "q", "aria-label": "The question" }, sc.question);
+  const q = el("textarea", { id: "q", "aria-label": "The question" });
   q.value = sc.question;
-  box.replaceChildren(el("div", { class: "card key" },
+  box.replaceChildren(el("div", { class: "callout" },
     el("h2", {}, "Check the question before VERA spends more"),
     el("p", {}, "This is the question VERA will research. Edit it if it is not the one you meant."),
     q,
@@ -273,20 +317,25 @@ async function paintScope(box, id) {
 /* ── examples ──────────────────────────────────────────────────────────── */
 
 async function examplesView() {
-  const items = state.facts.examples;
   return [
+    el("p", { class: "kicker" }, "Examples"),
     el("h1", {}, "Finished examples"),
     el("p", { class: "lede" }, "Each example shows the exact inputs that produced it, what it cost, and the audit result. Two are literature reviews and two also ran experiments. Neither experiment found a better method than the baseline, and the papers say so."),
-    ...items.map((e) => el("section", { class: "card" },
-      el("h2", {}, e.title), el("p", {}, el("span", { class: "tag" }, e.kind === "paper" ? "with experiments" : "literature review"), " ", lightBadge(e.audit)),
-      el("h3", {}, "What went in"),
-      el("p", {}, el("strong", {}, "Topic: "), e.topic),
-      el("p", {}, el("strong", {}, "Confirmed question: "), e.question),
-      el("p", {}, el("strong", {}, "Guidance: "), e.guidance.format + (e.guidance.max_words ? ", up to " + e.guidance.max_words + " words" : "") + (e.guidance.emphasis ? ". " + e.guidance.emphasis : "")),
-      el("p", {}, el("strong", {}, "Spending cap: "), money(e.budget_cap_usd)),
-      el("h3", {}, "What came out"),
-      el("p", {}, "Spent " + money(e.spent_usd) + ". " + e.outcome),
-      el("a", { class: "button primary", href: "#/example/" + e.id }, "Read it with its evidence")))
+    ...state.facts.examples.map((e) => el("section", { class: "example" },
+      el("div", {},
+        el("p", { class: "kicker" }, e.kind === "paper" ? "With experiments" : "Literature review"),
+        el("h2", {}, e.title),
+        el("p", {}, lightBadge(e.audit), " ", el("span", { class: "small" }, "Spent " + money(e.spent_usd))),
+        el("p", { class: "small" }, e.outcome),
+        el("div", { class: "row" },
+          el("a", { class: "button primary", href: "#/example/" + e.id }, "Read it with its evidence"),
+          el("a", { class: "button", href: "/api/examples/" + e.id + "/pdf" }, "Download PDF"))),
+      el("dl", { class: "inputs" },
+        el("h3", { class: "kicker" }, "What went in"),
+        el("dt", {}, "Topic"), el("dd", {}, e.topic),
+        el("dt", {}, "Confirmed question"), el("dd", {}, e.question),
+        el("dt", {}, "Guidance"), el("dd", {}, e.guidance.format + (e.guidance.max_words ? ", up to " + e.guidance.max_words + " words" : "") + (e.guidance.emphasis ? ". " + e.guidance.emphasis : "")),
+        el("dt", {}, "Spending cap"), el("dd", {}, money(e.budget_cap_usd)))))
   ];
 }
 
@@ -322,6 +371,8 @@ function renderInline(text, ctx) {
   return out;
 }
 
+const REF = /^\[R\d+\]\s/;
+
 function renderMarkdown(md, ctx) {
   const out = [];
   const lines = md.split("\n");
@@ -349,8 +400,12 @@ function renderMarkdown(md, ctx) {
       out.push(el("ul", {}, ...items.map((t) => el("li", {}, ...renderInline(t, ctx)))));
       continue;
     }
+    if (REF.test(line)) {
+      while (i < lines.length && REF.test(lines[i])) { out.push(el("p", { class: "ref" }, lines[i])); i++; }
+      continue;
+    }
     const para = [];
-    while (i < lines.length && lines[i].trim() && !/^(#{1,4}\s|\s*\|)/.test(lines[i])) { para.push(lines[i]); i++; }
+    while (i < lines.length && lines[i].trim() && !/^(#{1,4}\s|\s*\|)/.test(lines[i]) && !REF.test(lines[i])) { para.push(lines[i]); i++; }
     out.push(el("p", {}, ...renderInline(para.join(" "), ctx)));
   }
   return out;
@@ -395,20 +450,26 @@ async function showCell(ctx, text) {
 async function readerView(kind, id) {
   const base = kind === "example" ? "/api/examples/" + id : "/api/runs/" + id;
   const data = await api(base + "/paper");
-  const ctx = { data, side: el("aside", { class: "side", "aria-live": "polite" }, el("p", { class: "small" }, "Click a dotted sentence for its quote, a source number for the paper, or a table number for its results cell.")), fileBase: base + "/files/", results: null };
+  const ctx = { data, side: el("aside", { class: "side", "aria-live": "polite" }, el("h3", {}, "Evidence"), el("p", { class: "small" }, "Click a dotted sentence for its quote, a source number for the paper, or a table number for its results cell.")), fileBase: base + "/files/", results: null };
   if (kind === "example") { try { ctx.results = await api(base + "/files/results.json"); } catch (_) { /* a review has none */ } }
   const doc = el("article", { class: "paper" }, ...renderMarkdown(markClaims(data.markdown, data.claims), ctx));
   const audit = data.audit;
   const findings = (audit && audit.findings) || [];
   const leads = findings.filter((f) => /method|align|novel/i.test(f.check || ""));
   const real = findings.filter((f) => !leads.includes(f));
-  const auditBox = el("div", { class: "card" }, el("h2", {}, "The audit"), el("p", {}, lightBadge(audit && audit.overall)),
+  const auditBox = el("section", { class: "appendix" }, el("h2", {}, "The audit"), el("p", {}, lightBadge(audit && audit.overall)),
     el("p", { class: "small" }, "Checks run: " + ((audit && audit.checks_run) || []).join(", ") + ". Green means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete."),
     real.length ? el("ul", {}, ...real.map((f) => el("li", {}, "[" + f.severity + "] " + f.summary))) : el("p", {}, "No findings."),
     leads.length ? el("details", {}, el("summary", {}, "Leads for a person (" + leads.length + "): a warning here is a lead, not a verdict"), el("ul", {}, ...leads.map((f) => el("li", {}, "[" + f.severity + "] " + f.summary)))) : "");
-  const header = [el("h1", {}, kind === "example" ? data.example.title : id)];
-  if (kind === "example") header.push(el("p", { class: "small" }, "Spent " + money(data.example.spent_usd) + " of a " + money(data.example.budget_cap_usd) + " cap. " + data.example.outcome));
-  return [...header, el("div", { class: "cols" }, el("div", {}, doc, auditBox), ctx.side)];
+  const title = kind === "example" ? data.example.title : shortTitle(await titleOf(id));
+  const byline = el("div", { class: "byline" }, lightBadge(audit && audit.overall));
+  if (kind === "example") byline.append("Spent " + money(data.example.spent_usd) + " of a " + money(data.example.budget_cap_usd) + " cap");
+  const head = el("header", { class: "doc-head" },
+    el("p", { class: "kicker" }, kind === "example" ? (data.example.kind === "paper" ? "Example · research paper" : "Example · literature review") : "Literature review"),
+    el("h1", {}, title), byline,
+    el("div", { class: "row" }, el("a", { class: "button primary", href: base + "/pdf" }, "Download PDF"), el("a", { class: "button", href: kind === "example" ? "#/examples" : "#/run/" + id }, kind === "example" ? "All examples" : "Back to the run")));
+  if (kind === "example") head.append(el("p", { class: "small" }, data.example.outcome));
+  return [head, el("div", { class: "cols" }, el("div", {}, doc, auditBox), ctx.side)];
 }
 
 /* ── start ─────────────────────────────────────────────────────────────── */
