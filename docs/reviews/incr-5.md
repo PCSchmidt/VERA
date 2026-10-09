@@ -200,7 +200,7 @@ real one in that review); R1's "Answers the questions"; R2's "Answers the questi
   and the check passes. No entry was made on 2026-10-07 itself, the same lapse as Increments 3 and 4.
 - **Same-model overlap.** The writer is Sonnet 5.5; the cheap judge path is GLM (or Jev then GLM with a Jev key); the independent scorer is a Claude model, the same family as the
   writer; Chris's blind scores are his own except as noted below. The audit's judge is never the producer of the text it judges.
-- **Test suite.** 688 tests passed in the last full run (record: `docs/results/incr5_test_run.txt`); 689 are collected now, one test having been added since (the leak test's counterpart). The suite takes 2 to 4 minutes. One gate run failed at its test hook for a reason not found (the suite passed on every later run), and the
+- **Test suite.** 689 tests passed in a full run made after the Evaluator's round 2, with its output captured unedited in `docs/results/incr5_test_run.txt` (an earlier full run, before the leak test's counterpart was added, passed 688). The suite takes 2 to 4 minutes. One gate run failed at its test hook for a reason not found (the suite passed on every later run), and the
   `ui_ready` gate failed once on three browser-test timeouts, fixed with a fresh browser profile per load and one retry.
 
 ## Deviations
