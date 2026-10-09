@@ -33,24 +33,28 @@ def ledger_total(root: Path, ledger: str) -> float:
 def example(root: Path, spec: dict) -> dict:
     folder = root / spec["dir"]
     light = _json(folder / "audit_report.json").get("overall") if (folder / "audit_report.json").exists() else None
-    scope = _json(root / spec["scope_file"]) if spec.get("scope_file") else {}
+    request = _json(folder / "app_request.json") if (folder / "app_request.json").exists() else {}
+    scope_path = root / spec["scope_file"] if spec.get("scope_file") else folder / "scope.json"
+    scope = _json(scope_path) if scope_path.exists() else {}
     topic = _json(root / spec["topic_file"]) if spec.get("topic_file") else {}
     return {
-        "id": spec["id"], "title": spec["title"], "kind": spec["kind"], "topic": topic.get("text"),
-        "question": scope.get("question"), "guidance": spec["guidance"], "budget_cap_usd": spec["budget_cap_usd"],
+        "id": spec["id"], "title": spec["title"], "kind": spec["kind"], "topic": topic.get("text") or request.get("topic"),
+        "question": scope.get("question"), "guidance": spec.get("guidance") or request.get("guidance"),
+        "budget_cap_usd": spec.get("budget_cap_usd") or request.get("max_usd"),
         "spent_usd": spec["spent_usd"], "audit": light,
         "outcome": spec["outcome"], "document": f"{spec['dir']}/{spec['document']}",
         "evidence": [f"{spec['dir']}/{n}" for n in spec.get("evidence", [])], "retrieved": spec.get("retrieved"),
+        "known_issues": spec.get("known_issues"),
     }  # fmt: skip
 
 
-def examples(root: Path) -> list[dict]:
-    specs = _json(root / "data" / "app" / "examples.json")["examples"]
+def examples(root: Path, file: str = "examples.json") -> list[dict]:
+    specs = _json(root / "data" / "app" / file)["examples"]
     return [example(root, s) for s in specs]
 
 
-def build_facts(root: Path) -> dict:
-    items = examples(root)
+def build_facts(root: Path, examples_file: str = "examples.json") -> dict:
+    items = examples(root, examples_file)
     lit = [e["spent_usd"] for e in items if e["kind"] == "literature"]
     paper = [e["spent_usd"] for e in items if e["kind"] == "paper"]
     rubric = _json(root / "data" / "results" / "rubric4_chris.json")["entries"]

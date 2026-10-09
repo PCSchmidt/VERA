@@ -50,6 +50,8 @@ shared internals. Every judgment anywhere in the system is a `Verdict`.
 
 ## Try it: the local app
 
+**Read-only showcase** (finished examples with their evidence, PDFs and the steps below, no key, no server): https://pcschmidt.github.io/VERA/
+
 VERA runs on your own computer with **your own** OpenRouter key and your own money. The maintainer pays nothing and has no
 access to your key or your runs; the key is held in the program's memory and is never written to a file, a log or a run record.
 

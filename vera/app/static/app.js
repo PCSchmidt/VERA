@@ -6,6 +6,18 @@ const main = $("#main");
 const forced = new URLSearchParams(location.search).get("theme");
 if (forced === "dark" || forced === "light") document.documentElement.dataset.theme = forced;
 const state = { config: null, facts: null };
+const STATIC = Boolean(window.VERA_STATIC); // the Pages showcase: read-only, served from prebuilt files, no server behind it
+const REPO = "https://github.com/PCSchmidt/VERA";
+
+function staticUrl(path) {
+  let m;
+  if (path === "/api/facts") return "data/facts.json";
+  if ((m = path.match(/^\/api\/examples\/([a-z0-9-]+)\/paper$/))) return "data/examples/" + m[1] + "/paper.json";
+  if ((m = path.match(/^\/api\/examples\/([a-z0-9-]+)\/files\/(.+)$/))) return "data/examples/" + m[1] + "/files/" + m[2];
+  if ((m = path.match(/^\/api\/examples\/([a-z0-9-]+)\/pdf$/))) return "pdf/" + m[1] + ".pdf";
+  return path;
+}
+const S = (path) => (STATIC ? staticUrl(path) : path);
 
 function el(tag, attrs = {}, ...kids) {
   const node = document.createElement(tag);
@@ -27,7 +39,7 @@ async function api(path, opts = {}) {
     init.headers["Content-Type"] = "application/json";
     init.body = JSON.stringify(opts.body);
   }
-  const res = await fetch(path, init);
+  const res = await fetch(S(path), init);
   let data = null;
   try { data = await res.json(); } catch (_) { /* no body */ }
   if (!res.ok) {
@@ -38,11 +50,29 @@ async function api(path, opts = {}) {
 }
 
 async function loadBasics() {
-  [state.config, state.facts] = await Promise.all([api("/api/config"), api("/api/facts")]);
+  if (STATIC) {
+    state.config = { key_source: "none", docker_available: false, grobid_available: false, openalex_key: false, semantic_scholar_key: false };
+    state.facts = await api("/api/facts");
+    staticChrome();
+  } else {
+    [state.config, state.facts] = await Promise.all([api("/api/config"), api("/api/facts")]);
+  }
   paintKey();
 }
 
+function staticChrome() {
+  for (const a of document.querySelectorAll('nav a[data-nav="new"], nav a[data-nav="runs"]')) a.remove();
+  $("nav").append(el("a", { href: "#/run-locally", "data-nav": "local" }, "Run it yourself"));
+  const pill = $("#keypill");
+  pill.disabled = true;
+  pill.className = "keystate";
+  $("#keytext").textContent = "Read-only showcase";
+  const note = $(".colophon p");
+  if (note) note.textContent = "This is a read-only showcase of VERA. The app itself runs on your own computer, with your own model key and budget; nothing here runs a model or asks for a key.";
+}
+
 function paintKey() {
+  if (STATIC) return;
   const c = state.config;
   const ok = c && c.key_source !== "none";
   $("#keypill").className = "keystate" + (ok ? " ok" : "");
@@ -58,6 +88,7 @@ const routes = [
   [/^#\/runs$/, runsList],
   [/^#\/run\/([a-z0-9-]+)$/, runView],
   [/^#\/read\/([a-z0-9-]+)$/, (id) => readerView("run", id)],
+  [/^#\/run-locally$/, runLocally],
   [/^#\/examples$/, examplesView],
   [/^#\/example\/([a-z0-9-]+)$/, (id) => readerView("example", id)],
 ];
@@ -66,8 +97,9 @@ let closeStream = null;
 async function route() {
   if (closeStream) { closeStream(); closeStream = null; }
   const hash = location.hash || "#/";
+  if (STATIC && /^#\/(new|runs|run\/|read\/)/.test(hash)) { location.hash = "#/run-locally"; return; }
   for (const link of document.querySelectorAll("nav a")) link.removeAttribute("aria-current");
-  const nav = hash.startsWith("#/new") ? "new" : hash.startsWith("#/run") || hash.startsWith("#/read") ? "runs" : hash.startsWith("#/example") ? "examples" : null;
+  const nav = hash.startsWith("#/run-locally") ? "local" : hash.startsWith("#/new") ? "new" : hash.startsWith("#/run") || hash.startsWith("#/read") ? "runs" : hash.startsWith("#/example") ? "examples" : null;
   if (nav) $(`nav a[data-nav="${nav}"]`).setAttribute("aria-current", "page");
   for (const [re, view] of routes) {
     const m = hash.match(re);
@@ -100,8 +132,10 @@ async function landing() {
       el("h1", {}, "Literature reviews you can check."),
       el("p", { class: "lede" }, "Give VERA a topic. It proposes one research question for you to confirm, searches and reads the literature, writes a review in which every claim is tied to a quote, and audits the result. You see the audit, not just the answer."),
       el("div", { class: "row" },
-        el("a", { class: "button primary", href: "#/new" }, "Start a run"),
-        el("a", { class: "button", href: first ? "#/example/" + first.id : "#/examples" }, "Read a finished example"))),
+        STATIC ? el("a", { class: "button primary", href: first ? "#/example/" + first.id : "#/examples" }, "Read a finished example")
+               : el("a", { class: "button primary", href: "#/new" }, "Start a run"),
+        STATIC ? el("a", { class: "button", href: "#/run-locally" }, "Run it yourself")
+               : el("a", { class: "button", href: first ? "#/example/" + first.id : "#/examples" }, "Read a finished example"))),
     el("section", {},
       el("h2", {}, "How it works"),
       el("ol", { class: "steps" },
@@ -113,7 +147,7 @@ async function landing() {
       el("h2", {}, "Whose key and whose money"),
       el("p", {}, "Yours. VERA runs on the model key you connect, and every model call is charged to your account. The maintainer pays nothing and has no access to your key or your runs. The key stays in this program's memory; it is never written to a file or a log."),
       el("p", {}, "You set a spending cap on every run. VERA stops before it would pass the cap and keeps what it has done so far."),
-      el("div", { class: "row" }, el("button", { type: "button", onclick: openKeyDialog }, "Connect my key"))),
+      STATIC ? "" : el("div", { class: "row" }, el("button", { type: "button", onclick: openKeyDialog }, "Connect my key"))),
     el("section", { class: "facts" },
       el("div", { class: "fact" }, el("h3", {}, "What a run costs"),
         el("p", {}, "In our own example runs, a literature review cost between " + costRange(f.literature_cost_usd) + " in model fees, and a run that also ran experiments cost between " + costRange(f.paper_cost_usd) + ". Your cost depends on the topic and the model; the cap you set is the limit."),
@@ -123,6 +157,8 @@ async function landing() {
         el("p", { class: "hint" }, "A run can end without a better method than the one it started from. That is a normal result, and it is reported as one.")),
       el("div", { class: "fact" }, el("h3", {}, "What it will not do"),
         el("p", {}, "It will not produce wet-lab science, use data you do not have the right to use, or run experiments that need more than a laptop. A green audit means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete or the conclusions are right."))),
+    STATIC ? el("section", {}, el("h2", {}, "Run it yourself"),
+      el("p", {}, "VERA runs on your own computer: ", el("a", { href: "#/run-locally" }, "four commands and your own OpenRouter key"), ". Nothing on this site runs a model or asks for a key.")) :
     el("section", {},
       el("h2", {}, "Before you start"),
       el("ul", { class: "checks" },
@@ -314,22 +350,45 @@ async function paintScope(box, id) {
       el("button", { class: "primary", type: "button", onclick: () => act(id, "confirm", { question: q.value.trim() === sc.question ? null : q.value.trim() }) }, "Confirm and continue"))));
 }
 
+/* ── run it yourself ───────────────────────────────────────────────────── */
+
+async function runLocally() {
+  const f = state.facts;
+  const step = (title, cmd, note) => el("li", {}, el("h3", {}, title), cmd ? el("pre", {}, el("code", {}, cmd)) : "", note ? el("p", { class: "small" }, note) : "");
+  return [
+    el("p", { class: "kicker" }, "Run it yourself"),
+    el("h1", {}, "VERA runs on your own computer"),
+    el("p", { class: "lede" }, "It uses your own OpenRouter key and your own money. The maintainer pays nothing and never sees your key, which is held in the program's memory and never written to a file. You need Python 3.11 or later and the free tool uv."),
+    el("ol", { class: "steps stack" },
+      step("Get the code", "git clone " + REPO + ".git\ncd VERA", null),
+      step("Install", "uv sync", "About ten seconds."),
+      step("Start the app", "uv run vera-app", "The first start can take up to half a minute. It prints an address on your own machine."),
+      step("Open it and connect your key", "http://127.0.0.1:8765", "Press Connect my key and paste an OpenRouter key (from your OpenRouter account, under Keys, with a small credit). You set a spending cap on every run; VERA stops before passing it.")),
+    el("div", { class: "callout" },
+      el("h2", {}, "What a run costs"),
+      el("p", {}, "In our own example runs a literature review cost between " + costRange(f.literature_cost_usd) + " in model fees. A run takes about ten minutes."),
+      el("p", { class: "hint" }, "Optional: Docker with the GROBID image lets VERA read full texts; without it, it reads abstracts and says so. An extra Semantic Scholar or OpenAlex key in a .env file widens the paper search.")),
+    el("div", { class: "row" }, el("a", { class: "button primary", href: REPO }, "VERA on GitHub"), el("a", { class: "button", href: "#/examples" }, "Read finished examples")),
+  ];
+}
+
 /* ── examples ──────────────────────────────────────────────────────────── */
 
 async function examplesView() {
   return [
     el("p", { class: "kicker" }, "Examples"),
     el("h1", {}, "Finished examples"),
-    el("p", { class: "lede" }, "Each example shows the exact inputs that produced it, what it cost, and the audit result. Two are literature reviews and two also ran experiments. Neither experiment found a better method than the baseline, and the papers say so."),
+    el("p", { class: "lede" }, "Each example shows the exact inputs that produced it, what it cost, and the audit result. Where we found problems in a review after it passed its audit, they are listed with it. The two papers that also ran experiments did not beat their baselines, and say so."),
     ...state.facts.examples.map((e) => el("section", { class: "example" },
       el("div", {},
         el("p", { class: "kicker" }, e.kind === "paper" ? "With experiments" : "Literature review"),
         el("h2", {}, e.title),
         el("p", {}, lightBadge(e.audit), " ", el("span", { class: "small" }, "Spent " + money(e.spent_usd))),
         el("p", { class: "small" }, e.outcome),
+        e.known_issues ? el("p", { class: "issue" }, el("strong", {}, "Known issues. "), e.known_issues) : "",
         el("div", { class: "row" },
           el("a", { class: "button primary", href: "#/example/" + e.id }, "Read it with its evidence"),
-          el("a", { class: "button", href: "/api/examples/" + e.id + "/pdf" }, "Download PDF"))),
+          el("a", { class: "button", href: S("/api/examples/" + e.id + "/pdf"), download: true }, "Download PDF"))),
       el("dl", { class: "inputs" },
         el("h3", { class: "kicker" }, "What went in"),
         el("dt", {}, "Topic"), el("dd", {}, e.topic),
@@ -353,7 +412,7 @@ function renderInline(text, ctx) {
     else if (t.startsWith("`")) out.push(el("code", {}, t.slice(1, -1)));
     else if (t.startsWith("![")) {
       const [, alt, src] = t.match(/!\[([^\]]*)\]\(([^)]+)\)/);
-      if (ctx.fileBase && !/^(https?:|\/)/.test(src)) out.push(el("img", { alt, src: ctx.fileBase + src }));
+      if (ctx.fileBase && !/^(https?:|\/)/.test(src)) out.push(el("img", { alt, src: S(ctx.fileBase + src) }));
     } else if (t.startsWith("[R")) {
       const key = t.slice(1, -1);
       out.push(el("sup", { class: "cite", tabindex: "0", role: "button", onclick: () => showSource(ctx, key), onkeydown: (e) => { if (e.key === "Enter") showSource(ctx, key); } }, key));
@@ -467,8 +526,9 @@ async function readerView(kind, id) {
   const head = el("header", { class: "doc-head" },
     el("p", { class: "kicker" }, kind === "example" ? (data.example.kind === "paper" ? "Example · research paper" : "Example · literature review") : "Literature review"),
     el("h1", {}, title), byline,
-    el("div", { class: "row" }, el("a", { class: "button primary", href: base + "/pdf" }, "Download PDF"), el("a", { class: "button", href: kind === "example" ? "#/examples" : "#/run/" + id }, kind === "example" ? "All examples" : "Back to the run")));
+    el("div", { class: "row" }, el("a", { class: "button primary", href: S(base + "/pdf"), download: true }, "Download PDF"), el("a", { class: "button", href: kind === "example" ? "#/examples" : "#/run/" + id }, kind === "example" ? "All examples" : "Back to the run")));
   if (kind === "example") head.append(el("p", { class: "small" }, data.example.outcome));
+  if (kind === "example" && data.example.known_issues) head.append(el("p", { class: "issue" }, el("strong", {}, "Known issues. "), data.example.known_issues));
   return [head, el("div", { class: "cols" }, el("div", {}, doc, auditBox), ctx.side)];
 }
 

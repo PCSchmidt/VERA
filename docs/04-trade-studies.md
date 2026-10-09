@@ -475,6 +475,9 @@ Keep each to one short section. Status: **open** until decided.
   | Windows | the workstation's own platform | not relevant | not relevant |
 - **Decision:** (Chris, 2026-10-07: direction (a) only, chosen at `incr5_scoped`; this entry is confirmed by approving `t8_decided` on it as written)
   **(a), the local app.** A public deployment is an outward-facing action and its running cost is unmeasured; (c) is reconsidered at the Increment 5 review.
+- **Update (2026-10-09, Chris):** a **static showcase** is published on GitHub Pages (`scripts/build_pages.py`, `.github/workflows/pages.yml`): the app's front end in a read-only mode,
+  seven finished examples with their evidence and PDFs, and the run-it-yourself steps. It is not the hosted demo T8 rejected: it has no server, takes no key and runs no model, so it
+  has no running cost and holds no visitor's key. The app itself stays local only.
 - **Reverse if** (restated): hosting cost per visitor can be bounded near zero and measured, then a hosted literature-only demo (its own gate);
   or the new-user walkthrough shows the local install is the point where users give up, then invest in packaging before anything hosted.
 

@@ -1,0 +1,153 @@
+{
+ "note": "The Pages showcase: the four examples of the local app plus three reviews chosen by Chris on 2026-10-09, with the known issues found in each. spent_usd is each run's ledger total.",
+ "examples": [
+  {
+   "id": "conformal-shift",
+   "title": "Conformal prediction under distribution shift",
+   "kind": "literature",
+   "dir": "data/literature/conformal-shift",
+   "document": "literature.md",
+   "evidence": [
+    "claims.jsonl",
+    "audit.md"
+   ],
+   "topic_file": "data/topics/conformal-shift.json",
+   "scope_file": "data/topics/scope_conformal-shift.json",
+   "guidance": {
+    "format": "paper",
+    "max_words": 1500,
+    "emphasis": "Say plainly what the literature establishes and what it does not; cite only retrieved sources."
+   },
+   "budget_cap_usd": 1.0,
+   "ledger": "data/ledger/run_topic4-conformal-2.jsonl",
+   "outcome": "A literature review with no experiments; the audit found every cited claim supported by its quoted passage.",
+   "spent_usd": 0.1649,
+   "retrieved": "data/retrieval/conformal-shift/retrieved.jsonl"
+  },
+  {
+   "id": "research-agents-eval",
+   "title": "Evaluating AI research agents",
+   "kind": "literature",
+   "dir": "data/literature/research-agents-eval",
+   "document": "literature.md",
+   "evidence": [
+    "claims.jsonl",
+    "audit.md"
+   ],
+   "topic_file": "data/topics/research-agents-eval.json",
+   "scope_file": "data/topics/scope_research-agents-eval.json",
+   "guidance": {
+    "format": "paper",
+    "max_words": 1500,
+    "emphasis": "Say plainly what the literature establishes and what it does not; cite only retrieved sources."
+   },
+   "budget_cap_usd": 1.0,
+   "ledger": "data/ledger/run_topic4-agents-1.jsonl",
+   "outcome": "A literature review; retrieval missed most of the key papers fixed beforehand for this topic, and the review says what it could not establish.",
+   "spent_usd": 0.1664,
+   "retrieved": "data/retrieval/research-agents-eval/retrieved.jsonl"
+  },
+  {
+   "id": "tree-explain",
+   "title": "Tree-ensemble explanations under correlated features (with experiments)",
+   "kind": "paper",
+   "dir": "docs/results/runs4/runs4-tree-explain",
+   "document": "paper.md",
+   "evidence": [
+    "results.json",
+    "audit.md"
+   ],
+   "topic_file": "data/topics/tree-explain.json",
+   "scope_file": "data/topics/scope_tree-explain.json",
+   "guidance": {
+    "format": "paper",
+    "max_words": 1700,
+    "required_sections": [
+     "Abstract",
+     "Related work",
+     "Method",
+     "Results",
+     "Limitations",
+     "References"
+    ],
+    "emphasis": "Say plainly what the crude loop did and did not establish; report a negative result as one."
+   },
+   "budget_cap_usd": 1.5,
+   "ledger": "data/ledger/run_runs4-tree-explain.jsonl",
+   "outcome": "The registered comparison ran; the one idea tried did not beat the baseline, and the paper reports that as a negative result.",
+   "spent_usd": 0.1016
+  },
+  {
+   "id": "credal-dro",
+   "title": "Credal ambiguity sets, reproduced and extended (with experiments)",
+   "kind": "paper",
+   "dir": "docs/results/runs4/runs4-credal",
+   "document": "paper.md",
+   "evidence": [
+    "results.json",
+    "audit.md"
+   ],
+   "topic_file": "data/topics/credal-dro.json",
+   "scope_file": "data/topics/scope_credal-dro.json",
+   "guidance": {
+    "format": "paper",
+    "max_words": 1700,
+    "required_sections": [
+     "Abstract",
+     "Related work",
+     "Method",
+     "Results",
+     "Limitations",
+     "References"
+    ],
+    "emphasis": "Say plainly what the crude loop did and did not establish; report a negative result as one."
+   },
+   "budget_cap_usd": 1.5,
+   "ledger": "data/ledger/run_runs4-credal.jsonl",
+   "outcome": "The parent's baseline was reproduced; both ideas were far worse than it, and the paper says an implementation fault is likely.",
+   "spent_usd": 0.059
+  },
+  {
+   "id": "agentic-traces-walkthrough",
+   "title": "Agentic traces as a way to track large agent workflows in software development",
+   "kind": "literature",
+   "dir": "data/walkthrough/research-agentic-traces-and-their-vi-0svs",
+   "document": "literature.md",
+   "evidence": [
+    "claims.jsonl",
+    "audit.md"
+   ],
+   "spent_usd": 0.1414,
+   "outcome": "The first walkthrough run, made through the app by the builder on a fresh clone with his own key. A review that says what the surveyed literature does and does not establish about trace-based tracking.",
+   "known_issues": "The audit was green, yet one sentence names a source (R12) with no citation or quote and R12 is not in the reference list, and one sentence says Tracezip's authors blame sampling where its quote says only that existing work faces a trade-off. Found in Increment 5; the pipeline now removes the first kind of sentence. Only 10 claims were drawn from 39 papers kept."
+  },
+  {
+   "id": "rlm-vs-clm",
+   "title": "Recursive language models and Context Language Models for production coding",
+   "kind": "literature",
+   "dir": "data/app/live/rlm-vs-clm-2",
+   "document": "literature.md",
+   "evidence": [
+    "claims.jsonl",
+    "audit.md"
+   ],
+   "spent_usd": 0.1849,
+   "outcome": "A review comparing the two approaches on cost, quality and trace reuse. It found the CLM paper and the RLM paper and says there is no head-to-head result on tokens or latency.",
+   "known_issues": "The audit was green, yet the closing paragraph has one uncited generalisation and uses the pipeline's wording ('the supplied abstract'); and it says the CLM metric is not wall-clock latency without mentioning the paper's reported 65% end-to-end speedup or its 35% server-side compute reduction. Trace reusability is barely addressed and the RLM paper is cited from its abstract only."
+  },
+  {
+   "id": "agent-traces-first",
+   "title": "How agent traces record software development progress",
+   "kind": "literature",
+   "dir": "data/app/live/how-well-do-agent-traces-record-soft-0kdg",
+   "document": "literature.md",
+   "evidence": [
+    "claims.jsonl",
+    "audit.md"
+   ],
+   "spent_usd": 0.1117,
+   "outcome": "A three-part question about how traces record progress, how that differs across agent harnesses, and whether traces are stored in vector databases.",
+   "known_issues": "It answers only part of the question: one harness's storage is described, two others get one line each, others are not covered, and the vector-database part rests on one source. It says these gaps exist. One quote's qualifier (that an overhead is negligible) is left out."
+  }
+ ]
+}
