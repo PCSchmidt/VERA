@@ -51,7 +51,7 @@ started from the app. In order of how much each statement should be trusted:
 
 `vera/app/` (server, run manager, worker, pipeline phases, key store, stop-aware budget, PDF writer, facts), `vera/app/static/` (the pages), schemas 0.11
 (`SourceRecord.source` gains `semanticscholar`; `RunRequest`, `RunStatus`, `AppConfig`), `tools/checks/check_app.py`, `check_carry5.py`, `check_t8.py`,
-`check_newuser.py`, `check_rubric5.py`, and 29 new test files or additions. Behaviour changes outside the app: the judge path falls back to GLM
+`check_newuser.py`, `check_rubric5.py`, ten new test files (`test_app_core`, `_facts`, `_schemas`, `_secrets`, `_server`, `_ui`, `test_cheap_path_byok`, `test_check_newuser`, `test_check_rubric5`, `test_loop_spread`) and additions to five existing ones. Behaviour changes outside the app: the judge path falls back to GLM
 alone when no Jev key is set (a bring-your-own-key user usually has only an OpenRouter key); a sentence with no claim that names a source in
 running text is removed before the audit (below); a rejected scoping question can be edited and confirmed; an unreadable reference year no longer crashes
 the snowball step. The two process calls the app makes moved under `vera/sandbox/` to satisfy FND-F-03.
@@ -142,7 +142,7 @@ real one in that review); R1's "Answers the questions"; R2's "Answers the questi
   and the check passes. No entry was made on 2026-10-07 itself, the same lapse as Increments 3 and 4.
 - **Same-model overlap.** The writer is Sonnet 5.5; the cheap judge path is GLM (or Jev then GLM with a Jev key); the independent scorer is a Claude model, the same family as the
   writer; Chris's blind scores are his own except as noted below. The audit's judge is never the producer of the text it judges.
-- **Test suite.** 670 tests pass; the suite takes 2 to 4 minutes. One gate run failed at its test hook for a reason not found (the suite passed on every later run), and the
+- **Test suite.** 688 tests pass (the last full run, after the redesign and the rubric tooling); the suite takes 2 to 4 minutes. One gate run failed at its test hook for a reason not found (the suite passed on every later run), and the
   `ui_ready` gate failed once on three browser-test timeouts, fixed with a fresh browser profile per load and one retry.
 
 ## Deviations
