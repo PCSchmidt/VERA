@@ -1,0 +1,14 @@
+{
+ "run_id": "research-agentic-traces-and-their-vi-0svs",
+ "topic": "Research agentic traces and their viability and use as a means of tracking voluminous agent work flows in software development.",
+ "guidance": {
+  "format": "paper",
+  "max_words": 1500,
+  "required_sections": [],
+  "emphasis": null,
+  "constraints": []
+ },
+ "max_usd": 1.5,
+ "max_wall_seconds": 7200,
+ "allow_experiments": false
+}

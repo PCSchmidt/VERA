@@ -250,3 +250,25 @@ def test_RSH_F_09_the_draft_needs_a_usable_reply(tmp_path: Path) -> None:
     unconfirmed = make_lit_deps(tmp_path / "u")
     with pytest.raises(scoping.ScopeNotConfirmedError):
         synthesis_stage.synthesize_node(unconfirmed)({})
+
+
+def test_RSH_F_09_a_sentence_that_names_a_source_in_running_text_without_a_claim_is_removed(tmp_path: Path) -> None:
+    """Found in the first walkthrough: 'The two studies thus differ ... although R4 examined three agents and R12 a much
+    larger set' had no quote behind it, cited a source missing from the references, and the audit passed it."""
+    named = {
+        "text": "The two studies thus differ on length, although R1 examined three agents and R2 a larger set.",
+        "claim": None,
+    }
+    deps = deps_with_evidence(tmp_path, [[GOOD1, named, GOOD2]], [])
+    run_nodes(deps)
+    text = (deps.run_dir / "literature.md").read_text(encoding="utf-8")
+    assert "The two studies thus differ" not in text and "become unstable under strong correlation [R1]" in text
+    stats = json.loads((deps.run_dir / "artifacts" / "literature.json").read_text(encoding="utf-8"))["stats"]
+    assert stats["stray_attributions_removed"] == 1
+    from vera.literature.anchoring import names_a_source_without_a_claim as names  # noqa: PLC0415
+
+    assert (
+        names("R4 examined three agents") == "R4"
+        and names("As reported [R4].") is None
+        and names("The FR12 code") is None
+    )

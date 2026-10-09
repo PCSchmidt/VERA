@@ -73,10 +73,16 @@ def verify_node(deps: LitDeps) -> Callable[[dict], dict]:
         records, passages = _records(deps), _passages(deps)
         sentences = [[dict(s) for s in para] for para in state["draft"]]
         loose = [s for para in sentences for s in para if not s["claim"]]
-        stray = sum(1 for s in loose if synthesis.STRAY_ATTRIBUTION.search(s["text"]))
-        sentences = [
-            [s for s in para if s["claim"] or not synthesis.STRAY_ATTRIBUTION.search(s["text"])] for para in sentences
-        ]  # an attribution with no claim is never checked, so it is removed
+
+        def unchecked(s: dict) -> bool:
+            """A sentence with no claim that attributes something to a source, or names one in running text: nothing
+            quotes it and the audit never checks it, so it is removed."""
+            return bool(
+                synthesis.STRAY_ATTRIBUTION.search(s["text"]) or anchoring.names_a_source_without_a_claim(s["text"])
+            )
+
+        stray = sum(1 for s in loose if unchecked(s))
+        sentences = [[s for s in para if s["claim"] or not unchecked(s)] for para in sentences]
         verdicts: list[Verdict] = []
 
         def failures(items: list[dict]) -> dict[int, str]:

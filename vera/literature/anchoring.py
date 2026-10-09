@@ -50,6 +50,18 @@ _DANGLING = re.compile(
 )
 
 
+_BARE_KEY = re.compile(
+    r"(?<![\x5b0-9A-Za-z_])R[0-9]+(?![0-9]|\x5d)"
+)  # not in a bracket citation, not inside a longer token
+
+
+def names_a_source_without_a_claim(sentence: str) -> str | None:
+    """A source key in running text ('R12 a much larger set') in a sentence that has no claim behind it, or None.
+    Such a sentence says something about a source that no quote supports and the audit never checks."""
+    m = _BARE_KEY.search(sentence)
+    return m.group(0) if m else None
+
+
 def dangling_reference(sentence: str) -> str | None:
     """The opening words of a sentence that refers back to a sentence the reader may not have read ('It also reports
     that this advantage grows'), or None. A claim sentence must say whose finding it is."""

@@ -1,0 +1,11 @@
+{
+ "topic_id": "research-agentic-traces-and-their-vi-0svs",
+ "question": "What does the existing literature on observability, provenance, and trace-based logging (including LLM-agent tracing frameworks and software-engineering agent trajectory studies) indicate about whether structured agentic traces can viably serve as a scalable means of tracking, auditing, and summarizing high-volume agent workflows in software development, and what gaps limit that viability?",
+ "why_researchable": "A short literature review can answer this by synthesizing published work from several established areas: distributed tracing and observability (e.g., OpenTelemetry, which has emerging GenAI semantic conventions), data provenance, LLM-agent trajectory analyses (e.g., SWE-agent and OpenHands trajectory studies, agent failure taxonomies), and trace-summarization and compression approaches. These sources describe trace schemas, volume and cost characteristics, and evaluation and debugging uses. The review can compare them on criteria such as schema standardization, storage and volume scaling, human interpretability, and support for failure attribution and audit, and then identify gaps. No new experiments are required, and the question is answerable from the published record.",
+ "empirical": false,
+ "candidate_parent": null,
+ "no_parent_reason": "This is a literature-review-only question that is not empirical, so no parent method paper is named.",
+ "status": "confirmed",
+ "confirmed_by": "the app user",
+ "confirmed_at": "2026-10-09T15:10:03Z"
+}

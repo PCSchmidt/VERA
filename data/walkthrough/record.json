@@ -1,0 +1,26 @@
+{
+  "person": "Chris Schmidt, the builder, acting as a user",
+  "independent_of_builder": false,
+  "setup": "Fresh clone of main at commit 29b7836 in C:\\Dev\\walkthrough\\VERA on the builder's Windows machine (folder created 13:58Z, environment created 15:05Z). NOT a pristine state: a .env with the builder's own keys (including extra paper-search keys) had been placed in the clone, so those search sources were active; the app also showed 'Key connected (this session)', so a key was pasted into the box. Docker and GROBID were running on the machine. An earlier attempt the same day was started from the development folder and does not count (it is kept as a rehearsal).",
+  "observer": "Claude (the builder's assistant), not present live: observed from the person's messages, one screenshot and the run's files.",
+  "coached": false,
+  "key_provided_by": "the person's own OpenRouter key (not the maintainer's TEST key); the person controls it",
+  "started_at": "2026-10-09T13:58:54Z",
+  "first_run_started_at": "2026-10-09T15:09:36Z",
+  "finished_at": "2026-10-09T15:20:25Z",
+  "run_id": "research-agentic-traces-and-their-vi-0svs",
+  "confusions": [
+    {"at": "not recorded", "where": "the look and feel of the whole app", "what": "Said in the person's words: the UI/UX 'is not really user friendly nor is it attractive to the eye'; unsure what exactly is wanted but definitely 'more attractive, more user friendly, have a clarity of purpose and ease of use'; 'a highly polished, uber professional, academic look comes to mind'.", "observer_helped": false},
+    {"at": "after the run", "where": "the review itself", "what": "Wanted it 'a little more detailed' and to 'offer some possible conclusions if that fits the question'; asked for it to also be served as a downloadable PDF file.", "observer_helped": false},
+    {"at": "from the screenshot, not said by the person", "where": "starting a run", "what": "The run name was generated from the topic and cut off mid-phrase ('how-well-do-agent-traces-record-soft-0kdg' in the rehearsal, 'research-agentic-traces-and-their-vi-0svs' here); the form never asked for one. Noted by the observer; the person did not mention it.", "observer_helped": false},
+    {"at": "from the screenshot, not said by the person", "where": "starting the server", "what": "uv printed a warning that another project's VIRTUAL_ENV (Diplomacy) does not match and is ignored. Harmless, but it appears whenever another environment is active. The person did not say whether it bothered them.", "observer_helped": false},
+    {"at": "found afterwards by the observer reading the review's text", "where": "the review's content", "what": "One sentence names a source ('R12') in plain text with no citation, and that source is not in the reference list: 'The two studies thus differ on trajectory length as a failure signal, although R4 examined three agents and R12 a much larger set.' It has no quote behind it and the audit did not catch it (green, 20 claims checked). The person did not notice it.", "observer_helped": false}
+  ],
+  "answers": {
+    "whose_money_and_how_they_know": "Mine. $0.14 in total; checked against the OpenRouter dashboard.",
+    "trusted_the_spend_display_and_why": "Yes, because it can be checked against the OpenRouter dashboard.",
+    "review_worth_reading_and_what_better": "'Seems okay.' Wants it a little more detailed, with some possible conclusions if that fits the question, and also available as a downloadable PDF.",
+    "what_would_stop_them_using_it": "Cannot say from one run whether they would start or stop using it. Comments: the UI is not user friendly or attractive; wants a highly polished, professional, academic look with clarity of purpose and ease of use."
+  },
+  "notes": "Cost $0.1414 (ledger, 187 records) of a $1.50 cap; the audit was green. The person confirmed the question as proposed (status 'confirmed', not edited) and said they 'agreed with the reframing' of their initial question. 10.8 minutes from starting the run to its finish. The person was not asked, and did not say, which sentences or source numbers they clicked in the review or what those showed (guide step 5), whether the uv warning bothered them, or how long the clone and install took (the folder was created at 13:58Z but the environment not until 15:05Z, so there was a gap of about an hour whose cause was not asked). The setup is weaker than a clean clone because of the pre-placed .env and because the builder is the user. Between the two attempts the assistant told the person to repeat the run in the clean clone and how to start it; no help was given during the run itself."
+}

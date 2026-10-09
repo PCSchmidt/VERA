@@ -1,0 +1,28 @@
+{
+  "run_id": "research-agentic-traces-and-their-vi-0svs",
+  "stop_reason": "completed",
+  "stage_reached": "none",
+  "stages_completed": [
+    "scope",
+    "retrieve",
+    "read",
+    "synthesize",
+    "parent"
+  ],
+  "artifacts": {
+    "scope": "artifacts/scope.json",
+    "retrieve": "artifacts/relevance.json",
+    "read": "artifacts/reading.json",
+    "synthesize": "artifacts/literature.json",
+    "parent": "parent.json"
+  },
+  "budget": {
+    "max_usd": 1.5,
+    "max_wall_seconds": 7200,
+    "max_model_calls": null,
+    "spent_usd": 0.14127080105900006,
+    "elapsed_seconds": 500,
+    "model_calls_used": 177
+  },
+  "timestamp": "2026-10-09T15:20:03+00:00"
+}
