@@ -113,7 +113,7 @@ second parent problem, and cost/quality against ScientistTwo on both
 Exit: two complete runs compared with ScientistTwo; an honest account of
 where the write-ups fall short of an academic paper.
 
-## Increment 5 — App: UI/UX and bring-your-own-key ← CURRENT
+## Increment 5 — App: UI/UX and bring-your-own-key — complete 2026-10-09 (MOE-4 not shown: the walkthrough was the builder)
 
 Scope, gates and caps proposed in SPEC.md (2026-10-06); `incr5_scoped` is Chris's approval of them.
 

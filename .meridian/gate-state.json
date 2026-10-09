@@ -23,6 +23,7 @@
     "incr3_scoped",
     "incr4_review",
     "incr4_scoped",
+    "incr5_review",
     "incr5_scoped",
     "inventory_verified",
     "judge_core_ready",
@@ -156,6 +157,10 @@
     "rubric5_scored": {
       "by": "Chris Schmidt",
       "at": "2026-10-09T17:06:07Z"
+    },
+    "incr5_review": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-09T17:11:36Z"
     }
   }
 }
