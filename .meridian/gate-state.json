@@ -38,6 +38,7 @@
     "problem2_ready",
     "protocol_ready",
     "retrieval_ready",
+    "rubric5_scored",
     "rubric_scored",
     "run_core_ready",
     "runs4",
@@ -151,6 +152,10 @@
     "newuser_walkthrough": {
       "by": "Chris Schmidt",
       "at": "2026-10-09T15:50:13Z"
+    },
+    "rubric5_scored": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-09T17:06:07Z"
     }
   }
 }

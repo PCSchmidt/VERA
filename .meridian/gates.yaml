@@ -750,7 +750,7 @@ gates:
 
   # ── Increment 5: the app, UI/UX and bring-your-own-key (SPEC.md) ───────────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
-  # Defined so far: incr5_scoped, carry5_ready, t8_decided, app_core_ready, key_safety_ready, ui_ready, newuser_walkthrough, rubric5_scored.
+  # Defined so far: incr5_scoped, carry5_ready, t8_decided, app_core_ready, key_safety_ready, ui_ready, newuser_walkthrough, rubric5_scored, incr5_review.
 
   - id: incr5_scoped
     label: "Increment 5 scope confirmed"
@@ -870,3 +870,19 @@ gates:
     hooks:
       pre:
         - gate-rubric5.sh           # a named human, blind, earlier than the independent scorer, not a copy
+
+  - id: incr5_review
+    label: "Increment 5 review"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 5 COMPLETE"
+    requires:
+      - rubric5_scored
+    requires_artifacts:
+      - docs/reviews/incr-5.md
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-traceability.sh
+        - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
+        - run-evaluator.sh          # independent Evaluator verdict on the review
