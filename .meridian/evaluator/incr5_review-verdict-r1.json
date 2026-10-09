@@ -1,0 +1,26 @@
+{"gate":"incr5_review","round":1,"score":6.0,"verdict":"fail",
+"dimensions":{"completeness":4,"quality":7,"consistency":8,"spec_adherence":5},
+"blockers":[
+"SPEC review section requires 'the T8 decision and its measured costs'. The review only lists t8_decided as passed; it never states what was decided (local only, no hosted demo, per SPEC decision 2) or any measured cost of the choice (first-start time, per-run cost, install steps).",
+"SPEC requires 'rubric scores of both scorers against Increment 4's'. The review gives no comparison with Increment 4 scores (tree-explain 4,3,2,5,5 and credal 3,2,2,5,5 per the SPEC; Increment 4 review scores); the SPEC's own overview supplies them."],
+"issues":[
+"Key-safety limits are thin: the 'limits' half of 'key-safety evidence and its limits' is absent (what the adversarial test cannot cover, e.g. browser, OS process memory, logs of a provider, a key pasted into the page). The sentence 'I confirmed the test fails when the redaction is removed' is not verifiable from the repository.",
+"Walkthrough confusions are not mapped one by one to 'what the app does about each' as the SPEC asks; run-name truncation is said to be addressed by the redesign (unverified by user), the uv warning has no stated response, the conclusions request is unbuilt.",
+"Model economics (standing review item) appears only as a one-line carry-in; no per-model or per-run cost comparison is given.",
+"'688 tests pass' is not verifiable: the repo has ~493 test functions (parametrization may account for some), and the review gives no run record. The 26 tests I ran passed, nothing more.",
+"Unresolved internal inconsistency admitted but not investigated: audit reports 20/22 claims checked while claims.jsonl holds 10/13/11 entries (I confirmed W1 has 10). The review's own numbers for 'claims' therefore rest on an unexplained gap.",
+"Rehearsal spend of $0.135 is stated as part of the $1.06 total but its ledger is not in the repository, so that portion cannot be checked; the total is 0.615+0.197+0.112 = 0.924 verifiable plus 0.135 unverifiable.",
+"Outcome item 6 describes the independent scorer's findings as 'verified' for two items by the reviewer; only the Tracezip quote could be checked by me (quote matches, 'sampling' absent). The 'R1 inaccuracy about CLM paper' and R2 qualifiers are admittedly unverified, good, but they sit in the headline as findings.",
+"Same-model overlap: the independent scorer being Claude, same family as the writer and the author of this review's rubric example note, is stated, but Chris's R1 first entry copying W1 and a note copied from the author's example command suggests model-assisted scoring; the review says 'I do not know' and still uses the scores as the human column of the headline means (4.27).",
+"Walkthrough 'folder created 13:58Z, environment 15:05Z' gap is flagged but the record's confusions are mostly observer-derived (3 of 5 not said by the user); the review headline does not say so."],
+"verified":[
+"Spend: rlm-vs-clm 0.0073+0.1849+0.0052=0.1974 (review 0.197); agent-traces 0.1117 (0.112); retest5 0.615 (750 records); verifiable sum 0.924, with 0.135 rehearsal = 1.059 (review 1.06)",
+"Judge re-test: 150 items, 150/150, CI 0.975-1.0, real 14 / perturbed 136 (split.json real_new_items 14)",
+"Second source recall: 34 (59%) -> 37 (64%) of 58, +1 on three topics, 0 elsewhere",
+"Rubric table: every Chris and evaluator cell matches the JSON; 2 of 15 equal; Chris >= evaluator in all cells; means 4.267 vs 2.933; entry history (5 Chris entries, format example 1 2 3 4 5, R1 first entry copies W1) matches",
+"Walkthrough record.json: independent_of_builder false, $0.1414, 10.8 min, 5 confusions, commit 29b7836; 6 full text / 33 abstract / 39 kept / 120 retrieved in literature.md; W1 claims.jsonl 10 entries",
+"Gates: incr5_scoped, t8_decided, carry5_ready, app_core_ready, key_safety_ready, ui_ready, newuser_walkthrough present; rubric5_scored and incr5_review absent",
+"Frozen files: git diff 73858c8 empty; check_carry5.py OK, audit files unchanged (69890a43f1fc); check_dogfood.py OK; check_newuser.py OK",
+"Tests: 26 passed in app_core/app_server/check_rubric5; tests for R12 sentence removal (test_synthesis) and year 'Apri' (test_expansion) exist",
+"Exit-criterion table: MOE-4 Not shown, experiments Not met, attractive UI Not demonstrated; honest against SPEC and docs/07"],
+"notes":"Numbers and honesty are strong; fails on missing SPEC-mandated content (T8 decision and measured costs, Increment 4 rubric comparison). Fix those two, add key-safety limits, drop or substantiate the 688 count, and expect pass."}

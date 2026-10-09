@@ -17,7 +17,7 @@ started from the app. In order of how much each statement should be trusted:
    a garbled year from the PDF parser (`"Apri"`) crashed the snowball step (fixed; resume restarted from the checkpoint without repeating paid work).
 2. **Bring-your-own-key is enforced and tested.** The key is held in server memory, validated by one OpenRouter call, passed to the worker through
    its environment, and appears in no file, status, error message or process argument in an adversarial test in which the provider echoes the key
-   back in its error, and a second test removes the redaction and shows the same run then puts the key in the log (so the first test is not vacuous). What this does not cover is listed under "Key safety". The server answers only on this computer and refuses cross-origin requests.
+   back in its error (a mocked provider transport, not a live one), and a second test removes the redaction and shows the same run then puts the key in the log (so the first test is not vacuous). What this does not cover is listed under "Key safety". The server answers only on this computer and refuses cross-origin requests.
 3. **The walkthrough was done by the builder, so it does not show MOE-4.** It was a fresh clone at commit 29b7836 with a finished run in 10.8
    minutes for $0.141 of a $1.50 cap, a green audit, and the user's own key. Chris said he cannot tell from one run whether he would keep using it,
    that the interface is "not really user friendly nor attractive", and that he wants a "highly polished, uber professional, academic look", a
@@ -145,7 +145,7 @@ against $0.049) is not re-measured. The app takes its model from a setting (`VER
 ## Rubric scores (both scorers)
 
 Three outputs, all literature reviews produced through the app: **W1** (the walkthrough's agentic-traces review), **R1** (the RLM and CLM review) and **R2** (the first agent-traces
-review, from the rehearsal). Scores are answers the question / coverage / correctness / reproducibility / honesty, 1 to 5 (`docs/results/rubric_sheet_5.md`). Chris scored first and blind, in
+review, run from the development folder; not the clean-clone rehearsal, which was a different run on conformal prediction and was not scored). Scores are answers the question / coverage / correctness / reproducibility / honesty, 1 to 5 (`docs/results/rubric_sheet_5.md`). Chris scored first and blind, in
 his own terminal; the independent scorer is a fresh Claude agent given the same sheet and files, told not to open Chris's file, which ran afterwards.
 
 | Output | Chris (blind) | Independent scorer |
@@ -168,7 +168,7 @@ are honest about their limits (4 to 5).
 | Increment 5 reviews (W1, R1, R2, n = 3) | 4.00 / 4.00 / 4.33 / 4.00 / 5.00, overall 4.27 | 2.67 / 2.00 / 3.33 / 3.00 / 3.67, overall 2.93 |
 
 Chris's overall mean on reviews rose from 3.80 to 4.27 and his coverage mean from 2.5 to 4.0; the independent scorer's fell from 3.30 to 2.93 and its coverage mean from 2.5 to 2.0. **The sets are not comparable** (different topics, three reviews against six,
-different retrieval, and in Increment 4 Chris scored with each topic's key-paper list and its recall in front of him, while these three topics have no key list). The two scorers moving in opposite directions is itself the finding: this increment gives no
+different retrieval, and in Increment 4 the scoring sheet pointed the scorer to each topic's key-paper list and recall table, while these three topics have no key list; the Increment 4 human scores also carried the provenance caveat recorded in `incr-4.md`). The two scorers moving in opposite directions is itself the finding: this increment gives no
 evidence that review quality improved. Dropping W1, whose final note is the example text, Chris's mean on R1 and R2 is 4.4 against the independent scorer's 2.9.
 
 **The independent scorer's specific findings, each from reading claims against quotes (model output; I verified the Tracezip claim, the uncited sentence, the pipeline wording and the two CLM-paper points against the files and the paper's text; the rest are the scorer's reading):**
@@ -193,7 +193,7 @@ real one in that review); R1's "Answers the questions"; R2's "Answers the questi
 ## Judge and review checks; spend; overhead; same-model overlap
 
 - **Spend, maintainer's key.** By the ledgers written since Increment 4 closed: the judge re-test $0.615; the app's live runs $0.309 (the RLM and CLM topic's three
-  attempts $0.197, the first agent-traces run $0.112); the clean-clone rehearsal $0.135 (in a scratch clone; its ledger is not in the repository). About **$1.06** (ledgers: `data/ledger/` for the judge re-test and live runs, `data/app/live/rehearsal-1/ledger.jsonl` for the rehearsal) against
+  attempts $0.197, the first agent-traces run $0.112); the clean-clone rehearsal $0.135 (its ledger and review are in `data/app/live/rehearsal-1/`). About **$1.06** (ledgers: `data/ledger/` for the judge re-test and live runs, `data/app/live/rehearsal-1/ledger.jsonl` for the rehearsal) against
   the $5 cap and its sub-caps ($1 debugging, $3 end-to-end, $1.50 judge and second-source): the judge re-test is inside its $1.50. The Semantic Scholar queries cost nothing.
   The walkthrough run's $0.141 was spent on Chris's own key and is not counted. The independent scorer's work is a subagent and has no ledger of its own.
 - **Overhead.** Chris reported 3 hours for 2026-10-07 and 2026-10-09 together; one entry (recorded 2026-10-09) credits both days by the named-day rule from Increment 4,
@@ -232,3 +232,9 @@ functions); the unexplained difference between "claims checked" and the number o
 an example counted without comment; and three of five confusions being the observer's, not the user's. Everything it verified held (spend, the judge and recall figures, the rubric cells and means, the walkthrough record, the gates, the unchanged
 audit files, the fixes' tests). Verdict kept in `incr5_review-verdict-r1.json`. After it, each point was addressed in the text above or backed by a file (the T8 section, the Increment 4 comparison, the key-safety limits, the confusions table,
 model economics, the claim-count explanation, `docs/results/incr5_test_run.txt`, `data/app/live/rehearsal-1/`, and a test that removes the redaction and shows the leak).
+
+**Round 2** (pass, 7.8; completeness 8, quality 8, consistency 7, spec adherence 8): no blockers; every round 1 blocker resolved (the T8 decision and costs, the Increment 4 comparison) and the rest resolved or partly resolved. It verified the
+ledger sums and the $1.06 total, the rubric means and the new comparison table, the claim-count reconciliation, 689 tests collected, the new leak-test counterpart, the unchanged audit files, and the gates. Remaining points (none blocking), fixed in the
+text after the round: the word "rehearsal" named two different runs (R2 is the development-folder run, the rehearsal is a separate unscored run); a stale sentence said the rehearsal ledger was not in the repository; the test record was a summary
+with an old commit (it is now the captured output of a full run); the Increment 4 provenance claim could not be found in its sheet (the sentence now says only what the sheet shows); and "tested" for key safety did not say "mocked" until later (now
+in the same sentence). Verdict: `incr5_review-verdict-r2.json` and the standing `incr5_review-verdict.json`.

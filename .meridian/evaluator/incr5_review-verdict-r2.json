@@ -1,0 +1,28 @@
+{"gate":"incr5_review","round":2,"score":7.8,"verdict":"pass",
+"dimensions":{"completeness":8,"quality":8,"consistency":7,"spec_adherence":8},
+"round1_points":[
+{"point":"Blocker: T8 decision and measured costs","status":"resolved","evidence":"New section 'T8 decided' states local only, no hosted demo, reverse-ifs untested, hosting not measured. Costs match ledgers: rehearsal-1 0.1351, walkthrough 0.1414, agent-traces 0.1117, rlm-vs-clm-2 0.1849. Install 2 s clone, 8 s sync, first start slower than 8 s all in docs/results/walkthrough_preflight.md; 7.5 min and $0.135 there too; ~15 min for RLM = 9 min + 6 min in app_live_run_1.md."},
+{"point":"Blocker: both scorers vs Increment 4","status":"resolved","evidence":"Recomputed latest-per-output means: Chris L1-L6 3.67/2.50/3.83/4.00/5.00 (3.80), P 3.50/2.50/2.00/5.00/5.00 (3.60), I5 4.00/4.00/4.33/4.00/5.00 (4.27); evaluator L 2.50/2.50/3.83/3.83/3.83 (3.30), P 2.50/2.50/4.00/3.50/4.50 (3.40), I5 2.67/2.00/3.33/3.00/3.67 (2.93). All match. R1+R2 only: 4.4 vs 2.9 correct. Non-comparability stated."},
+{"point":"Key-safety limits","status":"resolved","evidence":"Honest 'not covered' list (same-user process memory, swap, provider receives key, exact-string redaction, mocked transport, password manager, .env fallback, one OS). Teeth test test_APP_C_02_the_leak_test_has_teeth exists, monkeypatches redact out and asserts KEY in run text; tests/test_app_secrets.py 5 passed."},
+{"point":"Confusions mapped to app response","status":"resolved","evidence":"Table with who raised, response, seen-by-user. uv warning honestly 'Nothing' (README has no mention); conclusions not built; observer-vs-user split (2 Chris, 3 observer) matches record.json."},
+{"point":"Model economics one-liner","status":"resolved","evidence":"Section restates T9 reverse-ifs, says price lists/newer models were NOT re-checked and GLM-only cost not re-measured. Thin but candid; no per-model comparison made this increment, and it says so."},
+{"point":"688 tests unverifiable","status":"partly","evidence":"pytest --collect-only gives 689 collected, matching the review; parametrization explains vs function count. But docs/results/incr5_test_run.txt is 4 hand-written lines, not captured pytest output, and names HEAD d07101f while HEAD is now 6457688. 688 passed is plausible, not independently evidenced."},
+{"point":"Claims checked vs claims.jsonl gap","status":"resolved","evidence":"claims.jsonl 10/13/11 plus reference lists 10/9/9 = 20/22/20 = audit 'Claims checked' for W1/R1/R2. Verified."},
+{"point":"Rehearsal ledger not in repo","status":"resolved","evidence":"data/app/live/rehearsal-1/ledger.jsonl sums 0.13505; total 0.615+0.197+0.112+0.135 = 1.059. But the spend bullet still says 'its ledger is not in the repository', contradicting itself."},
+{"point":"Scorer findings presented as verified","status":"resolved","evidence":"Headline item 6 now says 'found by independent scorer' and the findings list separates what the reviewer verified from the scorer's reading. R1 retrieved.jsonl gap disclosed."},
+{"point":"Chris's scores that repeated example text","status":"partly","evidence":"Provenance section lists all five entries, the example text and the I-do-not-know-about-model-help caveat; means still used. Reasonable, but the Increment 4 comparison omits that Increment 4 Chris scores were also model-assisted (incr-4.md line 143)."},
+{"point":"Observer-derived confusions","status":"resolved","evidence":"Headline item 3 now says 2 of 5 were Chris's."}],
+"blockers":[],
+"issues":[
+"Inconsistency: rubric section calls R2 'the first agent-traces review, from the rehearsal', while 'rehearsal' elsewhere means the clean-clone rehearsal-1 (conformal prediction topic, not scored). rubric_sheet_5.md calls R2 'the rehearsal from the development folder'. Two different rehearsals share one word.",
+"Spend bullet says rehearsal ledger 'is not in the repository' then cites its path; stale sentence from the pre-revision text.",
+"incr5_test_run.txt is a summary, not a pytest log, and cites a stale HEAD; the 688 pass count rests on the author's word.",
+"Increment 4 comparison omits that Increment 4 Chris scores were partly Codex-assisted, and the claim that Chris saw key-paper lists when scoring Increment 4 was not located in the sheets I checked (rubric_sheet_4 points to the lists; plausible).",
+"Model economics section is mostly a restatement; no new measurement.",
+"Review is unflattering but long; Outcome item 2 asserts 'tested' for key safety while the provider-echo test uses a mocked transport (disclosed later)."],
+"verified":[
+"Rubric means, R1+R2 4.4 vs 2.9, claim-count reconciliation, ledger sums (0.1351/0.1117/0.1849/0.1414), 1.059 total, 689 collected, test_app_secrets 5 passed incl. teeth test",
+"git diff 73858c8 --stat on the frozen audit/literature/loop files is empty",
+"gate-state: incr5_scoped, t8_decided, carry5_ready, app_core_ready, key_safety_ready, ui_ready, newuser_walkthrough present; rubric5_scored and incr5_review absent",
+"README has no uv-warning mention, matching the 'Nothing' claim"],
+"notes":"Both r1 blockers resolved with checkable evidence; numbers independently reproduced. Remaining defects are wording/consistency and a non-raw test record. Pass."}
