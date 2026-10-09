@@ -1,0 +1,11 @@
+{
+ "topic_id": "how-well-do-agent-traces-record-soft-0kdg",
+ "question": "What does the published literature and public documentation of major coding-agent harnesses (e.g., SWE-agent, OpenHands, Claude Code, Aider, Codex CLI) show about how their traces represent software development progress (e.g., edits, test results, task state, commit history), how trace formats and logging granularity differ across harnesses, and to what extent traces are reported to be stored and mined using vector databases versus other approaches such as structured logs, relational stores, or observability platforms?",
+ "why_researchable": "A literature review can answer this by surveying agent papers, harness documentation and open-source trace schemas (e.g., SWE-agent trajectories, OpenHands event streams, OpenTelemetry GenAI conventions, LangSmith/Langfuse formats), and work on trajectory analysis and agent memory (e.g., trajectory mining and retrieval-augmented memory papers). The sources are public, allow systematic comparison along dimensions such as granularity, state capture, and storage/retrieval method, and support a best-practices and state-of-the-art synthesis. The vector-database claim can be assessed by checking how often retrieval over traces is reported versus other storage approaches.",
+ "empirical": false,
+ "candidate_parent": null,
+ "no_parent_reason": null,
+ "status": "confirmed",
+ "confirmed_by": "the app user",
+ "confirmed_at": "2026-10-09T14:16:27Z"
+}

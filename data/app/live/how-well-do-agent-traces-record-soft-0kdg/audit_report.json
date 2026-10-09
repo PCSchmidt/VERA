@@ -1,0 +1,20 @@
+{
+ "paper_id": "how-well-do-agent-traces-record-soft-0kdg",
+ "paper_source": "literature.md",
+ "repo": null,
+ "findings": [],
+ "overall": "green",
+ "checks_run": [
+  "citation",
+  "claim_support"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.000169100226,
+ "wall_seconds": 23,
+ "schema_version": "0.11"
+}

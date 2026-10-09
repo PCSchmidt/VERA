@@ -1,0 +1,14 @@
+{
+ "run_id": "how-well-do-agent-traces-record-soft-0kdg",
+ "topic": "How well do agent traces record software development progress? How does this differ among agent harnesses? Are agent traces typically stored in vector databases in order to mine them for information?",
+ "guidance": {
+  "format": "paper",
+  "max_words": 1500,
+  "required_sections": [],
+  "emphasis": "This should be a research paper of best practices and SoTA for this area of interest.",
+  "constraints": []
+ },
+ "max_usd": 2.0,
+ "max_wall_seconds": 7200,
+ "allow_experiments": false
+}

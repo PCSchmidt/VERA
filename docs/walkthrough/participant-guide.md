@@ -1,3 +1,5 @@
+her 
+
 # Trying VERA: a guide for you
 
 Thank you for trying this. You are testing the software, not being tested. If something confuses you, that is the most useful thing you can
