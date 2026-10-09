@@ -428,7 +428,7 @@ Keep each to one short section. Status: **open** until decided.
   (more full texts, longer sources), or a bring-your-own-key user's model prices make input cost more than $0.50
   per topic, then build and measure the arm first on the synthesis stage.
 
-## T8 â€” App delivery and bring-your-own-key (proposed 2026-10-07, Increment 5; decided when Chris approves `t8_decided`)
+## T8 — App delivery and bring-your-own-key (decided, Increment 5: local app only)
 
 - **Options:** (a) local app: the user runs VERA on their own machine with
   a web UI on localhost and their key in their own environment; (b) hosted
