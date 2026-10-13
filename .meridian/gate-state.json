@@ -1,6 +1,7 @@
 {
   "passed_gates": [
     "app_core_ready",
+    "app_paper_ready",
     "audit3_ready",
     "audit4_ready",
     "audit_ready",
@@ -13,6 +14,7 @@
     "confirmed",
     "corpus_fetched",
     "design_trades_decided",
+    "evidence_ready",
     "graph_ready",
     "incr0_review",
     "incr1_review",
@@ -25,6 +27,10 @@
     "incr4_scoped",
     "incr5_review",
     "incr5_scoped",
+    "incr6_review",
+    "incr6_scoped",
+    "inference_measured",
+    "inference_set_frozen",
     "inventory_verified",
     "judge_core_ready",
     "judge_retest",
@@ -35,11 +41,14 @@
     "literature_ready",
     "loop_run",
     "newuser_walkthrough",
+    "paper_demo",
+    "paper_stage_ready",
     "parser_decided",
     "problem2_ready",
     "protocol_ready",
     "retrieval_ready",
     "rubric5_scored",
+    "rubric6_scored",
     "rubric_scored",
     "run_core_ready",
     "runs4",
@@ -161,6 +170,22 @@
     "incr5_review": {
       "by": "Chris Schmidt",
       "at": "2026-10-09T17:11:36Z"
+    },
+    "incr6_scoped": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-11T12:12:05Z"
+    },
+    "paper_demo": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-12T12:38:19Z"
+    },
+    "rubric6_scored": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-12T19:15:49Z"
+    },
+    "incr6_review": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-12T21:13:48Z"
     }
   }
 }

@@ -1,0 +1,53 @@
+{
+ "by": "Chris",
+ "entries": [
+  {
+   "output": "P3",
+   "at": "2026-10-12T19:03:01Z",
+   "blind": true,
+   "prefer": "paper",
+   "helped_by": null,
+   "note": "Clear mechanism comparison, but the central CLM evidence and production-coding comparisons remain thin in the supplied record.",
+   "scores": {
+    "answers_question": 4,
+    "coverage": 3,
+    "correctness": 3,
+    "reproducibility": 4,
+    "honesty": 5,
+    "interpretation_follows": 4
+   }
+  },
+  {
+   "output": "P2",
+   "at": "2026-10-12T19:03:01Z",
+   "blind": true,
+   "prefer": "paper",
+   "helped_by": null,
+   "note": "Strong answer with clear boundaries and limits; some uncited synthesis sentences keep correctness short of excellent.",
+   "scores": {
+    "answers_question": 5,
+    "coverage": 4,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 5,
+    "interpretation_follows": 4
+   }
+  },
+  {
+   "output": "P1",
+   "at": "2026-10-12T19:03:11Z",
+   "blind": true,
+   "prefer": "paper",
+   "helped_by": "ChatGPT external review",
+   "note": "Useful structured synthesis, but unsupported comparative sentences and some interpretation overreach lower correctness.",
+   "scores": {
+    "answers_question": 4,
+    "coverage": 3,
+    "correctness": 3,
+    "reproducibility": 4,
+    "honesty": 5,
+    "interpretation_follows": 3
+   }
+  }
+ ]
+}

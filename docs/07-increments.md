@@ -129,9 +129,28 @@ defects that tests had not. T8 decided (local only); a static read-only showcase
 demonstrably improve (the blind human scores averaged 4.27 over three reviews, the independent scorer's 2.93), and the independent scorer found defects in reviews that had passed a green audit.
 Experiments are not started from the app. The review passed the Evaluator on round 2 (7.8).
 
-## Increment 6 — Optional: P1 on external papers
+## Increment 6 — From a review to a paper (scoped 2026-10-11; complete 2026-10-12)
+
+Scope, gates and caps proposed in SPEC.md (2026-10-11); `incr6_scoped` is Chris's approval of them.
+
+A "Make a paper from this review" button on a finished review: the paper stage widens the evidence (more papers read in
+full, more passages per paper; no new search), writes a review paper (abstract, introduction, method from the run's
+files, findings by theme with every claim quoted, threats to validity), and adds labelled interpretation sections
+(discussion, conclusions, research agenda) whose every statement names the verified claims it rests on and is judged by
+a component other than its writer to follow from them (decided by Chris 2026-10-11). The audit says what a green light
+covers on a paper; the inference check is measured on a seeded set frozen before its test run. No frozen audit file is
+changed.
+Exit: three papers made through the app from real reviews within their caps, each audited; the inference check's
+detection and false-positive rates reported; both scorers' blind scores for each paper beside its review.
+
+Result (docs/reviews/incr-6.md): three papers made through the app by Chris with his own key ($0.53 to $0.77 each, all green); both scorers
+preferred the paper to its review in five of six judgements (independent mean 3.17, Chris 3.94). The inference check caught 48 of 48 planted
+faults, but the faults were blatant and written by the check's author; in the live papers the external review and the independent scorer found
+cited claims saying more than their quotes, wrong uncited synthesis and overreaching interpretation under green audits. No frozen file changed.
+
+## Increment 7 — Optional: P1 on external papers (was Increment 6 until 2026-10-11)
 
 The auditor on other people's papers: PDF ingest, claim extraction,
 leakage checks, re-runs, seeded-fault dev/test sets, a batch audit of the
 ScientistTwo corpus, and the portfolio papers (judge benchmark; independent
-audit of an AI-generated corpus). Increments 2-5 are done; whether to take it up, or an independent walkthrough, a labelled synthesis section or experiments in the app first, is the owner's decision (candidates in docs/reviews/incr-5.md).
+audit of an AI-generated corpus). Increments 2-5 are done; the labelled synthesis section became Increment 6 (Chris, 2026-10-11). Whether to take this up, or an independent walkthrough or experiments in the app first, is the owner's decision (candidates in docs/reviews/incr-5.md).

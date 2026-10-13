@@ -22,11 +22,13 @@ from vera.judge.cheap_path import cheap_path
 from vera.ledger import Ledger
 from vera.literature import scoping
 from vera.literature.deps import LitDeps
-from vera.literature.graph import STAGE_NODES, _graph, continue_topic_run, rerun_from, start_topic_run
+from vera.literature.graph import STAGE_NODES, _graph, continue_topic_run, extend_run, rerun_from, start_topic_run
+from vera.literature.paper_interpret import INTERPRET_NODES
+from vera.literature.paper_stage import PAPER_NODES
 from vera.literature.parent import RepoLookup
 from vera.literature.reading import GrobidParser, ParseCache, PdfFetcher
 from vera.literature.retrieval import HttpCache, Retriever
-from vera.schemas import Budget, RunRequest, RunSpec, Topic
+from vera.schemas import Budget, PaperRequest, RunRequest, RunSpec, Topic
 
 DEFAULT_MODEL = (
     "sonnet",
@@ -106,6 +108,37 @@ def run_phase(deps: LitDeps, phase: str) -> dict:
     raise ValueError(f"unknown phase {phase!r}")
 
 
+def paper_nodes() -> list:
+    """The review's nodes followed by the paper's: the graph a paper is made (and resumed) in."""
+    return [*STAGE_NODES, *PAPER_NODES, *INTERPRET_NODES]
+
+
+def run_paper(deps: LitDeps, request: PaperRequest) -> dict:
+    """Make a review paper from this finished review (RSH-F-12, APP-F-04): the paper's nodes run after the review's last
+    node, in the same run, ledger and checkpoints, so nothing the review did is repeated. The paper's cap is its own:
+    the run may spend at most `request.max_usd` more than its ledger shows now."""
+    spent = sum(r.cost_usd for r in deps.ledger.records()) if deps.ledger is not None else deps.budget.spent_usd
+    budget = deps.spec.budget.model_copy(update={"max_usd": spent + request.max_usd})
+    deps.spec = deps.spec.model_copy(update={"budget": budget})
+    deps.extra["paper_request"] = request
+    return extend_run(deps, STAGE_NODES[-1][0], extra_nodes=paper_nodes())
+
+
+def resume_paper(deps: LitDeps, request: PaperRequest, spent_before: float) -> dict:
+    """Resume a stopped paper from its last checkpoint, with the same cap it was started with."""
+    budget = deps.spec.budget.model_copy(update={"max_usd": spent_before + request.max_usd})
+    deps.spec = deps.spec.model_copy(update={"budget": budget})
+    deps.extra["paper_request"] = request
+    (deps.run_dir / STOP_FILE).unlink(missing_ok=True)
+    graph = _graph(deps, paper_nodes())
+    names = {n for n, _, _ in [*PAPER_NODES, *INTERPRET_NODES]}
+    node = next((s.next[0] for s in graph.get_state_history(run_config(deps.spec.run_id))
+                 if len(s.next) == 1 and s.next[0] in names), None)  # fmt: skip
+    if node is None:
+        raise LookupError("no checkpoint of this paper stands before one of its stages")
+    return rerun_from(deps, node, extra_nodes=paper_nodes())
+
+
 MIN_CONFIDENCE = 0.7
 
 
@@ -136,6 +169,49 @@ def run_audit(deps: LitDeps, judge: Any = None) -> str:
     )
     (run_dir / "audit.md").write_text(audit.render_markdown(run), encoding="utf-8")
     return run.report.overall
+
+
+def run_paper_audit(deps: LitDeps, judge: Any = None) -> str:
+    """The paper's audit (AUD-F-11): the frozen literature audit on the paper's text, claims and wider passages, then
+    every kept interpretation statement re-checked (`vera.audit.inference`). Writes `paper/audit.md` and
+    `paper/audit_report.json`; returns the light. The evidence sections' producer is `p3.paper.write` and the
+    interpretation's `p3.paper.interpret`; neither judges its own text. Charged to the run's own budget."""
+    from vera.audit import inference, overall_of  # noqa: PLC0415 - only papers need these
+
+    run_dir, out = deps.run_dir, deps.run_dir / "paper"
+    judge = judge or cheap_path(ledger=deps.ledger, budget=deps.budget)
+
+    def asker(producer: str):
+        def ask(question, material):
+            (verdict,) = judge.ask(material, [question])
+            verdict = verdict.model_copy(update={"producer_id": producer})
+            return verdict, verdict.confidence_source != "none" and verdict.confidence >= MIN_CONFIDENCE
+
+        return ask
+
+    run = audit.run_literature_audit(
+        (out / "paper.md").read_text(encoding="utf-8"), _jsonl(out / "claims.jsonl"), _jsonl(out / "passages.jsonl"),
+        _jsonl(run_dir / "retrieved.jsonl"), ask=asker("p3.paper.write"), paper_id=f"{deps.spec.run_id} (paper)",
+        paper_source="paper/paper.md",
+    )  # fmt: skip
+    doc = json.loads((out / "paper.json").read_text(encoding="utf-8"))
+    records = {r["key"]: r for r in _jsonl(run_dir / "retrieved.jsonl")}
+    claims = {c["id"]: f"{c['claim']} (source: {records[c['source_key']]['title']})" for c in doc["claims"]}
+    extra = inference.audit(doc["inferences"], claims, asker("p3.paper.interpret"))
+    findings = [*run.report.findings, *extra]
+    report = run.report.model_copy(update={"findings": findings, "overall": overall_of(findings),
+                                           "checks_run": [*run.report.checks_run, "inference"]})  # fmt: skip
+    run = audit.AuditRun(report, run.claims)
+    (out / "audit_report.json").write_text(
+        json.dumps(report.model_dump(mode="json"), indent=1, ensure_ascii=False), encoding="utf-8"
+    )
+    n_kept = sum(1 for i in doc["inferences"] if i["status"] == "pass")
+    note = (
+        f"\nInterpretation statements re-checked: {n_kept} (judged to follow from the claims they name; "
+        "not checked against quotes).\n"
+    )
+    (out / "audit.md").write_text(audit.render_markdown(run) + note, encoding="utf-8")
+    return report.overall
 
 
 def confirm(run_dir: Path, question: str | None, who: str = "the app user") -> Any:

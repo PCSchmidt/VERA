@@ -74,6 +74,7 @@ class SourceRecord(BaseModel):
 
 
 class ClaimLink(BaseModel):
+    id: str | None = None  # 0.12: "C1", "C2", ... in reading order in a paper; interpretation cites these
     claim: str
     source_key: str
     quote: str = Field(min_length=1)  # a verbatim (normalised) span of the source's text

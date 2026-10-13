@@ -1,0 +1,30 @@
+{
+ "title": "Recursive and Context-Centric Language Models: Mechanisms, Evidence on Quality and Cost, and Open Questions for Production Coding",
+ "themes": [
+  {
+   "heading": "Externalized context and recursive decomposition in RLMs",
+   "focus": "recursive language models external environment REPL sandbox programmatic decomposition long prompt variable weights"
+  },
+  {
+   "heading": "Context-centric models: compression, memory and context management",
+   "focus": "context compression memory slots autoencoder gist tokens summarization evidence Cartridges MemGPT context file updates"
+  },
+  {
+   "heading": "Mechanistic overlap and differences between RLMs and CLMs",
+   "focus": "externalized context model-managed context weights parameters modification fresh inference decomposition compress-then-reason self-study training"
+  },
+  {
+   "heading": "Output quality: gains, caveats and degradation with long context",
+   "focus": "performance recursion depth overthinking reproduction verification context rot long context degradation reasoning benchmark accuracy"
+  },
+  {
+   "heading": "Cost efficiency: token reduction versus billed cost",
+   "focus": "tokens cost memory compression latency billed cost coding agents patch SWE-bench efficiency inference"
+  },
+  {
+   "heading": "Production coding, trace reuse and evidence gaps",
+   "focus": "production coding repository codebase agentic tool calls execution traces intermediate artifacts inspect reuse head-to-head absent"
+  }
+ ],
+ "dropped": []
+}

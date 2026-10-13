@@ -1,0 +1,506 @@
+{
+ "split": "dev",
+ "run_at": "2026-10-11T13:17:09+00:00",
+ "summary": {
+  "per_type": {
+   "control": {
+    "k": 0,
+    "n": 6,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.39
+    ]
+   },
+   "reversed": {
+    "k": 6,
+    "n": 6,
+    "rate": 1.0,
+    "ci95": [
+     0.61,
+     1.0
+    ]
+   },
+   "overstated": {
+    "k": 6,
+    "n": 6,
+    "rate": 1.0,
+    "ci95": [
+     0.61,
+     1.0
+    ]
+   },
+   "new_fact": {
+    "k": 6,
+    "n": 6,
+    "rate": 1.0,
+    "ci95": [
+     0.61,
+     1.0
+    ]
+   },
+   "irrelevant_premise": {
+    "k": 6,
+    "n": 6,
+    "rate": 1.0,
+    "ci95": [
+     0.61,
+     1.0
+    ]
+   },
+   "named_source": {
+    "k": 3,
+    "n": 3,
+    "rate": 1.0,
+    "ci95": [
+     0.438,
+     1.0
+    ]
+   },
+   "unsupported_number": {
+    "k": 3,
+    "n": 3,
+    "rate": 1.0,
+    "ci95": [
+     0.438,
+     1.0
+    ]
+   }
+  },
+  "false_positive_on_controls": {
+   "k": 0,
+   "n": 6,
+   "rate": 0.0,
+   "ci95": [
+    0.0,
+    0.39
+   ]
+  },
+  "judge_layer_detection": {
+   "k": 24,
+   "n": 24,
+   "rate": 1.0,
+   "ci95": [
+    0.862,
+    1.0
+   ]
+  },
+  "judge_layer_caught_by_rules": 1,
+  "rules_layer_detection": {
+   "k": 6,
+   "n": 6,
+   "rate": 1.0,
+   "ci95": [
+    0.61,
+    1.0
+   ]
+  },
+  "unsure": 0
+ },
+ "spend_usd": 0.0006057599999999999,
+ "ledger": "data/ledger/inference_incr6_dev.jsonl",
+ "test_sha256": "534c800df3d19cabb81ad005286b48f6d72aaf8f7aac5e207f6f967f285707dd",
+ "check_sha256": {
+  "vera/audit/inference.py": "90aac0aba185ad6c9ae47946975badfe1bfdc5dccfcd4b81cddb3650ebc75c06",
+  "vera/literature/synthesis.py": "104981efce2ec88839753b027474c509bfca2ed4771ea6ec74bcf53e9a083f8b",
+  "vera/literature/anchoring.py": "7cf3fe5bdf43989c5d8d5f20cf1c6fc2f5e3671550ab09a0f745317146f1a6f4"
+ },
+ "rows": [
+  {
+   "id": "conformal-shift-1-control",
+   "type": "control",
+   "label": "follows",
+   "layer": "both",
+   "caught": false,
+   "reason": null,
+   "judge_answer": true,
+   "confidence": 0.8,
+   "backend": "glm-flash"
+  },
+  {
+   "id": "conformal-shift-1-reversed",
+   "type": "reversed",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.96,
+   "backend": "jev"
+  },
+  {
+   "id": "conformal-shift-1-overstated",
+   "type": "overstated",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.96,
+   "backend": "jev"
+  },
+  {
+   "id": "conformal-shift-1-new_fact",
+   "type": "new_fact",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.81,
+   "backend": "jev"
+  },
+  {
+   "id": "conformal-shift-1-irrelevant_premise",
+   "type": "irrelevant_premise",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.97,
+   "backend": "jev"
+  },
+  {
+   "id": "conformal-shift-1-named_source",
+   "type": "named_source",
+   "label": "fault",
+   "layer": "rules",
+   "caught": true,
+   "reason": "names SciGraph, which none of its premises names",
+   "judge_answer": null,
+   "confidence": null,
+   "backend": null
+  },
+  {
+   "id": "conformal-shift-1-unsupported_number",
+   "type": "unsupported_number",
+   "label": "fault",
+   "layer": "rules",
+   "caught": true,
+   "reason": "states 37, 50, which none of its premises states",
+   "judge_answer": null,
+   "confidence": null,
+   "backend": null
+  },
+  {
+   "id": "conformal-shift-2-control",
+   "type": "control",
+   "label": "follows",
+   "layer": "both",
+   "caught": false,
+   "reason": null,
+   "judge_answer": true,
+   "confidence": 0.83,
+   "backend": "jev"
+  },
+  {
+   "id": "conformal-shift-2-reversed",
+   "type": "reversed",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.98,
+   "backend": "jev"
+  },
+  {
+   "id": "conformal-shift-2-overstated",
+   "type": "overstated",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.97,
+   "backend": "jev"
+  },
+  {
+   "id": "conformal-shift-2-new_fact",
+   "type": "new_fact",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.91,
+   "backend": "jev"
+  },
+  {
+   "id": "conformal-shift-2-irrelevant_premise",
+   "type": "irrelevant_premise",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.91,
+   "backend": "jev"
+  },
+  {
+   "id": "research-agents-eval-1-control",
+   "type": "control",
+   "label": "follows",
+   "layer": "both",
+   "caught": false,
+   "reason": null,
+   "judge_answer": true,
+   "confidence": 0.85,
+   "backend": "jev"
+  },
+  {
+   "id": "research-agents-eval-1-reversed",
+   "type": "reversed",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.98,
+   "backend": "jev"
+  },
+  {
+   "id": "research-agents-eval-1-overstated",
+   "type": "overstated",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.96,
+   "backend": "jev"
+  },
+  {
+   "id": "research-agents-eval-1-new_fact",
+   "type": "new_fact",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.9299999999999999,
+   "backend": "jev"
+  },
+  {
+   "id": "research-agents-eval-1-irrelevant_premise",
+   "type": "irrelevant_premise",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "names PaperBench, which none of its premises names",
+   "judge_answer": null,
+   "confidence": null,
+   "backend": null
+  },
+  {
+   "id": "research-agents-eval-1-named_source",
+   "type": "named_source",
+   "label": "fault",
+   "layer": "rules",
+   "caught": true,
+   "reason": "names SciGraph, which none of its premises names",
+   "judge_answer": null,
+   "confidence": null,
+   "backend": null
+  },
+  {
+   "id": "research-agents-eval-1-unsupported_number",
+   "type": "unsupported_number",
+   "label": "fault",
+   "layer": "rules",
+   "caught": true,
+   "reason": "states 37, 50, which none of its premises states",
+   "judge_answer": null,
+   "confidence": null,
+   "backend": null
+  },
+  {
+   "id": "research-agents-eval-2-control",
+   "type": "control",
+   "label": "follows",
+   "layer": "both",
+   "caught": false,
+   "reason": null,
+   "judge_answer": true,
+   "confidence": 0.76,
+   "backend": "jev"
+  },
+  {
+   "id": "research-agents-eval-2-reversed",
+   "type": "reversed",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.98,
+   "backend": "jev"
+  },
+  {
+   "id": "research-agents-eval-2-overstated",
+   "type": "overstated",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.97,
+   "backend": "jev"
+  },
+  {
+   "id": "research-agents-eval-2-new_fact",
+   "type": "new_fact",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.86,
+   "backend": "jev"
+  },
+  {
+   "id": "research-agents-eval-2-irrelevant_premise",
+   "type": "irrelevant_premise",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.9,
+   "backend": "jev"
+  },
+  {
+   "id": "rlm-vs-clm-1-control",
+   "type": "control",
+   "label": "follows",
+   "layer": "both",
+   "caught": false,
+   "reason": null,
+   "judge_answer": true,
+   "confidence": 0.9,
+   "backend": "jev"
+  },
+  {
+   "id": "rlm-vs-clm-1-reversed",
+   "type": "reversed",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.99,
+   "backend": "jev"
+  },
+  {
+   "id": "rlm-vs-clm-1-overstated",
+   "type": "overstated",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.96,
+   "backend": "jev"
+  },
+  {
+   "id": "rlm-vs-clm-1-new_fact",
+   "type": "new_fact",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.88,
+   "backend": "jev"
+  },
+  {
+   "id": "rlm-vs-clm-1-irrelevant_premise",
+   "type": "irrelevant_premise",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.96,
+   "backend": "jev"
+  },
+  {
+   "id": "rlm-vs-clm-1-named_source",
+   "type": "named_source",
+   "label": "fault",
+   "layer": "rules",
+   "caught": true,
+   "reason": "names SciGraph, which none of its premises names",
+   "judge_answer": null,
+   "confidence": null,
+   "backend": null
+  },
+  {
+   "id": "rlm-vs-clm-1-unsupported_number",
+   "type": "unsupported_number",
+   "label": "fault",
+   "layer": "rules",
+   "caught": true,
+   "reason": "states 37, 50, which none of its premises states",
+   "judge_answer": null,
+   "confidence": null,
+   "backend": null
+  },
+  {
+   "id": "rlm-vs-clm-2-control",
+   "type": "control",
+   "label": "follows",
+   "layer": "both",
+   "caught": false,
+   "reason": null,
+   "judge_answer": true,
+   "confidence": 0.9,
+   "backend": "jev"
+  },
+  {
+   "id": "rlm-vs-clm-2-reversed",
+   "type": "reversed",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.98,
+   "backend": "jev"
+  },
+  {
+   "id": "rlm-vs-clm-2-overstated",
+   "type": "overstated",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.96,
+   "backend": "jev"
+  },
+  {
+   "id": "rlm-vs-clm-2-new_fact",
+   "type": "new_fact",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.89,
+   "backend": "jev"
+  },
+  {
+   "id": "rlm-vs-clm-2-irrelevant_premise",
+   "type": "irrelevant_premise",
+   "label": "fault",
+   "layer": "judge",
+   "caught": true,
+   "reason": "does not follow from its premises",
+   "judge_answer": false,
+   "confidence": 0.95,
+   "backend": "jev"
+  }
+ ]
+}

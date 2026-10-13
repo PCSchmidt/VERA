@@ -41,6 +41,8 @@ PRODUCERS = {
     "read": "p3.read",
     "synthesize": "p3.synthesize",
     "parent": "p3.parent",
+    "paper": "p3.paper.write",
+    "interpret": "p3.paper.interpret",
 }
 MAX_ATTEMPTS = 2  # an experiment script gets one retry with the error message
 MIN_IDEA_SCORE = 3

@@ -13,10 +13,10 @@ import traceback
 from pathlib import Path
 
 from vera.app import state as app_state
-from vera.app.pipeline import real_deps, run_audit, run_phase
+from vera.app.pipeline import real_deps, resume_paper, run_audit, run_paper, run_paper_audit, run_phase
 from vera.backends import redact
 from vera.keepawake import keep_awake
-from vera.schemas import BudgetExceeded, RunRequest
+from vera.schemas import BudgetExceeded, PaperRequest, RunRequest
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -43,8 +43,39 @@ def finish_state(final: dict, phase: str) -> tuple[str, str | None]:
     return "failed", f"Stopped at {stop.get('stage')}: {reason}"
 
 
+def paper_main(run_id: str, phase: str, root: Path) -> int:
+    """`paper` or `paper_resume`: make (or resume) the review paper, then audit it. State goes to runs/<id>/paper/."""
+    run_dir = root / "runs" / run_id
+    folder = run_dir / "paper"
+    request = RunRequest.model_validate_json((run_dir / "app_request.json").read_text(encoding="utf-8"))
+    record = json.loads((folder / "app_paper_request.json").read_text(encoding="utf-8"))
+    paper_request = PaperRequest.model_validate(record["request"])
+    app_state.write(folder, "running", None)
+    try:
+        deps = real_deps(root, request, resume=True)
+        with keep_awake():
+            if phase == "paper":
+                final = run_paper(deps, paper_request)
+            else:
+                final = resume_paper(deps, paper_request, record["spent_before_usd"])
+        state, message = finish_state(final, phase)
+        if state == "complete":
+            try:
+                run_paper_audit(deps)
+            except BudgetExceeded:
+                message = "The paper is finished but its audit did not fit in its budget; it is not audited."
+    except Exception as exc:  # noqa: BLE001 - the user is told in words; the traceback goes to the paper's own log
+        (folder / "worker_error.log").write_text(redact(traceback.format_exc()), encoding="utf-8")
+        state, message = "failed", f"The paper could not continue: {type(exc).__name__}: {redact(str(exc))[:300]}"
+    app_state.write(folder, state, message)
+    print(json.dumps({"run_id": run_id, "paper": state}))
+    return 0
+
+
 def main(argv: list[str], root: Path = ROOT) -> int:
     run_id, phase = argv[0], argv[1]
+    if phase in {"paper", "paper_resume"}:
+        return paper_main(run_id, phase, root)
     run_dir = root / "runs" / run_id
     request = RunRequest.model_validate_json((run_dir / "app_request.json").read_text(encoding="utf-8"))
     app_state.write(run_dir, "scoping" if phase == "start" else "running", None)

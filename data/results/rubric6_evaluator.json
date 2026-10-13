@@ -1,0 +1,53 @@
+{
+ "by": "evaluator",
+ "entries": [
+  {
+   "output": "P1",
+   "at": "2026-10-12T19:11:41Z",
+   "blind": true,
+   "prefer": "paper",
+   "helped_by": null,
+   "note": "Claims are mostly faithful (4 of 55 lean on context: C14 'automated categorization', C28 GPT-3.5 not in quote, C41 'this patch', C53 'it'), but the uncited sentence 'The two studies therefore disagree on whether length is a usable failure signal' is wrong (both cited sentences are R35; the disagreement is with R81/C54), and the GRL/42-requirements and SpecRover 'proposed rather than evaluated' sentences are unsupported. I3 generalizes from length to all surface trace features and I8 uses C46 (patterns often NOT reusable) as support; the experience-reuse/trace-memory literature named in the scope is absent and not flagged.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 3,
+    "correctness": 3,
+    "reproducibility": 4,
+    "honesty": 4,
+    "interpretation_follows": 3
+   }
+  },
+  {
+   "output": "P2",
+   "at": "2026-10-12T19:11:41Z",
+   "blind": true,
+   "prefer": "same",
+   "helped_by": null,
+   "note": "C25/C31 say R87 'calls [the harness] a structured form of context engineering' but the quote does not, and that claim carries the abstract and I4/I14; also C46 ('across the sources' from one source), C42 drops 'Anthropic's', C39/C40 add 'harness', and the uncited 'Another paper, by contrast...' sentence has no source. I7 says sources 'diverge' on C34/C45 while I17 says 'likewise'; practitioner literature and a separate account of agentic harnesses (the review's HeavySkill R30) are missing, and much text repeats the same claims.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 2,
+    "correctness": 2,
+    "reproducibility": 4,
+    "honesty": 3,
+    "interpretation_follows": 3
+   }
+  },
+  {
+   "output": "P3",
+   "at": "2026-10-12T19:11:41Z",
+   "blind": true,
+   "prefer": "paper",
+   "helped_by": null,
+   "note": "Claims are largely faithful (C20 'such methods', C25 'its accuracy' and C48 'serving cost' lean on context), and the paper repeatedly and honestly says the user-named Shao et al. Context Language Models paper was not retrieved, so CLM is answered only as compression. The uncited 'no passage covers recursive language models on cost' contradicts C15/C34 and the C5 quote (comparable cost), and 'the compression line modifies or trains parameters' does not fit H2S/LongLLMLingua; interpretations are cautious, with I3 (Chained RLM 'sits between the two') the main stretch.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 2,
+    "correctness": 3,
+    "reproducibility": 4,
+    "honesty": 4,
+    "interpretation_follows": 4
+   }
+  }
+ ]
+}

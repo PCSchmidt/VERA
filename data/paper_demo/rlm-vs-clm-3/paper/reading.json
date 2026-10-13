@@ -1,0 +1,201 @@
+{
+ "n_full_text": 15,
+ "n_abstract_only": 11,
+ "n_passages": 174,
+ "n_review_passages": 54,
+ "n_new_passages": 120,
+ "read_top": 15,
+ "per_paper": 10,
+ "papers": [
+  {
+   "key": "R1",
+   "title": "Highlight-Then-Summarize: Learning to Compress Evidence for Long-Context Understanding",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R5",
+   "title": "Chained Recursive Language Models for Multi-Iteration Reasoning",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R8",
+   "title": "Recursive Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R9",
+   "title": "Recursive Language Models Meet Uncertainty: The Surprising Effectiveness of Self-Reflective Program Search for Long Context",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R12",
+   "title": "A Comprehensive Survey on Long Context Language Modeling",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R18",
+   "title": "An Empirical Study on Prompt Compression for Large Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R20",
+   "title": "Context Inheritance: A Git-Native Architecture and Pre-registered Study of Repository Context for AI Coding Agents",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R21",
+   "title": "Context Rot and MCP Tool Attrition in Production-Scale Codebases: An Empirical Investigation of Context-Driven Tool Calling Degradation in Agentic AI Coding Systems",
+   "mode": "abstract",
+   "reason": "no PDF: HTTP 403",
+   "seconds": 0.5,
+   "n_passages": 1
+  },
+  {
+   "key": "R28",
+   "title": "In-context Autoencoder for Context Compression in a Large Language Model",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R34",
+   "title": "PCToolkit: A Unified Plug-and-Play Prompt Compression Toolkit of Large Language Models",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R49",
+   "title": "500xCompressor: Generalized Prompt Compression for Large Language Models",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 7.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R55",
+   "title": "Challenging LLMs Beyond Information Retrieval: Reasoning Degradation with Long Context Windows",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R75",
+   "title": "Think, But Don't Overthink: Reproducing Recursive Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R78",
+   "title": "Token Reduction Is Not Cost Reduction",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 9.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R81",
+   "title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 3.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R84",
+   "title": "RLMOpt: Adaptive Prompt Optimization via Recursive Language Models",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 2.7,
+   "n_passages": 11
+  },
+  {
+   "key": "R86",
+   "title": "The Y-Combinator for LLMs: Solving Long-Context Rot with λ-Calculus",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R94",
+   "title": "Cartridges: Lightweight and general-purpose long context representations via self-study",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R98",
+   "title": "Dynamic Prompt Compression for Efficient Inference of Large Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R106",
+   "title": "In Line with Context: Repository-Level Code Generation via Context Inlining",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 3.4,
+   "n_passages": 11
+  },
+  {
+   "key": "R124",
+   "title": "Lost in the Middle: How Language Models Use Long Contexts",
+   "mode": "abstract",
+   "reason": "no PDF: HTTP 403",
+   "seconds": 0.4,
+   "n_passages": 1
+  },
+  {
+   "key": "R126",
+   "title": "Oolong: Evaluating Long Context Reasoning and Aggregation Capabilities",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 5.9,
+   "n_passages": 11
+  },
+  {
+   "key": "R127",
+   "title": "Make Your LLM Fully Utilize the Context",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R132",
+   "title": "LongLLMLingua: Accelerating and Enhancing LLMs in Long Context Scenarios via Prompt Compression",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 2.9,
+   "n_passages": 11
+  },
+  {
+   "key": "R146",
+   "title": "MemGPT: Towards LLMs as Operating Systems",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 2.4,
+   "n_passages": 11
+  },
+  {
+   "key": "R158",
+   "title": "Context Length Alone Hurts LLM Performance Despite Perfect Retrieval",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 3.4,
+   "n_passages": 11
+  }
+ ]
+}

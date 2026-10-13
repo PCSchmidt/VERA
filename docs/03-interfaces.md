@@ -1,6 +1,6 @@
 # 03 — Interfaces (core schemas)
 
-Version 0.11 · Draft · Changes require a version bump and a changelog line.
+Version 0.12 · Draft · Changes require a version bump and a changelog line.
 
 These are the contracts between layers. Implement as Pydantic v2 models in
 `vera/schemas/`. Field lists are normative; the Python below is a sketch.
@@ -145,7 +145,7 @@ class Evidence(BaseModel):
 
 
 class Finding(BaseModel):
-    check: Literal["citation", "numeric", "claim_support", "method_code", "spec_leakage", "novelty", "rerun"]
+    check: Literal["citation", "numeric", "claim_support", "method_code", "spec_leakage", "novelty", "rerun", "inference"]
     severity: Literal["info", "warn", "fail"]
     claim_ids: list[str]
     evidence: list[Evidence]
@@ -172,7 +172,8 @@ class AuditReport(BaseModel):
 class StageResult(BaseModel):
     run_id: str
     stage: Literal["scope", "retrieve", "read", "synthesize", "parent",
-                   "baseline", "ideate", "subset_exp", "full_exp", "ablation", "write_up", "audit"]
+                   "baseline", "ideate", "subset_exp", "full_exp", "ablation", "write_up", "audit",
+                   "paper", "interpret"]  # 0.12: the review paper's stages
     artifact_ref: str  # path/ID of produced artifact
     producer_id: str
     gates: list[Verdict]  # every verdict the stage asked (at least one), each from a different component
@@ -229,6 +230,7 @@ class SourceRecord(BaseModel):
 
 
 class ClaimLink(BaseModel):
+    id: str | None = None  # 0.12: "C1", "C2", ... in reading order in a paper; interpretation cites these
     claim: str
     source_key: str  # a SourceRecord.key
     quote: str  # non-blank: a verbatim (normalised) span of the source's text
@@ -353,6 +355,57 @@ class AppConfig(BaseModel):  # what the first-run checklist shows; it never carr
 A `RunRequest` with a malformed `run_id`, a blank or over-long topic, `max_usd` outside (0, 25], a non-positive wall limit or an
 unknown field raises. `AppConfig` and `RunStatus` forbid extra fields, so no key can ride along on them.
 
+### Review paper (RSH-F-12, RSH-F-13, RSH-F-14, AUD-F-11, APP-F-04; 0.12)
+
+A finished literature review can be turned, on request, into a review paper. The paper lives beside the review in
+`runs/<run_id>/paper/`; the review's files are never changed.
+
+```python
+SectionKind = Literal["summary", "record", "evidence", "interpretation"]
+# summary: the abstract. record: written by VERA from the run's files (method, threats to validity), no model prose.
+# evidence: sentences that each carry a verified claim, or claim-free transitions. interpretation: statements that each
+# name the claims they rest on and were judged to follow from them; shown labelled as interpretation.
+
+
+class PaperSection(BaseModel):
+    heading: str  # non-blank
+    kind: SectionKind
+    text: str  # markdown; evidence sentences cite [Rn], interpretation statements cite (C3, C9), never [Rn]
+
+
+class Inference(BaseModel):
+    id: str  # "I1", "I2", ...
+    section: str  # the heading of the interpretation section it is in
+    text: str
+    premises: list[str]  # claim ids; at least one when kept (a removed one is stored with its fault)
+    verdicts: list[Verdict] = []  # paper.inference_follows, from a component other than p3.paper.interpret
+    status: Literal["pass", "removed"]
+    reason: str | None = None  # why it was removed
+
+
+class PaperRequest(BaseModel):  # the "Make a paper" form; extra fields are refused
+    max_usd: float  # > 0 and at most 25: the paper's own cap, on top of what the review spent
+    length_words: Literal[3000, 5000] = 3000  # target prose length; record sections are not counted
+    emphasis: str | None = None  # at most 500 characters
+
+
+class PaperDocument(BaseModel):
+    run_id: str  # the review's run
+    question: str  # the confirmed question, unchanged
+    title: str
+    sections: list[PaperSection]  # in order
+    claims: list[ClaimLink]  # every one with an id, unique, and quote_check "pass"
+    inferences: list[Inference]  # kept and removed; only "pass" appear in the text
+    sources: list[SourceRecord]
+    retrieval_stats: RetrievalStats | None = None
+    evidence_stats: dict[str, int] = {}  # n_full_text, n_abstract_only, n_passages, n_passages_cited
+```
+
+A `PaperDocument` raises when: it has no evidence or no record section; a claim has no id, a duplicate id, a quote check
+other than "pass", or cites a source not in `sources`; an interpretation section contains `[Rn]`; a kept inference names a
+claim id that does not exist, has no premise, or sits in a section that is not an interpretation section. A
+`PaperRequest` with `max_usd` outside (0, 25], another length, an emphasis over 500 characters or an unknown field raises.
+
 ### Run specification (RSH-F-01)
 
 ```python
@@ -426,3 +479,6 @@ different artifact producer (`gate.producer_id` set and `!= producer_id`). The
   `results.json`, retrieval statistics disclosed in the review text).
 - 0.11 — `SourceRecord.source` gains `"semanticscholar"` (Increment 5: a second keyed retrieval source, T5 reverse-if (5); used only with the
   user's own key). App types (`RunRequest`, `RunStatus`, `AppConfig`) are added with the app core.
+- 0.12 — Review paper types (Increment 6): `PaperSection`, `Inference`, `PaperRequest`, `PaperDocument`; `ClaimLink.id`
+  (optional, so stored claims still load) for interpretation to cite; `Finding.check` gains `"inference"` (AUD-F-11); `StageResult.stage` gains
+  `"paper"` (widen, outline, write and verify the evidence sections) and `"interpret"` (the interpretation sections).

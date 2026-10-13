@@ -1,0 +1,39 @@
+{
+ "built_at": "2026-10-11T13:17:00+00:00",
+ "dev_reviews": [
+  "conformal-shift",
+  "research-agents-eval",
+  "rlm-vs-clm"
+ ],
+ "test_reviews": [
+  "credal-dro",
+  "llm-judge-numbers",
+  "tabular-trees-vs-nets",
+  "tree-explain",
+  "agent-traces",
+  "rehearsal-1"
+ ],
+ "counts": {
+  "dev": {
+   "control": 6,
+   "reversed": 6,
+   "overstated": 6,
+   "new_fact": 6,
+   "irrelevant_premise": 6,
+   "named_source": 3,
+   "unsupported_number": 3
+  },
+  "test": {
+   "control": 12,
+   "reversed": 12,
+   "overstated": 12,
+   "new_fact": 12,
+   "irrelevant_premise": 12,
+   "named_source": 6,
+   "unsupported_number": 6
+  }
+ },
+ "items_sha256": "2b58f5e44cd04c4f566ec0fbea2b2745e9cde66fdf5f9a4c4c9017d05d001a33",
+ "test_sha256": "534c800df3d19cabb81ad005286b48f6d72aaf8f7aac5e207f6f967f285707dd",
+ "author": "Claude Code (controls and variants written by hand, 2026-10-11)"
+}

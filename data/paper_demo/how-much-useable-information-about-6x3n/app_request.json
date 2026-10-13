@@ -1,0 +1,14 @@
+{
+ "run_id": "how-much-useable-information-about-6x3n",
+ "topic": "How much useable information about a software application that was developed using an agentic harness can be stored and utilized from the agent traces? Is this a viable pathway towards building better and more robust software?",
+ "guidance": {
+  "format": "paper",
+  "max_words": 1500,
+  "required_sections": [],
+  "emphasis": null,
+  "constraints": []
+ },
+ "max_usd": 1.0,
+ "max_wall_seconds": 7200,
+ "allow_experiments": false
+}

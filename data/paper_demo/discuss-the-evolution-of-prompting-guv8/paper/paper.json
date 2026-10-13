@@ -1,0 +1,1312 @@
+{
+ "run_id": "discuss-the-evolution-of-prompting-guv8",
+ "question": "Between 2025 and the present, how have the definitions, scope, and claimed boundaries of prompt engineering, context engineering, harnesses, and agentic harnesses been articulated in the academic and practitioner literature, and which technical components (e.g., retrieval, memory, tool use, orchestration, evaluation loops) were attributed to each stage?",
+ "title": "From Prompts to Context to Harnesses: Definitions, Boundaries, and Attributed Components in Recent LLM Agent Literature",
+ "sections": [
+  {
+   "heading": "Abstract",
+   "kind": "summary",
+   "text": "This review traces how prompt engineering, context engineering, and harnesses have been defined in recent LLM agent literature. Prompt engineering is consistently described as designing instructions to guide a model without altering its parameters, and as a form of programming. It is also described as poorly consolidated, with conflicting terminology, ad hoc practice, and no standardized theory. Several sources describe a movement beyond prompts: one survey frames it as a shift from input-level linguistic control to system-level contextual orchestration, and another places the harness at a stage extending into persistent infrastructure. Sources agree on the direction of the boundary but not its placement. Prompt engineering changes instructions, context engineering changes the evidence presented, and harness engineering takes the operating environment as its object, yet one review calls the harness a structured form of context engineering. Attributed components include context adaptation, memory accessed as a file system through tool calls, tool schemas that consume context budget, orchestration roles separating planning, generation, and evaluation, and verification. No single assignment of components to stages emerges. Evaluation evidence shows that changing the harness around a fixed model can alter performance and reverse rankings. Open questions include whether capability will move into weights or external harnesses, direct tests of context rot and tool attrition, broader context-management experiments, shared vocabulary, and evaluation beyond final task success."
+  },
+  {
+   "heading": "Introduction",
+   "kind": "evidence",
+   "text": "The research question concerns how prompt engineering, context engineering, harnesses and agentic harnesses have been defined and bounded since 2025, and which technical components each stage is credited with. Prompt engineering is the natural starting point, and one survey describes it as a technique that involves strategically designing task-specific instructions, referred to as prompts, to guide model output without altering parameters [R1]. Another paper describes prompts as a form of programming that can customize the outputs and interactions with an LLM [R11]. Both of these sources predate 2025, so they supply background for the earliest stage rather than evidence from the period in question.\n\nA later survey treats prompt engineering as often lacking theory, noting that it is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical framework [R2]. The same survey frames the broader movement as a shift from input-level linguistic control to system-level contextual orchestration [R2]. Context management has also become an object of empirical study: one paper notes that LLM agents on long-running tasks inevitably exceed their usable context window, forcing a choice about what history to discard [R18].\n\nMemory is another component, and one framework implements memory not as a vector database, but as a persistent file system accessible via tool calls [R24]. Tool use brings its own context costs, as tool schema definitions are reported to consume a disproportionate share of the available context budget [R20].\n\nThe harness concept moves the unit of analysis from the prompt or context to the execution system around the model. One survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings [R6]. A further survey takes the agent loop, not the model in isolation, as its unit of analysis [R8].\n\nThe passages supplied here do not offer a single agreed definition of each term or of the boundaries between them, and the review below must work from these partial and varied framings."
+  },
+  {
+   "heading": "Method",
+   "kind": "record",
+   "text": "The question this paper answers was proposed by VERA from the user's topic and confirmed by the user: Between 2025 and the present, how have the definitions, scope, and claimed boundaries of prompt engineering, context engineering, harnesses, and agentic harnesses been articulated in the academic and practitioner literature, and which technical components (e.g., retrieval, memory, tool use, orchestration, evaluation loops) were attributed to each stage?\n\nSearch. 12 queries were sent to the paper-search services: “prompt engineering to context engineering definition”; “context engineering for large language model agents”; “agent harness design for LLM agents”; “agentic harness orchestration tool use memory”; “survey of context engineering techniques”; “retrieval-augmented generation and agent memory architectures”; “in-context learning and prompt design foundations”; “LLM agent scaffolding and tool-calling frameworks”; “benchmarks for evaluating LLM agent harnesses”; “long-context limitations context rot degradation”; “failure modes of autonomous LLM agents”; “survey of prompt engineering methods taxonomy”. They retrieved 120 candidate papers. A relevance screen, judged on titles and abstracts, kept 46 and set aside 74.\n\nReading. Every kept paper was read at its abstract; 15 were also read in full text, and 31 at the abstract only. This gave 195 evidence passages, the only text the paper may quote.\n\nWriting and checking. The evidence sections were drafted sentence by sentence; every sentence that attributes something to a source carries a quote copied from one of those passages. Each quote was checked to be verbatim in its source, and a judge other than the writer checked that the passage supports the sentence and that the quote alone states it; sentences that failed were repaired once or removed. 59 claims from 18 sources survived. Interpretation sections, where present, rest only on those claims and are labelled as such.\n\nModels. Written by anthropic/claude-sonnet-5.5; judged by z-ai/glm-5.3-flash."
+  },
+  {
+   "heading": "Prompt engineering: definitions, pattern catalogs, and terminological fragmentation",
+   "kind": "evidence",
+   "text": "The supplied passages define prompt engineering mainly as instruction design for a fixed model. One survey describes it as strategically designing task-specific instructions, referred to as prompts, to guide model output without altering parameters [R1]. The pattern-catalog paper characterizes prompts as a form of programming that can customize the outputs and interactions with an LLM [R11]. The prompt pattern catalog paper justifies documenting prompts in pattern form by treating prompts as a form of programming: \"Since prompts are a form of programming, it is natural to document them in pattern form.\" [R11].\n\nSeveral sources report that the field's vocabulary and organization are unsettled. The Prompt Report states that prompt engineering suffers from conflicting terminology and a fragmented ontological understanding of what constitutes an effective prompt [R48]. A 2026 survey likewise says prompt engineering is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical framework [R2]. A practitioner-focused study calls prompt engineering a critical yet loosely defined skill [R39].\n\nThe sources also differ in how they build taxonomies. The Prompt Report presents a taxonomy of 58 LLM prompting techniques [R48]. A practitioner-oriented study reports that its primary contribution is \"a practice-based taxonomy of prompting strategies \"in the wild,\" highlighting forms of interaction that extend beyond formal prompt engineering models.\" [R39]. The Prompt Report states that its stance is observational and that evaluation in the field is variable and unstandardized: \"The field is new, and evaluation is variable and unstandardized-even the most meticulous experimentation may suffer from unanticipated shortcomings, and model outputs themselves are sensitive to meaning-preserving changes in inputs.\" [R48].\n\nThe passages say little about how prompt engineering is bounded against context engineering or harnesses. One review describes a shift from input-level linguistic control to system-level contextual orchestration [R2]. A review of externalization places the harness layer at the current stage, in which capability extends beyond prompt management into persistent infrastructure [R87]."
+  },
+  {
+   "heading": "Context engineering: shifting from prompt text to system-level context",
+   "kind": "evidence",
+   "text": "The surveyed sources describe context engineering as a move from crafting prompt text to managing the information that surrounds the model. One survey of prompt and context engineering analyzes the shift from input-level linguistic control to system-level contextual orchestration and names context dilution and computational overhead as persistent limitations [R2]. The ACE paper defines context adaptation as modifying inputs with instructions, strategies, or evidence rather than updating weights [R94]. The ACE authors report that their framework treats contexts as evolving playbooks built through generation, reflection, and curation [R94].\n\nHarness-oriented sources place context engineering inside a wider boundary. The code-harness survey says prompt engineering changes instructions and context engineering changes what evidence is presented to the model, while harness engineering treats the operating environment itself as the object of analysis [R49]. The externalization review describes a harness that separates the prompt into layers instead of treating it as an undifferentiated text buffer, and calls this a structured form of context engineering [R87]. The scaling-the-harness paper lists a context constructor as one of six components of an agent [R26].\n\nContext rot is the main failure mode the sources attach to this stage. One empirical proposal describes context rot as progressive, nonlinear degradation of reasoning quality and tool-calling reliability as the context window fills [R20]. The same paper states that no published empirical study has directly tested its joint hypothesis linking codebase scale, context growth and tool attrition [R20]. The passages leave open how the boundaries among these terms should be settled and how far the reported benchmark gains hold outside simulation."
+  },
+  {
+   "heading": "Harness engineering: the structure around a fixed model",
+   "kind": "evidence",
+   "text": "The surveys in this set generally treat the harness as the structure wrapped around a fixed model, but they enumerate its parts differently. The externalization review describes memory as externalizing state across time, skills as externalizing procedural expertise, protocols as externalizing interaction structure, and harness engineering as the unification layer that coordinates them into governed execution [R87].\n\nThe sources place the harness relative to prompt and context engineering in a consistent way. The code-as-harness survey states that prompt engineering changes instructions and context engineering changes what evidence is presented to the model, whereas agentic harness engineering treats the operating environment itself as the object of analysis [R49]. The externalization review describes the harness as a structured form of context engineering that separates the prompt into layers with distinct update rates, governance requirements, and failure modes [R87].\n\nEvidence that the harness matters for measured results comes from evaluation work. The harness-aware evaluation survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings [R6]. The UniACE study reports large bidirectional score changes and model-ranking reversals when compared with source implementations [R84].\n\nThe sources differ on where the harness boundary lies and leave several questions open. The harness survey proposes that routine capability-bearing support migrates inward into model weights while constraint-bearing governance functions remain external [R29]. The code-as-harness survey lists open challenges including evaluation beyond final task success, verification under incomplete feedback, and regression-free harness improvement [R49]. The passages supplied here do not settle a single agreed definition of the harness or a standard component list."
+  },
+  {
+   "heading": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "kind": "evidence",
+   "text": "The survey \"The Agent Loop\" states that every LLM agent, beneath its framework and its prompts, runs a loop: it observes, decides, acts, and observes again until it stops [R8]. The same survey states that cost, reliability and safety are decided by the loop rather than by the model alone [R8]. Another survey defines the agent harness as the external execution support structure built around the model [R29].\n\nThe scaling-the-harness paper lists the components of a harness, including orchestration and verification [R26]. The externalization review places the harness as the stage at which engineering attention moved from prompts to the operating environment [R87]. The code-harness survey describes production systems as wrapping the model in a managed development loop [R49].\n\nOn multi-agent orchestration, the code-harness survey reports that long-running harnesses separate planning, generation and evaluation into distinct roles [R49]. The Agentic RAG survey frames retrieval as part of this agentic design space, since agents use reflection, planning, tool use and multi-agent collaboration to manage retrieval [R17]. The survey on Agentic RAG concludes that \"no single architecture is universally optimal; effectiveness depends on aligning complexity with task requirements.\" [R17].\n\nThe sources differ on where the loop's competence should sit. The agent-loop survey argues that the loop is being internalized into weights and externalized into skills and harnesses [R8]. Open problems named across the sources include evaluation beyond final task success and consistent shared state across multiple agents [R49]."
+  },
+  {
+   "heading": "Evaluation as a harness-stage component and performance dependence on the harness",
+   "kind": "evidence",
+   "text": "The sources place evaluation at the center of how harnesses are understood, and they converge on the claim that a benchmark score depends on more than the model. The harness-aware evaluation survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings [R6]. The UniACE authors state that a reported score reflects a complete model–harness–environment configuration rather than the model alone [R84]. In UniACE's comparisons with source implementations, the authors found large bidirectional score changes and model-ranking reversals [R84].\n\nThe sources differ in the remedies they propose for this dependence. The harness-aware evaluation survey introduces a four-factor framework comprising the model, harness, environment, and evaluator, alongside the protocol under which they are tested [R6]. The harness engineering survey proposes a two-stage evaluation logic separating native capability-gap diagnosis from assessment of compensation effectiveness and net benefit [R29].\n\nSeveral sources also tie evaluation to safety and failure analysis. The code-as-harness survey warns that a new verifier may improve pass rate by accepting underspecified solutions [R49]. The scaling-the-harness paper argues that agent quality should be evaluated as a longitudinal systems property rather than a one-shot completion score [R26]. The externalization review suggests treating evaluation as externalized quality infrastructure rather than as a post-hoc measurement [R87].\n\nThe passages leave open how far these harness effects generalize, a gap that the harness-aware evaluation survey itself names among its research directions, and none of them settles whether evaluation belongs to a distinct harness stage."
+  },
+  {
+   "heading": "Limits of the evidence: unsettled boundaries and weak generalizability",
+   "kind": "evidence",
+   "text": "The sources do not offer a single settled map of where prompt engineering ends and harness engineering begins. Another paper, by contrast, places test-driven governance, orchestrator-controlled phase order and bounded repair loops inside a prompt-engineering framing. That placement shows stages overlapping in practice, since orchestration and validation appear under the prompt label.\n\nMuch of the evidence is also narrow in scope. The context-compression experiment used a synthetic recall task and acknowledges the limits of its single-model, single-budget setup [R18]. The context-rot paper states that no published empirical study has directly tested its joint hypothesis that codebase scale drives context window growth, which in turn triggers measurable MCP tool attrition [R20]. The drilling system draws its conclusion from case studies and a qualitative ablation analysis, which it says suggest that domain-specialized tool design, rather than model scale alone, is the primary driver of analytical quality [R41].\n\nEvaluation work shows why attributing effects to a single stage is hard. The UniACE study reports that comparisons with source implementations produced bidirectional score shifts and model-ranking reversals [R84]. The harness-aware survey distinguishes what existing comparisons establish from effects that remain entangled [R6]. The passages do not settle whether these definitions hold beyond the domains studied."
+  },
+  {
+   "heading": "Discussion",
+   "kind": "interpretation",
+   "text": "*Interpretation: VERA's reading of the claims named after each statement, judged to follow from them; not checked against quotes.*\n\nPrompt engineering is described consistently as designing instructions to guide a model without altering its parameters, and as a form of programming that customizes outputs and interactions (C1, C2, C11). Prompt engineering is also described as poorly consolidated: it is said to have conflicting terminology, to be treated as empirical and ad hoc without a standardized theoretical framework, and to be a critical yet loosely defined skill (C3, C13, C14, C15). Several sources describe a movement beyond prompts: one survey frames it as a shift from input-level linguistic control to system-level contextual orchestration, and the externalization review places the harness at a stage extending into persistent infrastructure (C4, C19, C20). The sources agree on the direction of the boundary but phrase it differently. Prompt engineering changes instructions, context engineering changes the evidence presented, and harness engineering takes the operating environment as its object of analysis. The externalization review separately calls the harness a structured form of context engineering, so the boundary between context engineering and harness is not drawn identically (C24, C30, C25, C31). Components are attributed across the stages: context adaptation and evolving playbooks, memory as a file system accessed through tool calls, tool schemas that consume context budget, orchestration roles separating planning, generation and evaluation, and verification as a harness component (C22, C23, C6, C7, C42, C39). Evaluation evidence converges on the claim that the harness matters: changing the execution system around a fixed model can alter performance and reverse rankings, and a reported score reflects a model–harness–environment configuration (C8, C32, C48, C49). Sources diverge on where capability ends up. One survey proposes that routine support moves into model weights while governance stays external, and another says the loop is both internalized into weights and externalized into skills and harnesses (C34, C45)."
+  },
+  {
+   "heading": "Conclusions",
+   "kind": "interpretation",
+   "text": "*Interpretation: VERA's reading of the claims named after each statement, judged to follow from them; not checked against quotes.*\n\nThe literature articulates a progression from prompt-level instruction design, to context-level management of what the model sees, to harness-level treatment of the surrounding execution environment, though the exact boundaries are phrased differently across sources (C4, C24, C30, C20, C31). Memory, tool use, orchestration and verification are attributed mainly to the system-level and harness stages, but these claims do not show a single agreed assignment of components to stages (C6, C7, C39, C42, C25). Some of the empirical support is limited: one context-compression experiment used a synthetic task with a single model and budget, and the context-rot hypothesis is stated as untested by prior published studies (C55, C28, C56). The claims do not settle whether capability will mainly move into weights or into external harnesses (C34, C45)."
+  },
+  {
+   "heading": "A research agenda",
+   "kind": "interpretation",
+   "text": "*Interpretation: VERA's reading of the claims named after each statement, judged to follow from them; not checked against quotes.*\n\nTest the context-rot and tool-attrition hypothesis directly, since it is described as untested (C28, C56, C27). Repeat context-management comparisons with multiple models and budgets on non-synthetic tasks, because the existing experiment is limited to a single model and budget (C55, C5). Develop shared definitions and a common vocabulary for the three stages, given the terminological fragmentation and the differing placement of the harness relative to context engineering (C13, C3, C25, C24). Report evaluations as full model–harness–environment configurations and separate the entangled effects, since rankings can reverse (C48, C49, C59, C50). Study evaluation beyond final task success, including verification under incomplete feedback and the risk that a new verifier accepts underspecified solutions (C35, C46, C52). The sources describe a split in where agent functions reside: one harness survey proposes that routine capability-bearing support migrates into model weights while constraint-bearing governance functions remain external, and the agent-loop survey likewise argues that the loop is being internalized into weights and externalized into skills and harnesses. Both are proposals or arguments, and the sources do not report an empirical test of which functions migrate (C34, C45)."
+  },
+  {
+   "heading": "Threats to validity",
+   "kind": "record",
+   "text": "Coverage. The paper rests on what 12 queries found; the search was not repeated for the paper. A finding reported as missing means these searches did not find it, not that it does not exist.\n\nDepth of reading. 31 of 46 kept papers were read at the abstract only, so their methods and caveats are known only as their abstracts state them.\n\nWhat the checks cover. Each claim was checked against the passage it quotes, not against the whole source or the wider literature. A claim can be supported by its quote and still leave out a qualification stated elsewhere in the paper it cites. Interpretation sections were judged to follow from the claims they name; they were not checked against the sources.\n\nSame-family grading. The writer is a Claude model; the judges are a different model family, and any independent scoring of this paper by a Claude model shares the writer's family."
+  }
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "claim": "Prompt engineering is the natural starting point, and one survey describes it as a technique that involves strategically designing task-specific instructions, referred to as prompts, to guide model output without altering parameters.",
+   "source_key": "R1",
+   "quote": "It involves strategically designing task-specific instructions, referred to as prompts, to guide model output without altering parameters.",
+   "locator": "sec. Introduction, para 1",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C2",
+   "claim": "Another paper describes prompts as a form of programming that can customize the outputs and interactions with an LLM.",
+   "source_key": "R11",
+   "quote": "Prompts are also a form of programming that can customize the outputs and interactions with an LLM.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C3",
+   "claim": "A later survey treats prompt engineering as often lacking theory, noting that it is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical framework.",
+   "source_key": "R2",
+   "quote": "Despite the critical role of prompt engineering, it is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical framework, leading to challenges such as output inconsistency, prompt sensitivity, and hallucinations.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C4",
+   "claim": "The same survey frames the broader movement as a shift from input-level linguistic control to system-level contextual orchestration.",
+   "source_key": "R2",
+   "quote": "By analyzing the shift from input-level linguistic control to system-level contextual orchestration, we identify persistent limitations, such as context dilution and computational overhead.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C5",
+   "claim": "Context management has also become an object of empirical study: one paper notes that LLM agents on long-running tasks inevitably exceed their usable context window, forcing a choice about what history to discard.",
+   "source_key": "R18",
+   "quote": "Large language model (LLM) agents operating on long-running tasks inevitably exceed their usable context window, forcing a choice about what history to discard.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C6",
+   "claim": "Memory is another component, and one framework implements memory not as a vector database, but as a persistent file system accessible via tool calls.",
+   "source_key": "R24",
+   "quote": "we implement M not as a vector database, but as a persistent file system accessible via tool calls.",
+   "locator": "sec. THE MEMORY-AS-A-TOOL PROTOCOL, para 9",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C7",
+   "claim": "Tool use brings its own context costs, as tool schema definitions are reported to consume a disproportionate share of the available context budget.",
+   "source_key": "R20",
+   "quote": "Context rot manifests well before nominal token limits are reached, as tool schema definitions consume a disproportionate share of the available context budget and model attention weakens for information positioned deep within growing prompts.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C8",
+   "claim": "One survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+   "source_key": "R6",
+   "quote": "recent results highlight the importance of the agent harness: changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C9",
+   "claim": "A further survey takes the agent loop, not the model in isolation, as its unit of analysis.",
+   "source_key": "R8",
+   "quote": "This survey takes that agent loop, not the model in isolation, as its unit of analysis, on the argument that the properties practitioners actually care about, cost, reliability, and safety, are decided by the loop rather than by the model alone.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C10",
+   "claim": "One survey describes it as strategically designing task-specific instructions, referred to as prompts, to guide model output without altering parameters.",
+   "source_key": "R1",
+   "quote": "It involves strategically designing task-specific instructions, referred to as prompts, to guide model output without altering parameters.",
+   "locator": "sec. Introduction, para 1",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C11",
+   "claim": "The pattern-catalog paper characterizes prompts as a form of programming that can customize the outputs and interactions with an LLM.",
+   "source_key": "R11",
+   "quote": "Prompts are also a form of programming that can customize the outputs and interactions with an LLM.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C12",
+   "claim": "The prompt pattern catalog paper justifies documenting prompts in pattern form by treating prompts as a form of programming: \"Since prompts are a form of programming, it is natural to document them in pattern form.\"",
+   "source_key": "R11",
+   "quote": "Since prompts are a form of programming, it is natural to document them in pattern form.",
+   "locator": "sec. II. COMPARING SOFTWARE PATTERNS WITH PROMPT PATTERNS, para 12",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C13",
+   "claim": "The Prompt Report states that prompt engineering suffers from conflicting terminology and a fragmented ontological understanding of what constitutes an effective prompt.",
+   "source_key": "R48",
+   "quote": "Although prompt engineering is a widely adopted and extensively researched area, it suffers from conflicting terminology and a fragmented ontological understanding of what constitutes an effective prompt due to its relatively recent emergence.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C14",
+   "claim": "A 2026 survey likewise says prompt engineering is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical framework.",
+   "source_key": "R2",
+   "quote": "Despite the critical role of prompt engineering, it is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical framework, leading to challenges such as output inconsistency, prompt sensitivity, and hallucinations.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C15",
+   "claim": "A practitioner-focused study calls prompt engineering a critical yet loosely defined skill.",
+   "source_key": "R39",
+   "quote": "As large language models (LLMs) become increasingly embedded in professional and everyday workflows, prompt engineering has emerged as a critical yet loosely defined skill.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C16",
+   "claim": "The Prompt Report presents a taxonomy of 58 LLM prompting techniques.",
+   "source_key": "R48",
+   "quote": "We present a detailed vocabulary of 33 vocabulary terms, a taxonomy of 58 LLM prompting techniques, and 40 techniques for other modalities.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C17",
+   "claim": "A practitioner-oriented study reports that its primary contribution is \"a practice-based taxonomy of prompting strategies \"in the wild,\" highlighting forms of interaction that extend beyond formal prompt engineering models.\"",
+   "source_key": "R39",
+   "quote": "The primary contribution of this work is a practice-based taxonomy of prompting strategies \"in the wild,\" highlighting forms of interaction that extend beyond formal prompt engineering models.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C18",
+   "claim": "The Prompt Report states that its stance is observational and that evaluation in the field is variable and unstandardized: \"The field is new, and evaluation is variable and unstandardized-even the most meticulous experimentation may suffer from unanticipated shortcomings, and model outputs themselves are sensitive to meaning-preserving changes in inputs.\"",
+   "source_key": "R48",
+   "quote": "The field is new, and evaluation is variable and unstandardized-even the most meticulous experimentation may suffer from unanticipated shortcomings, and model outputs themselves are sensitive to meaning-preserving changes in inputs.",
+   "locator": "sec. Conclusions, para 316",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C19",
+   "claim": "One review describes a shift from input-level linguistic control to system-level contextual orchestration.",
+   "source_key": "R2",
+   "quote": "By analyzing the shift from input-level linguistic control to system-level contextual orchestration, we identify persistent limitations, such as context dilution and computational overhead.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C20",
+   "claim": "A review of externalization places the harness layer at the current stage, in which capability extends beyond prompt management into persistent infrastructure.",
+   "source_key": "R87",
+   "quote": "The Harness layer-the topmost band in Figure 2 and the rightmost region in Figure 1 (lower panel)represents the current stage, in which capability extends beyond prompt management into persistent infrastructure.",
+   "locator": "sec. Capability through Infrastructure, para 38",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C21",
+   "claim": "One survey of prompt and context engineering analyzes the shift from input-level linguistic control to system-level contextual orchestration and names context dilution and computational overhead as persistent limitations.",
+   "source_key": "R2",
+   "quote": "By analyzing the shift from input-level linguistic control to system-level contextual orchestration, we identify persistent limitations, such as context dilution and computational overhead.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C22",
+   "claim": "The ACE paper defines context adaptation as modifying inputs with instructions, strategies, or evidence rather than updating weights.",
+   "source_key": "R94",
+   "quote": "Large language model (LLM) applications such as agents and domain-specific reasoning increasingly rely on context adaptation: modifying inputs with instructions, strategies, or evidence, rather than weight updates.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C23",
+   "claim": "The ACE authors report that their framework treats contexts as evolving playbooks built through generation, reflection, and curation.",
+   "source_key": "R94",
+   "quote": "We introduce ACE (Agentic Context Engineering), a framework that treats contexts as evolving playbooks that accumulate, refine, and organize strategies through a modular process of generation, reflection, and curation.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C24",
+   "claim": "The code-harness survey says prompt engineering changes instructions and context engineering changes what evidence is presented to the model, while harness engineering treats the operating environment itself as the object of analysis.",
+   "source_key": "R49",
+   "quote": "Whereas prompt engineering changes instructions and context engineering changes what evidence is presented to the model, AHE treats the operating environment itself as the object of analysis",
+   "locator": "sec. Agentic Harness Engineering for Adaptive Harness Optimization, para 96",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C25",
+   "claim": "The externalization review describes a harness that separates the prompt into layers instead of treating it as an undifferentiated text buffer, and calls this a structured form of context engineering.",
+   "source_key": "R87",
+   "quote": "Rather than treating the prompt as an undifferentiated text buffer, the harness separates it into layers with distinct update rates, governance requirements, and failure modes.",
+   "locator": "sec. The LLM Input/Output Perspective, para 241",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C26",
+   "claim": "The scaling-the-harness paper lists a context constructor as one of six components of an agent.",
+   "source_key": "R26",
+   "quote": "Under this view, an agent is not simply a model with a prompt, but a system composed of six interacting components: a reasoning substrate (R), a memory store (M), a context constructor (C), a skill-routing layer (S, which dispatches tools and subagents), an orchestration loop (O), and a verification and governance layer (G).",
+   "locator": "sec. Related Work, para 14",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C27",
+   "claim": "One empirical proposal describes context rot as progressive, nonlinear degradation of reasoning quality and tool-calling reliability as the context window fills.",
+   "source_key": "R20",
+   "quote": "a phenomenon now termed context rot has emerged: the progressive and nonlinear degradation of agent reasoning quality and tool calling reliability as the context window fills during extended coding sessions.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C28",
+   "claim": "The same paper states that no published empirical study has directly tested its joint hypothesis linking codebase scale, context growth and tool attrition.",
+   "source_key": "R20",
+   "quote": "Despite these convergent findings, no published empirical study has directly tested the joint hypothesis that codebase scale drives context window growth, which in turn triggers measurable MCP tool attrition",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C29",
+   "claim": "The externalization review describes memory as externalizing state across time, skills as externalizing procedural expertise, protocols as externalizing interaction structure, and harness engineering as the unification layer that coordinates them into governed execution.",
+   "source_key": "R87",
+   "quote": "Under this view, memory externalizes state across time, skills externalize procedural expertise, protocols externalize interaction structure, and harness engineering serves as the unification layer that coordinates them into governed execution.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C30",
+   "claim": "The code-as-harness survey states that prompt engineering changes instructions and context engineering changes what evidence is presented to the model, whereas agentic harness engineering treats the operating environment itself as the object of analysis.",
+   "source_key": "R49",
+   "quote": "Whereas prompt engineering changes instructions and context engineering changes what evidence is presented to the model, AHE treats the operating environment itself as the object of analysis, including tool schemas, planning artifacts, memory policies, retrieval strategies, sandbox configuration, verification sensors, permission tiers, routing rules, multiagent workflows, and human-review gates [281,178].",
+   "locator": "sec. Agentic Harness Engineering for Adaptive Harness Optimization, para 96",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C31",
+   "claim": "The externalization review describes the harness as a structured form of context engineering that separates the prompt into layers with distinct update rates, governance requirements, and failure modes.",
+   "source_key": "R87",
+   "quote": "Rather than treating the prompt as an undifferentiated text buffer, the harness separates it into layers with distinct update rates, governance requirements, and failure modes.",
+   "locator": "sec. The LLM Input/Output Perspective, para 241",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C32",
+   "claim": "The harness-aware evaluation survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+   "source_key": "R6",
+   "quote": "recent results highlight the importance of the agent harness: changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C33",
+   "claim": "The UniACE study reports large bidirectional score changes and model-ranking reversals when compared with source implementations.",
+   "source_key": "R84",
+   "quote": "Comparisons with source implementations show large bidirectional score changes and model-ranking reversals, while matched online and offline runs reveal substantial sensitivity to accessible evidence and its representation.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C34",
+   "claim": "The harness survey proposes that routine capability-bearing support migrates inward into model weights while constraint-bearing governance functions remain external.",
+   "source_key": "R29",
+   "quote": "explaining the shifting functional boundary where routine capability-bearing support migrates inward into model weights while constraint-bearing governance functions remain external.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C35",
+   "claim": "The code-as-harness survey lists open challenges including evaluation beyond final task success, verification under incomplete feedback, and regression-free harness improvement.",
+   "source_key": "R49",
+   "quote": "We further outline open challenges for harness engineering, including evaluation beyond final task success, verification under incomplete feedback, regression-free harness improvement, consistent shared state across multiple agents, human oversight for safety-critical actions, and extensions to multimodal environments.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C36",
+   "claim": "The survey \"The Agent Loop\" states that every LLM agent, beneath its framework and its prompts, runs a loop: it observes, decides, acts, and observes again until it stops.",
+   "source_key": "R8",
+   "quote": "Every LLM agent, beneath its framework and its prompts, runs a loop: it observes, decides, acts, and observes again until it stops.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C37",
+   "claim": "The same survey states that cost, reliability and safety are decided by the loop rather than by the model alone.",
+   "source_key": "R8",
+   "quote": "This survey takes that agent loop, not the model in isolation, as its unit of analysis, on the argument that the properties practitioners actually care about, cost, reliability, and safety, are decided by the loop rather than by the model alone.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C38",
+   "claim": "Another survey defines the agent harness as the external execution support structure built around the model.",
+   "source_key": "R29",
+   "quote": "We understand the agent harness as the external execution support structure built around the model and treat it as a distinct performance lever that complements base model capability, positioning harness engineering as a growing area of research and engineering practice.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C39",
+   "claim": "The scaling-the-harness paper lists the components of a harness, including orchestration and verification.",
+   "source_key": "R26",
+   "quote": "This framing is increasingly inadequate because agent performance emerges from the interaction among the foundation model, memory substrate, context constructor, skill-routing layer, orchestration loop, and verification-and-governance layer.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C40",
+   "claim": "The externalization review places the harness as the stage at which engineering attention moved from prompts to the operating environment.",
+   "source_key": "R87",
+   "quote": "As context windows became saturated and prompt templates more unwieldy, engineering attention increasingly shifted from \"what should we tell the model?\" to \"what environment should the model operate in?\"",
+   "locator": "sec. Capability through Infrastructure, para 38",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C41",
+   "claim": "The code-harness survey describes production systems as wrapping the model in a managed development loop.",
+   "source_key": "R49",
+   "quote": "Rather than exposing the model to a flat list of tools, recent systems wrap it in a managed development loop that controls repository access, file edits, command execution, approval boundaries, context isolation, logging, and validation.",
+   "locator": "sec. Executable Development Harnesses., para 163",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C42",
+   "claim": "On multi-agent orchestration, the code-harness survey reports that long-running harnesses separate planning, generation and evaluation into distinct roles.",
+   "source_key": "R49",
+   "quote": "Anthropic's long-running harnesses separate planning, generation, and evaluation into distinct roles, using structured artifacts and independent evaluation to maintain progress across long sessions [15,171].",
+   "locator": "sec. Orchestration-based Planning, para 54",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C43",
+   "claim": "The Agentic RAG survey frames retrieval as part of this agentic design space, since agents use reflection, planning, tool use and multi-agent collaboration to manage retrieval.",
+   "source_key": "R17",
+   "quote": "These agents leverage agentic design patterns reflection, planning, tool use, and multi-agent collaboration to dynamically manage retrieval strategies, iteratively refine contextual understanding, and adapt workflows through operational structures ranging from sequential steps to adaptive collaboration.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C44",
+   "claim": "The survey on Agentic RAG concludes that \"no single architecture is universally optimal; effectiveness depends on aligning complexity with task requirements.\"",
+   "source_key": "R17",
+   "quote": "no single architecture is universally optimal; effectiveness depends on aligning complexity with task requirements.",
+   "locator": "sec. Conclusion, para 315",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C45",
+   "claim": "The agent-loop survey argues that the loop is being internalized into weights and externalized into skills and harnesses.",
+   "source_key": "R8",
+   "quote": "One thesis runs throughout: the loop is being pulled in two directions at once, internalized into weights and externalized into skills and harnesses.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C46",
+   "claim": "Open problems named across the sources include evaluation beyond final task success and consistent shared state across multiple agents.",
+   "source_key": "R49",
+   "quote": "We further outline open challenges for harness engineering, including evaluation beyond final task success, verification under incomplete feedback, regression-free harness improvement, consistent shared state across multiple agents, human oversight for safety-critical actions, and extensions to multimodal environments.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C47",
+   "claim": "The harness-aware evaluation survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+   "source_key": "R6",
+   "quote": "recent results highlight the importance of the agent harness: changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C48",
+   "claim": "The UniACE authors state that a reported score reflects a complete model–harness–environment configuration rather than the model alone.",
+   "source_key": "R84",
+   "quote": "a reported score reflects a complete model--harness--environment configuration rather than the model alone.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C49",
+   "claim": "In UniACE's comparisons with source implementations, the authors found large bidirectional score changes and model-ranking reversals.",
+   "source_key": "R84",
+   "quote": "Comparisons with source implementations show large bidirectional score changes and model-ranking reversals",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C50",
+   "claim": "The harness-aware evaluation survey introduces a four-factor framework comprising the model, harness, environment, and evaluator, alongside the protocol under which they are tested.",
+   "source_key": "R6",
+   "quote": "introduces a four-factor evaluation framework comprising the model, harness, environment, and evaluator, alongside the protocol under which they are tested.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C51",
+   "claim": "The harness engineering survey proposes a two-stage evaluation logic separating native capability-gap diagnosis from assessment of compensation effectiveness and net benefit.",
+   "source_key": "R29",
+   "quote": "we articulate a two-stage evaluation logic that distinguishes native model capability-gap diagnosis from assessments of compensation effectiveness and net benefit",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C52",
+   "claim": "The code-as-harness survey warns that a new verifier may improve pass rate by accepting underspecified solutions.",
+   "source_key": "R49",
+   "quote": "a new verifier may improve pass rate by accepting underspecified solutions.",
+   "locator": "sec. Self-Evolving Harnesses without Regression, para 216",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C53",
+   "claim": "The scaling-the-harness paper argues that agent quality should be evaluated as a longitudinal systems property rather than a one-shot completion score.",
+   "source_key": "R26",
+   "quote": "Agent quality should therefore be evaluated as a longitudinal systems property rather than a one-shot completion score.",
+   "locator": "sec. From Single Episodes to Longitudinal Evaluation, para 45",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C54",
+   "claim": "The externalization review suggests treating evaluation as externalized quality infrastructure rather than as a post-hoc measurement.",
+   "source_key": "R87",
+   "quote": "The broader opportunity is to treat evaluation as externalized quality infrastructure rather than as a post-hoc measurement.",
+   "locator": "sec. The Expanding Frontier, para 263",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C55",
+   "claim": "The context-compression experiment used a synthetic recall task and acknowledges the limits of its single-model, single-budget setup.",
+   "source_key": "R18",
+   "quote": "We discuss the practical implications for agent framework design and the limitations of our synthetic, single-model, single-budget setup.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C56",
+   "claim": "The context-rot paper states that no published empirical study has directly tested its joint hypothesis that codebase scale drives context window growth, which in turn triggers measurable MCP tool attrition.",
+   "source_key": "R20",
+   "quote": "no published empirical study has directly tested the joint hypothesis that codebase scale drives context window growth, which in turn triggers measurable MCP tool attrition",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C57",
+   "claim": "The drilling system draws its conclusion from case studies and a qualitative ablation analysis, which it says suggest that domain-specialized tool design, rather than model scale alone, is the primary driver of analytical quality.",
+   "source_key": "R41",
+   "quote": "the case studies and qualitative ablation analysis suggest that domain-specialized tool design, rather than model scale alone, is the primary driver of analytical quality in technical operations.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C58",
+   "claim": "The UniACE study reports that comparisons with source implementations produced bidirectional score shifts and model-ranking reversals.",
+   "source_key": "R84",
+   "quote": "Across seven benchmarks, 24 domains, 15 models, 400K rollouts, and 5B tokens, comparisons with source implementations reveal bidirectional score shifts and model-ranking reversals, while matched onlineoffline runs expose sensitivity to accessible evidence and its representation.",
+   "locator": "sec. Conclusion, para 49",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C59",
+   "claim": "The harness-aware survey distinguishes what existing comparisons establish from effects that remain entangled.",
+   "source_key": "R6",
+   "quote": "We distinguish what existing comparisons establish from effects that remain entangled",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  }
+ ],
+ "inferences": [
+  {
+   "id": "I1",
+   "section": "Discussion",
+   "text": "Prompt engineering is described consistently as designing instructions to guide a model without altering its parameters, and as a form of programming that customizes outputs and interactions.",
+   "premises": [
+    "C1",
+    "C2",
+    "C11"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I2",
+   "section": "Discussion",
+   "text": "Prompt engineering is also described as poorly consolidated: it is said to have conflicting terminology, to be treated as empirical and ad hoc without a standardized theoretical framework, and to be a critical yet loosely defined skill.",
+   "premises": [
+    "C3",
+    "C13",
+    "C14",
+    "C15"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I3",
+   "section": "Discussion",
+   "text": "Several sources describe a movement beyond prompts: one survey frames it as a shift from input-level linguistic control to system-level contextual orchestration, and the externalization review places the harness at a stage extending into persistent infrastructure.",
+   "premises": [
+    "C4",
+    "C19",
+    "C20"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I4",
+   "section": "Discussion",
+   "text": "The sources agree on the direction of the boundary but phrase it differently. Prompt engineering changes instructions, context engineering changes the evidence presented, and harness engineering takes the operating environment as its object of analysis. The externalization review separately calls the harness a structured form of context engineering, so the boundary between context engineering and harness is not drawn identically.",
+   "premises": [
+    "C24",
+    "C30",
+    "C25",
+    "C31"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I5",
+   "section": "Discussion",
+   "text": "Components are attributed across the stages: context adaptation and evolving playbooks, memory as a file system accessed through tool calls, tool schemas that consume context budget, orchestration roles separating planning, generation and evaluation, and verification as a harness component.",
+   "premises": [
+    "C22",
+    "C23",
+    "C6",
+    "C7",
+    "C42",
+    "C39"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I6",
+   "section": "Discussion",
+   "text": "Evaluation evidence converges on the claim that the harness matters: changing the execution system around a fixed model can alter performance and reverse rankings, and a reported score reflects a model–harness–environment configuration.",
+   "premises": [
+    "C8",
+    "C32",
+    "C48",
+    "C49"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I7",
+   "section": "Discussion",
+   "text": "Sources diverge on where capability ends up. One survey proposes that routine support moves into model weights while governance stays external, and another says the loop is both internalized into weights and externalized into skills and harnesses.",
+   "premises": [
+    "C34",
+    "C45"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I8",
+   "section": "Conclusions",
+   "text": "The literature articulates a progression from prompt-level instruction design, to context-level management of what the model sees, to harness-level treatment of the surrounding execution environment, though the exact boundaries are phrased differently across sources.",
+   "premises": [
+    "C4",
+    "C24",
+    "C30",
+    "C20",
+    "C31"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I9",
+   "section": "Conclusions",
+   "text": "Memory, tool use, orchestration and verification are attributed mainly to the system-level and harness stages, but these claims do not show a single agreed assignment of components to stages.",
+   "premises": [
+    "C6",
+    "C7",
+    "C39",
+    "C42",
+    "C25"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I10",
+   "section": "Conclusions",
+   "text": "Some of the empirical support is limited: one context-compression experiment used a synthetic task with a single model and budget, and the context-rot hypothesis is stated as untested by prior published studies.",
+   "premises": [
+    "C55",
+    "C28",
+    "C56"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I11",
+   "section": "Conclusions",
+   "text": "The claims do not settle whether capability will mainly move into weights or into external harnesses.",
+   "premises": [
+    "C34",
+    "C45"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I12",
+   "section": "A research agenda",
+   "text": "Test the context-rot and tool-attrition hypothesis directly, since it is described as untested.",
+   "premises": [
+    "C28",
+    "C56",
+    "C27"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I13",
+   "section": "A research agenda",
+   "text": "Repeat context-management comparisons with multiple models and budgets on non-synthetic tasks, because the existing experiment is limited to a single model and budget.",
+   "premises": [
+    "C55",
+    "C5"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I14",
+   "section": "A research agenda",
+   "text": "Develop shared definitions and a common vocabulary for the three stages, given the terminological fragmentation and the differing placement of the harness relative to context engineering.",
+   "premises": [
+    "C13",
+    "C3",
+    "C25",
+    "C24"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I15",
+   "section": "A research agenda",
+   "text": "Report evaluations as full model–harness–environment configurations and separate the entangled effects, since rankings can reverse.",
+   "premises": [
+    "C48",
+    "C49",
+    "C59",
+    "C50"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I16",
+   "section": "A research agenda",
+   "text": "Study evaluation beyond final task success, including verification under incomplete feedback and the risk that a new verifier accepts underspecified solutions.",
+   "premises": [
+    "C35",
+    "C46",
+    "C52"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I17",
+   "section": "A research agenda",
+   "text": "The sources describe a split in where agent functions reside: one harness survey proposes that routine capability-bearing support migrates into model weights while constraint-bearing governance functions remain external, and the agent-loop survey likewise argues that the loop is being internalized into weights and externalized into skills and harnesses. Both are proposals or arguments, and the sources do not report an empirical test of which functions migrate.",
+   "premises": [
+    "C34",
+    "C45"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  }
+ ],
+ "sources": [
+  {
+   "key": "R1",
+   "id": "arXiv:2402.07927",
+   "title": "A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications",
+   "authors": [
+    "Pranab Sahoo",
+    "Ayush Singh",
+    "Sriparna Saha",
+    "Vinija Jain",
+    "Samrat Mondal",
+    "Aman Chadha"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2402.07927",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R2",
+   "id": "doi:10.1016/j.cosrev.2026.100979",
+   "title": "A comprehensive survey of prompt engineering and context engineering techniques in large language models",
+   "authors": [
+    "Tonmoy Debnath",
+    "Md Nurul Absar Siddiky",
+    "Muhammad Enayetur Rahman",
+    "Prosenjit Das",
+    "Antu Kumar Guha",
+    "Muhammad Rezaur Rahman",
+    "H M Dipu Kabir"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.1016/j.cosrev.2026.100979",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R6",
+   "id": "doi:10.20944/preprints202609.2140.v1",
+   "title": "Harness-Aware Evaluation of LLM Agents: Systems, Benchmarks, and Protocols",
+   "authors": [
+    "Ahmed Y. Radwan",
+    "Athanasios V. Vasilakos",
+    "Shaina Raza"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "crossref",
+   "url": "https://doi.org/10.20944/preprints202609.2140.v1",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R8",
+   "id": "doi:10.2139/ssrn.7186738",
+   "title": "The Agent Loop: A Survey of Control Strategies, Skills, and Harnesses for LLM Agents",
+   "authors": [
+    "Jungseob Lee",
+    "Chanjun Park"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.2139/ssrn.7186738",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R11",
+   "id": "doi:10.48550/arxiv.2302.11382",
+   "title": "A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT",
+   "authors": [
+    "Jules White",
+    "Quchen Fu",
+    "Sam Hays",
+    "Michael Sandborn",
+    "Carlos Olea",
+    "Gilbert, Henry",
+    "Ashraf Elnashar",
+    "Jesse Spencer-Smith",
+    "Douglas C. Schmidt"
+   ],
+   "year": "2023",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2302.11382",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R17",
+   "id": "doi:10.48550/arxiv.2501.09136",
+   "title": "Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG",
+   "authors": [
+    "Aditi Singh",
+    "Abul Ehtesham",
+    "Saket Kumar",
+    "Tala Talaei Khoei",
+    "Vasilakos, Athanasios V."
+   ],
+   "year": "2025",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2501.09136",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R18",
+   "id": "doi:10.2139/ssrn.6961019",
+   "title": "An Empirical Evaluation of Context-Management Strategies for Large Language Model Agents Under Forced Context Compression",
+   "authors": [
+    "Yash Zode"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "crossref",
+   "url": "https://doi.org/10.2139/ssrn.6961019",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R20",
+   "id": "doi:10.2139/ssrn.7344299",
+   "title": "Context Rot and MCP Tool Attrition in Production-Scale Codebases: An Empirical Investigation of Context-Driven Tool Calling Degradation in Agentic AI Coding Systems",
+   "authors": [
+    "Abrar Shahriar",
+    "Qurat-ul-ain Mastoi"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.2139/ssrn.7344299",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R24",
+   "id": "arXiv:2601.05960",
+   "title": "Distilling Feedback into Memory-as-a-Tool",
+   "authors": [
+    "Víctor Gallego"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2601.05960",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R26",
+   "id": "arXiv:2605.26112",
+   "title": "From Model Scaling to System Scaling: Scaling the Harness in Agentic AI",
+   "authors": [
+    "Shangding Gu"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2605.26112",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R29",
+   "id": "doi:10.20944/preprints202606.2203.v1",
+   "title": "Harness Engineering for LLM Agents: A Survey of Harness Component Taxonomy, Evaluation, and Model–Harness Coevolution",
+   "authors": [
+    "Jieni Li",
+    "Yuan Wu",
+    "Yi Chang"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.20944/preprints202606.2203.v1",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R39",
+   "id": "doi:10.2139/ssrn.6129946",
+   "title": "Prompting in the Wild: A Qualitative Taxonomy of Practitioner-Driven Prompt Engineering Methods",
+   "authors": [
+    "Dominic Vincent Ligot"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "crossref",
+   "url": "https://doi.org/10.2139/ssrn.6129946",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R41",
+   "id": "doi:10.20944/preprints202604.1820.v1",
+   "title": "TADI: Tool-Augmented Drilling Intelligence via Agentic LLM Orchestration over Heterogeneous Wellsite Data",
+   "authors": [
+    "Rong Lu"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "crossref",
+   "url": "https://doi.org/10.20944/preprints202604.1820.v1",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R48",
+   "id": "doi:10.48550/arxiv.2406.06608",
+   "title": "The Prompt Report: A Systematic Survey of Prompt Engineering Techniques",
+   "authors": [
+    "Sander Schulhoff",
+    "Michael Ilie",
+    "Nishant Balepur",
+    "Konstantine Kahadze",
+    "Amanda Liu",
+    "Chenglei Si",
+    "Li, Yinheng",
+    "Aayush Gupta",
+    "HyoJung Han",
+    "Sevien Schulhoff",
+    "Pranav S. Dulepet",
+    "Saurav Vidyadhara",
+    "Dayeon Ki",
+    "Sweta Agrawal",
+    "Chau Pham",
+    "Gerson C. Kroiz",
+    "F. Li",
+    "Hudson Tao",
+    "Ashay Srivastava",
+    "Hevander Da Costa",
+    "Saloni Gupta",
+    "Megan L. Rogers",
+    "Inna Goncearenco",
+    "Giuseppe Sarli",
+    "IGOR I. GALYNKER",
+    "Denis Peskoff",
+    "Marine Jacinthe Carpuat",
+    "Jules White",
+    "Shyamal Anadkat",
+    "Alexander Hoyle",
+    "Philip Resnik"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2406.06608",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R49",
+   "id": "arXiv:2605.18747",
+   "title": "Code as Agent Harness",
+   "authors": [
+    "Xuying Ning",
+    "Katherine Tieu",
+    "Dongqi Fu",
+    "Tianxin Wei",
+    "Zihao Li",
+    "Yuanchen Bei",
+    "Jiaru Zou",
+    "Mengting Ai",
+    "Zhining Liu",
+    "Ting-Wei Li",
+    "Lingjie Chen",
+    "Yanjun Zhao",
+    "Ke Yang",
+    "Bingxuan Li",
+    "Cheng Qian",
+    "Gaotang Li",
+    "Xiao Lin",
+    "Zhichen Zeng",
+    "Ruizhong Qiu",
+    "Sirui Chen",
+    "Yifan Sun",
+    "Xiyuan Yang",
+    "Ruida Wang",
+    "Rui Pan",
+    "Chenyuan Yang",
+    "Dylan Zhang",
+    "Liri Fang",
+    "Zikun Cui",
+    "Yang Cao",
+    "Pan Chen",
+    "Dorothy Sun",
+    "Ren Chen",
+    "Mahesh Srinivasan",
+    "Nipun Mathur",
+    "Yinglong Xia",
+    "Hong Li",
+    "Hong Yan",
+    "Pan Lu",
+    "Lingming Zhang",
+    "Tong Zhang",
+    "Hanghang Tong",
+    "Jingrui He"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2605.18747",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R84",
+   "id": "doi:10.48550/arxiv.2605.27898",
+   "title": "UniACE: A Unified Framework for Evaluating LLM Agentic Capabilities",
+   "authors": [
+    "Pengyu Zhu",
+    "Lijun Li",
+    "Yaxing Lyu",
+    "Qianxin Luo",
+    "Jingyi Yang",
+    "Yi Liu",
+    "Tingfeng Hui",
+    "Xinyu Yuan",
+    "Li Sun",
+    "Sen Su",
+    "Jing Shao"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2605.27898",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R87",
+   "id": "arXiv:2604.08224",
+   "title": "Externalization in LLM Agents: A Unified Review of Memory, Skills, Protocols and Harness Engineering",
+   "authors": [
+    "Chenyu Zhou",
+    "Huacan Chai",
+    "Wenteng Chen",
+    "Zihan Guo",
+    "Rong Shan",
+    "Yuanyi Song",
+    "Tianyi Xu",
+    "Yingxuan Yang",
+    "Aofan Yu",
+    "Weiming Zhang",
+    "Congming Zheng",
+    "Jiachen Zhu",
+    "Zeyu Zheng",
+    "Zhuosheng Zhang",
+    "Xingyu Lou",
+    "Changwang Zhang",
+    "Zhihui Fu",
+    "Jun Wang",
+    "Weiwen Liu",
+    "Jianghao Lin",
+    "Weinan Zhang"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2604.08224",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R94",
+   "id": "arXiv:2510.04618",
+   "title": "Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models",
+   "authors": [
+    "Qizheng Zhang",
+    "Changran Hu",
+    "Shubhangi Upasani",
+    "Ma, Boyuan",
+    "Hong, Fenglu",
+    "Vamsidhar Reddy Kamanuru",
+    "Jay Rainton",
+    "Wu Chen",
+    "Mengmeng Ji",
+    "Hanchen Li",
+    "Urmish Thakker",
+    "James Zou",
+    "Kunle Olukotun"
+   ],
+   "year": "2025",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2510.04618",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  }
+ ],
+ "retrieval_stats": {
+  "queries": [
+   "prompt engineering to context engineering definition",
+   "context engineering for large language model agents",
+   "agent harness design for LLM agents",
+   "agentic harness orchestration tool use memory",
+   "survey of context engineering techniques",
+   "retrieval-augmented generation and agent memory architectures",
+   "in-context learning and prompt design foundations",
+   "LLM agent scaffolding and tool-calling frameworks",
+   "benchmarks for evaluating LLM agent harnesses",
+   "long-context limitations context rot degradation",
+   "failure modes of autonomous LLM agents",
+   "survey of prompt engineering methods taxonomy"
+  ],
+  "n_retrieved": 120,
+  "n_kept": 46,
+  "n_read_full": 6,
+  "n_dropped_by_screen": 74
+ },
+ "evidence_stats": {
+  "n_full_text": 15,
+  "n_abstract_only": 31,
+  "n_passages": 195,
+  "n_passages_cited": 31
+ }
+}

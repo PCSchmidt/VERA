@@ -61,6 +61,10 @@ class LitState(TypedDict, total=False):
     parent_candidates: list  # repositories found in the papers read, with their live checks
     parent: str | None  # the picked parent problem's repository, or None
     read_report: list  # per paper: how it was read (full text or abstract), and why not when it was not
+    paper_evidence: dict  # Increment 6: the wider reading's summary (paper/reading.json)
+    paper_outline: dict  # the paper's title and the themes the evidence supports
+    paper_draft: list  # per section: heading and drafted paragraphs
+    paper: dict  # the PaperDocument so far
     artifacts: Annotated[dict, _merge]
     verdicts: Annotated[dict, _merge]
     stage_results: Annotated[list, operator.add]

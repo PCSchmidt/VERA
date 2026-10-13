@@ -1,0 +1,21 @@
+{
+ "paper_id": "discuss-the-evolution-of-prompting-guv8 (paper)",
+ "paper_source": "paper/paper.md",
+ "repo": null,
+ "findings": [],
+ "overall": "green",
+ "checks_run": [
+  "citation",
+  "claim_support",
+  "inference"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.0019195024000000002,
+ "wall_seconds": 76,
+ "schema_version": "0.12"
+}

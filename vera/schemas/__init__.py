@@ -22,6 +22,7 @@ from vera.schemas.literature import (
     SourceRecord,
     Topic,
 )
+from vera.schemas.paper import Inference, PaperDocument, PaperRequest, PaperSection
 from vera.schemas.research import STAGES, FigureSpec, OutputGuidance, ProblemSpec, ProtocolSpec, RunSpec, StageResult
 from vera.schemas.version import SCHEMA_VERSION
 
@@ -42,6 +43,10 @@ __all__ = [
     "LiteratureSection",
     "Location",
     "OutputGuidance",
+    "Inference",
+    "PaperDocument",
+    "PaperRequest",
+    "PaperSection",
     "ProblemSpec",
     "Question",
     "QuestionType",

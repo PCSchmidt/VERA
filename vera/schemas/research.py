@@ -17,6 +17,7 @@ class StageResult(BaseModel):
     stage: Literal[
         "scope", "retrieve", "read", "synthesize", "parent",
         "baseline", "ideate", "subset_exp", "full_exp", "ablation", "write_up", "audit",
+        "paper", "interpret",
     ]  # fmt: skip
     artifact_ref: str  # path/ID of produced artifact
     producer_id: str

@@ -1,0 +1,11 @@
+{
+ "topic_id": "rlm-vs-clm-3",
+ "question": "Based on the published literature on Recursive Language Models (RLMs, in which a model programmatically decomposes and recursively calls itself over an externalized long prompt) and on context-centric language models (CLMs, which condition on or compress large contexts), how do the two approaches overlap and differ in mechanism, and what does the existing evidence say about their suitability for production coding with respect to output quality, cost efficiency, and reuse of execution traces?",
+ "why_researchable": "A short literature review can answer this by comparing the primary RLM sources (e.g., Zhang and Khattab's RLM work and related recursive or agentic scaffolds) with the long-context, context-compression and retrieval literature that the term CLM covers. The review would tabulate mechanisms (REPL-based decomposition versus in-context conditioning or compression), reported benchmark quality, token and cost accounting, and trace reuse (caching, distillation, replay), and would note where the evidence is thin or the terminology is ambiguous. No experiments are needed because the output is a conceptual and evidential synthesis with stated gaps, which fits a format paper.",
+ "empirical": false,
+ "candidate_parent": null,
+ "no_parent_reason": "This is a literature-review-only question, so no parent method paper with public code is needed.",
+ "status": "confirmed",
+ "confirmed_by": "the app user",
+ "confirmed_at": "2026-10-11T12:03:08Z"
+}

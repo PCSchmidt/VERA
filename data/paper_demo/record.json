@@ -1,0 +1,22 @@
+{
+ "papers": [
+  {
+   "run_id": "how-much-useable-information-about-6x3n",
+   "notes": "a useful, transparent exploratory review, but it needs revision before being treated as authoritative.",
+   "notes_by": "Chris Schmidt",
+   "recorded_at": "2026-10-12T12:27:31+00:00"
+  },
+  {
+   "run_id": "rlm-vs-clm-3",
+   "notes": "A clear comparative review with honest evidence gaps, but the named CLM target and production-coding evidence remain too thin for a confident bottom-line comparison.",
+   "notes_by": "Chris Schmidt",
+   "recorded_at": "2026-10-12T19:17:30+00:00"
+  },
+  {
+   "run_id": "discuss-the-evolution-of-prompting-guv8",
+   "notes": "A strong paper-shaped synthesis with clear stage distinctions and stated limits, though some uncited synthesis sentences still overstate how settled the boundaries are.",
+   "notes_by": "Chris Schmidt",
+   "recorded_at": "2026-10-12T19:17:30+00:00"
+  }
+ ]
+}

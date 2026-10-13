@@ -1,0 +1,8 @@
+{
+ "request": {
+  "max_usd": 1.0,
+  "length_words": 3000,
+  "emphasis": "Focus on CLM (Context Language Models) should relate to research \"Context Language Models\nRulin Shao, Shannon Zejiang Shen, Junjie Oscar Yin, Yuetai Li, Minheng Wang, Hamish Ivison, Radha Poovendran, Nathan Lambert, Teng Xiao, Mike Lewis, Wen-tau Yih, Luke Zettlemoyer, Pang Wei Koh\nWe introduce Context Language Models (CLMs), language models that natively manage their own context. We implement this by treating the context as a file and allowing the model to make unrestricted updates ...\""
+ },
+ "spent_before_usd": 0.13157809754000005
+}

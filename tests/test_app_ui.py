@@ -114,6 +114,15 @@ def server(tmp_path_factory):
         [{"severity": "fail", "summary": "a citation does not resolve", "check": "citation"}],
     )
     fixture_run(root, "wait-run", "awaiting_confirmation", "Check the question VERA proposes.", None)
+    fixture_run(root, "paper-run", "complete", None, "green")  # a review with a finished paper (Increment 6)
+    from tests.test_app_paper import written_paper  # noqa: PLC0415
+
+    written_paper(root / "runs" / "paper-run")
+    (root / "runs" / "paper-run" / "paper" / "app_paper_request.json").write_text(
+        json.dumps({"request": {"max_usd": 0.75, "length_words": 3000, "emphasis": None}, "spent_before_usd": 0.0}),
+        encoding="utf-8",
+    )
+    app_state.write(root / "runs" / "paper-run" / "paper", "complete", None)
     (root / "runs" / "wait-run" / "scope.json").write_text(
         json.dumps(
             {
@@ -183,6 +192,15 @@ def dom(port: int, route: str, tmp_path: Path) -> str:
     ("example/conformal-shift", 'class="ref"'),
     ("example/conformal-shift", "Download PDF"),
     ("run/done-run", "Download PDF"),
+    ("read/done-run", "Make a paper from this review"),
+    ("make-paper/done-run", "not checked against quotes"),
+    ("run/paper-run", "Make a paper from this review"),
+    ("paper-run/paper-run", "Read the paper"),
+    ("paper/paper-run", 'class="interp"'),
+    ("paper/paper-run", 'class="premise"'),
+    ("paper/paper-run", "Review paper"),
+    ("paper/paper-run", "1 kept, 1 removed by the checks"),
+    ("read/paper-run", 'class="tabs"'),
 ])  # fmt: skip
 def test_each_page_renders_against_fixture_runs(server: int, route: str, must_have: str, tmp_path: Path) -> None:
     html = dom(server, route, tmp_path)

@@ -1,0 +1,9 @@
+{
+ "frozen_at": "2026-10-11T13:17:48+00:00",
+ "test_sha256": "534c800df3d19cabb81ad005286b48f6d72aaf8f7aac5e207f6f967f285707dd",
+ "check_sha256": {
+  "vera/audit/inference.py": "90aac0aba185ad6c9ae47946975badfe1bfdc5dccfcd4b81cddb3650ebc75c06",
+  "vera/literature/synthesis.py": "104981efce2ec88839753b027474c509bfca2ed4771ea6ec74bcf53e9a083f8b",
+  "vera/literature/anchoring.py": "7cf3fe5bdf43989c5d8d5f20cf1c6fc2f5e3671550ab09a0f745317146f1a6f4"
+ }
+}

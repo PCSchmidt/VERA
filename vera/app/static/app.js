@@ -91,15 +91,18 @@ const routes = [
   [/^#\/run-locally$/, runLocally],
   [/^#\/examples$/, examplesView],
   [/^#\/example\/([a-z0-9-]+)$/, (id) => readerView("example", id)],
+  [/^#\/make-paper\/([a-z0-9-]+)$/, makePaperView],
+  [/^#\/paper-run\/([a-z0-9-]+)$/, paperRunView],
+  [/^#\/paper\/([a-z0-9-]+)$/, (id) => readerView("paper", id)],
 ];
-let closeStream = null;
+let closeStream = null; // closes the live view's event stream or stops its polling
 
 async function route() {
   if (closeStream) { closeStream(); closeStream = null; }
   const hash = location.hash || "#/";
-  if (STATIC && /^#\/(new|runs|run\/|read\/)/.test(hash)) { location.hash = "#/run-locally"; return; }
+  if (STATIC && /^#\/(new|runs|run\/|read\/|make-paper\/|paper-run\/|paper\/)/.test(hash)) { location.hash = "#/run-locally"; return; }
   for (const link of document.querySelectorAll("nav a")) link.removeAttribute("aria-current");
-  const nav = hash.startsWith("#/run-locally") ? "local" : hash.startsWith("#/new") ? "new" : hash.startsWith("#/run") || hash.startsWith("#/read") ? "runs" : hash.startsWith("#/example") ? "examples" : null;
+  const nav = hash.startsWith("#/run-locally") ? "local" : hash.startsWith("#/new") ? "new" : /^#\/(run|read|make-paper|paper)/.test(hash) ? "runs" : hash.startsWith("#/example") ? "examples" : null;
   if (nav) $(`nav a[data-nav="${nav}"]`).setAttribute("aria-current", "page");
   for (const [re, view] of routes) {
     const m = hash.match(re);
@@ -309,6 +312,7 @@ function paintRun(box, r, title, topic) {
   if (live && r.state !== "stopping") actions.append(el("button", { type: "button", onclick: () => act(r.run_id, "stop") }, "Stop"));
   if (["stopped", "failed"].includes(r.state)) actions.append(el("button", { type: "button", class: "primary", onclick: () => act(r.run_id, "resume") }, "Resume"));
   if (finished) actions.append(el("a", { class: "button primary", href: "#/read/" + r.run_id }, "Read the review"), el("a", { class: "button", href: "/api/runs/" + r.run_id + "/pdf" }, "Download PDF"));
+  if (finished && ["green", "amber"].includes(r.audit)) actions.append(el("a", { class: "button", href: "#/make-paper/" + r.run_id }, "Make a paper from this review"));
   nodes.push(actions);
   box.replaceChildren(...nodes);
 }
@@ -348,6 +352,100 @@ async function paintScope(box, id) {
     el("p", { class: "hint" }, sc.why_researchable || ""),
     el("div", { class: "row" },
       el("button", { class: "primary", type: "button", onclick: () => act(id, "confirm", { question: q.value.trim() === sc.question ? null : q.value.trim() }) }, "Confirm and continue"))));
+}
+
+/* ── a review paper from a finished review (APP-F-04) ─────────────────── */
+
+async function paperStatus(id) {
+  try { return await api("/api/runs/" + id + "/review-paper/status"); } catch (_) { return null; }
+}
+
+async function makePaperView(id) {
+  const existing = await paperStatus(id);
+  if (existing) { location.hash = "#/paper-run/" + id; return []; }
+  const topic = await titleOf(id);
+  const length = el("select", { id: "plength" }, el("option", { value: "3000", selected: true }, "About 3,000 words"), el("option", { value: "5000" }, "About 5,000 words"));
+  const emphasis = el("textarea", { id: "pemph", rows: "2", maxlength: "500", placeholder: "Optional: what the paper should emphasise" });
+  const cap = el("input", { id: "pcap", type: "number", min: "0.05", max: "25", step: "0.05", value: "1.00" });
+  const err = el("p", { class: "error", role: "alert", hidden: true });
+  const submit = async (e) => {
+    e.preventDefault();
+    err.hidden = true;
+    try {
+      await api("/api/runs/" + id + "/review-paper", { method: "POST", body: { max_usd: parseFloat(cap.value), length_words: parseInt(length.value, 10), emphasis: emphasis.value.trim() || null } });
+      location.hash = "#/paper-run/" + id;
+    } catch (ex) { err.textContent = ex.message; err.hidden = false; }
+  };
+  return [
+    el("p", { class: "kicker" }, "Review paper"),
+    el("h1", {}, "Make a paper from this review"),
+    el("p", { class: "small topic" }, shortTitle(topic)),
+    el("p", { class: "lede" }, "VERA reads more of the papers your review kept (up to 15 in full), writes a longer review paper whose every cited sentence carries a quote, and adds a discussion, conclusions and a research agenda."),
+    el("div", { class: "callout" },
+      el("h2", {}, "What is checked, and what is not"),
+      el("p", {}, "Cited sentences are checked against the passage they quote, as in your review. The discussion, conclusions and research agenda are VERA's own reading: each statement names the claims it rests on, and a different model judged that it follows from them. They are marked as interpretation, and they are not checked against quotes."),
+      el("p", {}, "Your review stays as it is. The paper is charged to your key, up to the cap you set here; nothing is searched again.")),
+    el("form", { class: "form", onsubmit: submit },
+      el("label", { for: "plength" }, "Length"), length,
+      el("label", { for: "pemph" }, "Emphasis"), emphasis,
+      el("label", { for: "pcap" }, "Cap for the paper, in US dollars"), cap,
+      el("p", { class: "hint" }, "The paper stops before it would pass this cap and keeps what it has done."),
+      err,
+      el("div", { class: "row" }, el("button", { class: "primary", type: "submit" }, "Make the paper"), el("a", { class: "button", href: "#/run/" + id }, "Back to the run"))),
+  ];
+}
+
+const PAPER_STAGES = [
+  ["widen", "Read more", "Reading more of the kept papers in full."],
+  ["outline", "Outline", "Choosing the themes the evidence supports."],
+  ["write", "Write", "Drafting the introduction and the findings sections."],
+  ["verify", "Check", "Checking every cited sentence against its quote."],
+  ["interpret", "Interpret", "Writing the discussion and conclusions, and judging each statement against its claims."],
+  ["audit", "Audit", "Auditing the finished paper."],
+];
+
+function paintPaperRun(box, r, id, title) {
+  const doneIdx = PAPER_STAGES.findIndex((s) => s[0] === r.stage);
+  const live = ["queued", "running", "stopping"].includes(r.state);
+  const finished = r.state === "complete";
+  const bar = el("div", { class: "meter-bar", role: "progressbar", "aria-valuemin": "0", "aria-valuemax": String(r.max_usd), "aria-valuenow": String(r.spent_usd), "aria-label": "Spend against the paper's cap" }, el("span"));
+  bar.firstChild.style.width = Math.min(100, (r.spent_usd / r.max_usd) * 100).toFixed(1) + "%";
+  const actions = el("div", { class: "row" });
+  const post = async (what, body) => { try { await api("/api/runs/" + id + "/review-paper/" + what, { method: "POST", body: body || {} }); } catch (e) { alert(e.message); } };
+  if (live && r.state !== "stopping") actions.append(el("button", { type: "button", onclick: () => post("stop") }, "Stop"));
+  if (["stopped", "failed"].includes(r.state)) {
+    const newCap = el("input", { id: "rcap", type: "number", min: String(r.max_usd), max: "25", step: "0.05", value: r.max_usd.toFixed(2), "aria-label": "Cap for the paper, in US dollars" });
+    actions.append(el("label", { for: "rcap", class: "small" }, "Cap $"), newCap,
+      el("button", { type: "button", class: "primary", onclick: () => post("resume", { max_usd: parseFloat(newCap.value) }) }, "Resume"));
+  }
+  if (finished) actions.append(el("a", { class: "button primary", href: "#/paper/" + id }, "Read the paper"), el("a", { class: "button", href: "/api/runs/" + id + "/review-paper/pdf" }, "Download PDF"));
+  actions.append(el("a", { class: "button", href: "#/run/" + id }, "Back to the review's run"));
+  box.replaceChildren(
+    el("div", { class: "runhead" }, el("p", { class: "kicker" }, "Review paper"), el("h1", {}, title),
+      el("p", {}, el("span", { class: "tag" + (live ? " live" : "") }, STATE_WORDS[r.state] || r.state), " ", lightBadge(r.audit))),
+    el("ol", { class: "timeline", "aria-label": "Stages" }, ...PAPER_STAGES.map(([sid, label, what], i) =>
+      el("li", { class: finished || i <= doneIdx ? "done" : i === doneIdx + 1 && live ? "now" : "" }, el("span", { class: "t-name" }, label), el("span", { class: "t-what" }, what)))),
+    el("div", { class: "meter" }, bar, el("div", { class: "meter-text" }, el("span", {}, "Spent on the paper " + money(r.spent_usd)), el("span", {}, "Its cap " + money(r.max_usd)))),
+    r.message ? el("p", {}, r.message) : "",
+    actions);
+}
+
+async function paperRunView(id) {
+  const box = el("div");
+  const title = shortTitle(await titleOf(id));
+  const first = await paperStatus(id);
+  if (!first) { location.hash = "#/make-paper/" + id; return []; }
+  paintPaperRun(box, first, id, title);
+  // Poll for as long as the page is open (a stopped paper can be resumed from it), but repaint only on a change, so a
+  // cap being typed into the resume box is not wiped.
+  let last = JSON.stringify(first);
+  const timer = setInterval(async () => {
+    const r = await paperStatus(id);
+    const now = JSON.stringify(r);
+    if (r && now !== last) { last = now; paintPaperRun(box, r, id, title); }
+  }, 3000);
+  closeStream = () => clearInterval(timer);
+  return [box];
 }
 
 /* ── run it yourself ───────────────────────────────────────────────────── */
@@ -403,7 +501,7 @@ async function examplesView() {
 function renderInline(text, ctx) {
   // **bold**, *italic*, `code`, [R12] citations, ![alt](src) images, [text](url) links; all text is inserted as text.
   const out = [];
-  const re = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\((?:https?:\/\/|#)[^)]+\)|\[R\d+\]|\u0001\d+\u0002[\s\S]*?\u0003)/g;
+  const re = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\((?:https?:\/\/|#)[^)]+\)|\[R\d+\]|\((?:C\d+)(?:, C\d+)*\)|\u0001\d+\u0002[\s\S]*?\u0003)/g;
   let last = 0, m;
   while ((m = re.exec(text))) {
     if (m.index > last) out.push(text.slice(last, m.index));
@@ -416,6 +514,9 @@ function renderInline(text, ctx) {
     } else if (t.startsWith("[R")) {
       const key = t.slice(1, -1);
       out.push(el("sup", { class: "cite", tabindex: "0", role: "button", onclick: () => showSource(ctx, key), onkeydown: (e) => { if (e.key === "Enter") showSource(ctx, key); } }, key));
+    } else if (/^\(C\d/.test(t)) { // the claims an interpretation statement rests on
+      const ids = t.slice(1, -1).split(", ");
+      out.push("(", ...ids.flatMap((cid, k) => [k ? ", " : "", el("button", { type: "button", class: "premise", onclick: () => showClaimById(ctx, cid) }, cid)]), ")");
     } else if (t.startsWith("[")) {
       const [, label, href] = t.match(/\[([^\]]+)\]\(([^)]+)\)/);
       out.push(el("a", { href, rel: "noopener noreferrer", target: "_blank" }, label));
@@ -459,6 +560,13 @@ function renderMarkdown(md, ctx) {
       out.push(el("ul", {}, ...items.map((t) => el("li", {}, ...renderInline(t, ctx)))));
       continue;
     }
+    if (line.startsWith("*Interpretation:")) { // a labelled interpretation section: the label and its statements, boxed
+      const box = el("div", { class: "interp" }, el("p", { class: "interp-label" }, line.replace(/^\*|\*$/g, "")));
+      i++;
+      while (i < lines.length && !/^#{1,4}\s/.test(lines[i])) { if (lines[i].trim()) box.append(el("p", {}, ...renderInline(lines[i], ctx))); i++; }
+      out.push(box);
+      continue;
+    }
     if (REF.test(line)) {
       while (i < lines.length && REF.test(lines[i])) { out.push(el("p", { class: "ref" }, lines[i])); i++; }
       continue;
@@ -485,9 +593,14 @@ function showSource(ctx, key) {
     s && s.url ? el("p", {}, el("a", { href: s.url, target: "_blank", rel: "noopener noreferrer" }, "Open the paper")) : "");
 }
 
+function showClaimById(ctx, cid) {
+  const i = ctx.data.claims.findIndex((c) => c.id === cid);
+  if (i >= 0) showClaim(ctx, i);
+}
+
 function showClaim(ctx, i) {
   const c = ctx.data.claims[i];
-  ctx.side.replaceChildren(el("h3", {}, "The evidence for this sentence"), el("p", { class: "small" }, "Source " + c.source_key + (c.locator ? ", " + c.locator : "")),
+  ctx.side.replaceChildren(el("h3", {}, c.id ? "Claim " + c.id : "The evidence for this sentence"), c.id ? el("p", {}, c.claim) : "", el("p", { class: "small" }, "Source " + c.source_key + (c.locator ? ", " + c.locator : "")),
     el("blockquote", {}, c.quote), el("p", { class: "small" }, "Quote check: " + (c.quote_check || "not recorded")), el("button", { type: "button", onclick: () => showSource(ctx, c.source_key) }, "About the source"));
 }
 
@@ -507,8 +620,13 @@ async function showCell(ctx, text) {
 }
 
 async function readerView(kind, id) {
-  const base = kind === "example" ? "/api/examples/" + id : "/api/runs/" + id;
-  const data = await api(base + "/paper");
+  const base = kind === "example" ? "/api/examples/" + id : kind === "paper" ? "/api/runs/" + id + "/review-paper" : "/api/runs/" + id;
+  const data = await api(kind === "paper" ? base : base + "/paper");
+  let paperTitle = null;
+  if (kind === "paper" && data.markdown.startsWith("# ")) { // the paper's own title goes in the header, not the body
+    paperTitle = data.markdown.split("\n", 1)[0].slice(2);
+    data.markdown = data.markdown.slice(data.markdown.indexOf("\n") + 1);
+  }
   const ctx = { data, side: el("aside", { class: "side", "aria-live": "polite" }, el("h3", {}, "Evidence"), el("p", { class: "small" }, "Click a dotted sentence for its quote, a source number for the paper, or a table number for its results cell.")), fileBase: base + "/files/", results: null };
   if (kind === "example") { try { ctx.results = await api(base + "/files/results.json"); } catch (_) { /* a review has none */ } }
   const doc = el("article", { class: "paper" }, ...renderMarkdown(markClaims(data.markdown, data.claims), ctx));
@@ -517,16 +635,30 @@ async function readerView(kind, id) {
   const leads = findings.filter((f) => /method|align|novel/i.test(f.check || ""));
   const real = findings.filter((f) => !leads.includes(f));
   const auditBox = el("section", { class: "appendix" }, el("h2", {}, "The audit"), el("p", {}, lightBadge(audit && audit.overall)),
-    el("p", { class: "small" }, "Checks run: " + ((audit && audit.checks_run) || []).join(", ") + ". Green means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete."),
+    el("p", { class: "small" }, "Checks run: " + ((audit && audit.checks_run) || []).join(", ") + (kind === "paper"
+      ? ". Green means the citations are real, each claim is supported by the passage it quotes, and each interpretation statement was judged by a model other than its writer to follow from the claims it names. Interpretation is judged, not checked against quotes. It does not mean the paper is complete or its reading is right."
+      : ". Green means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete.")),
     real.length ? el("ul", {}, ...real.map((f) => el("li", {}, "[" + f.severity + "] " + f.summary))) : el("p", {}, "No findings."),
     leads.length ? el("details", {}, el("summary", {}, "Leads for a person (" + leads.length + "): a warning here is a lead, not a verdict"), el("ul", {}, ...leads.map((f) => el("li", {}, "[" + f.severity + "] " + f.summary)))) : "");
-  const title = kind === "example" ? data.example.title : shortTitle(await titleOf(id));
+  if (kind === "paper" && data.inferences && data.inferences.length) {
+    const kept = data.inferences.filter((x) => x.status === "pass"), removed = data.inferences.filter((x) => x.status !== "pass");
+    auditBox.append(el("details", {}, el("summary", {}, "Interpretation statements: " + kept.length + " kept, " + removed.length + " removed by the checks"),
+      el("ul", {}, ...[...kept, ...removed].map((x) => el("li", { class: x.status === "pass" ? "" : "small muted" }, x.id + " (" + x.section + "; rests on " + (x.premises.join(", ") || "none") + "): " + x.text + (x.status === "pass" ? "" : " — removed: " + (x.reason || "failed")))))));
+  }
+  const title = kind === "example" ? data.example.title : paperTitle || shortTitle(await titleOf(id));
   const byline = el("div", { class: "byline" }, lightBadge(audit && audit.overall));
   if (kind === "example") byline.append("Spent " + money(data.example.spent_usd) + " of a " + money(data.example.budget_cap_usd) + " cap");
   const head = el("header", { class: "doc-head" },
-    el("p", { class: "kicker" }, kind === "example" ? (data.example.kind === "paper" ? "Example · research paper" : "Example · literature review") : "Literature review"),
+    el("p", { class: "kicker" }, kind === "example" ? (data.example.kind === "paper" ? "Example · research paper" : "Example · literature review") : kind === "paper" ? "Review paper" : "Literature review"),
     el("h1", {}, title), byline,
     el("div", { class: "row" }, el("a", { class: "button primary", href: S(base + "/pdf"), download: true }, "Download PDF"), el("a", { class: "button", href: kind === "example" ? "#/examples" : "#/run/" + id }, kind === "example" ? "All examples" : "Back to the run")));
+  if (kind !== "example") { // the review and its paper, as two tabs
+    const paper = kind === "paper" ? true : await paperStatus(id);
+    if (paper) head.append(el("nav", { class: "tabs", "aria-label": "Document" },
+      el("a", { href: "#/read/" + id, "aria-current": kind === "run" ? "page" : null }, "Review"),
+      el("a", { href: paper === true || paper.state === "complete" ? "#/paper/" + id : "#/paper-run/" + id, "aria-current": kind === "paper" ? "page" : null }, "Paper")));
+    else if (["green", "amber"].includes(audit && audit.overall)) head.querySelector(".row").append(el("a", { class: "button", href: "#/make-paper/" + id }, "Make a paper from this review"));
+  }
   if (kind === "example") head.append(el("p", { class: "small" }, data.example.outcome));
   if (kind === "example" && data.example.known_issues) head.append(el("p", { class: "issue" }, el("strong", {}, "Known issues. "), data.example.known_issues));
   return [head, el("div", { class: "cols" }, el("div", {}, doc, auditBox), ctx.side)];

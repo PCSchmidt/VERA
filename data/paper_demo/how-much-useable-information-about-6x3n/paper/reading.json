@@ -1,0 +1,333 @@
+{
+ "n_full_text": 15,
+ "n_abstract_only": 33,
+ "n_passages": 185,
+ "n_review_passages": 65,
+ "n_new_passages": 120,
+ "read_top": 15,
+ "per_paper": 10,
+ "papers": [
+  {
+   "key": "R8",
+   "title": "Advancements in automated program repair: a comprehensive review",
+   "mode": "abstract",
+   "reason": "no PDF: not a PDF or too large",
+   "seconds": 1.7,
+   "n_passages": 1
+  },
+  {
+   "key": "R9",
+   "title": "An approach for the capture of requirements and design rationale for software engineering education projects",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R10",
+   "title": "AutoCodeRover: Autonomous Program Improvement",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R11",
+   "title": "Beyond Retrieval: A Study of Using LLM Ensembles for Candidate Filtering in Requirements Traceability",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R12",
+   "title": "Capturing design rationale",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R13",
+   "title": "DRMiner: Extracting Latent Design Rationale from Jira Issue Logs",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R17",
+   "title": "Large Language Model-Based Agents for Software Engineering: A Survey",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R20",
+   "title": "Natural Language Processing for Requirements Traceability",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R22",
+   "title": "OpenHands: An Open Platform for AI Software Developers as Generalist Agents",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R25",
+   "title": "Replay debugging: Leveraging record and replay for program debugging",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R27",
+   "title": "STAR: Stack Trace Based Automatic Crash Reproduction via Symbolic Execution",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R28",
+   "title": "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R29",
+   "title": "SWE-bench Goes Live!",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R30",
+   "title": "SWE-bench-java: A GitHub Issue Resolving Benchmark for Java",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R33",
+   "title": "Toward Cost-Efficient Automated Requirements Traceability with Large Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R35",
+   "title": "Understanding Code Agent Behaviour: An Empirical Study of Success and Failure Trajectories",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R36",
+   "title": "Where were the repair ingredients for Defects4j bugs?",
+   "mode": "abstract",
+   "reason": "no PDF: not a PDF or too large",
+   "seconds": 1.9,
+   "n_passages": 0
+  },
+  {
+   "key": "R39",
+   "title": "DeFA: Dependency-Guided Failure Attribution for LLM Agents",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R42",
+   "title": "A Survey of Design Rationale Systems: Approaches, Representation, Capture and Retrieval",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R46",
+   "title": "An LLM-based Approach to Recover Traceability Links between Security Requirements and Goal Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R52",
+   "title": "Enhancing Requirement Traceability Through Data Augmentation Using Large Language Models",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R54",
+   "title": "Extractive Summarization of Related Bug-fixing Comments in Support of Bug Repair",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R55",
+   "title": "FixMiner: Mining relevant fix patterns for automated program repair",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R57",
+   "title": "Knowledge-Based Zero-Replay Debugging of Multi-Agent LLM Traces",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 0.3,
+   "n_passages": 11
+  },
+  {
+   "key": "R59",
+   "title": "LLMoxie: Exploring Agentic AI for Scientific Software Development",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R64",
+   "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist Agents",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R65",
+   "title": "Rationale and Software Design",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R67",
+   "title": "Requirement Traceability based on Bidirectional Convergence of Intermediate Artifact Recovery for AI Software Development",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R68",
+   "title": "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R70",
+   "title": "Software provenance tracking at the scale of public source code",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R71",
+   "title": "SpecRover: Code Intent Extraction via LLMs",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R81",
+   "title": "Beyond Resolution Rates: Behavioral Drivers of Coding Agent Success and Failure",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R83",
+   "title": "BugNet: Continuously Recording Program Execution for Deterministic Replay Debugging",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R88",
+   "title": "Design Rationale Capture in the Globalised Enterprise: An Industrial Study",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R90",
+   "title": "Fixing Security Vulnerabilities with AI in OSS-Fuzz",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R91",
+   "title": "Getafix: learning to fix bugs automatically",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R101",
+   "title": "Natural Language-Programming Language Software Traceability Link Recovery Needs More than Textual Similarity",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R102",
+   "title": "On user rationale in software engineering",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R104",
+   "title": "RepairAgent: An Autonomous, LLM-Based Agent for Program Repair",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R105",
+   "title": "Replay Debugging of Complex Real-Time Systems: Experiences from Two Industrial Case Studies",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R107",
+   "title": "Test-Driven Approaches to Software Engineering with Large Language Models: A Survey of Phases, Tasks, and Agent Skills",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R109",
+   "title": "TraceLLM: leveraging large language models with prompt engineering for enhanced requirements traceability",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R110",
+   "title": "Training Software Engineering Agents and Verifiers with SWE-Gym",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R112",
+   "title": "АВТОМАТИЗОВАНЕ ВІДНОВЛЕННЯ ТРАСУВАЛЬНИХ ЗВ’ЯЗКІВ МІЖ ВИМОГАМИ ТА ПРОГРАМНИМ КОДОМ З ВИКОРИСТАННЯМ ВЕЛИКИХ МОВНИХ МОДЕЛЕЙ",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R115",
+   "title": "Demystifying LLM-Based Software Engineering Agents",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R119",
+   "title": "Agentic AI in the Software Development Lifecycle: Architecture, Empirical Evidence, and the Reshaping of Software Engineering",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R121",
+   "title": "gIBIS: a hypertext tool for exploratory policy discussion",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R127",
+   "title": "History Driven Program Repair",
+   "mode": "abstract",
+   "n_passages": 1
+  }
+ ]
+}

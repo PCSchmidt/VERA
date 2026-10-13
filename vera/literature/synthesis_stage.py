@@ -13,6 +13,8 @@ from __future__ import annotations
 import hashlib
 import json
 from collections.abc import Callable
+from dataclasses import dataclass, field
+from pathlib import Path
 
 from vera.literature import anchoring, questions, synthesis
 from vera.literature.deps import LitDeps
@@ -51,114 +53,148 @@ def synthesize_node(deps: LitDeps) -> Callable[[dict], dict]:
     return node
 
 
-def _judge(deps: LitDeps, state: dict, sentence: dict, records: dict, passages: list[dict]) -> tuple[Verdict, bool]:
-    """One claim's verdict, cached by question wording, claim and passage."""
+def _judge(
+    deps: LitDeps, state: dict, sentence: dict, records: dict, passages: list[dict], *, stage: str = "synthesize",
+    cache_file: Path | None = None, seed_caches: tuple[Path, ...] = (),
+) -> tuple[Verdict, bool]:  # fmt: skip
+    """One claim's verdict, cached by question wording, claim and passage. `seed_caches` are read, never written: the
+    paper reuses the review's verdicts on the same claim and passage without changing the review's files."""
     passage = synthesis.matched_passage(sentence["claim"], passages)
     title = records[sentence["claim"]["source_key"]]["title"]
     q, material = questions.claim_supported(sentence["text"], passage, title)
-    cache_file = deps.run_dir / "claims_judged.jsonl"
+    cache_file = cache_file or deps.run_dir / "claims_judged.jsonl"
     h = hashlib.sha1(f"{q.text}|{material}".encode()).hexdigest()[:16]
-    cached = _load_screen(cache_file).get(h)
-    if cached:
-        return Verdict.model_validate(cached["verdict"]), cached["confident"]
-    v, confident = ask_gate(deps, "synthesize", q, material, None, state)
+    for f in (cache_file, *seed_caches):
+        cached = _load_screen(f).get(h)
+        if cached:
+            return Verdict.model_validate(cached["verdict"]), cached["confident"]
+    v, confident = ask_gate(deps, stage, q, material, None, state)
+    cache_file.parent.mkdir(parents=True, exist_ok=True)
     with cache_file.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps({"hash": h, "confident": confident, "verdict": v.model_dump(mode="json")}) + "\n")
     return v, confident
+
+
+@dataclass
+class Verified:
+    paragraphs: list[list[dict]]  # what survived: sentences with passed claims, and claim-free sentences
+    stats: dict
+    reasons: dict[str, int]  # why claims failed their first check
+    verdicts: list[Verdict] = field(default_factory=list)
+
+
+def verify_sentences(
+    deps: LitDeps, state: dict, question: str, draft: list[list[dict]], records: dict, passages: list[dict], *,
+    stage: str = "synthesize", component: str = "p3.synthesize", cache_file: Path | None = None,
+    seed_caches: tuple[Path, ...] = (), repair_passages: list[dict] | None = None,
+) -> Verified:  # fmt: skip
+    """The checks every drafted sentence goes through, for the review and the paper alike: a claim-free sentence that
+    names a source is removed; each claim's source must resolve and its quote be verbatim in that source's passage, the
+    judge must say the passage supports it, the sentence may add no connective the quote lacks and may not lean on an
+    earlier sentence, and the judge, shown the quote only, must say it states the claim. Failures are repaired once
+    (by `component`, the producer) and re-checked; what still fails is removed and counted.
+
+    Claims are always checked against all of `passages`. `repair_passages`, when given, is the evidence the repair
+    prompt shows (a paper section's own passages, not every passage of the paper, which made each repair call cost
+    as much as the rest of the section)."""
+    sentences = [[dict(s) for s in para] for para in draft]
+    loose = [s for para in sentences for s in para if not s["claim"]]
+
+    def unchecked(s: dict) -> bool:
+        """A sentence with no claim that attributes something to a source, or names one in running text: nothing
+        quotes it and the audit never checks it, so it is removed."""
+        text = s["text"]
+        return bool(synthesis.STRAY_ATTRIBUTION.search(text) or anchoring.names_a_source_without_a_claim(text))
+
+    stray = sum(1 for s in loose if unchecked(s))
+    sentences = [[s for s in para if s["claim"] or not unchecked(s)] for para in sentences]
+    verdicts: list[Verdict] = []
+
+    def failures(items: list[dict]) -> dict[int, str]:
+        """Index in `items` -> why it failed (deterministic checks first, then the judge)."""
+        out: dict[int, str] = {}
+        for i, s in enumerate(items):
+            status, why = synthesis.check_claim(s["claim"], records, passages)
+            if status == "fail":
+                out[i] = why
+                continue
+            v, confident = _judge(deps, state, s, records, passages, stage=stage, cache_file=cache_file,
+                                  seed_caches=seed_caches)  # fmt: skip
+            verdicts.append(v)
+            if not (confident and v.answer is True):
+                out[i] = "unsupported" if confident else "judge_unsure"
+                continue
+            marker = anchoring.marker_problem(s["text"], s["claim"]["quote"])
+            if marker:  # an editorial connective the quote does not contain: the sentence says more than it quotes
+                out[i] = f"unanchored: the sentence adds {marker!r}, which the quote does not say"
+                continue
+            dangling = anchoring.dangling_reference(s["text"])
+            if dangling:  # the sentence leans on an earlier one for its subject
+                out[i] = f"unanchored: the sentence refers back ({dangling!r}) instead of naming its subject"
+                continue
+            qa, material = anchoring.quote_covers_claim(
+                s["text"], s["claim"]["quote"], records[s["claim"]["source_key"]]["title"]
+            )
+            a, a_confident = ask_gate(deps, stage, qa, material, None, state)
+            verdicts.append(a)
+            if not (a_confident and a.answer is True):
+                out[i] = "unanchored: the quote alone does not state the claim" if a_confident else "judge_unsure"
+        return out
+
+    claimed = [s for para in sentences for s in para if s["claim"]]
+    first = failures(claimed)
+    stats = {"drafted": len(claimed), "failed_first": len(first), "repaired": 0, "removed": 0,
+             "stray_attributions_removed": stray}  # fmt: skip
+    reasons: dict[str, int] = {}
+    for why in first.values():
+        reasons[why] = reasons.get(why, 0) + 1
+    replacements: dict[int, dict] = {}  # index in `claimed` -> the repaired sentence
+    if first:
+        bad = [{**claimed[i], "why": why} for i, why in first.items()]
+        shown = passages if repair_passages is None else repair_passages
+        reply = deps.generator.generate(
+            synthesis.SYSTEM, synthesis.repair_prompt(question, bad, shown, records), component=component
+        )
+        fixes = _extract_json(reply, "[", "]")
+        fixes = fixes if isinstance(fixes, list) else []
+        candidates: dict[int, dict] = {}
+        for i, fix in zip(first, fixes, strict=False):
+            parsed = synthesis.parse_sentences({"paragraphs": [[fix]]}) if isinstance(fix, dict) else []
+            if parsed and parsed[0][0]["claim"]:
+                candidates[i] = parsed[0][0]
+        order = list(candidates)
+        still = failures([candidates[i] for i in order])
+        for n, i in enumerate(order):
+            if n not in still:
+                replacements[i] = candidates[i]
+    stats["repaired"] = len(replacements)
+    removed = {i for i in first if i not in replacements}
+    stats["removed"] = len(removed)
+
+    kept_paragraphs, n = [], 0
+    for para in sentences:
+        keep = []
+        for s in para:
+            if s["claim"]:
+                i, n = n, n + 1
+                if i in replacements:
+                    keep.append(replacements[i])
+                elif i not in removed:
+                    keep.append(s)
+            else:
+                keep.append(s)
+        if keep:
+            kept_paragraphs.append(keep)
+    return Verified(kept_paragraphs, stats, reasons, verdicts)
 
 
 def verify_node(deps: LitDeps) -> Callable[[dict], dict]:
     def node(state: dict) -> dict:
         question = _confirmed_question(deps)
         records, passages = _records(deps), _passages(deps)
-        sentences = [[dict(s) for s in para] for para in state["draft"]]
-        loose = [s for para in sentences for s in para if not s["claim"]]
-
-        def unchecked(s: dict) -> bool:
-            """A sentence with no claim that attributes something to a source, or names one in running text: nothing
-            quotes it and the audit never checks it, so it is removed."""
-            return bool(
-                synthesis.STRAY_ATTRIBUTION.search(s["text"]) or anchoring.names_a_source_without_a_claim(s["text"])
-            )
-
-        stray = sum(1 for s in loose if unchecked(s))
-        sentences = [[s for s in para if s["claim"] or not unchecked(s)] for para in sentences]
-        verdicts: list[Verdict] = []
-
-        def failures(items: list[dict]) -> dict[int, str]:
-            """Index in `items` -> why it failed (deterministic checks first, then the judge)."""
-            out: dict[int, str] = {}
-            for i, s in enumerate(items):
-                status, why = synthesis.check_claim(s["claim"], records, passages)
-                if status == "fail":
-                    out[i] = why
-                    continue
-                v, confident = _judge(deps, state, s, records, passages)
-                verdicts.append(v)
-                if not (confident and v.answer is True):
-                    out[i] = "unsupported" if confident else "judge_unsure"
-                    continue
-                marker = anchoring.marker_problem(s["text"], s["claim"]["quote"])
-                if marker:  # an editorial connective the quote does not contain: the sentence says more than it quotes
-                    out[i] = f"unanchored: the sentence adds {marker!r}, which the quote does not say"
-                    continue
-                dangling = anchoring.dangling_reference(s["text"])
-                if dangling:  # the sentence leans on an earlier one for its subject
-                    out[i] = f"unanchored: the sentence refers back ({dangling!r}) instead of naming its subject"
-                    continue
-                qa, material = anchoring.quote_covers_claim(
-                    s["text"], s["claim"]["quote"], records[s["claim"]["source_key"]]["title"]
-                )
-                a, a_confident = ask_gate(deps, "synthesize", qa, material, None, state)
-                verdicts.append(a)
-                if not (a_confident and a.answer is True):
-                    out[i] = "unanchored: the quote alone does not state the claim" if a_confident else "judge_unsure"
-            return out
-
-        claimed = [s for para in sentences for s in para if s["claim"]]
-        first = failures(claimed)
-        stats = {"drafted": len(claimed), "failed_first": len(first), "repaired": 0, "removed": 0,
-                 "stray_attributions_removed": stray}  # fmt: skip
-        reasons: dict[str, int] = {}
-        for why in first.values():
-            reasons[why] = reasons.get(why, 0) + 1
-        replacements: dict[int, dict] = {}  # index in `claimed` -> the repaired sentence
-        if first:
-            bad = [{**claimed[i], "why": why} for i, why in first.items()]
-            reply = deps.generator.generate(
-                synthesis.SYSTEM, synthesis.repair_prompt(question, bad, passages, records), component="p3.synthesize"
-            )
-            fixes = _extract_json(reply, "[", "]")
-            fixes = fixes if isinstance(fixes, list) else []
-            candidates: dict[int, dict] = {}
-            for i, fix in zip(first, fixes, strict=False):
-                parsed = synthesis.parse_sentences({"paragraphs": [[fix]]}) if isinstance(fix, dict) else []
-                if parsed and parsed[0][0]["claim"]:
-                    candidates[i] = parsed[0][0]
-            order = list(candidates)
-            still = failures([candidates[i] for i in order])
-            for n, i in enumerate(order):
-                if n not in still:
-                    replacements[i] = candidates[i]
-        stats["repaired"] = len(replacements)
-        removed = {i for i in first if i not in replacements}
-        stats["removed"] = len(removed)
-
-        kept_paragraphs, n = [], 0
-        for para in sentences:
-            keep = []
-            for s in para:
-                if s["claim"]:
-                    i, n = n, n + 1
-                    if i in replacements:
-                        keep.append(replacements[i])
-                    elif i not in removed:
-                        keep.append(s)
-                else:
-                    keep.append(s)
-            if keep:
-                kept_paragraphs.append(keep)
-        text, claims = synthesis.assemble(kept_paragraphs)
+        checked = verify_sentences(deps, state, question, state["draft"], records, passages)
+        stats, reasons, verdicts = checked.stats, checked.reasons, checked.verdicts
+        text, claims = synthesis.assemble(checked.paragraphs)
         cited = sorted({c["source_key"] for c in claims}, key=lambda k: int(k[1:]))
         section = LiteratureSection(
             run_id=deps.spec.run_id, topic_id=deps.spec.topic.id, text=text,

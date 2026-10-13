@@ -1,0 +1,1204 @@
+{
+ "run_id": "rlm-vs-clm-3",
+ "question": "Based on the published literature on Recursive Language Models (RLMs, in which a model programmatically decomposes and recursively calls itself over an externalized long prompt) and on context-centric language models (CLMs, which condition on or compress large contexts), how do the two approaches overlap and differ in mechanism, and what does the existing evidence say about their suitability for production coding with respect to output quality, cost efficiency, and reuse of execution traces?",
+ "title": "Recursive and Context-Centric Language Models: Mechanisms, Evidence on Quality and Cost, and Open Questions for Production Coding",
+ "sections": [
+  {
+   "heading": "Abstract",
+   "kind": "summary",
+   "text": "Recursive Language Models (RLMs) and context-centric language models (CLMs) both aim to work over inputs larger than a model can comfortably handle in one pass, but they differ in mechanism. RLMs keep the long prompt external and let the model examine, decompose, and recursively call itself over snippets with code. Compression approaches instead use memory slots (ICAE), a small KV cache trained offline per corpus (Cartridges), or a question-conditioned summary of selected evidence (Highlight-Then-Summarize). Chained RLM sits between the two, passing a summary, blackboard, and durable artifacts to a fresh root. Evidence on whether recursion is the useful ingredient diverges. The original paper reports inputs up to two orders of magnitude beyond context windows. Follow-up work finds recursion is not the primary driver, often degrades performance within the window, and at depth 2 degrades performance and inflates time and token costs, while depth-1 RLMs boost accuracy on complex reasoning tasks. For coding, the evidence is thin. The context-rot authors report that the link from codebase scale to tool-call degradation is untested. Cost evidence is cautionary: one compression setup cut tool-output tokens yet raised the bill and reduced patch success. Saved predecessor trajectories in Chained RLM are not automatically reused, and no evaluation of that reuse is described. Suitability for production coding remains unestablished. Open questions include billed-cost and patch-success comparisons, trajectory injection, and matched-budget harness comparisons."
+  },
+  {
+   "heading": "Introduction",
+   "kind": "evidence",
+   "text": "Long-context reasoning is described as a central direction in building agentic systems that work over large documents, codebases, transcripts, and multi-step data [R5]. The straightforward approach of placing everything in the context has a stated limitation: the entire problem-solving process has to occur inside one interaction trace [R5]. For coding in particular, one paper reports that context rot is the progressive and nonlinear degradation of agent reasoning quality and tool calling reliability as the context window fills during extended coding sessions [R21]. That same paper states that no published empirical study has tested how codebase scale drives context growth and tool-call degradation, so the evidence on production coding is thin.\n\nRecursive Language Models are presented as a general inference paradigm that treats long prompts as part of an external environment [R8]. The RLM authors report that RLMs process inputs up to two orders of magnitude beyond model context windows [R8]. Follow-up work qualifies this picture: the SRLM study finds that recursion itself is not the primary driver of performance in RLM [R9]. Chained RLM addresses the limitation of RLMs by passing a plain-text summary, blackboard, and durable artifacts to a fresh root of the same model [R5].\n\nThe context-centric side of the question covers methods that compress or condition on large contexts. The In-context Autoencoder compresses a long context into short compact memory slots that the LLM can condition on directly [R28]. Highlight-Then-Summarize is a compress-then-reason paradigm that first identifies question-relevant evidence and then integrates it into a compact summary [R1]. The Context Language Models paper by Shao and colleagues introduces models that natively manage their own context, treating the context as a file that the model may update without restriction, but the supplied passages do not include that paper's text beyond this description, so its mechanism and results cannot be reported here. The supplied passages also do not directly compare RLMs and CLMs on production coding cost or on the reuse of execution traces."
+  },
+  {
+   "heading": "Method",
+   "kind": "record",
+   "text": "The question this paper answers was proposed by VERA from the user's topic and confirmed by the user: Based on the published literature on Recursive Language Models (RLMs, in which a model programmatically decomposes and recursively calls itself over an externalized long prompt) and on context-centric language models (CLMs, which condition on or compress large contexts), how do the two approaches overlap and differ in mechanism, and what does the existing evidence say about their suitability for production coding with respect to output quality, cost efficiency, and reuse of execution traces?\n\nSearch. 12 queries were sent to the paper-search services: “Recursive Language Models long prompt externalized environment”; “recursive self-calls language model REPL long context”; “context-centric language models long context compression”; “context compression prompt compression large language models”; “retrieval-augmented generation versus long context comparison”; “agentic coding repository-level code generation long context”; “long context benchmark needle in a haystack evaluation”; “survey long context language models efficient”; “lost in the middle long context failure modes”; “context rot performance degradation long inputs”; “reusing agent trajectories execution traces code agents”; “cost efficiency inference token usage recursive decomposition agents”. They retrieved 120 candidate papers. A relevance screen, judged on titles and abstracts, kept 26 and set aside 94.\n\nReading. Every kept paper was read at its abstract; 15 were also read in full text, and 11 at the abstract only. This gave 174 evidence passages, the only text the paper may quote.\n\nWriting and checking. The evidence sections were drafted sentence by sentence; every sentence that attributes something to a source carries a quote copied from one of those passages. Each quote was checked to be verbatim in its source, and a judge other than the writer checked that the passage supports the sentence and that the quote alone states it; sentences that failed were repaired once or removed. 57 claims from 16 sources survived. Interpretation sections, where present, rest only on those claims and are labelled as such.\n\nModels. Written by anthropic/claude-sonnet-5.5; judged by z-ai/glm-5.3-flash."
+  },
+  {
+   "heading": "Externalized context and recursive decomposition in RLMs",
+   "kind": "evidence",
+   "text": "The original RLM paper describes a general inference paradigm in which long prompts are treated as part of an external environment [R8]. Chained RLM's authors note that Recursive Language Models improve long-context inference without changing model weights, but the global working state still largely lives inside one orchestration trajectory [R5]. One follow-up describes the externalized prompt as a variable inside a sandboxed execution environment [R9]. The original paper reports that RLMs handle inputs far beyond model context windows [R8].\n\nThe sources disagree about whether recursion itself drives the gains. The SRLM authors report that recursion is not the primary driver of RLM performance [R9]. A reproduction study reports that deeper recursion degrades performance and inflates time and token costs [R75]. The λ-RLM work criticizes the open-ended REPL on verifiability grounds [R86].\n\nOn reuse of traces, Chained RLM saves predecessor trajectories but does not inject them automatically into later prompts [R5]. The supplied passages do not cover the Context Language Models paper, so any comparison of CLMs with RLMs, and any evidence on production coding cost, is left open here."
+  },
+  {
+   "heading": "Context-centric models: compression, memory and context management",
+   "kind": "evidence",
+   "text": "The sources show several mechanisms for compressing or managing context, and they differ in where the compression is stored. The ICAE authors describe compressing a long context into memory slots that the model can condition on directly [R28]. The ICAE authors report about 1% added parameters and 4x compression on Llama, with latency and GPU memory gains [R28]. A survey notes that gist-token methods carry a cost in model modification [R12].\n\nOther work moves compression offline or hands it to the model itself. The Cartridges authors train a small KV cache per corpus from synthetic conversations with a context-distillation objective [R94]. The Cartridges authors report matching in-context learning on long-context benchmarks with far less memory and higher throughput [R94]. The MemGPT authors describe a system in which the model edits and searches its own memory [R146]. MemGPT also keeps a recursive summary of evicted messages at the head of its queue [R146].\n\nEvidence on the limits of long context is mixed with the compression results above. The authors of a controlled study report that accuracy fell by 24.2% for Llama-3.1-8B Instruct on long inputs even though retrieval stayed perfect [R158]. The passages supplied do not include the paper on Context Language Models that treats the context as an editable file, so no comparison with it can be drawn here. They also give no direct measurement of coding quality, cost or trace reuse for these compression methods."
+  },
+  {
+   "heading": "Mechanistic overlap and differences between RLMs and CLMs",
+   "kind": "evidence",
+   "text": "The Context Language Models paper named in the brief is not among the supplied passages, so what follows covers RLMs and neighbouring context-compression work only. The original RLM paper describes a paradigm that treats long prompts as part of an external environment and lets the LLM programmatically examine, decompose, and recursively call itself over snippets of the prompt [R8]. Chained RLM states that RLMs improve long-context inference without changing model weights [R5]. Chained RLM responds by passing a summary, blackboard, and durable artifacts to a fresh root of the same model [R5].\n\nThe compression line instead modifies or trains parameters to shrink context. The ICAE work proposes leveraging an LLM to compress a long context into short compact memory slots that can be directly conditioned on by the LLM for various purposes [R28]. The Cartridges work trains a smaller KV cache offline for each corpus [R94]. The Cartridges authors report that self-study Cartridges match ICL performance while using 38.6x less memory and enabling 26.4x higher throughput [R94]. H2S describes a compress-then-reason paradigm that selects evidence and then writes a question-conditioned summary [R1].\n\nEvidence on RLM quality and cost is mixed. SRLM's authors conclude that recursion itself is not the primary driver of performance in RLM [R9]. A reproduction study reports that depth-2 recursion degrades performance and inflates execution time and token costs [R75]. A billing study of coding agents finds that user-side context layers account for only about 6% of cost [R78]. None of the supplied passages evaluates RLMs or CLMs on production coding, and none examines reuse of execution traces across tasks, so those questions remain open here."
+  },
+  {
+   "heading": "Output quality: gains, caveats and degradation with long context",
+   "kind": "evidence",
+   "text": "The sources describe output quality under long context as a mix of gains and degradation, and they do not settle how far these results carry over to production coding. The reproduction study of recursive language models reports that depth-1 RLMs effectively boost accuracy on complex reasoning tasks, while deeper recursion degrades performance [R75]. The SRLM authors report that for context lengths within the model's window, RLMs with recursion often degrade performance relative to the base model [R9]. The SRLM authors also conclude that recursion is not the primary driver of RLM performance [R9]. The λ-RLM authors report that a typed functional runtime outperformed standard RLM in most model-task comparisons [R86].\n\nOn the context side, the evidence shows that long inputs themselves hurt, and that compression can help. The Oolong authors report that frontier models struggle on Oolong, with GPT-5, Claude-Sonnet-4, and Gemini-2.5-Pro all achieving less than 50% accuracy on both splits at 128K [R126]. The Highlight-Then-Summarize authors report that a 0.46K-token Claude summary, about 3% of the 15.19K-token document, increased accuracy from 72.6 to 93.0 when used alone [R1]. The same authors name a limitation of that approach: H2S is less naturally suited to tasks requiring broadly distributed context coverage [R1].\n\nFor coding specifically, the evidence is thin: the context-rot paper only proposes a study, and the passages supplied say nothing about the Context Language Models paper's own results. The context-rot authors state that no published empirical study has directly tested the joint hypothesis that codebase scale drives context window growth, which in turn triggers measurable MCP tool attrition [R21]."
+  },
+  {
+   "heading": "Cost efficiency: token reduction versus billed cost",
+   "kind": "evidence",
+   "text": "The central finding on this theme comes from a study of token-reduction tools for coding agents, which separates tokens removed from money spent [R78]. In that study, the largest compression setup cut delivered tool-output tokens yet raised the bill [R78]. The same work reports that aggressive compression reduced successful patch application on a SWE-bench Go subset [R78].\n\nWork on compressing contexts reports efficiency in different units, namely latency and memory rather than billed spend. The In-context Autoencoder (ICAE) paper reports a 4× compression with gains in latency and GPU memory [R28]. Cartridges are reported to match in-context learning performance on long-context benchmarks at much lower serving cost [R94]. LongLLMLingua reports lower API costs and end-to-end latency together with higher performance than original prompts [R132].\n\nFor agent-level context assembly, ContextPipe reports fewer tokens and calls on a SWE-bench Pro subset, with a cost to caching [R81].\n\nThe supplied passages do not include the Context Language Models paper itself, so its cost behavior is not assessed here. None of the compression studies above reports provider-billed cost per successful coding task, and no passage covers recursive language models on cost, which leaves the comparison open."
+  },
+  {
+   "heading": "Production coding, trace reuse and evidence gaps",
+   "kind": "evidence",
+   "text": "The sources supplied here say little about production coding as such, and none of them is the Context Language Models paper the reader named, so that work cannot be related to the evidence below. The Chained RLM paper describes its roots as modules that can inspect variables, run code, call sub-LLMs, and write artifacts [R5]. The Chained RLM authors save raw predecessor trajectories but do not inject them automatically into every prompt [R5].\n\nOn cost, the ContextPipe preliminary evaluation reports a 31% reduction in total token volume against append-only construction [R81]. A separate study of token reduction cautions that bytes removed are not billed savings and that shorter context can lengthen trajectories [R78]. The token-reduction cost study notes that its retained telemetry does not record, per token, the turn of entry and the number of later calls that reused it, so it presents its marginal-cost equation as a bounded conceptual model [R78].\n\nOn quality, the context-rot paper states that no published empirical study has tested whether codebase scale drives context growth and then tool-call degradation [R21]. ContextPipe's authors list comparisons of open-source and production coding harnesses under matched budgets as future work [R81]. Taken together, the passages supply no head-to-head comparison of RLMs and CLMs on production coding quality, cost, or trace reuse."
+  },
+  {
+   "heading": "Discussion",
+   "kind": "interpretation",
+   "text": "*Interpretation: VERA's reading of the claims named after each statement, judged to follow from them; not checked against quotes.*\n\nThe RLM and context-compression literatures share a goal: working over inputs larger than a model can comfortably handle in one pass. RLMs treat the long prompt as an external environment, and the model programmatically examines, decomposes and recursively calls itself over snippets of it (C1, C26, C4). The compression approaches differ in mechanism. ICAE compresses context into memory slots the model conditions on, Cartridges train a small KV cache offline per corpus, and Highlight-Then-Summarize selects evidence and writes a question-conditioned summary. RLMs instead leave the prompt external and act on it with code (C29, C30, C32, C26). Chained RLM sits between the two. It passes a summary, blackboard and durable artifacts to a fresh root of the same model, because the working state otherwise stays inside one orchestration trajectory (C11, C28). The evidence on whether recursion is the useful ingredient pulls apart. The original paper reports inputs up to two orders of magnitude beyond context windows. Follow-up work finds recursion is not the primary driver of performance, finds that recursion often degrades performance within the model's window, and finds that depth-2 recursion degrades performance and inflates time and token costs (C5, C33, C37, C34). The reproduction study reports that depth-1 RLMs boost accuracy on complex reasoning tasks while deeper recursion degrades it. The benefit of an RLM therefore appears to depend on how it is configured (C36, C15). For coding, the quality evidence is thin. Context rot is defined as degradation of reasoning and tool-calling as the window fills, yet the authors state that no published study has directly tested the joint hypothesis linking codebase scale to context growth and then to tool attrition (C3, C43). The cost evidence cautions against equating fewer tokens with lower cost. One coding-agent study found that the largest compression setup cut delivered tool-output tokens yet raised the bill, and that aggressive compression reduced successful patch application on a SWE-bench Go subset (C45, C46, C54). On trace reuse, Chained RLM saves raw predecessor trajectories but does not inject them automatically into later prompts. The reviewed claims describe no evaluation of that reuse (C17, C52)."
+  },
+  {
+   "heading": "Conclusions",
+   "kind": "interpretation",
+   "text": "*Interpretation: VERA's reading of the claims named after each statement, judged to follow from them; not checked against quotes.*\n\nThe claims support that RLMs and context-compression methods both address long inputs but by different mechanisms: external programmatic decomposition versus compact representations or summaries (C26, C29, C30, C32). The claims do not support a general conclusion that recursion is what makes RLMs work, or that deeper recursion is beneficial. Evidence for depth beyond one is negative (C33, C36, C34). The claims do not establish suitability for production coding on quality, cost or trace reuse. The cost evidence is cautionary, and the context-rot authors report the quality hypothesis untested (C43, C45, C54)."
+  },
+  {
+   "heading": "A research agenda",
+   "kind": "interpretation",
+   "text": "*Interpretation: VERA's reading of the claims named after each statement, judged to follow from them; not checked against quotes.*\n\nTest directly whether codebase scale drives context growth and then tool-call degradation, since no published study has done so (C43, C56). Compare RLMs and compression methods on coding tasks by billed cost and patch success, not token counts alone, because token removal has raised bills and lowered patch success (C45, C46, C54). The cost study's retained telemetry does not record, per token, the turn of entry or the number of later calls that reused it, so it presents its marginal-cost equation only as a bounded conceptual model. This is a stated limitation of that study's evidence, not a recommendation drawn from the claims (C55). Evaluate injecting saved predecessor trajectories into later prompts, since they are saved but not automatically used (C17, C52). Compare coding harnesses under matched budgets, which is listed as future work (C57)."
+  },
+  {
+   "heading": "Threats to validity",
+   "kind": "record",
+   "text": "Coverage. The paper rests on what 12 queries found; the search was not repeated for the paper. A finding reported as missing means these searches did not find it, not that it does not exist.\n\nDepth of reading. 11 of 26 kept papers were read at the abstract only, so their methods and caveats are known only as their abstracts state them.\n\nWhat the checks cover. Each claim was checked against the passage it quotes, not against the whole source or the wider literature. A claim can be supported by its quote and still leave out a qualification stated elsewhere in the paper it cites. Interpretation sections were judged to follow from the claims they name; they were not checked against the sources.\n\nSame-family grading. The writer is a Claude model; the judges are a different model family, and any independent scoring of this paper by a Claude model shares the writer's family."
+  }
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "claim": "Long-context reasoning is described as a central direction in building agentic systems that work over large documents, codebases, transcripts, and multi-step data.",
+   "source_key": "R5",
+   "quote": "Recently, long context reasoning in large language models (LLMs) have become a central direction in building agentic systems which can work over large documents, codebases, transcripts, and multi-step data (Plaat et al., 2025).",
+   "locator": "sec. Introduction, para 1",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C2",
+   "claim": "The straightforward approach of placing everything in the context has a stated limitation: the entire problem-solving process has to occur inside one interaction trace.",
+   "source_key": "R5",
+   "quote": "This simple approach is powerful, but it has some important limitation: the entire problem solving process has to occur inside one interaction trace.",
+   "locator": "sec. Introduction, para 1",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C3",
+   "claim": "For coding in particular, one paper reports that context rot is the progressive and nonlinear degradation of agent reasoning quality and tool calling reliability as the context window fills during extended coding sessions.",
+   "source_key": "R21",
+   "quote": "As agentic coding systems including Claude Code, OpenAI Codex, and GitHub Copilot are increasingly deployed on production-scale repositories, a phenomenon now termed context rot has emerged: the progressive and nonlinear degradation of agent reasoning quality and tool calling reliability as the context window fills during extended coding sessions.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C4",
+   "claim": "Recursive Language Models are presented as a general inference paradigm that treats long prompts as part of an external environment.",
+   "source_key": "R8",
+   "quote": "We propose Recursive Language Models (RLMs), a general inference paradigm that treats long prompts as part of an external environment and allows the LLM to programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C5",
+   "claim": "The RLM authors report that RLMs process inputs up to two orders of magnitude beyond model context windows.",
+   "source_key": "R8",
+   "quote": "We find that RLMs can successfully process inputs up to two orders of magnitude beyond model context windows and, even for shorter prompts, dramatically outperform the quality of vanilla frontier LLMs and common long-context and coding scaffolds (e.g., on GPT-5 by a median across the evaluated benchmarks of $26\\%$ against compaction, $130\\%$ against CodeAct with sub-calls, and $13\\%$ against Claude Code) across four diverse long-context tasks while having comparable cost.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C6",
+   "claim": "Follow-up work qualifies this picture: the SRLM study finds that recursion itself is not the primary driver of performance in RLM.",
+   "source_key": "R9",
+   "quote": "Our findings show that recursion itself is not the primary driver of performance in RLM, and a simple self-reflective program search can match or surpass RLM without requiring self-query or explicit recursion mechanisms.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C7",
+   "claim": "Chained RLM addresses the limitation of RLMs by passing a plain-text summary, blackboard, and durable artifacts to a fresh root of the same model.",
+   "source_key": "R5",
+   "quote": "Chained RLM addresses this limitation by passing a plain-text summary, blackboard, and durable artifacts to a fresh root of the same model",
+   "locator": "sec. Introduction, para 15",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C8",
+   "claim": "The In-context Autoencoder compresses a long context into short compact memory slots that the LLM can condition on directly.",
+   "source_key": "R28",
+   "quote": "We propose the In-context Autoencoder (ICAE), leveraging the power of a large language model (LLM) to compress a long context into short compact memory slots that can be directly conditioned on by the LLM for various purposes.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C9",
+   "claim": "Highlight-Then-Summarize is a compress-then-reason paradigm that first identifies question-relevant evidence and then integrates it into a compact summary.",
+   "source_key": "R1",
+   "quote": "We propose Highlight-Then-Summarize (H2S), a compress-then-reason paradigm that first identifies source-grounded, question-relevant evidence and then integrates it into a compact, question-conditioned summary before producing the final answer.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C10",
+   "claim": "The original RLM paper describes a general inference paradigm in which long prompts are treated as part of an external environment.",
+   "source_key": "R8",
+   "quote": "We propose Recursive Language Models (RLMs), a general inference paradigm that treats long prompts as part of an external environment and allows the LLM to programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C11",
+   "claim": "Chained RLM's authors note that Recursive Language Models improve long-context inference without changing model weights, but the global working state still largely lives inside one orchestration trajectory.",
+   "source_key": "R5",
+   "quote": "This improves long-context inference without changing model weights, but the global working state still largely lives inside one orchestration trajectory.",
+   "locator": "sec. Introduction, para 15",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C12",
+   "claim": "One follow-up describes the externalized prompt as a variable inside a sandboxed execution environment.",
+   "source_key": "R9",
+   "quote": "Rather than feeding C directly to model, we follow [75] and treat context as an external variable accessible within a sandboxed execution programming environment.",
+   "locator": "sec. Problem Formulation, para 5",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C13",
+   "claim": "The original paper reports that RLMs handle inputs far beyond model context windows.",
+   "source_key": "R8",
+   "quote": "We find that RLMs can successfully process inputs up to two orders of magnitude beyond model context windows and, even for shorter prompts, dramatically outperform the quality of vanilla frontier LLMs and common long-context and coding scaffolds",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C14",
+   "claim": "The SRLM authors report that recursion is not the primary driver of RLM performance.",
+   "source_key": "R9",
+   "quote": "Our findings show that recursion itself is not the primary driver of performance in RLM, and a simple self-reflective program search can match or surpass RLM without requiring self-query or explicit recursion mechanisms.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C15",
+   "claim": "A reproduction study reports that deeper recursion degrades performance and inflates time and token costs.",
+   "source_key": "R75",
+   "quote": "While depth-1 RLMs effectively boost accuracy on complex reasoning tasks, applying deeper recursion (depth=2) or using RLMs on simple retrieval tasks paradoxically degrades performance and exponentially inflates execution time (e.g., from 3.6s to 344.5s) and token costs.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C16",
+   "claim": "The λ-RLM work criticizes the open-ended REPL on verifiability grounds.",
+   "source_key": "R86",
+   "quote": "Yet existing RLMs depend on an open-ended read-eval-print loop (REPL) in which the model generates arbitrary control code, making execution difficult to verify, predict, and analyse.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C17",
+   "claim": "On reuse of traces, Chained RLM saves predecessor trajectories but does not inject them automatically into later prompts.",
+   "source_key": "R5",
+   "quote": "Raw predecessor trajectories are also saved, but they are not automatically injected into every prompt.",
+   "locator": "sec. Introduction, para 3",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C18",
+   "claim": "The ICAE authors describe compressing a long context into memory slots that the model can condition on directly.",
+   "source_key": "R28",
+   "quote": "We propose the In-context Autoencoder (ICAE), leveraging the power of a large language model (LLM) to compress a long context into short compact memory slots that can be directly conditioned on by the LLM for various purposes.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C19",
+   "claim": "The ICAE authors report about 1% added parameters and 4x compression on Llama, with latency and GPU memory gains.",
+   "source_key": "R28",
+   "quote": "Experiments demonstrate that our lightweight ICAE, introducing about 1% additional parameters, effectively achieves $4\\times$ context compression based on Llama, offering advantages in both improved latency and GPU memory cost during inference, and showing an interesting insight in memorization as well as potential for scalability.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C20",
+   "claim": "A survey notes that gist-token methods carry a cost in model modification.",
+   "source_key": "R12",
+   "quote": "However, such methods typically require modifying the parameters of the LLM.",
+   "locator": "sec. Soft Prompt Compression, para 104",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C21",
+   "claim": "The Cartridges authors train a small KV cache per corpus from synthetic conversations with a context-distillation objective.",
+   "source_key": "R94",
+   "quote": "Instead, we propose self-study, a training recipe in which we generate synthetic conversations about the corpus and train the Cartridge with a context-distillation objective.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C22",
+   "claim": "The Cartridges authors report matching in-context learning on long-context benchmarks with far less memory and higher throughput.",
+   "source_key": "R94",
+   "quote": "On challenging long-context benchmarks, Cartridges trained with self-study match ICL performance while using 38.6x less memory and enabling 26.4x higher throughput.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C23",
+   "claim": "The MemGPT authors describe a system in which the model edits and searches its own memory.",
+   "source_key": "R146",
+   "quote": "Memory edits and retrieval are entirely self-directed: MemGPT autonomously updates and searches through its own memory based on the current context.",
+   "locator": "sec. Function executor (handling of completion tokens), para 15",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C24",
+   "claim": "MemGPT also keeps a recursive summary of evicted messages at the head of its queue.",
+   "source_key": "R146",
+   "quote": "The first index in the FIFO queue stores a system message containing a recursive summary of messages that have been evicted from the queue.",
+   "locator": "sec. Main context (prompt tokens), para 10",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C25",
+   "claim": "The authors of a controlled study report that accuracy fell by 24.2% for Llama-3.1-8B Instruct on long inputs even though retrieval stayed perfect.",
+   "source_key": "R158",
+   "quote": "However, despite this robustness in retrieval, its accuracy drops by 24.2% compared to the short-context case.",
+   "locator": "sec. Introduction, para 6",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C26",
+   "claim": "The original RLM paper describes a paradigm that treats long prompts as part of an external environment and lets the LLM programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+   "source_key": "R8",
+   "quote": "We propose Recursive Language Models (RLMs), a general inference paradigm that treats long prompts as part of an external environment and allows the LLM to programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C27",
+   "claim": "Chained RLM states that RLMs improve long-context inference without changing model weights.",
+   "source_key": "R5",
+   "quote": "This improves long-context inference without changing model weights, but the global working state still largely lives inside one orchestration trajectory.",
+   "locator": "sec. Introduction, para 15",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C28",
+   "claim": "Chained RLM responds by passing a summary, blackboard, and durable artifacts to a fresh root of the same model.",
+   "source_key": "R5",
+   "quote": "Chained RLM addresses this limitation by passing a plain-text summary, blackboard, and durable artifacts to a fresh root of the same model, making intermediate state easier to inspect, edit, and audit.",
+   "locator": "sec. Introduction, para 15",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C29",
+   "claim": "The ICAE work proposes leveraging an LLM to compress a long context into short compact memory slots that can be directly conditioned on by the LLM for various purposes.",
+   "source_key": "R28",
+   "quote": "leveraging the power of a large language model (LLM) to compress a long context into short compact memory slots that can be directly conditioned on by the LLM for various purposes",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C30",
+   "claim": "The Cartridges work trains a smaller KV cache offline for each corpus.",
+   "source_key": "R94",
+   "quote": "We explore an alternative: training a smaller KV cache offline on each corpus.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C31",
+   "claim": "The Cartridges authors report that self-study Cartridges match ICL performance while using 38.6x less memory and enabling 26.4x higher throughput.",
+   "source_key": "R94",
+   "quote": "On challenging long-context benchmarks, Cartridges trained with self-study match ICL performance while using 38.6x less memory and enabling 26.4x higher throughput.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C32",
+   "claim": "H2S describes a compress-then-reason paradigm that selects evidence and then writes a question-conditioned summary.",
+   "source_key": "R1",
+   "quote": "We propose Highlight-Then-Summarize (H2S), a compress-then-reason paradigm that first identifies source-grounded, question-relevant evidence and then integrates it into a compact, question-conditioned summary before producing the final answer.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C33",
+   "claim": "SRLM's authors conclude that recursion itself is not the primary driver of performance in RLM.",
+   "source_key": "R9",
+   "quote": "Our findings show that recursion itself is not the primary driver of performance in RLM, and a simple self-reflective program search can match or surpass RLM without requiring self-query or explicit recursion mechanisms.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C34",
+   "claim": "A reproduction study reports that depth-2 recursion degrades performance and inflates execution time and token costs.",
+   "source_key": "R75",
+   "quote": "While depth-1 RLMs effectively boost accuracy on complex reasoning tasks, applying deeper recursion (depth=2) or using RLMs on simple retrieval tasks paradoxically degrades performance and exponentially inflates execution time (e.g., from 3.6s to 344.5s) and token costs.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C35",
+   "claim": "A billing study of coding agents finds that user-side context layers account for only about 6% of cost.",
+   "source_key": "R78",
+   "quote": "A per-component attribution of billed cost (table 1) shows that the surfaces a user-side layer can modify account for only ≈6% of cost, placing the estimated upper bound for visible-token compression at ≈5% under the measured cost decomposition.",
+   "locator": "sec. Introduction, para 4",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C36",
+   "claim": "The reproduction study of recursive language models reports that depth-1 RLMs effectively boost accuracy on complex reasoning tasks, while deeper recursion degrades performance.",
+   "source_key": "R75",
+   "quote": "While depth-1 RLMs effectively boost accuracy on complex reasoning tasks, applying deeper recursion (depth=2) or using RLMs on simple retrieval tasks paradoxically degrades performance and exponentially inflates execution time (e.g., from 3.6s to 344.5s) and token costs.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C37",
+   "claim": "The SRLM authors report that for context lengths within the model's window, RLMs with recursion often degrade performance relative to the base model.",
+   "source_key": "R9",
+   "quote": "We find that for context lengths within the model's window, RLMs with recursion often degrade performance relative to the base model, whereas SRLM yields consistent gains across both short and long contexts.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C38",
+   "claim": "The SRLM authors also conclude that recursion is not the primary driver of RLM performance.",
+   "source_key": "R9",
+   "quote": "Our findings show that recursion itself is not the primary driver of performance in RLM, and a simple self-reflective program search can match or surpass RLM without requiring self-query or explicit recursion mechanisms.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C39",
+   "claim": "The λ-RLM authors report that a typed functional runtime outperformed standard RLM in most model-task comparisons.",
+   "source_key": "R86",
+   "quote": "Empirically, across four long-context reasoning tasks and nine base models, $\\lambda$-RLM outperforms standard RLM in 29 of 36 model-task comparisons, improves average accuracy by up to +21.9 points across model tiers, and reduces latency by up to 4.1x.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C40",
+   "claim": "The Oolong authors report that frontier models struggle on Oolong, with GPT-5, Claude-Sonnet-4, and Gemini-2.5-Pro all achieving less than 50% accuracy on both splits at 128K.",
+   "source_key": "R126",
+   "quote": "Even frontier models struggle on Oolong, with GPT-5, Claude-Sonnet-4, and Gemini-2.5-Pro all achieving less than 50% accuracy on both splits at 128K.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C41",
+   "claim": "The Highlight-Then-Summarize authors report that a 0.46K-token Claude summary, about 3% of the 15.19K-token document, increased accuracy from 72.6 to 93.0 when used alone.",
+   "source_key": "R1",
+   "quote": "A 0.46K-token Claude summary, approximately 3% of the 15.19K-token document, increases accuracy from 72.6 to 93.0 when used alone",
+   "locator": "sec. METHODOLOGY, para 26",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C42",
+   "claim": "The same authors name a limitation of that approach: H2S is less naturally suited to tasks requiring broadly distributed context coverage.",
+   "source_key": "R1",
+   "quote": "A current limitation is that H2S is less naturally suited to tasks requiring broadly distributed context coverage",
+   "locator": "sec. CONCLUSION, para 46",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C43",
+   "claim": "The context-rot authors state that no published empirical study has directly tested the joint hypothesis that codebase scale drives context window growth, which in turn triggers measurable MCP tool attrition.",
+   "source_key": "R21",
+   "quote": "no published empirical study has directly tested the joint hypothesis that codebase scale drives context window growth, which in turn triggers measurable MCP tool attrition",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C44",
+   "claim": "The central finding on this theme comes from a study of token-reduction tools for coding agents, which separates tokens removed from money spent.",
+   "source_key": "R78",
+   "quote": "Token-reduction tools for coding agents are often evaluated by the number of tokens they remove, but token count alone does not determine end-to-end inference cost.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C45",
+   "claim": "In that study, the largest compression setup cut delivered tool-output tokens yet raised the bill.",
+   "source_key": "R78",
+   "quote": "The largest compression setup reduced delivered tool-output tokens by 38.4% but increased billed cost by 6.8%, while lighter compression produced only small and statistically uncertain savings.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C46",
+   "claim": "The same work reports that aggressive compression reduced successful patch application on a SWE-bench Go subset.",
+   "source_key": "R78",
+   "quote": "On a SWE-bench Go subset, aggressive compression also reduced successful patch application.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C47",
+   "claim": "The In-context Autoencoder (ICAE) paper reports a 4× compression with gains in latency and GPU memory.",
+   "source_key": "R28",
+   "quote": "Experiments demonstrate that our lightweight ICAE, introducing about 1% additional parameters, effectively achieves $4\\times$ context compression based on Llama, offering advantages in both improved latency and GPU memory cost during inference",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C48",
+   "claim": "Cartridges are reported to match in-context learning performance on long-context benchmarks at much lower serving cost.",
+   "source_key": "R94",
+   "quote": "On challenging long-context benchmarks, Cartridges trained with self-study match ICL performance while using 38.6x less memory and enabling 26.4x higher throughput.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C49",
+   "claim": "LongLLMLingua reports lower API costs and end-to-end latency together with higher performance than original prompts.",
+   "source_key": "R132",
+   "quote": "Experiments on the multidocument QA, multi-hop QA, and long context benchmarks demonstrate that LongLLMLingua compressed prompt can derive higher performance than original prompts while both API costs for inference and the end-to-end system latency are largely reduced.",
+   "locator": "sec. Conclusion, para 56",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C50",
+   "claim": "For agent-level context assembly, ContextPipe reports fewer tokens and calls on a SWE-bench Pro subset, with a cost to caching.",
+   "source_key": "R81",
+   "quote": "A preliminary evaluation using the SWE-bench Pro Qutebrowser subset shows that, compared with the append-only context construction policy, ContextPipe reduces total token volume by 31%, LLM calls by 23%, and response time by 9%, at the cost of a lower KV cache-hit ratio.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C51",
+   "claim": "The Chained RLM paper describes its roots as modules that can inspect variables, run code, call sub-LLMs, and write artifacts.",
+   "source_key": "R5",
+   "quote": "In our work, each root is a tool-using RLM-style module that can inspect variables, run code, call sub-LLMs, and write artifacts.",
+   "locator": "sec. Introduction, para 12",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C52",
+   "claim": "The Chained RLM authors save raw predecessor trajectories but do not inject them automatically into every prompt.",
+   "source_key": "R5",
+   "quote": "Raw predecessor trajectories are also saved, but they are not automatically injected into every prompt.",
+   "locator": "sec. Introduction, para 3",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C53",
+   "claim": "On cost, the ContextPipe preliminary evaluation reports a 31% reduction in total token volume against append-only construction.",
+   "source_key": "R81",
+   "quote": "A preliminary evaluation using the SWE-bench Pro Qutebrowser subset shows that, compared with the append-only context construction policy, ContextPipe reduces total token volume by 31%, LLM calls by 23%, and response time by 9%, at the cost of a lower KV cache-hit ratio.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C54",
+   "claim": "A separate study of token reduction cautions that bytes removed are not billed savings and that shorter context can lengthen trajectories.",
+   "source_key": "R78",
+   "quote": "Recall is not task success; marker preservation is not task success; candidate precision is not task success; synthetic critical-drop tests are not task success; bytes removed are not billed savings; and shorter context can cause longer trajectories.",
+   "locator": "sec. InterCode-proxy (dense diagnostic evidence, para 74",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C55",
+   "claim": "The token-reduction cost study notes that its retained telemetry does not record, per token, the turn of entry and the number of later calls that reused it, so it presents its marginal-cost equation as a bounded conceptual model.",
+   "source_key": "R78",
+   "quote": "The retained telemetry does not record, per token, the turn of entry and the number of later calls that reused it, so we present eq. ( 4) as a bounded conceptual model; exact per-token addressability measurement is future work.",
+   "locator": "sec. Formal cost model, para 14",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C56",
+   "claim": "On quality, the context-rot paper states that no published empirical study has tested whether codebase scale drives context growth and then tool-call degradation.",
+   "source_key": "R21",
+   "quote": "Despite these convergent findings, no published empirical study has directly tested the joint hypothesis that codebase scale drives context window growth, which in turn triggers measurable MCP tool attrition, defined here as the progressive decline in tool call accuracy, increased first error position, and elevated bug introduction rate during automated debugging.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C57",
+   "claim": "ContextPipe's authors list comparisons of open-source and production coding harnesses under matched budgets as future work.",
+   "source_key": "R81",
+   "quote": "to compare open-source and production coding harnesses under matched budgets with the same model, retry, and caching policies;",
+   "locator": "sec. Conclusion and Future Work, para 93",
+   "quote_check": "pass",
+   "verdicts": []
+  }
+ ],
+ "inferences": [
+  {
+   "id": "I1",
+   "section": "Discussion",
+   "text": "The RLM and context-compression literatures share a goal: working over inputs larger than a model can comfortably handle in one pass. RLMs treat the long prompt as an external environment, and the model programmatically examines, decomposes and recursively calls itself over snippets of it.",
+   "premises": [
+    "C1",
+    "C26",
+    "C4"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I2",
+   "section": "Discussion",
+   "text": "The compression approaches differ in mechanism. ICAE compresses context into memory slots the model conditions on, Cartridges train a small KV cache offline per corpus, and Highlight-Then-Summarize selects evidence and writes a question-conditioned summary. RLMs instead leave the prompt external and act on it with code.",
+   "premises": [
+    "C29",
+    "C30",
+    "C32",
+    "C26"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I3",
+   "section": "Discussion",
+   "text": "Chained RLM sits between the two. It passes a summary, blackboard and durable artifacts to a fresh root of the same model, because the working state otherwise stays inside one orchestration trajectory.",
+   "premises": [
+    "C11",
+    "C28"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I4",
+   "section": "Discussion",
+   "text": "The evidence on whether recursion is the useful ingredient pulls apart. The original paper reports inputs up to two orders of magnitude beyond context windows. Follow-up work finds recursion is not the primary driver of performance, finds that recursion often degrades performance within the model's window, and finds that depth-2 recursion degrades performance and inflates time and token costs.",
+   "premises": [
+    "C5",
+    "C33",
+    "C37",
+    "C34"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I5",
+   "section": "Discussion",
+   "text": "The reproduction study reports that depth-1 RLMs boost accuracy on complex reasoning tasks while deeper recursion degrades it. The benefit of an RLM therefore appears to depend on how it is configured.",
+   "premises": [
+    "C36",
+    "C15"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I6",
+   "section": "Discussion",
+   "text": "For coding, the quality evidence is thin. Context rot is defined as degradation of reasoning and tool-calling as the window fills, yet the authors state that no published study has directly tested the joint hypothesis linking codebase scale to context growth and then to tool attrition.",
+   "premises": [
+    "C3",
+    "C43"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I7",
+   "section": "Discussion",
+   "text": "The cost evidence cautions against equating fewer tokens with lower cost. One coding-agent study found that the largest compression setup cut delivered tool-output tokens yet raised the bill, and that aggressive compression reduced successful patch application on a SWE-bench Go subset.",
+   "premises": [
+    "C45",
+    "C46",
+    "C54"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I8",
+   "section": "Discussion",
+   "text": "On trace reuse, Chained RLM saves raw predecessor trajectories but does not inject them automatically into later prompts. The reviewed claims describe no evaluation of that reuse.",
+   "premises": [
+    "C17",
+    "C52"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I9",
+   "section": "Conclusions",
+   "text": "The claims support that RLMs and context-compression methods both address long inputs but by different mechanisms: external programmatic decomposition versus compact representations or summaries.",
+   "premises": [
+    "C26",
+    "C29",
+    "C30",
+    "C32"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I10",
+   "section": "Conclusions",
+   "text": "The claims do not support a general conclusion that recursion is what makes RLMs work, or that deeper recursion is beneficial. Evidence for depth beyond one is negative.",
+   "premises": [
+    "C33",
+    "C36",
+    "C34"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I11",
+   "section": "Conclusions",
+   "text": "The claims do not establish suitability for production coding on quality, cost or trace reuse. The cost evidence is cautionary, and the context-rot authors report the quality hypothesis untested.",
+   "premises": [
+    "C43",
+    "C45",
+    "C54"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I12",
+   "section": "Conclusions",
+   "text": "The claims describe MemGPT as a system where the model edits and searches its own memory and RLMs as treating the long prompt as an external environment that the model examines, decomposes, and recursively calls itself over. They give no direct comparison between MemGPT-style memory management and RLMs or compression methods, so how the two compare on quality or cost cannot be determined from them.",
+   "premises": [
+    "C23",
+    "C26"
+   ],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "after repair: names MemGPT-style, which none of its premises names"
+  },
+  {
+   "id": "I13",
+   "section": "A research agenda",
+   "text": "Test directly whether codebase scale drives context growth and then tool-call degradation, since no published study has done so.",
+   "premises": [
+    "C43",
+    "C56"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I14",
+   "section": "A research agenda",
+   "text": "Compare RLMs and compression methods on coding tasks by billed cost and patch success, not token counts alone, because token removal has raised bills and lowered patch success.",
+   "premises": [
+    "C45",
+    "C46",
+    "C54"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I15",
+   "section": "A research agenda",
+   "text": "The cost study's retained telemetry does not record, per token, the turn of entry or the number of later calls that reused it, so it presents its marginal-cost equation only as a bounded conceptual model. This is a stated limitation of that study's evidence, not a recommendation drawn from the claims.",
+   "premises": [
+    "C55"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I16",
+   "section": "A research agenda",
+   "text": "Evaluate injecting saved predecessor trajectories into later prompts, since they are saved but not automatically used.",
+   "premises": [
+    "C17",
+    "C52"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I17",
+   "section": "A research agenda",
+   "text": "Compare coding harnesses under matched budgets, which is listed as future work.",
+   "premises": [
+    "C57"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  }
+ ],
+ "sources": [
+  {
+   "key": "R1",
+   "id": "arXiv:2609.31382",
+   "title": "Highlight-Then-Summarize: Learning to Compress Evidence for Long-Context Understanding",
+   "authors": [
+    "Zhaoyuan Xia",
+    "Qinghongbing Xie",
+    "Yung Xiang Hue",
+    "Jianguang Jiang",
+    "Gaofeng Lu",
+    "Zhenyu Jiao",
+    "Xing Yuan",
+    "Dai Dai",
+    "Tong Mo",
+    "Long Zeng"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2609.31382",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R5",
+   "id": "doi:10.48550/arxiv.2608.05124",
+   "title": "Chained Recursive Language Models for Multi-Iteration Reasoning",
+   "authors": [
+    "Purbesh Mitra",
+    "Şennur Ulukuş"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2608.05124",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R8",
+   "id": "arXiv:2512.24601",
+   "title": "Recursive Language Models",
+   "authors": [
+    "Alex L. Zhang",
+    "T. Kraska",
+    "Omar Khattab"
+   ],
+   "year": "2025",
+   "venue": null,
+   "source": "semanticscholar",
+   "url": "https://arxiv.org/abs/2512.24601",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R9",
+   "id": "arXiv:2603.15653",
+   "title": "Recursive Language Models Meet Uncertainty: The Surprising Effectiveness of Self-Reflective Program Search for Long Context",
+   "authors": [
+    "Keivan Alizadeh",
+    "Parshin Shojaee",
+    "Minsik Cho",
+    "Mehrdad Farajtabar"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2603.15653",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R12",
+   "id": "arXiv:2503.17407",
+   "title": "A Comprehensive Survey on Long Context Language Modeling",
+   "authors": [
+    "Jiaheng Liu",
+    "Dawei Zhu",
+    "Zhiqi Bai",
+    "Yancheng He",
+    "Huanxuan Liao",
+    "Haoran Que",
+    "Zekun Wang",
+    "Chenchen Zhang",
+    "Ge Zhang",
+    "Zhang, Jiebin",
+    "Yuanxing Zhang",
+    "Zhuo Job Chen",
+    "Hangyu Guo",
+    "S. Li",
+    "Ziqiang Liu",
+    "Shan, Yong",
+    "Yifan Song",
+    "Tian, Jiayi",
+    "Wenhao Wu",
+    "Zhou, Zhejian",
+    "Ruijie Zhu",
+    "Junlan Feng",
+    "Yang Gao",
+    "Shizhu He",
+    "Zhoujun Li",
+    "Tianyu Liu",
+    "Meng, Fanyu",
+    "Wenbo Su",
+    "Yingshui Tan",
+    "Zili Wang",
+    "Jian Xiong Yang",
+    "Wei Ye",
+    "Zheng, Bo",
+    "Wangchunshu Zhou",
+    "Wenhao Huang",
+    "Sujian Li",
+    "Zhaoxiang Zhang"
+   ],
+   "year": "2025",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2503.17407",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R21",
+   "id": "doi:10.2139/ssrn.7344299",
+   "title": "Context Rot and MCP Tool Attrition in Production-Scale Codebases: An Empirical Investigation of Context-Driven Tool Calling Degradation in Agentic AI Coding Systems",
+   "authors": [
+    "Abrar Shahriar",
+    "Qurat-ul-ain Mastoi"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.2139/ssrn.7344299",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R28",
+   "id": "doi:10.48550/arxiv.2307.06945",
+   "title": "In-context Autoencoder for Context Compression in a Large Language Model",
+   "authors": [
+    "Tao Ge",
+    "Jing Hu",
+    "Wang, Lei",
+    "Xun Wang",
+    "Siqing Chen",
+    "Furu Wei"
+   ],
+   "year": "2023",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2307.06945",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R75",
+   "id": "arXiv:2603.02615",
+   "title": "Think, But Don't Overthink: Reproducing Recursive Language Models",
+   "authors": [
+    "D. Wang"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "semanticscholar",
+   "url": "https://arxiv.org/abs/2603.02615",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R78",
+   "id": "doi:10.48550/arxiv.2607.12161",
+   "title": "Token Reduction Is Not Cost Reduction",
+   "authors": [
+    "Sarel Weinberger",
+    "Amir Hozez"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2607.12161",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R81",
+   "id": "arXiv:2609.00749",
+   "title": "ContextPipe: Database-Inspired Context Assembly for Long-Horizon Agents",
+   "authors": [
+    "Peng Xu",
+    "Zuyu Zhang",
+    "Yuze Sun",
+    "Feng Tian",
+    "Long Wang",
+    "Chen Zhang"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2609.00749",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R86",
+   "id": "arXiv:2603.20105",
+   "title": "The Y-Combinator for LLMs: Solving Long-Context Rot with λ-Calculus",
+   "authors": [
+    "Amartya Roy",
+    "Rasul Tutunov",
+    "Xiao-Tong Ji",
+    "Matthieu Zimmer",
+    "Haitham Bou-Ammar"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "semanticscholar",
+   "url": "https://arxiv.org/abs/2603.20105",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R94",
+   "id": "arXiv:2506.06266",
+   "title": "Cartridges: Lightweight and general-purpose long context representations via self-study",
+   "authors": [
+    "Sabri Eyuboglu",
+    "Ryan Ehrlich",
+    "Simran Arora",
+    "Neel Guha",
+    "Dylan Zinsley",
+    "Emily Liu",
+    "Will Tennien",
+    "Atri Rudra",
+    "James Zou",
+    "Azalia Mirhoseini",
+    "Christopher Ré"
+   ],
+   "year": "2025",
+   "venue": null,
+   "source": "semanticscholar",
+   "url": "https://arxiv.org/abs/2506.06266",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R126",
+   "id": "doi:10.48550/arxiv.2511.02817",
+   "title": "Oolong: Evaluating Long Context Reasoning and Aggregation Capabilities",
+   "authors": [
+    "Bertsch, Amanda",
+    "Pratapa, Adithya",
+    "Mitamura, Teruko",
+    "Neubig, Graham",
+    "Gormley, Matthew R."
+   ],
+   "year": "2025",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2511.02817",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R132",
+   "id": "doi:10.18653/v1/2024.acl-long.91",
+   "title": "LongLLMLingua: Accelerating and Enhancing LLMs in Long Context Scenarios via Prompt Compression",
+   "authors": [
+    "Huiqiang Jiang",
+    "Qianhui Wu",
+    "Xufang Luo",
+    "Dongsheng Li",
+    "Chin-Yew Lin",
+    "Yuqing Yang",
+    "Lili Qiu"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.18653/v1/2024.acl-long.91",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R146",
+   "id": "doi:10.48550/arxiv.2310.08560",
+   "title": "MemGPT: Towards LLMs as Operating Systems",
+   "authors": [
+    "Charles Packer",
+    "Sarah Wooders",
+    "Kevin Lin",
+    "Vivian Fang",
+    "Shishir G. Patil",
+    "Stoica, Ion",
+    "Joseph E. Gonzalez"
+   ],
+   "year": "2023",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2310.08560",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R158",
+   "id": "doi:10.18653/v1/2025.findings-emnlp.1264",
+   "title": "Context Length Alone Hurts LLM Performance Despite Perfect Retrieval",
+   "authors": [
+    "Yufeng Du",
+    "Minyang Tian",
+    "Srikanth Ronanki",
+    "Subendhu Rongali",
+    "Sravan Bodapati",
+    "Aram Galstyan",
+    "Azton Wells",
+    "Roy Schwartz",
+    "Eliu A. Huerta",
+    "Hao Peng"
+   ],
+   "year": "2025",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.18653/v1/2025.findings-emnlp.1264",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  }
+ ],
+ "retrieval_stats": {
+  "queries": [
+   "Recursive Language Models long prompt externalized environment",
+   "recursive self-calls language model REPL long context",
+   "context-centric language models long context compression",
+   "context compression prompt compression large language models",
+   "retrieval-augmented generation versus long context comparison",
+   "agentic coding repository-level code generation long context",
+   "long context benchmark needle in a haystack evaluation",
+   "survey long context language models efficient",
+   "lost in the middle long context failure modes",
+   "context rot performance degradation long inputs",
+   "reusing agent trajectories execution traces code agents",
+   "cost efficiency inference token usage recursive decomposition agents"
+  ],
+  "n_retrieved": 120,
+  "n_kept": 26,
+  "n_read_full": 6,
+  "n_dropped_by_screen": 94
+ },
+ "evidence_stats": {
+  "n_full_text": 15,
+  "n_abstract_only": 11,
+  "n_passages": 174,
+  "n_passages_cited": 27
+ }
+}

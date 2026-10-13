@@ -1,0 +1,30 @@
+{
+ "title": "From Prompts to Context to Harnesses: Definitions, Boundaries, and Attributed Components in Recent LLM Agent Literature",
+ "themes": [
+  {
+   "heading": "Prompt engineering: definitions, pattern catalogs, and terminological fragmentation",
+   "focus": "prompt engineering instruction design patterns techniques taxonomy terminology parameters ontology practitioners"
+  },
+  {
+   "heading": "Context engineering: shifting from prompt text to system-level context",
+   "focus": "context engineering context window adaptation orchestration retrieval memory evidence instructions context rot"
+  },
+  {
+   "heading": "Harness engineering: the structure around a fixed model",
+   "focus": "harness scaffolding components memory skills protocols verification governance tools execution layer"
+  },
+  {
+   "heading": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "focus": "agentic harness agent loop orchestration multi-agent observe decide act tool use skills agentic RAG"
+  },
+  {
+   "heading": "Evaluation as a harness-stage component and performance dependence on the harness",
+   "focus": "evaluation benchmark harness-aware model rankings configuration environment protocols safety failure"
+  },
+  {
+   "heading": "Limits of the evidence: unsettled boundaries and weak generalizability",
+   "focus": "boundaries shared definition survey synthetic single-domain generalization hypothesis untested stages overlap"
+  }
+ ],
+ "dropped": []
+}

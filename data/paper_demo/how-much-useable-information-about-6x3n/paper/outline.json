@@ -1,0 +1,30 @@
+{
+ "title": "Recovering Reusable Knowledge from Coding-Agent Traces: Design Rationale, Traceability, Failure and Repair History, and Test Intent",
+ "themes": [
+  {
+   "heading": "Agent trajectories as a source of failure and repair history",
+   "focus": "trajectory failure success localization attribution replay debugging context validation SWE-agent OpenHands"
+  },
+  {
+   "heading": "Design rationale: evidence from issue logs rather than agent traces",
+   "focus": "design rationale Jira issue logs DRMiner decision trails gIBIS mining repair"
+  },
+  {
+   "heading": "Requirements traceability link recovery with LLMs",
+   "focus": "requirements traceability link recovery recall precision ensemble use-case intermediate artifacts models"
+  },
+  {
+   "heading": "Test intent, code intent and specification inference",
+   "focus": "test intent specification SpecRover AutoCodeRover tests patch correctness intent extraction test-driven"
+  },
+  {
+   "heading": "Historical fix patterns and mined repair knowledge",
+   "focus": "fix patterns mining history-driven repair Getafix FixMiner bug fixes learning repair agents RepairAgent"
+  },
+  {
+   "heading": "Limitations: evidence gaps, benchmark scope, and maintainability claims",
+   "focus": "benchmark SWE-bench issue resolution generalization limitations maintainability robustness live gap scaling evidence"
+  }
+ ],
+ "dropped": []
+}

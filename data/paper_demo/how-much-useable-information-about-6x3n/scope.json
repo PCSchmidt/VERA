@@ -1,0 +1,11 @@
+{
+ "topic_id": "how-much-useable-information-about-6x3n",
+ "question": "According to the existing literature on LLM-based coding agents (e.g., SWE-agent, OpenHands, AutoCodeRover) and on software provenance, design-rationale capture, and trace-based debugging, which categories of information about a software application (such as design rationale, requirements traceability, failure and repair history, and test intent) can be reliably recovered and reused from agent traces to improve software maintainability and robustness, and what limitations do published studies report?",
+ "why_researchable": "A short literature review can answer this by synthesizing published work on agent trajectory analysis (e.g., studies of SWE-agent and OpenHands trajectories and failure taxonomies), trace-based memory and experience reuse in agents, and the older software-engineering literature on design rationale and provenance capture. The sources are public papers and can be organized into a taxonomy of recoverable information types, with evidence strength, reported limitations (trace verbosity, unfaithful reasoning, missing context, privacy), and gaps that indicate whether this is a viable route to more robust software. No experiments are needed because the output is a structured synthesis and an assessment of the evidence.",
+ "empirical": false,
+ "candidate_parent": null,
+ "no_parent_reason": "The question is answered by a literature review alone and is not empirical, so no parent method paper is needed.",
+ "status": "confirmed",
+ "confirmed_by": "the app user",
+ "confirmed_at": "2026-10-11T11:16:55Z"
+}

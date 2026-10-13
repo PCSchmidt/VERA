@@ -26,7 +26,7 @@ from vera.app.keystore import InvalidKey, SessionKey
 from vera.app.pdf import render_pdf
 from vera.app.runs import RunError, RunManager
 from vera.literature import scoping
-from vera.schemas import AppConfig, RunRequest, RunStatus
+from vera.schemas import AppConfig, PaperRequest, RunRequest, RunStatus
 
 ROOT = Path(__file__).resolve().parents[2]
 STATIC = Path(__file__).parent / "static"
@@ -203,6 +203,72 @@ def create_app(
         run_or_404(run_id)
         return read_paper(manager.run_dir(run_id))
 
+    # ── the review paper made from a finished review (APP-F-04) ─────────────────────────────────────
+
+    def paper_or_404(run_id: str) -> RunStatus:
+        run_or_404(run_id)
+        status = manager.paper_status(run_id)
+        if status is None:
+            raise HTTPException(status_code=404, detail="This review has no paper.")
+        return status
+
+    @app.post("/api/runs/{run_id}/review-paper", response_model=RunStatus)
+    def make_paper(run_id: str, body: dict) -> RunStatus:
+        run_or_404(run_id)
+        try:
+            request = PaperRequest.model_validate(body)
+        except ValidationError as exc:
+            raise HTTPException(status_code=422, detail=_plain(exc)) from None
+        try:
+            return manager.make_paper(run_id, request)
+        except RunError as exc:
+            refuse(exc, 409)
+
+    @app.get("/api/runs/{run_id}/review-paper/status", response_model=RunStatus)
+    def paper_status(run_id: str) -> RunStatus:
+        return paper_or_404(run_id)
+
+    @app.post("/api/runs/{run_id}/review-paper/stop", response_model=RunStatus)
+    def stop_paper(run_id: str) -> RunStatus:
+        paper_or_404(run_id)
+        try:
+            return manager.stop_paper(run_id)
+        except RunError as exc:
+            refuse(exc, 409)
+
+    @app.post("/api/runs/{run_id}/review-paper/resume", response_model=RunStatus)
+    def resume_paper(run_id: str, body: dict | None = None) -> RunStatus:
+        paper_or_404(run_id)
+        cap = (body or {}).get("max_usd")
+        try:
+            cap = None if cap is None else PaperRequest(max_usd=cap).max_usd
+        except ValidationError as exc:
+            raise HTTPException(status_code=422, detail=_plain(exc)) from None
+        try:
+            return manager.resume_paper(run_id, cap)
+        except RunError as exc:
+            refuse(exc, 409)
+
+    @app.get("/api/runs/{run_id}/review-paper")
+    def review_paper(run_id: str) -> dict:
+        paper_or_404(run_id)
+        run_dir = manager.run_dir(run_id)
+        if not (run_dir / "paper" / "paper.md").exists():
+            raise HTTPException(status_code=404, detail="The paper is not written yet.")
+        return read_paper(run_dir / "paper", retrieved=f"runs/{run_id}/retrieved.jsonl", root=manager.root)
+
+    @app.get("/api/runs/{run_id}/review-paper/pdf")
+    def review_paper_pdf(run_id: str) -> Response:
+        status = paper_or_404(run_id)
+        run_dir = manager.run_dir(run_id)
+        if not (run_dir / "paper" / "paper.json").exists():
+            raise HTTPException(status_code=404, detail="The paper is not written yet.")
+        doc = json.loads((run_dir / "paper" / "paper.json").read_text(encoding="utf-8"))
+        meta = {"title": doc["title"], "question": doc["question"], "kind": "review_paper", "run_id": run_id,
+                "date": (status.updated_at or "")[:10], "spent_usd": status.spent_usd, "cap_usd": status.max_usd}  # fmt: skip
+        paper = read_paper(run_dir / "paper", retrieved=f"runs/{run_id}/retrieved.jsonl", root=manager.root)
+        return pdf_response(paper, meta, run_dir / "paper", f"vera-{run_id}-paper")
+
     @app.get("/api/examples/{example_id}/paper")
     def example_paper(example_id: str) -> dict:
         match = next((e for e in facts.examples(root) if e["id"] == example_id), None)
@@ -288,8 +354,13 @@ def read_paper(
     audit = json.loads(report.read_text(encoding="utf-8")) if report.exists() else None
     audit_md = (folder / "audit.md").read_text(encoding="utf-8") if (folder / "audit.md").exists() else None
     cited = set(re.findall(r"\[(R\d+)\]", text))
-    return {"markdown": text, "claims": claims, "sources": {k: v for k, v in sources.items() if k in cited or not cited},
-            "audit": audit, "audit_markdown": audit_md}  # fmt: skip
+    out = {"markdown": text, "claims": claims, "sources": {k: v for k, v in sources.items() if k in cited or not cited},
+           "audit": audit, "audit_markdown": audit_md}  # fmt: skip
+    if (folder / "paper.json").exists():  # a review paper: its section kinds and its interpretation statements
+        doc = json.loads((folder / "paper.json").read_text(encoding="utf-8"))
+        out["sections"] = [{"heading": s["heading"], "kind": s["kind"]} for s in doc["sections"]]
+        out["inferences"] = doc["inferences"]
+    return out
 
 
 def _jsonl(path: Path) -> list[dict]:

@@ -27,6 +27,13 @@ LIGHT_WORDS = {
     "amber": "Amber: no check failed, but there are warnings to read",
     "red": "Red: one or more checks failed",
 }
+PAPER_LIGHT_WORDS = {
+    "green": "Green: the citations are real, each claim is supported by the passage it quotes, and each interpretation was judged to follow from the claims it names",
+    "amber": "Amber: no check failed, but there are warnings to read",
+    "red": "Red: one or more checks failed",
+}
+KINDS = {"literature": "LITERATURE REVIEW", "review_paper": "REVIEW PAPER"}
+INTERPRETATION = "*Interpretation:"
 REF_LINE = re.compile(r"^\[R\d+\]\s")
 IMAGE = re.compile(r"^!\[([^\]]*)\]\(([^)]+)\)\s*$")
 
@@ -80,6 +87,20 @@ def paragraph(pdf: Paper, text: str, *, size: float = BODY, indent: float = 0) -
     pdf.set_text_color(*INK)
     pdf.set_x(MARGIN + indent)
     pdf.multi_cell(0, size * 0.52, inline(text), markdown=True, align="L", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.ln(1.8)
+
+
+def label(pdf: Paper, text: str) -> None:
+    """The interpretation label: muted italic, set off by a rule in the margin, so it reads as a note on the section."""
+    pdf.set_font("serif", "I", 9)
+    pdf.set_text_color(*MUTED)
+    top = pdf.get_y()
+    pdf.set_x(MARGIN + 3)
+    pdf.multi_cell(0, 4.6, text.strip("*"), align="L", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.set_draw_color(*LIGHTS["amber"])
+    pdf.set_line_width(0.6)
+    pdf.line(MARGIN, top, MARGIN, pdf.get_y())
+    pdf.set_line_width(0.2)
     pdf.ln(1.8)
 
 
@@ -144,6 +165,10 @@ def render_markdown(pdf: Paper, md: str, base: Path | None) -> None:
                 paragraph(pdf, "•  " + re.sub(r"^\s*[-*]\s+", "", lines[i]), indent=4)
                 i += 1
             continue
+        if line.startswith(INTERPRETATION):
+            label(pdf, line.strip())
+            i += 1
+            continue
         if REF_LINE.match(line):
             while i < len(lines) and REF_LINE.match(lines[i]):
                 paragraph(pdf, lines[i], size=9, indent=0)  # one reference per line, as in the review's own list
@@ -168,7 +193,8 @@ def render_pdf(paper: dict, meta: dict, base: Path | None = None) -> bytes:
     pdf.add_page()
     pdf.set_font("sans", "B", 7.5)
     pdf.set_text_color(*MUTED)
-    kind = "LITERATURE REVIEW" if meta.get("kind", "literature") == "literature" else "RESEARCH PAPER"
+    is_paper = meta.get("kind") == "review_paper"
+    kind = KINDS.get(meta.get("kind", "literature"), "RESEARCH PAPER")
     pdf.cell(0, 5, f"VERA  ·  {kind}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.ln(2)
     pdf.set_font("serif", "B", 17)
@@ -199,19 +225,26 @@ def render_pdf(paper: dict, meta: dict, base: Path | None = None) -> bytes:
     pdf.line(MARGIN, pdf.get_y(), pdf.w - MARGIN, pdf.get_y())
     pdf.ln(2)
 
-    render_markdown(pdf, paper.get("markdown", ""), base)
+    md = paper.get("markdown", "")
+    if is_paper and md.startswith("# "):  # the title is in the title block already
+        md = md.split("\n", 1)[1] if "\n" in md else ""
+    render_markdown(pdf, md, base)
 
     # Appendix A: the audit, in words
     pdf.add_page()
     heading(pdf, "Appendix A. The audit", 2)
     report = paper.get("audit") or {}
-    paragraph(pdf, LIGHT_WORDS.get(audit, "This document was not audited."))
+    paragraph(pdf, (PAPER_LIGHT_WORDS if is_paper else LIGHT_WORDS).get(audit, "This document was not audited."))
     if report.get("checks_run"):
         paragraph(
             pdf,
             "Checks run: "
             + ", ".join(report["checks_run"])
-            + ". A green result means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete or its conclusions are right.",
+            + (
+                ". A green result means the citations are real, each claim is supported by the passage it quotes, and each interpretation statement was judged by a model other than its writer to follow from the claims it names. Interpretation is judged, not checked against quotes. It does not mean the paper is complete or its reading is right."
+                if is_paper
+                else ". A green result means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete or its conclusions are right."
+            ),
             size=9.5,
         )
     findings = report.get("findings") or []
@@ -227,7 +260,7 @@ def render_pdf(paper: dict, meta: dict, base: Path | None = None) -> bytes:
         heading(pdf, "Appendix B. Claims and the passages that support them", 2)
         paragraph(
             pdf,
-            "Each cited sentence of the review, the source it rests on, where in that source the passage is, and the exact quote the audit checked it against.",
+            f"Each cited sentence of the {'paper' if is_paper else 'review'}, the source it rests on, where in that source the passage is, and the exact quote the audit checked it against.",
             size=9.5,
         )
         for n, c in enumerate(claims, start=1):
@@ -236,7 +269,7 @@ def render_pdf(paper: dict, meta: dict, base: Path | None = None) -> bytes:
             pdf.set_font("serif", "B", 9.5)
             pdf.set_text_color(*INK)
             pdf.multi_cell(
-                0, 5, f"{n}.  [{c.get('source_key', '?')}]  {c.get('claim', '')}", new_x=XPos.LMARGIN, new_y=YPos.NEXT
+                0, 5, f"{c.get('id') or n}.  [{c.get('source_key', '?')}]  {c.get('claim', '')}", new_x=XPos.LMARGIN, new_y=YPos.NEXT
             )
             pdf.set_font("serif", "I", 9)
             pdf.set_text_color(*MUTED)
@@ -244,4 +277,26 @@ def render_pdf(paper: dict, meta: dict, base: Path | None = None) -> bytes:
             where = f"  ({c['locator']})" if c.get("locator") else ""
             pdf.multi_cell(0, 4.6, f"“{c.get('quote', '')}”{where}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             pdf.ln(2)
+
+    # Appendix C (a review paper): every interpretation statement, kept or removed, with its premises
+    inferences = paper.get("inferences") or []
+    if inferences:
+        kept = [i for i in inferences if i.get("status") == "pass"]
+        removed = [i for i in inferences if i.get("status") != "pass"]
+        heading(pdf, "Appendix C. Interpretation statements and the claims they rest on", 2)
+        paragraph(
+            pdf,
+            f"{len(kept)} statements are in the paper; each names the claims (Appendix B) it rests on, and a model other than its writer judged that it follows from them. {len(removed)} drafted statements failed that check, or its rules, and were removed; they are listed after the kept ones with the reason.",
+            size=9.5,
+        )
+        for i in [*kept, *removed]:
+            if pdf.get_y() > pdf.h - 40:
+                pdf.add_page()
+            pdf.set_font("serif", "B" if i.get("status") == "pass" else "", 9.5)
+            pdf.set_text_color(*(INK if i.get("status") == "pass" else MUTED))
+            tail = "" if i.get("status") == "pass" else f"  (removed: {i.get('reason') or 'failed'})"
+            premises = ", ".join(i.get("premises") or []) or "none"
+            pdf.multi_cell(0, 5, f"{i['id']}  ({i.get('section', '')}; rests on {premises})  {i.get('text', '')}{tail}",
+                           new_x=XPos.LMARGIN, new_y=YPos.NEXT)  # fmt: skip
+            pdf.ln(1.5)
     return bytes(pdf.output())

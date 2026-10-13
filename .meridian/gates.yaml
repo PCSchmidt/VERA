@@ -886,3 +886,142 @@ gates:
         - gate-traceability.sh
         - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
         - run-evaluator.sh          # independent Evaluator verdict on the review
+
+  # ── Increment 6: from a review to a paper (SPEC.md) ──────────────────────────
+  # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
+  # Defined so far: incr6_scoped, evidence_ready, paper_stage_ready, inference_set_frozen, inference_measured, app_paper_ready, paper_demo, rubric6_scored, incr6_review.
+
+  - id: incr6_scoped
+    label: "Increment 6 scope confirmed"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 6 SCOPED"
+    requires:
+      - incr5_review
+    requires_artifacts:
+      - SPEC.md
+      - CONTRACT.md
+      - docs/reviews/incr-5.md
+    hooks:
+      pre:
+        - validate-contract.sh      # Meridian: Purpose + Scope sections present
+        - validate-spec.sh          # Meridian: SPEC.md is structured
+        - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount
+
+  - id: evidence_ready
+    label: "Wider evidence for a paper: superset of the review's passages, SPEC limits, no frozen file changed"
+    type: automated
+    required: true
+    requires:
+      - incr6_scoped
+    requires_artifacts:
+      - vera/literature/paper_evidence.py
+      - tests/test_paper_evidence.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-schema-version.sh
+        - gate-evidence6.sh         # RSH-F-14 tests, limits 15/10, audit freeze hash unchanged
+
+  - id: paper_stage_ready
+    label: "Paper stage: outline, evidence sections through the review's checks, record sections from the run's files"
+    type: automated
+    required: true
+    requires:
+      - evidence_ready
+    requires_artifacts:
+      - vera/literature/paper.py
+      - vera/literature/paper_stage.py
+      - tests/test_paper_stage.py
+      - tests/test_paper_pipeline.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-schema-version.sh
+        - gate-paper6.sh            # shared verify, producer id, RSH-F-12 tests, audit freeze hash unchanged
+
+  - id: inference_set_frozen
+    label: "Inference check: seeded set built, test split and check source hashed before the one test run"
+    type: automated
+    required: true
+    requires:
+      - incr6_scoped
+    requires_artifacts:
+      - vera/audit/inference.py
+      - data/seeded_inference/items.jsonl
+      - data/results/inference_hash_incr6.json
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-inffrozen6.sh        # 60+ test items, hashes hold, no test result before the freeze, RSH-F-13/AUD-F-11 tests
+
+  - id: inference_measured
+    label: "Inference check measured once on the frozen test split: detection, false positives, intervals, spend"
+    type: automated
+    required: true
+    requires:
+      - inference_set_frozen
+    requires_artifacts:
+      - data/results/inference_incr6_test.json
+    hooks:
+      pre:
+        - gate-infmeasured6.sh      # run after the freeze on the frozen hashes, rates with intervals, within the $1 cap
+
+  - id: app_paper_ready
+    label: "App: Make a paper from this review, its live view, the paper reader with interpretation marked, the PDF"
+    type: automated
+    required: true
+    requires:
+      - paper_stage_ready
+      - inference_measured
+    requires_artifacts:
+      - tests/test_app_paper.py
+      - docs/screenshots/paper-light.png
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-app-secrets.sh       # the key scan and adversarial test, now with the review-paper routes
+        - gate-app6.sh              # routes, front end, static mode, APP-F-04 tests, screenshots, freeze
+
+  - id: paper_demo
+    label: "Three papers made through the app from real reviews, by Chris with his own key, each within its cap and audited"
+    type: human_approval
+    required: true
+    approval_token: "PAPER DEMO"
+    requires:
+      - app_paper_ready
+    requires_artifacts:
+      - data/paper_demo/record.json
+    hooks:
+      pre:
+        - gate-paper-demo.sh        # three records with notes, finished, audited, spend from the ledger within the cap
+
+  - id: rubric6_scored
+    label: "The three review papers scored by a person, blind, before the independent scorer"
+    type: human_approval
+    required: true
+    approval_token: "RUBRIC 6 SCORED"
+    requires:
+      - paper_demo
+    requires_artifacts:
+      - data/results/rubric6_chris.json
+      - data/results/rubric6_evaluator.json
+    hooks:
+      pre:
+        - gate-rubric6.sh           # a named human, blind, earlier than the independent scorer, preferences, model help stated
+
+  - id: incr6_review
+    label: "Increment 6 review"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 6 COMPLETE"
+    requires:
+      - rubric6_scored
+    requires_artifacts:
+      - docs/reviews/incr-6.md
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-traceability.sh
+        - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
+        - run-evaluator.sh          # independent Evaluator verdict on the review

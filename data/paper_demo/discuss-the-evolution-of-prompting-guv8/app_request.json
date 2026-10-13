@@ -1,0 +1,14 @@
+{
+ "run_id": "discuss-the-evolution-of-prompting-guv8",
+ "topic": "Discuss the evolution of prompting techniques from 2025 to the present. The introduction of prompt engineering to context engineering to harnesses to agentic harnesses, etc.",
+ "guidance": {
+  "format": "paper",
+  "max_words": 1500,
+  "required_sections": [],
+  "emphasis": null,
+  "constraints": []
+ },
+ "max_usd": 1.0,
+ "max_wall_seconds": 7200,
+ "allow_experiments": false
+}

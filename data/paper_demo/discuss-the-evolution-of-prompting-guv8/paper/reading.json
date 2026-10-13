@@ -1,0 +1,325 @@
+{
+ "n_full_text": 15,
+ "n_abstract_only": 31,
+ "n_passages": 195,
+ "n_review_passages": 75,
+ "n_new_passages": 120,
+ "read_top": 15,
+ "per_paper": 10,
+ "papers": [
+  {
+   "key": "R1",
+   "title": "A Systematic Survey of Prompt Engineering in Large Language Models: Techniques and Applications",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R2",
+   "title": "A comprehensive survey of prompt engineering and context engineering techniques in large language models",
+   "mode": "abstract",
+   "reason": "no PDF: not a PDF or too large",
+   "seconds": 0.4,
+   "n_passages": 1
+  },
+  {
+   "key": "R6",
+   "title": "Harness-Aware Evaluation of LLM Agents: Systems, Benchmarks, and Protocols",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R8",
+   "title": "The Agent Loop: A Survey of Control Strategies, Skills, and Harnesses for LLM Agents",
+   "mode": "abstract",
+   "reason": "no PDF: HTTP 403",
+   "seconds": 2.9,
+   "n_passages": 1
+  },
+  {
+   "key": "R11",
+   "title": "A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R17",
+   "title": "Agentic Retrieval-Augmented Generation: A Survey on Agentic RAG",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R18",
+   "title": "An Empirical Evaluation of Context-Management Strategies for Large Language Model Agents Under Forced Context Compression",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R20",
+   "title": "Context Rot and MCP Tool Attrition in Production-Scale Codebases: An Empirical Investigation of Context-Driven Tool Calling Degradation in Agentic AI Coding Systems",
+   "mode": "abstract",
+   "reason": "no PDF: HTTP 403",
+   "seconds": 3.1,
+   "n_passages": 1
+  },
+  {
+   "key": "R21",
+   "title": "Context is King: From Prompt Engineering to Context Engineering in Healthcare AI",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R24",
+   "title": "Distilling Feedback into Memory-as-a-Tool",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R26",
+   "title": "From Model Scaling to System Scaling: Scaling the Harness in Agentic AI",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R28",
+   "title": "General Modular Harness for LLM Agents in Multi-Turn Gaming Environments",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R29",
+   "title": "Harness Engineering for LLM Agents: A Survey of Harness Component Taxonomy, Evaluation, and Model–Harness Coevolution",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R30",
+   "title": "HeavySkill: Heavy Thinking as the Inner Skill in Agentic Harness",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R35",
+   "title": "MemTool: Optimizing Short-Term Memory Management for Dynamic Tool Calling in LLM Agent Multi-Turn Conversations",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R39",
+   "title": "Prompting in the Wild: A Qualitative Taxonomy of Practitioner-Driven Prompt Engineering Methods",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R41",
+   "title": "TADI: Tool-Augmented Drilling Intelligence via Agentic LLM Orchestration over Heterogeneous Wellsite Data",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R42",
+   "title": "The Interplay of Harness Design and Post-Training in LLM Agents",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 5.8,
+   "n_passages": 11
+  },
+  {
+   "key": "R44",
+   "title": "Tool and Agent Selection for Large Language Model Agents in Production: A Survey",
+   "mode": "abstract",
+   "reason": "no PDF: HTTP 403",
+   "seconds": 0.2,
+   "n_passages": 1
+  },
+  {
+   "key": "R45",
+   "title": "Towards Goal-oriented Prompt Engineering for Large Language Models: A Survey",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 5.5,
+   "n_passages": 11
+  },
+  {
+   "key": "R46",
+   "title": "Why AI Agents Fail: A Taxonomy of Failure Modes in Autonomous LLM-Based Systems",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R48",
+   "title": "The Prompt Report: A Systematic Survey of Prompt Engineering Techniques",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 7.7,
+   "n_passages": 11
+  },
+  {
+   "key": "R49",
+   "title": "Code as Agent Harness",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 7.8,
+   "n_passages": 11
+  },
+  {
+   "key": "R52",
+   "title": "TDD Governance for Multi-Agent Code Generation via Prompt Engineering",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 1.8,
+   "n_passages": 11
+  },
+  {
+   "key": "R55",
+   "title": "A Harness Engineering Methodology for LLM Agent-based Data Quality Validation: Observation-Validation-Synthesis-based Agent Design",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R57",
+   "title": "Act As a Real Researcher: A Suite of Benchmarks Evaluating Frontier LLMs and Agentic Harnesses in Research Lifecycle",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 4.4,
+   "n_passages": 11
+  },
+  {
+   "key": "R59",
+   "title": "Agentic Artificial Intelligence (AI): Architectures, Taxonomies, and Evaluation of Large Language Model Agents",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R63",
+   "title": "ClawsBench: Evaluating Capability and Safety of LLM Productivity Agents in Simulated Workspaces",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R67",
+   "title": "Engineering the RAG Stack: A Comprehensive Review of the Architecture and Trust Frameworks for Retrieval-Augmented Generation Systems",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 3.5,
+   "n_passages": 11
+  },
+  {
+   "key": "R70",
+   "title": "HarnessBridge: Learnable Bidirectional Controller for LLM Agent Harness",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R84",
+   "title": "UniACE: A Unified Framework for Evaluating LLM Agentic Capabilities",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 4.9,
+   "n_passages": 11
+  },
+  {
+   "key": "R87",
+   "title": "Externalization in LLM Agents: A Unified Review of Memory, Skills, Protocols and Harness Engineering",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 5.8,
+   "n_passages": 11
+  },
+  {
+   "key": "R89",
+   "title": "A Survey of Automatic Prompt Optimization with Instruction-focused Heuristic-based Search Algorithm",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R90",
+   "title": "A Survey of Prompt Engineering Methods in Large Language Models for Different NLP Tasks",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R94",
+   "title": "Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R98",
+   "title": "Context Rot: Why MCP is Breaking in Production and How the Skills Architecture Fixes It",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R105",
+   "title": "From Prompt Engineering to Context Engineering: Why Precision Oncology Needs Context",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R121",
+   "title": "Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R122",
+   "title": "Large Language Models Are Human-Level Prompt Engineers",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R129",
+   "title": "Unleashing the potential of prompt engineering for large language models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R133",
+   "title": "Prompting Is Programming: A Query Language for Large Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R137",
+   "title": "What Should We Engineer in Prompts? Training Humans in Requirement-Driven LLM Use",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R141",
+   "title": "Large Language Models for Wireless Networks: An Overview from the Prompt Engineering Perspective",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R142",
+   "title": "Leveraging Prompt Engineering in Large Language Models for Accelerating Chemical Research",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R145",
+   "title": "Assisting early-stage software startups with LLMs: Effective prompt engineering and system instruction design",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R151",
+   "title": "Prompt engineering – a disruption in information seeking?",
+   "mode": "abstract",
+   "n_passages": 1
+  }
+ ]
+}

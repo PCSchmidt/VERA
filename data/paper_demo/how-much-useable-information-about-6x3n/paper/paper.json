@@ -1,0 +1,1421 @@
+{
+ "run_id": "how-much-useable-information-about-6x3n",
+ "question": "According to the existing literature on LLM-based coding agents (e.g., SWE-agent, OpenHands, AutoCodeRover) and on software provenance, design-rationale capture, and trace-based debugging, which categories of information about a software application (such as design rationale, requirements traceability, failure and repair history, and test intent) can be reliably recovered and reused from agent traces to improve software maintainability and robustness, and what limitations do published studies report?",
+ "title": "Recovering Reusable Knowledge from Coding-Agent Traces: Design Rationale, Traceability, Failure and Repair History, and Test Intent",
+ "sections": [
+  {
+   "heading": "Abstract",
+   "kind": "summary",
+   "text": "This review asks which categories of application knowledge (design rationale, requirements traceability, failure and repair history, and test intent) can be reliably recovered from coding-agent traces and reused for maintainability. The evidence supports only part of the question. Design rationale mined from Jira issue discussions can be reused: rationale-prompted LLMs produced 10×-18× more full-match patches, and developers often lack motivation to document rationale. This has not been shown for rationale recovered from agent traces. Agent provenance is weak, since decision trails are hard to reconstruct, though the supporting report relies on practitioner observation. Trajectories carry failure signal: failed runs are longer and more variable, and most still locate the right files. However, the length-failure link reverses once task difficulty is controlled, and automated attribution is limited (0.14-0.52 step-level judge accuracy) or costly (replay). Traceability results are promising but uneven, with concerns about datasets, scale and safety-critical use. Intent is the central difficulty, with 51.7% of 207 unresolved tasks involving ambiguous issues. Passing tests may hide overfitting, so test intent cannot be assumed to certify patches. Open work includes controlled provenance studies, larger validated failure categorization, cheaper attribution, and evaluating whether recovered specifications detect overfitting."
+  },
+  {
+   "heading": "Introduction",
+   "kind": "evidence",
+   "text": "The review concerns what can be recovered from the traces of LLM-based coding agents and reused to make software easier to maintain and more robust. The survey of LLM-based agents for software engineering collects 124 papers and categorizes them from the software engineering and agent perspectives [R17]. OpenHands is described by its authors as a platform for agents that interact with the world in similar ways to those of a human developer [R22]. The OpenHands related-work section says that AutoCodeRover addresses GitHub issues via code search and abstract syntax tree manipulation [R22].\n\nMaintenance tasks are the setting in which such agents are usually evaluated. The AutoCodeRover authors state that software engineering involves program improvement apart from coding, specifically software maintenance and software evolution [R10]. The agent survey describes SWE-bench as the first benchmark for end-to-end software maintenance, with 2,294 real-world GitHub issues across 12 popular Python repositories [R17]. The AutoCodeRover authors argue that the toughest challenge in program repair lies in inferring the intent of the developer or the specification [R10].\n\nWork outside the agent literature addresses the kinds of information the question names. The DRMiner authors report that developers may lack motivation to document design rationales when they will not gain immediate benefit [R13]. The same authors report that advanced LLMs prompted with the mined rationales generate 10×-18× more full-match patches in automated program repair [R13]. The requirements traceability study states that understanding the relation between artifacts is crucial for understanding the system and for supporting tasks such as change impact analysis [R11]. The chapter on NLP for traceability notes that it is not yet clear how LLM-based approaches to trace link creation will scale [R20].\n\nThe passages supplied here stop short of the central question. They describe agents, benchmarks, rationale mining and traceability recovery, but none of them examines agent traces as a source of rationale, traceability, repair history or test intent, so that evidence gap frames the review that follows."
+  },
+  {
+   "heading": "Method",
+   "kind": "record",
+   "text": "The question this paper answers was proposed by VERA from the user's topic and confirmed by the user: According to the existing literature on LLM-based coding agents (e.g., SWE-agent, OpenHands, AutoCodeRover) and on software provenance, design-rationale capture, and trace-based debugging, which categories of information about a software application (such as design rationale, requirements traceability, failure and repair history, and test intent) can be reliably recovered and reused from agent traces to improve software maintainability and robustness, and what limitations do published studies report?\n\nSearch. 12 queries were sent to the paper-search services: “SWE-agent agent-computer interface software engineering”; “OpenHands open platform AI software developers generalist agents”; “AutoCodeRover autonomous program improvement”; “agent trajectory analysis LLM coding agents failures”; “design rationale capture software engineering”; “requirements traceability recovery using large language models”; “software provenance tracking AI-generated code”; “trace-based debugging record and replay execution traces”; “SWE-bench benchmark resolving real-world GitHub issues”; “survey large language model agents for software engineering”; “automated program repair history mining bug fix patterns”; “limitations of LLM agents code maintainability hallucinated rationale negative results”. They retrieved 120 candidate papers. A relevance screen, judged on titles and abstracts, kept 48 and set aside 72.\n\nReading. Every kept paper was read at its abstract; 15 were also read in full text, and 33 at the abstract only. This gave 185 evidence passages, the only text the paper may quote.\n\nWriting and checking. The evidence sections were drafted sentence by sentence; every sentence that attributes something to a source carries a quote copied from one of those passages. Each quote was checked to be verbatim in its source, and a judge other than the writer checked that the passage supports the sentence and that the quote alone states it; sentences that failed were repaired once or removed. 55 claims from 27 sources survived. Interpretation sections, where present, rest only on those claims and are labelled as such.\n\nModels. Written by anthropic/claude-sonnet-5.5; judged by z-ai/glm-5.3-flash."
+  },
+  {
+   "heading": "Agent trajectories as a source of failure and repair history",
+   "kind": "evidence",
+   "text": "Work on agent trajectories begins from the observation that outcome-only evaluation hides how agents behave. The authors of the comparative study of OpenHands, SWE-agent and Prometheus state that current evaluations treat agents as black boxes, focusing primarily on success rates while overlooking the rich information contained in their execution trajectories [R35]. The empirical study of OpenHands, SWE-agent and Prometheus trajectories reports that failed trajectories are consistently longer and exhibit higher variance than successful ones, with failure patterns differing significantly between agents [R35]. The two studies therefore disagree on whether length is a usable failure signal, and the evidence leaves that point unsettled.\n\nOn localization, the SWE-bench trajectory study finds that most trajectories identify the problematic files correctly, even in failures [R35]. SWE-agent's own appendix describes an automated categorization of 248 unresolved trajectories, validated against only 15 hand-labelled instances [R28].\n\nResearch on attributing failure to a particular step comes mostly from multi-agent settings rather than coding agents. DeFA, a dependency-guided attribution framework, is described as identifying the decisive error, responsible agent, and error category [R39]. A zero-replay debugging study reports that step-level attribution by an LLM judge reached only 0.14-0.52 accuracy on Who&When [R57]. The same work states that counterfactual replay is reliable but its cost grows linearly with candidate events [R57]. None of the supplied passages shows whether such attributions or replays yield reusable repair histories that improve later maintenance of a specific application, so that question stays open."
+  },
+  {
+   "heading": "Design rationale: evidence from issue logs rather than agent traces",
+   "kind": "evidence",
+   "text": "The sources assembled here speak to design rationale mainly through issue logs and early hypertext tools, not through coding-agent traces. DRMiner's authors report that developers may lack motivation to document design rationales when they gain no immediate benefit, which leaves rationales without a standard capture [R13]. DRMiner is an approach that mines latent design rationales from developers' live discussion in open-source issue logs in Jira [R13]. In the DRMiner evaluation, advanced LLMs prompted with the extracted rationales generated 10×-18× more full-match patches in automated program repair and gained 10%-13% in CodeBLEU [R13].\n\nThe older gIBIS work shows that rationale capture is a long-standing aim. gIBIS is an application-specific hypertext system designed to facilitate the capture of early design deliberations [R121]. The authors of the gIBIS paper reported that early experiments suggested the IBIS method was still incomplete [R121].\n\nWork on agent traces raises the same concern from the opposite direction. The LLMoxie report states that coding agents leave decision trails that are difficult to reconstruct after the fact [R59]. LLMoxie's authors describe current agentic practice as lacking mechanisms analogous to version control for tracking the provenance of AI-assisted contributions, which accumulates what they call intent debt [R59]. The LLMoxie report's operational lessons rest on practitioner observation and project artifacts rather than a controlled user study [R59].\n\nThe passages therefore show rationale being recovered from human issue discussions, and the absence of rationale being noted for agent work. None of them shows rationale reliably recovered from agent traces, which remains open."
+  },
+  {
+   "heading": "Requirements traceability link recovery with LLMs",
+   "kind": "evidence",
+   "text": "The sources on requirements traceability link recovery (TLR) with LLMs describe a field that is active but constrained by data and reliability concerns. The Natural Language Processing for Requirements Traceability chapter states that TLR approaches often lack large enough and credible datasets [R20]. The same chapter reports that none of the automated trace recovery approaches are sufficiently good to be useful when dealing with real-world, safety-critical systems [R20].\n\nSeveral studies report positive results for specific LLM-based designs. In the security-requirements study that linked requirements to goal models with GPT-3.5-turbo, the approach and tool yielded positive results, demonstrating a precision of 100%, a recall of 78.5%, and an F1-score of 87.9% [R46]. The evaluation behind that figure used one GRL model and 42 requirements, which is a small base. The bidirectional-convergence study reported that combining forward and backward recovery of use cases raised use-case recovery coverage from 65.5% to 75.1% [R67].\n\nWork on ensembles and prompting shows trade-offs between recall, precision and cost. The inter-requirements ensemble study found that small LLMs reduce the candidate space with minimal loss of recall [R11]. In the study of LLM ensembles for candidate filtering in inter-requirements traceability, the authors report that while their LLM-based ensemble approach achieves comparable F2-scores to IR methods, it lags in precision [R11]. LightTraceLLM reported traceability performance comparable to a high-end baseline while cutting monetary inference cost by approximately 67-99% [R33]. TraceLLM concluded that traceability performance depends critically on the quality of prompt engineering [R109].\n\nFor requirements-to-code links, the evidence points to limits of textual similarity. The NL-PL study reports that relying solely on textual similarity is limited by the semantic gap between natural-language and programming-language artifacts [R101]. None of these passages tests recovery from coding-agent traces, and how well the results scale is left open."
+  },
+  {
+   "heading": "Test intent, code intent and specification inference",
+   "kind": "evidence",
+   "text": "The sources describe intent inference mainly through specification-inference agents built on AutoCodeRover. The AutoCodeRover authors state that the toughest challenge in program repair lies in inferring the developer's intent or specification [R10]. AutoCodeRover gleans that intent from the project structure [R10]. The SpecRover authors describe their approach as more general, inferring specifications from program structure, program behavior, tests and other sources [R71].\n\nSpecRover also adds a reviewer agent for validation. The SpecRover authors state that the reviewer agent can produce evidence of correctness for automatically generated fixes, such as an explanation of the patch, a reproducer test, and the accumulated specifications from different code elements [R71]. On SWE-bench Lite, SpecRover reports resolving 31% of issues [R71].\n\nThe sources also report limits on how reliably such intent can be recovered. In SpecRover's analysis of 207 unresolved SWE-bench Lite tasks, 107 (51.7%) had ambiguous issue descriptions, 61 (29.5%) had an incorrect fix location, and 39 (18.8%) had incorrect code modifications [R71]. The AutoCodeRover authors acknowledge that a patch passing the added tests may still be overfitting [R10]. The test-driven survey concludes that passing tests alone does not establish behavioral equivalence, effective feedback, or process adherence [R107]. The OSS-Fuzz study similarly finds that patches with high CodeBLEU scores still fail the given exploit input [R90].\n\nThe passages leave open whether inferred specifications can be reused after the original repair, since SpecRover's retention of evidence is proposed rather than evaluated for future regressions."
+  },
+  {
+   "heading": "Historical fix patterns and mined repair knowledge",
+   "kind": "evidence",
+   "text": "The history-driven repair line of work starts from the observation that fixes recur. The authors of History Driven Program Repair state their main insight as follows: recurring bug fixes are common in real-world applications, and previously-appearing fix patterns can provide useful guidance to an automated repair technique [R127]. Getafix, which learns fix patterns from past human-written fixes for static-analysis bug categories, is reported to predict exactly the human-written fix as the top-most suggestion between 12% and 91% of the time, depending on the bug category [R91]. The wide range in that figure shows that how reliably mined fixes can be reused depends on the bug category.\n\nFixMiner addresses how patterns are mined, and its authors argue that earlier approaches often do not yield fix patterns that are tractable and reusable as actionable input to APR systems [R55]. The FixMiner authors report that their mined patterns let the PARFixMiner prototype correctly fix 26 Defects4J bugs [R55].\n\nAgent-based repair changes the setting. RepairAgent is described as treating the LLM as an agent that autonomously plans and executes actions to fix bugs by invoking suitable tools [R104]. DRMiner reports that advanced LLMs, when prompted with mined design rationales, generate 10×-18× more full-match patches [R13]. None of the supplied passages shows agent traces being mined for reusable fix patterns the way commit histories are, so that question remains open."
+  },
+  {
+   "heading": "Limitations: evidence gaps, benchmark scope, and maintainability claims",
+   "kind": "evidence",
+   "text": "The sources agree that SWE-bench-style issue resolution is the standard testbed for coding agents, but they differ on how far results on it generalize. The SWE-bench-Live authors state that SWE-bench and its variants have become standard for evaluating LLMs on the issue resolution task [R29]. The SWE-bench-Live authors report that the same agent-LLM pair consistently performs worse on SWE-bench-Live than on SWE-bench [R29]. The same authors suggest that existing models may be overfitting to static benchmarks [R29].\n\nBenchmark scope is a second limit. The SWE-bench-java authors note that SWE-bench is centered on Python and does not cover fields such as web applications, mobile applications, and system programming [R30].\n\nTrace-based studies add limits on what resolution rates reveal. The large-scale trajectory study finds that the widely reported correlation between trajectory length and failure reverses direction once task difficulty is controlled [R81]. The debugging study of multi-agent traces cautions that its calibration may not transfer perfectly to production agent systems [R57].\n\nOn maintainability specifically, the evidence is thin. The LLMoxie authors report that current agentic AI practices lack mechanisms analogous to version control or commit history for tracking the provenance of AI-assisted contributions. The passages supplied here do not test whether information recovered from agent traces improves long-term maintainability or robustness, so that question remains open."
+  },
+  {
+   "heading": "Discussion",
+   "kind": "interpretation",
+   "text": "*Interpretation: VERA's reading of the claims named after each statement, judged to follow from them; not checked against quotes.*\n\nThe claims agree that rationale is valuable but rarely captured: developers may lack motivation to document it without immediate benefit, and mining latent rationale from issue logs, when fed to LLMs, was reported to yield 10×-18× more full-match patches in program repair (C7, C18, C8, C20). Agent-side provenance is reported as weak: coding agents leave decision trails that are hard to reconstruct, and current practice lacks version-control-like provenance tracking, though the supporting report rests on practitioner observation and project artifacts, not a controlled study (C23, C24, C25). Failure history is partly recoverable from trajectories: failed ones are longer, more variable and differ by agent, and most trajectories find the right files even when failing. Yet the length–failure link is reported to reverse once task difficulty is controlled, so surface trace features are unreliable indicators (C12, C13, C54). Automated failure attribution is reported as limited: an LLM judge reached only 0.14-0.52 step-level accuracy on one benchmark, counterfactual replay is reliable but its cost grows linearly, and one categorization of unresolved trajectories was validated on only 15 hand-labelled instances (C16, C17, C14). Intent is the central difficulty. Inferring developer intent or specification is called the toughest repair challenge, and one analysis attributed 51.7% of 207 unresolved tasks to ambiguous issue descriptions (C6, C35, C40). Traceability results pull apart: individual LLM studies report strong figures such as 100% precision and 78.5% recall in one setting, while a survey chapter says no automated approach suffices for safety-critical systems and that scaling is unclear (C28, C27, C10). Passing tests is reported as insufficient evidence of correctness, so test intent recovered from agent traces cannot be assumed to certify patches (C41, C42, C43)."
+  },
+  {
+   "heading": "Conclusions",
+   "kind": "interpretation",
+   "text": "*Interpretation: VERA's reading of the claims named after each statement, judged to follow from them; not checked against quotes.*\n\nThe claims support that design rationale mined from issue discussion can be reused to help repair, and that past fix patterns are a reusable source of guidance. This is not shown for rationale recovered from agent traces themselves (C8, C44, C46). Failure information in trajectories carries signal, but attributing failures reliably is reported to be limited and costly (C12, C16, C17). Requirements traceability recovery shows promising but uneven results, with unresolved concerns about datasets, scale and safety-critical use (C26, C27, C31). Test intent is not shown to be reliably recoverable or sufficient, since passing tests may still hide overfitting. Whether any category improves maintainability from agent traces specifically remains unanswered by these claims (C41, C42)."
+  },
+  {
+   "heading": "A research agenda",
+   "kind": "interpretation",
+   "text": "*Interpretation: VERA's reading of the claims named after each statement, judged to follow from them; not checked against quotes.*\n\nRun controlled studies, beyond practitioner observation, of whether provenance and decision trails captured from agent runs can be reconstructed and reused for maintenance (C23, C24, C25). Validate trajectory failure categorization against larger hand-labelled sets, controlling for task difficulty (C14, C54). Develop cheaper failure attribution that improves on the low judge accuracy without the linear cost of replay (C16, C17). Test whether design-rationale mining, which DRMiner performs on Jira issue logs, transfers to agent traces. DRMiner reports that rationale-prompted LLMs generate 10×-18× more full-match patches, and that developers lack motivation to document rationales, so rationales have no standard capture. The evidence comes from issue logs, not agent traces (C8, C18, C19). Measure traceability recovery on real safety-critical data with larger credible datasets, and examine scaling (C26, C27, C10). Evaluate whether recovered test intent and specifications, such as the reproducer tests, patch explanations and accumulated specifications that SpecRover's reviewer produces as evidence of correctness, can detect overfitting patches beyond passing tests. AutoCodeRover's authors acknowledge that a patch passing the added tests may still overfit, and the test-driven survey concludes that passing tests alone does not establish behavioral equivalence (C38, C41, C42)."
+  },
+  {
+   "heading": "Threats to validity",
+   "kind": "record",
+   "text": "Coverage. The paper rests on what 12 queries found; the search was not repeated for the paper. A finding reported as missing means these searches did not find it, not that it does not exist.\n\nDepth of reading. 33 of 48 kept papers were read at the abstract only, so their methods and caveats are known only as their abstracts state them.\n\nWhat the checks cover. Each claim was checked against the passage it quotes, not against the whole source or the wider literature. A claim can be supported by its quote and still leave out a qualification stated elsewhere in the paper it cites. Interpretation sections were judged to follow from the claims they name; they were not checked against the sources.\n\nSame-family grading. The writer is a Claude model; the judges are a different model family, and any independent scoring of this paper by a Claude model shares the writer's family."
+  }
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "claim": "The survey of LLM-based agents for software engineering collects 124 papers and categorizes them from the software engineering and agent perspectives.",
+   "source_key": "R17",
+   "quote": "We collect 124 papers and categorize them from two perspectives, i.e., the SE and agent perspectives.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C2",
+   "claim": "OpenHands is described by its authors as a platform for agents that interact with the world in similar ways to those of a human developer.",
+   "source_key": "R22",
+   "quote": "we introduce OpenHands (f.k.a. OpenDevin), a platform for the development of powerful and flexible AI agents that interact with the world in similar ways to those of a human developer: by writing code, interacting with a command line, and browsing the web.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C3",
+   "claim": "The OpenHands related-work section says that AutoCodeRover addresses GitHub issues via code search and abstract syntax tree manipulation.",
+   "source_key": "R22",
+   "quote": "AutoCodeRover Zhang et al. (2024b) addresses GitHub issues via code search and abstract syntax tree manipulation.",
+   "locator": "sec. C RELATED WORK, para 64",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C4",
+   "claim": "The AutoCodeRover authors state that software engineering involves program improvement apart from coding, specifically software maintenance and software evolution.",
+   "source_key": "R10",
+   "quote": "Nevertheless, software engineering involves the process of program improvement apart from coding, specifically to enable software maintenance (e.g. bug fixing) and software evolution (e.g. feature additions).",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C5",
+   "claim": "The agent survey describes SWE-bench as the first benchmark for end-to-end software maintenance, with 2,294 real-world GitHub issues across 12 popular Python repositories.",
+   "source_key": "R17",
+   "quote": "SWE-bench [252] is the first benchmark for end-to-end software maintenance, which consists of 2,294 real-world GitHub issues across 12 popular Python repositories.",
+   "locator": "sec. Agent Evaluation, para 165",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C6",
+   "claim": "The AutoCodeRover authors argue that the toughest challenge in program repair lies in inferring the intent of the developer or the specification.",
+   "source_key": "R10",
+   "quote": "From the point of view of program repair, the toughest challenge lies in inferring the intent of the developer or the specification.",
+   "locator": "sec. Threats to Validity, para 77",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C7",
+   "claim": "The DRMiner authors report that developers may lack motivation to document design rationales when they will not gain immediate benefit.",
+   "source_key": "R13",
+   "quote": "However, there may be a lack of motivation for developers to document design rationales (i.e., the design alternatives and the underlying arguments for making or rejecting decisions) when they will not gain immediate benefit, resulting in a lack of standard capture of these rationales.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C8",
+   "claim": "The same authors report that advanced LLMs prompted with the mined rationales generate 10×-18× more full-match patches in automated program repair.",
+   "source_key": "R13",
+   "quote": "Furthermore, we investigate the usefulness of the design rationales mined by DRMiner for automated program repair (APR) and find that advanced LLMs, when prompted with these extracted rationales, generate 10×-18× more full-match patches and achieve a 10%-13% gain in CodeBLEU scores.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C9",
+   "claim": "The requirements traceability study states that understanding the relation between artifacts is crucial for understanding the system and for supporting tasks such as change impact analysis.",
+   "source_key": "R11",
+   "quote": "Understanding the relation between these artifacts is crucial for understanding the system and for supporting tasks such as change impact analysis and software reusability [1], [2].",
+   "locator": "sec. I. INTRODUCTION, para 1",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C10",
+   "claim": "The chapter on NLP for traceability notes that it is not yet clear how LLM-based approaches to trace link creation will scale.",
+   "source_key": "R20",
+   "quote": "As hinted by the latest work on Generative AI, the conversational interface backed by large language models serves as an intuitive way for trace link creation and explanation, but it is not yet clear how these approaches will scale.",
+   "locator": "sec. Summary and Conclusion, para 95",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C11",
+   "claim": "The authors of the comparative study of OpenHands, SWE-agent and Prometheus state that current evaluations treat agents as black boxes, focusing primarily on success rates while overlooking the rich information contained in their execution trajectories.",
+   "source_key": "R35",
+   "quote": "current evaluations treat agents as black boxes, focusing primarily on success rates while overlooking the rich information contained in their execution trajectories",
+   "locator": "sec. Introduction, para 1",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C12",
+   "claim": "The empirical study of OpenHands, SWE-agent and Prometheus trajectories reports that failed trajectories are consistently longer and exhibit higher variance than successful ones, with failure patterns differing significantly between agents.",
+   "source_key": "R35",
+   "quote": "we find that failed trajectories are consistently longer and exhibit higher variance than successful ones, with failure patterns differing significantly between agents.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C13",
+   "claim": "On localization, the SWE-bench trajectory study finds that most trajectories identify the problematic files correctly, even in failures.",
+   "source_key": "R35",
+   "quote": "Third, our fault localisation analysis shows that while most trajectories correctly identify problematic files (72-81\\% even in failures), success depends more on achieving approximate rather than exact code modifications.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C14",
+   "claim": "SWE-agent's own appendix describes an automated categorization of 248 unresolved trajectories, validated against only 15 hand-labelled instances.",
+   "source_key": "R28",
+   "quote": "A validation set of 15 instances are then sampled from the 248 instances left marked unresolved by SWE-agent and the authors hand-label them according to these categories.",
+   "locator": "sec. B.4 Failure Modes, para 126",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C15",
+   "claim": "DeFA, a dependency-guided attribution framework, is described as identifying the decisive error, responsible agent, and error category.",
+   "source_key": "R39",
+   "quote": "Finally, DeFA uses step evidence and the steps' roles in failure propagation to identify the decisive error, responsible agent, and error category.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C16",
+   "claim": "A zero-replay debugging study reports that step-level attribution by an LLM judge reached only 0.14-0.52 accuracy on Who&When.",
+   "source_key": "R57",
+   "quote": "Who&When judge [5] LLM-as-judge (no replay) agent / step step acc. (Who&When) 0.14-0.52",
+   "locator": "sec. Method, para 13",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C17",
+   "claim": "The same work states that counterfactual replay is reliable but its cost grows linearly with candidate events.",
+   "source_key": "R57",
+   "quote": "Replay is reliable but its cost grows linearly with candidate events:",
+   "locator": "sec. Introduction, para 1",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C18",
+   "claim": "DRMiner's authors report that developers may lack motivation to document design rationales when they gain no immediate benefit, which leaves rationales without a standard capture.",
+   "source_key": "R13",
+   "quote": "However, there may be a lack of motivation for developers to document design rationales (i.e., the design alternatives and the underlying arguments for making or rejecting decisions) when they will not gain immediate benefit, resulting in a lack of standard capture of these rationales.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C19",
+   "claim": "DRMiner is an approach that mines latent design rationales from developers' live discussion in open-source issue logs in Jira.",
+   "source_key": "R13",
+   "quote": "automatically mine latent design rationales from developers’ live discussion in open-source community (i.e., issue logs in Jira)",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C20",
+   "claim": "In the DRMiner evaluation, advanced LLMs prompted with the extracted rationales generated 10×-18× more full-match patches in automated program repair and gained 10%-13% in CodeBLEU.",
+   "source_key": "R13",
+   "quote": "find that advanced LLMs, when prompted with these extracted rationales, generate 10×-18× more full-match patches and achieve a 10%-13% gain in CodeBLEU scores.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C21",
+   "claim": "gIBIS is an application-specific hypertext system designed to facilitate the capture of early design deliberations.",
+   "source_key": "R121",
+   "quote": "This paper describes an application-specific hypertext system designed to facilitate the capture of early design deliberations.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C22",
+   "claim": "The authors of the gIBIS paper reported that early experiments suggested the IBIS method was still incomplete.",
+   "source_key": "R121",
+   "quote": "Early experiments suggest that the IBIS method is still incomplete",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C23",
+   "claim": "The LLMoxie report states that coding agents leave decision trails that are difficult to reconstruct after the fact.",
+   "source_key": "R59",
+   "quote": "Off-the-shelf coding agents produce running Python while ignoring the conventions of the communities whose libraries they invoke [3,17], mishandle sensitive or embargoed data [11], and leave decision trails that are difficult to reconstruct after the fact [30].",
+   "locator": "sec. Introduction, para 4",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C24",
+   "claim": "LLMoxie's authors describe current agentic practice as lacking mechanisms analogous to version control for tracking the provenance of AI-assisted contributions, which accumulates what they call intent debt.",
+   "source_key": "R59",
+   "quote": "However, current agentic AI practices lack mechanisms analogous to version control or commit history for tracking the provenance of AI-assisted contributions, accumulating what has been termed intent debt: the absence of externalized rationale that developers and AI agents alike need in order to safely evolve a system [30].",
+   "locator": "sec. Production Deployment on Azure, para 36",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C25",
+   "claim": "The LLMoxie report's operational lessons rest on practitioner observation and project artifacts rather than a controlled user study.",
+   "source_key": "R59",
+   "quote": "the operational lessons in Section 6 are based on practitioner observation and project artifacts rather than a controlled user study",
+   "locator": "sec. Limitations, para 38",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C26",
+   "claim": "The Natural Language Processing for Requirements Traceability chapter states that TLR approaches often lack large enough and credible datasets.",
+   "source_key": "R20",
+   "quote": "TLR approaches often lack large enough and credible datasets.",
+   "locator": "sec. Limitations and Concluding Remarks, para 47",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C27",
+   "claim": "The same chapter reports that none of the automated trace recovery approaches are sufficiently good to be useful when dealing with real-world, safety-critical systems.",
+   "source_key": "R20",
+   "quote": "In practice, none of the automated trace recovery approaches are sufficiently good to be useful when dealing with real-world, safety-critical systems [27].",
+   "locator": "sec. Approaches, para 58",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C28",
+   "claim": "In the security-requirements study that linked requirements to goal models with GPT-3.5-turbo, the approach and tool yielded positive results, demonstrating a precision of 100%, a recall of 78.5%, and an F1-score of 87.9%.",
+   "source_key": "R46",
+   "quote": "The approach and tool yielded positive results, demonstrating a precision of 100%, a recall of 78.5%, and an F1-score of 87.9%.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C29",
+   "claim": "The bidirectional-convergence study reported that combining forward and backward recovery of use cases raised use-case recovery coverage from 65.5% to 75.1%.",
+   "source_key": "R67",
+   "quote": "This bidirectional convergence approach increased use-case recovery coverage from 65.5% to 75.1%, a gain of 9.6 percentage points, and improved trace-link recall.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C30",
+   "claim": "The inter-requirements ensemble study found that small LLMs reduce the candidate space with minimal loss of recall.",
+   "source_key": "R11",
+   "quote": "Furthermore, small LLMs effectively reduce the candidate space with minimal loss of recall.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C31",
+   "claim": "In the study of LLM ensembles for candidate filtering in inter-requirements traceability, the authors report that while their LLM-based ensemble approach achieves comparable F2-scores to IR methods, it lags in precision.",
+   "source_key": "R11",
+   "quote": "While our LLM-based ensemble approach achieves comparable F2-scores to IR methods, it lags in precision.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C32",
+   "claim": "LightTraceLLM reported traceability performance comparable to a high-end baseline while cutting monetary inference cost by approximately 67-99%.",
+   "source_key": "R33",
+   "quote": "An extensive empirical evaluation across multiple benchmark datasets shows that the proposed approaches achieve traceability performance comparable to the high-end baseline while reducing monetary inference cost by approximately $\\mathbf{6 7 - 9 9 \\%}$, depending on the method and dataset.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C33",
+   "claim": "TraceLLM concluded that traceability performance depends critically on the quality of prompt engineering.",
+   "source_key": "R109",
+   "quote": "Overall, our findings highlight that traceability performance depends not only on model capacity but also critically on the quality of prompt engineering.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C34",
+   "claim": "The NL-PL study reports that relying solely on textual similarity is limited by the semantic gap between natural-language and programming-language artifacts.",
+   "source_key": "R101",
+   "quote": "However, in tasks involving natural language and programming language (NL-PL) artifacts, relying solely on textual similarity is limited by their semantic gap.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C35",
+   "claim": "The AutoCodeRover authors state that the toughest challenge in program repair lies in inferring the developer's intent or specification.",
+   "source_key": "R10",
+   "quote": "From the point of view of program repair, the toughest challenge lies in inferring the intent of the developer or the specification.",
+   "locator": "sec. Threats to Validity, para 77",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C36",
+   "claim": "AutoCodeRover gleans that intent from the project structure.",
+   "source_key": "R10",
+   "quote": "The outlook of AutoCodeRover is that the developer intent is gleaned from the project structure for automated program modifications.",
+   "locator": "sec. Threats to Validity, para 77",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C37",
+   "claim": "The SpecRover authors describe their approach as more general, inferring specifications from program structure, program behavior, tests and other sources.",
+   "source_key": "R71",
+   "quote": "In contrast, SpecRover is more general and is capable of inferring specifications from different sources including program structure, program behavior, tests and so on.",
+   "locator": "sec. VII. RELATED WORK, para 90",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C38",
+   "claim": "The SpecRover authors state that the reviewer agent can produce evidence of correctness for automatically generated fixes, such as an explanation of the patch, a reproducer test, and the accumulated specifications from different code elements.",
+   "source_key": "R71",
+   "quote": "The reviewer agent can produce evidence of correctness of automatically generated fixes -such as explanation of patch, reproducer test, and the accumulated specifications from different code elements.",
+   "locator": "sec. I. INTRODUCTION, para 5",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C39",
+   "claim": "On SWE-bench Lite, SpecRover reports resolving 31% of issues.",
+   "source_key": "R71",
+   "quote": "Our tool shows high efficacy, solving 19.3% issues in full SWE-bench and 31% on SWE-bench lite.",
+   "locator": "sec. I. INTRODUCTION, para 5",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C40",
+   "claim": "In SpecRover's analysis of 207 unresolved SWE-bench Lite tasks, 107 (51.7%) had ambiguous issue descriptions, 61 (29.5%) had an incorrect fix location, and 39 (18.8%) had incorrect code modifications.",
+   "source_key": "R71",
+   "quote": "1) Ambiguous issue description (as labeled by SWE-bench Verified [22]): 107 (51.7%) 2) Incorrect fix location: 61 (29.5%) 3) Incorrect code modification: 39 (18.8%)",
+   "locator": "sec. Time and Cost:, para 51",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C41",
+   "claim": "The AutoCodeRover authors acknowledge that a patch passing the added tests may still be overfitting.",
+   "source_key": "R10",
+   "quote": "However, this patch may be overfitting.",
+   "locator": "sec. Threats to Validity, para 76",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C42",
+   "claim": "The test-driven survey concludes that passing tests alone does not establish behavioral equivalence, effective feedback, or process adherence.",
+   "source_key": "R107",
+   "quote": "Test passing alone does not establish behavioral equivalence, effective feedback, or process adherence; aggregate improvements can also conceal different outcomes across models, tasks, and denominators.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C43",
+   "claim": "The OSS-Fuzz study similarly finds that patches with high CodeBLEU scores still fail the given exploit input.",
+   "source_key": "R90",
+   "quote": "since patches with high CodeBLEU scores still fail to pass given the given exploit input",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C44",
+   "claim": "The authors of History Driven Program Repair state their main insight as follows: recurring bug fixes are common in real-world applications, and previously-appearing fix patterns can provide useful guidance to an automated repair technique.",
+   "source_key": "R127",
+   "quote": "Our main insight is that recurring bug fixes are common inreal-world applications, and that previously-appearing fix patterns canprovide useful guidance to an automated repair technique.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C45",
+   "claim": "Getafix, which learns fix patterns from past human-written fixes for static-analysis bug categories, is reported to predict exactly the human-written fix as the top-most suggestion between 12% and 91% of the time, depending on the bug category.",
+   "source_key": "R91",
+   "quote": "The approach predicts exactly the human-written fix as the top-most suggestion between 12% and 91% of the time, depending on the bug category.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C46",
+   "claim": "FixMiner addresses how patterns are mined, and its authors argue that earlier approaches often do not yield fix patterns that are tractable and reusable as actionable input to APR systems.",
+   "source_key": "R55",
+   "quote": "While the literature includes various approaches leveraging similarity among patches to guide program repair, these approaches often do not yield fix patterns that are tractable and reusable as actionable input to APR systems.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C47",
+   "claim": "The FixMiner authors report that their mined patterns let the PARFixMiner prototype correctly fix 26 Defects4J bugs.",
+   "source_key": "R55",
+   "quote": "We further integrated the mined patterns to an automated program repair prototype, PARFixMiner, with which we are able to correctly fix 26 bugs of the Defects4J benchmark.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C48",
+   "claim": "RepairAgent is described as treating the LLM as an agent that autonomously plans and executes actions to fix bugs by invoking suitable tools.",
+   "source_key": "R104",
+   "quote": "Unlike existing deep learning-based approaches, which prompt a model with a fixed prompt or in a fixed feedback loop, our work treats the LLM as an agent capable of autonomously planning and executing actions to fix bugs by invoking suitable tools.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C49",
+   "claim": "DRMiner reports that advanced LLMs, when prompted with mined design rationales, generate 10×-18× more full-match patches.",
+   "source_key": "R13",
+   "quote": "Furthermore, we investigate the usefulness of the design rationales mined by DRMiner for automated program repair (APR) and find that advanced LLMs, when prompted with these extracted rationales, generate 10×-18× more full-match patches and achieve a 10%-13% gain in CodeBLEU scores.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C50",
+   "claim": "The SWE-bench-Live authors state that SWE-bench and its variants have become standard for evaluating LLMs on the issue resolution task.",
+   "source_key": "R29",
+   "quote": "Among them, SWE-bench [10] and its variants, such as Multimodal SWE-bench [22] and Multi-SWE-bench [25], have become standard for evaluating LLMs on the issue resolution task",
+   "locator": "sec. Introduction, para 2",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C51",
+   "claim": "The SWE-bench-Live authors report that the same agent-LLM pair consistently performs worse on SWE-bench-Live than on SWE-bench.",
+   "source_key": "R29",
+   "quote": "To explore this discrepancy further, we conduct a controlled comparison and find that the same agent-LLM pair consistently performs worse on SWE-bench-Live than on SWE-bench.",
+   "locator": "sec. Introduction, para 6",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C52",
+   "claim": "The same authors suggest that existing models may be overfitting to static benchmarks.",
+   "source_key": "R29",
+   "quote": "This finding suggests that existing models may be overfitting to static benchmarks like SWE-bench, underscoring the importance of developing more dynamic and diverse evaluation settings, such as those provided by SWE-bench-Live.",
+   "locator": "sec. Introduction, para 6",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C53",
+   "claim": "The SWE-bench-java authors note that SWE-bench is centered on Python and does not cover fields such as web applications, mobile applications, and system programming.",
+   "source_key": "R30",
+   "quote": "However, it does not cover other common and necessary fields like web applications, mobile applications, and system programming, which rely on other programming languages [7,8].",
+   "locator": "sec. Introduction, para 1",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C54",
+   "claim": "The large-scale trajectory study finds that the widely reported correlation between trajectory length and failure reverses direction once task difficulty is controlled.",
+   "source_key": "R81",
+   "quote": "The widely reported correlation between trajectory length and failure reverses direction once task difficulty is controlled, revealing it as a confound.",
+   "locator": "abstract",
+   "quote_check": "pass",
+   "verdicts": []
+  },
+  {
+   "id": "C55",
+   "claim": "The debugging study of multi-agent traces cautions that its calibration may not transfer perfectly to production agent systems.",
+   "source_key": "R57",
+   "quote": "Calibration may not transfer perfectly to production agent systems.",
+   "locator": "sec. Limitations and Threats to Validity, para 58",
+   "quote_check": "pass",
+   "verdicts": []
+  }
+ ],
+ "inferences": [
+  {
+   "id": "I1",
+   "section": "Discussion",
+   "text": "The claims agree that rationale is valuable but rarely captured: developers may lack motivation to document it without immediate benefit, and mining latent rationale from issue logs, when fed to LLMs, was reported to yield 10×-18× more full-match patches in program repair.",
+   "premises": [
+    "C7",
+    "C18",
+    "C8",
+    "C20"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I2",
+   "section": "Discussion",
+   "text": "Agent-side provenance is reported as weak: coding agents leave decision trails that are hard to reconstruct, and current practice lacks version-control-like provenance tracking, though the supporting report rests on practitioner observation and project artifacts, not a controlled study.",
+   "premises": [
+    "C23",
+    "C24",
+    "C25"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I3",
+   "section": "Discussion",
+   "text": "Failure history is partly recoverable from trajectories: failed ones are longer, more variable and differ by agent, and most trajectories find the right files even when failing. Yet the length–failure link is reported to reverse once task difficulty is controlled, so surface trace features are unreliable indicators.",
+   "premises": [
+    "C12",
+    "C13",
+    "C54"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I4",
+   "section": "Discussion",
+   "text": "Automated failure attribution is reported as limited: an LLM judge reached only 0.14-0.52 step-level accuracy on one benchmark, counterfactual replay is reliable but its cost grows linearly, and one categorization of unresolved trajectories was validated on only 15 hand-labelled instances.",
+   "premises": [
+    "C16",
+    "C17",
+    "C14"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I5",
+   "section": "Discussion",
+   "text": "Intent is the central difficulty. Inferring developer intent or specification is called the toughest repair challenge, and one analysis attributed 51.7% of 207 unresolved tasks to ambiguous issue descriptions.",
+   "premises": [
+    "C6",
+    "C35",
+    "C40"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I6",
+   "section": "Discussion",
+   "text": "Traceability results pull apart: individual LLM studies report strong figures such as 100% precision and 78.5% recall in one setting, while a survey chapter says no automated approach suffices for safety-critical systems and that scaling is unclear.",
+   "premises": [
+    "C28",
+    "C27",
+    "C10"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I7",
+   "section": "Discussion",
+   "text": "Passing tests is reported as insufficient evidence of correctness, so test intent recovered from agent traces cannot be assumed to certify patches.",
+   "premises": [
+    "C41",
+    "C42",
+    "C43"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I8",
+   "section": "Conclusions",
+   "text": "The claims support that design rationale mined from issue discussion can be reused to help repair, and that past fix patterns are a reusable source of guidance. This is not shown for rationale recovered from agent traces themselves.",
+   "premises": [
+    "C8",
+    "C44",
+    "C46"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I9",
+   "section": "Conclusions",
+   "text": "Failure information in trajectories carries signal, but attributing failures reliably is reported to be limited and costly.",
+   "premises": [
+    "C12",
+    "C16",
+    "C17"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I10",
+   "section": "Conclusions",
+   "text": "Requirements traceability recovery shows promising but uneven results, with unresolved concerns about datasets, scale and safety-critical use.",
+   "premises": [
+    "C26",
+    "C27",
+    "C31"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I11",
+   "section": "Conclusions",
+   "text": "Test intent is not shown to be reliably recoverable or sufficient, since passing tests may still hide overfitting. Whether any category improves maintainability from agent traces specifically remains unanswered by these claims.",
+   "premises": [
+    "C41",
+    "C42"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I12",
+   "section": "A research agenda",
+   "text": "Run controlled studies, beyond practitioner observation, of whether provenance and decision trails captured from agent runs can be reconstructed and reused for maintenance.",
+   "premises": [
+    "C23",
+    "C24",
+    "C25"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I13",
+   "section": "A research agenda",
+   "text": "Validate trajectory failure categorization against larger hand-labelled sets, controlling for task difficulty.",
+   "premises": [
+    "C14",
+    "C54"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I14",
+   "section": "A research agenda",
+   "text": "Develop cheaper failure attribution that improves on the low judge accuracy without the linear cost of replay.",
+   "premises": [
+    "C16",
+    "C17"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I15",
+   "section": "A research agenda",
+   "text": "Test whether design-rationale mining, which DRMiner performs on Jira issue logs, transfers to agent traces. DRMiner reports that rationale-prompted LLMs generate 10×-18× more full-match patches, and that developers lack motivation to document rationales, so rationales have no standard capture. The evidence comes from issue logs, not agent traces.",
+   "premises": [
+    "C8",
+    "C18",
+    "C19"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I16",
+   "section": "A research agenda",
+   "text": "Measure traceability recovery on real safety-critical data with larger credible datasets, and examine scaling.",
+   "premises": [
+    "C26",
+    "C27",
+    "C10"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "I17",
+   "section": "A research agenda",
+   "text": "Evaluate whether recovered test intent and specifications, such as the reproducer tests, patch explanations and accumulated specifications that SpecRover's reviewer produces as evidence of correctness, can detect overfitting patches beyond passing tests. AutoCodeRover's authors acknowledge that a patch passing the added tests may still overfit, and the test-driven survey concludes that passing tests alone does not establish behavioral equivalence.",
+   "premises": [
+    "C38",
+    "C41",
+    "C42"
+   ],
+   "verdicts": [],
+   "status": "pass",
+   "reason": null
+  }
+ ],
+ "sources": [
+  {
+   "key": "R10",
+   "id": "arXiv:2404.05427",
+   "title": "AutoCodeRover: Autonomous Program Improvement",
+   "authors": [
+    "Yuntong Zhang",
+    "Haifeng Ruan",
+    "Zhiyu Fan",
+    "Abhik Roychoudhury"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2404.05427",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R11",
+   "id": "doi:10.1109/REW66121.2025.00006",
+   "title": "Beyond Retrieval: A Study of Using LLM Ensembles for Candidate Filtering in Requirements Traceability",
+   "authors": [
+    "Dominik Fuchß",
+    "Stefan Schwedt",
+    "Jan Keim",
+    "Tobias Hey"
+   ],
+   "year": "2025",
+   "venue": null,
+   "source": "semanticscholar",
+   "url": "https://doi.org/10.1109/REW66121.2025.00006",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R13",
+   "id": "doi:10.1145/3691620.3695019",
+   "title": "DRMiner: Extracting Latent Design Rationale from Jira Issue Logs",
+   "authors": [
+    "Jiuang Zhao",
+    "Zi-Tian Yang",
+    "Li Zhang",
+    "Xiao-Li Lian",
+    "Donghao Yang",
+    "Xin Tan"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "semanticscholar",
+   "url": "https://doi.org/10.1145/3691620.3695019",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R17",
+   "id": "arXiv:2409.02977",
+   "title": "Large Language Model-Based Agents for Software Engineering: A Survey",
+   "authors": [
+    "Liu Jun-wei",
+    "Kaixin Wang",
+    "Yixuan Chen",
+    "Xin Peng",
+    "Zhenpeng Chen",
+    "Lingming Zhang",
+    "Yiling Lou"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2409.02977",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R20",
+   "id": "arXiv:2405.10845",
+   "title": "Natural Language Processing for Requirements Traceability",
+   "authors": [
+    "Jin L. C. Guo",
+    "Jan-Philipp Steghöfer",
+    "Andreas Vogelsang",
+    "Jane Cleland-Huang"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2405.10845",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R22",
+   "id": "arXiv:2407.16741",
+   "title": "OpenHands: An Open Platform for AI Software Developers as Generalist Agents",
+   "authors": [
+    "Xingyao Wang",
+    "Boxuan Li",
+    "Yufan Song",
+    "Frank F. Xu",
+    "Xiangru Tang",
+    "Mingchen Zhuge",
+    "Jiayi Pan",
+    "Yueqi Song",
+    "Bowen Li",
+    "Jaskirat Singh",
+    "Tran, Hoang H.",
+    "Fuqiang Li",
+    "Ren Ma",
+    "Mingqian Zheng",
+    "Bill Qian",
+    "Yanjun Shao",
+    "Niklas Muennighoff",
+    "Yizhe Zhang",
+    "Binyuan Hui",
+    "Lin, Junyang",
+    "Brennan, Robert",
+    "Hao Peng",
+    "Heng Ji",
+    "Graham Neubig"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2407.16741",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R28",
+   "id": "arXiv:2405.15793",
+   "title": "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering",
+   "authors": [
+    "Yang, John",
+    "Jimenez, Carlos E.",
+    "Alexander Wettig",
+    "K. Lieret",
+    "Shunyu Yao",
+    "Karthik Narasimhan",
+    "Ofir Press"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2405.15793",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R29",
+   "id": "arXiv:2505.23419",
+   "title": "SWE-bench Goes Live!",
+   "authors": [
+    "Linghao Zhang",
+    "Shilin He",
+    "Chaoyun Zhang",
+    "Yu Kang",
+    "Bowen Li",
+    "Chengxing Xie",
+    "Junhao Wang",
+    "Maoquan Wang",
+    "Yufan Huang",
+    "Shengyu Fu",
+    "Elsie Nallipogu",
+    "Qingwei Lin",
+    "Yingnong Dang",
+    "Saravan Rajmohan",
+    "Dongmei Zhang"
+   ],
+   "year": "2025",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2505.23419",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R30",
+   "id": "arXiv:2408.14354",
+   "title": "SWE-bench-java: A GitHub Issue Resolving Benchmark for Java",
+   "authors": [
+    "Daoguang Zan",
+    "Zhirong Huang",
+    "Ailun Yu",
+    "Shaoxin Lin",
+    "Yifan Shi",
+    "Wei Liu",
+    "Chen, Dong",
+    "Qi, Zongshuai",
+    "Yu, Hao",
+    "Yu, Lei",
+    "Dezhi Ran",
+    "Muhan Zeng",
+    "Shen, Bo",
+    "Pan Bian",
+    "Guangtai Liang",
+    "Bei Guan",
+    "Pengjie Huang",
+    "Xie, Tao",
+    "Yongji Wang",
+    "Qianxiang Wang"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2408.14354",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R33",
+   "id": "doi:10.1109/rew72749.2026.00019",
+   "title": "Toward Cost-Efficient Automated Requirements Traceability with Large Language Models",
+   "authors": [
+    "Nouf Alturayeif",
+    "Jameleddine Hassine",
+    "Irfan Ahmad"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "crossref",
+   "url": "https://doi.org/10.1109/rew72749.2026.00019",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R35",
+   "id": "doi:10.48550/arxiv.2511.00197",
+   "title": "Understanding Code Agent Behaviour: An Empirical Study of Success and Failure Trajectories",
+   "authors": [
+    "Oorja Majgaonkar",
+    "Zhiwei Fei",
+    "Xiang Li",
+    "Federica Sarro",
+    "He Ye"
+   ],
+   "year": "2025",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2511.00197",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R39",
+   "id": "arXiv:2610.01256",
+   "title": "DeFA: Dependency-Guided Failure Attribution for LLM Agents",
+   "authors": [
+    "Bo Deng",
+    "Xinlei Zheng",
+    "Yi Wei",
+    "Kang Zhou",
+    "Chongyang Tao",
+    "Renzhao Liang",
+    "Xuanren Chen",
+    "Lifan Guo",
+    "Chi Zhang"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2610.01256",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R46",
+   "id": "doi:10.1145/3661167.3661261",
+   "title": "An LLM-based Approach to Recover Traceability Links between Security Requirements and Goal Models",
+   "authors": [
+    "Jameleddine Hassine"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "semanticscholar",
+   "url": "https://doi.org/10.1145/3661167.3661261",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R55",
+   "id": "arXiv:1810.01791",
+   "title": "FixMiner: Mining relevant fix patterns for automated program repair",
+   "authors": [
+    "Anil Koyuncu",
+    "Kui Liu",
+    "Tegawendé F. Bissyandé",
+    "Dongsun Kim",
+    "Jacques Klein",
+    "Martin Monperrus",
+    "Yves Le Traon"
+   ],
+   "year": "2020",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/1810.01791",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R57",
+   "id": "arXiv:2606.14805",
+   "title": "Knowledge-Based Zero-Replay Debugging of Multi-Agent LLM Traces",
+   "authors": [
+    "Hyeonjeong Cha",
+    "Daein Weon",
+    "Dong Ho Kang"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2606.14805",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R59",
+   "id": "arXiv:2607.02703",
+   "title": "LLMoxie: Exploring Agentic AI for Scientific Software Development",
+   "authors": [
+    "Landung Setiawan",
+    "Anant Mittal",
+    "Cordero Core",
+    "Anshul Tambay",
+    "Carlos Garcia Jurado Suarez",
+    "David A. C. Beck",
+    "Andrew J. Connolly",
+    "Vani Mandava"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2607.02703",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R67",
+   "id": "doi:10.30693/smj.2026.15.8.89",
+   "title": "Requirement Traceability based on Bidirectional Convergence of Intermediate Artifact Recovery for AI Software Development",
+   "authors": [
+    "Jinhyup Lee",
+    "Janghwan Kim",
+    "Chaeyun Seo",
+    "Byungkook Jeon",
+    "Young Chul Kim"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.30693/smj.2026.15.8.89",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R71",
+   "id": "arXiv:2408.02232",
+   "title": "SpecRover: Code Intent Extraction via LLMs",
+   "authors": [
+    "Haifeng Ruan",
+    "Yuntong Zhang",
+    "Abhik Roychoudhury"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2408.02232",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R81",
+   "id": "doi:10.48550/arxiv.2604.02547",
+   "title": "Beyond Resolution Rates: Behavioral Drivers of Coding Agent Success and Failure",
+   "authors": [
+    "Tural Mehtiyev",
+    "Wesley K. G. Assunção"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2604.02547",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R90",
+   "id": "arXiv:2411.03346",
+   "title": "Fixing Security Vulnerabilities with AI in OSS-Fuzz",
+   "authors": [
+    "Yuntong Zhang",
+    "Jiawei Wang",
+    "Dominic Berzin",
+    "Мартин Мирчев",
+    "Dongge Liu",
+    "Abhishek Kumar Arya",
+    "Chang, Oliver",
+    "Abhik Roychoudhury"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2411.03346",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R91",
+   "id": "doi:10.1145/3360585",
+   "title": "Getafix: learning to fix bugs automatically",
+   "authors": [
+    "Johannes Bader",
+    "Andrew Scott",
+    "Michael Pradel",
+    "Satish Chandra"
+   ],
+   "year": "2019",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.1145/3360585",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R101",
+   "id": "arXiv:2509.05585",
+   "title": "Natural Language-Programming Language Software Traceability Link Recovery Needs More than Textual Similarity",
+   "authors": [
+    "Zhiyuan Zou",
+    "Bangchao Wang",
+    "Peng Liang",
+    "Ting-Ting Bi",
+    "Huan Jin"
+   ],
+   "year": "2025",
+   "venue": null,
+   "source": "semanticscholar",
+   "url": "https://arxiv.org/abs/2509.05585",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R104",
+   "id": "doi:10.48550/arxiv.2403.17134",
+   "title": "RepairAgent: An Autonomous, LLM-Based Agent for Program Repair",
+   "authors": [
+    "Islem Bouzenia",
+    "Prémkumar Dévanbu",
+    "Michael Pradel"
+   ],
+   "year": "2024",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.48550/arxiv.2403.17134",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R107",
+   "id": "https://openalex.org/W7213372607",
+   "title": "Test-Driven Approaches to Software Engineering with Large Language Models: A Survey of Phases, Tasks, and Agent Skills",
+   "authors": [
+    "Yunhao Liang",
+    "Chengguang Gan",
+    "Ruixuan Ying",
+    "Hanjun Wei",
+    "Zhe Cui",
+    "Shiwen Ni"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://openalex.org/W7213372607",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R109",
+   "id": "arXiv:2602.01253",
+   "title": "TraceLLM: leveraging large language models with prompt engineering for enhanced requirements traceability",
+   "authors": [
+    "Nouf Alturayeif",
+    "Irfan Ahmad",
+    "Jameleddine Hassine"
+   ],
+   "year": "2026",
+   "venue": null,
+   "source": "arxiv",
+   "url": "https://arxiv.org/abs/2602.01253",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R121",
+   "id": "doi:10.1145/58566.59297",
+   "title": "gIBIS: a hypertext tool for exploratory policy discussion",
+   "authors": [
+    "Jeff Conklin",
+    "Michael L. Begeman"
+   ],
+   "year": "1988",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.1145/58566.59297",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  },
+  {
+   "key": "R127",
+   "id": "doi:10.1109/saner.2016.76",
+   "title": "History Driven Program Repair",
+   "authors": [
+    "Xuan-Bach D. Le",
+    "David Lo",
+    "Claire Le Goues"
+   ],
+   "year": "2016",
+   "venue": null,
+   "source": "openalex",
+   "url": "https://doi.org/10.1109/saner.2016.76",
+   "abstract": null,
+   "pdf_url": null,
+   "query": null,
+   "rank": null,
+   "retrieved": null
+  }
+ ],
+ "retrieval_stats": {
+  "queries": [
+   "SWE-agent agent-computer interface software engineering",
+   "OpenHands open platform AI software developers generalist agents",
+   "AutoCodeRover autonomous program improvement",
+   "agent trajectory analysis LLM coding agents failures",
+   "design rationale capture software engineering",
+   "requirements traceability recovery using large language models",
+   "software provenance tracking AI-generated code",
+   "trace-based debugging record and replay execution traces",
+   "SWE-bench benchmark resolving real-world GitHub issues",
+   "survey large language model agents for software engineering",
+   "automated program repair history mining bug fix patterns",
+   "limitations of LLM agents code maintainability hallucinated rationale negative results"
+  ],
+  "n_retrieved": 120,
+  "n_kept": 48,
+  "n_read_full": 6,
+  "n_dropped_by_screen": 72
+ },
+ "evidence_stats": {
+  "n_full_text": 15,
+  "n_abstract_only": 33,
+  "n_passages": 185,
+  "n_passages_cited": 42
+ }
+}

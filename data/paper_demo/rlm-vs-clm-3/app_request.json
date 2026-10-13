@@ -1,0 +1,14 @@
+{
+ "run_id": "rlm-vs-clm-3",
+ "topic": "RLM (recursive language models) and CLM (Context Language Models) - overlaps, similarities, distinctions, validity as improvements for production coding re qualitative, cost efficiency, ability to reuse traces, etc.",
+ "guidance": {
+  "format": "paper",
+  "max_words": 1500,
+  "required_sections": [],
+  "emphasis": null,
+  "constraints": []
+ },
+ "max_usd": 0.3,
+ "max_wall_seconds": 3600,
+ "allow_experiments": false
+}

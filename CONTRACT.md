@@ -33,8 +33,8 @@ independent researchers and small labs (P3). See ConOps §2.
 
 **Increments 0 to 5 are complete** ([docs/reviews/incr-0.md](docs/reviews/incr-0.md), [incr-1](docs/reviews/incr-1.md), [incr-2](docs/reviews/incr-2.md),
 [incr-3](docs/reviews/incr-3.md), [incr-4](docs/reviews/incr-4.md), [incr-5](docs/reviews/incr-5.md); Increment 5 passed 2026-10-09 with MOE-4 not shown).
-No increment is currently scoped: the next is chosen by the owner from the candidates in the Increment 5 review (an independent walkthrough, a labelled
-synthesis section, experiments in the app, Increment 6 on external papers). [SPEC.md](SPEC.md) is the Increment 5 SPEC until the next increment is scoped.
+**Increment 6 (from a review to a paper) is complete** ([docs/reviews/incr-6.md](docs/reviews/incr-6.md); `incr6_review` approved by Chris 2026-10-12): a button that turns a finished review into a
+review paper, with wider reading and labelled, judge-checked interpretation sections (Chris, 2026-10-11). Auditing external papers is now Increment 7 (optional).
 
 In scope for the project as a whole: the three layers above, their data
 contracts ([docs/03-interfaces.md](docs/03-interfaces.md)), and the
