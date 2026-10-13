@@ -16,7 +16,7 @@ import json
 from collections.abc import Callable
 from pathlib import Path
 
-from vera.literature import paper, paper_evidence, synthesis
+from vera.literature import coverage, paper, paper_evidence, sentence_checks, synthesis
 from vera.literature.deps import LitDeps
 from vera.literature.stages import _confirmed_question
 from vera.literature.synthesis_stage import verify_sentences
@@ -40,7 +40,7 @@ def _jsonl(path: Path) -> list[dict]:
 
 
 def _records(deps: LitDeps) -> dict[str, dict]:
-    return {r["key"]: r for r in _jsonl(deps.run_dir / "retrieved.jsonl")}
+    return {r["key"]: r for r in coverage.records(deps.run_dir)}  # the review's, and any the targeted search added
 
 
 def _passages(deps: LitDeps) -> list[dict]:
@@ -60,7 +60,12 @@ def widen_node(deps: LitDeps) -> Callable[[dict], dict]:
         if not (deps.run_dir / "literature.md").exists():
             return _stop("paper", "there is no finished review to make a paper from")
         parse = deps.extra["parse_pdf"]
-        summary = paper_evidence.widen(deps.run_dir, deps.extra["fetch_pdf"], parse)
+        req = request(deps)
+        targets = coverage.named_targets(_confirmed_question(deps), req.emphasis)  # RSH-F-16: works the paper names
+        review_records = {r["key"]: r for r in _jsonl(deps.run_dir / "retrieved.jsonl")}
+        report, added = coverage.lookup(targets, review_records, deps.extra.get("retriever"), question=_confirmed_question(deps))
+        coverage.write(paper_dir(deps), report, added)
+        summary = paper_evidence.widen(deps.run_dir, deps.extra["fetch_pdf"], parse, added=added)
         _write(deps, "request.json", request(deps).model_dump(mode="json"))
         return {"paper_evidence": summary, "trail": ["paper_widen"]}
 
@@ -110,7 +115,7 @@ def write_node(deps: LitDeps) -> Callable[[dict], dict]:
                 paper.section_prompt(question, heading, purpose, selected, records, words, req.emphasis),
                 component=COMPONENT,
             )
-            drafts.append({"heading": heading, "paragraphs": synthesis.parse_sentences(_extract_json(reply, "{", "}"))})
+            drafts.append({"heading": heading, "paragraphs": sentence_checks.parse_typed(_extract_json(reply, "{", "}"))})
         _write(deps, "draft.json", drafts)
         if not any(d["paragraphs"] for d in drafts):
             return _stop("paper", "the model's replies held no usable section")
@@ -123,26 +128,32 @@ def verify_node(deps: LitDeps) -> Callable[[dict], dict]:
     def node(state: dict) -> dict:
         question = _confirmed_question(deps)
         records, passages = _records(deps), _passages(deps)
-        sections, verdicts, stats = [], [], {}
+        sections, verdicts, stats, logs = [], [], {}, []
         shown = {h: sel for h, _, sel, _ in section_plan(request(deps), state["paper_outline"]["themes"], passages)}
         for d in state["paper_draft"]:
             checked = verify_sentences(
                 deps, state, question, d["paragraphs"], records, passages, stage="paper", component=COMPONENT,
                 cache_file=paper_dir(deps) / "claims_judged.jsonl", seed_caches=(deps.run_dir / "claims_judged.jsonl",),
-                repair_passages=shown.get(d["heading"], passages[: paper.THEME_PASSAGES]),
+                repair_passages=shown.get(d["heading"], passages[: paper.THEME_PASSAGES]), heading=d["heading"],
             )  # fmt: skip
             verdicts += checked.verdicts
+            logs.append(checked.log)
             text, claims = synthesis.assemble(checked.paragraphs)
             for c in claims:
                 c["locator"] = (synthesis.matched_passage(c, passages) or {}).get("locator", "?")
             sections.append({"heading": d["heading"], "text": text, "claims": claims})
             for k, v in checked.stats.items():
                 stats[k] = stats.get(k, 0) + v
-        claims = paper.number_claims(sections)
+        claims = sentence_checks.mark_same_quotes(paper.number_claims(sections))
+        sentences = []
+        for s, log in zip(sections, logs, strict=True):
+            sentences += sentence_checks.sentence_records(log, [c["id"] for c in s["claims"]], s["heading"], len(sentences))
         themes_with_claims = sum(1 for s in sections[1:] if s["claims"])
         n_cited = len({c.source_key for c in claims})
-        stats |= {"n_claims": len(claims), "n_sources_cited": n_cited, "themes_with_claims": themes_with_claims}
-        artifact = _write(deps, "verify.json", {"stats": stats, "sections": sections})
+        stats |= {"n_claims": len(claims), "n_sources_cited": n_cited, "themes_with_claims": themes_with_claims,
+                  "distinct_quotes": sentence_checks.distinct_quotes(claims)}  # fmt: skip
+        artifact = _write(deps, "verify.json", {"stats": stats, "sections": sections,
+                                                "sentences": [s.model_dump(mode="json") for s in sentences]})  # fmt: skip
         why = None
         if len(claims) < MIN_PAPER_CLAIMS:
             why = f"only {len(claims)} claims survived the checks (need {MIN_PAPER_CLAIMS})"
@@ -152,33 +163,38 @@ def verify_node(deps: LitDeps) -> Callable[[dict], dict]:
                           {k: float(v) for k, v in stats.items()}, reason=why)  # fmt: skip
         if why:
             return {"stage_results": [sr], "trail": ["paper_verify"]} | _stop("paper", f"gate: {why}")
-        doc = build_document(deps, state, question, sections, claims, records)
+        doc = build_document(deps, state, question, sections, claims, records, sentences)
         return {"paper": doc.model_dump(mode="json"), "stage_results": [sr], "trail": ["paper_verify"]}
 
     return node
 
 
 def build_document(
-    deps: LitDeps, state: dict, question: str, sections: list[dict], claims: list, records: dict
+    deps: LitDeps, state: dict, question: str, sections: list[dict], claims: list, records: dict,
+    sentences: list | None = None,
 ) -> PaperDocument:
     """The paper so far: introduction, method, findings, threats; written to paper/paper.md, paper.json, claims.jsonl."""
     stats = RetrievalStats.model_validate(state["section"]["retrieval_stats"])
     reading_summary = state.get("paper_evidence") or json.loads((paper_dir(deps) / "reading.json").read_text("utf-8"))
     models = paper.models_used(deps.ledger.path) if deps.ledger is not None else {}
     n_cited = len({c.source_key for c in claims})
-    method = paper.method_section(question, stats, reading_summary, len(claims), n_cited, models)
+    distinct = sentence_checks.distinct_quotes(claims)
+    method = paper.method_section(question, stats, reading_summary, len(claims), n_cited, models, distinct)
     parts = [PaperSection(heading=paper.INTRO, kind="evidence", text=sections[0]["text"]),
              PaperSection(heading=paper.METHOD, kind="record", text=method)]  # fmt: skip
     parts += [PaperSection(heading=s["heading"], kind="evidence", text=s["text"]) for s in sections[1:] if s["text"]]
-    parts.append(PaperSection(heading=paper.THREATS, kind="record", text=paper.threats_section(stats, reading_summary)))
+    named = coverage.threats_note(paper_dir(deps), reading_summary)
+    parts.append(PaperSection(heading=paper.THREATS, kind="record", text=paper.threats_section(stats, reading_summary, named)))
     cited = sorted({c.source_key for c in claims}, key=lambda k: int(k[1:]))
     sources = [SourceRecord(key=k, id=records[k]["id"], title=records[k]["title"], authors=records[k].get("authors", []),
                             year=records[k].get("year"), source=records[k]["source"], url=records[k]["url"])
                for k in cited]  # fmt: skip
     evidence_stats = {k: int(reading_summary[k]) for k in ("n_full_text", "n_abstract_only", "n_passages")}
     evidence_stats["n_passages_cited"] = len({(c.source_key, c.locator) for c in claims})
+    evidence_stats |= {"distinct_quotes": distinct, "claim_sources": n_cited}
     doc = PaperDocument(run_id=deps.spec.run_id, question=question, title=state["paper_outline"]["title"], sections=parts,
-                        claims=claims, inferences=[], sources=sources, retrieval_stats=stats, evidence_stats=evidence_stats)  # fmt: skip
+                        claims=claims, inferences=[], sources=sources, retrieval_stats=stats, evidence_stats=evidence_stats,
+                        sentences=sentences or [])  # fmt: skip
     write_document(deps, doc, records)
     return doc
 

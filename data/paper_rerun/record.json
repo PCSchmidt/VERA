@@ -1,0 +1,20 @@
+{
+ "papers": [
+  {
+   "run_id": "rlm-vs-clm-2",
+   "kind": "new",
+   "notes": "Clear overall and it did surface the quoted CLM target, but the audit is red: one discussion inference overgeneralizes and two claims say more than their quotes, including the exact-reuse setup sentence and the Prompt Cache TTFT sentence.",
+   "notes_by": "Chris Schmidt",
+   "recorded_at": "2026-10-13T19:02:10+00:00",
+   "notes_drafting": "drafted by an assistant, edited by Chris (stated by Chris 2026-10-13)"
+  },
+  {
+   "run_id": "discuss-the-evolution-of-prompting-guv8",
+   "kind": "remade",
+   "notes": "Stronger and more explicit than the Increment 6 paper about prompt/context/harness boundaries, but it still ends red: one introduction claim says more than the quote, and one discussion-level agreement statement does not follow from its named premises.",
+   "notes_by": "Chris Schmidt",
+   "recorded_at": "2026-10-13T19:16:56+00:00",
+   "notes_drafting": "drafted by an assistant, edited by Chris (stated by Chris 2026-10-13)"
+  }
+ ]
+}

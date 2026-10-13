@@ -1,0 +1,11 @@
+{
+ "topic_id": "rlm-vs-clm-2",
+ "question": "In a literature review of RLM (recursive language models that inspect and recursively call themselves over a prompt held in an external environment) and CLM (Shao et al., September 2026: models that treat their context as an updatable file, with suffix cache reuse), what do published results establish, and what do they leave unestablished, about each approach's cost efficiency (tokens, KV-cache reuse, latency) and trace reusability for production coding workloads, as distinct from long-context QA benchmarks? A small CPU-scale companion experiment would compare token and prefix-cache cost under an RLM-style recursive decomposition versus a CLM-style in-place context edit with suffix reuse, using a small open model on a public long-context or code-repository task.",
+ "why_researchable": "Both approaches have a primary paper. The RLM paper and its public code are available, and the CLM paper is a recent preprint. A short review can tabulate what each evaluates (benchmarks, cost metrics, whether coding tasks are included) and mark claims that concern production coding specifically versus claims extrapolated from other tasks. Because cost depends on cache mechanics, a proxy experiment is feasible on a laptop. A small open model (for example a 0.5B model) can run a simulated edit-and-continue loop on public code or long-document data. It can count prefill tokens recomputed, with and without prefix/suffix cache reuse, under RLM-style sub-call patterns versus CLM-style file edits. This measures only a mechanical cost proxy, not task quality, and the paper must say so. CLM's own training and quality claims cannot be reproduced at this scale, and the review should state this plainly. The cache-cost proxy does not reproduce either method's accuracy, so any conclusion about production-coding validity stays limited to what the literature reports.",
+ "empirical": true,
+ "candidate_parent": "arXiv:2512.24601 (Recursive Language Models, Zhang, Kraska, Khattab; public code)",
+ "no_parent_reason": null,
+ "status": "confirmed",
+ "confirmed_by": "the app user",
+ "confirmed_at": "2026-10-07T14:16:19Z"
+}

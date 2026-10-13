@@ -1,6 +1,6 @@
 # 03 — Interfaces (core schemas)
 
-Version 0.12 · Draft · Changes require a version bump and a changelog line.
+Version 0.13 · Draft · Changes require a version bump and a changelog line.
 
 These are the contracts between layers. Implement as Pydantic v2 models in
 `vera/schemas/`. Field lists are normative; the Python below is a sketch.
@@ -145,7 +145,7 @@ class Evidence(BaseModel):
 
 
 class Finding(BaseModel):
-    check: Literal["citation", "numeric", "claim_support", "method_code", "spec_leakage", "novelty", "rerun", "inference"]
+    check: Literal["citation", "numeric", "claim_support", "method_code", "spec_leakage", "novelty", "rerun", "inference", "sentence"]
     severity: Literal["info", "warn", "fail"]
     claim_ids: list[str]
     evidence: list[Evidence]
@@ -245,6 +245,7 @@ class LiteratureSection(BaseModel):
     text: str  # cites [Rn]
     claims: list[ClaimLink]  # every claim's source_key is in `sources`
     sources: list[SourceRecord]
+    sentences: list[SentenceRecord] = []  # 0.13: every sentence of the review with its status; [] for reviews made before
 ```
 
 ```python
@@ -406,6 +407,39 @@ other than "pass", or cites a source not in `sources`; an interpretation section
 claim id that does not exist, has no premise, or sits in a section that is not an interpretation section. A
 `PaperRequest` with `max_usd` outside (0, 25], another length, an emphasis over 500 characters or an unknown field raises.
 
+### Sentence status (RSH-F-15, AUD-F-12; 0.13)
+
+Every sentence of a review, and of a paper's evidence sections, is recorded with its kind and the outcome of its check, so the
+audit can list every sentence and a green light covers the ones without a claim too.
+
+```python
+SentenceKind = Literal["claim", "synthesis", "transition"]
+# claim: carries one or more verified claims. synthesis: relates claims (compares, generalises, counts, contrasts) and names
+# them as premises; judged to follow from them. transition: states no fact (it introduces, orders or signposts).
+
+
+class SentenceRecord(BaseModel):
+    id: str  # "S1", "S2", ... in reading order across the document's evidence sections
+    section: str  # heading of the section it is in ("" in a review, which has one section)
+    text: str
+    kind: SentenceKind
+    claims: list[str] = []  # claim ids the sentence carries (kind "claim")
+    premises: list[str] = []  # claim ids a synthesis rests on
+    verdicts: list[Verdict] = []  # from a component other than the producer
+    status: Literal["pass", "removed"]
+    reason: str | None = None  # for a removal: the rule or judge question that removed it
+```
+
+`LiteratureSection` and `PaperDocument` each gain `sentences: list[SentenceRecord] = []`; documents made before 0.13 load with
+none. A kept claim sentence needs at least one claim, a kept synthesis at least one premise, and a transition has neither (a
+`SentenceRecord` raises otherwise). A document raises when sentence ids repeat, or a kept sentence names a claim id that no
+claim of the document has. Review claims get ids (`C1…`) when the review records its sentences. `evidence_stats` gains
+`distinct_quotes` and `claim_sources` (a `dict[str, int]`, so no type change).
+
+`ClaimLink` gains `same_quote_as: str | None = None`: the id of the earlier claim whose source and quote this claim reuses.
+Each sentence keeps its own claim and id (the reader and PDF match claims to sentences in order), and repeated quotes are
+counted once wherever claims are counted as evidence.
+
 ### Run specification (RSH-F-01)
 
 ```python
@@ -482,3 +516,5 @@ different artifact producer (`gate.producer_id` set and `!= producer_id`). The
 - 0.12 — Review paper types (Increment 6): `PaperSection`, `Inference`, `PaperRequest`, `PaperDocument`; `ClaimLink.id`
   (optional, so stored claims still load) for interpretation to cite; `Finding.check` gains `"inference"` (AUD-F-11); `StageResult.stage` gains
   `"paper"` (widen, outline, write and verify the evidence sections) and `"interpret"` (the interpretation sections).
+- 0.13 — Sentence status (Increment 7): `SentenceRecord`; `LiteratureSection.sentences` and `PaperDocument.sentences` (default empty, so
+  stored reviews and papers still load); `ClaimLink.same_quote_as` (optional); `Finding.check` gains `"sentence"` (AUD-F-12).

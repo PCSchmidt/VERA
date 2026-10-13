@@ -19,6 +19,7 @@ from vera.schemas.literature import (
     ParentSelection,
     RetrievalStats,
     ScopedQuestion,
+    SentenceRecord,
     SourceRecord,
     Topic,
 )
@@ -58,6 +59,7 @@ __all__ = [
     "ProtocolSpec",
     "RetrievalStats",
     "ScopedQuestion",
+    "SentenceRecord",
     "SelfGradingError",
     "SourceRecord",
     "RunRequest",

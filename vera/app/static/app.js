@@ -277,7 +277,7 @@ async function runsList() {
   return [...head, el("ul", { class: "runlist" }, ...runs.map((r, i) => el("li", {},
     el("a", { class: "rl-title", href: "#/run/" + r.run_id }, shortTitle(titles[i])),
     el("div", { class: "rl-meta" }, el("span", { class: "tag" }, STATE_WORDS[r.state] || r.state), " ", lightBadge(r.audit), " ",
-      "Spent " + money(r.spent_usd) + " of " + money(r.max_usd) + " · " + when(r.updated_at) + " · ", el("code", {}, r.run_id)))))];
+      "Spent on this run " + money(r.spent_usd) + " of " + money(r.max_usd) + " · " + when(r.updated_at) + " · ", el("code", {}, r.run_id)))))];
 }
 
 const STAGES = [
@@ -304,7 +304,7 @@ function paintRun(box, r, title, topic) {
       topic && topic !== title ? el("p", { class: "small topic" }, topic) : "",
       el("p", {}, el("span", { class: "tag" + (live ? " live" : "") }, STATE_WORDS[r.state] || r.state), " ", lightBadge(r.audit))),
     timeline,
-    el("div", { class: "meter" }, bar, el("div", { class: "meter-text" }, el("span", {}, "Spent " + money(r.spent_usd)), el("span", {}, "Your cap " + money(r.max_usd)))),
+    el("div", { class: "meter" }, bar, el("div", { class: "meter-text" }, el("span", {}, "Spent on this run " + money(r.spent_usd) + " (the review, and any paper made from it)"), el("span", {}, "Your cap " + money(r.max_usd)))),
   ];
   if (r.message) nodes.push(el("p", {}, r.message));
   if (r.last_verdict && r.last_verdict.question) nodes.push(el("p", { class: "small" }, "Latest check: " + r.last_verdict.question + " → " + r.last_verdict.answer + " (confidence " + (r.last_verdict.confidence ?? "n/a") + ", " + (r.last_verdict.backend || "") + ")"));
@@ -501,7 +501,7 @@ async function examplesView() {
 function renderInline(text, ctx) {
   // **bold**, *italic*, `code`, [R12] citations, ![alt](src) images, [text](url) links; all text is inserted as text.
   const out = [];
-  const re = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\((?:https?:\/\/|#)[^)]+\)|\[R\d+\]|\((?:C\d+)(?:, C\d+)*\)|\u0001\d+\u0002[\s\S]*?\u0003)/g;
+  const re = /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\((?:https?:\/\/|#)[^)]+\)|\[R\d+\]|\((?:C\d+)(?:, C\d+)*\)|\u0001\d+\u0002[\s\S]*?\u0003|\u0004[\s\S]*?\u0005)/g;
   let last = 0, m;
   while ((m = re.exec(text))) {
     if (m.index > last) out.push(text.slice(last, m.index));
@@ -524,6 +524,8 @@ function renderInline(text, ctx) {
       const i = parseInt(t.slice(1, t.indexOf("\u0002")), 10);
       const inner = t.slice(t.indexOf("\u0002") + 1, -1);
       out.push(el("span", { class: "claim", tabindex: "0", role: "button", onclick: () => showClaim(ctx, i), onkeydown: (e) => { if (e.key === "Enter") showClaim(ctx, i); } }, ...renderInline(inner, ctx)));
+    } else if (t.startsWith("\u0004")) { // a synthesis sentence: it relates the claims it names, judged to follow from them
+      out.push(el("span", { class: "synth", title: "Synthesis: relates the claims it names; judged to follow from them, not checked against a quote" }, ...renderInline(t.slice(1, -1), ctx)));
     } else out.push(el("em", {}, t.slice(1, -1)));
     last = m.index + t.length;
   }
@@ -587,6 +589,15 @@ function markClaims(md, claims) {
   return text;
 }
 
+function markSynthesis(md, sentences) {
+  // each kept synthesis sentence is boxed in the text and followed by the claims it rests on, as premise links
+  let text = md;
+  (sentences || []).filter((s) => s.kind === "synthesis" && s.status === "pass").forEach((s) => {
+    if (s.text.length > 20 && text.includes(s.text)) text = text.replace(s.text, "\u0004" + s.text + " (" + s.premises.join(", ") + ")\u0005");
+  });
+  return text;
+}
+
 function showSource(ctx, key) {
   const s = ctx.data.sources[key];
   ctx.side.replaceChildren(el("h3", {}, key + (s ? ": " + s.title : "")), s ? el("p", { class: "small" }, (s.authors || []).slice(0, 4).join(", ") + (s.year ? " (" + s.year + ")" : "")) : el("p", {}, "This source is not in the retrieval log."),
@@ -629,13 +640,15 @@ async function readerView(kind, id) {
   }
   const ctx = { data, side: el("aside", { class: "side", "aria-live": "polite" }, el("h3", {}, "Evidence"), el("p", { class: "small" }, "Click a dotted sentence for its quote, a source number for the paper, or a table number for its results cell.")), fileBase: base + "/files/", results: null };
   if (kind === "example") { try { ctx.results = await api(base + "/files/results.json"); } catch (_) { /* a review has none */ } }
-  const doc = el("article", { class: "paper" }, ...renderMarkdown(markClaims(data.markdown, data.claims), ctx));
+  const doc = el("article", { class: "paper" }, ...renderMarkdown(markSynthesis(markClaims(data.markdown, data.claims), data.sentences), ctx));
   const audit = data.audit;
   const findings = (audit && audit.findings) || [];
   const leads = findings.filter((f) => /method|align|novel/i.test(f.check || ""));
   const real = findings.filter((f) => !leads.includes(f));
   const auditBox = el("section", { class: "appendix" }, el("h2", {}, "The audit"), el("p", {}, lightBadge(audit && audit.overall)),
-    el("p", { class: "small" }, "Checks run: " + ((audit && audit.checks_run) || []).join(", ") + (kind === "paper"
+    el("p", { class: "small" }, "Checks run: " + ((audit && audit.checks_run) || []).join(", ") + (((audit && audit.checks_run) || []).includes("sentence")
+      ? ". Green means the citations are real, each claim is supported by and says no more than the passage it quotes, each synthesis" + (kind === "paper" ? " and interpretation statement" : "") + " was judged by a model other than its writer to follow from the claims it names, and the other sentences were judged to state no facts. Synthesis and interpretation are judged, not checked against quotes. It does not mean the " + (kind === "paper" ? "paper" : "review") + " is complete or its reading is right."
+      : kind === "paper"
       ? ". Green means the citations are real, each claim is supported by the passage it quotes, and each interpretation statement was judged by a model other than its writer to follow from the claims it names. Interpretation is judged, not checked against quotes. It does not mean the paper is complete or its reading is right."
       : ". Green means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete.")),
     real.length ? el("ul", {}, ...real.map((f) => el("li", {}, "[" + f.severity + "] " + f.summary))) : el("p", {}, "No findings."),
@@ -644,6 +657,11 @@ async function readerView(kind, id) {
     const kept = data.inferences.filter((x) => x.status === "pass"), removed = data.inferences.filter((x) => x.status !== "pass");
     auditBox.append(el("details", {}, el("summary", {}, "Interpretation statements: " + kept.length + " kept, " + removed.length + " removed by the checks"),
       el("ul", {}, ...[...kept, ...removed].map((x) => el("li", { class: x.status === "pass" ? "" : "small muted" }, x.id + " (" + x.section + "; rests on " + (x.premises.join(", ") || "none") + "): " + x.text + (x.status === "pass" ? "" : " — removed: " + (x.reason || "failed")))))));
+  }
+  if (data.sentences && data.sentences.length) {
+    const synth = data.sentences.filter((s) => s.kind === "synthesis" && s.status === "pass"), gone = data.sentences.filter((s) => s.status !== "pass");
+    auditBox.append(el("details", {}, el("summary", {}, "Sentences: " + data.sentences.length + " checked; " + synth.length + " synthesis kept, " + gone.length + " removed by the checks"),
+      el("ul", {}, ...[...synth, ...gone].map((s) => el("li", { class: s.status === "pass" ? "" : "small muted" }, s.id + " (" + (s.section ? s.section + "; " : "") + (s.status === "pass" ? "rests on " + s.premises.join(", ") : s.kind + ", removed: " + (s.reason || "failed")) + "): " + s.text)))));
   }
   const title = kind === "example" ? data.example.title : paperTitle || shortTitle(await titleOf(id));
   const byline = el("div", { class: "byline" }, lightBadge(audit && audit.overall));

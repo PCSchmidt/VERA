@@ -35,7 +35,8 @@ class Evidence(BaseModel):
 
 class Finding(BaseModel):
     check: Literal[
-        "citation", "numeric", "claim_support", "method_code", "spec_leakage", "novelty", "rerun", "inference"
+        "citation", "numeric", "claim_support", "method_code", "spec_leakage", "novelty", "rerun", "inference",
+        "sentence",
     ]
     severity: Literal["info", "warn", "fail"]
     claim_ids: list[str]

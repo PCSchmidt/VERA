@@ -19,7 +19,7 @@ import json
 import re
 from pathlib import Path
 
-from vera.literature import anchoring, reading, synthesis
+from vera.literature import anchoring, reading, sentence_checks, synthesis
 from vera.schemas import ClaimLink, PaperSection, RetrievalStats
 
 SYSTEM = (
@@ -96,6 +96,7 @@ def section_prompt(question: str, heading: str, purpose: str, passages: list[dic
         + (f" The reader asked for this emphasis: {emphasis}" if emphasis else "")
         + '\n\nReply with JSON: {"paragraphs": [[{"text": "...", "claim": {...} or null}, ...], ...]}.'
         + anchoring.ANCHOR_RULE
+        + sentence_checks.SENTENCE_RULE
         + f"\n\nEvidence:\n{synthesis.passages_block(passages, records)}"
     )
 
@@ -136,7 +137,7 @@ def models_used(ledger_path: Path) -> dict[str, str]:
 
 
 def method_section(question: str, stats: RetrievalStats, reading_summary: dict, n_claims: int, n_cited: int,
-                   models: dict[str, str]) -> str:  # fmt: skip
+                   models: dict[str, str], n_distinct: int | None = None) -> str:  # fmt: skip
     writers = sorted({m for c, m in models.items() if c.startswith("p3.")})
     judges = sorted({m for c, m in models.items() if c.startswith("p2.")})
     queries = "; ".join(f"“{q}”" for q in stats.queries)
@@ -152,16 +153,22 @@ def method_section(question: str, stats: RetrievalStats, reading_summary: dict, 
         f"something to a source carries a quote copied from one of those passages. Each quote was checked to be verbatim "
         f"in its source, and a judge other than the writer checked that the passage supports the sentence and that the "
         f"quote alone states it; sentences that failed were repaired once or removed. {n_claims} claims from "
-        f"{n_cited} sources survived. Interpretation sections, where present, rest only on those claims and are "
-        f"labelled as such.\n\n"
+        f"{n_cited} sources survived"
+        + (f", resting on {n_distinct} distinct quotes (a quote used by more than one sentence is one piece of evidence)"
+           if n_distinct is not None and n_distinct != n_claims else "")
+        + ". Sentences without a claim were checked too: a synthesis names the claims it rests on and was judged to "
+        "follow from them; any other sentence was judged to state no fact. Interpretation sections, where present, "
+        "rest only on those claims and are labelled as such.\n\n"
         f"Models. Written by {', '.join(writers) or 'not recorded'}; judged by {', '.join(judges) or 'not recorded'}."
     )
 
 
-def threats_section(stats: RetrievalStats, reading_summary: dict) -> str:
+def threats_section(stats: RetrievalStats, reading_summary: dict, named: str = "") -> str:
     return (
         f"Coverage. The paper rests on what {len(stats.queries)} queries found; the search was not repeated for the "
-        f"paper. A finding reported as missing means these searches did not find it, not that it does not exist.\n\n"
+        f"paper. A finding reported as missing means these searches did not find it, not that it does not exist."
+        + (f" {named}" if named else "")
+        + "\n\n"
         f"Depth of reading. {reading_summary['n_abstract_only']} of {reading_summary['n_full_text'] + reading_summary['n_abstract_only']} "
         f"kept papers were read at the abstract only, so their methods and caveats are known only as their abstracts "
         f"state them.\n\n"

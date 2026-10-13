@@ -1,0 +1,13 @@
+{
+ "frozen_at": "2026-10-13T16:52:39+00:00",
+ "test_sha256": "b5aeacee4f1e2dd8d1d3efddd20f28eed62e88907ae71383759be7b45398723d",
+ "check_sha256": {
+  "vera/literature/sentence_checks.py": "929a9edf1f1ac5b42563d6863ea0c3dd92ddae09174cc5835730e97aa53034ee",
+  "vera/audit/sentences.py": "b255f98c0f3573349ba676608cb5ac06dc8c14f3da26f4717c78febf878eb59c",
+  "vera/audit/inference.py": "90aac0aba185ad6c9ae47946975badfe1bfdc5dccfcd4b81cddb3650ebc75c06",
+  "vera/literature/anchoring.py": "7cf3fe5bdf43989c5d8d5f20cf1c6fc2f5e3671550ab09a0f745317146f1a6f4",
+  "vera/literature/synthesis.py": "104981efce2ec88839753b027474c509bfca2ed4771ea6ec74bcf53e9a083f8b",
+  "vera/literature/questions.py": "dff49a8806e5a876d7d94f8920c95c96f3e58d3828773f41524757e65e47145e",
+  "scripts/measure_realcase.py": "a7ce21e9a046ef2508e87a14d5c3011ca6238a0e3f6262fad1005b7ab8057ffe"
+ }
+}

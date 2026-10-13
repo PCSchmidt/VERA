@@ -11,7 +11,7 @@ import pytest
 
 from tests.lit_fakes import LitGenerator, LitJudge, make_lit_deps
 from tests.test_paper_evidence import Fetch, make_review, parse
-from vera.literature import paper, paper_stage
+from vera.literature import paper, paper_stage, questions
 from vera.schemas import PaperDocument, PaperRequest, Question, SelfGradingError, Verdict
 
 THEMES = [
@@ -210,3 +210,39 @@ def test_RSH_F_12_a_repair_shows_the_sections_own_passages_not_the_whole_paper(t
     for p in repairs:
         shown = sum(1 for x in passages if f"<{x['id']}>" in p)
         assert 0 < shown <= paper.THEME_PASSAGES < len(passages)
+
+
+def test_RSH_F_12_seeded_review_verdicts_are_retagged_for_the_paper_stage(tmp_path: Path) -> None:
+    run, deps = setup_run(tmp_path)
+    state = run_nodes(deps, {"section": {"retrieval_stats": STATS}}, ["paper_widen"])
+    passages = [json.loads(ln) for ln in (run / "paper" / "passages.jsonl").read_text("utf-8").splitlines() if ln]
+    records = {r["key"]: r for r in (json.loads(ln) for ln in (run / "retrieved.jsonl").read_text("utf-8").splitlines() if ln)}
+    source_key, quote = sentences_on(passages, "agent traces trajectory")[0]
+    sentence = f"Paper {source_key} reports {quote[:-1]}."
+    passage = next(p for p in passages if p["source_key"] == source_key and quote in p["text"])
+    question, material = questions.claim_supported(sentence, passage, records[source_key]["title"])
+    cache_key = hashlib.sha1(f"{question.text}|{material}".encode()).hexdigest()[:16]
+    cached = {
+        "hash": cache_key,
+        "confident": True,
+        "verdict": Verdict(
+            question_id=question.id,
+            answer=True,
+            confidence=0.9,
+            confidence_source="self_report",
+            backend="fake",
+            escalated=False,
+            cost_usd=0.0001,
+            latency_ms=1,
+            trace_id="seeded",
+            judge_id="p2.judge",
+            producer_id="p3.synthesize",
+        ).model_dump(mode="json"),
+    }
+    (run / "claims_judged.jsonl").write_text(json.dumps(cached) + "\n", encoding="utf-8")
+    script(deps, run)
+    state = run_nodes(deps, state, ["paper_outline", "paper_write", "paper_verify"])
+    assert not state.get("stop"), state.get("stop")
+    gates = state["stage_results"][-1]["gates"]
+    assert any(g["trace_id"] == "seeded" for g in gates)
+    assert all(g["producer_id"] == "p3.paper.write" for g in gates)

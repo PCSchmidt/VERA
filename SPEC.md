@@ -1,275 +1,258 @@
-# SPEC — VERA, Increment 6 (from a review to a paper)
+# SPEC — VERA, Increment 7 (check what the green light does not)
 
-> **Status: scoped 2026-10-11 (`incr6_scoped` approved by Chris, decisions 1-5 below accepted as proposed).** Passed 2026-10-11: `evidence_ready`, `paper_stage_ready`, `inference_set_frozen`, `inference_measured`, `app_paper_ready`; 2026-10-12: `paper_demo`, `rubric6_scored`, `incr6_review` (approved by Chris; docs/reviews/incr-6.md). Increment 6 is complete. The Increment 5 SPEC is in git
-> history; its review is [docs/reviews/incr-5.md](docs/reviews/incr-5.md).
+> **Status: proposed 2026-10-13, awaiting `incr7_scoped` (Chris).** Decisions 1-6 at the end are Chris's to accept or change. The
+> Increment 6 SPEC is in git history; its review is [docs/reviews/incr-6.md](docs/reviews/incr-6.md).
 
 ## Overview
 
 Current-increment features only, in build order. Each `##` below becomes a tracked feature (`scripts/features-init.sh`);
-do not add `###` headings. Source: [docs/07-increments.md](docs/07-increments.md) Increment 6; schemas:
-[docs/03-interfaces.md](docs/03-interfaces.md) v0.11, with v0.12 (proposed below, written into docs/03 before any code uses
-it); requirements due: RSH-F-12, RSH-F-13, RSH-F-14, AUD-F-11, APP-F-04, plus everything due earlier
+do not add `###` headings. Source: [docs/07-increments.md](docs/07-increments.md) Increment 7; schemas:
+[docs/03-interfaces.md](docs/03-interfaces.md) v0.12, with v0.13 (proposed below, written into docs/03 before any code uses
+it); requirements due: RSH-F-15, RSH-F-16, AUD-F-12, plus everything due earlier
 ([docs/02-requirements.md](docs/02-requirements.md)).
 
-**Why this increment.** A finished run gives a literature review of about 500 to 900 words. Every sentence in it rests on a
-quote, and it draws no conclusions of its own. Chris asked for the next step twice: in the Increment 5 walkthrough ("possible
-conclusions where the question allows") and again on 2026-10-11, after the review
-`how-much-useable-information-about-6x3n` ($0.16, green, 16 claims from 12 sources, 6 papers read in full and 42 at the abstract
-only). That request was to take the gathered information and, when the user asks, produce an academic-style research paper.
-The Increment 5 review listed it as candidate (2), "the labelled Synthesis section and its audit rule".
+**Why this increment.** Increment 6's three papers all audited green, and the external review (ChatGPT, of P1) and the
+independent scorer (all three, every claim read against its quote) still found, in text the checks had passed:
 
-**Decisions already made by Chris (2026-10-11):**
+- **cited claims that say more than their quotes** (P2 C25 and C31, "a structured form of context engineering", which carries
+  P2's abstract; P1 C28 adds "GPT-3.5-turbo"); the scorer's file names 4, 6 and 3 such claims or claims leaning on context;
+- **wrong uncited synthesis sentences** (P1 "The two studies therefore disagree", both premises one source; P3 "no passage
+  covers recursive language models on cost", contradicted by C5 and C15). 23 to 33 claim-free sentences per paper are checked
+  only for naming a source, and the audit does not list them at all;
+- **a source named without a claim** ("by Shao and colleagues"), which the name rule does not know;
+- **quotes that depend on context outside them** (P1 C41, "However, this patch may be overfitting.");
+- **interpretation that overreaches**, which a check measured at 48 of 48 on faults its own author wrote did not catch;
+- **repeated quotes read as corroboration** (3, 10 and 14 claims per paper reuse a quote already used);
+- **a coverage gap not flagged**: P3 never retrieved the Context Language Models paper Chris named in its emphasis.
 
-1. **Interpretation sections are allowed, labelled, and checked by a judge.** A paper may contain the author's own reading
-   (discussion, conclusions, a research agenda). Such a section is shown as interpretation, never mixed with evidence. Each
-   statement in it names the verified claims it rests on, and a component other than its writer judges whether the statement
-   follows from them.
-2. **The paper stage widens the evidence.** It reads more papers in full and more passages per paper before writing, and Chris
-   accepts that this may touch the audit freeze. The plan below **avoids changing any frozen file**: the limits involved live in
-   unfrozen code. If a frozen file must change after all, the freeze rule applies: build a new seeded set first and spend it
-   openly.
-3. **A "Make a paper from this review" button** on a finished review in the app. The review stays as it is; the paper is a
-   second document of the same run.
+The first is the defect class VERA's main promise is about. So this increment adds no new kind of document. It makes the green
+light cover every sentence, and it measures the checks on **real** defects labelled by Chris, not on faults the checks' author
+wrote. (This was the review's next-SPEC candidate 1, with candidates 2 and 3 folded in; Chris agreed 2026-10-12.)
 
-**What the paper is, honestly.** The question had no experiment behind it, so the paper is a **review paper**: a structured,
-survey-style paper with a stated method, findings by theme, a labelled discussion and conclusions, threats to validity and a
-research agenda. It is not a paper reporting new results, and its title block says "Review paper". Experiment-mode papers
-(`vera/loop/writeup.py`) are unchanged.
-
-**The goal is unchanged:** very good research on whatever topic is requested, checkable sentence by sentence. Success here is
-a paper a reader would rather have than the review it came from, **without weakening what the green light means**: green on a
-paper must say exactly what was checked, and interpretation is never counted as quote-checked.
+**The goal is unchanged:** very good research on whatever topic is requested, checkable sentence by sentence. Success here is a
+measured improvement on real defects **without a weaker green**: every sentence of an evidence section has a status, and a
+status of "checked" means a component other than the writer checked it.
 
 Who does what: Claude Code builds and runs short work with offline fakes; Chris approves human gates himself (the agent reports
-readiness and never approves for him), presses the button on real reviews with his own key, and scores the outputs blind.
+readiness and never approves for him), labels the test cases, makes the papers in the app with his own key, and scores blind.
 
-Rules carried from the Increment 5 review:
+Rules carried from the Increment 6 review:
 
 - **Spend.** Every model call goes through a `Budget` that raises before a limit is crossed, inside the $20/month ceiling
-  (ConOps §4). Proposed caps for Chris to confirm at `incr6_scoped`: **$1** for debugging and smoke runs; **$2** for papers made
-  from real reviews (the `6x3n` review and two other finished reviews, each capped at $0.75 on the button's form); **$1** for
-  measuring the inference check on its seeded set; **$5** for the increment. Increment 5 spent within its $5.
-- **One ledger file per run**, `data/ledger/run_<run_id>.jsonl`, never deleted, truncated or overwritten. The paper stage
-  appends to the same run's ledger, so the review's cost and the paper's cost are both on record and shown separately.
-- **Independence and freezing.** The audit's frozen files (`data/results/audit_hash_incr5.json`: the listed `vera/audit/` files,
-  `vera/literature/questions.py`, `reading.py`, `synthesis.py`, `vera/loop/figures.py`, `tables.py`) are **imported, not
-  edited**. New checks go in new modules. `tools/checks/check_carry6.py` blocks a changed frozen file.
-- **No self-grading.** Producers are `p3.paper.write` and `p3.paper.interpret`; every verdict on their text comes from the cheap
-  judge path, and `StageResult` refuses a judge that equals the producer (0.3 rule).
-- **Human scoring is blind and attributed**, helper labels disclosed; Chris scores before the independent scorer runs.
-- **Secrets.** APP-C-01/02/03 unchanged; the new endpoint is covered by the existing key scan and the adversarial test.
-- **Dogfood.** Overhead logged at the end of every session (`scripts/overhead-due.sh`).
+  (ConOps §4). Proposed caps for Chris to confirm at `incr7_scoped`: **$1** for debugging and smoke runs; **$1** for measuring
+  the checks on the real-case set (dev and test); **$0.50** for re-auditing the three Increment 6 papers; **$2** for the two
+  papers made in the app (cap $1.00 each on the form); **$5** for the increment. Increment 6 spent $2.32 of its $5.
+- **One ledger file per run**, never deleted, truncated or overwritten; papers append to their run's ledger.
+- **Independence and freezing.** The frozen files (`data/results/audit_hash_incr5.json`, hash `69890a43f1fc`) are **imported,
+  not edited**. Every change in this plan is in unfrozen code: `vera/literature/synthesis_stage.py`, `anchoring.py`,
+  the paper modules, `retrieval.py`, `vera/audit/inference.py`, and new modules. `tools/checks/check_carry7.py` blocks a changed
+  frozen file.
+- **No self-grading.** Producers stay `p3.synthesize`, `p3.paper.write`, `p3.paper.interpret`; every verdict on their text comes
+  from the cheap judge path; `StageResult` refuses a judge equal to the producer.
+- **Measured sets are frozen before they are measured** and reported whatever the result; no target is set before the first
+  measurement. Wording of a judge question may change on the dev split only.
+- **Human scoring is blind and attributed**; Chris scores before the independent scorer runs.
+- **Dogfood.** Overhead logged at the end of every session; **the note must start with the date** (`2026-10-13: ...`), and
+  `dogfood.sh overhead` takes the hours first, then the note: `bash scripts/dogfood.sh overhead 2 "2026-10-13: ..."`.
 - **Outward-facing actions** need Chris: pushing a commit, publishing a paper on the showcase.
 
-Gate DAG proposed for `.meridian/gates.yaml` after `incr6_scoped` (only `incr6_scoped` is defined now):
+Gate DAG proposed for `.meridian/gates.yaml` after `incr7_scoped` (only `incr7_scoped` is defined now):
 
 ```text
-incr5_review ─► incr6_scoped ─┬─► evidence_ready ─► paper_stage_ready ─┬─► app_paper_ready ─┐
-                (human)       │   (automated)       (automated)         │   (automated)       │
-                              └─► inference_set_frozen ─► inference_measured ┘                 │
-                                  (automated: set hashed (automated: test run,                 │
-                                   before the check runs) rates reported)                      │
-   ┌───────────────────────────────────────────────────────────────────────────────────────────┘
-   └─► paper_demo ─► rubric6_scored ─► incr6_review
-       (human: button,  (human, blind)   (human + Evaluator)
+incr6_review ─► incr7_scoped ─┬─► sentence_checks_ready ─► audit_sentences_ready ───────────────┐
+                (human)       │   (automated)               (automated: audit, reader, PDF)     │
+                              ├─► realcase_labelled ─► checks_measured ────────────────────────┤
+                              │   (human: Chris        (automated: set and check source hashed  │
+                              │    labels the test     before the one test run; requires        │
+                              │    split)              sentence_checks_ready)                    │
+                              └─► coverage_search_ready ───────────────────────────────────────┤
+                                  (automated)                                                   │
+   ┌────────────────────────────────────────────────────────────────────────────────────────────┘
+   └─► paper_rerun ─► rubric7_scored ─► incr7_review
+       (human: app,    (human, blind)    (human + Evaluator)
         own key)
 ```
 
-## Schemas 0.12 (docs/03 first)
+## Schemas 0.13 (docs/03 first)
 
 `vera/schemas/`, `docs/03-interfaces.md`. Written into docs/03 with a version bump and a changelog line **before** any code
 uses them; `vera/schemas/version.py` follows (`gate-schema-version.sh`).
 
 ```python
-class ClaimLink(BaseModel):  # gains an id; old records without one still load
-    id: str | None = None  # "C1", "C2", ... in the order claims appear in the document; interpretation cites these
-
-
-class PaperSection(BaseModel):
-    heading: str
-    kind: Literal["summary", "record", "evidence", "interpretation"]
-    # summary: the abstract; record: written by VERA from the run's files (method, retrieval statistics, threats from those
-    # statistics), no model prose; evidence: sentences each carrying a verified claim, or claim-free transitions;
-    # interpretation: statements each naming the claims they rest on, judged to follow from them
+class SentenceRecord(BaseModel):
+    id: str  # "S1", "S2", ... in reading order across the document's evidence sections
+    section: str  # heading of the section it is in
     text: str
-
-
-class Inference(BaseModel):
-    id: str  # "I1", "I2", ...
-    section: str  # the heading of the interpretation section it is in
-    text: str
-    premises: list[str]  # claim ids, at least one; each must exist in the paper
-    verdicts: list[Verdict] = []  # paper.inference_follows, from a component other than p3.paper.interpret
+    kind: Literal["claim", "synthesis", "transition"]
+    # claim: carries one or more verified claims; synthesis: relates claims (compares, generalises, counts, contrasts) and
+    # names them as premises; transition: no factual content (it introduces, orders or signposts)
+    claims: list[str] = []  # claim ids the sentence carries (kind "claim")
+    premises: list[str] = []  # claim ids a synthesis rests on; at least one, each existing
+    verdicts: list[Verdict] = []  # from a component other than the producer
     status: Literal["pass", "removed"]
+    reason: str | None = None  # for a removal: the rule or judge question that removed it
 
 
-class PaperRequest(BaseModel):  # the button's form; extra fields are refused
-    max_usd: float  # > 0 and at most 25
-    length_words: Literal[3000, 5000] = 3000  # target prose length (record sections not counted)
-    emphasis: str | None = None  # optional, plain words, at most 500 characters
-
-
-class PaperDocument(BaseModel):
-    run_id: str  # the review's run; the paper lives in runs/<run_id>/paper/
-    question: str  # the confirmed question, unchanged from the review
-    title: str
-    sections: list[PaperSection]  # in order; at least one evidence and one record section
-    claims: list[ClaimLink]  # every one with an id and quote_check "pass"
-    inferences: list[Inference]  # only status "pass" appear in the text
-    sources: list[SourceRecord]
-    retrieval_stats: RetrievalStats | None = None
-    evidence_stats: dict[str, int]  # papers read in full, at the abstract only, passages available, passages cited
+# LiteratureSection and PaperDocument each gain:
+sentences: list[SentenceRecord] = []  # every sentence of every evidence section; documents made before 0.13 load with []
 ```
 
-`Finding.check` gains `"inference"`. A `PaperDocument` whose interpretation text cites `[Rn]`, or whose inference names a claim id
-that does not exist, raises. `OutputGuidance.format` is left as it is (the app sends `"paper"` for a review, which literature mode
-ignores; this increment documents that and does not change it).
+`Finding.check` gains `"sentence"`. `evidence_stats` gains `distinct_quotes` and `claim_sources` (no schema change; it is a
+`dict[str, int]`). A document whose sentence names a premise that does not exist, or whose synthesis has no premise, raises.
+Review claims get ids (`C1…`) as paper claims already do, so a review's synthesis sentences can name them.
 
-**Acceptance:** round-trip tests for each new type, a test that each raising rule raises, and `check_schema_version.py` passing at
-0.12.
+**Acceptance:** round-trip tests, a test that each raising rule raises, old documents (Increment 6's papers, committed reviews)
+still load, and `check_schema_version.py` passes at 0.13.
 
-## Wider evidence for a paper (RSH-F-14)
+## Every sentence has a status (RSH-F-15)
 
-`vera/literature/paper_evidence.py` (new), `vera/literature/stages.py` (unfrozen). Run once, when the button is pressed.
+`vera/literature/synthesis_stage.py` (`verify_sentences`, shared by the review and the paper), `vera/literature/anchoring.py`,
+`vera/literature/paper.py` (prompts), `vera/literature/sentence_checks.py` (new). One implementation for the review and the paper.
 
-- **More full texts:** read up to **15** of the kept papers in full where an open-access PDF exists (the review read 6;
-  `READ_TOP` and `deps.extra["read_top"]` already allow it). PDFs and parses are cached, so papers the review already read cost
-  nothing more. Fetching stays polite (arXiv: one request per three seconds).
-- **More passages per paper:** up to **10** per full-text paper, through the frozen `reading.rank_passages(..., top=10)`, which
-  already takes the limit as an argument. Abstracts stay one passage each.
-- **The widened evidence is a superset**: `paper/passages.jsonl` holds every passage of the review's `passages.jsonl` plus the
-  new ones, with the same ids for the old, so every review claim still verifies against it.
-- **No new retrieval.** The search is not repeated; the paper says so in its threats section. (Coverage is the weakest rubric
-  criterion; a wider search is a candidate for a later increment, not this one.)
-- **Section-wise evidence:** each findings section is drafted from the passages ranked for that section's theme (BM25, no model
-  call), so the prompt limit of 120 passages per call (`MAX_PASSAGES_IN_PROMPT`) is not the cap on evidence.
+- **The writer declares each sentence's kind.** Claim sentences as now. A synthesis sentence names, as premises, earlier claim
+  sentences of its section; after verification these resolve to claim ids, and a synthesis whose premise was removed is
+  repaired once against the remaining claims, then removed.
+- **Synthesis is checked like interpretation:** the deterministic rules of `vera/audit/inference.py` (premises exist, no stray
+  attribution, no unsupported number, no name absent from the premises), then the judge question `paper.inference_follows`
+  on the sentence and its premise claims. A confident no or an unsure verdict, after one repair, removes it.
+- **Transitions are checked to carry no fact:** a new judge question `sentence.no_fact` ("Does this sentence state anything
+  about the literature, a study, a result or the evidence?"). A yes makes it a synthesis without premises: repaired once, then
+  removed.
+- **Deterministic rules, no model call** (`sentence_checks.py`):
+  1. *Agreement needs two sources.* A synthesis or interpretation that says studies agree, disagree, converge, conflict or that
+     "several"/"the two" studies show something must have premises from at least two distinct sources (P1's "The two studies
+     therefore disagree").
+  2. *Absence belongs to the record.* A sentence in an evidence section saying the evidence lacks something ("no passage",
+     "none of the studies", "no study examines") is removed; what the evidence lacks is stated in the threats section, from the
+     run's files (P3's "no passage covers recursive language models on cost").
+  3. *"X and colleagues" names a source* (also "X's team", "the X group", "X and co-authors"), added to
+     `anchoring.names_a_source_without_a_claim` (P3's "Shao and colleagues").
+  4. *A quote that leans on context is widened.* A quote opening with a demonstrative or a back-reference ("This", "These",
+     "Such", "It", "However, this") is extended with the preceding sentence of the same passage, which keeps it verbatim, and
+     re-checked; with no preceding sentence available it fails the quote-alone check (P1 C41).
+  5. *One quote, one claim id.* A claim reusing a (source, quote) pair already cited gets the earlier claim's id instead of a new
+     one; premises are counted by distinct quote and source, and the method section reports claims, distinct quotes and sources.
+- **Claims that say more than their quotes:** a new judge question `claim.within_quote`, shown only the claim and its quote:
+  "Does the claim add anything the quote does not say: a name, number, model, characterisation or causal link?" A yes or unsure,
+  after one repair, removes the claim. It runs after the existing frozen checks and does not replace them. Its wording may be
+  tuned on the dev split only.
+- **Interpretation:** the same agreement rule applies, and `paper.inference_follows`'s wording may be tightened on the dev split
+  (test every clause and quantifier; absence of evidence in the set is not evidence of absence).
 
-**Acceptance:** offline tests with a fake fetcher and parser: the paper's passages are a superset of the review's with unchanged
-ids; at most 15 full texts and 10 passages each; a fetch or parse failure falls back to the abstract and is reported; nothing is
-re-fetched from cache; `check_carry6.py` shows no frozen file changed. `test_RSH_F_14_…` exists.
-**Gate:** `evidence_ready`.
+**Acceptance:** offline tests with a fake generator and judge for each rule and each new question: P1's "two studies disagree"
+with one source is removed; P3's absence sentence is removed; "Shao and colleagues" is caught; a "However, this ..." quote is
+widened and re-verified; a repeated quote shares one id; a transition stating a fact is repaired or removed; a claim adding a
+model name is removed; a synthesis whose premise was removed is repaired, then removed; the producer never judges its own text;
+the review's existing tests still pass. `test_RSH_F_15_…` exists.
+**Gate:** `sentence_checks_ready`.
 
-## The paper stage: outline, evidence sections, record sections (RSH-F-12)
+## The audit lists every sentence (AUD-F-12)
 
-`vera/literature/paper.py`, `vera/literature/paper_stage.py` (new); the verify logic of `synthesis_stage.verify_node` moved into a
-reusable function in the same (unfrozen) module so the review and the paper use one implementation.
+`vera/audit/sentences.py` (new), `vera/app/pipeline.py`, `vera/app/pdf.py`, `vera/app/static/`.
 
-The paper is built in this order, each step a node after `verify` in a second graph that resumes the finished run
-(`extend_run`), so the review's stages and spend are never repeated:
+- The audit of a review or a paper runs the frozen literature audit as now, then `sentences.audit` re-checks **every** sentence
+  of the evidence sections: claim sentences by their claims, synthesis by the rules and the judge, transitions by `sentence.no_fact`,
+  plus the `claim.within_quote` question on every claim. Findings are `sentence` findings; a confident failure is `fail`, unsure
+  is `warn`.
+- **Documents made before 0.13** (Increment 6's papers, earlier reviews) have no sentence records: the audit splits their evidence
+  sections into sentences, treats a sentence with a claim as a claim sentence and every other one as a transition, so any
+  factual claim-free sentence is reported. This is how the three Increment 6 papers are re-audited.
+- The light's words say what it covers: *"Green: the citations are real, each claim is supported by and says no more than the
+  passage it quotes, each synthesis and interpretation was judged to follow from the claims it names, and the other sentences
+  state no facts."*
+- **Reader and PDF:** a synthesis sentence is marked as such with its premise links (as interpretation premises are); Appendix B
+  lists claims by distinct quote; a new appendix lists synthesis sentences and their premises. The run page says which spend it
+  shows (the run's whole spend, or the paper's), since the external review read $0.94 beside the PDF's $0.77.
 
-1. **Outline** (one generator call, `p3.paper.write`): a title and 3 to 6 findings themes, each with the review claims and the
-   passages that bear on it. Deterministic check: every theme has at least two passages from at least two sources; a theme that
-   fails is merged or dropped.
-2. **Evidence sections** (one call per theme): sentences with claims, exactly as the review's synthesis does them, then the
-   **same verify path**: source resolves, the quote is verbatim in a passage of that source, the judge says the passage supports
-   the claim, no unanchored connective, no dangling reference, the quote alone states the claim; failures repaired once, then
-   removed, every removal counted. An introduction and background section is drafted the same way.
-3. **Record sections, written by VERA, not a model:** *Method* (the confirmed question; the queries; candidates retrieved,
-   screened, kept, snowballed; papers read in full and at the abstract; passages available and cited; the models and judges
-   used); *Threats to validity* (abstract-only share, no repeated search, retrieval recall as last measured, same-family
-   grading, one-claim-one-quote limits). Every number in them comes from a run file and is checked against it.
-4. **Claim ids** `C1…Cn` are assigned in reading order across the whole paper.
+**Acceptance:** tests that the audit reports a factual claim-free sentence, a synthesis whose premise does not support it, and a
+claim saying more than its quote; that old documents are audited without error; headless-browser tests of the synthesis marking in
+light, dark and narrow layouts; PDF tests for the new appendix and the light's wording. `test_AUD_F_12_…` exists.
+**Gate:** `audit_sentences_ready` (requires `sentence_checks_ready`).
 
-Minimum: at least 15 surviving claims across at least 3 themes, or the stage stops with a best-so-far report saying why (a paper
-on less evidence than that would be the review with padding).
+## The real-case set: labelled by Chris, frozen, measured
 
-**Acceptance:** offline tests with a fake generator and judge: a planted fabricated quote, a wrong-source quote, an unsupported
-claim and a stray attribution are removed from an evidence section exactly as in the review; record sections contain no model
-text, and every number in them matches its run file; too little evidence stops with the reason; the producer never judges its
-own text. `test_RSH_F_12_…` exists.
-**Gate:** `paper_stage_ready` (requires `evidence_ready`).
+`scripts/build_realcase_set.py`, `scripts/record_realcase_labels.py`, `scripts/measure_realcase.py` (new),
+`data/realcase/`.
 
-## Interpretation sections, the inference check and its seeded set (RSH-F-13, AUD-F-11)
+- **Items are real text from VERA's papers**, not written by the checks' author: cited claims with their quotes, claim-free
+  evidence sentences with the claims of their section, and kept interpretation statements with their premises, from the three
+  Increment 6 papers (about 170 claims, 80 claim-free sentences, 50 statements).
+- **Split by paper.** Dev: P1 (the external review read it closely, so its cases are known). Test: P2 and P3, about **90 items**:
+  every item the external review or the scorer named, plus a random sample of the rest, shuffled, with no mark of which were named.
+- **Labels.** The dev split is labelled by the agent from the external review and the scorer's notes, and may be used to tune
+  question wording. **Chris labels the test split** on a sheet (one line each: *says no more than its quote / says more /
+  needs outside context*; *follows from its claims / does not / states no fact*), about 1.5 hours. His labels are the reference.
+- **Frozen before the one test run:** items, labels and the source of every check are hashed
+  (`data/results/realcase_hash_incr7.json`) before `measure_realcase.py --split test` runs once.
+- **Reported, whatever it shows:** for each item type, the share of Chris's "bad" items each check flags and the share of his
+  "good" items it wrongly flags, with Wilson intervals, **for Increment 6's checks and for the new ones on the same items**.
+  That comparison is the increment's main result.
+- **Limits stated now:** the test split is small (about 15 to 25 bad items in all), so intervals will be wide; Chris has read the
+  external review and the scorer's notes, so some test items are not new to him.
 
-`vera/literature/paper_interpret.py`, `vera/audit/inference.py` (new; not in the frozen list), `data/seeded_inference/`.
+**Acceptance:** `check_carry7.py --part realcase`: labels attributed to Chris and dated before the hash; the hash file predates
+the test results; results for both the old and the new checks on every test item.
+**Gates:** `realcase_labelled` (human, Chris's labels recorded), then `checks_measured` (requires `sentence_checks_ready`).
 
-- **Writing.** *Discussion*, *Conclusions* and *A research agenda* are drafted by `p3.paper.interpret`, which sees **only the
-  verified claims** (their text, id and source title), never the passages. So nothing unverified can enter as a premise. Each
-  statement comes back as `{"text", "premises": ["C3", "C9"]}`.
-- **Deterministic checks:** at least one premise; every premise exists; no `[Rn]`, no author or system named in running text (the
-  review's stray-attribution rules, reused); no figure that does not appear in a premise claim.
-- **Judge check** `paper.inference_follows` (new question, in the new module): shown only the statement and its premise claims,
-  "Does the statement follow from these claims without adding facts or overstating their strength?" A confident no removes the
-  statement after one repair attempt; an unsure verdict removes it too (a statement nobody could check is not kept).
-- **Shown as interpretation:** each such section carries a fixed label, "Interpretation: VERA's reading of claims C…, judged to
-  follow from them; not checked against quotes". The premise ids render as links to the claims.
-- **Audit (AUD-F-11):** the paper's audit runs the frozen `run_literature_audit` on the paper's evidence sections and claims,
-  then `inference.audit` re-checks every kept inference (premises exist, deterministic rules, the judge question) and adds
-  `inference` findings. The light's words for a paper say what it covers: *"Green: the citations are real, each claim is
-  supported by the passage it quotes, and each interpretation was judged to follow from the claims it names."* The audit
-  appendix lists inferences separately from claims.
-- **Seeded set, frozen before it is measured:** about 60 items built from the claims of finished reviews. Controls are valid
-  inferences. Planted faults: a new fact, an overstated strength ("proves", "always"), a premise that does not bear on the
-  statement, a reversed direction, a named source. Split dev/test by review; the test split and the check's source are hashed
-  (`data/results/inference_hash_incr6.json`) before the one test run. Detection per fault type and the false-positive rate on
-  controls are reported with intervals.
+## A targeted search for what the paper names (RSH-F-16)
 
-**Acceptance:** offline tests for every deterministic rule and for removal on a no or an unsure verdict; the interpretation writer
-is never given a passage (a test inspects its prompt); `inference_set_frozen` blocks unless the hash file predates the test
-results; the measured rates are reported whatever they are (no target is set before the first measurement).
-`test_RSH_F_13_…` and `test_AUD_F_11_…` exist.
-**Gates:** `inference_set_frozen`, then `inference_measured`.
+`vera/literature/retrieval.py`, `vera/literature/paper_evidence.py`.
 
-## The button, the reader and the PDF (APP-F-04)
+- When the paper's emphasis or the confirmed question names a work (a quoted title, an arXiv id, or "Name et al." / "Name and
+  colleagues" with a system name) that is not among the run's sources, the paper stage makes **one targeted lookup** per name
+  (at most 3) through the existing search clients, before widening.
+- A work found with an open-access text is read and its passages added to the paper's evidence, through the same reading and
+  verification; the review's own sources and claims are unchanged.
+- The threats section, written from the run's files, says what was searched for and whether it was found and read.
+- No other change to retrieval; the general search is not repeated.
 
-`vera/app/server.py`, `vera/app/pipeline.py`, `vera/app/worker.py`, `vera/app/pdf.py`, `vera/app/static/`, `scripts/build_pages.py`.
+**Acceptance:** offline tests with a fake search client: a named work not in the sources is looked up once; found works join the
+evidence with new passage ids; a miss is stated in the threats section; at most 3 lookups; nothing named means no lookup.
+`test_RSH_F_16_…` exists.
+**Gate:** `coverage_search_ready`.
 
-- **"Make a paper from this review"** appears on a finished review with a green or amber audit (not red, not stopped). It
-  opens a small form: length (about 3,000 or 5,000 words), optional emphasis, a dollar cap (default $0.75), and one sentence on
-  what will happen and what it typically costs once measured. `POST /api/runs/{run_id}/paper` with a `PaperRequest` starts a
-  worker on the run with the user's key in its environment (the Increment 5 path).
-- **Live view:** the paper's stages (widen, outline, write, verify, interpret, audit) with spend against the paper's cap. Stop
-  and resume work as for a review.
-- **Reader:** a run with a paper shows two tabs, *Review* and *Paper*. In the paper, evidence sentences are dotted as now;
-  record sections carry a small "from the run's files" note; interpretation sections are in a labelled box with premise links.
-- **PDF:** "VERA · Review paper", the sections in order, the interpretation label and box, the audit with its paper wording,
-  Appendix B (claims and quotes) and Appendix C (inferences and their premises).
-- **Static showcase:** papers made in this increment can be added as examples. The button is hidden when `window.VERA_STATIC`
-  is set, and both modes stay in step.
+## Papers made again, and a fresh one (human)
 
-**Acceptance:** API tests with a fake runner: the endpoint refuses a run that is not finished, a red audit, an unknown field and
-a cap outside (0, 25]; the paper runs on the run's ledger with its own cap; stop and resume work; the key scan and adversarial
-test pass with the new endpoint; headless-browser tests of the button, the two tabs and the interpretation box in light, dark
-and narrow layouts, with screenshots; PDF tests that the label, both appendices and the paper audit wording are present.
-`test_APP_F_04_…` exists.
-**Gate:** `app_paper_ready` (requires `paper_stage_ready` and `inference_measured`).
+Chris, in the app with his own key: (a) re-audits the three Increment 6 papers with the new audit (no rewriting; the light may
+change from green and that is the point); (b) makes a paper again from P2's review (`discuss-the-evolution-of-prompting-guv8`),
+same request, cap $1.00; (c) makes a paper from a finished review not used in Increment 6. Recorded in
+`data/paper_rerun/record.json`: run ids and Chris's notes; spend, lights, and kept and removed counts by sentence kind are computed
+from the copied run files, not typed.
 
-## Papers from real reviews (human)
+**Acceptance:** `tools/checks/check_paper_rerun.py`: three re-audit reports and two new papers, each within its cap, each audited.
+**Gate:** `paper_rerun` (human, requires `audit_sentences_ready`, `checks_measured` and `coverage_search_ready`).
 
-Chris presses the button in the app with his own key on the `how-much-useable-information-about-6x3n` review, and on two other
-finished reviews he chooses. Recorded in `data/paper_demo/record.json`: run ids, caps, spend, wall time, audit light, claims
-kept and removed, inferences kept and removed, and Chris's own notes on what reads as a paper and what does not.
+## Rubric scoring of the new papers (human, blind)
 
-**Acceptance:** `tools/checks/check_paper_demo.py`: three records, each within its cap, each with a paper audit report, spend
-read from the ledger rather than typed.
-**Gate:** `paper_demo` (human, requires `app_paper_ready`).
+The two new papers on the Increment 6 rubric (six criteria, 1 to 5). Chris scores first and blind; then an independent scorer (a
+fresh agent, told not to open Chris's file) scores them **and reads every claim against its quote and every synthesis sentence
+against its premises**, recording each defect it finds by kind. The defect counts per paper are compared with Increment 6's scorer
+counts (P2: 6 claims of 59).
 
-## Rubric scoring of the papers (human, blind)
+**Acceptance:** `check_rubric7.py`: both score files; Chris's earlier and attributed; the scorer's not a copy and listing its
+defects by claim or sentence id.
+**Gate:** `rubric7_scored` (human, requires `paper_rerun`).
 
-Each of the three papers is scored beside the review it came from, on the Increment 5 rubric (answers the question, coverage,
-correctness, reproducibility, honesty) plus one new criterion, **interpretation follows from evidence**, 1 to 5. Chris scores
-first and blind; then an independent scorer (a fresh agent, told not to open Chris's file) scores the same files.
+## Increment 7 review
 
-**Acceptance:** `check_rubric6.py`: both score files exist, Chris's is earlier and attributed, and the scorer's is not a copy.
-**Gate:** `rubric6_scored` (human, requires `paper_demo`).
-
-## Increment 6 review
-
-`docs/reviews/incr-6.md`: what was built; each acceptance criterion met or not; spend against each cap; the inference check's
-measured rates; the two scorers' scores for paper against review; every defect found in a paper that passed its audit;
-deviations from this SPEC; what the next increment takes. Plain about what was not shown.
+`docs/reviews/incr-7.md`: what was built; each acceptance criterion met or not; spend against each cap; the real-case results,
+old checks against new; what the re-audits of the Increment 6 papers found; the new papers' defect counts against Increment 6's;
+the cost of the extra checks per paper; deviations; what the next increment takes. Plain about what was not shown.
 
 **Acceptance:** `check_dogfood.py` finds an overhead entry for each day a gate passed; traceability passes; the independent
 Evaluator passes the review.
-**Gate:** `incr6_review` (human + Evaluator).
+**Gate:** `incr7_review` (human + Evaluator).
 
-## Decisions for Chris at incr6_scoped
+## Decisions for Chris at incr7_scoped
 
-1. **Caps:** $1 debugging, $2 real papers, $1 inference measurement, $5 for the increment (above).
-2. **Renumbering:** the old optional "Increment 6 — P1 on external papers" becomes Increment 7; its requirement rows (AUD-F-01,
-   -02, -06, -08) move to 7 so traceability does not demand their tests now. (Done in this draft; revert if you prefer
-   another number for this work.)
-3. **Lengths** offered by the button: about 3,000 and 5,000 words (a paper on 15 to 30 claims cannot honestly fill much more).
-4. **Wider search** (more queries, more sources) is **out**; wider reading is in. Say if you want the search widened too: it
-   costs more and touches retrieval, which the paper's evidence depends on.
-5. **Freeze:** the plan changes no frozen file. If building shows one must change, the agent stops and asks before changing it.
+1. **Caps:** $1 debugging, $1 measurement, $0.50 re-audits, $2 new papers, $5 for the increment (above).
+2. **Renumbering:** the optional "P1 on external papers" moves from Increment 7 to Increment 8, with its requirement rows
+   (AUD-F-01, -02, -06, -08, AUD-P-01, -02). (Done in this draft; revert if you prefer.)
+3. **The review changes too.** Sentence statuses and the new checks run in `verify_sentences`, which the review and the paper
+   share, so a review made after this increment will drop sentences that a review made before it kept. Recommended: yes, one
+   implementation. The alternative is paper-only, which leaves reviews with the same blind spot.
+4. **Labelling:** Chris labels the test split (about 90 items, about 1.5 hours); the agent labels the dev split. The alternative,
+   an independent agent labelling with Chris checking a sample, is cheaper for Chris but is a Claude model labelling a Claude
+   system's output.
+5. **Targeted search** for works the paper names is **in**, limited to 3 lookups; the general search is not repeated.
+6. **Freeze:** the plan changes no frozen file. If building shows one must change, the agent stops and asks before changing it.

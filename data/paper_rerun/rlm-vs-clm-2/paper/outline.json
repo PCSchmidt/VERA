@@ -1,0 +1,30 @@
+{
+ "title": "Recursive and Context Language Models for Coding Workloads: What Published Results Establish About Token, KV-Cache, Latency and Trace-Reuse Costs",
+ "themes": [
+  {
+   "heading": "Recursive Language Models: design, reproduction and reported costs on long-context tasks",
+   "focus": "recursive language models external environment recursion depth S-NIAH OOLONG token cost execution time local backend"
+  },
+  {
+   "heading": "Context Language Models (CLM): context as an updatable file and Suffix Cache Reuse",
+   "focus": "Context Language Models CLM context file update Suffix Cache Reuse SGLang FLOPs TerminalBench Mini-SWE-Agent"
+  },
+  {
+   "heading": "Serving-side KV-cache reuse: prefix, non-prefix and in-place edit costs",
+   "focus": "KV cache prefix reuse re-prefill splice position-independent deletion recomputation latency quality loss"
+  },
+  {
+   "heading": "Context management for coding agents: token-level evidence and its limits",
+   "focus": "agent context management compression tokens SWE-agent long-horizon accuracy sample size programmatic memory"
+  },
+  {
+   "heading": "Coding workloads versus long-context QA benchmarks and trace reusability",
+   "focus": "coding benchmarks repository long-context code trace reuse continual learning tasks evaluation transfer"
+  },
+  {
+   "heading": "Unestablished questions and the scope of a CPU-scale companion experiment",
+   "focus": "head-to-head comparison latency common serving setup small open model CPU-scale token cost prefix-cache limitations transfer"
+  }
+ ],
+ "dropped": []
+}

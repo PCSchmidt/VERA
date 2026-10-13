@@ -81,6 +81,7 @@ class ClaimLink(BaseModel):
     locator: str  # where in the source: "abstract", "sec. 3", "p. 4", a passage id
     quote_check: Literal["pass", "fail", "unchecked"] = "unchecked"  # deterministic: is the quote in the text?
     verdicts: list[Verdict] = []  # lit.claim_supported, from a component other than the producer
+    same_quote_as: str | None = None  # 0.13: the earlier claim whose source and quote this one reuses
 
     @field_validator("quote")
     @classmethod
@@ -100,6 +101,45 @@ class RetrievalStats(BaseModel):
     n_dropped_by_screen: int = Field(ge=0)
 
 
+SentenceKind = Literal["claim", "synthesis", "transition"]
+
+
+class SentenceRecord(BaseModel):
+    """0.13 (RSH-F-15, AUD-F-12): one sentence of a review or a paper's evidence sections, with its check's outcome."""
+
+    id: str  # "S1", "S2", ... in reading order
+    section: str = ""  # heading of the section it is in ("" in a review)
+    text: str
+    kind: SentenceKind
+    claims: list[str] = []  # claim ids the sentence carries (kind "claim")
+    premises: list[str] = []  # claim ids a synthesis rests on
+    verdicts: list[Verdict] = []  # from a component other than the producer
+    status: Literal["pass", "removed"]
+    reason: str | None = None  # for a removal: the rule or judge question that removed it
+
+    @model_validator(mode="after")
+    def _shape(self) -> SentenceRecord:
+        if self.kind == "transition" and (self.claims or self.premises):
+            raise ValueError(f"transition {self.id} carries claims or premises; it states no fact")
+        if self.status == "pass":
+            if self.kind == "claim" and not self.claims:
+                raise ValueError(f"claim sentence {self.id} carries no claim")
+            if self.kind == "synthesis" and not self.premises:
+                raise ValueError(f"synthesis {self.id} names no premise")
+        return self
+
+
+def check_sentences(sentences: list[SentenceRecord], claim_ids: set[str]) -> None:
+    """Document-level rules shared by reviews and papers: unique sentence ids, kept sentences name existing claims."""
+    ids = [s.id for s in sentences]
+    if len(set(ids)) != len(ids):
+        raise ValueError("sentence ids must be unique")
+    for s in (s for s in sentences if s.status == "pass"):  # a removed one is on record with its fault
+        missing = sorted((set(s.claims) | set(s.premises)) - claim_ids)
+        if missing:
+            raise ValueError(f"sentence {s.id} names claims that do not exist: {missing}")
+
+
 class LiteratureSection(BaseModel):
     run_id: str
     topic_id: str
@@ -107,6 +147,7 @@ class LiteratureSection(BaseModel):
     claims: list[ClaimLink]
     sources: list[SourceRecord]
     retrieval_stats: RetrievalStats | None = None  # Increment 4: disclosed in the review text
+    sentences: list[SentenceRecord] = []  # 0.13: every sentence with its status; [] for reviews made before
 
     @model_validator(mode="after")
     def _claims_cite_sources(self) -> LiteratureSection:
@@ -114,6 +155,7 @@ class LiteratureSection(BaseModel):
         unknown = sorted({c.source_key for c in self.claims} - keys)
         if unknown:
             raise ValueError(f"claims cite sources that were not retrieved: {unknown}")
+        check_sentences(self.sentences, {c.id for c in self.claims if c.id})
         return self
 
 

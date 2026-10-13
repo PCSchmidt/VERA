@@ -117,7 +117,7 @@ def test_AUD_F_11_the_paper_audit_checks_claims_and_re_checks_interpretation(tmp
     out = deps.run_dir / "paper"
     assert pipeline.run_paper_audit(deps, judge=InterpretJudge()) == "green"
     report = json.loads((out / "audit_report.json").read_text("utf-8"))
-    assert report["checks_run"] == ["citation", "claim_support", "inference"]
+    assert report["checks_run"] == ["citation", "claim_support", "inference", "sentence"]  # +sentence (Increment 7)
     assert "Interpretation statements re-checked: 1" in (out / "audit.md").read_text("utf-8")
 
     doc = json.loads((out / "paper.json").read_text("utf-8"))  # a statement that does not follow, slipped in later

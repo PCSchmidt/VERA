@@ -201,6 +201,8 @@ def dom(port: int, route: str, tmp_path: Path) -> str:
     ("paper/paper-run", "Review paper"),
     ("paper/paper-run", "1 kept, 1 removed by the checks"),
     ("read/paper-run", 'class="tabs"'),
+    ("paper/paper-run", 'class="synth"'),  # Increment 7: a synthesis sentence is marked, with its premises
+    ("paper/paper-run", "1 synthesis kept, 0 removed by the checks"),
 ])  # fmt: skip
 def test_each_page_renders_against_fixture_runs(server: int, route: str, must_have: str, tmp_path: Path) -> None:
     html = dom(server, route, tmp_path)

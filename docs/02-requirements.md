@@ -1,6 +1,6 @@
 # 02 — Requirements
 
-Version 0.7 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access. 0.3, 2026-10-01: JDG-P-01..03 set from the Increment 1 benchmark; direction B: topic-to-paper and app requirements added, external-paper auditing moved to Increment 6. 0.4, 2026-10-02, Increment 2 review: measurements recorded beside AUD-P-01 and AUD-P-02; no target value changed. 0.5, 2026-10-02, Increment 3 SPEC: AUD-F-10 added, claim-to-source support check. 0.6, 2026-10-09, Increment 5 review: APP-F-03 (a downloadable PDF with its evidence) and APP-C-03 (the server answers only this computer) added; both were built and tested in Increment 5. 0.7, 2026-10-11, Increment 6 SPEC: RSH-F-12 to RSH-F-14, AUD-F-11 and APP-F-04 added (a review paper made from a finished review, with labelled, judge-checked interpretation); external-paper auditing (AUD-F-01, -02, -06, -08, AUD-P-01, -02) renumbered to Increment 7)
+Version 0.8 · Draft (0.2, 2026-09-30, Increment 0 review: RSH-P-02 set to 2; AUD-F-05 scoped to code the checker can access. 0.3, 2026-10-01: JDG-P-01..03 set from the Increment 1 benchmark; direction B: topic-to-paper and app requirements added, external-paper auditing moved to Increment 6. 0.4, 2026-10-02, Increment 2 review: measurements recorded beside AUD-P-01 and AUD-P-02; no target value changed. 0.5, 2026-10-02, Increment 3 SPEC: AUD-F-10 added, claim-to-source support check. 0.6, 2026-10-09, Increment 5 review: APP-F-03 (a downloadable PDF with its evidence) and APP-C-03 (the server answers only this computer) added; both were built and tested in Increment 5. 0.7, 2026-10-11, Increment 6 SPEC: RSH-F-12 to RSH-F-14, AUD-F-11 and APP-F-04 added (a review paper made from a finished review, with labelled, judge-checked interpretation); external-paper auditing (AUD-F-01, -02, -06, -08, AUD-P-01, -02) renumbered to Increment 7. 0.8, 2026-10-13, Increment 7 SPEC: RSH-F-15, RSH-F-16 and AUD-F-12 added (every sentence of an evidence section has a checked status; a targeted search for works a paper names; the audit lists every sentence); external-paper auditing renumbered to Increment 8)
 
 ID format: `<AREA>-<TYPE>-<NN>`. Areas: `FND` foundation, `JDG` judge library
 (P2), `AUD` auditor (P1), `RSH` research agent (P3), `APP` app. Types: `F` functional,
@@ -42,19 +42,20 @@ Suggested starting values are in brackets.
 
 | ID | Requirement | Verify | Incr |
 |----|-------------|--------|------|
-| AUD-F-01 | Ingest a paper PDF (and optionally a repo URL) and produce an `AuditReport`. | T | 7 |
-| AUD-F-02 | Extract numeric claims with location (section, table, page). | T | 7 |
+| AUD-F-01 | Ingest a paper PDF (and optionally a repo URL) and produce an `AuditReport`. | T | 8 |
+| AUD-F-02 | Extract numeric claims with location (section, table, page). | T | 8 |
 | AUD-F-03 | Flag every reference that cannot be matched in a bibliographic source (e.g. Crossref, arXiv, Semantic Scholar). | T (seeded) | 2–3 |
 | AUD-F-04 | Check each numeric claim for internal consistency (text vs. tables vs. figures) and, when logs exist, against logged outputs. | T (seeded) | 2–3 |
 | AUD-F-05 | Check method–code alignment: each method component described in the paper maps to code, and vice versa. Scope: papers whose code is available to the checker (VERA's own loop outputs; parent repositories as reference). Not applied to the ScientistTwo corpus, which publishes no generated code (Increment 0 review). | T (seeded) | 4 |
-| AUD-F-06 | Detect specification violations / leakage patterns (test-set use in training or tuning, metric changes, baseline misconfiguration). | T (seeded) | 7 |
+| AUD-F-06 | Detect specification violations / leakage patterns (test-set use in training or tuning, metric changes, baseline misconfiguration). | T (seeded) | 8 |
 | AUD-F-07 | Assess novelty: retrieve closest prior work and judge whether the core method is materially distinct (first applied to the loop's own idea). | A (gold set) | 4 |
-| AUD-F-08 | Optionally re-run reported experiments in the sandbox within a per-audit budget. | D | 7 |
+| AUD-F-08 | Optionally re-run reported experiments in the sandbox within a per-audit budget. | D | 8 |
 | AUD-F-09 | Every finding shall link to its evidence (quote location, source record, code path, log line). | I | 2 |
 | AUD-F-10 | Every claim a document attributes to a retrieved source shall be checked against that source's text; an unsupported claim is a finding that carries the quote and the source passage as evidence. | T (seeded) | 3 |
 | AUD-F-11 | In a paper, every interpretation statement shall name existing verified claims as its premises and be re-checked by the audit (deterministic rules and a judge on whether it follows); the audit result shall state that interpretation is judged, not quote-checked. | T (seeded) | 6 |
-| AUD-P-01 | Detection rate on seeded faults ≥ **TBD** [90%] per check type; false-positive rate ≤ **TBD** [10%]. Increment 2 measured (not a target): 17/18 on the test split, 0 false fails on 3 controls; mostly deterministic faults from two source runs, audit changed after the first test run, so it does not support a value (docs/reviews/incr-2.md). | T | 7 |
-| AUD-P-02 | Non-rerun audit cost ≤ **TBD** [$1] and wall time ≤ **TBD** [15 min] per paper. Increment 2 measured (not a target): $0.00012 and about 1 s (`audit_report.json` `wall_seconds`) on the loop's own 674-word paper with 22 claims; external papers (Increment 6) are longer, so this does not support a value. | A | 7 |
+| AUD-F-12 | The audit of a review or a paper shall list every sentence of its evidence sections with its status and re-check each: claims (including whether a claim says more than its quote), synthesis (judged to follow from the claims it names) and transitions (no factual content); documents made before sentence statuses existed are audited by splitting them into sentences. | T | 7 |
+| AUD-P-01 | Detection rate on seeded faults ≥ **TBD** [90%] per check type; false-positive rate ≤ **TBD** [10%]. Increment 2 measured (not a target): 17/18 on the test split, 0 false fails on 3 controls; mostly deterministic faults from two source runs, audit changed after the first test run, so it does not support a value (docs/reviews/incr-2.md). | T | 8 |
+| AUD-P-02 | Non-rerun audit cost ≤ **TBD** [$1] and wall time ≤ **TBD** [15 min] per paper. Increment 2 measured (not a target): $0.00012 and about 1 s (`audit_report.json` `wall_seconds`) on the loop's own 674-word paper with 22 claims; external papers (Increment 6) are longer, so this does not support a value. | A | 8 |
 
 ## P3 — Research agent
 
@@ -75,6 +76,8 @@ Suggested starting values are in brackets.
 | RSH-F-12 | On request, turn a finished literature review into a review paper (abstract, introduction, method, findings by theme, threats to validity, references) in which every attribution is a verified claim and the method and threats sections are written from the run's own files, not by a model. | T | 6 |
 | RSH-F-13 | A paper may contain interpretation sections (discussion, conclusions, research agenda), labelled as such and written from the verified claims only; every statement names the claims it rests on and is kept only if a component other than its writer judges that it follows from them. | T | 6 |
 | RSH-F-14 | Before writing a paper, widen the evidence (more papers read in full, more passages per paper) without changing the review's passages or claims. | T | 6 |
+| RSH-F-15 | Every sentence of an evidence section (review or paper) shall have a status: a claim sentence carrying verified claims, a synthesis naming the claims it rests on and judged by a component other than its writer to follow from them, or a transition stating no fact; a sentence failing its check is repaired once, then removed. | T | 7 |
+| RSH-F-16 | When a paper's emphasis or question names a work not among the run's sources, look it up (at most 3 lookups), add its passages if found, and state in the threats section what was searched for and whether it was found. | T | 7 |
 | RSH-P-02 | Report cost/quality results on ≥ **2** parent problems also attempted by ScientistTwo (set at the Increment 0 review; R6 keeps the measured comparison at 2 problems; the second problem comes in Increment 4 since the direction-B re-plan). | A | 4 |
 
 ## App

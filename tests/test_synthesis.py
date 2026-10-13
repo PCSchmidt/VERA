@@ -160,13 +160,15 @@ def test_RSH_F_09_the_section_keeps_only_claims_that_passed_every_check(tmp_path
     assert "always stable" not in text and "ninth paper" not in text and "Lundberg" not in text  # nothing unchecked
     assert "[R9]" not in text and "[R3]" not in text and "[R1]" in text and "[R2]" in text
     stats = json.loads((deps.run_dir / "artifacts" / "literature.json").read_text(encoding="utf-8"))
-    assert stats["stats"] == {"drafted": 6, "failed_first": 3, "repaired": 0, "removed": 3,
-                              "stray_attributions_removed": 1}  # fmt: skip
+    expected = {"drafted": 6, "failed_first": 3, "repaired": 0, "removed": 3, "stray_attributions_removed": 1}
+    assert {k: stats["stats"][k] for k in expected} == expected  # Increment 7 adds sentence-status counts beside these
     assert stats["failure_reasons"] == {"fabricated_quote": 1, "wrong_source": 1, "unresolved_source": 1}
     assert all(c.quote_check == "pass" and c.locator for c in section.claims)
     # the judge only saw claims that passed the deterministic checks (three), and with fewer than five surviving
     # claims the stage stopped before the section-level question
-    assert deps.judge.asked == ["lit.claim_supported", "lit.quote_covers_claim"] * 3
+    # (Increment 7: each claim also gets claim.within_quote; the claim-free BRIDGE, an absence statement, is removed
+    # by rule, before any judge)
+    assert deps.judge.asked == ["lit.claim_supported", "lit.quote_covers_claim", "claim.within_quote"] * 3
     assert "only 3 claims" in state["stop"]["reason"]
 
 

@@ -1,0 +1,106 @@
+# Audit of discuss-the-evolution-of-prompting-guv8 (paper): **RED**
+
+Checks run: citation, claim_support, inference, sentence. Claims checked: 77. Findings: 25 fail, 21 warn, 0 info. Judge cost $0.00119.
+
+- **fail** (inference) I1 (Discussion): does not follow from its premises: 'Prompt engineering is described consistently as designing instructions to guide a model without altering its parameters, and as a form of pr'
+  - evidence: log `paper/inferences.jsonl` matched=False
+- **fail** (inference) I4 (Discussion): does not follow from its premises: 'The sources agree on the direction of the boundary but phrase it differently. Prompt engineering changes instructions, context engineering c'
+  - evidence: log `paper/inferences.jsonl` matched=False
+- **fail** (inference) I7 (Discussion): does not follow from its premises: 'Sources diverge on where capability ends up. One survey proposes that routine support moves into model weights while governance stays extern'
+  - evidence: log `paper/inferences.jsonl` matched=False
+- **fail** (inference) I9 (Conclusions): does not follow from its premises: 'Memory, tool use, orchestration and verification are attributed mainly to the system-level and harness stages, but these claims do not show '
+  - evidence: log `paper/inferences.jsonl` matched=False
+- **warn** (sentence) S2 (Introduction, claim): the quote of C1 opens with a back-reference, so what it is about is outside it: 'Prompt engineering is the natural starting point, and one survey describes it as a technique that involves strategically designing task-spec'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S4 (Introduction, unrecorded): states a fact that does not follow from its section's claims (states 2025, which none of its premises states): 'Both of these sources predate 2025, so they supply background for the earliest stage rather than evidence from the period in question.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S8 (Introduction, claim): C6 says more than its quote: 'Memory is another component, and one framework implements memory not as a vector database, but as a persistent file system accessible via to'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S10 (Introduction, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The harness concept moves the unit of analysis from the prompt or context to the execution system around the model.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S12 (Introduction, claim): the quote of C9 opens with a back-reference, so what it is about is outside it: 'A further survey takes the agent loop, not the model in isolation, as its unit of analysis [R8].'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S13 (Introduction, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages supplied here do not offer a single agreed definition of each term or of the boundaries between them, and the review below must'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S14 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The supplied passages define prompt engineering mainly as instruction design for a fixed model.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S15 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, claim): the quote of C10 opens with a back-reference, so what it is about is outside it: 'One survey describes it as strategically designing task-specific instructions, referred to as prompts, to guide model output without alterin'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S18 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: "Several sources report that the field's vocabulary and organization are unsettled."
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S20 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, claim): C14 says more than its quote: 'A 2026 survey likewise says prompt engineering is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical fra'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S22 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources also differ in how they build taxonomies.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S25 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, claim): C18 says more than its quote: 'The Prompt Report states that its stance is observational and that evaluation in the field is variable and unstandardized: "The field is new'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S26 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages say little about how prompt engineering is bounded against context engineering or harnesses.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S29 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The surveyed sources describe context engineering as a move from crafting prompt text to managing the information that surrounds the model.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S33 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Harness-oriented sources place context engineering inside a wider boundary.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S35 (Context engineering: shifting from prompt text to system-level context, claim): C25 says more than its quote: 'The externalization review describes a harness that separates the prompt into layers instead of treating it as an undifferentiated text buff'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S37 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Context rot is the main failure mode the sources attach to this stage.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S40 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The passages leave open how the boundaries among these terms should be settled and how far the reported benchmark gains hold outside simulat'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S41 (Harness engineering: the structure around a fixed model, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The surveys in this set generally treat the harness as the structure wrapped around a fixed model, but they enumerate its parts differently.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S43 (Harness engineering: the structure around a fixed model, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources place the harness relative to prompt and context engineering in a consistent way.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S45 (Harness engineering: the structure around a fixed model, claim): C31 says more than its quote: 'The externalization review describes the harness as a structured form of context engineering that separates the prompt into layers with dist'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S46 (Harness engineering: the structure around a fixed model, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Evidence that the harness matters for measured results comes from evaluation work.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S49 (Harness engineering: the structure around a fixed model, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources differ on where the harness boundary lies and leave several questions open.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S52 (Harness engineering: the structure around a fixed model, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages supplied here do not settle a single agreed definition of the harness or a standard component list.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S54 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): the quote of C37 opens with a back-reference, so what it is about is outside it: 'The same survey states that cost, reliability and safety are decided by the loop rather than by the model alone [R8].'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S56 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): the quote of C39 opens with a back-reference, so what it is about is outside it: 'The scaling-the-harness paper lists the components of a harness, including orchestration and verification [R26].'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S57 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): C40 says more than its quote: 'The externalization review places the harness as the stage at which engineering attention moved from prompts to the operating environment [R'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S58 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): C41 says more than its quote: 'The code-harness survey describes production systems as wrapping the model in a managed development loop [R49].'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S59 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): C42 says more than its quote: 'On multi-agent orchestration, the code-harness survey reports that long-running harnesses separate planning, generation and evaluation into '
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S60 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): the quote of C43 opens with a back-reference, so what it is about is outside it: 'The Agentic RAG survey frames retrieval as part of this agentic design space, since agents use reflection, planning, tool use and multi-agen'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S62 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): "The sources differ on where the loop's competence should sit."
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S65 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources place evaluation at the center of how harnesses are understood, and they converge on the claim that a benchmark score depends on'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S69 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources differ in the remedies they propose for this dependence.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S72 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Several sources also tie evaluation to safety and failure analysis.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S76 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The passages leave open how far these harness effects generalize, a gap that the harness-aware evaluation survey itself names among its rese'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S77 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources do not offer a single settled map of where prompt engineering ends and harness engineering begins.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S78 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Another paper, by contrast, places test-driven governance, orchestrator-controlled phase order and bounded repair loops inside a prompt-engi'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S79 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'That placement shows stages overlapping in practice, since orchestration and validation appear under the prompt label.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S80 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Much of the evidence is also narrow in scope.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S81 (Limits of the evidence: unsettled boundaries and weak generalizability, claim): C55 says more than its quote: 'The context-compression experiment used a synthetic recall task and acknowledges the limits of its single-model, single-budget setup [R18].'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S84 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Evaluation work shows why attributing effects to a single stage is hard.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S87 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages do not settle whether these definitions hold beyond the domains studied.'
+  - evidence: log `paper/paper.json` matched=False
+
+Skipped checks:
+- method_code: AUD-F-05: method-code alignment arrives in Increment 4
+- spec_leakage: AUD-F-06: leakage checks arrive in Increment 6
+- novelty: AUD-F-07: novelty against retrieved literature arrives in Increment 4
+- rerun: AUD-F-08: re-running experiments is optional, Increment 6
+
+Interpretation statements re-checked: 17 (judged to follow from the claims they name; not checked against quotes).
+
+Sentences re-checked: 87 (59 claim, 28 unrecorded); 21 failed and 21 were flagged. Claims were checked to say no more than their quotes; sentences without a claim were checked to state no fact, or to follow from the claims they rest on.

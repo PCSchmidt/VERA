@@ -48,12 +48,15 @@ def widen(
     read_top: int = PAPER_READ_TOP,
     per_paper: int = PAPER_PASSAGES_PER_PAPER,
     query: str | None = None,
+    added: list[dict] = (),
 ) -> dict:
-    """Write `paper/passages.jsonl` and `paper/reading.json` for a finished review; return the reading summary."""
+    """Write `paper/passages.jsonl` and `paper/reading.json` for a finished review; return the reading summary.
+    `added` are works a targeted search found for the paper (RSH-F-16): read first, so a named work is read in full when
+    it can be."""
     query = query if query is not None else review_query(run_dir)
-    records = {r["key"]: r for r in _jsonl(run_dir / "retrieved.jsonl")}
+    records = {r["key"]: r for r in _jsonl(run_dir / "retrieved.jsonl")} | {r["key"]: r for r in added}
     review = _jsonl(run_dir / "passages.jsonl")
-    kept = [
+    kept = [r["key"] for r in added] + [
         p["key"] for p in json.loads((run_dir / "artifacts" / "reading.json").read_text(encoding="utf-8"))["papers"]
     ]
     passages = list(review)

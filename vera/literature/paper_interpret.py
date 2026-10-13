@@ -20,7 +20,7 @@ import json
 from collections.abc import Callable
 
 from vera.audit import inference
-from vera.literature import paper
+from vera.literature import paper, sentence_checks
 from vera.literature.deps import LitDeps
 from vera.literature.paper_stage import _records, paper_dir, request, write_document
 from vera.literature.stages import _confirmed_question
@@ -130,8 +130,11 @@ def interpret_node(deps: LitDeps) -> Callable[[dict], dict]:
         def ask(q: Question, material: str) -> tuple[Verdict, bool]:
             return ask_gate(deps, "interpret", q, material, None, state)
 
+        source_of = {c.id: c.source_key for c in doc.claims if c.id}
+
         def run_checks(text: str, premises: list[str]) -> str | None:
-            why, vs = inference.check(text, premises, claims, ask)
+            # Increment 7: the Increment 6 rules, "X and colleagues", the agreement rule, the clause-by-clause judge
+            why, vs = sentence_checks.check_statement(text, premises, claims, ask, source_of)
             verdicts.extend(vs)
             return why
 
@@ -164,6 +167,7 @@ def interpret_node(deps: LitDeps) -> Callable[[dict], dict]:
                 SYSTEM, abstract_prompt(question, doc, claims, kept), component=COMPONENT
             ).strip()
             problem = inference.statement_problem(text, list(claims), claims | {i.id: i.text for i in kept})
+            problem = problem or sentence_checks.names_a_source(text)
             if problem or len(text.split()) < MIN_ABSTRACT_WORDS:
                 continue
             q, material = abstract_question(text, claims, kept)

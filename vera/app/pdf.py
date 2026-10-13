@@ -27,10 +27,15 @@ LIGHT_WORDS = {
     "amber": "Amber: no check failed, but there are warnings to read",
     "red": "Red: one or more checks failed",
 }
-PAPER_LIGHT_WORDS = {
+PAPER_LIGHT_WORDS = {  # audits made before the sentence audit (Increment 6 papers)
     "green": "Green: the citations are real, each claim is supported by the passage it quotes, and each interpretation was judged to follow from the claims it names",
     "amber": "Amber: no check failed, but there are warnings to read",
     "red": "Red: one or more checks failed",
+}
+# with the sentence audit (AUD-F-12, Increment 7): what green covers when every sentence was checked
+SENTENCE_LIGHT_WORDS = {
+    False: "Green: the citations are real, each claim is supported by and says no more than the passage it quotes, each synthesis was judged to follow from the claims it names, and the other sentences state no facts",
+    True: "Green: the citations are real, each claim is supported by and says no more than the passage it quotes, each synthesis and interpretation was judged to follow from the claims it names, and the other sentences state no facts",
 }
 KINDS = {"literature": "LITERATURE REVIEW", "review_paper": "REVIEW PAPER"}
 INTERPRETATION = "*Interpretation:"
@@ -206,8 +211,8 @@ def render_pdf(paper: dict, meta: dict, base: Path | None = None) -> bytes:
     pdf.set_text_color(*MUTED)
     facts = [meta.get("date", "")]
     if meta.get("spent_usd") is not None:
-        facts.append(
-            f"model cost ${meta['spent_usd']:.2f}"
+        facts.append(  # which spend it is: the paper's own, or the whole run's (the review and any paper made from it)
+            f"model cost {'of this paper' if is_paper else 'of this run'} ${meta['spent_usd']:.2f}"
             + (f" of a ${meta['cap_usd']:.2f} cap" if meta.get("cap_usd") else "")
         )
     lead = "  ·  ".join(f for f in facts if f) + "  ·  audit: "
@@ -234,14 +239,19 @@ def render_pdf(paper: dict, meta: dict, base: Path | None = None) -> bytes:
     pdf.add_page()
     heading(pdf, "Appendix A. The audit", 2)
     report = paper.get("audit") or {}
-    paragraph(pdf, (PAPER_LIGHT_WORDS if is_paper else LIGHT_WORDS).get(audit, "This document was not audited."))
+    words = (PAPER_LIGHT_WORDS if is_paper else LIGHT_WORDS).get(audit, "This document was not audited.")
+    if audit == "green" and "sentence" in ((paper.get("audit") or {}).get("checks_run") or []):
+        words = SENTENCE_LIGHT_WORDS[is_paper]  # the sentence audit ran: green covers every sentence
+    paragraph(pdf, words)
     if report.get("checks_run"):
         paragraph(
             pdf,
             "Checks run: "
             + ", ".join(report["checks_run"])
             + (
-                ". A green result means the citations are real, each claim is supported by the passage it quotes, and each interpretation statement was judged by a model other than its writer to follow from the claims it names. Interpretation is judged, not checked against quotes. It does not mean the paper is complete or its reading is right."
+                f". A green result means: {SENTENCE_LIGHT_WORDS[is_paper][7:].lower()}. Synthesis and interpretation are judged by a model other than their writer, not checked against quotes. It does not mean the {'paper' if is_paper else 'review'} is complete or its reading is right."
+                if "sentence" in report["checks_run"]
+                else ". A green result means the citations are real, each claim is supported by the passage it quotes, and each interpretation statement was judged by a model other than its writer to follow from the claims it names. Interpretation is judged, not checked against quotes. It does not mean the paper is complete or its reading is right."
                 if is_paper
                 else ". A green result means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete or its conclusions are right."
             ),
@@ -275,7 +285,10 @@ def render_pdf(paper: dict, meta: dict, base: Path | None = None) -> bytes:
             pdf.set_text_color(*MUTED)
             pdf.set_x(MARGIN + 6)
             where = f"  ({c['locator']})" if c.get("locator") else ""
-            pdf.multi_cell(0, 4.6, f"“{c.get('quote', '')}”{where}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+            if c.get("same_quote_as"):  # one quote is one piece of evidence, however many sentences use it
+                pdf.multi_cell(0, 4.6, f"The same quote as {c['same_quote_as']}{where}.", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+            else:
+                pdf.multi_cell(0, 4.6, f"“{c.get('quote', '')}”{where}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             pdf.ln(2)
 
     # Appendix C (a review paper): every interpretation statement, kept or removed, with its premises
@@ -298,5 +311,27 @@ def render_pdf(paper: dict, meta: dict, base: Path | None = None) -> bytes:
             premises = ", ".join(i.get("premises") or []) or "none"
             pdf.multi_cell(0, 5, f"{i['id']}  ({i.get('section', '')}; rests on {premises})  {i.get('text', '')}{tail}",
                            new_x=XPos.LMARGIN, new_y=YPos.NEXT)  # fmt: skip
+            pdf.ln(1.5)
+
+    # Appendix D (Increment 7): every sentence that relates claims without quoting, and every sentence the checks removed
+    sentences = paper.get("sentences") or []
+    synth = [s for s in sentences if s.get("kind") == "synthesis" and s.get("status") == "pass"]
+    removed_s = [s for s in sentences if s.get("status") != "pass"]
+    if synth or removed_s:
+        heading(pdf, f"Appendix {'D' if inferences else 'C'}. Synthesis sentences, and sentences the checks removed", 2)
+        paragraph(
+            pdf,
+            f"{len(synth)} sentences compare or combine claims without quoting a source; each names the claims (Appendix B) it rests on, and a model other than its writer judged that it follows from them. {len(removed_s)} drafted sentences failed their checks and are not in the text; they are listed with the reason.",
+            size=9.5,
+        )
+        for s in [*synth, *removed_s]:
+            if pdf.get_y() > pdf.h - 40:
+                pdf.add_page()
+            kept = s.get("status") == "pass"
+            pdf.set_font("serif", "B" if kept else "", 9.5)
+            pdf.set_text_color(*(INK if kept else MUTED))
+            rests = f"rests on {', '.join(s.get('premises') or [])}" if kept else f"{s.get('kind')}, removed: {s.get('reason') or 'failed'}"
+            where = f"{s.get('section')}; " if s.get("section") else ""
+            pdf.multi_cell(0, 5, f"{s['id']}  ({where}{rests})  {s.get('text', '')}", new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             pdf.ln(1.5)
     return bytes(pdf.output())

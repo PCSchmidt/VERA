@@ -1025,3 +1025,129 @@ gates:
         - gate-traceability.sh
         - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
         - run-evaluator.sh          # independent Evaluator verdict on the review
+
+  # ── Increment 7: check what the green light does not (SPEC.md) ───────────────
+  # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
+  # Defined so far: incr7_scoped, sentence_checks_ready, realcase_labelled, audit_sentences_ready, checks_measured, coverage_search_ready, paper_rerun, rubric7_scored.
+
+  - id: incr7_scoped
+    label: "Increment 7 scope confirmed"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 7 SCOPED"
+    requires:
+      - incr6_review
+    requires_artifacts:
+      - SPEC.md
+      - CONTRACT.md
+      - docs/reviews/incr-6.md
+    hooks:
+      pre:
+        - validate-contract.sh      # Meridian: Purpose + Scope sections present
+        - validate-spec.sh          # Meridian: SPEC.md is structured
+        - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount
+
+  - id: sentence_checks_ready
+    label: "Every sentence has a status: claim, synthesis or transition, each checked; five rules, two judge questions"
+    type: automated
+    required: true
+    requires:
+      - incr7_scoped
+    requires_artifacts:
+      - vera/literature/sentence_checks.py
+      - tests/test_sentence_checks.py
+      - tests/test_sentence_schemas.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-schema-version.sh
+        - gate-sentences7.sh        # rules, questions, shared verify, typed prompts, RSH-F-15 tests, both freezes hold
+
+  - id: realcase_labelled
+    label: "Real-case test split labelled (SPEC: by Chris; in fact by ChatGPT at his request, kept by his decision 2026-10-13)"
+    type: human_approval
+    required: true
+    approval_token: "REAL CASES LABELLED"
+    requires:
+      - incr7_scoped
+    requires_artifacts:
+      - data/realcase/items.jsonl
+      - data/realcase/test_sheet.md
+      - data/realcase/labels_test.json
+    hooks:
+      pre:
+        - gate-realcase7.sh         # counts, every test item labelled, by Chris, after the set was built, from the sheet as built
+
+  - id: audit_sentences_ready
+    label: "The audit lists every sentence (reviews and papers, old and new); reader and PDF say what green covers"
+    type: automated
+    required: true
+    requires:
+      - sentence_checks_ready
+    requires_artifacts:
+      - vera/audit/sentences.py
+      - tests/test_sentence_audit.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-app-secrets.sh
+        - gate-audit7.sh            # both audits run it, reader and PDF wording, AUD-F-12 tests, screenshots, both freezes hold
+
+  - id: checks_measured
+    label: "Old and new checks measured once on the frozen real-case test split, with intervals"
+    type: automated
+    required: true
+    requires:
+      - sentence_checks_ready
+      - realcase_labelled
+    requires_artifacts:
+      - data/results/realcase_hash_incr7.json
+      - data/results/realcase_incr7_test.json
+      - scripts/measure_realcase.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-measured7.sh         # freeze before the one test run and still holding; old and new with intervals; spend within $1
+
+  - id: coverage_search_ready
+    label: "A targeted search for works the paper names (at most 3), stated in the threats section"
+    type: automated
+    required: true
+    requires:
+      - incr7_scoped
+    requires_artifacts:
+      - vera/literature/coverage.py
+      - tests/test_coverage.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-coverage7.sh         # limit 3, before widening, found works read, threats note, RSH-F-16 tests, both freezes hold
+
+  - id: paper_rerun
+    label: "Increment 6 papers re-audited; P2's paper made again and a new paper made, each with the Increment 7 checks"
+    type: human_approval
+    required: true
+    approval_token: "PAPERS REMADE"
+    requires:
+      - audit_sentences_ready
+      - checks_measured
+      - coverage_search_ready
+    requires_artifacts:
+      - data/paper_rerun/record.json
+    hooks:
+      pre:
+        - gate-paper-rerun.sh       # three re-audits with the sentence check; remade P2 and a new paper, within caps, with notes
+
+  - id: rubric7_scored
+    label: "The two new papers scored blind by the first scorer, then by the independent scorer with defects by id"
+    type: human_approval
+    required: true
+    approval_token: "RUBRIC 7 SCORED"
+    requires:
+      - paper_rerun
+    requires_artifacts:
+      - data/results/rubric7_first.json
+      - data/results/rubric7_evaluator.json
+    hooks:
+      pre:
+        - gate-rubric7.sh           # first scorer blind and before; attribution when not Chris; defects listed by id; not a copy

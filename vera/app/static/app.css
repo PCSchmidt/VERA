@@ -233,3 +233,6 @@ button.premise:focus-visible { outline: 2px solid var(--focus); outline-offset: 
 .tabs a { padding: 0.35rem 0; text-decoration: none; color: var(--muted); font-family: var(--sans); font-size: 0.92rem; }
 .tabs a[aria-current="page"] { color: var(--ink); border-bottom: 2px solid var(--accent); }
 .muted { color: var(--muted); }
+
+/* Increment 7: a synthesis sentence relates the claims it names, judged to follow from them (not quote-checked) */
+.paper .synth { border-left: 2px solid var(--rule, #bebab1); padding-left: 0.3em; background: var(--accent-soft); }

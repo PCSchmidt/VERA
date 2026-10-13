@@ -8,7 +8,7 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, field_validator, model_validator
 
 from vera.schemas.judge import Verdict
-from vera.schemas.literature import ClaimLink, RetrievalStats, SourceRecord
+from vera.schemas.literature import ClaimLink, RetrievalStats, SentenceRecord, SourceRecord, check_sentences
 
 SectionKind = Literal["summary", "record", "evidence", "interpretation"]
 SOURCE_MARKER = re.compile(r"\[R\d+\]")
@@ -79,6 +79,7 @@ class PaperDocument(BaseModel):
     sources: list[SourceRecord]
     retrieval_stats: RetrievalStats | None = None
     evidence_stats: dict[str, int] = {}
+    sentences: list[SentenceRecord] = []  # 0.13: every sentence of the evidence sections; [] for papers made before
 
     @model_validator(mode="after")
     def _checks(self) -> PaperDocument:
@@ -108,4 +109,9 @@ class PaperDocument(BaseModel):
                 raise ValueError(f"inference {inf.id} rests on claims that do not exist: {missing}")
             if inf.section not in interpretation:
                 raise ValueError(f"inference {inf.id} is not in an interpretation section")
+        check_sentences(self.sentences, known)
+        evidence = {s.heading for s in self.sections if s.kind == "evidence"}
+        stray = sorted({s.section for s in self.sentences if s.status == "pass"} - evidence)
+        if stray:
+            raise ValueError(f"sentences are recorded for sections that are not evidence sections: {stray}")
         return self

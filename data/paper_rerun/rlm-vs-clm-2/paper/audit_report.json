@@ -1,0 +1,125 @@
+{
+ "paper_id": "rlm-vs-clm-2 (paper)",
+ "paper_source": "paper/paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I2"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I2",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I2 (Discussion): does not follow from its premises: 'The motivation is consistent across sources: serving is shifting toward long-context applications, prefill cost grows rapidly with input len'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001497402,
+     "latency_ms": 7227,
+     "trace_id": "a7dbc53fdc72432998f7b8d8af3f6f2f",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I2 (Discussion): does not follow from its premises: 'The motivation is consistent across sources: serving is shifting toward long-context applications, prefill cost grows rapidly with input len'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C3"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S4",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S4 (Introduction, claim): C3 says more than its quote: \"R7 adds that a transformer's KV representation of a token is a function of its entire prefix, so exact reuse is confined to contexts that sh\""
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.28,
+      "false": 0.72
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8186e-05,
+     "latency_ms": 130,
+     "trace_id": "0746dd14e6c34fc3a3c5c09432edd097",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S4 (Introduction, claim): C3 says more than its quote: \"R7 adds that a transformer's KV representation of a token is a function of its entire prefix, so exact reuse is confined to contexts that sh\""
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C51"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S76",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S76 (Unestablished questions and the scope of a CPU-scale companion experiment, claim): C51 says more than its quote: 'The Prompt Cache authors report TTFT reductions of 20× to 70× for CPU inference on LongBench.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.98602e-05,
+     "latency_ms": 3432,
+     "trace_id": "56632c114452451296c7a665b417e33f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S76 (Unestablished questions and the scope of a CPU-scale companion experiment, claim): C51 says more than its quote: 'The Prompt Cache authors report TTFT reductions of 20× to 70× for CPU inference on LongBench.'"
+  }
+ ],
+ "overall": "red",
+ "checks_run": [
+  "citation",
+  "claim_support",
+  "inference",
+  "sentence"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.0009716219999999999,
+ "wall_seconds": 131,
+ "schema_version": "0.13"
+}

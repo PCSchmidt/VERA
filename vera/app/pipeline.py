@@ -16,11 +16,12 @@ from typing import Any
 
 from vera import audit
 from vera.app.appbudget import STOP_FILE, AppBudget
+from vera.audit import sentences
 from vera.backends.generator import OpenRouterGenerator
 from vera.graph import run_config
 from vera.judge.cheap_path import cheap_path
 from vera.ledger import Ledger
-from vera.literature import scoping
+from vera.literature import coverage, scoping
 from vera.literature.deps import LitDeps
 from vera.literature.graph import STAGE_NODES, _graph, continue_topic_run, extend_run, rerun_from, start_topic_run
 from vera.literature.paper_interpret import INTERPRET_NODES
@@ -158,17 +159,39 @@ def run_audit(deps: LitDeps, judge: Any = None) -> str:
         verdict = verdict.model_copy(update={"producer_id": "p3.synthesize"})
         return verdict, verdict.confidence_source != "none" and verdict.confidence >= MIN_CONFIDENCE
 
+    markdown = (run_dir / "literature.md").read_text(encoding="utf-8")
+    claims = _jsonl(run_dir / "claims.jsonl")
     run = audit.run_literature_audit(
-        (run_dir / "literature.md").read_text(encoding="utf-8"), _jsonl(run_dir / "claims.jsonl"),
-        _jsonl(run_dir / "passages.jsonl"), _jsonl(run_dir / "retrieved.jsonl"), ask=ask, paper_id=deps.spec.run_id,
-        paper_source="literature.md",
+        markdown, claims, _jsonl(run_dir / "passages.jsonl"), _jsonl(run_dir / "retrieved.jsonl"), ask=ask,
+        paper_id=deps.spec.run_id, paper_source="literature.md",
     )  # fmt: skip
+    records = {r["key"]: r for r in _jsonl(run_dir / "retrieved.jsonl")}
+    ids = [c.get("id") or f"C{n}" for n, c in enumerate(claims, start=1)]  # reviews before 0.13 have no claim ids
+    by_id = {i: c | {"title": records.get(c["source_key"], {}).get("title")} for i, c in zip(ids, claims, strict=True)}
+    stored = run_dir / "sentences.jsonl"
+    if stored.exists():
+        entries = sentences.from_records(_jsonl(stored))
+    else:
+        body = markdown.partition("## Literature review")[2].split("\n## ")[0]
+        entries = sentences.from_text([("", body)], ids)
+    run, counts = _with_sentences(run, entries, by_id, ask, "sentences.jsonl" if stored.exists() else "literature.md")
     (run_dir / "artifacts").mkdir(parents=True, exist_ok=True)
     (run_dir / "artifacts" / "audit_report.json").write_text(
         json.dumps(run.report.model_dump(mode="json"), indent=1, ensure_ascii=False), encoding="utf-8"
     )
-    (run_dir / "audit.md").write_text(audit.render_markdown(run), encoding="utf-8")
+    (run_dir / "audit.md").write_text(audit.render_markdown(run) + sentences.note(counts), encoding="utf-8")
     return run.report.overall
+
+
+def _with_sentences(run: Any, entries: list[dict], claims: dict, ask: Any, reference: str) -> tuple[Any, dict]:
+    """The audit run with the sentence audit's findings added (AUD-F-12) and its light recomputed."""
+    from vera.audit import overall_of  # noqa: PLC0415
+
+    extra, counts = sentences.audit(entries, claims, ask, reference)
+    findings = [*run.report.findings, *extra]
+    report = run.report.model_copy(update={"findings": findings, "overall": overall_of(findings),
+                                           "checks_run": [*run.report.checks_run, "sentence"]})  # fmt: skip
+    return audit.AuditRun(report, run.claims), counts
 
 
 def run_paper_audit(deps: LitDeps, judge: Any = None) -> str:
@@ -176,7 +199,7 @@ def run_paper_audit(deps: LitDeps, judge: Any = None) -> str:
     every kept interpretation statement re-checked (`vera.audit.inference`). Writes `paper/audit.md` and
     `paper/audit_report.json`; returns the light. The evidence sections' producer is `p3.paper.write` and the
     interpretation's `p3.paper.interpret`; neither judges its own text. Charged to the run's own budget."""
-    from vera.audit import inference, overall_of  # noqa: PLC0415 - only papers need these
+    from vera.audit import overall_of  # noqa: PLC0415 - only papers need these
 
     run_dir, out = deps.run_dir, deps.run_dir / "paper"
     judge = judge or cheap_path(ledger=deps.ledger, budget=deps.budget)
@@ -191,17 +214,26 @@ def run_paper_audit(deps: LitDeps, judge: Any = None) -> str:
 
     run = audit.run_literature_audit(
         (out / "paper.md").read_text(encoding="utf-8"), _jsonl(out / "claims.jsonl"), _jsonl(out / "passages.jsonl"),
-        _jsonl(run_dir / "retrieved.jsonl"), ask=asker("p3.paper.write"), paper_id=f"{deps.spec.run_id} (paper)",
+        coverage.records(run_dir), ask=asker("p3.paper.write"), paper_id=f"{deps.spec.run_id} (paper)",
         paper_source="paper/paper.md",
     )  # fmt: skip
     doc = json.loads((out / "paper.json").read_text(encoding="utf-8"))
-    records = {r["key"]: r for r in _jsonl(run_dir / "retrieved.jsonl")}
+    records = {r["key"]: r for r in coverage.records(run_dir)}  # the review's, and any the targeted search added
     claims = {c["id"]: f"{c['claim']} (source: {records[c['source_key']]['title']})" for c in doc["claims"]}
-    extra = inference.audit(doc["inferences"], claims, asker("p3.paper.interpret"))
+    source_of = {c["id"]: c["source_key"] for c in doc["claims"]}
+    extra = sentences.audit_inferences(doc["inferences"], claims, source_of, asker("p3.paper.interpret"))
     findings = [*run.report.findings, *extra]
     report = run.report.model_copy(update={"findings": findings, "overall": overall_of(findings),
                                            "checks_run": [*run.report.checks_run, "inference"]})  # fmt: skip
     run = audit.AuditRun(report, run.claims)
+    by_id = {c["id"]: c | {"title": records.get(c["source_key"], {}).get("title")} for c in doc["claims"]}
+    if doc.get("sentences"):
+        entries = sentences.from_records(doc["sentences"])
+    else:  # a paper made before 0.13
+        evidence = [(s["heading"], s["text"]) for s in doc["sections"] if s["kind"] == "evidence"]
+        entries = sentences.from_text(evidence, [c["id"] for c in doc["claims"]])
+    run, counts = _with_sentences(run, entries, by_id, asker("p3.paper.write"), "paper/paper.json")
+    report = run.report
     (out / "audit_report.json").write_text(
         json.dumps(report.model_dump(mode="json"), indent=1, ensure_ascii=False), encoding="utf-8"
     )
@@ -210,7 +242,7 @@ def run_paper_audit(deps: LitDeps, judge: Any = None) -> str:
         f"\nInterpretation statements re-checked: {n_kept} (judged to follow from the claims they name; "
         "not checked against quotes).\n"
     )
-    (out / "audit.md").write_text(audit.render_markdown(run) + note, encoding="utf-8")
+    (out / "audit.md").write_text(audit.render_markdown(run) + note + sentences.note(counts), encoding="utf-8")
     return report.overall
 
 

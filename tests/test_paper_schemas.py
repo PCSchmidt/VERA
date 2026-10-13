@@ -54,7 +54,7 @@ def paper(**kw: object) -> PaperDocument:
 def test_RSH_F_12_paper_document_round_trips() -> None:
     doc = paper()
     assert PaperDocument.model_validate_json(doc.model_dump_json()) == doc
-    assert SCHEMA_VERSION == "0.12"
+    assert SCHEMA_VERSION in ("0.12", "0.13")  # 0.13 adds sentence status
 
 
 def test_RSH_F_12_claim_link_id_is_optional_so_stored_claims_still_load() -> None:

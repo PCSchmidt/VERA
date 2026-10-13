@@ -1,0 +1,838 @@
+{
+ "split": "dev",
+ "run_at": "2026-10-13T16:42:10+00:00",
+ "summary": {
+  "claim": {
+   "n": 20,
+   "labels": {
+    "M": 3,
+    "W": 14,
+    "X": 3
+   },
+   "old_faulty_flagged": {
+    "k": 0,
+    "n": 6,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.39
+    ]
+   },
+   "old_sound_flagged": {
+    "k": 0,
+    "n": 14,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.215
+    ]
+   },
+   "new_faulty_flagged": {
+    "k": 5,
+    "n": 6,
+    "rate": 0.833,
+    "ci95": [
+     0.436,
+     0.97
+    ]
+   },
+   "new_sound_flagged": {
+    "k": 4,
+    "n": 14,
+    "rate": 0.286,
+    "ci95": [
+     0.117,
+     0.546
+    ]
+   }
+  },
+  "sentence": {
+   "n": 15,
+   "labels": {
+    "D": 6,
+    "F": 8,
+    "N": 1
+   },
+   "old_faulty_flagged": {
+    "k": 0,
+    "n": 6,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.39
+    ]
+   },
+   "old_sound_flagged": {
+    "k": 0,
+    "n": 9,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.299
+    ]
+   },
+   "new_faulty_flagged": {
+    "k": 5,
+    "n": 6,
+    "rate": 0.833,
+    "ci95": [
+     0.436,
+     0.97
+    ]
+   },
+   "new_sound_flagged": {
+    "k": 4,
+    "n": 9,
+    "rate": 0.444,
+    "ci95": [
+     0.189,
+     0.733
+    ]
+   },
+   "new_warn": 5
+  },
+  "inference": {
+   "n": 15,
+   "labels": {
+    "F": 9,
+    "O": 6
+   },
+   "old_faulty_flagged": {
+    "k": 0,
+    "n": 6,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.39
+    ]
+   },
+   "old_sound_flagged": {
+    "k": 0,
+    "n": 9,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.299
+    ]
+   },
+   "new_faulty_flagged": {
+    "k": 1,
+    "n": 6,
+    "rate": 0.167,
+    "ci95": [
+     0.03,
+     0.564
+    ]
+   },
+   "new_sound_flagged": {
+    "k": 0,
+    "n": 9,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.299
+    ]
+   }
+  }
+ },
+ "spend_usd": 0.0028008544,
+ "ledger": "data/ledger/realcase_incr7_dev.jsonl",
+ "labelled_by": "Claude Code (Claude Opus 5.5, the checks' author)",
+ "test_sha256": "b5aeacee4f1e2dd8d1d3efddd20f28eed62e88907ae71383759be7b45398723d",
+ "check_sha256": {
+  "vera/literature/sentence_checks.py": "b1a64cc4ec3305fedc6493cddc30260df811da3546e8a26bf8d0d86304526ef7",
+  "vera/audit/sentences.py": "e69ca8307835a28dea6c86dda1f797356011d24e290d7cd805ce92e8052c3751",
+  "vera/audit/inference.py": "90aac0aba185ad6c9ae47946975badfe1bfdc5dccfcd4b81cddb3650ebc75c06",
+  "vera/literature/anchoring.py": "7cf3fe5bdf43989c5d8d5f20cf1c6fc2f5e3671550ab09a0f745317146f1a6f4",
+  "vera/literature/synthesis.py": "104981efce2ec88839753b027474c509bfca2ed4771ea6ec74bcf53e9a083f8b",
+  "vera/literature/questions.py": "dff49a8806e5a876d7d94f8920c95c96f3e58d3828773f41524757e65e47145e",
+  "scripts/measure_realcase.py": "8390760a98783376528efac65548b7edff708e8ab491951f510ed99375355da0"
+ },
+ "rows": [
+  {
+   "sheet_id": "D01",
+   "item": "P1-C14",
+   "type": "claim",
+   "named": true,
+   "label": "M",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "98888e91f4bc3c34"
+  },
+  {
+   "sheet_id": "D02",
+   "item": "P1-C28",
+   "type": "claim",
+   "named": true,
+   "label": "M",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "21c63652fb26eda8"
+  },
+  {
+   "sheet_id": "D03",
+   "item": "P1-C41",
+   "type": "claim",
+   "named": true,
+   "label": "X",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "quote opens with a back-reference",
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "d093a1c12d159bd9"
+  },
+  {
+   "sheet_id": "D04",
+   "item": "P1-C46",
+   "type": "claim",
+   "named": true,
+   "label": "M",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "e277a061158b9788"
+  },
+  {
+   "sheet_id": "D05",
+   "item": "P1-C53",
+   "type": "claim",
+   "named": true,
+   "label": "X",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "quote opens with a back-reference",
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "8315bb7a6fe571c9"
+  },
+  {
+   "sheet_id": "D06",
+   "item": "P1-C43",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "15c8ec7d5822e64e"
+  },
+  {
+   "sheet_id": "D07",
+   "item": "P1-C32",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "060cd6cfd3aad105"
+  },
+  {
+   "sheet_id": "D08",
+   "item": "P1-C13",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "4085f619b6af4547"
+  },
+  {
+   "sheet_id": "D09",
+   "item": "P1-C39",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "c972dab35d0a92ca"
+  },
+  {
+   "sheet_id": "D10",
+   "item": "P1-C50",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "14ae725ce32850dd"
+  },
+  {
+   "sheet_id": "D11",
+   "item": "P1-C22",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "ad092fdf398ee1c6"
+  },
+  {
+   "sheet_id": "D12",
+   "item": "P1-C33",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "00d8d21f11a9814b"
+  },
+  {
+   "sheet_id": "D13",
+   "item": "P1-C7",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "quote opens with a back-reference"
+   ],
+   "passage_sha256": "60b1a9b60537be76"
+  },
+  {
+   "sheet_id": "D14",
+   "item": "P1-C29",
+   "type": "claim",
+   "named": false,
+   "label": "X",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "quote opens with a back-reference"
+   ],
+   "passage_sha256": "282bcccc6430c7a3"
+  },
+  {
+   "sheet_id": "D15",
+   "item": "P1-C55",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "dc651ac83a5cd1be"
+  },
+  {
+   "sheet_id": "D16",
+   "item": "P1-C44",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "1c365534be9c4a75"
+  },
+  {
+   "sheet_id": "D17",
+   "item": "P1-C42",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "15db007a27cad562"
+  },
+  {
+   "sheet_id": "D18",
+   "item": "P1-C4",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "a0332cfb0909325d"
+  },
+  {
+   "sheet_id": "D19",
+   "item": "P1-C17",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "c930562d9694d5c9"
+  },
+  {
+   "sheet_id": "D20",
+   "item": "P1-C5",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "91bb46b9bb3acd05"
+  },
+  {
+   "sheet_id": "D21",
+   "item": "P1-S7",
+   "type": "sentence",
+   "named": true,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "D22",
+   "item": "P1-S16",
+   "type": "sentence",
+   "named": true,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (states 42, which none of its premises states)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "D23",
+   "item": "P1-S21",
+   "type": "sentence",
+   "named": true,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "D24",
+   "item": "P1-S23",
+   "type": "sentence",
+   "named": true,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "D25",
+   "item": "P1-S1",
+   "type": "sentence",
+   "named": false,
+   "label": "N",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "new_severity": null
+  },
+  {
+   "sheet_id": "D26",
+   "item": "P1-S9",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "absence: 'None of the supplied passages' belongs in the record sections, not the evidence"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "D27",
+   "item": "P1-S28",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (names SWE-bench-style, which none of its premises names)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "D28",
+   "item": "P1-S31",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "D29",
+   "item": "P1-S22",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "D30",
+   "item": "P1-S20",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "D31",
+   "item": "P1-S4",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (judge_unsure)"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "D32",
+   "item": "P1-S32",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (names AI-assisted, LLMoxie, which none of its premises names)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "D33",
+   "item": "P1-S24",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "D34",
+   "item": "P1-S5",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "D35",
+   "item": "P1-S8",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "D36",
+   "item": "P1-I1",
+   "type": "inference",
+   "named": true,
+   "label": "O",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "speaks of several sources ('agree') but its premises come from 1 source"
+   ]
+  },
+  {
+   "sheet_id": "D37",
+   "item": "P1-I3",
+   "type": "inference",
+   "named": true,
+   "label": "O",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D38",
+   "item": "P1-I8",
+   "type": "inference",
+   "named": true,
+   "label": "O",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D39",
+   "item": "P1-I11",
+   "type": "inference",
+   "named": true,
+   "label": "O",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D40",
+   "item": "P1-I15",
+   "type": "inference",
+   "named": true,
+   "label": "O",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D41",
+   "item": "P1-I12",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D42",
+   "item": "P1-I17",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D43",
+   "item": "P1-I5",
+   "type": "inference",
+   "named": false,
+   "label": "O",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D44",
+   "item": "P1-I2",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D45",
+   "item": "P1-I14",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D46",
+   "item": "P1-I9",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D47",
+   "item": "P1-I10",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D48",
+   "item": "P1-I4",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D49",
+   "item": "P1-I7",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "D50",
+   "item": "P1-I16",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  }
+ ]
+}

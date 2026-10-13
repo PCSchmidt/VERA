@@ -1,0 +1,4868 @@
+{
+ "stats": {
+  "drafted": 58,
+  "failed_first": 14,
+  "repaired": 7,
+  "removed": 7,
+  "synthesis_drafted": 4,
+  "synthesis_removed": 1,
+  "transition_drafted": 16,
+  "transition_removed": 5,
+  "loose_repaired": 10,
+  "stray_attributions_removed": 0,
+  "absence_removed": 1,
+  "quotes_widened": 7,
+  "n_claims": 51,
+  "n_sources_cited": 20,
+  "themes_with_claims": 5,
+  "distinct_quotes": 45
+ },
+ "sections": [
+  {
+   "heading": "Introduction",
+   "text": "The survey of prompt engineering by R1 describes it as a technique that uses task-specific instructions to enhance model efficacy without modifying core model parameters [R1]. The abstract of R11 states that prompts are also a form of programming that can customize the outputs and interactions with an LLM [R11]. The authors of R2 report that prompt engineering is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical framework [R2]. The same survey frames its analysis around a shift from input-level linguistic control to system-level contextual orchestration [R2]. R1 describes retrieval-augmented generation as emerging as a novel solution that seamlessly weaves information retrieval into the prompting process [R1]. The Agentic RAG survey R17 states that agents leverage reflection, planning, tool use, and multi-agent collaboration to manage retrieval strategies [R17]. The authors of R24 implement memory not as a vector database, but as a persistent file system accessible via tool calls [R24]. The study R18 notes that agents on long-running tasks inevitably exceed their usable context window, forcing a choice about what history to discard [R18]. The paper R20 describes context rot as the progressive and nonlinear degradation of agent reasoning quality and tool calling reliability as the context window fills [R20]. The discussion now moves to the execution layer around the model, which is often called the harness. The authors of R6 state that changing the execution system around a fixed model can alter performance and even reverse model rankings [R6]. The authors of R26 define scaling the harness as treating the structured execution layer around a foundation model as a first-class object of design, evaluation, and optimization [R26]. The survey R8 takes the agent loop, rather than the model in isolation, as its unit of analysis [R8]. Sources describe prompts as task-specific instructions that steer a model without changing its parameters and as a form of programming that customizes LLM outputs, while another survey frames its analysis around a shift from input-level linguistic control to system-level contextual orchestration, and another treats the execution system around a model as a factor that can change performance.",
+   "claims": [
+    {
+     "claim": "The survey of prompt engineering by R1 describes it as a technique that uses task-specific instructions to enhance model efficacy without modifying core model parameters.",
+     "source_key": "R1",
+     "passage_id": "R1-A",
+     "quote": "Prompt engineering has emerged as an indispensable technique for extending the capabilities of large language models (LLMs) and vision-language models (VLMs). This approach leverages task-specific instructions, known as prompts, to enhance model efficacy without modifying the core model parameters.",
+     "locator": "abstract",
+     "id": "C1"
+    },
+    {
+     "claim": "The abstract of R11 states that prompts are also a form of programming that can customize the outputs and interactions with an LLM.",
+     "source_key": "R11",
+     "passage_id": "R11-A",
+     "quote": "Prompts are also a form of programming that can customize the outputs and interactions with an LLM.",
+     "locator": "abstract",
+     "id": "C2"
+    },
+    {
+     "claim": "The authors of R2 report that prompt engineering is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical framework.",
+     "source_key": "R2",
+     "passage_id": "R2-A",
+     "quote": "Despite the critical role of prompt engineering, it is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical framework, leading to challenges such as output inconsistency, prompt sensitivity, and hallucinations.",
+     "locator": "abstract",
+     "id": "C3"
+    },
+    {
+     "claim": "The same survey frames its analysis around a shift from input-level linguistic control to system-level contextual orchestration.",
+     "source_key": "R2",
+     "passage_id": "R2-A",
+     "quote": "By analyzing the shift from input-level linguistic control to system-level contextual orchestration, we identify persistent limitations, such as context dilution and computational overhead.",
+     "locator": "abstract",
+     "id": "C4"
+    },
+    {
+     "claim": "R1 describes retrieval-augmented generation as emerging as a novel solution that seamlessly weaves information retrieval into the prompting process.",
+     "source_key": "R1",
+     "passage_id": "R1-P30",
+     "quote": "Retrieval Augmented Generation (RAG) [Lewis et al., 2020] emerges as a novel solution, seamlessly weaving information retrieval into the prompting process.",
+     "locator": "sec. Reduce Hallucination, para 28",
+     "id": "C5"
+    },
+    {
+     "claim": "The Agentic RAG survey R17 states that agents leverage reflection, planning, tool use, and multi-agent collaboration to manage retrieval strategies.",
+     "source_key": "R17",
+     "passage_id": "R17-A",
+     "quote": "Agentic Retrieval-Augmented Generation (Agentic RAG) transcends these limitations by embedding autonomous AI agents into the RAG pipeline. These agents leverage agentic design patterns reflection, planning, tool use, and multi-agent collaboration to dynamically manage retrieval strategies, iteratively refine contextual understanding, and adapt workflows through operational structures ranging from sequential steps to adaptive collaboration.",
+     "locator": "abstract",
+     "id": "C6"
+    },
+    {
+     "claim": "The authors of R24 implement memory not as a vector database, but as a persistent file system accessible via tool calls.",
+     "source_key": "R24",
+     "passage_id": "R24-P7",
+     "quote": "we implement M not as a vector database, but as a persistent file system accessible via tool calls.",
+     "locator": "sec. THE MEMORY-AS-A-TOOL PROTOCOL, para 9",
+     "id": "C7"
+    },
+    {
+     "claim": "The study R18 notes that agents on long-running tasks inevitably exceed their usable context window, forcing a choice about what history to discard.",
+     "source_key": "R18",
+     "passage_id": "R18-A",
+     "quote": "Large language model (LLM) agents operating on long-running tasks inevitably exceed their usable context window, forcing a choice about what history to discard.",
+     "locator": "abstract",
+     "id": "C8"
+    },
+    {
+     "claim": "The paper R20 describes context rot as the progressive and nonlinear degradation of agent reasoning quality and tool calling reliability as the context window fills.",
+     "source_key": "R20",
+     "passage_id": "R20-A",
+     "quote": "a phenomenon now termed context rot has emerged: the progressive and nonlinear degradation of agent reasoning quality and tool calling reliability as the context window fills during extended coding sessions.",
+     "locator": "abstract",
+     "id": "C9"
+    },
+    {
+     "claim": "The authors of R6 state that changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+     "source_key": "R6",
+     "passage_id": "R6-A",
+     "quote": "recent results highlight the importance of the agent harness: changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+     "locator": "abstract",
+     "id": "C10"
+    },
+    {
+     "claim": "The authors of R26 define scaling the harness as treating the structured execution layer around a foundation model as a first-class object of design, evaluation, and optimization.",
+     "source_key": "R26",
+     "passage_id": "R26-A",
+     "quote": "We refer to this shift as scaling the harness: treating the structured execution layer around a foundation model as a first-class object of design, evaluation, and optimization.",
+     "locator": "abstract",
+     "id": "C11"
+    },
+    {
+     "claim": "The survey R8 takes the agent loop, rather than the model in isolation, as its unit of analysis.",
+     "source_key": "R8",
+     "passage_id": "R8-A",
+     "quote": "Every LLM agent, beneath its framework and its prompts, runs a loop: it observes, decides, acts, and observes again until it stops. This survey takes that agent loop, not the model in isolation, as its unit of analysis, on the argument that the properties practitioners actually care about, cost, reliability, and safety, are decided by the loop rather than by the model alone.",
+     "locator": "abstract",
+     "id": "C12"
+    }
+   ]
+  },
+  {
+   "heading": "Prompt engineering: definitions, scope, and terminological fragmentation",
+   "text": "",
+   "claims": []
+  },
+  {
+   "heading": "Context engineering: moving from prompt text to system-level context",
+   "text": "The next question is how the move from crafting prompt text to managing the information a model receives has been described. A survey of prompt and context engineering analyses the shift from input-level linguistic control to system-level contextual orchestration and names context dilution and computational overhead as persistent limitations [R2]. The ACE paper describes LLM applications as increasingly relying on context adaptation, meaning the modification of inputs with instructions, strategies, or evidence rather than weight updates [R94]. The ACE authors report that it optimizes contexts both offline (e.g., system prompts) and online (e.g., agent memory), outperforming strong baselines by +10.6% on agents and +8.6% on finance [R94].\n\nOne survey describes a shift from input-level linguistic control to system-level contextual orchestration, and another source distinguishes prompt engineering as changing instructions from context engineering as changing what evidence is presented to the model. Together they frame context engineering as a move beyond the wording of prompts toward the information a model receives. The Code as Agent Harness survey distinguishes prompt engineering as changing instructions and context engineering as changing what evidence is presented to the model, while Agentic Harness Engineering treats the operating environment itself as the object of analysis [R49]. The scaling-the-harness paper lists a context constructor as one of six interacting components alongside a memory store, skill routing, an orchestration loop, and a governance layer [R26].\n\nThe following discussion turns to how context engineering relates to the larger harness in which it may be situated. One study states that context rot manifests well before nominal token limits are reached, as tool schema definitions consume a disproportionate share of the context budget and model attention weakens for information deep within growing prompts [R20]. Another reports that, in calibrated simulation over the Agentic Context Benchmark (ACB-2026), Skills Architecture reduced normalized context entropy by 42% relative to baseline MCP [R98].",
+   "claims": [
+    {
+     "claim": "A survey of prompt and context engineering analyses the shift from input-level linguistic control to system-level contextual orchestration and names context dilution and computational overhead as persistent limitations.",
+     "source_key": "R2",
+     "passage_id": "R2-A",
+     "quote": "By analyzing the shift from input-level linguistic control to system-level contextual orchestration, we identify persistent limitations, such as context dilution and computational overhead.",
+     "locator": "abstract",
+     "id": "C13"
+    },
+    {
+     "claim": "The ACE paper describes LLM applications as increasingly relying on context adaptation, meaning the modification of inputs with instructions, strategies, or evidence rather than weight updates.",
+     "source_key": "R94",
+     "passage_id": "R94-A",
+     "quote": "Large language model (LLM) applications such as agents and domain-specific reasoning increasingly rely on context adaptation: modifying inputs with instructions, strategies, or evidence, rather than weight updates.",
+     "locator": "abstract",
+     "id": "C14"
+    },
+    {
+     "claim": "The ACE authors report that it optimizes contexts both offline (e.g., system prompts) and online (e.g., agent memory), outperforming strong baselines by +10.6% on agents and +8.6% on finance.",
+     "source_key": "R94",
+     "passage_id": "R94-A",
+     "quote": "Across agent and domain-specific benchmarks, ACE optimizes contexts both offline (e.g., system prompts) and online (e.g., agent memory), consistently outperforming strong baselines: +10.6% on agents and +8.6% on finance, while significantly reducing adaptation latency and rollout cost.",
+     "locator": "abstract",
+     "id": "C15"
+    },
+    {
+     "claim": "The Code as Agent Harness survey distinguishes prompt engineering as changing instructions and context engineering as changing what evidence is presented to the model, while Agentic Harness Engineering treats the operating environment itself as the object of analysis.",
+     "source_key": "R49",
+     "passage_id": "R49-P103",
+     "quote": "Whereas prompt engineering changes instructions and context engineering changes what evidence is presented to the model, AHE treats the operating environment itself as the object of analysis, including tool schemas, planning artifacts, memory policies, retrieval strategies, sandbox configuration, verification sensors, permission tiers, routing rules, multiagent workflows, and human-review gates [281,178].",
+     "locator": "sec. Agentic Harness Engineering for Adaptive Harness Optimization, para 96",
+     "id": "C16"
+    },
+    {
+     "claim": "The scaling-the-harness paper lists a context constructor as one of six interacting components alongside a memory store, skill routing, an orchestration loop, and a governance layer.",
+     "source_key": "R26",
+     "passage_id": "R26-P13",
+     "quote": "Under this view, an agent is not simply a model with a prompt, but a system composed of six interacting components: a reasoning substrate (R), a memory store (M), a context constructor (C), a skill-routing layer (S, which dispatches tools and subagents), an orchestration loop (O), and a verification and governance layer (G).",
+     "locator": "sec. Related Work, para 14",
+     "id": "C17"
+    },
+    {
+     "claim": "One study states that context rot manifests well before nominal token limits are reached, as tool schema definitions consume a disproportionate share of the context budget and model attention weakens for information deep within growing prompts.",
+     "source_key": "R20",
+     "passage_id": "R20-A",
+     "quote": "Context rot manifests well before nominal token limits are reached, as tool schema definitions consume a disproportionate share of the available context budget and model attention weakens for information positioned deep within growing prompts.",
+     "locator": "abstract",
+     "id": "C18"
+    },
+    {
+     "claim": "Another reports that, in calibrated simulation over the Agentic Context Benchmark (ACB-2026), Skills Architecture reduced normalized context entropy by 42% relative to baseline MCP.",
+     "source_key": "R98",
+     "passage_id": "R98-A",
+     "quote": "In controlled experiments using calibrated simulation over the Agentic Context Benchmark (ACB-2026), Skills Architecture reduces normalized context entropy by 42% (95% CI: [37%, 46%]) relative to baseline MCP",
+     "locator": "abstract",
+     "id": "C19"
+    }
+   ]
+  },
+  {
+   "heading": "Harness engineering: the structure around a fixed model",
+   "text": "The harness survey R29 describes the agent harness as the external execution support structure built around the model and treats it as a distinct performance lever [R29]. The scaling-the-harness paper names six interacting components: a reasoning substrate, a memory store, a context constructor, a skill-routing layer, an orchestration loop, and a verification and governance layer [R26]. The externalization review assigns roles differently: memory externalizes state across time, skills externalize procedural expertise, protocols externalize interaction structure, and the harness unifies them into governed execution [R87].\n\nR29 describes a shifting boundary in which routine capability-bearing support migrates into model weights while constraint-bearing governance functions remain external [R29].",
+   "claims": [
+    {
+     "claim": "The harness survey R29 describes the agent harness as the external execution support structure built around the model and treats it as a distinct performance lever.",
+     "source_key": "R29",
+     "passage_id": "R29-A",
+     "quote": "We understand the agent harness as the external execution support structure built around the model and treat it as a distinct performance lever that complements base model capability",
+     "locator": "abstract",
+     "id": "C20"
+    },
+    {
+     "claim": "The scaling-the-harness paper names six interacting components: a reasoning substrate, a memory store, a context constructor, a skill-routing layer, an orchestration loop, and a verification and governance layer.",
+     "source_key": "R26",
+     "passage_id": "R26-P13",
+     "quote": "a system composed of six interacting components: a reasoning substrate (R), a memory store (M), a context constructor (C), a skill-routing layer (S, which dispatches tools and subagents), an orchestration loop (O), and a verification and governance layer (G)",
+     "locator": "sec. Related Work, para 14",
+     "id": "C21"
+    },
+    {
+     "claim": "The externalization review assigns roles differently: memory externalizes state across time, skills externalize procedural expertise, protocols externalize interaction structure, and the harness unifies them into governed execution.",
+     "source_key": "R87",
+     "passage_id": "R87-A",
+     "quote": "memory externalizes state across time, skills externalize procedural expertise, protocols externalize interaction structure, and harness engineering serves as the unification layer that coordinates them into governed execution",
+     "locator": "abstract",
+     "id": "C22"
+    },
+    {
+     "claim": "R29 describes a shifting boundary in which routine capability-bearing support migrates into model weights while constraint-bearing governance functions remain external.",
+     "source_key": "R29",
+     "passage_id": "R29-A",
+     "quote": "explaining the shifting functional boundary where routine capability-bearing support migrates inward into model weights while constraint-bearing governance functions remain external",
+     "locator": "abstract",
+     "id": "C23"
+    }
+   ]
+  },
+  {
+   "heading": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The agent loop survey and the scaling-the-harness paper describe the agent in terms of a loop and the components built around it, and the externalization review places the harness as persistent infrastructure beyond prompt management. The Agent Loop survey states that every LLM agent, beneath its framework and prompts, runs a loop in which it observes, decides, acts, and observes again until it stops [R8]. The same survey theorises that the loop is being internalized into weights and externalized into skills and harnesses [R8]. The scaling-the-harness paper names six components of an agent: a reasoning substrate, memory store, context constructor, skill-routing layer, orchestration loop, and verification and governance layer [R26]. The externalization review places the harness as the stage where capability extends beyond prompt management into persistent infrastructure [R87]. The code-harness survey describes planning as a control layer that decomposes tasks and coordinates multi-stage software workflows [R49].\n\nOn multi-agent orchestration, the code-harness survey reports that Anthropic's long-running harnesses separate planning, generation, and evaluation into distinct roles [R49]. The TDD governance paper describes an orchestration engine that retains sole authority over workspace mutation [R52]. For agentic RAG, the survey by its authors concludes that no single architecture is universally optimal and that effectiveness depends on aligning complexity with task requirements [R17]. The RAG-stack review says agentic and AutoRAG architectures combine AI agents with RAG pipelines for dynamic decision-making, self-optimization, and multi-agent coordination [R67].\n\nThe code-harness survey lists evaluation beyond final task success and consistent shared state across multiple agents among its open challenges [R49]. The agentic RAG survey likewise lists multi-agent coordination, process-aware evaluation, and governance as unresolved [R17].",
+   "claims": [
+    {
+     "claim": "The Agent Loop survey states that every LLM agent, beneath its framework and prompts, runs a loop in which it observes, decides, acts, and observes again until it stops.",
+     "source_key": "R8",
+     "passage_id": "R8-A",
+     "quote": "Every LLM agent, beneath its framework and its prompts, runs a loop: it observes, decides, acts, and observes again until it stops.",
+     "locator": "abstract",
+     "id": "C24"
+    },
+    {
+     "claim": "The same survey theorises that the loop is being internalized into weights and externalized into skills and harnesses.",
+     "source_key": "R8",
+     "passage_id": "R8-A",
+     "quote": "One thesis runs throughout: the loop is being pulled in two directions at once, internalized into weights and externalized into skills and harnesses.",
+     "locator": "abstract",
+     "id": "C25"
+    },
+    {
+     "claim": "The scaling-the-harness paper names six components of an agent: a reasoning substrate, memory store, context constructor, skill-routing layer, orchestration loop, and verification and governance layer.",
+     "source_key": "R26",
+     "passage_id": "R26-P13",
+     "quote": "Under this view, an agent is not simply a model with a prompt, but a system composed of six interacting components: a reasoning substrate (R), a memory store (M), a context constructor (C), a skill-routing layer (S, which dispatches tools and subagents), an orchestration loop (O), and a verification and governance layer (G).",
+     "locator": "sec. Related Work, para 14",
+     "id": "C26"
+    },
+    {
+     "claim": "The externalization review places the harness as the stage where capability extends beyond prompt management into persistent infrastructure.",
+     "source_key": "R87",
+     "passage_id": "R87-P28",
+     "quote": "The Harness layer-the topmost band in Figure 2 and the rightmost region in Figure 1 (lower panel)represents the current stage, in which capability extends beyond prompt management into persistent infrastructure.",
+     "locator": "sec. Capability through Infrastructure, para 38",
+     "id": "C27"
+    },
+    {
+     "claim": "The code-harness survey describes planning as a control layer that decomposes tasks and coordinates multi-stage software workflows.",
+     "source_key": "R49",
+     "passage_id": "R49-P62",
+     "quote": "Discussion: Planning for code generation can be understood as a core form of agentic harness: a control layer that organizes how an LLM agent decomposes tasks, grounds decisions in program structure, explores alternatives at inference time, and coordinates multi-stage software engineering workflows.",
+     "locator": "sec. Orchestration-based Planning, para 55",
+     "id": "C28"
+    },
+    {
+     "claim": "On multi-agent orchestration, the code-harness survey reports that Anthropic's long-running harnesses separate planning, generation, and evaluation into distinct roles.",
+     "source_key": "R49",
+     "passage_id": "R49-P61",
+     "quote": "Anthropic's long-running harnesses separate planning, generation, and evaluation into distinct roles, using structured artifacts and independent evaluation to maintain progress across long sessions [15,171].",
+     "locator": "sec. Orchestration-based Planning, para 54",
+     "id": "C29"
+    },
+    {
+     "claim": "The TDD governance paper describes an orchestration engine that retains sole authority over workspace mutation.",
+     "source_key": "R52",
+     "passage_id": "R52-P20",
+     "quote": "Unlike TDFlow-style autonomous execution, the orchestration engine retains sole authority over workspace mutation.",
+     "locator": "sec. Proposed Approach and System Description, para 23",
+     "id": "C30"
+    },
+    {
+     "claim": "For agentic RAG, the survey by its authors concludes that no single architecture is universally optimal and that effectiveness depends on aligning complexity with task requirements.",
+     "source_key": "R17",
+     "passage_id": "R17-P176",
+     "quote": "The analysis demonstrates that no single architecture is universally optimal; effectiveness depends on aligning complexity with task requirements.",
+     "locator": "sec. Conclusion, para 315",
+     "id": "C31"
+    },
+    {
+     "claim": "The RAG-stack review says agentic and AutoRAG architectures combine AI agents with RAG pipelines for dynamic decision-making, self-optimization, and multi-agent coordination.",
+     "source_key": "R67",
+     "passage_id": "R67-P92",
+     "quote": "Agentic and AutoRAG architectures are at the forefront of autonomous AI systems, combining AI agents with RAG pipelines to facilitate dynamic decision-making, self-optimization, and multi-agent coordination [73], [74].",
+     "locator": "sec. Agentic and AutoRAG Architectures: Autonomous Optimization Systems, para 121",
+     "id": "C32"
+    },
+    {
+     "claim": "The code-harness survey lists evaluation beyond final task success and consistent shared state across multiple agents among its open challenges.",
+     "source_key": "R49",
+     "passage_id": "R49-A",
+     "quote": "We further outline open challenges for harness engineering, including evaluation beyond final task success, verification under incomplete feedback, regression-free harness improvement, consistent shared state across multiple agents, human oversight for safety-critical actions, and extensions to multimodal environments.",
+     "locator": "abstract",
+     "id": "C33"
+    },
+    {
+     "claim": "The agentic RAG survey likewise lists multi-agent coordination, process-aware evaluation, and governance as unresolved.",
+     "source_key": "R17",
+     "passage_id": "R17-P177",
+     "quote": "Substantial open challenges remain in multi-agent coordination, process-aware evaluation, memory management, computational efficiency, and governance.",
+     "locator": "sec. Conclusion, para 316",
+     "id": "C34"
+    }
+   ]
+  },
+  {
+   "heading": "Evaluation loops and the model–harness–environment configuration",
+   "text": "Two sources agree that an agent benchmark result reflects more than the model: one states that a reported score reflects a complete model–harness–environment configuration rather than the model alone, and the other reports that changing the execution system around a fixed model can alter performance and even reverse model rankings. The UniACE authors state that a reported score reflects a complete model–harness–environment configuration rather than the model alone [R84]. The harness-aware evaluation survey likewise reports that changing the execution system around a fixed model can alter performance and even reverse model rankings [R6]. The Harness-Aware Evaluation survey reviews the development of agent harnesses and introduces a four-factor evaluation framework comprising the model, harness, environment, and evaluator, alongside the protocol under which they are tested [R6].\n\nFailure analysis and post-training form a second strand. UniACE reports that failure profiles are not only model-dependent but also task-dependent [R84]. The harness–post-training study observes that high ALFWorld success largely stems from harness-aware post-training in which a specific harness is fixed a priori [R42]. The coevolution survey describes a shifting boundary in which routine capability-bearing support migrates into model weights while constraint-bearing governance functions remain external [R29].\n\nProposals for safety and longitudinal evaluation extend these points. The system-scaling paper argues that agent quality should be evaluated as a longitudinal systems property rather than a one-shot completion score [R26]. The Code as Agent Harness paper holds that a harness mutation should be treated like a code change to a safety-critical runtime [R49]. The externalization review observes that most evaluation logic today lives inside the model's chain of thought or in external benchmark harnesses that run post hoc [R87].",
+   "claims": [
+    {
+     "claim": "The UniACE authors state that a reported score reflects a complete model–harness–environment configuration rather than the model alone.",
+     "source_key": "R84",
+     "passage_id": "R84-A",
+     "quote": "Agent benchmarks are increasingly used to compare large language models (LLMs) across domains, yet a reported score reflects a complete model--harness--environment configuration rather than the model alone.",
+     "locator": "abstract",
+     "id": "C35"
+    },
+    {
+     "claim": "The harness-aware evaluation survey likewise reports that changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+     "source_key": "R6",
+     "passage_id": "R6-A",
+     "quote": "As research pursues more general intelligence, recent results highlight the importance of the agent harness: changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+     "locator": "abstract",
+     "id": "C36"
+    },
+    {
+     "claim": "The Harness-Aware Evaluation survey reviews the development of agent harnesses and introduces a four-factor evaluation framework comprising the model, harness, environment, and evaluator, alongside the protocol under which they are tested.",
+     "source_key": "R6",
+     "passage_id": "R6-A",
+     "quote": "Yet inconsistent reporting of harness configurations, resource budgets, and scoring procedures makes benchmark results difficult to interpret and compare. This survey reviews the development of agent harnesses and introduces a four-factor evaluation framework comprising the model, harness, environment, and evaluator, alongside the protocol under which they are tested.",
+     "locator": "abstract",
+     "id": "C37"
+    },
+    {
+     "claim": "UniACE reports that failure profiles are not only model-dependent but also task-dependent.",
+     "source_key": "R84",
+     "passage_id": "R84-P128",
+     "quote": "While Section 4.5 presents the aggregated failure patterns across all advanced models, the following subsections examine how failure modes vary across different benchmark domains. These benchmark-specific analyses reveal that failure profiles are not only model-dependent but also task-dependent, with certain benchmarks exposing particular weaknesses in reasoning, parsing, or planning capabilities.",
+     "locator": "sec. G Distribution of Failure Analysis for Each Benchmark, para 178",
+     "id": "C38"
+    },
+    {
+     "claim": "The harness–post-training study observes that high ALFWorld success largely stems from harness-aware post-training in which a specific harness is fixed a priori.",
+     "source_key": "R42",
+     "passage_id": "R42-P4",
+     "quote": "While existing post-training algorithms attain high success rates on ALFWorld (Feng et al., 2025), we observe that this performance largely stems from harness-aware post-training, where a specific harness is fixed a priori (Fig. 3).",
+     "locator": "sec. Introduction, para 4",
+     "id": "C39"
+    },
+    {
+     "claim": "The coevolution survey describes a shifting boundary in which routine capability-bearing support migrates into model weights while constraint-bearing governance functions remain external.",
+     "source_key": "R29",
+     "passage_id": "R29-A",
+     "quote": "explaining the shifting functional boundary where routine capability-bearing support migrates inward into model weights while constraint-bearing governance functions remain external.",
+     "locator": "abstract",
+     "id": "C40"
+    },
+    {
+     "claim": "The system-scaling paper argues that agent quality should be evaluated as a longitudinal systems property rather than a one-shot completion score.",
+     "source_key": "R26",
+     "passage_id": "R26-P41",
+     "quote": "Agent quality should therefore be evaluated as a longitudinal systems property rather than a one-shot completion score.",
+     "locator": "sec. From Single Episodes to Longitudinal Evaluation, para 45",
+     "id": "C41"
+    },
+    {
+     "claim": "The Code as Agent Harness paper holds that a harness mutation should be treated like a code change to a safety-critical runtime.",
+     "source_key": "R49",
+     "passage_id": "R49-P223",
+     "quote": "The central insight is that a harness mutation should be treated like a code change to a safety-critical runtime.",
+     "locator": "sec. Self-Evolving Harnesses without Regression, para 216",
+     "id": "C42"
+    },
+    {
+     "claim": "The externalization review observes that most evaluation logic today lives inside the model's chain of thought or in external benchmark harnesses that run post hoc.",
+     "source_key": "R87",
+     "passage_id": "R87-P228",
+     "quote": "Most evaluation logic today lives either inside the model's chain of thought or in external benchmark harnesses that run post hoc.",
+     "locator": "sec. The Expanding Frontier, para 263",
+     "id": "C43"
+    }
+   ]
+  },
+  {
+   "heading": "Contested boundaries and evidence limitations",
+   "text": "The following sections turn to how the boundaries between these stages are drawn and how the sources qualify their own evidence. The agentic harness survey states that prompt engineering changes instructions and context engineering changes what evidence is presented to the model, while its harness-level view treats the operating environment as the object of analysis [R49]. The Agentic Context Engineering paper defines context adaptation as modifying inputs with instructions, strategies, or evidence rather than weight updates [R94]. The oncology commentary frames context engineering as embedding models with the why behind institutional practices, clinician experience, and patient-specific nuances [R105]. The three sources therefore use context engineering in different registers, one as evidence presented to a model, one as evolving inputs, and one as domain-specific grounding. A second theme concerns whether harness effects can be separated from model effects. The harness-aware evaluation survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings [R6]. UniACE reports large bidirectional score changes and model-ranking reversals when compared with source implementations [R84]. The code-as-harness survey lists separating improvements in the harness from improvements in the base model as part of a research agenda [R49]. The discussion now turns to the evidence on individual components. The context-management study acknowledges the limitations of its synthetic, single-model, single-budget setup [R18]. The system-scaling paper notes that single-episode success still dominates reported metrics, leaving memory quality and context efficiency largely unmeasured [R26]. Taken together, these sources suggest that comparative evidence about performance is sensitive to evaluation design: one survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings, and another reports large bidirectional score changes and ranking reversals relative to source implementations. Another survey lists separating harness improvements from base-model improvements as a research agenda item.",
+   "claims": [
+    {
+     "claim": "The agentic harness survey states that prompt engineering changes instructions and context engineering changes what evidence is presented to the model, while its harness-level view treats the operating environment as the object of analysis.",
+     "source_key": "R49",
+     "passage_id": "R49-P103",
+     "quote": "Whereas prompt engineering changes instructions and context engineering changes what evidence is presented to the model, AHE treats the operating environment itself as the object of analysis, including tool schemas, planning artifacts, memory policies, retrieval strategies, sandbox configuration, verification sensors, permission tiers, routing rules, multiagent workflows, and human-review gates [281,178].",
+     "locator": "sec. Agentic Harness Engineering for Adaptive Harness Optimization, para 96",
+     "id": "C44"
+    },
+    {
+     "claim": "The Agentic Context Engineering paper defines context adaptation as modifying inputs with instructions, strategies, or evidence rather than weight updates.",
+     "source_key": "R94",
+     "passage_id": "R94-A",
+     "quote": "Large language model (LLM) applications such as agents and domain-specific reasoning increasingly rely on context adaptation: modifying inputs with instructions, strategies, or evidence, rather than weight updates.",
+     "locator": "abstract",
+     "id": "C45"
+    },
+    {
+     "claim": "The oncology commentary frames context engineering as embedding models with the why behind institutional practices, clinician experience, and patient-specific nuances.",
+     "source_key": "R105",
+     "passage_id": "R105-A",
+     "quote": "If AI merely regurgitates one-size-fits-all recommendations, it replaces personalization with standardization, offering little more than an automated guideline. This commentary argues that the next leap forward for AI in oncology is “context engineering”: embedding models with the why behind institutional practices, clinician experience, and patient-specific nuances.",
+     "locator": "abstract",
+     "id": "C46"
+    },
+    {
+     "claim": "The harness-aware evaluation survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+     "source_key": "R6",
+     "passage_id": "R6-A",
+     "quote": "As research pursues more general intelligence, recent results highlight the importance of the agent harness: changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+     "locator": "abstract",
+     "id": "C47"
+    },
+    {
+     "claim": "UniACE reports large bidirectional score changes and model-ranking reversals when compared with source implementations.",
+     "source_key": "R84",
+     "passage_id": "R84-A",
+     "quote": "Comparisons with source implementations show large bidirectional score changes and model-ranking reversals, while matched online and offline runs reveal substantial sensitivity to accessible evidence and its representation.",
+     "locator": "abstract",
+     "id": "C48"
+    },
+    {
+     "claim": "The code-as-harness survey lists separating improvements in the harness from improvements in the base model as part of a research agenda.",
+     "source_key": "R49",
+     "passage_id": "R49-P223",
+     "quote": "A practical research agenda includes: defining mutation operators for harness components; building telemetry standards; evaluating evolved harnesses across diverse tasks; enforcing safety invariants during evolution; and separating improvements in the harness from improvements in the base model.",
+     "locator": "sec. Self-Evolving Harnesses without Regression, para 216",
+     "id": "C49"
+    },
+    {
+     "claim": "The context-management study acknowledges the limitations of its synthetic, single-model, single-budget setup.",
+     "source_key": "R18",
+     "passage_id": "R18-A",
+     "quote": "We discuss the practical implications for agent framework design and the limitations of our synthetic, single-model, single-budget setup.",
+     "locator": "abstract",
+     "id": "C50"
+    },
+    {
+     "claim": "The system-scaling paper notes that single-episode success still dominates reported metrics, leaving memory quality and context efficiency largely unmeasured.",
+     "source_key": "R26",
+     "passage_id": "R26-P11",
+     "quote": "A growing line of work evaluates agents as systems through executable, multi-step benchmarks [16,23,46,24], alongside broader surveys of LLM-based agents [39] and catalogues of agentic safety threats [28]; yet single-episode success still dominates the reported metrics, leaving memory quality, context efficiency, communication fidelity, and safe evolution under repeated use largely unmeasured (we return to these in §5).",
+     "locator": "sec. Related Work, para 12",
+     "id": "C51"
+    }
+   ]
+  }
+ ],
+ "sentences": [
+  {
+   "id": "S1",
+   "section": "Introduction",
+   "text": "The survey of prompt engineering by R1 describes it as a technique that uses task-specific instructions to enhance model efficacy without modifying core model parameters.",
+   "kind": "claim",
+   "claims": [
+    "C1"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.86462e-05,
+     "latency_ms": 2048,
+     "trace_id": "35ddf45c83e347eeb29bc5728b76158e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.62747e-05,
+     "latency_ms": 1506,
+     "trace_id": "f5a8aed23d14459d98873e5acae71aeb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.55479e-05,
+     "latency_ms": 7250,
+     "trace_id": "426f24e587564a0d91013c8cd3346dcb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S2",
+   "section": "Introduction",
+   "text": "The abstract of R11 states that prompts are also a form of programming that can customize the outputs and interactions with an LLM.",
+   "kind": "claim",
+   "claims": [
+    "C2"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8216e-05,
+     "latency_ms": 1986,
+     "trace_id": "cda1c5a651444ffcbca8708b85e412d1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.59822e-05,
+     "latency_ms": 2043,
+     "trace_id": "66a8ce4266614f288db21bc2ad54a59b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.16,
+      "false": 0.84
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7388e-05,
+     "latency_ms": 218,
+     "trace_id": "de35d00bf35b4b9ab9954b3f9ae82f2e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.91448e-05,
+     "latency_ms": 3046,
+     "trace_id": "ce8d102f047549208b176eaec95db46e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.58094e-05,
+     "latency_ms": 4448,
+     "trace_id": "fa4adb8b789c448eb6a032498371b8a0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001088919,
+     "latency_ms": 4316,
+     "trace_id": "b41fff96bb884efeba2fa0c9d73fbbaa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S3",
+   "section": "Introduction",
+   "text": "The authors of R2 report that prompt engineering is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical framework.",
+   "kind": "claim",
+   "claims": [
+    "C3"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.89927e-05,
+     "latency_ms": 2301,
+     "trace_id": "c0b71a792d71419a828f66cf79a553e2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6515e-05,
+     "latency_ms": 1683,
+     "trace_id": "efdaf2e938f84610858e54862097fe8e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.60855e-05,
+     "latency_ms": 4666,
+     "trace_id": "ea2a76f2e7b0499a8553990d4b1c5eb6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S4",
+   "section": "Introduction",
+   "text": "The same survey frames its analysis around a shift from input-level linguistic control to system-level contextual orchestration.",
+   "kind": "claim",
+   "claims": [
+    "C4"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.91637e-05,
+     "latency_ms": 1704,
+     "trace_id": "db7179ec52a94b9aa24d6943829fba5c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.59048e-05,
+     "latency_ms": 7665,
+     "trace_id": "0983611dfce145298db9bde843d5b630",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.80414e-05,
+     "latency_ms": 1642,
+     "trace_id": "5fbad1439a664406ad50ccccb9e1387b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S5",
+   "section": "Introduction",
+   "text": "The passages also describe the technical components that surround the model in these systems.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.14,
+      "false": 0.86
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5203999999999999e-05,
+     "latency_ms": 145,
+     "trace_id": "6db8018b0c3342c393f47bb168520a17",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.18,
+      "false": 0.8200000000000001
+     },
+     "confidence": 0.8200000000000001,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5666e-05,
+     "latency_ms": 155,
+     "trace_id": "85951642c4de45a89ef2c64a6d4391d9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S6",
+   "section": "Introduction",
+   "text": "R1 describes retrieval-augmented generation as emerging as a novel solution that seamlessly weaves information retrieval into the prompting process.",
+   "kind": "claim",
+   "claims": [
+    "C5"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8792e-05,
+     "latency_ms": 2215,
+     "trace_id": "1d9c20c3fd444a829502013df6d05bd6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.5939e-05,
+     "latency_ms": 2439,
+     "trace_id": "635c0a22e4ee482ab7329a14fe1ba36e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.21,
+      "false": 0.79
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8102e-05,
+     "latency_ms": 198,
+     "trace_id": "66ea8bc01f3d489ca8e270d08205ac70",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.80792e-05,
+     "latency_ms": 1899,
+     "trace_id": "48aea1bfe4ed4287836e1f3ca774d39d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6236e-05,
+     "latency_ms": 1816,
+     "trace_id": "d4bbd1add809493285fb3ddc5139b9ba",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.61442e-05,
+     "latency_ms": 2059,
+     "trace_id": "049afd6ac98d46d3b7e368ed1ebeb7ad",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S7",
+   "section": "Introduction",
+   "text": "The Agentic RAG survey R17 states that agents leverage reflection, planning, tool use, and multi-agent collaboration to manage retrieval strategies.",
+   "kind": "claim",
+   "claims": [
+    "C6"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.03202e-05,
+     "latency_ms": 2090,
+     "trace_id": "8a73b4af4ebb4e03ba52b3977ebb7646",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.64142e-05,
+     "latency_ms": 1621,
+     "trace_id": "44bd4a5470a54fc1a68692457094232c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.88874e-05,
+     "latency_ms": 2361,
+     "trace_id": "3b8ad408a7174bfe9d6098b7806503f6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S8",
+   "section": "Introduction",
+   "text": "The authors of R24 implement memory not as a vector database, but as a persistent file system accessible via tool calls.",
+   "kind": "claim",
+   "claims": [
+    "C7"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.79028e-05,
+     "latency_ms": 2141,
+     "trace_id": "6c9cfa18f6e6438f910aedc6cba192f9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.79244e-05,
+     "latency_ms": 1700,
+     "trace_id": "0bda2e009e73406d89f624b28470bcbd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.57446e-05,
+     "latency_ms": 1237,
+     "trace_id": "5f128a6828364fc5907a6c5ff2b5bf45",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.75282e-05,
+     "latency_ms": 2150,
+     "trace_id": "ce0b0e5ac8024e4490b02e7077a556fe",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S9",
+   "section": "Introduction",
+   "text": "The study R18 notes that agents on long-running tasks inevitably exceed their usable context window, forcing a choice about what history to discard.",
+   "kind": "claim",
+   "claims": [
+    "C8"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.18547e-05,
+     "latency_ms": 1811,
+     "trace_id": "8868491d69a244b7902fdac843583c3f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.63845e-05,
+     "latency_ms": 2213,
+     "trace_id": "ea355329a7b94bf793516c0f57b2e539",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.64457e-05,
+     "latency_ms": 2020,
+     "trace_id": "e85cd123340745fda8b2a6686c050a82",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S10",
+   "section": "Introduction",
+   "text": "The paper R20 describes context rot as the progressive and nonlinear degradation of agent reasoning quality and tool calling reliability as the context window fills.",
+   "kind": "claim",
+   "claims": [
+    "C9"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.1591e-05,
+     "latency_ms": 1873,
+     "trace_id": "2c15625da76943b6b90eeda5e10398be",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.62423e-05,
+     "latency_ms": 1831,
+     "trace_id": "a2c406169d77499689727e572b592548",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.63494e-05,
+     "latency_ms": 1893,
+     "trace_id": "6b908d1d12184e398ea6dffe90319e9c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S11",
+   "section": "Introduction",
+   "text": "The discussion now moves to the execution layer around the model, which is often called the harness.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.15,
+      "false": 0.85
+     },
+     "confidence": 0.85,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.512e-05,
+     "latency_ms": 138,
+     "trace_id": "cd2b65853b074789989bf28fc813f307",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.76,
+      "false": 0.24
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5372e-05,
+     "latency_ms": 136,
+     "trace_id": "1ea542bd26d54b36ae3de2600d4ca864",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S12",
+   "section": "Introduction",
+   "text": "The authors of R6 state that changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+   "kind": "claim",
+   "claims": [
+    "C10"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.81035e-05,
+     "latency_ms": 2798,
+     "trace_id": "715a1294b0bd4d6f9962336e77321f0e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.59066e-05,
+     "latency_ms": 1584,
+     "trace_id": "2dbc88458ce347baaf1db22c847f046b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.65951e-05,
+     "latency_ms": 2538,
+     "trace_id": "87170fd8f7514bf8bb17c1f4c1605f30",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S13",
+   "section": "Introduction",
+   "text": "The authors of R26 define scaling the harness as treating the structured execution layer around a foundation model as a first-class object of design, evaluation, and optimization.",
+   "kind": "claim",
+   "claims": [
+    "C11"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.0268e-05,
+     "latency_ms": 2168,
+     "trace_id": "ff2f3be7c3c344388356df2fc48daeb3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.60452e-05,
+     "latency_ms": 1844,
+     "trace_id": "819cb470d24b4bd688a1ef5f2323c51c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.63053e-05,
+     "latency_ms": 1951,
+     "trace_id": "9a995322af0d40d6a40b918f07c7b339",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S14",
+   "section": "Introduction",
+   "text": "The survey R8 takes the agent loop, rather than the model in isolation, as its unit of analysis.",
+   "kind": "claim",
+   "claims": [
+    "C12"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.03526e-05,
+     "latency_ms": 2322,
+     "trace_id": "e425ec811cd0481a9897768a0175b31b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.66365e-05,
+     "latency_ms": 1516,
+     "trace_id": "d62724bf18124563a1fe711e8d2fa0e9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.66518e-05,
+     "latency_ms": 1563,
+     "trace_id": "b67fb6a44f3941ad8123ba52dc7bfc52",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S15",
+   "section": "Introduction",
+   "text": "Sources describe prompts as task-specific instructions that steer a model without changing its parameters and as a form of programming that customizes LLM outputs, while another survey frames its analysis around a shift from input-level linguistic control to system-level contextual orchestration, and another treats the execution system around a model as a factor that can change performance.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C1",
+    "C2",
+    "C4",
+    "C10"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.83,
+      "false": 0.17000000000000004
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.8559999999999998e-05,
+     "latency_ms": 147,
+     "trace_id": "a08f57d774934c30a24b93272d4982ae",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S16",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "The next question is how the move from crafting prompt text to managing the information a model receives has been described.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.1,
+      "false": 0.9
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6002e-05,
+     "latency_ms": 234,
+     "trace_id": "dd0a144eefd8427da29c699714acdb5f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.82,
+      "false": 0.18000000000000005
+     },
+     "confidence": 0.82,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5918e-05,
+     "latency_ms": 142,
+     "trace_id": "c123b578b1324647a4a6c39fb40dbefa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S17",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "A survey of prompt and context engineering analyses the shift from input-level linguistic control to system-level contextual orchestration and names context dilution and computational overhead as persistent limitations.",
+   "kind": "claim",
+   "claims": [
+    "C13"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.87884e-05,
+     "latency_ms": 1689,
+     "trace_id": "88e49b2e16ad4c6f8f950bd2a5914b5a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.63557e-05,
+     "latency_ms": 7743,
+     "trace_id": "df27eeb940dd46f8a6593994f084a94f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.79874e-05,
+     "latency_ms": 1570,
+     "trace_id": "4d587441a1ed4e14a72e0641ef4ba377",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S18",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "The ACE paper describes LLM applications as increasingly relying on context adaptation, meaning the modification of inputs with instructions, strategies, or evidence rather than weight updates.",
+   "kind": "claim",
+   "claims": [
+    "C14"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.87184e-05,
+     "latency_ms": 1028,
+     "trace_id": "9efe4030529445688fc34900006e701c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.64349e-05,
+     "latency_ms": 1615,
+     "trace_id": "8e6f0813d3774d52a4ddc793c83c7b58",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.23,
+      "false": 0.77
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.806e-05,
+     "latency_ms": 145,
+     "trace_id": "7b7754288edc472da991a24a5dacf3cc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.86588e-05,
+     "latency_ms": 1831,
+     "trace_id": "b8ef3e15f2224eb8bdb446988ea00a9f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.65735e-05,
+     "latency_ms": 4118,
+     "trace_id": "3563a6035f0948dcae5c9bfa9f8fe28f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.80522e-05,
+     "latency_ms": 4385,
+     "trace_id": "f7d86de914b44a0bb313a0fa9eabbea7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S19",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "The ACE authors report that it optimizes contexts both offline (e.g., system prompts) and online (e.g., agent memory), outperforming strong baselines by +10.6% on agents and +8.6% on finance.",
+   "kind": "claim",
+   "claims": [
+    "C15"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.9323e-05,
+     "latency_ms": 2029,
+     "trace_id": "6f0532d19f4e4536a3ea95c4e472d70e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.65546e-05,
+     "latency_ms": 6403,
+     "trace_id": "bc0b2fa6e2fc42bea1c3fe5c80ef7b7f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.84,
+      "false": 0.16000000000000003
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0622e-05,
+     "latency_ms": 206,
+     "trace_id": "af865aed65fa43d6b51d41abcdd0eeba",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S20",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "One survey describes a shift from input-level linguistic control to system-level contextual orchestration, and another source distinguishes prompt engineering as changing instructions from context engineering as changing what evidence is presented to the model. Together they frame context engineering as a move beyond the wording of prompts toward the information a model receives.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C13",
+    "C16"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5414e-05,
+     "latency_ms": 140,
+     "trace_id": "f101cc8b01a343d6a30d3cbc68d22e47",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.81,
+      "false": 0.18999999999999995
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.4863999999999998e-05,
+     "latency_ms": 159,
+     "trace_id": "8e19edaea0634d87ab863a74d5837d62",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S21",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "The externalization review describes a tripartite model boundary as a structured form of context engineering in which the prompt is separated into layers rather than treated as an undifferentiated text buffer.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.73151e-05,
+     "latency_ms": 2073,
+     "trace_id": "f1399d33a4ce4c50a698e2a2473903e9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.46428e-05,
+     "latency_ms": 3835,
+     "trace_id": "460400abc9c34970b4d7531da66255af",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S22",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "The Code as Agent Harness survey distinguishes prompt engineering as changing instructions and context engineering as changing what evidence is presented to the model, while Agentic Harness Engineering treats the operating environment itself as the object of analysis.",
+   "kind": "claim",
+   "claims": [
+    "C16"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.74015e-05,
+     "latency_ms": 2569,
+     "trace_id": "a3794c87e7a740a5b6df90d03a24929b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.64142e-05,
+     "latency_ms": 1971,
+     "trace_id": "52c7a02d826341a2a5d7d6cb4899a7f8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.90098e-05,
+     "latency_ms": 4123,
+     "trace_id": "79359c89fc9e4b0ba01afc03ab727306",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S23",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "The scaling-the-harness paper lists a context constructor as one of six interacting components alongside a memory store, skill routing, an orchestration loop, and a governance layer.",
+   "kind": "claim",
+   "claims": [
+    "C17"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.70667e-05,
+     "latency_ms": 1930,
+     "trace_id": "3ad518e8780f4d56a8db3a71662c851a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.62708e-05,
+     "latency_ms": 3911,
+     "trace_id": "7f3bffa4331e49498a03c5d192aefabb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.7,
+      "false": 0.30000000000000004
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0202e-05,
+     "latency_ms": 207,
+     "trace_id": "70d93c4572ec49dbbfad3e2e1484871a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S24",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "The following discussion turns to how context engineering relates to the larger harness in which it may be situated.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5456e-05,
+     "latency_ms": 159,
+     "trace_id": "58bb63434f974ffda3815ee0264dfc41",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.92,
+      "false": 0.07999999999999996
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5834e-05,
+     "latency_ms": 160,
+     "trace_id": "b7adfed70a61486e8046200db98a2f8e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S25",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "One study states that context rot manifests well before nominal token limits are reached, as tool schema definitions consume a disproportionate share of the context budget and model attention weakens for information deep within growing prompts.",
+   "kind": "claim",
+   "claims": [
+    "C18"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.18331e-05,
+     "latency_ms": 1615,
+     "trace_id": "5014b5343d1a4ed48cb73d41871f008d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 7.96149e-05,
+     "latency_ms": 3836,
+     "trace_id": "f958d35ea2db4386ba7b08fdd29127f6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.2928e-05,
+     "latency_ms": 3765,
+     "trace_id": "0048f54efcc341b2a032d2e827acb1ed",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.05578e-05,
+     "latency_ms": 1697,
+     "trace_id": "2c568a01822240d0877fe872f9a1ac1a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.69155e-05,
+     "latency_ms": 1854,
+     "trace_id": "e637732a36744ccf869096bd02e03c16",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.75,
+      "false": 0.25
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0118e-05,
+     "latency_ms": 244,
+     "trace_id": "2c212ee0b8034fa4803e840d4b5bdc78",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S26",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "Another reports that, in calibrated simulation over the Agentic Context Benchmark (ACB-2026), Skills Architecture reduced normalized context entropy by 42% relative to baseline MCP.",
+   "kind": "claim",
+   "claims": [
+    "C19"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.98639e-05,
+     "latency_ms": 1462,
+     "trace_id": "54fe90dc9fa645bc8890901b08f6614b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.46626e-05,
+     "latency_ms": 4688,
+     "trace_id": "12726d924521476d876fe691cb2b2b76",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.15433e-05,
+     "latency_ms": 2294,
+     "trace_id": "5bd6ef98dad84bbca83f7704131e79be",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.62198e-05,
+     "latency_ms": 3354,
+     "trace_id": "29c5a3c3e0ed49348a344959dac24b6d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.00034e-05,
+     "latency_ms": 7729,
+     "trace_id": "809f87a3c84b42e29710847de2bfc745",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S27",
+   "section": "Context engineering: moving from prompt text to system-level context",
+   "text": "The context-rot study of MCP tool attrition proposes a controlled study rather than reporting results, so its joint hypothesis remains untested there.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C16"
+   ],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "absence: 'remains untested' belongs in the record sections, not the evidence"
+  },
+  {
+   "id": "S28",
+   "section": "Harness engineering: the structure around a fixed model",
+   "text": "The harness literature in these passages defines the harness as the structure wrapped around a model, and several sources state this directly.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5918e-05,
+     "latency_ms": 147,
+     "trace_id": "9ff1360c83704188abe9d5476df392ce",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001366047,
+     "latency_ms": 8412,
+     "trace_id": "44843a3791a940d492052c67268ea377",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S29",
+   "section": "Harness engineering: the structure around a fixed model",
+   "text": "The harness survey R29 describes the agent harness as the external execution support structure built around the model and treats it as a distinct performance lever.",
+   "kind": "claim",
+   "claims": [
+    "C20"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.96722e-05,
+     "latency_ms": 1457,
+     "trace_id": "d07056bdf83f4b9caec178d5d48cbea6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61649e-05,
+     "latency_ms": 9211,
+     "trace_id": "bfffdb3c2de8479cbd9c37b86f03d6d8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.98414e-05,
+     "latency_ms": 1814,
+     "trace_id": "b612201b27b9460da045f71ebc243bf6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S30",
+   "section": "Harness engineering: the structure around a fixed model",
+   "text": "The scaling-the-harness paper names six interacting components: a reasoning substrate, a memory store, a context constructor, a skill-routing layer, an orchestration loop, and a verification and governance layer.",
+   "kind": "claim",
+   "claims": [
+    "C21"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.78353e-05,
+     "latency_ms": 1868,
+     "trace_id": "f35b1f594f074d99b0d46c5cbe95b0fd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.69371e-05,
+     "latency_ms": 6464,
+     "trace_id": "ef42eeece07843f2b671101a438ddbd0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.65546e-05,
+     "latency_ms": 4459,
+     "trace_id": "bc5fe7c27fcb4c59b6548d345bec205c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S31",
+   "section": "Harness engineering: the structure around a fixed model",
+   "text": "The externalization review assigns roles differently: memory externalizes state across time, skills externalize procedural expertise, protocols externalize interaction structure, and the harness unifies them into governed execution.",
+   "kind": "claim",
+   "claims": [
+    "C22"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.9287e-05,
+     "latency_ms": 2071,
+     "trace_id": "31317e6f60dd4b968c0d69255d8a7f77",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61658e-05,
+     "latency_ms": 4251,
+     "trace_id": "426e914dc87647f697ea5aa9bfb2be7f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.76,
+      "false": 0.24
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9278e-05,
+     "latency_ms": 250,
+     "trace_id": "829a48442cac4a5888e251f3a00b67af",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S32",
+   "section": "Harness engineering: the structure around a fixed model",
+   "text": "The code-as-harness survey draws the boundary with earlier stages explicitly.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.12,
+      "false": 0.88
+     },
+     "confidence": 0.88,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.554e-05,
+     "latency_ms": 175,
+     "trace_id": "0d0022fa374d4abaa64c07037fc54a08",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S33",
+   "section": "Harness engineering: the structure around a fixed model",
+   "text": "R49 states that prompt engineering changes instructions and context engineering changes what evidence is presented to the model, whereas Agentic Harness Engineering treats the operating environment itself as the object of analysis.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.77651e-05,
+     "latency_ms": 1550,
+     "trace_id": "bd49974d8fdb483aa628818e6d38a20b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6326e-05,
+     "latency_ms": 3834,
+     "trace_id": "5c968cd52b9f4b59bc91e588dc54d75c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.27,
+      "false": 0.73
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7892e-05,
+     "latency_ms": 152,
+     "trace_id": "d2864c29eaa7438cad226ac1e20f5392",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.75194e-05,
+     "latency_ms": 1760,
+     "trace_id": "a9036084d1264e0da429809de758ddcf",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S34",
+   "section": "Harness engineering: the structure around a fixed model",
+   "text": "R87 instead describes the harness's separation of model input into layers as a structured form of context engineering.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "unanchored: the quote leans on context outside it"
+  },
+  {
+   "id": "S35",
+   "section": "Harness engineering: the structure around a fixed model",
+   "text": "Evaluation and the model–harness boundary are where the sources put their open questions.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.19,
+      "false": 0.81
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5666e-05,
+     "latency_ms": 153,
+     "trace_id": "dc90bd1ffcf04a368774d3979ece2d1e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S36",
+   "section": "Harness engineering: the structure around a fixed model",
+   "text": "R6 reports that changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.85301e-05,
+     "latency_ms": 1881,
+     "trace_id": "a696c7a9488f48c29b93c9ecaf652faa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.59804e-05,
+     "latency_ms": 1984,
+     "trace_id": "b26dd8c2bb3142de8155aeb531e222db",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.26,
+      "false": 0.74
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7304e-05,
+     "latency_ms": 152,
+     "trace_id": "cd69faf6d87849dcae843279843db3df",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.85301e-05,
+     "latency_ms": 1881,
+     "trace_id": "a696c7a9488f48c29b93c9ecaf652faa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.57662e-05,
+     "latency_ms": 1664,
+     "trace_id": "4cedc58300d5416e9343c3ae07c040b8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.19,
+      "false": 0.81
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7304e-05,
+     "latency_ms": 235,
+     "trace_id": "8ad849d948b342d39ad0ba8667409206",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S37",
+   "section": "Harness engineering: the structure around a fixed model",
+   "text": "R29 describes a shifting boundary in which routine capability-bearing support migrates into model weights while constraint-bearing governance functions remain external.",
+   "kind": "claim",
+   "claims": [
+    "C23"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.88748e-05,
+     "latency_ms": 1923,
+     "trace_id": "33ae0e4ee9484118b8d74ba0565f484c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.64349e-05,
+     "latency_ms": 2809,
+     "trace_id": "b184496f04f74a5abb781d0ebc9a4ce0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.61442e-05,
+     "latency_ms": 1340,
+     "trace_id": "6934fa54a4ee4a8fbbc89bce1ccc4040",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S38",
+   "section": "Harness engineering: the structure around a fixed model",
+   "text": "R8 frames the loop as pulled in two directions at once, internalized into weights and externalized into skills and harnesses.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.04111e-05,
+     "latency_ms": 2228,
+     "trace_id": "5cd47cbaf27f449a8189fc65e0265341",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61469e-05,
+     "latency_ms": 2381,
+     "trace_id": "8b57e529bcc8438ab91e6831d99ed3b4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.2,
+      "false": 0.8
+     },
+     "confidence": 0.8,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8102e-05,
+     "latency_ms": 133,
+     "trace_id": "14d9ed528de94372a167aebaebedffd0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.04327e-05,
+     "latency_ms": 3391,
+     "trace_id": "be4f009b1e3942468eee9f129bc1f250",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61685e-05,
+     "latency_ms": 2126,
+     "trace_id": "25437bfbfff34cf289d86ebc553abbe1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.15,
+      "false": 0.85
+     },
+     "confidence": 0.85,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8186e-05,
+     "latency_ms": 147,
+     "trace_id": "2b2a8c88094e4ef7aa58f13a32ca7fb8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S39",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The agent loop survey and the scaling-the-harness paper describe the agent in terms of a loop and the components built around it, and the externalization review places the harness as persistent infrastructure beyond prompt management.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C24",
+    "C26",
+    "C27"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.1,
+      "false": 0.9
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6422e-05,
+     "latency_ms": 138,
+     "trace_id": "851cce3b1bec4dc28da8cce048491375",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.74,
+      "false": 0.26
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.6838e-05,
+     "latency_ms": 137,
+     "trace_id": "2fde7623e762424e95839b1e5c2c4acb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S40",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The Agent Loop survey states that every LLM agent, beneath its framework and prompts, runs a loop in which it observes, decides, acts, and observes again until it stops.",
+   "kind": "claim",
+   "claims": [
+    "C24"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.02896e-05,
+     "latency_ms": 3093,
+     "trace_id": "e20ffb875fd54c0b826dc06595a75daa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61208e-05,
+     "latency_ms": 1423,
+     "trace_id": "ab12483a84654cb896027f9ce942041d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.86,
+      "false": 0.14
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8564e-05,
+     "latency_ms": 215,
+     "trace_id": "041b47f444754dc4a77c02a0128dc50a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S41",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The same survey theorises that the loop is being internalized into weights and externalized into skills and harnesses.",
+   "kind": "claim",
+   "claims": [
+    "C25"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.93995e-05,
+     "latency_ms": 1814,
+     "trace_id": "57a9690d47b1456684785af444f5136c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.59696e-05,
+     "latency_ms": 3346,
+     "trace_id": "f624a70506a04175b724956400913be0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.8,
+      "false": 0.19999999999999996
+     },
+     "confidence": 0.8,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.827e-05,
+     "latency_ms": 133,
+     "trace_id": "438c3e3c39a141dab3373c90236d8e7b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S42",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The scaling-the-harness paper names six components of an agent: a reasoning substrate, memory store, context constructor, skill-routing layer, orchestration loop, and verification and governance layer.",
+   "kind": "claim",
+   "claims": [
+    "C26"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.78029e-05,
+     "latency_ms": 2510,
+     "trace_id": "5980bcff31c14fc7b538888f54c927e7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.65114e-05,
+     "latency_ms": 4149,
+     "trace_id": "1b79c26e4ca847dc9eea6ce3d1c0fa17",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.76,
+      "false": 0.24
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0328e-05,
+     "latency_ms": 133,
+     "trace_id": "7bf357c3ce464f9db8042389aca264f7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S43",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The externalization review places the harness as the stage where capability extends beyond prompt management into persistent infrastructure.",
+   "kind": "claim",
+   "claims": [
+    "C27"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.76229e-05,
+     "latency_ms": 1595,
+     "trace_id": "ae76bbf8a8c34f66bf9f9b22e22b52f7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.64754e-05,
+     "latency_ms": 6614,
+     "trace_id": "1e179f4b66354d6f9f436ac4c02cb5c8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.76,
+      "false": 0.24
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8648e-05,
+     "latency_ms": 242,
+     "trace_id": "7c0a53656fc6415f80c86903df84f9ae",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S44",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The code-harness survey describes planning as a control layer that decomposes tasks and coordinates multi-stage software workflows.",
+   "kind": "claim",
+   "claims": [
+    "C28"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.83672e-05,
+     "latency_ms": 1911,
+     "trace_id": "3f546a5060874dbea3f44ad565687826",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6515e-05,
+     "latency_ms": 1304,
+     "trace_id": "8ec68c3c409f444aa60d07c120b58be9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.5415e-05,
+     "latency_ms": 3297,
+     "trace_id": "5757c4d690d14defac2a43ac54678067",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S45",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "On multi-agent orchestration, the code-harness survey reports that Anthropic's long-running harnesses separate planning, generation, and evaluation into distinct roles.",
+   "kind": "claim",
+   "claims": [
+    "C29"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.79676e-05,
+     "latency_ms": 2250,
+     "trace_id": "469efdccf3f84581a79617ba94f89f2b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.9264e-05,
+     "latency_ms": 12403,
+     "trace_id": "1155ea41d249474bb63d7a9e72d23d61",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.97118e-05,
+     "latency_ms": 4369,
+     "trace_id": "c105d3b862c4465fa22171f2e85a56e3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S46",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The TDD governance paper describes an orchestration engine that retains sole authority over workspace mutation.",
+   "kind": "claim",
+   "claims": [
+    "C30"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.69803e-05,
+     "latency_ms": 1572,
+     "trace_id": "c8cd712035e74c6b98cda8c8dc560a31",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.01645e-05,
+     "latency_ms": 4047,
+     "trace_id": "1f46743c34e94c9bb623994e29a4d2ab",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.75,
+      "false": 0.25
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7009999999999998e-05,
+     "latency_ms": 231,
+     "trace_id": "538e7cbd41d5472ea07c2d8065e72b5b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S47",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "For agentic RAG, the survey by its authors concludes that no single architecture is universally optimal and that effectiveness depends on aligning complexity with task requirements.",
+   "kind": "claim",
+   "claims": [
+    "C31"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.78641e-05,
+     "latency_ms": 1333,
+     "trace_id": "410be12df1dc43c4b59b0d8a148e471c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.58958e-05,
+     "latency_ms": 3590,
+     "trace_id": "f3232002d491455b96ecb46b665e1f01",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.70936e-05,
+     "latency_ms": 1547,
+     "trace_id": "6c19d86698174cd0901480c0db83ee08",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S48",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The RAG-stack review says agentic and AutoRAG architectures combine AI agents with RAG pipelines for dynamic decision-making, self-optimization, and multi-agent coordination.",
+   "kind": "claim",
+   "claims": [
+    "C32"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.72503e-05,
+     "latency_ms": 1937,
+     "trace_id": "da68100ac61f431c95ead15c673e1a40",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.62738e-05,
+     "latency_ms": 1880,
+     "trace_id": "80e2fdb6e5df4d4a8d98279bedd82651",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.76,
+      "false": 0.24
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9446e-05,
+     "latency_ms": 172,
+     "trace_id": "696a83942b5a46928b6d8d8340bd0051",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S49",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "Evaluation is where the sources register open problems.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.26,
+      "false": 0.74
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5708e-05,
+     "latency_ms": 192,
+     "trace_id": "c566f971ceb24cef8c503763d98bc6e7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.80803e-05,
+     "latency_ms": 3855,
+     "trace_id": "30495e78f8d6410d8fc97b956b635428",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S50",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The Meta-Harness-related study reports that harness design can produce accuracy gaps of up to roughly six-fold.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.67949e-05,
+     "latency_ms": 2553,
+     "trace_id": "cac05b4abf264520ab4ac9d7256d399b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.60254e-05,
+     "latency_ms": 2183,
+     "trace_id": "ca7cea8362354a92908a86219d2c8358",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.60915e-05,
+     "latency_ms": 4103,
+     "trace_id": "bc394344adc644f2a26125498db599f3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9999930398058036,
+      "false": 6.960194196400858e-06
+     },
+     "confidence": 0.9999930398058036,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 0.0,
+     "latency_ms": 21886,
+     "trace_id": "68051a29e6d64400b68bcfca296673c8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.02059e-05,
+     "latency_ms": 9268,
+     "trace_id": "fa3b992406a048a8b7fc319287a26487",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.89e-05,
+     "latency_ms": 230,
+     "trace_id": "3eed1450846b4438b7e821eb759d7da7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "judge_unsure"
+  },
+  {
+   "id": "S51",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The code-harness survey lists evaluation beyond final task success and consistent shared state across multiple agents among its open challenges.",
+   "kind": "claim",
+   "claims": [
+    "C33"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.96281e-05,
+     "latency_ms": 1631,
+     "trace_id": "2ccbc819bfc749b4be4971d129b216c3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.59822e-05,
+     "latency_ms": 6052,
+     "trace_id": "50e44f8a895841e691acd55a5ea1f5fb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8228e-05,
+     "latency_ms": 228,
+     "trace_id": "cdaf8b94c77f402b8c2de2bdbe11a403",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S52",
+   "section": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "text": "The agentic RAG survey likewise lists multi-agent coordination, process-aware evaluation, and governance as unresolved.",
+   "kind": "claim",
+   "claims": [
+    "C34"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.67004e-05,
+     "latency_ms": 1366,
+     "trace_id": "de134005de224cd2af3400880c748b13",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.48335e-05,
+     "latency_ms": 17019,
+     "trace_id": "183e9f2517724f648d06412f893486af",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.11684e-05,
+     "latency_ms": 4108,
+     "trace_id": "2a5c39ed853b4c0e831057ba9713c009",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S53",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "Two sources agree that an agent benchmark result reflects more than the model: one states that a reported score reflects a complete model–harness–environment configuration rather than the model alone, and the other reports that changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C35",
+    "C36"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5876e-05,
+     "latency_ms": 141,
+     "trace_id": "7cfa813a5291474fbc43f8504ceaf8da",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.79,
+      "false": 0.20999999999999996
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.457e-05,
+     "latency_ms": 146,
+     "trace_id": "1b08d8743b4640f9826fc510aba81259",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S54",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "The UniACE authors state that a reported score reflects a complete model–harness–environment configuration rather than the model alone.",
+   "kind": "claim",
+   "claims": [
+    "C35"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.00565e-05,
+     "latency_ms": 1701,
+     "trace_id": "937d1fe2c1084cd1832a4e4336cbbe37",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.60038e-05,
+     "latency_ms": 1429,
+     "trace_id": "3d2d9f168db849a1b0bb22d1ae46fc90",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.76,
+      "false": 0.24
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.848e-05,
+     "latency_ms": 253,
+     "trace_id": "c6f47c82e20f4abe987e45fdc1cb7e76",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S55",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "In their migration of 7 benchmarks, comparisons with source implementations showed large bidirectional score changes and model-ranking reversals.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.93113e-05,
+     "latency_ms": 2096,
+     "trace_id": "6734db14a63a4f35aa4e299d77653b41",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 7.01793e-05,
+     "latency_ms": 8925,
+     "trace_id": "31ee772c396042c09187c254311cb2a4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.04651e-05,
+     "latency_ms": 4858,
+     "trace_id": "d104d1b91b4a4f9c8190d8d57e27804c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.84893e-05,
+     "latency_ms": 4820,
+     "trace_id": "27309f072d2c4f25b197e8313361a862",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S56",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "The harness-aware evaluation survey likewise reports that changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+   "kind": "claim",
+   "claims": [
+    "C36"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.77471e-05,
+     "latency_ms": 1577,
+     "trace_id": "facba353c43a4c7283f7a5a699fca8b2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.64628e-05,
+     "latency_ms": 3079,
+     "trace_id": "944a4b6aa6a24fb788fa77c2090b00b8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.67076e-05,
+     "latency_ms": 3656,
+     "trace_id": "eb8aa5489f5249feaaedadc252640960",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S57",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "The Harness-Aware Evaluation survey reviews the development of agent harnesses and introduces a four-factor evaluation framework comprising the model, harness, environment, and evaluator, alongside the protocol under which they are tested.",
+   "kind": "claim",
+   "claims": [
+    "C37"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.80927e-05,
+     "latency_ms": 1770,
+     "trace_id": "e6467a2f841a40dfa131b323813766a1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.79244e-05,
+     "latency_ms": 6218,
+     "trace_id": "edcff39ef9b74fcc8e9d476900138f0b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.64142e-05,
+     "latency_ms": 2306,
+     "trace_id": "ebca6164d0b94011958c7a08c78ebde3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.995e-05,
+     "latency_ms": 223,
+     "trace_id": "fd9cf360357e447094a6e53a745e304b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S58",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "Failure analysis and post-training form a second strand.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.99809e-05,
+     "latency_ms": 2625,
+     "trace_id": "84406df902de43e095500821247aabf8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S59",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "UniACE reports that failure profiles are not only model-dependent but also task-dependent.",
+   "kind": "claim",
+   "claims": [
+    "C38"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.73925e-05,
+     "latency_ms": 1945,
+     "trace_id": "052dc6f7648c4c33b020d4e97ccca199",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61874e-05,
+     "latency_ms": 1731,
+     "trace_id": "50e80e35178f41b2800b5c43dc83c70d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.86,
+      "false": 0.14
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9026e-05,
+     "latency_ms": 211,
+     "trace_id": "ba4f7fd5b5cf488b93ede1d9d5bc1a8b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S60",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "The harness–post-training study observes that high ALFWorld success largely stems from harness-aware post-training in which a specific harness is fixed a priori.",
+   "kind": "claim",
+   "claims": [
+    "C39"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8648e-05,
+     "latency_ms": 2136,
+     "trace_id": "c580b95577724ab7a8eec73ae69eb1be",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6209e-05,
+     "latency_ms": 1522,
+     "trace_id": "2dab89a34b9e40269051d230b89cf69a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.64691e-05,
+     "latency_ms": 2185,
+     "trace_id": "b78db74a85764fdda34c0c2dec989a2e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S61",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "The coevolution survey describes a shifting boundary in which routine capability-bearing support migrates into model weights while constraint-bearing governance functions remain external.",
+   "kind": "claim",
+   "claims": [
+    "C40"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.96722e-05,
+     "latency_ms": 2078,
+     "trace_id": "b7544d44db2d47e79cfeb291d97cf49a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.64826e-05,
+     "latency_ms": 7570,
+     "trace_id": "9d9cebab9bd8450c8346f54c263a7be1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.9931e-05,
+     "latency_ms": 12957,
+     "trace_id": "69d9af73ba32407292fbd3423d2df15b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S62",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "Proposals for safety and longitudinal evaluation extend these points.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.08917e-05,
+     "latency_ms": 2270,
+     "trace_id": "7efb78a6aa82449bb2bd65d4ffd412ea",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S63",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "The system-scaling paper argues that agent quality should be evaluated as a longitudinal systems property rather than a one-shot completion score.",
+   "kind": "claim",
+   "claims": [
+    "C41"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.87416e-05,
+     "latency_ms": 4047,
+     "trace_id": "5a55ad6167a341348b1b1f33b1c343f3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.57986e-05,
+     "latency_ms": 6062,
+     "trace_id": "2226bbf1b52145778fd17ebce0db6a12",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.03822e-05,
+     "latency_ms": 2129,
+     "trace_id": "926a4483a75f49cca6ec2708452543b8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S64",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "The Code as Agent Harness paper holds that a harness mutation should be treated like a code change to a safety-critical runtime.",
+   "kind": "claim",
+   "claims": [
+    "C42"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.81296e-05,
+     "latency_ms": 1845,
+     "trace_id": "c4016d21821c4b7987eb23cf58d22a15",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.58148e-05,
+     "latency_ms": 2227,
+     "trace_id": "1c6544cf24ac43c2bcd1f57890116f4f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7178e-05,
+     "latency_ms": 145,
+     "trace_id": "81b89751c3e54b82a7424d14c64d1360",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S65",
+   "section": "Evaluation loops and the model–harness–environment configuration",
+   "text": "The externalization review observes that most evaluation logic today lives inside the model's chain of thought or in external benchmark harnesses that run post hoc.",
+   "kind": "claim",
+   "claims": [
+    "C43"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.72827e-05,
+     "latency_ms": 1996,
+     "trace_id": "290080983c7a4bb9a346f422e1b120c5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.59606e-05,
+     "latency_ms": 3647,
+     "trace_id": "096a6ff13923474fb1e7ecef797ca03b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.83114e-05,
+     "latency_ms": 3966,
+     "trace_id": "981ff4b39179464f96b73c45937f33cb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S66",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "The following sections turn to how the boundaries between these stages are drawn and how the sources qualify their own evidence.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6044e-05,
+     "latency_ms": 258,
+     "trace_id": "4d47c4da97664bfdba51632bfc924b3f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.88,
+      "false": 0.12
+     },
+     "confidence": 0.88,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5708e-05,
+     "latency_ms": 131,
+     "trace_id": "732cc4c9d52b49b3955fe16212c1a5b6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S67",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "The agentic harness survey states that prompt engineering changes instructions and context engineering changes what evidence is presented to the model, while its harness-level view treats the operating environment as the object of analysis.",
+   "kind": "claim",
+   "claims": [
+    "C44"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.73583e-05,
+     "latency_ms": 1831,
+     "trace_id": "6a314dea900d49f6adce9cf2f400be77",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.69371e-05,
+     "latency_ms": 1571,
+     "trace_id": "d75e45976673433885d8e508112fab19",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.14289e-05,
+     "latency_ms": 10474,
+     "trace_id": "cdc4145d0fc04d66b8fbbb2649a7c06c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S68",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "The Agentic Context Engineering paper defines context adaptation as modifying inputs with instructions, strategies, or evidence rather than weight updates.",
+   "kind": "claim",
+   "claims": [
+    "C45"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.95777e-05,
+     "latency_ms": 1792,
+     "trace_id": "a4530afe46a845dc8e9c8deb97019193",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61001e-05,
+     "latency_ms": 2048,
+     "trace_id": "1bda6e408604464790988fc2d2699fd8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.64826e-05,
+     "latency_ms": 1698,
+     "trace_id": "7e06c427933648da92deb2f328e88c96",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S69",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "The oncology commentary frames context engineering as embedding models with the why behind institutional practices, clinician experience, and patient-specific nuances.",
+   "kind": "claim",
+   "claims": [
+    "C46"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.93995e-05,
+     "latency_ms": 2804,
+     "trace_id": "17b781c60e3b44c4aed5f8355dfaf01b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.62954e-05,
+     "latency_ms": 2380,
+     "trace_id": "4eab6fa405574b06b79bc95ebab0c25b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.78,
+      "false": 0.21999999999999997
+     },
+     "confidence": 0.78,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9571999999999998e-05,
+     "latency_ms": 135,
+     "trace_id": "e996b25863f5429aab7e7b56cdd88afb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S70",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "The three sources therefore use context engineering in different registers, one as evidence presented to a model, one as evolving inputs, and one as domain-specific grounding.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C44",
+    "C45",
+    "C46"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.499e-05,
+     "latency_ms": 172,
+     "trace_id": "dc0274fa78d94bab9ced78dfb881f277",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S71",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "A second theme concerns whether harness effects can be separated from model effects.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.08701e-05,
+     "latency_ms": 2967,
+     "trace_id": "99fef1aa0815491a96e435fe0b338e54",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S72",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "The harness-aware evaluation survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings.",
+   "kind": "claim",
+   "claims": [
+    "C47"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.77363e-05,
+     "latency_ms": 1890,
+     "trace_id": "f030fcb03d854264946d3944ee62a9ee",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.64826e-05,
+     "latency_ms": 4059,
+     "trace_id": "d977377aac2f4c73a9b9fd14217c46c3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8228e-05,
+     "latency_ms": 135,
+     "trace_id": "dd79c6b7b57b4e29a17afc7ad7578b4d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S73",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "UniACE reports large bidirectional score changes and model-ranking reversals when compared with source implementations.",
+   "kind": "claim",
+   "claims": [
+    "C48"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.02977e-05,
+     "latency_ms": 2853,
+     "trace_id": "a5c929af6b054578b65ae66d84fc1a04",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.62324e-05,
+     "latency_ms": 6558,
+     "trace_id": "487eaef3f0224ce99efb8006888ea5e0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.78794e-05,
+     "latency_ms": 4676,
+     "trace_id": "2af665bae17c44b886a2624255bd6fe3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S74",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "The code-as-harness survey lists separating improvements in the harness from improvements in the base model as part of a research agenda.",
+   "kind": "claim",
+   "claims": [
+    "C49"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.90323e-05,
+     "latency_ms": 2143,
+     "trace_id": "de7c355131b341bfa64b0555754e598c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61703e-05,
+     "latency_ms": 1401,
+     "trace_id": "8282ebb536ed4b98b958e28363ea28bd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.99845e-05,
+     "latency_ms": 5492,
+     "trace_id": "ceeb32cccd48477ebe01f9a3087fd3ad",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S75",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "The discussion now turns to the evidence on individual components.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.1,
+      "false": 0.9
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5203999999999999e-05,
+     "latency_ms": 144,
+     "trace_id": "204d559487ce4c99ba436db7ee45b7c7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.93,
+      "false": 0.06999999999999995
+     },
+     "confidence": 0.93,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5246e-05,
+     "latency_ms": 153,
+     "trace_id": "1a67937ed6684f658443573f51f8730d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S76",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "The context-management study acknowledges the limitations of its synthetic, single-model, single-budget setup.",
+   "kind": "claim",
+   "claims": [
+    "C50"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.17422e-05,
+     "latency_ms": 2652,
+     "trace_id": "1930cc9ca7c2478e91c33c32f0b69755",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.5993e-05,
+     "latency_ms": 5945,
+     "trace_id": "0bcfc9479716434db563f5f87f1844c0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.00826e-05,
+     "latency_ms": 2646,
+     "trace_id": "17d7d166957044a8a9d53cd2236b3275",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S77",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "The system-scaling paper notes that single-episode success still dominates reported metrics, leaving memory quality and context efficiency largely unmeasured.",
+   "kind": "claim",
+   "claims": [
+    "C51"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.74573e-05,
+     "latency_ms": 3012,
+     "trace_id": "7c27f23d99b7423f9b71dd92eec56387",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.68039e-05,
+     "latency_ms": 1782,
+     "trace_id": "a699705fa96d49f88a4f716d4a43af72",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.35274e-05,
+     "latency_ms": 10214,
+     "trace_id": "0969c5e37ee84210a417dccf1a6509b7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S78",
+   "section": "Contested boundaries and evidence limitations",
+   "text": "Taken together, these sources suggest that comparative evidence about performance is sensitive to evaluation design: one survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings, and another reports large bidirectional score changes and ranking reversals relative to source implementations. Another survey lists separating harness improvements from base-model improvements as a research agenda item.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C47",
+    "C48",
+    "C49"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.83,
+      "false": 0.17000000000000004
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.6249999999999998e-05,
+     "latency_ms": 126,
+     "trace_id": "3ebe9a28d60e4d7d9b00edb13f4305b3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  }
+ ]
+}

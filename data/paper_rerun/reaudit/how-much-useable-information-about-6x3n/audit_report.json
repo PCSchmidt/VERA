@@ -1,0 +1,2259 @@
+{
+ "paper_id": "how-much-useable-information-about-6x3n (paper)",
+ "paper_source": "paper/paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I1"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I1",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I1 (Discussion): speaks of several sources ('agree') but its premises come from 1 source: 'The claims agree that rationale is valuable but rarely captured: developers may lack motivation to document it without immediate benefit, an'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "I1 (Discussion): speaks of several sources ('agree') but its premises come from 1 source: 'The claims agree that rationale is valuable but rarely captured: developers may lack motivation to document it without immediate benefit, an'"
+  },
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I3"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I3",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I3 (Discussion): does not follow from its premises: 'Failure history is partly recoverable from trajectories: failed ones are longer, more variable and differ by agent, and most trajectories fi'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00016862715,
+     "latency_ms": 7894,
+     "trace_id": "e8a65c5cac6f4c29a3f0566304dfe7f7",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I3 (Discussion): does not follow from its premises: 'Failure history is partly recoverable from trajectories: failed ones are longer, more variable and differ by agent, and most trajectories fi'"
+  },
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I5"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I5",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I5 (Discussion): does not follow from its premises: 'Intent is the central difficulty. Inferring developer intent or specification is called the toughest repair challenge, and one analysis attr'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.835925e-05,
+     "latency_ms": 5256,
+     "trace_id": "71d7d985118b4e778655cd78e7de748e",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I5 (Discussion): does not follow from its premises: 'Intent is the central difficulty. Inferring developer intent or specification is called the toughest repair challenge, and one analysis attr'"
+  },
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I7"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I7",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I7 (Discussion): does not follow from its premises: 'Passing tests is reported as insufficient evidence of correctness, so test intent recovered from agent traces cannot be assumed to certify p'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001562634,
+     "latency_ms": 10094,
+     "trace_id": "a18e8e93aadc42929e43283c98cb1906",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I7 (Discussion): does not follow from its premises: 'Passing tests is reported as insufficient evidence of correctness, so test intent recovered from agent traces cannot be assumed to certify p'"
+  },
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I8"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I8",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I8 (Conclusions): does not follow from its premises: 'The claims support that design rationale mined from issue discussion can be reused to help repair, and that past fix patterns are a reusable'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.75,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.50204e-05,
+     "latency_ms": 4231,
+     "trace_id": "f9f0298f510443df85f61acb8d7a79d8",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I8 (Conclusions): does not follow from its premises: 'The claims support that design rationale mined from issue discussion can be reused to help repair, and that past fix patterns are a reusable'"
+  },
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I10"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I10",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I10 (Conclusions): does not follow from its premises: 'Requirements traceability recovery shows promising but uneven results, with unresolved concerns about datasets, scale and safety-critical us'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.97597e-05,
+     "latency_ms": 5983,
+     "trace_id": "37c207d52e97408ca9afa0a189536941",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I10 (Conclusions): does not follow from its premises: 'Requirements traceability recovery shows promising but uneven results, with unresolved concerns about datasets, scale and safety-critical us'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S5"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S5",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S5 (Introduction, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Maintenance tasks are the setting in which such agents are usually evaluated.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.14,
+      "false": 0.86
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.512e-05,
+     "latency_ms": 148,
+     "trace_id": "bed291a583bf4c0c8ca3c9cbea392d64",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.80322e-05,
+     "latency_ms": 4660,
+     "trace_id": "68e2ee8e5dcb47dda68e983e123304f7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S5 (Introduction, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Maintenance tasks are the setting in which such agents are usually evaluated.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S9"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S9",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S9 (Introduction, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Work outside the agent literature addresses the kinds of information the question names.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.12,
+      "false": 0.88
+     },
+     "confidence": 0.88,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5162e-05,
+     "latency_ms": 150,
+     "trace_id": "ee2eb7fc7877450fafc0966011830e50",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.75,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.42617e-05,
+     "latency_ms": 5983,
+     "trace_id": "4de7508df54a49d1af573791e8fdfed3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S9 (Introduction, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Work outside the agent literature addresses the kinds of information the question names.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S14"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S14",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S14 (Introduction, unrecorded): states a fact that does not follow from its section's claims (judge_unsure): 'The passages supplied here stop short of the central question.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.21,
+      "false": 0.79
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5036e-05,
+     "latency_ms": 133,
+     "trace_id": "c61fa2733cd1447c9602afe2ba97c1bd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.485415e-05,
+     "latency_ms": 6902,
+     "trace_id": "c9a57e2013e345b09224643b226bb792",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S14 (Introduction, unrecorded): states a fact that does not follow from its section's claims (judge_unsure): 'The passages supplied here stop short of the central question.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S15"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S15",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S15 (Introduction, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'They describe agents, benchmarks, rationale mining and traceability recovery, but none of them examines agent traces as a source of rational'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6632e-05,
+     "latency_ms": 223,
+     "trace_id": "0e90a62f2ec44fa4be04cd4908af8fee",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.26,
+      "false": 0.74
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 4.032e-05,
+     "latency_ms": 158,
+     "trace_id": "c12e5bc042424fada55063b055b49be3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S15 (Introduction, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'They describe agents, benchmarks, rationale mining and traceability recovery, but none of them examines agent traces as a source of rational'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S16"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S16",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S16 (Agent trajectories as a source of failure and repair history, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Work on agent trajectories begins from the observation that outcome-only evaluation hides how agents behave.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.17,
+      "false": 0.83
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5666e-05,
+     "latency_ms": 143,
+     "trace_id": "ab159b416f704d94ae430a46b63b57ab",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.72,
+      "false": 0.28
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.4062e-05,
+     "latency_ms": 140,
+     "trace_id": "f51455eb45314801a60f2f19daf3fd30",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S16 (Agent trajectories as a source of failure and repair history, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Work on agent trajectories begins from the observation that outcome-only evaluation hides how agents behave.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C11"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S17",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S17 (Agent trajectories as a source of failure and repair history, claim): C11 says more than its quote: 'The authors of the comparative study of OpenHands, SWE-agent and Prometheus state that current evaluations treat agents as black boxes, focu'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8438e-05,
+     "latency_ms": 135,
+     "trace_id": "dfb639dd481a41478291a164011bfb19",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S17 (Agent trajectories as a source of failure and repair history, claim): C11 says more than its quote: 'The authors of the comparative study of OpenHands, SWE-agent and Prometheus state that current evaluations treat agents as black boxes, focu'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C12"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S18",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S18 (Agent trajectories as a source of failure and repair history, claim): C12 says more than its quote: 'The empirical study of OpenHands, SWE-agent and Prometheus trajectories reports that failed trajectories are consistently longer and exhibit'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.21,
+      "false": 0.79
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.827e-05,
+     "latency_ms": 135,
+     "trace_id": "954dec8d8c22486982cb67934e1e044d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S18 (Agent trajectories as a source of failure and repair history, claim): C12 says more than its quote: 'The empirical study of OpenHands, SWE-agent and Prometheus trajectories reports that failed trajectories are consistently longer and exhibit'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S19"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S19",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S19 (Agent trajectories as a source of failure and repair history, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The two studies therefore disagree on whether length is a usable failure signal, and the evidence leaves that point unsettled.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.596e-05,
+     "latency_ms": 128,
+     "trace_id": "6285a0faa0b94223bdcabad20fa5a68f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.4356e-05,
+     "latency_ms": 154,
+     "trace_id": "1547c22482e34ac1b0da7d400bd3fd19",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S19 (Agent trajectories as a source of failure and repair history, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The two studies therefore disagree on whether length is a usable failure signal, and the evidence leaves that point unsettled.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C13"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S20",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S20 (Agent trajectories as a source of failure and repair history, claim): judge unsure whether C13 says more than its quote: 'On localization, the SWE-bench trajectory study finds that most trajectories identify the problematic files correctly, even in failures [R35'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001067571,
+     "latency_ms": 7098,
+     "trace_id": "020d4cf31e82427c9a7d97f87e5b1bcb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S20 (Agent trajectories as a source of failure and repair history, claim): judge unsure whether C13 says more than its quote: 'On localization, the SWE-bench trajectory study finds that most trajectories identify the problematic files correctly, even in failures [R35'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C14"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S21",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S21 (Agent trajectories as a source of failure and repair history, claim): judge unsure whether C14 says more than its quote: \"SWE-agent's own appendix describes an automated categorization of 248 unresolved trajectories, validated against only 15 hand-labelled insta\""
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00016153335,
+     "latency_ms": 8480,
+     "trace_id": "b77bfb18a5d3427c95b9db18a76dc665",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S21 (Agent trajectories as a source of failure and repair history, claim): judge unsure whether C14 says more than its quote: \"SWE-agent's own appendix describes an automated categorization of 248 unresolved trajectories, validated against only 15 hand-labelled insta\""
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S22"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S22",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S22 (Agent trajectories as a source of failure and repair history, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Research on attributing failure to a particular step comes mostly from multi-agent settings rather than coding agents.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5834e-05,
+     "latency_ms": 225,
+     "trace_id": "a9f85de3f26147d88b7dd2e83678e7a8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.70066e-05,
+     "latency_ms": 8752,
+     "trace_id": "206cb03c76e542949b984b5c8290abd3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S22 (Agent trajectories as a source of failure and repair history, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Research on attributing failure to a particular step comes mostly from multi-agent settings rather than coding agents.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C17"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S25",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S25 (Agent trajectories as a source of failure and repair history, claim): C17 says more than its quote: 'The same work states that counterfactual replay is reliable but its cost grows linearly with candidate events [R57].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.740345e-05,
+     "latency_ms": 4774,
+     "trace_id": "2bbbf3da0caf4f859bb64d657f873997",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S25 (Agent trajectories as a source of failure and repair history, claim): C17 says more than its quote: 'The same work states that counterfactual replay is reliable but its cost grows linearly with candidate events [R57].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S26"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S26",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S26 (Agent trajectories as a source of failure and repair history, unrecorded): absence: 'None of the supplied passages' belongs in the record sections, not the evidence: 'None of the supplied passages shows whether such attributions or replays yield reusable repair histories that improve later maintenance of a'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S26 (Agent trajectories as a source of failure and repair history, unrecorded): absence: 'None of the supplied passages' belongs in the record sections, not the evidence: 'None of the supplied passages shows whether such attributions or replays yield reusable repair histories that improve later maintenance of a'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S27"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S27",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S27 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources assembled here speak to design rationale mainly through issue logs and early hypertext tools, not through coding-agent traces.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6044e-05,
+     "latency_ms": 138,
+     "trace_id": "7a2c6a1846f84471aece1f5cec4f6d90",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.26,
+      "false": 0.74
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.6414e-05,
+     "latency_ms": 136,
+     "trace_id": "71795619c32f430b850e5093a882228e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S27 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources assembled here speak to design rationale mainly through issue logs and early hypertext tools, not through coding-agent traces.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C19"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S29",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S29 (Design rationale: evidence from issue logs rather than agent traces, claim): C19 says more than its quote: \"DRMiner is an approach that mines latent design rationales from developers' live discussion in open-source issue logs in Jira [R13].\""
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.25,
+      "false": 0.75
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.785e-05,
+     "latency_ms": 168,
+     "trace_id": "d4e4332c9dbf4483b497c2860a7636bd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S29 (Design rationale: evidence from issue logs rather than agent traces, claim): C19 says more than its quote: \"DRMiner is an approach that mines latent design rationales from developers' live discussion in open-source issue logs in Jira [R13].\""
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C21"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S31",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S31 (Design rationale: evidence from issue logs rather than agent traces, claim): the quote of C21 opens with a back-reference, so what it is about is outside it: 'The older gIBIS work shows that rationale capture is a long-standing aim. gIBIS is an application-specific hypertext system designed to faci'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S31 (Design rationale: evidence from issue logs rather than agent traces, claim): the quote of C21 opens with a back-reference, so what it is about is outside it: 'The older gIBIS work shows that rationale capture is a long-standing aim. gIBIS is an application-specific hypertext system designed to faci'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S33"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S33",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S33 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Work on agent traces raises the same concern from the opposite direction.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.18,
+      "false": 0.8200000000000001
+     },
+     "confidence": 0.8200000000000001,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.554e-05,
+     "latency_ms": 213,
+     "trace_id": "2ca20d414eaf4bb581123e455c8f36aa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00010346985,
+     "latency_ms": 4557,
+     "trace_id": "1d9da281e271436caf6a6fd59aea4cdc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S33 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Work on agent traces raises the same concern from the opposite direction.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S37"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S37",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S37 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages therefore show rationale being recovered from human issue discussions, and the absence of rationale being noted for agent work.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.596e-05,
+     "latency_ms": 143,
+     "trace_id": "1d5a8da17a944839846e61415f1c9fd4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.942745e-05,
+     "latency_ms": 8733,
+     "trace_id": "7d6920103b0f4bac8d0c6aa746a71879",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S37 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages therefore show rationale being recovered from human issue discussions, and the absence of rationale being noted for agent work.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S38"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S38",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S38 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'None of them shows rationale reliably recovered from agent traces, which remains open.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5623999999999998e-05,
+     "latency_ms": 260,
+     "trace_id": "873205b704ed4880963111e529016a0e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.368335e-05,
+     "latency_ms": 6576,
+     "trace_id": "b12b30acca1c45d2af8aae71d3430ff5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S38 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'None of them shows rationale reliably recovered from agent traces, which remains open.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S39"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S39",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S39 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources on requirements traceability link recovery (TLR) with LLMs describe a field that is active but constrained by data and reliabili'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6338e-05,
+     "latency_ms": 204,
+     "trace_id": "36ec9120c0a2470b84f7ef284bd8d39c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.72,
+      "false": 0.28
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 4.1328e-05,
+     "latency_ms": 150,
+     "trace_id": "1164d13c35da4f6fa98c5337de7c7d1e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S39 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources on requirements traceability link recovery (TLR) with LLMs describe a field that is active but constrained by data and reliabili'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S42"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S42",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S42 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Several studies report positive results for specific LLM-based designs.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5498e-05,
+     "latency_ms": 164,
+     "trace_id": "70b1d407806d4d31b18f2639fa1fb59e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.85,
+      "false": 0.15000000000000002
+     },
+     "confidence": 0.85,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 4.0487999999999996e-05,
+     "latency_ms": 193,
+     "trace_id": "1032130fdb0742f3a003a636afadc94c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S42 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Several studies report positive results for specific LLM-based designs.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C28"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S43",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S43 (Requirements traceability link recovery with LLMs, claim): C28 says more than its quote: 'In the security-requirements study that linked requirements to goal models with GPT-3.5-turbo, the approach and tool yielded positive result'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.18,
+      "false": 0.8200000000000001
+     },
+     "confidence": 0.8200000000000001,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9824e-05,
+     "latency_ms": 146,
+     "trace_id": "072832ac89f84d9991950ea7b9be60ec",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S43 (Requirements traceability link recovery with LLMs, claim): C28 says more than its quote: 'In the security-requirements study that linked requirements to goal models with GPT-3.5-turbo, the approach and tool yielded positive result'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S44"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S44",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S44 (Requirements traceability link recovery with LLMs, unrecorded): states a fact that does not follow from its section's claims (states 42, which none of its premises states): 'The evaluation behind that figure used one GRL model and 42 requirements, which is a small base.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5918e-05,
+     "latency_ms": 125,
+     "trace_id": "d5dbe338a2884f73b0d58cc8c8fca780",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S44 (Requirements traceability link recovery with LLMs, unrecorded): states a fact that does not follow from its section's claims (states 42, which none of its premises states): 'The evaluation behind that figure used one GRL model and 42 requirements, which is a small base.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C29"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S45",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S45 (Requirements traceability link recovery with LLMs, claim): the quote of C29 opens with a back-reference, so what it is about is outside it: 'The bidirectional-convergence study reported that combining forward and backward recovery of use cases raised use-case recovery coverage fro'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S45 (Requirements traceability link recovery with LLMs, claim): the quote of C29 opens with a back-reference, so what it is about is outside it: 'The bidirectional-convergence study reported that combining forward and backward recovery of use cases raised use-case recovery coverage fro'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S46"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S46",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S46 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Work on ensembles and prompting shows trade-offs between recall, precision and cost.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5708e-05,
+     "latency_ms": 134,
+     "trace_id": "6de895cc54414706b960e3523b5b9059",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.73,
+      "false": 0.27
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 4.0697999999999996e-05,
+     "latency_ms": 146,
+     "trace_id": "7371c312d08c462c815d245f0bc48400",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S46 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Work on ensembles and prompting shows trade-offs between recall, precision and cost.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C30"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S47",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S47 (Requirements traceability link recovery with LLMs, claim): C30 says more than its quote: 'The inter-requirements ensemble study found that small LLMs reduce the candidate space with minimal loss of recall [R11].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.199665e-05,
+     "latency_ms": 8446,
+     "trace_id": "bdc89ac5e5c54bfe84255e1e5a4d9172",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S47 (Requirements traceability link recovery with LLMs, claim): C30 says more than its quote: 'The inter-requirements ensemble study found that small LLMs reduce the candidate space with minimal loss of recall [R11].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C31"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S48",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S48 (Requirements traceability link recovery with LLMs, claim): C31 says more than its quote: 'In the study of LLM ensembles for candidate filtering in inter-requirements traceability, the authors report that while their LLM-based ense'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.74616e-05,
+     "latency_ms": 12736,
+     "trace_id": "b772fb73e8b14a67a2c056c62aea1b91",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S48 (Requirements traceability link recovery with LLMs, claim): C31 says more than its quote: 'In the study of LLM ensembles for candidate filtering in inter-requirements traceability, the authors report that while their LLM-based ense'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C32"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S49",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S49 (Requirements traceability link recovery with LLMs, claim): C32 says more than its quote: 'LightTraceLLM reported traceability performance comparable to a high-end baseline while cutting monetary inference cost by approximately 67-'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.12,
+      "false": 0.88
+     },
+     "confidence": 0.88,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9278e-05,
+     "latency_ms": 221,
+     "trace_id": "3d5d20c749314c46a689853eae03ee54",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S49 (Requirements traceability link recovery with LLMs, claim): C32 says more than its quote: 'LightTraceLLM reported traceability performance comparable to a high-end baseline while cutting monetary inference cost by approximately 67-'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S51"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S51",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S51 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'For requirements-to-code links, the evidence points to limits of textual similarity.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.05,
+      "false": 0.95
+     },
+     "confidence": 0.95,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5623999999999998e-05,
+     "latency_ms": 149,
+     "trace_id": "7e28137872da40a9acaa5f129e47a340",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.819545e-05,
+     "latency_ms": 4142,
+     "trace_id": "25c0f4b3e94e48b3b503f6f2e678b074",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S51 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'For requirements-to-code links, the evidence points to limits of textual similarity.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S53"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S53",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S53 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'None of these passages tests recovery from coding-agent traces, and how well the results scale is left open.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5876e-05,
+     "latency_ms": 161,
+     "trace_id": "e0252b132b7d4085b3b9326e12dabb68",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.1668e-05,
+     "latency_ms": 3263,
+     "trace_id": "bd76487a749b43549fa113f516ee3da5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S53 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'None of these passages tests recovery from coding-agent traces, and how well the results scale is left open.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S54"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S54",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S54 (Test intent, code intent and specification inference, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources describe intent inference mainly through specification-inference agents built on AutoCodeRover.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5666e-05,
+     "latency_ms": 146,
+     "trace_id": "15629e89eece4e98ada3c71a3fffa66a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.6708e-05,
+     "latency_ms": 162,
+     "trace_id": "09b241f47b3a45e582c72a2197b47251",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S54 (Test intent, code intent and specification inference, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources describe intent inference mainly through specification-inference agents built on AutoCodeRover.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S58"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S58",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S58 (Test intent, code intent and specification inference, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'SpecRover also adds a reviewer agent for validation.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.533e-05,
+     "latency_ms": 130,
+     "trace_id": "0f428837a4c04946948e1ffc22d5d82b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.91,
+      "false": 0.08999999999999997
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.6372e-05,
+     "latency_ms": 135,
+     "trace_id": "40173c1d8e47451bb11a9d65f56da237",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S58 (Test intent, code intent and specification inference, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'SpecRover also adds a reviewer agent for validation.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S61"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S61",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S61 (Test intent, code intent and specification inference, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources also report limits on how reliably such intent can be recovered.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5456e-05,
+     "latency_ms": 166,
+     "trace_id": "1a759291c42441dbb6069253255d9991",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.73,
+      "false": 0.27
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.6498e-05,
+     "latency_ms": 138,
+     "trace_id": "d4e97f8e0b6a40a18e218eafdd7480c0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S61 (Test intent, code intent and specification inference, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources also report limits on how reliably such intent can be recovered.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C40"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S62",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S62 (Test intent, code intent and specification inference, claim): C40 says more than its quote: \"In SpecRover's analysis of 207 unresolved SWE-bench Lite tasks, 107 (51.7%) had ambiguous issue descriptions, 61 (29.5%) had an incorrect fi\""
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.468945e-05,
+     "latency_ms": 6383,
+     "trace_id": "2ab4345df1b24e978e1b0e4ce66d65c5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S62 (Test intent, code intent and specification inference, claim): C40 says more than its quote: \"In SpecRover's analysis of 207 unresolved SWE-bench Lite tasks, 107 (51.7%) had ambiguous issue descriptions, 61 (29.5%) had an incorrect fi\""
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C41"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S63",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S63 (Test intent, code intent and specification inference, claim): the quote of C41 opens with a back-reference, so what it is about is outside it: 'The AutoCodeRover authors acknowledge that a patch passing the added tests may still be overfitting [R10].'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S63 (Test intent, code intent and specification inference, claim): the quote of C41 opens with a back-reference, so what it is about is outside it: 'The AutoCodeRover authors acknowledge that a patch passing the added tests may still be overfitting [R10].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C43"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S65",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S65 (Test intent, code intent and specification inference, claim): C43 says more than its quote: 'The OSS-Fuzz study similarly finds that patches with high CodeBLEU scores still fail the given exploit input [R90].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.54398e-05,
+     "latency_ms": 9124,
+     "trace_id": "0af06dfd43554cf1985cc9452598052f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S65 (Test intent, code intent and specification inference, claim): C43 says more than its quote: 'The OSS-Fuzz study similarly finds that patches with high CodeBLEU scores still fail the given exploit input [R90].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S66"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S66",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S66 (Test intent, code intent and specification inference, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): \"The passages leave open whether inferred specifications can be reused after the original repair, since SpecRover's retention of evidence is \""
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6296e-05,
+     "latency_ms": 275,
+     "trace_id": "8ba6ba7d02004d6c90ce328ff60757c5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.298585e-05,
+     "latency_ms": 5683,
+     "trace_id": "e6e5a896f562403892c9323b34c256dc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S66 (Test intent, code intent and specification inference, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): \"The passages leave open whether inferred specifications can be reused after the original repair, since SpecRover's retention of evidence is \""
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S67"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S67",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S67 (Historical fix patterns and mined repair knowledge, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The history-driven repair line of work starts from the observation that fixes recur.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.13,
+      "false": 0.87
+     },
+     "confidence": 0.87,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.554e-05,
+     "latency_ms": 214,
+     "trace_id": "3c3eb5b306bb462fa5fa35d32092eb87",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.85,
+      "false": 0.15000000000000002
+     },
+     "confidence": 0.85,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.213e-05,
+     "latency_ms": 145,
+     "trace_id": "cf3c1642156d452594ed373f4ad2a982",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S67 (Historical fix patterns and mined repair knowledge, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The history-driven repair line of work starts from the observation that fixes recur.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C45"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S69",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S69 (Historical fix patterns and mined repair knowledge, claim): C45 says more than its quote: 'Getafix, which learns fix patterns from past human-written fixes for static-analysis bug categories, is reported to predict exactly the huma'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.15,
+      "false": 0.85
+     },
+     "confidence": 0.85,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8942e-05,
+     "latency_ms": 152,
+     "trace_id": "f7cab2ede15d4865ab489f11a2478eb8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S69 (Historical fix patterns and mined repair knowledge, claim): C45 says more than its quote: 'Getafix, which learns fix patterns from past human-written fixes for static-analysis bug categories, is reported to predict exactly the huma'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S70"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S70",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S70 (Historical fix patterns and mined repair knowledge, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The wide range in that figure shows that how reliably mined fixes can be reused depends on the bug category.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5792e-05,
+     "latency_ms": 149,
+     "trace_id": "308d0ef3c1a14db29ac2525142b0928e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.75,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001097199,
+     "latency_ms": 8595,
+     "trace_id": "50418f33468448f7a832baffe00c21dc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S70 (Historical fix patterns and mined repair knowledge, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The wide range in that figure shows that how reliably mined fixes can be reused depends on the bug category.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C46"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S71",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S71 (Historical fix patterns and mined repair knowledge, claim): C46 says more than its quote: 'FixMiner addresses how patterns are mined, and its authors argue that earlier approaches often do not yield fix patterns that are tractable '"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.19,
+      "false": 0.81
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8438e-05,
+     "latency_ms": 253,
+     "trace_id": "2cbee629697c47678c84d2013a29b285",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S71 (Historical fix patterns and mined repair knowledge, claim): C46 says more than its quote: 'FixMiner addresses how patterns are mined, and its authors argue that earlier approaches often do not yield fix patterns that are tractable '"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S73"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S73",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S73 (Historical fix patterns and mined repair knowledge, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Agent-based repair changes the setting.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.14,
+      "false": 0.86
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5203999999999999e-05,
+     "latency_ms": 163,
+     "trace_id": "d2f15a8cba61413381a8ebd9dd1dcd0f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.440635e-05,
+     "latency_ms": 4425,
+     "trace_id": "fd363f6eafc840fbb90e25d0d8aa5208",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S73 (Historical fix patterns and mined repair knowledge, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Agent-based repair changes the setting.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S76"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S76",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S76 (Historical fix patterns and mined repair knowledge, unrecorded): absence: 'None of the supplied passages' belongs in the record sections, not the evidence: 'None of the supplied passages shows agent traces being mined for reusable fix patterns the way commit histories are, so that question remain'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S76 (Historical fix patterns and mined repair knowledge, unrecorded): absence: 'None of the supplied passages' belongs in the record sections, not the evidence: 'None of the supplied passages shows agent traces being mined for reusable fix patterns the way commit histories are, so that question remain'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S77"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S77",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S77 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact that does not follow from its section's claims (names SWE-bench-style, which none of its premises names): 'The sources agree that SWE-bench-style issue resolution is the standard testbed for coding agents, but they differ on how far results on it '"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6547999999999998e-05,
+     "latency_ms": 167,
+     "trace_id": "a7a76930432f48b8a7cf9e44149ecb64",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S77 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact that does not follow from its section's claims (names SWE-bench-style, which none of its premises names): 'The sources agree that SWE-bench-style issue resolution is the standard testbed for coding agents, but they differ on how far results on it '"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C52"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S80",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S80 (Limitations: evidence gaps, benchmark scope, and maintainability claims, claim): the quote of C52 opens with a back-reference, so what it is about is outside it: 'The same authors suggest that existing models may be overfitting to static benchmarks [R29].'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S80 (Limitations: evidence gaps, benchmark scope, and maintainability claims, claim): the quote of C52 opens with a back-reference, so what it is about is outside it: 'The same authors suggest that existing models may be overfitting to static benchmarks [R29].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C53"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S82",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S82 (Limitations: evidence gaps, benchmark scope, and maintainability claims, claim): the quote of C53 opens with a back-reference, so what it is about is outside it: 'The SWE-bench-java authors note that SWE-bench is centered on Python and does not cover fields such as web applications, mobile applications'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S82 (Limitations: evidence gaps, benchmark scope, and maintainability claims, claim): the quote of C53 opens with a back-reference, so what it is about is outside it: 'The SWE-bench-java authors note that SWE-bench is centered on Python and does not cover fields such as web applications, mobile applications'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S83"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S83",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S83 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Trace-based studies add limits on what resolution rates reveal.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5666e-05,
+     "latency_ms": 148,
+     "trace_id": "f5b6618162684387bf497a1705955fb0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.74,
+      "false": 0.26
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.8938e-05,
+     "latency_ms": 147,
+     "trace_id": "b515c9780cef448088f1a826ae348b4a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S83 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Trace-based studies add limits on what resolution rates reveal.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S86"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S86",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S86 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'On maintainability specifically, the evidence is thin.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5708e-05,
+     "latency_ms": 243,
+     "trace_id": "d56ba57af08542ddbf51260d85662ec6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.4263e-05,
+     "latency_ms": 4074,
+     "trace_id": "d303a71e056f4843bbd1dd549283fbc6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S86 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'On maintainability specifically, the evidence is thin.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S87"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S87",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S87 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact that does not follow from its section's claims (names AI-assisted, LLMoxie, which none of its premises names): 'The LLMoxie authors report that current agentic AI practices lack mechanisms analogous to version control or commit history for tracking the'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.659e-05,
+     "latency_ms": 173,
+     "trace_id": "ae166d034024472382f2b46f14b5db0a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S87 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact that does not follow from its section's claims (names AI-assisted, LLMoxie, which none of its premises names): 'The LLMoxie authors report that current agentic AI practices lack mechanisms analogous to version control or commit history for tracking the'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S88"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S88",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S88 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages supplied here do not test whether information recovered from agent traces improves long-term maintainability or robustness, so '"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6506e-05,
+     "latency_ms": 130,
+     "trace_id": "1c073d46195644fabcab78673784a006",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.481685e-05,
+     "latency_ms": 5284,
+     "trace_id": "ef14fae81c7b48b1b84703481afa8a57",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S88 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages supplied here do not test whether information recovered from agent traces improves long-term maintainability or robustness, so '"
+  }
+ ],
+ "overall": "red",
+ "checks_run": [
+  "citation",
+  "claim_support",
+  "inference",
+  "sentence"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.0010334934000000003,
+ "wall_seconds": 228,
+ "schema_version": "0.13"
+}

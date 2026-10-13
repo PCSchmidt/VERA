@@ -347,6 +347,7 @@ def read_paper(
     sources = {
         r["key"]: {k: r.get(k) for k in ("title", "authors", "year", "url", "id")}
         for r in _jsonl(root / retrieved if retrieved and root else folder / "retrieved.jsonl")
+        + _jsonl(folder / "added_records.jsonl")  # a paper's targeted search (RSH-F-16)
     }
     report = folder / "artifacts" / "audit_report.json"
     if not report.exists():
@@ -360,6 +361,9 @@ def read_paper(
         doc = json.loads((folder / "paper.json").read_text(encoding="utf-8"))
         out["sections"] = [{"heading": s["heading"], "kind": s["kind"]} for s in doc["sections"]]
         out["inferences"] = doc["inferences"]
+        out["sentences"] = doc.get("sentences") or []
+    elif (folder / "sentences.jsonl").exists():  # a review made after 0.13
+        out["sentences"] = _jsonl(folder / "sentences.jsonl")
     return out
 
 

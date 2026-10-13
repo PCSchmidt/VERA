@@ -148,9 +148,25 @@ preferred the paper to its review in five of six judgements (independent mean 3.
 faults, but the faults were blatant and written by the check's author; in the live papers the external review and the independent scorer found
 cited claims saying more than their quotes, wrong uncited synthesis and overreaching interpretation under green audits. No frozen file changed.
 
-## Increment 7 — Optional: P1 on external papers (was Increment 6 until 2026-10-11)
+## Increment 7 — Check what the green light does not (proposed 2026-10-13)
+
+Scope, gates and caps proposed in SPEC.md (2026-10-13); `incr7_scoped` is Chris's approval of them.
+
+Increment 6's papers audited green while cited claims said more than their quotes, uncited synthesis sentences were wrong,
+interpretation overreached and repeated quotes read as corroboration (docs/reviews/incr-6.md). This increment gives every
+sentence of an evidence section a status (claim, synthesis, transition), checks synthesis like interpretation and transitions for
+facts, adds a judge question on whether a claim says more than its quote, and cheap rules (agreement needs two sources; absence
+statements belong to the record; "X and colleagues" names a source; a quote that leans on context is widened; one quote, one claim
+id). The audit lists every sentence. A targeted search looks up works the paper names but did not retrieve. The checks are measured
+on real text from the Increment 6 papers, labelled by Chris and frozen before the test run, old checks beside new. No frozen audit
+file is changed; the review and the paper share the new checks.
+Exit: the real-case results reported for old and new checks; the three Increment 6 papers re-audited; two papers made through the
+app with the new checks, each audited; the independent scorer's defect counts for them beside Increment 6's.
+
+## Increment 8 — Optional: P1 on external papers (was Increment 6 until 2026-10-11, Increment 7 until 2026-10-13)
 
 The auditor on other people's papers: PDF ingest, claim extraction,
 leakage checks, re-runs, seeded-fault dev/test sets, a batch audit of the
 ScientistTwo corpus, and the portfolio papers (judge benchmark; independent
-audit of an AI-generated corpus). Increments 2-5 are done; the labelled synthesis section became Increment 6 (Chris, 2026-10-11). Whether to take this up, or an independent walkthrough or experiments in the app first, is the owner's decision (candidates in docs/reviews/incr-5.md).
+audit of an AI-generated corpus). Increments 2-5 are done; the labelled synthesis section became Increment 6 (Chris, 2026-10-11), and checking every sentence became Increment 7
+(proposed 2026-10-13). Whether to take this up, or an independent walkthrough or experiments in the app first, is the owner's decision (candidates in docs/reviews/incr-5.md).

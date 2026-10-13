@@ -32,7 +32,7 @@ def finished_review(tmp_path: Path, light: str = "green") -> Path:
 def written_paper(run_dir: Path) -> None:
     out = run_dir / "paper"
     out.mkdir(exist_ok=True)
-    md = ("# Agent traces: a review\n\n## Abstract\n\nThis paper reviews.\n\n## Findings\n\nA claim long enough to quote [R1].\n\n"
+    md = ("# Agent traces: a review\n\n## Abstract\n\nThis paper reviews.\n\n## Findings\n\nA claim long enough to quote [R1]. Taken together, the sources point the same way.\n\n"
           "## Discussion\n\n*Interpretation: VERA's reading of the claims named after each statement, judged to follow from "
           "them; not checked against quotes.*\n\nTraces may help (C1).\n\n## References\n\n[R1] A. Author. Candès on shift. 2024.\n")  # fmt: skip
     (out / "paper.md").write_text(md, encoding="utf-8")
@@ -44,7 +44,11 @@ def written_paper(run_dir: Path) -> None:
                         {"heading": "Discussion", "kind": "interpretation"}],
            "inferences": [{"id": "I1", "section": "Discussion", "text": "Traces may help", "premises": ["C1"], "status": "pass"},
                           {"id": "I2", "section": "Discussion", "text": "Traces prove all", "premises": ["C1"],
-                           "status": "removed", "reason": "does not follow from its premises"}]}  # fmt: skip
+                           "status": "removed", "reason": "does not follow from its premises"}],
+           "sentences": [{"id": "S1", "section": "Findings", "text": "A claim long enough to quote", "kind": "claim", "claims": ["C1"],
+                          "premises": [], "status": "pass"},
+                         {"id": "S2", "section": "Findings", "text": "Taken together, the sources point the same way.",
+                          "kind": "synthesis", "claims": [], "premises": ["C1"], "status": "pass"}]}  # fmt: skip
     (out / "paper.json").write_text(json.dumps(doc), encoding="utf-8")
     report = {"overall": "green", "checks_run": ["citation", "claim_support", "inference"], "findings": []}
     (out / "audit_report.json").write_text(json.dumps(report), encoding="utf-8")

@@ -1,0 +1,231 @@
+{
+ "n_full_text": 15,
+ "n_abstract_only": 16,
+ "n_passages": 180,
+ "n_review_passages": 60,
+ "n_new_passages": 120,
+ "read_top": 15,
+ "per_paper": 10,
+ "papers": [
+  {
+   "key": "R3",
+   "title": "Adaptive KV Cache Reuse for Fast Long-Context LLM Serving",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R6",
+   "title": "Lossless Cross-Request KV Cache Reuse via Position-Aligned Block Injection using JaccardServe",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R7",
+   "title": "Memory as a cache: Exact context reuse and deletion by construction",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R17",
+   "title": "Context Language Models",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R18",
+   "title": "Context as an Environment: Programmatic Context Management for Long-Horizon Agents",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R32",
+   "title": "Recursive Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R36",
+   "title": "SWE-Bench-CL: Continual Learning for Coding Agents",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R38",
+   "title": "The CAP Principle for LLM Serving: A Survey of Long-Context Large Language Model Serving",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R47",
+   "title": "ACM: Agentic Context Management for Long Horizon Tasks",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R55",
+   "title": "EFIM: Efficient Serving of LLMs for Infilling Tasks with Improved KV Cache Reuse",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 7.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R62",
+   "title": "Long Code Arena: a Set of Benchmarks for Long-Context Code Models",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 11.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R69",
+   "title": "RLM-Extended: Deterministic and Local-Model Inference for Recursive Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R79",
+   "title": "UniCache: Unifying Prefix Cache Eviction for Heterogeneous LLM Serving Workloads",
+   "mode": "abstract",
+   "reason": "no PDF: HTTP 403",
+   "seconds": 0.2,
+   "n_passages": 1
+  },
+  {
+   "key": "R83",
+   "title": "Active Context Compression: Autonomous Memory Management in LLM Agents",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R88",
+   "title": "Context as a Tool: Context Management for Long-Horizon SWE-Agents",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 5.9,
+   "n_passages": 11
+  },
+  {
+   "key": "R109",
+   "title": "SemPIC: Learning Semantic Position-Independent KV Caches",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 2.3,
+   "n_passages": 11
+  },
+  {
+   "key": "R112",
+   "title": "Think, But Don't Overthink: Reproducing Recursive Language Models",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R118",
+   "title": "Leyline: KV Cache Directives for Agentic Inference",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 4.6,
+   "n_passages": 11
+  },
+  {
+   "key": "R121",
+   "title": "CacheBlend: Fast Large Language Model Serving for RAG with Cached Knowledge Fusion",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R122",
+   "title": "Cache-Craft: Managing Chunk-Caches for Efficient Retrieval-Augmented Generation",
+   "mode": "abstract",
+   "reason": "no PDF: HTTP 403",
+   "seconds": 0.1,
+   "n_passages": 1
+  },
+  {
+   "key": "R123",
+   "title": "EPIC: Efficient Position-Independent Caching for Serving Large Language Models",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 5.5,
+   "n_passages": 11
+  },
+  {
+   "key": "R124",
+   "title": "SGLang: Efficient Execution of Structured Language Model Programs",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R125",
+   "title": "Prompt Cache: Modular Attention Reuse for Low-Latency Inference",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 3.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R126",
+   "title": "MEMENTO: Teaching LLMs to Manage Their Own Context",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 3.7,
+   "n_passages": 11
+  },
+  {
+   "key": "R133",
+   "title": "Cost-Efficient Large Language Model Serving for Multi-turn Conversations with CachedAttention",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 2.9,
+   "n_passages": 11
+  },
+  {
+   "key": "R138",
+   "title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R143",
+   "title": "CacheGen: KV Cache Compression and Streaming for Fast Large Language Model Serving",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R144",
+   "title": "LMCache: An Efficient KV Cache Layer for Enterprise-Scale LLM Inference",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R153",
+   "title": "KVLink: Accelerating Large Language Models via Efficient KV Cache Reuse",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R155",
+   "title": "ChunkAttention: Efficient Self-Attention with Prefix-Aware KV Cache and Two-Phase Partition",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R159",
+   "title": "An experimental study of KV cache reuse strategies in chunk-level caching systems",
+   "mode": "abstract",
+   "n_passages": 1
+  }
+ ]
+}

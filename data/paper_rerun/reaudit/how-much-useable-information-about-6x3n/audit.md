@@ -1,0 +1,126 @@
+# Audit of how-much-useable-information-about-6x3n (paper): **RED**
+
+Checks run: citation, claim_support, inference, sentence. Claims checked: 82. Findings: 33 fail, 23 warn, 0 info. Judge cost $0.00103.
+
+- **fail** (inference) I1 (Discussion): speaks of several sources ('agree') but its premises come from 1 source: 'The claims agree that rationale is valuable but rarely captured: developers may lack motivation to document it without immediate benefit, an'
+  - evidence: log `paper/inferences.jsonl` matched=False
+- **fail** (inference) I3 (Discussion): does not follow from its premises: 'Failure history is partly recoverable from trajectories: failed ones are longer, more variable and differ by agent, and most trajectories fi'
+  - evidence: log `paper/inferences.jsonl` matched=False
+- **fail** (inference) I5 (Discussion): does not follow from its premises: 'Intent is the central difficulty. Inferring developer intent or specification is called the toughest repair challenge, and one analysis attr'
+  - evidence: log `paper/inferences.jsonl` matched=False
+- **fail** (inference) I7 (Discussion): does not follow from its premises: 'Passing tests is reported as insufficient evidence of correctness, so test intent recovered from agent traces cannot be assumed to certify p'
+  - evidence: log `paper/inferences.jsonl` matched=False
+- **fail** (inference) I8 (Conclusions): does not follow from its premises: 'The claims support that design rationale mined from issue discussion can be reused to help repair, and that past fix patterns are a reusable'
+  - evidence: log `paper/inferences.jsonl` matched=False
+- **fail** (inference) I10 (Conclusions): does not follow from its premises: 'Requirements traceability recovery shows promising but uneven results, with unresolved concerns about datasets, scale and safety-critical us'
+  - evidence: log `paper/inferences.jsonl` matched=False
+- **fail** (sentence) S5 (Introduction, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Maintenance tasks are the setting in which such agents are usually evaluated.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S9 (Introduction, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Work outside the agent literature addresses the kinds of information the question names.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S14 (Introduction, unrecorded): states a fact that does not follow from its section's claims (judge_unsure): 'The passages supplied here stop short of the central question.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S15 (Introduction, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'They describe agents, benchmarks, rationale mining and traceability recovery, but none of them examines agent traces as a source of rational'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S16 (Agent trajectories as a source of failure and repair history, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Work on agent trajectories begins from the observation that outcome-only evaluation hides how agents behave.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S17 (Agent trajectories as a source of failure and repair history, claim): C11 says more than its quote: 'The authors of the comparative study of OpenHands, SWE-agent and Prometheus state that current evaluations treat agents as black boxes, focu'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S18 (Agent trajectories as a source of failure and repair history, claim): C12 says more than its quote: 'The empirical study of OpenHands, SWE-agent and Prometheus trajectories reports that failed trajectories are consistently longer and exhibit'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S19 (Agent trajectories as a source of failure and repair history, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The two studies therefore disagree on whether length is a usable failure signal, and the evidence leaves that point unsettled.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S20 (Agent trajectories as a source of failure and repair history, claim): judge unsure whether C13 says more than its quote: 'On localization, the SWE-bench trajectory study finds that most trajectories identify the problematic files correctly, even in failures [R35'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S21 (Agent trajectories as a source of failure and repair history, claim): judge unsure whether C14 says more than its quote: "SWE-agent's own appendix describes an automated categorization of 248 unresolved trajectories, validated against only 15 hand-labelled insta"
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S22 (Agent trajectories as a source of failure and repair history, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Research on attributing failure to a particular step comes mostly from multi-agent settings rather than coding agents.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S25 (Agent trajectories as a source of failure and repair history, claim): C17 says more than its quote: 'The same work states that counterfactual replay is reliable but its cost grows linearly with candidate events [R57].'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S26 (Agent trajectories as a source of failure and repair history, unrecorded): absence: 'None of the supplied passages' belongs in the record sections, not the evidence: 'None of the supplied passages shows whether such attributions or replays yield reusable repair histories that improve later maintenance of a'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S27 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources assembled here speak to design rationale mainly through issue logs and early hypertext tools, not through coding-agent traces.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S29 (Design rationale: evidence from issue logs rather than agent traces, claim): C19 says more than its quote: "DRMiner is an approach that mines latent design rationales from developers' live discussion in open-source issue logs in Jira [R13]."
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S31 (Design rationale: evidence from issue logs rather than agent traces, claim): the quote of C21 opens with a back-reference, so what it is about is outside it: 'The older gIBIS work shows that rationale capture is a long-standing aim. gIBIS is an application-specific hypertext system designed to faci'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S33 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Work on agent traces raises the same concern from the opposite direction.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S37 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages therefore show rationale being recovered from human issue discussions, and the absence of rationale being noted for agent work.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S38 (Design rationale: evidence from issue logs rather than agent traces, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'None of them shows rationale reliably recovered from agent traces, which remains open.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S39 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources on requirements traceability link recovery (TLR) with LLMs describe a field that is active but constrained by data and reliabili'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S42 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Several studies report positive results for specific LLM-based designs.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S43 (Requirements traceability link recovery with LLMs, claim): C28 says more than its quote: 'In the security-requirements study that linked requirements to goal models with GPT-3.5-turbo, the approach and tool yielded positive result'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S44 (Requirements traceability link recovery with LLMs, unrecorded): states a fact that does not follow from its section's claims (states 42, which none of its premises states): 'The evaluation behind that figure used one GRL model and 42 requirements, which is a small base.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S45 (Requirements traceability link recovery with LLMs, claim): the quote of C29 opens with a back-reference, so what it is about is outside it: 'The bidirectional-convergence study reported that combining forward and backward recovery of use cases raised use-case recovery coverage fro'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S46 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Work on ensembles and prompting shows trade-offs between recall, precision and cost.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S47 (Requirements traceability link recovery with LLMs, claim): C30 says more than its quote: 'The inter-requirements ensemble study found that small LLMs reduce the candidate space with minimal loss of recall [R11].'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S48 (Requirements traceability link recovery with LLMs, claim): C31 says more than its quote: 'In the study of LLM ensembles for candidate filtering in inter-requirements traceability, the authors report that while their LLM-based ense'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S49 (Requirements traceability link recovery with LLMs, claim): C32 says more than its quote: 'LightTraceLLM reported traceability performance comparable to a high-end baseline while cutting monetary inference cost by approximately 67-'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S51 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'For requirements-to-code links, the evidence points to limits of textual similarity.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S53 (Requirements traceability link recovery with LLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'None of these passages tests recovery from coding-agent traces, and how well the results scale is left open.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S54 (Test intent, code intent and specification inference, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources describe intent inference mainly through specification-inference agents built on AutoCodeRover.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S58 (Test intent, code intent and specification inference, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'SpecRover also adds a reviewer agent for validation.'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S61 (Test intent, code intent and specification inference, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources also report limits on how reliably such intent can be recovered.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S62 (Test intent, code intent and specification inference, claim): C40 says more than its quote: "In SpecRover's analysis of 207 unresolved SWE-bench Lite tasks, 107 (51.7%) had ambiguous issue descriptions, 61 (29.5%) had an incorrect fi"
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S63 (Test intent, code intent and specification inference, claim): the quote of C41 opens with a back-reference, so what it is about is outside it: 'The AutoCodeRover authors acknowledge that a patch passing the added tests may still be overfitting [R10].'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S65 (Test intent, code intent and specification inference, claim): C43 says more than its quote: 'The OSS-Fuzz study similarly finds that patches with high CodeBLEU scores still fail the given exploit input [R90].'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S66 (Test intent, code intent and specification inference, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): "The passages leave open whether inferred specifications can be reused after the original repair, since SpecRover's retention of evidence is "
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S67 (Historical fix patterns and mined repair knowledge, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The history-driven repair line of work starts from the observation that fixes recur.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S69 (Historical fix patterns and mined repair knowledge, claim): C45 says more than its quote: 'Getafix, which learns fix patterns from past human-written fixes for static-analysis bug categories, is reported to predict exactly the huma'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S70 (Historical fix patterns and mined repair knowledge, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The wide range in that figure shows that how reliably mined fixes can be reused depends on the bug category.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S71 (Historical fix patterns and mined repair knowledge, claim): C46 says more than its quote: 'FixMiner addresses how patterns are mined, and its authors argue that earlier approaches often do not yield fix patterns that are tractable '
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S73 (Historical fix patterns and mined repair knowledge, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Agent-based repair changes the setting.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S76 (Historical fix patterns and mined repair knowledge, unrecorded): absence: 'None of the supplied passages' belongs in the record sections, not the evidence: 'None of the supplied passages shows agent traces being mined for reusable fix patterns the way commit histories are, so that question remain'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S77 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact that does not follow from its section's claims (names SWE-bench-style, which none of its premises names): 'The sources agree that SWE-bench-style issue resolution is the standard testbed for coding agents, but they differ on how far results on it '
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S80 (Limitations: evidence gaps, benchmark scope, and maintainability claims, claim): the quote of C52 opens with a back-reference, so what it is about is outside it: 'The same authors suggest that existing models may be overfitting to static benchmarks [R29].'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S82 (Limitations: evidence gaps, benchmark scope, and maintainability claims, claim): the quote of C53 opens with a back-reference, so what it is about is outside it: 'The SWE-bench-java authors note that SWE-bench is centered on Python and does not cover fields such as web applications, mobile applications'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S83 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Trace-based studies add limits on what resolution rates reveal.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S86 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'On maintainability specifically, the evidence is thin.'
+  - evidence: log `paper/paper.json` matched=False
+- **fail** (sentence) S87 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact that does not follow from its section's claims (names AI-assisted, LLMoxie, which none of its premises names): 'The LLMoxie authors report that current agentic AI practices lack mechanisms analogous to version control or commit history for tracking the'
+  - evidence: log `paper/paper.json` matched=False
+- **warn** (sentence) S88 (Limitations: evidence gaps, benchmark scope, and maintainability claims, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages supplied here do not test whether information recovered from agent traces improves long-term maintainability or robustness, so '
+  - evidence: log `paper/paper.json` matched=False
+
+Skipped checks:
+- method_code: AUD-F-05: method-code alignment arrives in Increment 4
+- spec_leakage: AUD-F-06: leakage checks arrive in Increment 6
+- novelty: AUD-F-07: novelty against retrieved literature arrives in Increment 4
+- rerun: AUD-F-08: re-running experiments is optional, Increment 6
+
+Interpretation statements re-checked: 17 (judged to follow from the claims they name; not checked against quotes).
+
+Sentences re-checked: 88 (55 claim, 33 unrecorded); 27 failed and 23 were flagged. Claims were checked to say no more than their quotes; sentences without a claim were checked to state no fact, or to follow from the claims they rest on.

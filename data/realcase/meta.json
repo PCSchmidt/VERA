@@ -1,0 +1,60 @@
+{
+ "built_at": "2026-10-13T12:39:53Z",
+ "seed": 20261013,
+ "papers": {
+  "P1": "how-much-useable-information-about-6x3n",
+  "P2": "discuss-the-evolution-of-prompting-guv8",
+  "P3": "rlm-vs-clm-3"
+ },
+ "split": {
+  "P1": "dev",
+  "P2": "test",
+  "P3": "test"
+ },
+ "counts": {
+  "dev": {
+   "claim": 20,
+   "sentence": 15,
+   "inference": 15
+  },
+  "test": {
+   "claim": 40,
+   "sentence": 26,
+   "inference": 24
+  }
+ },
+ "named": {
+  "dev": {
+   "claim": 5,
+   "sentence": 4,
+   "inference": 5
+  },
+  "test": {
+   "claim": 9,
+   "sentence": 3,
+   "inference": 3
+  }
+ },
+ "labels": {
+  "claim": {
+   "W": "says no more than its quote",
+   "M": "says more than its quote",
+   "X": "needs context outside the quote"
+  },
+  "sentence": {
+   "N": "states no fact (a transition)",
+   "F": "follows from the claims listed",
+   "D": "does not follow from them, or contradicts them"
+  },
+  "inference": {
+   "F": "follows from its premises",
+   "O": "overreaches or does not follow"
+  }
+ },
+ "sheet_sha256": "3d8403519b6c4d6a4834e4405f991da6846cd51472a212411c980ec0ccbf73bd",
+ "sources": [
+  "data/paper_demo/*/paper/paper.json",
+  "data/results/rubric6_evaluator.json",
+  "docs/results/incr6_external_review.md"
+ ]
+}

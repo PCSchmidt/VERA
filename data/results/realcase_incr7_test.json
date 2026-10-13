@@ -1,0 +1,1383 @@
+{
+ "split": "test",
+ "run_at": "2026-10-13T17:05:17+00:00",
+ "summary": {
+  "claim": {
+   "n": 40,
+   "labels": {
+    "M": 2,
+    "W": 35,
+    "X": 3
+   },
+   "old_faulty_flagged": {
+    "k": 0,
+    "n": 5,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.434
+    ]
+   },
+   "old_sound_flagged": {
+    "k": 1,
+    "n": 35,
+    "rate": 0.029,
+    "ci95": [
+     0.005,
+     0.145
+    ]
+   },
+   "new_faulty_flagged": {
+    "k": 4,
+    "n": 5,
+    "rate": 0.8,
+    "ci95": [
+     0.376,
+     0.964
+    ]
+   },
+   "new_sound_flagged": {
+    "k": 7,
+    "n": 35,
+    "rate": 0.2,
+    "ci95": [
+     0.1,
+     0.359
+    ]
+   }
+  },
+  "sentence": {
+   "n": 26,
+   "labels": {
+    "D": 14,
+    "F": 12
+   },
+   "old_faulty_flagged": {
+    "k": 0,
+    "n": 14,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.215
+    ]
+   },
+   "old_sound_flagged": {
+    "k": 0,
+    "n": 12,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.243
+    ]
+   },
+   "new_faulty_flagged": {
+    "k": 11,
+    "n": 14,
+    "rate": 0.786,
+    "ci95": [
+     0.524,
+     0.924
+    ]
+   },
+   "new_sound_flagged": {
+    "k": 4,
+    "n": 12,
+    "rate": 0.333,
+    "ci95": [
+     0.138,
+     0.609
+    ]
+   },
+   "new_warn": 11
+  },
+  "inference": {
+   "n": 24,
+   "labels": {
+    "F": 22,
+    "O": 2
+   },
+   "old_faulty_flagged": {
+    "k": 0,
+    "n": 2,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.658
+    ]
+   },
+   "old_sound_flagged": {
+    "k": 1,
+    "n": 22,
+    "rate": 0.045,
+    "ci95": [
+     0.008,
+     0.218
+    ]
+   },
+   "new_faulty_flagged": {
+    "k": 0,
+    "n": 2,
+    "rate": 0.0,
+    "ci95": [
+     0.0,
+     0.658
+    ]
+   },
+   "new_sound_flagged": {
+    "k": 3,
+    "n": 22,
+    "rate": 0.136,
+    "ci95": [
+     0.047,
+     0.333
+    ]
+   }
+  }
+ },
+ "spend_usd": 0.007586821799999998,
+ "ledger": "data/ledger/realcase_incr7_test.jsonl",
+ "labelled_by": "ChatGPT (OpenAI), at Chris's request",
+ "test_sha256": "b5aeacee4f1e2dd8d1d3efddd20f28eed62e88907ae71383759be7b45398723d",
+ "check_sha256": {
+  "vera/literature/sentence_checks.py": "929a9edf1f1ac5b42563d6863ea0c3dd92ddae09174cc5835730e97aa53034ee",
+  "vera/audit/sentences.py": "b255f98c0f3573349ba676608cb5ac06dc8c14f3da26f4717c78febf878eb59c",
+  "vera/audit/inference.py": "90aac0aba185ad6c9ae47946975badfe1bfdc5dccfcd4b81cddb3650ebc75c06",
+  "vera/literature/anchoring.py": "7cf3fe5bdf43989c5d8d5f20cf1c6fc2f5e3671550ab09a0f745317146f1a6f4",
+  "vera/literature/synthesis.py": "104981efce2ec88839753b027474c509bfca2ed4771ea6ec74bcf53e9a083f8b",
+  "vera/literature/questions.py": "dff49a8806e5a876d7d94f8920c95c96f3e58d3828773f41524757e65e47145e",
+  "scripts/measure_realcase.py": "a7ce21e9a046ef2508e87a14d5c3011ca6238a0e3f6262fad1005b7ab8057ffe"
+ },
+ "rows": [
+  {
+   "sheet_id": "T01",
+   "item": "P2-C40",
+   "type": "claim",
+   "named": true,
+   "label": "M",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "9ff939ccf33dc8d7"
+  },
+  {
+   "sheet_id": "T02",
+   "item": "P3-C53",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "4a3d2e8eca37b037"
+  },
+  {
+   "sheet_id": "T03",
+   "item": "P2-S17",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "T04",
+   "item": "P3-S1",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "absence: 'no published empirical study' belongs in the record sections, not the evidence"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T05",
+   "item": "P2-S24",
+   "type": "sentence",
+   "named": true,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T06",
+   "item": "P3-S2",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "T07",
+   "item": "P3-C17",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "8781202f135b4061"
+  },
+  {
+   "sheet_id": "T08",
+   "item": "P3-C41",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "21a5bcb7cc15fe72"
+  },
+  {
+   "sheet_id": "T09",
+   "item": "P2-S3",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T10",
+   "item": "P3-C27",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "quote opens with a back-reference"
+   ],
+   "passage_sha256": "dda25107dbe66f3d"
+  },
+  {
+   "sheet_id": "T11",
+   "item": "P3-S14",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "T12",
+   "item": "P3-I6",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T13",
+   "item": "P2-C33",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "9e0ffbe367e6c4cd"
+  },
+  {
+   "sheet_id": "T14",
+   "item": "P2-I10",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T15",
+   "item": "P3-C8",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "ad8e3aa405642ae3"
+  },
+  {
+   "sheet_id": "T16",
+   "item": "P3-I13",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T17",
+   "item": "P3-S4",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "T18",
+   "item": "P3-S16",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "T19",
+   "item": "P2-C42",
+   "type": "claim",
+   "named": true,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "44818a2b38a7c8ca"
+  },
+  {
+   "sheet_id": "T20",
+   "item": "P2-I11",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T21",
+   "item": "P3-C20",
+   "type": "claim",
+   "named": true,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "quote opens with a back-reference",
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "3dc78bf0bd8cc368"
+  },
+  {
+   "sheet_id": "T22",
+   "item": "P2-S5",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T23",
+   "item": "P2-I17",
+   "type": "inference",
+   "named": true,
+   "label": "O",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T24",
+   "item": "P2-C19",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "9535bd2b8da34b53"
+  },
+  {
+   "sheet_id": "T25",
+   "item": "P2-I13",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T26",
+   "item": "P3-S22",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T27",
+   "item": "P2-C39",
+   "type": "claim",
+   "named": true,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "quote opens with a back-reference"
+   ],
+   "passage_sha256": "ed7940274ae63df3"
+  },
+  {
+   "sheet_id": "T28",
+   "item": "P2-S13",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T29",
+   "item": "P2-I8",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T30",
+   "item": "P2-C48",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "9e0ffbe367e6c4cd"
+  },
+  {
+   "sheet_id": "T31",
+   "item": "P2-C50",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "763b99d78a08249e"
+  },
+  {
+   "sheet_id": "T32",
+   "item": "P3-S19",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T33",
+   "item": "P2-S25",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T34",
+   "item": "P3-I9",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T35",
+   "item": "P2-C9",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "quote opens with a back-reference"
+   ],
+   "passage_sha256": "6473d896853f2f61"
+  },
+  {
+   "sheet_id": "T36",
+   "item": "P2-C25",
+   "type": "claim",
+   "named": true,
+   "label": "X",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "7cab7426aa39cdde"
+  },
+  {
+   "sheet_id": "T37",
+   "item": "P3-C54",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "0bc4c9da541880ab"
+  },
+  {
+   "sheet_id": "T38",
+   "item": "P3-I3",
+   "type": "inference",
+   "named": true,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "does not follow from its premises"
+   ]
+  },
+  {
+   "sheet_id": "T39",
+   "item": "P3-S10",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "T40",
+   "item": "P3-C48",
+   "type": "claim",
+   "named": true,
+   "label": "M",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "951b6018c56e506f"
+  },
+  {
+   "sheet_id": "T41",
+   "item": "P3-C42",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "0204c3e027527cd6"
+  },
+  {
+   "sheet_id": "T42",
+   "item": "P3-S21",
+   "type": "sentence",
+   "named": true,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "absence: 'None of the compression studies' belongs in the record sections, not the evidence"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T43",
+   "item": "P3-C52",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "8781202f135b4061"
+  },
+  {
+   "sheet_id": "T44",
+   "item": "P3-I2",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T45",
+   "item": "P3-C45",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "aecc9397b1a6dc17"
+  },
+  {
+   "sheet_id": "T46",
+   "item": "P3-I15",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T47",
+   "item": "P2-I7",
+   "type": "inference",
+   "named": true,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T48",
+   "item": "P3-C49",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "84eb8cbb6d23f503"
+  },
+  {
+   "sheet_id": "T49",
+   "item": "P3-C3",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "f194086d1fac91aa"
+  },
+  {
+   "sheet_id": "T50",
+   "item": "P3-I11",
+   "type": "inference",
+   "named": false,
+   "label": "O",
+   "faulty": true,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T51",
+   "item": "P3-C43",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "f194086d1fac91aa"
+  },
+  {
+   "sheet_id": "T52",
+   "item": "P2-I3",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T53",
+   "item": "P3-I4",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T54",
+   "item": "P3-C24",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "21a3d48c20f8f54d"
+  },
+  {
+   "sheet_id": "T55",
+   "item": "P3-C25",
+   "type": "claim",
+   "named": true,
+   "label": "X",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "87d15a7d50e02b2b"
+  },
+  {
+   "sheet_id": "T56",
+   "item": "P2-C31",
+   "type": "claim",
+   "named": true,
+   "label": "X",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "7cab7426aa39cdde"
+  },
+  {
+   "sheet_id": "T57",
+   "item": "P2-S14",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T58",
+   "item": "P3-I14",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": true,
+   "new": true,
+   "old_reasons": [
+    "does not follow from its premises"
+   ],
+   "new_reasons": [
+    "does not follow from its premises"
+   ]
+  },
+  {
+   "sheet_id": "T59",
+   "item": "P2-S15",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "T60",
+   "item": "P3-C46",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "aecc9397b1a6dc17"
+  },
+  {
+   "sheet_id": "T61",
+   "item": "P3-C1",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "7c60f795e1707674"
+  },
+  {
+   "sheet_id": "T62",
+   "item": "P2-C57",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "ab90c821ff03d018"
+  },
+  {
+   "sheet_id": "T63",
+   "item": "P2-I1",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "does not follow from its premises"
+   ]
+  },
+  {
+   "sheet_id": "T64",
+   "item": "P2-I2",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T65",
+   "item": "P2-C2",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "5b00ba2307bbc9ad"
+  },
+  {
+   "sheet_id": "T66",
+   "item": "P3-C6",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "a71fd127f64ac09f"
+  },
+  {
+   "sheet_id": "T67",
+   "item": "P3-C57",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "55c96c297cb2141a"
+  },
+  {
+   "sheet_id": "T68",
+   "item": "P3-S7",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "T69",
+   "item": "P3-C19",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "ad8e3aa405642ae3"
+  },
+  {
+   "sheet_id": "T70",
+   "item": "P2-C14",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": true,
+   "new": true,
+   "old_reasons": [
+    "lit.claim_supported: unsure"
+   ],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "9535bd2b8da34b53"
+  },
+  {
+   "sheet_id": "T71",
+   "item": "P2-I5",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T72",
+   "item": "P3-I7",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T73",
+   "item": "P3-I16",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T74",
+   "item": "P2-S2",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (states 2025, which none of its premises states)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T75",
+   "item": "P2-C45",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "6473d896853f2f61"
+  },
+  {
+   "sheet_id": "T76",
+   "item": "P2-C34",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "937042c03698b0de"
+  },
+  {
+   "sheet_id": "T77",
+   "item": "P2-C6",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "claim.within_quote: no"
+   ],
+   "passage_sha256": "26d0fbc7d7d3359b"
+  },
+  {
+   "sheet_id": "T78",
+   "item": "P2-C46",
+   "type": "claim",
+   "named": true,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "76e529a3c15f9c15"
+  },
+  {
+   "sheet_id": "T79",
+   "item": "P2-S28",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "T80",
+   "item": "P3-S8",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "T81",
+   "item": "P3-S15",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "absence: 'None of the supplied passages' belongs in the record sections, not the evidence"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T82",
+   "item": "P2-S10",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact without naming its premises; judged to follow from its section's claims"
+   ],
+   "new_severity": "warn"
+  },
+  {
+   "sheet_id": "T83",
+   "item": "P2-I14",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T84",
+   "item": "P3-S11",
+   "type": "sentence",
+   "named": false,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T85",
+   "item": "P3-C5",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "691e7d1df824577a"
+  },
+  {
+   "sheet_id": "T86",
+   "item": "P3-S13",
+   "type": "sentence",
+   "named": true,
+   "label": "D",
+   "faulty": true,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T87",
+   "item": "P3-I17",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T88",
+   "item": "P2-I16",
+   "type": "inference",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": []
+  },
+  {
+   "sheet_id": "T89",
+   "item": "P2-S19",
+   "type": "sentence",
+   "named": false,
+   "label": "F",
+   "faulty": false,
+   "old": false,
+   "new": true,
+   "old_reasons": [],
+   "new_reasons": [
+    "states a fact that does not follow from its section's claims (does not follow from its premises)"
+   ],
+   "new_severity": "fail"
+  },
+  {
+   "sheet_id": "T90",
+   "item": "P3-C36",
+   "type": "claim",
+   "named": false,
+   "label": "W",
+   "faulty": false,
+   "old": false,
+   "new": false,
+   "old_reasons": [],
+   "new_reasons": [],
+   "passage_sha256": "c604d1c95f196150"
+  }
+ ]
+}
