@@ -1,0 +1,36 @@
+{
+ "by": "OpenAI Codex",
+ "entries": [
+  {
+   "output": "N1",
+   "at": "2026-10-13T21:19:53Z",
+   "blind": true,
+   "prefer": "paper",
+   "note": "Fuller and more useful than the review, but one loose claim and one discussion inference reduce confidence.",
+   "scores": {
+    "answers_question": 4,
+    "coverage": 4,
+    "correctness": 3,
+    "reproducibility": 5,
+    "honesty": 4,
+    "interpretation_follows": 3
+   }
+  },
+  {
+   "output": "N2",
+   "at": "2026-10-13T21:19:58Z",
+   "blind": true,
+   "prefer": "paper",
+   "note": "It answers the question and states limits well, but a few loose claims and one discussion overreach keep it at acceptable correctness.",
+   "scores": {
+    "answers_question": 4,
+    "coverage": 4,
+    "correctness": 3,
+    "reproducibility": 5,
+    "honesty": 5,
+    "interpretation_follows": 3
+   }
+  }
+ ],
+ "attribution": "Scored by OpenAI Codex at Chris's request."
+}

@@ -1028,7 +1028,7 @@ gates:
 
   # ── Increment 7: check what the green light does not (SPEC.md) ───────────────
   # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
-  # Defined so far: incr7_scoped, sentence_checks_ready, realcase_labelled, audit_sentences_ready, checks_measured, coverage_search_ready, paper_rerun, rubric7_scored.
+  # Defined so far: incr7_scoped, sentence_checks_ready, realcase_labelled, audit_sentences_ready, checks_measured, coverage_search_ready, paper_rerun, rubric7_scored, incr7_review.
 
   - id: incr7_scoped
     label: "Increment 7 scope confirmed"
@@ -1151,3 +1151,19 @@ gates:
     hooks:
       pre:
         - gate-rubric7.sh           # first scorer blind and before; attribution when not Chris; defects listed by id; not a copy
+
+  - id: incr7_review
+    label: "Increment 7 review"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 7 COMPLETE"
+    requires:
+      - rubric7_scored
+    requires_artifacts:
+      - docs/reviews/incr-7.md
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-traceability.sh
+        - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
+        - run-evaluator.sh          # independent Evaluator verdict on the review

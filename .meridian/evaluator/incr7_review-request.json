@@ -1,0 +1,17 @@
+{
+  "gate": "incr7_review",
+  "requested_at": "2026-10-14T00:07:17Z",
+  "system_prompt": "You did not produce the artifacts you are reviewing. Do not praise. Do not explain. Score the work 0-10 against the gate's spec and flag every gap. Return only JSON: {\"gate\":\"<id>\",\"score\":<0-10>,\"verdict\":\"pass|fail|warn\",\"notes\":\"<terse>\"}.",
+  "artifacts": [
+    "docs/reviews/incr-7.md",
+    "SPEC.md",
+    "data/results/realcase_incr7_test.json",
+    "data/results/realcase_incr7_dev.json",
+    "data/results/rubric7_first.json",
+    "data/results/rubric7_evaluator.json",
+    "data/paper_rerun/record.json",
+    "data/realcase/labels_test.json",
+    "docs/results/incr7_test_run.txt"
+  ],
+  "verdict_path": "incr7_review-verdict.json"
+}

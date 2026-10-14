@@ -1,7 +1,10 @@
 # SPEC — VERA, Increment 7 (check what the green light does not)
 
-> **Status: proposed 2026-10-13, awaiting `incr7_scoped` (Chris).** Decisions 1-6 at the end are Chris's to accept or change. The
-> Increment 6 SPEC is in git history; its review is [docs/reviews/incr-6.md](docs/reviews/incr-6.md).
+> **Status: scoped 2026-10-13 (`incr7_scoped` approved by Chris, decisions 1-6 as proposed).** Passed 2026-10-13:
+> `sentence_checks_ready`, `realcase_labelled`, `audit_sentences_ready`, `checks_measured`, `coverage_search_ready`, `paper_rerun`,
+> `rubric7_scored`; 2026-10-14: `incr7_review` (approved by Chris; [docs/reviews/incr-7.md](docs/reviews/incr-7.md), which lists the
+> deviations: the labels and first scores are an OpenAI assistant's, not Chris's). Increment 7 is complete. The Increment 6 SPEC is in git history; its review is
+> [docs/reviews/incr-6.md](docs/reviews/incr-6.md).
 
 ## Overview
 

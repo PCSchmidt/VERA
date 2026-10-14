@@ -34,9 +34,9 @@ independent researchers and small labs (P3). See ConOps §2.
 **Increments 0 to 5 are complete** ([docs/reviews/incr-0.md](docs/reviews/incr-0.md), [incr-1](docs/reviews/incr-1.md), [incr-2](docs/reviews/incr-2.md),
 [incr-3](docs/reviews/incr-3.md), [incr-4](docs/reviews/incr-4.md), [incr-5](docs/reviews/incr-5.md); Increment 5 passed 2026-10-09 with MOE-4 not shown).
 **Increment 6 (from a review to a paper) is complete** ([docs/reviews/incr-6.md](docs/reviews/incr-6.md); `incr6_review` approved by Chris 2026-10-12): a button that turns a finished review into a
-review paper, with wider reading and labelled, judge-checked interpretation sections (Chris, 2026-10-11). **Increment 7 (check what the green light does not) is proposed** in [SPEC.md](SPEC.md), awaiting `incr7_scoped`: every
-sentence of an evidence section gets a checked status, measured on real defects labelled by Chris. Auditing external papers is
-now Increment 8 (optional).
+review paper, with wider reading and labelled, judge-checked interpretation sections (Chris, 2026-10-11). **Increment 7 (check what the green light does not) is complete** ([docs/reviews/incr-7.md](docs/reviews/incr-7.md); `incr7_review`
+approved by Chris 2026-10-14): every sentence of an evidence section has a checked status and the audit re-checks each, measured on real text
+from Increment 6's papers. Auditing external papers is now Increment 8 (optional).
 
 In scope for the project as a whole: the three layers above, their data
 contracts ([docs/03-interfaces.md](docs/03-interfaces.md)), and the

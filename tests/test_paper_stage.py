@@ -216,7 +216,8 @@ def test_RSH_F_12_seeded_review_verdicts_are_retagged_for_the_paper_stage(tmp_pa
     run, deps = setup_run(tmp_path)
     state = run_nodes(deps, {"section": {"retrieval_stats": STATS}}, ["paper_widen"])
     passages = [json.loads(ln) for ln in (run / "paper" / "passages.jsonl").read_text("utf-8").splitlines() if ln]
-    records = {r["key"]: r for r in (json.loads(ln) for ln in (run / "retrieved.jsonl").read_text("utf-8").splitlines() if ln)}
+    retrieved = (run / "retrieved.jsonl").read_text("utf-8").splitlines()
+    records = {r["key"]: r for r in (json.loads(ln) for ln in retrieved if ln)}
     source_key, quote = sentences_on(passages, "agent traces trajectory")[0]
     sentence = f"Paper {source_key} reports {quote[:-1]}."
     passage = next(p for p in passages if p["source_key"] == source_key and quote in p["text"])

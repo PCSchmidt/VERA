@@ -32,6 +32,7 @@
     "incr5_scoped",
     "incr6_review",
     "incr6_scoped",
+    "incr7_review",
     "incr7_scoped",
     "inference_measured",
     "inference_set_frozen",
@@ -55,6 +56,7 @@
     "retrieval_ready",
     "rubric5_scored",
     "rubric6_scored",
+    "rubric7_scored",
     "rubric_scored",
     "run_core_ready",
     "runs4",
@@ -205,6 +207,14 @@
     "paper_rerun": {
       "by": "Chris Schmidt",
       "at": "2026-10-13T20:31:12Z"
+    },
+    "rubric7_scored": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-13T23:54:50Z"
+    },
+    "incr7_review": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-14T11:03:47Z"
     }
   }
 }

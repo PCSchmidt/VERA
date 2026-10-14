@@ -148,7 +148,7 @@ preferred the paper to its review in five of six judgements (independent mean 3.
 faults, but the faults were blatant and written by the check's author; in the live papers the external review and the independent scorer found
 cited claims saying more than their quotes, wrong uncited synthesis and overreaching interpretation under green audits. No frozen file changed.
 
-## Increment 7 — Check what the green light does not (proposed 2026-10-13)
+## Increment 7 — Check what the green light does not (scoped 2026-10-13; complete 2026-10-14)
 
 Scope, gates and caps proposed in SPEC.md (2026-10-13); `incr7_scoped` is Chris's approval of them.
 
@@ -162,6 +162,12 @@ on real text from the Increment 6 papers, labelled by Chris and frozen before th
 file is changed; the review and the paper share the new checks.
 Exit: the real-case results reported for old and new checks; the three Increment 6 papers re-audited; two papers made through the
 app with the new checks, each audited; the independent scorer's defect counts for them beside Increment 6's.
+
+Result (docs/reviews/incr-7.md): on 90 real items from Increment 6's papers, the old checks flagged 0 of 21 faulty items and the new
+ones 15 (and 14 of 69 sound ones), against labels chosen by an OpenAI assistant at Chris's request, not by Chris. Re-audited, the three
+Increment 6 papers turn from green to red; the two papers made with the new checks are red on 2 and 3 items, each one where the
+cheap path's two judges disagreed between writing and auditing. The independent scorer still found 4 and 5 claims per paper saying
+more than their quotes (6 in Increment 6's P2), and defects of kinds the new checks pass. Spend $1.33 of $5. No frozen file changed.
 
 ## Increment 8 — Optional: P1 on external papers (was Increment 6 until 2026-10-11, Increment 7 until 2026-10-13)
 

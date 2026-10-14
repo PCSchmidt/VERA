@@ -1,0 +1,5 @@
+........................................................................ [ 99%]
+..                                                                       [100%]
+794 passed in 192.02s (0:03:12)
+9d7e721 plus the uncommitted Increment 7 review documents (uv run pytest -q)
+2026-10-14T00:01:50Z

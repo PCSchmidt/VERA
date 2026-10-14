@@ -1,0 +1,129 @@
+{
+ "by": "evaluator",
+ "entries": [
+  {
+   "output": "N1",
+   "at": "2026-10-13T22:30:16Z",
+   "blind": true,
+   "prefer": "paper",
+   "note": "Strengths: every definition and component attribution is quoted, the stage distinction (R49), the harness component lists (R26, R87) and the evaluation-sensitivity evidence (R6, R84) are clearly sourced, and the limits are stated. Defects: 8 found in 51 claims, 6 syntheses, 8 transitions and 18 statements (2 claims need context, 2 claims widen or misattribute the quote, 1 synthesis and 3 statements overreach); heavy repetition (R6 ranking reversal 4 times, R26 six components 3 times) though repeats are not presented as corroboration; R1 and R11 are pre-2025 despite the 2025-present question, and practitioner sources are thin.",
+   "scores": {
+    "answers_question": 3,
+    "coverage": 3,
+    "correctness": 4,
+    "reproducibility": 4,
+    "honesty": 4,
+    "interpretation_follows": 4
+   },
+   "defects": [
+    {
+     "id": "C7",
+     "kind": "needs context",
+     "note": "Quote says they implement M as a persistent file system; that M is memory comes from outside the quote."
+    },
+    {
+     "id": "C9",
+     "kind": "says more than quote",
+     "note": "Quote defines context rot during extended coding sessions; the claim drops that scope and states it for agents generally."
+    },
+    {
+     "id": "C42",
+     "kind": "needs context",
+     "note": "Quote says The central insight is that a harness mutation... without saying whose insight; attributing it as the position of R49 depends on context."
+    },
+    {
+     "id": "C44",
+     "kind": "says more than quote",
+     "note": "Quote attributes the operating-environment view to AHE, a cited work [281,178]; the claim calls it the survey’s own harness-level view."
+    },
+    {
+     "id": "S70",
+     "kind": "synthesis does not follow",
+     "note": "C45 is about context adaptation, not a definition of context engineering, and modifying inputs with evidence is compatible with C44; calling them different registers (and evolving inputs) is not in the premises."
+    },
+    {
+     "id": "I5",
+     "kind": "overreach",
+     "note": "Premises C5, C6, C7 each describe one component in one source; they do not show that components are attributed unevenly across stages."
+    },
+    {
+     "id": "I6",
+     "kind": "overreach",
+     "note": "Says sources list memory store, context constructor, skill routing...; C17 and C21 are both R26, so the list comes from one source."
+    },
+    {
+     "id": "I10",
+     "kind": "overreach",
+     "note": "Reads a temporal progression instruction to evidence to execution environment; only C4 describes a shift, C16 is a static distinction and C20 a definition."
+    }
+   ]
+  },
+  {
+   "output": "N2",
+   "at": "2026-10-13T22:31:02Z",
+   "blind": true,
+   "prefer": "review",
+   "note": "Strengths: the CLM cost figures, the SCR mechanism and its stale-state caveat, the CacheTune non-prefix counterpoint, Leyline and the SMem regime caveat are quoted accurately, and I10 states that RLM cost on coding is not established. Defects: 10 found in 51 claims, 3 syntheses, 11 transitions and 11 statements (3 claims add zero-shot, LongBench or coding, 2 need context, 1 synthesis links results the premises do not link, 2 transitions promise an experiment and trace-reuse analysis that are absent, 2 statements overreach); the latency and trace-reuse halves of the question are left unanswered after removals, the 35% SCR figure appears five times, and section headings do not match content, so the shorter review answers the question more directly.",
+   "scores": {
+    "answers_question": 2,
+    "coverage": 3,
+    "correctness": 3,
+    "reproducibility": 4,
+    "honesty": 3,
+    "interpretation_follows": 3
+   },
+   "defects": [
+    {
+     "id": "C33",
+     "kind": "says more than quote",
+     "note": "Claim says CLMs applied zero-shot; the quote says nothing about zero-shot."
+    },
+    {
+     "id": "C51",
+     "kind": "says more than quote",
+     "note": "Claim adds on LongBench; the quote gives 20x to 70x CPU TTFT reductions with no benchmark named."
+    },
+    {
+     "id": "C20",
+     "kind": "says more than quote",
+     "note": "Claim calls it the coding comparison; the quote lists baselines and the Mini-SWE-Agent backbone without naming a task or benchmark."
+    },
+    {
+     "id": "C22",
+     "kind": "needs context",
+     "note": "Quote says SCR reuses surviving tokens including C and reprefills B prime; the edit replacing a block is only in the surrounding text (C26 has it)."
+    },
+    {
+     "id": "C47",
+     "kind": "needs context",
+     "note": "Quote says gains saturate by much shorter prefix, relative to an undefined K; what saturates and against what length is not stated in the quote."
+    },
+    {
+     "id": "S36",
+     "kind": "synthesis does not follow",
+     "note": "Ties the RLM baseline set to the TerminalBench result and places the 35% SCR serving saving on terminal coding; C20, C21 and C24 do not link these."
+    },
+    {
+     "id": "S16",
+     "kind": "other",
+     "note": "Says a small CPU-scale experiment accompanies the analysis; the paper reports no experiment."
+    },
+    {
+     "id": "S56",
+     "kind": "other",
+     "note": "Promises to take up trace reuse; the section offers only SWE-Bench-CL and no claim on trace reusability of RLM or CLM."
+    },
+    {
+     "id": "I7",
+     "kind": "overreach",
+     "note": "The original comparable-cost claim was at depth 1; the depth-2 finding does not qualify it, only the simple-retrieval finding partly does (C12, C13, C46)."
+    },
+    {
+     "id": "I17",
+     "kind": "overreach",
+     "note": "C47 does not say the saturating gains are SCR gains or concern realistic prefix lengths; the agenda item reads that into it."
+    }
+   ]
+  }
+ ]
+}
