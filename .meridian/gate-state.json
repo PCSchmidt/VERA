@@ -34,12 +34,16 @@
     "incr6_scoped",
     "incr7_review",
     "incr7_scoped",
+    "incr8_review",
+    "incr8_scoped",
     "inference_measured",
     "inference_set_frozen",
     "inventory_verified",
     "judge_core_ready",
+    "judge_measured",
     "judge_retest",
     "judge_retest_3",
+    "judge_set_frozen",
     "key_safety_ready",
     "lit2_ready",
     "lit_core_ready",
@@ -53,7 +57,9 @@
     "problem2_ready",
     "protocol_ready",
     "realcase_labelled",
+    "reaudit8",
     "retrieval_ready",
+    "routing_ready",
     "rubric5_scored",
     "rubric6_scored",
     "rubric7_scored",
@@ -215,6 +221,18 @@
     "incr7_review": {
       "by": "Chris Schmidt",
       "at": "2026-10-14T11:03:47Z"
+    },
+    "incr8_scoped": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-14T11:31:22Z"
+    },
+    "reaudit8": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-14T20:56:58Z"
+    },
+    "incr8_review": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-14T23:22:41Z"
     }
   }
 }

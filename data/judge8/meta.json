@@ -1,0 +1,31 @@
+{
+ "built_at": "2026-10-14T11:56:21Z",
+ "seed": 20261014,
+ "split": {
+  "P1": "dev",
+  "N1": "dev",
+  "P2": "test",
+  "P3": "test",
+  "N2": "test"
+ },
+ "papers": {
+  "P1": "data/paper_demo/how-much-useable-information-about-6x3n",
+  "P2": "data/paper_demo/discuss-the-evolution-of-prompting-guv8",
+  "P3": "data/paper_demo/rlm-vs-clm-3",
+  "N1": "data/paper_rerun/discuss-the-evolution-of-prompting-guv8",
+  "N2": "data/paper_rerun/rlm-vs-clm-2"
+ },
+ "counts": {
+  "dev": {
+   "within_quote": 48,
+   "no_fact": 24,
+   "inference": 41
+  },
+  "test": {
+   "within_quote": 72,
+   "no_fact": 43,
+   "inference": 47
+  }
+ },
+ "items_sha256": "ddc775ba99776521d012a59381cdd9ac8a7c0ef37336210114a55d04582de0e7"
+}

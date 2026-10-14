@@ -24,12 +24,12 @@ RULE = (190, 186, 177)
 LIGHTS = {"green": (31, 122, 77), "amber": (154, 106, 0), "red": (179, 38, 30)}
 LIGHT_WORDS = {
     "green": "Green: the citations are real and each claim is supported by the passage it quotes",
-    "amber": "Amber: no check failed, but there are warnings to read",
+    "amber": "Amber: no check failed, but there are warnings to read (a warning can be a judge disagreement: passed when written, failed in the audit)",
     "red": "Red: one or more checks failed",
 }
 PAPER_LIGHT_WORDS = {  # audits made before the sentence audit (Increment 6 papers)
     "green": "Green: the citations are real, each claim is supported by the passage it quotes, and each interpretation was judged to follow from the claims it names",
-    "amber": "Amber: no check failed, but there are warnings to read",
+    "amber": "Amber: no check failed, but there are warnings to read (a warning can be a judge disagreement: passed when written, failed in the audit)",
     "red": "Red: one or more checks failed",
 }
 # with the sentence audit (AUD-F-12, Increment 7): what green covers when every sentence was checked
@@ -259,8 +259,14 @@ def render_pdf(paper: dict, meta: dict, base: Path | None = None) -> bytes:
         )
     findings = report.get("findings") or []
     if findings:
-        for f in findings:
+        split = [f for f in findings if not str(f.get("summary", "")).startswith("judges disagree")]
+        disagree = [f for f in findings if str(f.get("summary", "")).startswith("judges disagree")]
+        for f in split:
             paragraph(pdf, f"•  [{f.get('severity', '')}] {f.get('summary', '')}", size=9.5, indent=4)
+        if disagree:  # AUD-F-13: listed apart from failures and other warnings
+            paragraph(pdf, f"Judge disagreements ({len(disagree)}): passed a judge question when written, failed it in the audit.", size=9.5)
+            for f in disagree:
+                paragraph(pdf, f"•  {f.get('summary', '')}", size=9.5, indent=4)
     else:
         paragraph(pdf, "No findings.", size=9.5)
 

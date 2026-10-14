@@ -114,6 +114,9 @@ def server(tmp_path_factory):
         [{"severity": "fail", "summary": "a citation does not resolve", "check": "citation"}],
     )
     fixture_run(root, "wait-run", "awaiting_confirmation", "Check the question VERA proposes.", None)
+    fixture_run(root, "disagree-run", "complete", None, "amber",  # Increment 8 (AUD-F-13): a judge disagreement
+                [{"severity": "warn", "check": "sentence",
+                  "summary": "judges disagree (passed at write time, yes on jev at 0.71; failed in the audit, no on glm-flash at 0.98): S76"}])  # fmt: skip
     fixture_run(root, "paper-run", "complete", None, "green")  # a review with a finished paper (Increment 6)
     from tests.test_app_paper import written_paper  # noqa: PLC0415
 
@@ -203,6 +206,8 @@ def dom(port: int, route: str, tmp_path: Path) -> str:
     ("read/paper-run", 'class="tabs"'),
     ("paper/paper-run", 'class="synth"'),  # Increment 7: a synthesis sentence is marked, with its premises
     ("paper/paper-run", "1 synthesis kept, 0 removed by the checks"),
+    ("read/disagree-run", 'class="disagree"'),  # Increment 8: judge disagreements listed apart
+    ("read/disagree-run", "Judge disagreements (1)"),
 ])  # fmt: skip
 def test_each_page_renders_against_fixture_runs(server: int, route: str, must_have: str, tmp_path: Path) -> None:
     html = dom(server, route, tmp_path)

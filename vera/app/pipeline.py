@@ -16,10 +16,10 @@ from typing import Any
 
 from vera import audit
 from vera.app.appbudget import STOP_FILE, AppBudget
-from vera.audit import sentences
+from vera.audit import disagreement, sentences
 from vera.backends.generator import OpenRouterGenerator
 from vera.graph import run_config
-from vera.judge.cheap_path import cheap_path
+from vera.judge.cheap_path import CONFIRM_NO, cheap_path, confirmer
 from vera.ledger import Ledger
 from vera.literature import coverage, scoping
 from vera.literature.deps import LitDeps
@@ -147,17 +147,36 @@ def _jsonl(path: Path) -> list[dict]:
     return [json.loads(ln) for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip()]
 
 
-def run_audit(deps: LitDeps, judge: Any = None) -> str:
+def _confirming(deps: LitDeps, judge: Any, reference: Any) -> Any:
+    """The reference judge that confirms an audit's "no" (AUD-F-13, `CONFIRM_NO`): the one given, else the real reference
+    when the real judge is in use; none when a test passes its own judge and no reference."""
+    if reference is not None or judge is not None:
+        return reference
+    return confirmer(ledger=deps.ledger, budget=deps.budget)
+
+
+def _asker(judge: Any, reference: Any, confirmations: dict, producer: str) -> Callable:
+    def ask(question, material):
+        (verdict,) = judge.ask(material, [question])
+        verdict = verdict.model_copy(update={"producer_id": producer})
+        confident = verdict.confidence_source != "none" and verdict.confidence >= MIN_CONFIDENCE
+        if reference is not None and question.id in CONFIRM_NO and confident and verdict.answer is False:
+            (ref,) = reference.ask(material, [question])  # Increment 8: a "no" the reference must confirm before it fails
+            confirmations[verdict.trace_id] = ref.model_copy(update={"producer_id": producer})
+        return verdict, confident
+
+    return ask
+
+
+def run_audit(deps: LitDeps, judge: Any = None, reference: Any = None) -> str:
     """The final audit of the finished literature section, as `scripts/audit_topic.py` does it: citations exist and each
     claim is supported by the passage it quotes. Writes `audit.md` and `artifacts/audit_report.json`; returns the light.
     The section's producer is `p3.synthesize`, so no judge grades its own text. Charged to the run's own budget."""
     run_dir = deps.run_dir
+    reference = _confirming(deps, judge, reference)
     judge = judge or cheap_path(ledger=deps.ledger, budget=deps.budget)
-
-    def ask(question, material):
-        (verdict,) = judge.ask(material, [question])
-        verdict = verdict.model_copy(update={"producer_id": "p3.synthesize"})
-        return verdict, verdict.confidence_source != "none" and verdict.confidence >= MIN_CONFIDENCE
+    confirmations: dict = {}
+    ask = _asker(judge, reference, confirmations, "p3.synthesize")
 
     markdown = (run_dir / "literature.md").read_text(encoding="utf-8")
     claims = _jsonl(run_dir / "claims.jsonl")
@@ -174,27 +193,34 @@ def run_audit(deps: LitDeps, judge: Any = None) -> str:
     else:
         body = markdown.partition("## Literature review")[2].split("\n## ")[0]
         entries = sentences.from_text([("", body)], ids)
-    run, counts = _with_sentences(run, entries, by_id, ask, "sentences.jsonl" if stored.exists() else "literature.md")
+    run, counts = _with_sentences(run, entries, by_id, ask, "sentences.jsonl" if stored.exists() else "literature.md",
+                                  records=_jsonl(stored) if stored.exists() else [], confirmations=confirmations)
     (run_dir / "artifacts").mkdir(parents=True, exist_ok=True)
     (run_dir / "artifacts" / "audit_report.json").write_text(
         json.dumps(run.report.model_dump(mode="json"), indent=1, ensure_ascii=False), encoding="utf-8"
     )
-    (run_dir / "audit.md").write_text(audit.render_markdown(run) + sentences.note(counts), encoding="utf-8")
+    (run_dir / "audit.md").write_text(audit.render_markdown(run) + sentences.note(counts) + disagreement.note(counts["disagreements"]), encoding="utf-8")
     return run.report.overall
 
 
-def _with_sentences(run: Any, entries: list[dict], claims: dict, ask: Any, reference: str) -> tuple[Any, dict]:
-    """The audit run with the sentence audit's findings added (AUD-F-12) and its light recomputed."""
+def _with_sentences(
+    run: Any, entries: list[dict], claims: dict, ask: Any, reference: str, *, records: list[dict] = (),
+    inferences: list[dict] = (), confirmations: dict | None = None,
+) -> tuple[Any, dict]:  # fmt: skip
+    """The audit run with the sentence audit's findings added (AUD-F-12), judge disagreements with the write-time
+    verdicts in `records` and `inferences` reported as warnings, not failures (AUD-F-13), and its light recomputed."""
     from vera.audit import overall_of  # noqa: PLC0415
 
     extra, counts = sentences.audit(entries, claims, ask, reference)
-    findings = [*run.report.findings, *extra]
+    findings, counts["disagreements"] = disagreement.reconcile(
+        [*run.report.findings, *extra], list(records), list(inferences), confirmations
+    )
     report = run.report.model_copy(update={"findings": findings, "overall": overall_of(findings),
                                            "checks_run": [*run.report.checks_run, "sentence"]})  # fmt: skip
     return audit.AuditRun(report, run.claims), counts
 
 
-def run_paper_audit(deps: LitDeps, judge: Any = None) -> str:
+def run_paper_audit(deps: LitDeps, judge: Any = None, reference: Any = None) -> str:
     """The paper's audit (AUD-F-11): the frozen literature audit on the paper's text, claims and wider passages, then
     every kept interpretation statement re-checked (`vera.audit.inference`). Writes `paper/audit.md` and
     `paper/audit_report.json`; returns the light. The evidence sections' producer is `p3.paper.write` and the
@@ -202,15 +228,12 @@ def run_paper_audit(deps: LitDeps, judge: Any = None) -> str:
     from vera.audit import overall_of  # noqa: PLC0415 - only papers need these
 
     run_dir, out = deps.run_dir, deps.run_dir / "paper"
+    reference = _confirming(deps, judge, reference)
     judge = judge or cheap_path(ledger=deps.ledger, budget=deps.budget)
+    confirmations: dict = {}
 
     def asker(producer: str):
-        def ask(question, material):
-            (verdict,) = judge.ask(material, [question])
-            verdict = verdict.model_copy(update={"producer_id": producer})
-            return verdict, verdict.confidence_source != "none" and verdict.confidence >= MIN_CONFIDENCE
-
-        return ask
+        return _asker(judge, reference, confirmations, producer)
 
     run = audit.run_literature_audit(
         (out / "paper.md").read_text(encoding="utf-8"), _jsonl(out / "claims.jsonl"), _jsonl(out / "passages.jsonl"),
@@ -232,7 +255,9 @@ def run_paper_audit(deps: LitDeps, judge: Any = None) -> str:
     else:  # a paper made before 0.13
         evidence = [(s["heading"], s["text"]) for s in doc["sections"] if s["kind"] == "evidence"]
         entries = sentences.from_text(evidence, [c["id"] for c in doc["claims"]])
-    run, counts = _with_sentences(run, entries, by_id, asker("p3.paper.write"), "paper/paper.json")
+    run, counts = _with_sentences(run, entries, by_id, asker("p3.paper.write"), "paper/paper.json",
+                                  records=doc.get("sentences") or [], inferences=doc["inferences"],
+                                  confirmations=confirmations)
     report = run.report
     (out / "audit_report.json").write_text(
         json.dumps(report.model_dump(mode="json"), indent=1, ensure_ascii=False), encoding="utf-8"
@@ -242,7 +267,7 @@ def run_paper_audit(deps: LitDeps, judge: Any = None) -> str:
         f"\nInterpretation statements re-checked: {n_kept} (judged to follow from the claims they name; "
         "not checked against quotes).\n"
     )
-    (out / "audit.md").write_text(audit.render_markdown(run) + note + sentences.note(counts), encoding="utf-8")
+    (out / "audit.md").write_text(audit.render_markdown(run) + note + sentences.note(counts) + disagreement.note(counts["disagreements"]), encoding="utf-8")
     return report.overall
 
 

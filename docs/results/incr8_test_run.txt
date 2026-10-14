@@ -1,0 +1,4 @@
+....................                                                     [100%]
+799 passed, 13 skipped in 113.37s (0:01:53)
+5bda156 plus the uncommitted Increment 8 working tree (uv run pytest -q); Docker not running, so its 13 tests skip
+2026-10-14T21:01:35Z

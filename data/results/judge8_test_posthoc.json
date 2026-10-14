@@ -1,0 +1,324 @@
+{
+ "labels_by": "OpenAI Codex",
+ "labelled_sample": {
+  "within_quote": {
+   "reference": {
+    "k": 11,
+    "n": 15,
+    "rate": 0.7333,
+    "ci95": [
+     0.48,
+     0.891
+    ]
+   },
+   "jev": {
+    "k": 13,
+    "n": 15,
+    "rate": 0.8667,
+    "ci95": [
+     0.621,
+     0.963
+    ]
+   },
+   "glm": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.702,
+     0.988
+    ]
+   },
+   "decided": {
+    "k": 12,
+    "n": 15,
+    "rate": 0.8,
+    "ci95": [
+     0.548,
+     0.93
+    ]
+   }
+  },
+  "no_fact": {
+   "reference": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.796,
+     1.0
+    ]
+   },
+   "jev": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.702,
+     0.988
+    ]
+   },
+   "glm": {
+    "k": 14,
+    "n": 15,
+    "rate": 0.9333,
+    "ci95": [
+     0.702,
+     0.988
+    ]
+   },
+   "decided": {
+    "k": 15,
+    "n": 15,
+    "rate": 1.0,
+    "ci95": [
+     0.796,
+     1.0
+    ]
+   }
+  },
+  "inference": {
+   "reference": {
+    "k": 9,
+    "n": 15,
+    "rate": 0.6,
+    "ci95": [
+     0.357,
+     0.802
+    ]
+   },
+   "jev": {
+    "k": 6,
+    "n": 15,
+    "rate": 0.4,
+    "ci95": [
+     0.198,
+     0.643
+    ]
+   },
+   "glm": {
+    "k": 7,
+    "n": 15,
+    "rate": 0.4667,
+    "ci95": [
+     0.248,
+     0.699
+    ]
+   },
+   "decided": {
+    "k": 7,
+    "n": 15,
+    "rate": 0.4667,
+    "ci95": [
+     0.248,
+     0.699
+    ]
+   }
+  }
+ },
+ "no_precision": {
+  "within_quote": {
+   "jev": {
+    "precision_of_no": {
+     "k": 8,
+     "n": 14,
+     "rate": 0.5714,
+     "ci95": [
+      0.326,
+      0.786
+     ]
+    },
+    "recall_of_reference_no": {
+     "k": 8,
+     "n": 17,
+     "rate": 0.4706,
+     "ci95": [
+      0.262,
+      0.69
+     ]
+    }
+   },
+   "glm": {
+    "precision_of_no": {
+     "k": 8,
+     "n": 9,
+     "rate": 0.8889,
+     "ci95": [
+      0.565,
+      0.98
+     ]
+    },
+    "recall_of_reference_no": {
+     "k": 8,
+     "n": 17,
+     "rate": 0.4706,
+     "ci95": [
+      0.262,
+      0.69
+     ]
+    }
+   },
+   "decided": {
+    "precision_of_no": {
+     "k": 11,
+     "n": 13,
+     "rate": 0.8462,
+     "ci95": [
+      0.578,
+      0.957
+     ]
+    },
+    "recall_of_reference_no": {
+     "k": 11,
+     "n": 17,
+     "rate": 0.6471,
+     "ci95": [
+      0.413,
+      0.827
+     ]
+    }
+   }
+  },
+  "no_fact": {
+   "jev": {
+    "precision_of_no": {
+     "k": 31,
+     "n": 34,
+     "rate": 0.9118,
+     "ci95": [
+      0.77,
+      0.97
+     ]
+    },
+    "recall_of_reference_no": {
+     "k": 31,
+     "n": 31,
+     "rate": 1.0,
+     "ci95": [
+      0.89,
+      1.0
+     ]
+    }
+   },
+   "glm": {
+    "precision_of_no": {
+     "k": 28,
+     "n": 28,
+     "rate": 1.0,
+     "ci95": [
+      0.879,
+      1.0
+     ]
+    },
+    "recall_of_reference_no": {
+     "k": 28,
+     "n": 31,
+     "rate": 0.9032,
+     "ci95": [
+      0.751,
+      0.967
+     ]
+    }
+   },
+   "decided": {
+    "precision_of_no": {
+     "k": 30,
+     "n": 31,
+     "rate": 0.9677,
+     "ci95": [
+      0.838,
+      0.994
+     ]
+    },
+    "recall_of_reference_no": {
+     "k": 30,
+     "n": 31,
+     "rate": 0.9677,
+     "ci95": [
+      0.838,
+      0.994
+     ]
+    }
+   }
+  },
+  "inference": {
+   "jev": {
+    "precision_of_no": {
+     "k": 7,
+     "n": 15,
+     "rate": 0.4667,
+     "ci95": [
+      0.248,
+      0.699
+     ]
+    },
+    "recall_of_reference_no": {
+     "k": 7,
+     "n": 10,
+     "rate": 0.7,
+     "ci95": [
+      0.397,
+      0.892
+     ]
+    }
+   },
+   "glm": {
+    "precision_of_no": {
+     "k": 6,
+     "n": 8,
+     "rate": 0.75,
+     "ci95": [
+      0.409,
+      0.929
+     ]
+    },
+    "recall_of_reference_no": {
+     "k": 6,
+     "n": 10,
+     "rate": 0.6,
+     "ci95": [
+      0.313,
+      0.832
+     ]
+    }
+   },
+   "decided": {
+    "precision_of_no": {
+     "k": 7,
+     "n": 9,
+     "rate": 0.7778,
+     "ci95": [
+      0.453,
+      0.937
+     ]
+    },
+    "recall_of_reference_no": {
+     "k": 7,
+     "n": 10,
+     "rate": 0.7,
+     "ci95": [
+      0.397,
+      0.892
+     ]
+    }
+   }
+  }
+ },
+ "confirm_with_reference": {
+  "within_quote": {
+   "decided_no_items": 13,
+   "reference_also_no": 11,
+   "reference_cost_per_verdict_usd": 0.00316
+  },
+  "no_fact": {
+   "decided_no_items": 31,
+   "reference_also_no": 30,
+   "reference_cost_per_verdict_usd": 0.00184
+  },
+  "inference": {
+   "decided_no_items": 9,
+   "reference_also_no": 7,
+   "reference_cost_per_verdict_usd": 0.00523
+  }
+ }
+}

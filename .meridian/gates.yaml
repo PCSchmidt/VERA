@@ -1167,3 +1167,99 @@ gates:
         - gate-traceability.sh
         - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
         - run-evaluator.sh          # independent Evaluator verdict on the review
+
+  # ── Increment 8: a judge you can trust on the new questions (SPEC.md) ────────
+  # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
+  # Defined so far: incr8_scoped, judge_set_frozen, judge_measured, routing_ready, reaudit8, incr8_review.
+
+  - id: incr8_scoped
+    label: "Increment 8 scope confirmed"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 8 SCOPED"
+    requires:
+      - incr7_review
+    requires_artifacts:
+      - SPEC.md
+      - CONTRACT.md
+      - docs/reviews/incr-7.md
+    hooks:
+      pre:
+        - validate-contract.sh      # Meridian: Purpose + Scope sections present
+        - validate-spec.sh          # Meridian: SPEC.md is structured
+        - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount
+
+  - id: judge_set_frozen
+    label: "Judge set for the new questions built from real material, split by paper, frozen before any test run"
+    type: automated
+    required: true
+    requires:
+      - incr8_scoped
+    requires_artifacts:
+      - data/judge8/items.jsonl
+      - data/results/judge8_hash.json
+      - tests/test_judge_set8.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-judgeset8.sh         # counts, split by paper, pipeline-built items, freeze holds, earlier freezes hold
+
+  - id: judge_measured
+    label: "Jev, GLM and the decided path measured once against the reference on the frozen test split, every rate reported"
+    type: automated
+    required: true
+    requires:
+      - judge_set_frozen
+    requires_artifacts:
+      - data/results/judge8_test.json
+      - data/results/judge8_test_posthoc.json
+      - scripts/measure_judge8.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-judgemeasured8.sh    # after the freeze, every figure per question and backend, labels blind, spend within $3
+
+  - id: routing_ready
+    label: "One route per measured question; the audit confirms a no with the reference; disagreement is amber"
+    type: automated
+    required: true
+    requires:
+      - judge_measured
+    requires_artifacts:
+      - vera/audit/disagreement.py
+      - tests/test_routes.py
+      - tests/test_disagreement.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-app-secrets.sh
+        - gate-routing8.sh          # route table, confirmation, disagreement rule in both audits, stored verdicts, tests, freezes
+
+  - id: reaudit8
+    label: "The five papers re-audited with the Increment 8 routing, confirmation and disagreement rule"
+    type: human_approval
+    required: true
+    approval_token: "REAUDITS 8"
+    requires:
+      - routing_ready
+    requires_artifacts:
+      - data/reaudit8/record.json
+    hooks:
+      pre:
+        - gate-reaudit8.sh          # five reports with the sentence check, the code's routes, who ran it, spend within $0.50
+
+  - id: incr8_review
+    label: "Increment 8 review"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 8 COMPLETE"
+    requires:
+      - reaudit8
+    requires_artifacts:
+      - docs/reviews/incr-8.md
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-traceability.sh
+        - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
+        - run-evaluator.sh          # independent Evaluator verdict on the review

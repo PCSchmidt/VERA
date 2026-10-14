@@ -132,10 +132,13 @@ def interpret_node(deps: LitDeps) -> Callable[[dict], dict]:
 
         source_of = {c.id: c.source_key for c in doc.claims if c.id}
 
-        def run_checks(text: str, premises: list[str]) -> str | None:
+        per: dict[int, list[Verdict]] = {}  # Increment 8 (AUD-F-13): each statement keeps its write-time verdicts
+
+        def run_checks(text: str, premises: list[str], n: int) -> str | None:
             # Increment 7: the Increment 6 rules, "X and colleagues", the agreement rule, the clause-by-clause judge
             why, vs = sentence_checks.check_statement(text, premises, claims, ask, source_of)
             verdicts.extend(vs)
+            per.setdefault(n, []).extend(vs)
             return why
 
         words = int(req.length_words * INTERPRET_SHARE)
@@ -143,7 +146,7 @@ def interpret_node(deps: LitDeps) -> Callable[[dict], dict]:
             SYSTEM, interpret_prompt(question, claims, words, req.emphasis), component=COMPONENT
         )
         drafted = parse_statements(_extract_json(reply, "{", "}"))
-        results = [(h, st, run_checks(st["text"], st["premises"])) for h, st in drafted]
+        results = [(h, st, run_checks(st["text"], st["premises"], n)) for n, (h, st) in enumerate(drafted)]
         failed = [i for i, (_, _, why) in enumerate(results) if why]
         if failed:
             bad = [{**results[i][1], "why": results[i][2]} for i in failed]
@@ -154,11 +157,11 @@ def interpret_node(deps: LitDeps) -> Callable[[dict], dict]:
                 if isinstance(fix, dict) and str(fix.get("text") or "").strip():
                     st = {"text": inference.PREMISE_MARKER.sub("", str(fix["text"])).strip(),
                           "premises": [str(p).strip() for p in fix.get("premises") or []]}  # fmt: skip
-                    why = run_checks(st["text"], st["premises"])
+                    why = run_checks(st["text"], st["premises"], i)
                     results[i] = (results[i][0], st, None if why is None else f"after repair: {why}")
-        inferences = [Inference(id=f"I{n}", section=h, text=st["text"], premises=st["premises"],
+        inferences = [Inference(id=f"I{n + 1}", section=h, text=st["text"], premises=st["premises"], verdicts=per.get(n, []),
                                 status="pass" if why is None else "removed", reason=why)
-                      for n, (h, st, why) in enumerate(results, start=1)]  # fmt: skip
+                      for n, (h, st, why) in enumerate(results)]  # fmt: skip
         kept = [i for i in inferences if i.status == "pass"]
 
         abstract = None

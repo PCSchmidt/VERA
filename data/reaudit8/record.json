@@ -1,0 +1,154 @@
+{
+ "run_by": "Claude Code",
+ "attribution": "run by Claude Code (Claude Opus 5.5) at Chris's request, 2026-10-14, with Chris's keys",
+ "routes": {
+  "claim.within_quote": [
+   "jev",
+   "glm-flash"
+  ],
+  "sentence.no_fact": [
+   "jev",
+   "glm-flash"
+  ],
+  "paper.inference_follows": [
+   "jev",
+   "glm-flash"
+  ]
+ },
+ "papers": {
+  "P1": {
+   "run": "how-much-useable-information-about-6x3n",
+   "folder": "paper",
+   "before": {
+    "light": "red",
+    "fails": {
+     "inference": 6,
+     "sentence": 27
+    },
+    "disagreements": 0,
+    "warns": 23
+   },
+   "after": {
+    "light": "red",
+    "fails": {
+     "inference": 4,
+     "sentence": 26
+    },
+    "disagreements": 2,
+    "warns": 26
+   },
+   "backends_in_findings": {
+    "glm-flash": 24,
+    "sonnet-ref": 26,
+    "jev": 50
+   }
+  },
+  "P2": {
+   "run": "discuss-the-evolution-of-prompting-guv8",
+   "folder": "paper_incr6",
+   "before": {
+    "light": "red",
+    "fails": {
+     "inference": 4,
+     "sentence": 21
+    },
+    "disagreements": 0,
+    "warns": 21
+   },
+   "after": {
+    "light": "red",
+    "fails": {
+     "inference": 5,
+     "sentence": 24
+    },
+    "disagreements": 1,
+    "warns": 22
+   },
+   "backends_in_findings": {
+    "glm-flash": 29,
+    "sonnet-ref": 29,
+    "jev": 42
+   }
+  },
+  "P3": {
+   "run": "rlm-vs-clm-3",
+   "folder": "paper",
+   "before": {
+    "light": "red",
+    "fails": {
+     "inference": 3,
+     "sentence": 19
+    },
+    "disagreements": 0,
+    "warns": 15
+   },
+   "after": {
+    "light": "red",
+    "fails": {
+     "inference": 3,
+     "sentence": 17
+    },
+    "disagreements": 1,
+    "warns": 17
+   },
+   "backends_in_findings": {
+    "jev": 28,
+    "sonnet-ref": 15,
+    "glm-flash": 16
+   }
+  },
+  "N1": {
+   "run": "discuss-the-evolution-of-prompting-guv8",
+   "folder": "paper",
+   "before": {
+    "light": "red",
+    "fails": {
+     "inference": 1,
+     "sentence": 1
+    },
+    "disagreements": 0,
+    "warns": 0
+   },
+   "after": {
+    "light": "amber",
+    "fails": {},
+    "disagreements": 1,
+    "warns": 2
+   },
+   "backends_in_findings": {
+    "glm-flash": 1,
+    "jev": 1,
+    "sonnet-ref": 1
+   }
+  },
+  "N2": {
+   "run": "rlm-vs-clm-2",
+   "folder": "paper",
+   "before": {
+    "light": "red",
+    "fails": {
+     "inference": 1,
+     "sentence": 2
+    },
+    "disagreements": 0,
+    "warns": 0
+   },
+   "after": {
+    "light": "red",
+    "fails": {
+     "inference": 1,
+     "sentence": 2
+    },
+    "disagreements": 0,
+    "warns": 0
+   },
+   "backends_in_findings": {
+    "glm-flash": 2,
+    "sonnet-ref": 3,
+    "jev": 1
+   }
+  }
+ },
+ "spend_usd": 0.3595,
+ "recorded_at": "2026-10-14T20:13:10Z"
+}

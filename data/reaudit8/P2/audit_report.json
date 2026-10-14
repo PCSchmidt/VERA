@@ -1,0 +1,2512 @@
+{
+ "paper_id": "discuss-the-evolution-of-prompting-guv8 (paper)",
+ "paper_source": "paper/paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I1"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I1",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I1 (Discussion): does not follow from its premises: 'Prompt engineering is described consistently as designing instructions to guide a model without altering its parameters, and as a form of pr'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.528e-05,
+     "latency_ms": 3234,
+     "trace_id": "8f5030c94f9c4a738e0b7fe734e63819",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.72,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004088,
+     "latency_ms": 2996,
+     "trace_id": "ba5d5a0966634e3683244028edde9f53",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I1 (Discussion): does not follow from its premises: 'Prompt engineering is described consistently as designing instructions to guide a model without altering its parameters, and as a form of pr'"
+  },
+  {
+   "check": "inference",
+   "severity": "warn",
+   "claim_ids": [
+    "I3"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I3",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I3 (Discussion): does not follow from its premises: 'Several sources describe a movement beyond prompts: one survey frames it as a shift from input-level linguistic control to system-level cont'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.2315e-05,
+     "latency_ms": 1311,
+     "trace_id": "9b231a4b95fa4467ae30cfc412569868",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00577,
+     "latency_ms": 4388,
+     "trace_id": "fcbb0bfb85584d939201a40ae3ce1822",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "judges disagree (failed in the audit, no on glm-flash at 0.70; the reference judge says yes, yes on sonnet-ref at 0.70): I3 (Discussion): does not follow from its premises: 'Several sources describe a movement beyond prompts: one survey frames it as a shift from input-level linguistic control to system-level cont'"
+  },
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I4"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I4",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I4 (Discussion): does not follow from its premises: 'The sources agree on the direction of the boundary but phrase it differently. Prompt engineering changes instructions, context engineering c'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.28,
+      "false": 0.72
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.0449999999999998e-05,
+     "latency_ms": 174,
+     "trace_id": "7a9a44597cc04d6d9388e72ef84e5ca5",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.007172,
+     "latency_ms": 4854,
+     "trace_id": "81f2b667292d4ec98a67f36b786cdc72",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I4 (Discussion): does not follow from its premises: 'The sources agree on the direction of the boundary but phrase it differently. Prompt engineering changes instructions, context engineering c'"
+  },
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I7"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I7",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I7 (Discussion): does not follow from its premises: 'Sources diverge on where capability ends up. One survey proposes that routine support moves into model weights while governance stays extern'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.8828e-05,
+     "latency_ms": 4133,
+     "trace_id": "6ba64f2d932f408dbc0ba67d07006e09",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00546,
+     "latency_ms": 4030,
+     "trace_id": "beaad5eb12db48f3a6a3989099ca4da9",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I7 (Discussion): does not follow from its premises: 'Sources diverge on where capability ends up. One survey proposes that routine support moves into model weights while governance stays extern'"
+  },
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I9"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I9",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I9 (Conclusions): does not follow from its premises: 'Memory, tool use, orchestration and verification are attributed mainly to the system-level and harness stages, but these claims do not show '"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.256e-05,
+     "latency_ms": 1934,
+     "trace_id": "156e107b54a44d659968da262daad059",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.005062,
+     "latency_ms": 3222,
+     "trace_id": "83ef0002d89e44c8a7f511907d23fc60",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I9 (Conclusions): does not follow from its premises: 'Memory, tool use, orchestration and verification are attributed mainly to the system-level and harness stages, but these claims do not show '"
+  },
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I14"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I14",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I14 (A research agenda): does not follow from its premises: 'Develop shared definitions and a common vocabulary for the three stages, given the terminological fragmentation and the differing placement '"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.000112803,
+     "latency_ms": 9340,
+     "trace_id": "2ce718187dc74341ad8ee8f0a44e633c",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.005544,
+     "latency_ms": 4018,
+     "trace_id": "2f54b40a25b2438d8bf160726f95baf3",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I14 (A research agenda): does not follow from its premises: 'Develop shared definitions and a common vocabulary for the three stages, given the terminological fragmentation and the differing placement '"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C1"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S2",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S2 (Introduction, claim): the quote of C1 opens with a back-reference, so what it is about is outside it: 'Prompt engineering is the natural starting point, and one survey describes it as a technique that involves strategically designing task-spec'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S2 (Introduction, claim): the quote of C1 opens with a back-reference, so what it is about is outside it: 'Prompt engineering is the natural starting point, and one survey describes it as a technique that involves strategically designing task-spec'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S4"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S4",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S4 (Introduction, unrecorded): states a fact that does not follow from its section's claims (states 2025, which none of its premises states): 'Both of these sources predate 2025, so they supply background for the earliest stage rather than evidence from the period in question.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5792e-05,
+     "latency_ms": 127,
+     "trace_id": "c673d785ca9c448d8f8d0b7a1015d1ff",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S4 (Introduction, unrecorded): states a fact that does not follow from its section's claims (states 2025, which none of its premises states): 'Both of these sources predate 2025, so they supply background for the earliest stage rather than evidence from the period in question.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C4"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S6",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S6 (Introduction, claim): C4 says more than its quote: 'The same survey frames the broader movement as a shift from input-level linguistic control to system-level contextual orchestration [R2].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.75,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.7225e-05,
+     "latency_ms": 20173,
+     "trace_id": "668ee7b0e1d749c2b217a17d02afb3bb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.35,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00338,
+     "latency_ms": 2752,
+     "trace_id": "eaf9f4c6f6d742dd8dbb527d97c8fc79",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S6 (Introduction, claim): C4 says more than its quote: 'The same survey frames the broader movement as a shift from input-level linguistic control to system-level contextual orchestration [R2].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C6"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S8",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S8 (Introduction, claim): C6 says more than its quote: 'Memory is another component, and one framework implements memory not as a vector database, but as a persistent file system accessible via to'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.21,
+      "false": 0.79
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7346e-05,
+     "latency_ms": 188,
+     "trace_id": "a991fb85fe594007b22b8c5a071f4602",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002544,
+     "latency_ms": 1748,
+     "trace_id": "c80c937865c74554939a1bda84896d08",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S8 (Introduction, claim): C6 says more than its quote: 'Memory is another component, and one framework implements memory not as a vector database, but as a persistent file system accessible via to'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S10"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S10",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S10 (Introduction, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The harness concept moves the unit of analysis from the prompt or context to the execution system around the model.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5456e-05,
+     "latency_ms": 122,
+     "trace_id": "c8008dab12744a088e73e5cebd95a877",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.335e-05,
+     "latency_ms": 21914,
+     "trace_id": "e8c2e0d7268f44b6890e3d574e8f44ac",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.007478,
+     "latency_ms": 4539,
+     "trace_id": "b33aa9377d264ca89204727cacd33aa7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S10 (Introduction, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The harness concept moves the unit of analysis from the prompt or context to the execution system around the model.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C8"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S11",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S11 (Introduction, claim): C8 says more than its quote: 'One survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings [R6].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.219e-05,
+     "latency_ms": 15204,
+     "trace_id": "d2201b84f0c241a39357668cbf21690f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003594,
+     "latency_ms": 2865,
+     "trace_id": "3c5e68f9699d41a09c9ae81456e44d22",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S11 (Introduction, claim): C8 says more than its quote: 'One survey reports that changing the execution system around a fixed model can alter performance and even reverse model rankings [R6].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C9"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S12",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S12 (Introduction, claim): the quote of C9 opens with a back-reference, so what it is about is outside it: 'A further survey takes the agent loop, not the model in isolation, as its unit of analysis [R8].'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S12 (Introduction, claim): the quote of C9 opens with a back-reference, so what it is about is outside it: 'A further survey takes the agent loop, not the model in isolation, as its unit of analysis [R8].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S13"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S13",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S13 (Introduction, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages supplied here do not offer a single agreed definition of each term or of the boundaries between them, and the review below must'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.17,
+      "false": 0.83
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6044e-05,
+     "latency_ms": 176,
+     "trace_id": "e746969c8ce242f7a7419edddd13b637",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.72,
+      "false": 0.28
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.8808e-05,
+     "latency_ms": 108,
+     "trace_id": "ab76aaae7ed64a5e9b4ccb12518df2a4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S13 (Introduction, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages supplied here do not offer a single agreed definition of each term or of the boundaries between them, and the review below must'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S14"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S14",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S14 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The supplied passages define prompt engineering mainly as instruction design for a fixed model.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.575e-05,
+     "latency_ms": 104,
+     "trace_id": "43284b55b8e344ae956b1d06e3c4d925",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.63552e-05,
+     "latency_ms": 2258,
+     "trace_id": "9fcd55bcf80a4a458be90e396475274b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.008222,
+     "latency_ms": 5029,
+     "trace_id": "5fb820b162164a84b2f3f16418469937",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S14 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The supplied passages define prompt engineering mainly as instruction design for a fixed model.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C10"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S15",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S15 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, claim): the quote of C10 opens with a back-reference, so what it is about is outside it: 'One survey describes it as strategically designing task-specific instructions, referred to as prompts, to guide model output without alterin'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S15 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, claim): the quote of C10 opens with a back-reference, so what it is about is outside it: 'One survey describes it as strategically designing task-specific instructions, referred to as prompts, to guide model output without alterin'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S18"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S18",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S18 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: \"Several sources report that the field's vocabulary and organization are unsettled.\""
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.575e-05,
+     "latency_ms": 113,
+     "trace_id": "a2c27650d3204e1fbc77da7e5ca2b14e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.86,
+      "false": 0.14
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 4.2882e-05,
+     "latency_ms": 227,
+     "trace_id": "520d14260d994ed482ca4e31be4cc488",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S18 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: \"Several sources report that the field's vocabulary and organization are unsettled.\""
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C14"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S20",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S20 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, claim): C14 says more than its quote: 'A 2026 survey likewise says prompt engineering is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical fra'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.16,
+      "false": 0.84
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8522e-05,
+     "latency_ms": 141,
+     "trace_id": "94254b2c8a834eac870e8f158511d81a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002184,
+     "latency_ms": 1848,
+     "trace_id": "0cd1f2e6d55f4447a0f994339110e57d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S20 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, claim): C14 says more than its quote: 'A 2026 survey likewise says prompt engineering is frequently treated as an empirical, ad hoc practice lacking a standardized theoretical fra'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S22"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S22",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S22 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources also differ in how they build taxonomies.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5623999999999998e-05,
+     "latency_ms": 203,
+     "trace_id": "2d4a73d5794040be85f00865b6570326",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001265976,
+     "latency_ms": 3487,
+     "trace_id": "75594d10f412446e80223859702d164e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S22 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources also differ in how they build taxonomies.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C18"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S25",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S25 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, claim): C18 says more than its quote: 'The Prompt Report states that its stance is observational and that evaluation in the field is variable and unstandardized: \"The field is new'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.27,
+      "false": 0.73
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0118e-05,
+     "latency_ms": 172,
+     "trace_id": "72f41679595348918f11fa886d0ac603",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002268,
+     "latency_ms": 1675,
+     "trace_id": "954a6d621c684b56827dd57eca995d29",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S25 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, claim): C18 says more than its quote: 'The Prompt Report states that its stance is observational and that evaluation in the field is variable and unstandardized: \"The field is new'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S26"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S26",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S26 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages say little about how prompt engineering is bounded against context engineering or harnesses.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5876e-05,
+     "latency_ms": 76,
+     "trace_id": "7d3dc474891c4f6ba36c9a21ec25c2c5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001032624,
+     "latency_ms": 5052,
+     "trace_id": "216a98a5c25e49338c67757ec5f62b57",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S26 (Prompt engineering: definitions, pattern catalogs, and terminological fragmentation, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages say little about how prompt engineering is bounded against context engineering or harnesses.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S29"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S29",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S29 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The surveyed sources describe context engineering as a move from crafting prompt text to managing the information that surrounds the model.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5918e-05,
+     "latency_ms": 132,
+     "trace_id": "9a5644703a314f98b6932048bbd912e3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.03e-05,
+     "latency_ms": 37272,
+     "trace_id": "37620a393e5f44c39a7d6217f76f12f9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S29 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The surveyed sources describe context engineering as a move from crafting prompt text to managing the information that surrounds the model.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S33"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S33",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S33 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Harness-oriented sources place context engineering inside a wider boundary.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5456e-05,
+     "latency_ms": 126,
+     "trace_id": "3adbf30ede234038892d1cce75a76518",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.3915e-05,
+     "latency_ms": 5571,
+     "trace_id": "d5e7386c5aa441179a86c1efa8f186a9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S33 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Harness-oriented sources place context engineering inside a wider boundary.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C24"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S34",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S34 (Context engineering: shifting from prompt text to system-level context, claim): judge unsure whether C24 says more than its quote: 'The code-harness survey says prompt engineering changes instructions and context engineering changes what evidence is presented to the model'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.5865e-05,
+     "latency_ms": 19982,
+     "trace_id": "3b1f729fc9824632a081a15c558dc82b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S34 (Context engineering: shifting from prompt text to system-level context, claim): judge unsure whether C24 says more than its quote: 'The code-harness survey says prompt engineering changes instructions and context engineering changes what evidence is presented to the model'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C25"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S35",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S35 (Context engineering: shifting from prompt text to system-level context, claim): C25 says more than its quote: 'The externalization review describes a harness that separates the prompt into layers instead of treating it as an undifferentiated text buff'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8857999999999998e-05,
+     "latency_ms": 225,
+     "trace_id": "ade8552e0b494e55b5e51e1e71c8ce69",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.88,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002398,
+     "latency_ms": 1951,
+     "trace_id": "2b9f11ddc614481b9f1c365fa49189c1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S35 (Context engineering: shifting from prompt text to system-level context, claim): C25 says more than its quote: 'The externalization review describes a harness that separates the prompt into layers instead of treating it as an undifferentiated text buff'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S37"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S37",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S37 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Context rot is the main failure mode the sources attach to this stage.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5582e-05,
+     "latency_ms": 131,
+     "trace_id": "2d40345be8a543c9bdc234f01c0d78bc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.13,
+      "false": 0.87
+     },
+     "confidence": 0.87,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.7128e-05,
+     "latency_ms": 118,
+     "trace_id": "13a286635a0045ebba11e24234e1b24e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.93,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003554,
+     "latency_ms": 1624,
+     "trace_id": "6daa76c76015453d9083101f2c578a61",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S37 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Context rot is the main failure mode the sources attach to this stage.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S40"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S40",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S40 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The passages leave open how the boundaries among these terms should be settled and how far the reported benchmark gains hold outside simulat'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6002e-05,
+     "latency_ms": 109,
+     "trace_id": "6722400af614429d9e206fbf6741a704",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.387e-05,
+     "latency_ms": 17685,
+     "trace_id": "23c873d6397f4f08bd5768e08268bb1d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.88,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.005412,
+     "latency_ms": 3094,
+     "trace_id": "773e039df9d24233adfcd1e6719dfa49",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S40 (Context engineering: shifting from prompt text to system-level context, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The passages leave open how the boundaries among these terms should be settled and how far the reported benchmark gains hold outside simulat'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S41"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S41",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S41 (Harness engineering: the structure around a fixed model, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The surveys in this set generally treat the harness as the structure wrapped around a fixed model, but they enumerate its parts differently.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.596e-05,
+     "latency_ms": 190,
+     "trace_id": "371f13cd4e7f402cbbb21ee78a4b6e53",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001467396,
+     "latency_ms": 7139,
+     "trace_id": "460ad23abf934adc99fa6c5f10a2ec58",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.006272,
+     "latency_ms": 5064,
+     "trace_id": "21788cb296fe4d37a298bb07ee8970f1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S41 (Harness engineering: the structure around a fixed model, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The surveys in this set generally treat the harness as the structure wrapped around a fixed model, but they enumerate its parts differently.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S43"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S43",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S43 (Harness engineering: the structure around a fixed model, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources place the harness relative to prompt and context engineering in a consistent way.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5582e-05,
+     "latency_ms": 113,
+     "trace_id": "5702af3bc65a40b58ff7a47a693a00ca",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001795572,
+     "latency_ms": 5345,
+     "trace_id": "09c20d59d4cd4b9aadf710b462498dc1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.72,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00622,
+     "latency_ms": 4227,
+     "trace_id": "d784e58ebce2429ba37037859f8c11f8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S43 (Harness engineering: the structure around a fixed model, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources place the harness relative to prompt and context engineering in a consistent way.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C31"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S45",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S45 (Harness engineering: the structure around a fixed model, claim): C31 says more than its quote: 'The externalization review describes the harness as a structured form of context engineering that separates the prompt into layers with dist'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.21,
+      "false": 0.79
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.869e-05,
+     "latency_ms": 164,
+     "trace_id": "5c7ff4c704a14811b45320e3c9fbadc2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002172,
+     "latency_ms": 1670,
+     "trace_id": "bcc9126523b94267815566c4557638b4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S45 (Harness engineering: the structure around a fixed model, claim): C31 says more than its quote: 'The externalization review describes the harness as a structured form of context engineering that separates the prompt into layers with dist'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S46"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S46",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S46 (Harness engineering: the structure around a fixed model, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Evidence that the harness matters for measured results comes from evaluation work.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5456e-05,
+     "latency_ms": 130,
+     "trace_id": "9dc04fa998694237b4b41846564d4cc7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.82,
+      "false": 0.18000000000000005
+     },
+     "confidence": 0.82,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.4608e-05,
+     "latency_ms": 150,
+     "trace_id": "b09699e787d44f7082b36286879b6e00",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S46 (Harness engineering: the structure around a fixed model, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Evidence that the harness matters for measured results comes from evaluation work.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S49"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S49",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S49 (Harness engineering: the structure around a fixed model, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources differ on where the harness boundary lies and leave several questions open.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.554e-05,
+     "latency_ms": 118,
+     "trace_id": "bc0285d47a814ad3847423a104184232",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.60464e-05,
+     "latency_ms": 3689,
+     "trace_id": "b48a7dd108bd4f5c85b74de66c00057f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S49 (Harness engineering: the structure around a fixed model, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources differ on where the harness boundary lies and leave several questions open.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S52"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S52",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S52 (Harness engineering: the structure around a fixed model, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages supplied here do not settle a single agreed definition of the harness or a standard component list.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.575e-05,
+     "latency_ms": 132,
+     "trace_id": "4de4b3cf68914b419cb6b5f4f4330347",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.96468e-05,
+     "latency_ms": 2707,
+     "trace_id": "d3e35d751a2b4da6b01bf59d9415c154",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S52 (Harness engineering: the structure around a fixed model, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages supplied here do not settle a single agreed definition of the harness or a standard component list.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C37"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S54",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S54 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): the quote of C37 opens with a back-reference, so what it is about is outside it: 'The same survey states that cost, reliability and safety are decided by the loop rather than by the model alone [R8].'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S54 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): the quote of C37 opens with a back-reference, so what it is about is outside it: 'The same survey states that cost, reliability and safety are decided by the loop rather than by the model alone [R8].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C39"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S56",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S56 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): the quote of C39 opens with a back-reference, so what it is about is outside it: 'The scaling-the-harness paper lists the components of a harness, including orchestration and verification [R26].'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S56 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): the quote of C39 opens with a back-reference, so what it is about is outside it: 'The scaling-the-harness paper lists the components of a harness, including orchestration and verification [R26].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C40"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S57",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S57 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): C40 says more than its quote: 'The externalization review places the harness as the stage at which engineering attention moved from prompts to the operating environment [R'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.7418e-05,
+     "latency_ms": 3834,
+     "trace_id": "e13fa6f82a2f47828b855e8e10f21dbe",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.88,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002368,
+     "latency_ms": 2006,
+     "trace_id": "8bbe62a854174737b43ac964a1b84b57",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S57 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): C40 says more than its quote: 'The externalization review places the harness as the stage at which engineering attention moved from prompts to the operating environment [R'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C41"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S58",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S58 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): C41 says more than its quote: 'The code-harness survey describes production systems as wrapping the model in a managed development loop [R49].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.8218e-05,
+     "latency_ms": 5503,
+     "trace_id": "d1717f0f86c2436d91f58868b017dac1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002146,
+     "latency_ms": 1818,
+     "trace_id": "752493687a2141288c869bbd4ef1bd58",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S58 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): C41 says more than its quote: 'The code-harness survey describes production systems as wrapping the model in a managed development loop [R49].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C42"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S59",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S59 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): C42 says more than its quote: 'On multi-agent orchestration, the code-harness survey reports that long-running harnesses separate planning, generation and evaluation into '"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.2725e-05,
+     "latency_ms": 10401,
+     "trace_id": "6f915d1901fd4e05a2f297bf498e0407",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.72,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003228,
+     "latency_ms": 2415,
+     "trace_id": "91e533db4d634bd7a896ef3ced430177",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S59 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): C42 says more than its quote: 'On multi-agent orchestration, the code-harness survey reports that long-running harnesses separate planning, generation and evaluation into '"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C43"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S60",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S60 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): the quote of C43 opens with a back-reference, so what it is about is outside it: 'The Agentic RAG survey frames retrieval as part of this agentic design space, since agents use reflection, planning, tool use and multi-agen'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S60 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, claim): the quote of C43 opens with a back-reference, so what it is about is outside it: 'The Agentic RAG survey frames retrieval as part of this agentic design space, since agents use reflection, planning, tool use and multi-agen'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S62"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S62",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S62 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): \"The sources differ on where the loop's competence should sit.\""
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5834e-05,
+     "latency_ms": 156,
+     "trace_id": "623c0ceb111348399bd8b039539dae41",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.6145e-05,
+     "latency_ms": 10750,
+     "trace_id": "b1e25c2c99ac445a8d8fe622555c9241",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00662,
+     "latency_ms": 4077,
+     "trace_id": "958cebccca404cc8bd4647f84e0e7e5f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S62 (Agentic harnesses: loops, multi-agent orchestration, and agentic RAG, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): \"The sources differ on where the loop's competence should sit.\""
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S65"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S65",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S65 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources place evaluation at the center of how harnesses are understood, and they converge on the claim that a benchmark score depends on'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.638e-05,
+     "latency_ms": 219,
+     "trace_id": "5d12384ba5474e51aa4350b3ae188af7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.04e-05,
+     "latency_ms": 10633,
+     "trace_id": "5bad1d852ae04292868f394155ba0f4c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.62,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.007768,
+     "latency_ms": 4756,
+     "trace_id": "c5369d2f7f7645069dd683b9f39988aa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S65 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources place evaluation at the center of how harnesses are understood, and they converge on the claim that a benchmark score depends on'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S69"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S69",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S69 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources differ in the remedies they propose for this dependence.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.554e-05,
+     "latency_ms": 95,
+     "trace_id": "dc0c536ef4ce483ebef1362c774c72ba",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.3263e-05,
+     "latency_ms": 10199,
+     "trace_id": "4ebd3497c4684ecfb101157b9e5bc546",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S69 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources differ in the remedies they propose for this dependence.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S72"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S72",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S72 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Several sources also tie evaluation to safety and failure analysis.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5498e-05,
+     "latency_ms": 111,
+     "trace_id": "161516a47f8c4220a6591bab4b5ac602",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.21,
+      "false": 0.79
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.5196e-05,
+     "latency_ms": 103,
+     "trace_id": "a7917755bf754161870e92b77a1258db",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.88,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004442,
+     "latency_ms": 2171,
+     "trace_id": "90d400d7d08046da9fd1c75c94198247",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S72 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Several sources also tie evaluation to safety and failure analysis.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S76"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S76",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S76 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The passages leave open how far these harness effects generalize, a gap that the harness-aware evaluation survey itself names among its rese'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.68e-05,
+     "latency_ms": 109,
+     "trace_id": "435360fd5a874788bf7ee7b90fecfab6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.18,
+      "false": 0.8200000000000001
+     },
+     "confidence": 0.8200000000000001,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.6498e-05,
+     "latency_ms": 114,
+     "trace_id": "575fc17a512943d1b0a6e34adb0d504a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.93,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.005464,
+     "latency_ms": 3146,
+     "trace_id": "cb22deddb14c4c0f85fdc6970e67511f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S76 (Evaluation as a harness-stage component and performance dependence on the harness, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The passages leave open how far these harness effects generalize, a gap that the harness-aware evaluation survey itself names among its rese'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S77"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S77",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S77 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources do not offer a single settled map of where prompt engineering ends and harness engineering begins.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6002e-05,
+     "latency_ms": 99,
+     "trace_id": "c384d1721d9a4929a5237752523ecddd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.75,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.48072e-05,
+     "latency_ms": 3091,
+     "trace_id": "a04a1140469049f5837412eaf56444a5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S77 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources do not offer a single settled map of where prompt engineering ends and harness engineering begins.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S78"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S78",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S78 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Another paper, by contrast, places test-driven governance, orchestrator-controlled phase order and bounded repair loops inside a prompt-engi'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6422e-05,
+     "latency_ms": 95,
+     "trace_id": "64296485385f4c9aa7f3e75d3e0c0678",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.2,
+      "false": 0.8
+     },
+     "confidence": 0.8,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.1626e-05,
+     "latency_ms": 121,
+     "trace_id": "acedc2be46c24572a7c7a156aa5af07e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.96,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003722,
+     "latency_ms": 2485,
+     "trace_id": "a9a19a75ab3044a5869d63f3e1620b41",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S78 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Another paper, by contrast, places test-driven governance, orchestrator-controlled phase order and bounded repair loops inside a prompt-engi'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S79"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S79",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S79 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'That placement shows stages overlapping in practice, since orchestration and validation appear under the prompt label.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6044e-05,
+     "latency_ms": 116,
+     "trace_id": "cf2ca55af81842feb15b155d374b6792",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.13,
+      "false": 0.87
+     },
+     "confidence": 0.87,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.1247999999999996e-05,
+     "latency_ms": 115,
+     "trace_id": "a3d683e3452e430eb3ad408588fee5d7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.96,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003414,
+     "latency_ms": 2103,
+     "trace_id": "5cf7d05b0be24117941ee234893f7bee",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S79 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'That placement shows stages overlapping in practice, since orchestration and validation appear under the prompt label.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S80"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S80",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S80 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Much of the evidence is also narrow in scope.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5623999999999998e-05,
+     "latency_ms": 90,
+     "trace_id": "629b24efb0b141dd97633be42a0f4da3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.75,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.78744e-05,
+     "latency_ms": 3285,
+     "trace_id": "05b2440c013f4932b3f78381b641667c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S80 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Much of the evidence is also narrow in scope.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C55"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S81",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S81 (Limits of the evidence: unsettled boundaries and weak generalizability, claim): C55 says more than its quote: 'The context-compression experiment used a synthetic recall task and acknowledges the limits of its single-model, single-budget setup [R18].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.11668e-05,
+     "latency_ms": 1939,
+     "trace_id": "44c65aaea9194dbe875f9f6756f7a002",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002544,
+     "latency_ms": 1892,
+     "trace_id": "bf4ee4cc2894432dbbb6c6e049a697c5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S81 (Limits of the evidence: unsettled boundaries and weak generalizability, claim): C55 says more than its quote: 'The context-compression experiment used a synthetic recall task and acknowledges the limits of its single-model, single-budget setup [R18].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S84"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S84",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S84 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Evaluation work shows why attributing effects to a single stage is hard.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5834e-05,
+     "latency_ms": 137,
+     "trace_id": "9920bc66724145aabb370f99cf40120b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001188468,
+     "latency_ms": 4146,
+     "trace_id": "12c338d2cd22496498bd718f0f1a01e9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S84 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Evaluation work shows why attributing effects to a single stage is hard.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S87"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S87",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S87 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages do not settle whether these definitions hold beyond the domains studied.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5792e-05,
+     "latency_ms": 158,
+     "trace_id": "9505c911f8ff4365a914b2f2d124d8b9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.0996e-05,
+     "latency_ms": 128,
+     "trace_id": "61b77f204dc14c0ca098afe89c0f39ff",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S87 (Limits of the evidence: unsettled boundaries and weak generalizability, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages do not settle whether these definitions hold beyond the domains studied.'"
+  }
+ ],
+ "overall": "red",
+ "checks_run": [
+  "citation",
+  "claim_support",
+  "inference",
+  "sentence"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.0013608239,
+ "wall_seconds": 260,
+ "schema_version": "0.13"
+}

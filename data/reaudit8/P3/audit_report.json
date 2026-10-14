@@ -1,0 +1,1626 @@
+{
+ "paper_id": "rlm-vs-clm-3 (paper)",
+ "paper_source": "paper/paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I1"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I1",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I1 (Discussion): does not follow from its premises: 'The RLM and context-compression literatures share a goal: working over inputs larger than a model can comfortably handle in one pass. RLMs t'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.22,
+      "false": 0.78
+     },
+     "confidence": 0.78,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.583e-05,
+     "latency_ms": 231,
+     "trace_id": "1bde42b5a16145068554d0f6b3768ed5",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.88,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003426,
+     "latency_ms": 2417,
+     "trace_id": "72c052f57a574f62b8395d2aa864a146",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I1 (Discussion): does not follow from its premises: 'The RLM and context-compression literatures share a goal: working over inputs larger than a model can comfortably handle in one pass. RLMs t'"
+  },
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I3"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I3",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I3 (Discussion): does not follow from its premises: 'Chained RLM sits between the two. It passes a summary, blackboard and durable artifacts to a fresh root of the same model, because the worki'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.0747e-05,
+     "latency_ms": 3792,
+     "trace_id": "bbbcd356aa8c44a99f7b10072d15cc54",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.72,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004594,
+     "latency_ms": 3662,
+     "trace_id": "0f57022fc6f84183adedcca200801e68",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I3 (Discussion): does not follow from its premises: 'Chained RLM sits between the two. It passes a summary, blackboard and durable artifacts to a fresh root of the same model, because the worki'"
+  },
+  {
+   "check": "inference",
+   "severity": "fail",
+   "claim_ids": [
+    "I14"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I14",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I14 (A research agenda): does not follow from its premises: 'Compare RLMs and compression methods on coding tasks by billed cost and patch success, not token counts alone, because token removal has rai'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.3,
+      "false": 0.7
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.3267999999999998e-05,
+     "latency_ms": 94,
+     "trace_id": "ac48c7bf87394c3192b865bed5ebbf89",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.006082,
+     "latency_ms": 4582,
+     "trace_id": "b391ddf228e54a0e8f64dca715aab31b",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "I14 (A research agenda): does not follow from its premises: 'Compare RLMs and compression methods on coding tasks by billed cost and patch success, not token counts alone, because token removal has rai'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C2"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S2",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S2 (Introduction, claim): the quote of C2 opens with a back-reference, so what it is about is outside it: 'The straightforward approach of placing everything in the context has a stated limitation: the entire problem-solving process has to occur i'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S2 (Introduction, claim): the quote of C2 opens with a back-reference, so what it is about is outside it: 'The straightforward approach of placing everything in the context has a stated limitation: the entire problem-solving process has to occur i'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S4"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S4",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S4 (Introduction, unrecorded): absence: 'no published empirical study' belongs in the record sections, not the evidence: 'That same paper states that no published empirical study has tested how codebase scale drives context growth and tool-call degradation, so t'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S4 (Introduction, unrecorded): absence: 'no published empirical study' belongs in the record sections, not the evidence: 'That same paper states that no published empirical study has tested how codebase scale drives context growth and tool-call degradation, so t'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C6"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S7",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S7 (Introduction, claim): C6 says more than its quote: 'Follow-up work qualifies this picture: the SRLM study finds that recursion itself is not the primary driver of performance in RLM [R9].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.15421e-05,
+     "latency_ms": 2350,
+     "trace_id": "38a19a3780ab47c0a606687d2238e29c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00363,
+     "latency_ms": 2617,
+     "trace_id": "884db24090a24af4be3d8d63726c7add",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S7 (Introduction, claim): C6 says more than its quote: 'Follow-up work qualifies this picture: the SRLM study finds that recursion itself is not the primary driver of performance in RLM [R9].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S9"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S9",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S9 (Introduction, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The context-centric side of the question covers methods that compress or condition on large contexts.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.19,
+      "false": 0.81
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5288e-05,
+     "latency_ms": 126,
+     "trace_id": "1a07e9c865c44635951bc612c6976bc4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.76,
+      "false": 0.24
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.738e-05,
+     "latency_ms": 102,
+     "trace_id": "1d7fd12b84194877b9074ae0aa279198",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S9 (Introduction, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The context-centric side of the question covers methods that compress or condition on large contexts.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S12"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S12",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S12 (Introduction, unrecorded): names a source without a claim: 'Shao and colleagues': 'The Context Language Models paper by Shao and colleagues introduces models that natively manage their own context, treating the context as a'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S12 (Introduction, unrecorded): names a source without a claim: 'Shao and colleagues': 'The Context Language Models paper by Shao and colleagues introduces models that natively manage their own context, treating the context as a'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S13"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S13",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S13 (Introduction, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The supplied passages also do not directly compare RLMs and CLMs on production coding cost or on the reuse of execution traces.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5666e-05,
+     "latency_ms": 139,
+     "trace_id": "13cf16072eb74d488698508abc892d51",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.81696e-05,
+     "latency_ms": 4061,
+     "trace_id": "5bc52ba93b9d48d48b8591e941f0a183",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S13 (Introduction, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The supplied passages also do not directly compare RLMs and CLMs on production coding cost or on the reuse of execution traces.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C11"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S15",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S15 (Externalized context and recursive decomposition in RLMs, claim): the quote of C11 opens with a back-reference, so what it is about is outside it: \"Chained RLM's authors note that Recursive Language Models improve long-context inference without changing model weights, but the global work\""
+    }
+   ],
+   "verdicts": [],
+   "summary": "S15 (Externalized context and recursive decomposition in RLMs, claim): the quote of C11 opens with a back-reference, so what it is about is outside it: \"Chained RLM's authors note that Recursive Language Models improve long-context inference without changing model weights, but the global work\""
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S18"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S18",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S18 (Externalized context and recursive decomposition in RLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources disagree about whether recursion itself drives the gains.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5456e-05,
+     "latency_ms": 118,
+     "trace_id": "922b86897c784ad898b95c02e30c255e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.01919e-05,
+     "latency_ms": 3469,
+     "trace_id": "8f543b7a1ad34fd6b4a47f356a4cf8e2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S18 (Externalized context and recursive decomposition in RLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources disagree about whether recursion itself drives the gains.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S23"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S23",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S23 (Externalized context and recursive decomposition in RLMs, unrecorded): absence: 'passages do not cover' belongs in the record sections, not the evidence: 'The supplied passages do not cover the Context Language Models paper, so any comparison of CLMs with RLMs, and any evidence on production co'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S23 (Externalized context and recursive decomposition in RLMs, unrecorded): absence: 'passages do not cover' belongs in the record sections, not the evidence: 'The supplied passages do not cover the Context Language Models paper, so any comparison of CLMs with RLMs, and any evidence on production co'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S24"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S24",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S24 (Context-centric models: compression, memory and context management, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources show several mechanisms for compressing or managing context, and they differ in where the compression is stored.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5918e-05,
+     "latency_ms": 85,
+     "trace_id": "b80e48a6ce694c268279deff476292bf",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.75,
+      "false": 0.25
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.3095999999999996e-05,
+     "latency_ms": 92,
+     "trace_id": "2401459728a64bbab1140ee0e86f7394",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S24 (Context-centric models: compression, memory and context management, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources show several mechanisms for compressing or managing context, and they differ in where the compression is stored.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C20"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S27",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S27 (Context-centric models: compression, memory and context management, claim): the quote of C20 opens with a back-reference, so what it is about is outside it: 'A survey notes that gist-token methods carry a cost in model modification [R12].'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S27 (Context-centric models: compression, memory and context management, claim): the quote of C20 opens with a back-reference, so what it is about is outside it: 'A survey notes that gist-token methods carry a cost in model modification [R12].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S28"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S28",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S28 (Context-centric models: compression, memory and context management, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Other work moves compression offline or hands it to the model itself.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.1,
+      "false": 0.9
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5498e-05,
+     "latency_ms": 119,
+     "trace_id": "ba397ab8684d4c06ac18a5d9d7de2527",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.14115e-05,
+     "latency_ms": 6440,
+     "trace_id": "bdb722d9fc0546c4b2ec2612783cac99",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S28 (Context-centric models: compression, memory and context management, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Other work moves compression offline or hands it to the model itself.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C21"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S29",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S29 (Context-centric models: compression, memory and context management, claim): C21 says more than its quote: 'The Cartridges authors train a small KV cache per corpus from synthetic conversations with a context-distillation objective [R94].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.29,
+      "false": 0.71
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8102e-05,
+     "latency_ms": 249,
+     "trace_id": "93d053e1d11549cab707e29a6a222ef7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003196,
+     "latency_ms": 2565,
+     "trace_id": "21943f10edec4d58a1d01f1ab931114e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S29 (Context-centric models: compression, memory and context management, claim): C21 says more than its quote: 'The Cartridges authors train a small KV cache per corpus from synthetic conversations with a context-distillation objective [R94].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S33"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S33",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S33 (Context-centric models: compression, memory and context management, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Evidence on the limits of long context is mixed with the compression results above.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5582e-05,
+     "latency_ms": 99,
+     "trace_id": "6b758a5a2911452e95ee02a1814ff997",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.75,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.11567e-05,
+     "latency_ms": 7429,
+     "trace_id": "9cff1596f86541d68b4ee1692ed1609a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S33 (Context-centric models: compression, memory and context management, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Evidence on the limits of long context is mixed with the compression results above.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C25"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S34",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S34 (Context-centric models: compression, memory and context management, claim): C25 says more than its quote: 'The authors of a controlled study report that accuracy fell by 24.2% for Llama-3.1-8B Instruct on long inputs even though retrieval stayed p'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.15,
+      "false": 0.85
+     },
+     "confidence": 0.85,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8228e-05,
+     "latency_ms": 205,
+     "trace_id": "4f90ab972a09415f8fe67b6db4f42078",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.93,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003132,
+     "latency_ms": 2392,
+     "trace_id": "75dd641b2de848c9bc2bb0378c9f1175",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S34 (Context-centric models: compression, memory and context management, claim): C25 says more than its quote: 'The authors of a controlled study report that accuracy fell by 24.2% for Llama-3.1-8B Instruct on long inputs even though retrieval stayed p'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S35"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S35",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S35 (Context-centric models: compression, memory and context management, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages supplied do not include the paper on Context Language Models that treats the context as an editable file, so no comparison with'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.1,
+      "false": 0.9
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6254e-05,
+     "latency_ms": 108,
+     "trace_id": "81036cbc849b411b954c9987eaa92f50",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001208295,
+     "latency_ms": 8115,
+     "trace_id": "54d53b08f4b349549b5d633dba3ba292",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S35 (Context-centric models: compression, memory and context management, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The passages supplied do not include the paper on Context Language Models that treats the context as an editable file, so no comparison with'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S36"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S36",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S36 (Context-centric models: compression, memory and context management, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'They also give no direct measurement of coding quality, cost or trace reuse for these compression methods.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.575e-05,
+     "latency_ms": 199,
+     "trace_id": "2a51ffd6286e4b01823badc6a6fcac0f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.74999e-05,
+     "latency_ms": 5119,
+     "trace_id": "e0e50a2a480f4622bff1938fff173a69",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.93,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004452,
+     "latency_ms": 2692,
+     "trace_id": "dac5ef36a1ca4e1fb030d116923fc615",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S36 (Context-centric models: compression, memory and context management, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'They also give no direct measurement of coding quality, cost or trace reuse for these compression methods.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S37"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S37",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S37 (Mechanistic overlap and differences between RLMs and CLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The Context Language Models paper named in the brief is not among the supplied passages, so what follows covers RLMs and neighbouring contex'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.22,
+      "false": 0.78
+     },
+     "confidence": 0.78,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6422e-05,
+     "latency_ms": 171,
+     "trace_id": "8b2c0a6b2be44f91a2023154628f1239",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.00164e-05,
+     "latency_ms": 5412,
+     "trace_id": "cbc5defbf13c4279b748afd56cd0156b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S37 (Mechanistic overlap and differences between RLMs and CLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The Context Language Models paper named in the brief is not among the supplied passages, so what follows covers RLMs and neighbouring contex'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C27"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S39",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S39 (Mechanistic overlap and differences between RLMs and CLMs, claim): the quote of C27 opens with a back-reference, so what it is about is outside it: 'Chained RLM states that RLMs improve long-context inference without changing model weights [R5].'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S39 (Mechanistic overlap and differences between RLMs and CLMs, claim): the quote of C27 opens with a back-reference, so what it is about is outside it: 'Chained RLM states that RLMs improve long-context inference without changing model weights [R5].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S41"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S41",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S41 (Mechanistic overlap and differences between RLMs and CLMs, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The compression line instead modifies or trains parameters to shrink context.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5582e-05,
+     "latency_ms": 98,
+     "trace_id": "1d70c52550a24758ba7557728696410a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.25,
+      "false": 0.75
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.8388e-05,
+     "latency_ms": 161,
+     "trace_id": "cbacd5b242cb43098742bec929ad9275",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.62,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.006586,
+     "latency_ms": 4599,
+     "trace_id": "092cc83824de46a683a1a2a38c4843e1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S41 (Mechanistic overlap and differences between RLMs and CLMs, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The compression line instead modifies or trains parameters to shrink context.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S46"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S46",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S46 (Mechanistic overlap and differences between RLMs and CLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Evidence on RLM quality and cost is mixed.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5498e-05,
+     "latency_ms": 94,
+     "trace_id": "7e8b194c2adc4028b03cbbc7e021e0f3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.7,
+      "false": 0.30000000000000004
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.8304e-05,
+     "latency_ms": 133,
+     "trace_id": "a7699d3eef954aaa959e17c746fac998",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S46 (Mechanistic overlap and differences between RLMs and CLMs, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'Evidence on RLM quality and cost is mixed.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C35"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S49",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S49 (Mechanistic overlap and differences between RLMs and CLMs, claim): C35 says more than its quote: 'A billing study of coding agents finds that user-side context layers account for only about 6% of cost [R78].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.60306e-05,
+     "latency_ms": 5945,
+     "trace_id": "ee6f3c1ee52f441391b8355407054a94",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003912,
+     "latency_ms": 3025,
+     "trace_id": "d6534ce7ed1f4b4daaa2801dcc3715d1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S49 (Mechanistic overlap and differences between RLMs and CLMs, claim): C35 says more than its quote: 'A billing study of coding agents finds that user-side context layers account for only about 6% of cost [R78].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S50"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S50",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S50 (Mechanistic overlap and differences between RLMs and CLMs, unrecorded): absence: 'None of the supplied passages' belongs in the record sections, not the evidence: 'None of the supplied passages evaluates RLMs or CLMs on production coding, and none examines reuse of execution traces across tasks, so thos'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S50 (Mechanistic overlap and differences between RLMs and CLMs, unrecorded): absence: 'None of the supplied passages' belongs in the record sections, not the evidence: 'None of the supplied passages evaluates RLMs or CLMs on production coding, and none examines reuse of execution traces across tasks, so thos'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S51"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S51",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S51 (Output quality: gains, caveats and degradation with long context, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources describe output quality under long context as a mix of gains and degradation, and they do not settle how far these results carry'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.638e-05,
+     "latency_ms": 174,
+     "trace_id": "ec19a077956247aabfc7ae0b1c2c9b6e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.75,
+      "false": 0.25
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 4.053e-05,
+     "latency_ms": 129,
+     "trace_id": "31fb8db1a21a40a1a2d4b32c6fc1c3ab",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S51 (Output quality: gains, caveats and degradation with long context, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'The sources describe output quality under long context as a mix of gains and degradation, and they do not settle how far these results carry'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C38"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S54",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S54 (Output quality: gains, caveats and degradation with long context, claim): judge unsure whether C38 says more than its quote: 'The SRLM authors also conclude that recursion is not the primary driver of RLM performance [R9].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.31627e-05,
+     "latency_ms": 6894,
+     "trace_id": "3246553bf134413488a264fcc250f940",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S54 (Output quality: gains, caveats and degradation with long context, claim): judge unsure whether C38 says more than its quote: 'The SRLM authors also conclude that recursion is not the primary driver of RLM performance [R9].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C39"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S55",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S55 (Output quality: gains, caveats and degradation with long context, claim): C39 says more than its quote: 'The λ-RLM authors report that a typed functional runtime outperformed standard RLM in most model-task comparisons [R86].'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.06438e-05,
+     "latency_ms": 6451,
+     "trace_id": "83106d4fa38e43a1a67307294a301778",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002262,
+     "latency_ms": 1813,
+     "trace_id": "5becb9092a2849588a571950554b59eb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S55 (Output quality: gains, caveats and degradation with long context, claim): C39 says more than its quote: 'The λ-RLM authors report that a typed functional runtime outperformed standard RLM in most model-task comparisons [R86].'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S56"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S56",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S56 (Output quality: gains, caveats and degradation with long context, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'On the context side, the evidence shows that long inputs themselves hurt, and that compression can help.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.04,
+      "false": 0.96
+     },
+     "confidence": 0.96,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5918e-05,
+     "latency_ms": 140,
+     "trace_id": "8ebd8208d8674418afd5353ee3494002",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001488366,
+     "latency_ms": 5365,
+     "trace_id": "64c0890ea5ba44b6892e8e8b6d694ef3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S56 (Output quality: gains, caveats and degradation with long context, unrecorded): states a fact without naming its premises; judged to follow from its section's claims: 'On the context side, the evidence shows that long inputs themselves hurt, and that compression can help.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S60"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S60",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S60 (Output quality: gains, caveats and degradation with long context, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'For coding specifically, the evidence is thin: the context-rot paper only proposes a study, and the passages supplied say nothing about the '"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6547999999999998e-05,
+     "latency_ms": 167,
+     "trace_id": "8fb42e84250a44528337927a147ed844",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.75,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00028404,
+     "latency_ms": 9660,
+     "trace_id": "1e245d6e219d44698ce8f1e54a659bfd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00718,
+     "latency_ms": 4911,
+     "trace_id": "63e6ded69aaf4574a46abb21c7fe73ac",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S60 (Output quality: gains, caveats and degradation with long context, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'For coding specifically, the evidence is thin: the context-rot paper only proposes a study, and the passages supplied say nothing about the '"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C44"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S62",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S62 (Cost efficiency: token reduction versus billed cost, claim): C44 says more than its quote: 'The central finding on this theme comes from a study of token-reduction tools for coding agents, which separates tokens removed from money s'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.28,
+      "false": 0.72
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7724e-05,
+     "latency_ms": 151,
+     "trace_id": "165da24c634544fdb7d35048596f9c86",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003022,
+     "latency_ms": 2550,
+     "trace_id": "406dd597a6d94913bdaf19a4eeda1cf1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S62 (Cost efficiency: token reduction versus billed cost, claim): C44 says more than its quote: 'The central finding on this theme comes from a study of token-reduction tools for coding agents, which separates tokens removed from money s'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S65"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S65",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S65 (Cost efficiency: token reduction versus billed cost, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Work on compressing contexts reports efficiency in different units, namely latency and memory rather than billed spend.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.575e-05,
+     "latency_ms": 146,
+     "trace_id": "89ce89f507994f1a8f559f5d267485ab",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.0001007991,
+     "latency_ms": 4083,
+     "trace_id": "2fcfc42ed5064adeb83c80f79c6d7c6d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004818,
+     "latency_ms": 2851,
+     "trace_id": "b616f59c8bb6491ab42c3d4a5b5ce58e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S65 (Cost efficiency: token reduction versus billed cost, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Work on compressing contexts reports efficiency in different units, namely latency and memory rather than billed spend.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S70"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S70",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S70 (Cost efficiency: token reduction versus billed cost, unrecorded): absence: 'passages do not include' belongs in the record sections, not the evidence: 'The supplied passages do not include the Context Language Models paper itself, so its cost behavior is not assessed here.'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S70 (Cost efficiency: token reduction versus billed cost, unrecorded): absence: 'passages do not include' belongs in the record sections, not the evidence: 'The supplied passages do not include the Context Language Models paper itself, so its cost behavior is not assessed here.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S71"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S71",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S71 (Cost efficiency: token reduction versus billed cost, unrecorded): absence: 'None of the compression studies' belongs in the record sections, not the evidence: 'None of the compression studies above reports provider-billed cost per successful coding task, and no passage covers recursive language mode'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S71 (Cost efficiency: token reduction versus billed cost, unrecorded): absence: 'None of the compression studies' belongs in the record sections, not the evidence: 'None of the compression studies above reports provider-billed cost per successful coding task, and no passage covers recursive language mode'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "S72"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S72",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S72 (Production coding, trace reuse and evidence gaps, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources supplied here say little about production coding as such, and none of them is the Context Language Models paper the reader named'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6422e-05,
+     "latency_ms": 95,
+     "trace_id": "fc5a5256a60e40dd89b94d3036f891e4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.17,
+      "false": 0.83
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.4356e-05,
+     "latency_ms": 101,
+     "trace_id": "b049b3089c624486a970f6feb8a9a368",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.88,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004642,
+     "latency_ms": 3440,
+     "trace_id": "99be3f28e0564b35949b13b46d00937d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S72 (Production coding, trace reuse and evidence gaps, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'The sources supplied here say little about production coding as such, and none of them is the Context Language Models paper the reader named'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "S80"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S80",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S80 (Production coding, trace reuse and evidence gaps, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Taken together, the passages supply no head-to-head comparison of RLMs and CLMs on production coding quality, cost, or trace reuse.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6085999999999998e-05,
+     "latency_ms": 208,
+     "trace_id": "90de1eac57e946be848101dc3fbe0b49",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.87211e-05,
+     "latency_ms": 5914,
+     "trace_id": "b34624a068ab48d6909c410223014cdb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.006264,
+     "latency_ms": 5299,
+     "trace_id": "eea715b2bce049019986fe7ad56cf3b8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "judges disagree (failed in the audit, no on glm-flash at 0.80; the reference judge says yes, yes on sonnet-ref at 0.70): S80 (Production coding, trace reuse and evidence gaps, unrecorded): states a fact that does not follow from its section's claims (does not follow from its premises): 'Taken together, the passages supply no head-to-head comparison of RLMs and CLMs on production coding quality, cost, or trace reuse.'"
+  }
+ ],
+ "overall": "red",
+ "checks_run": [
+  "citation",
+  "claim_support",
+  "inference",
+  "sentence"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.0011829900999999997,
+ "wall_seconds": 324,
+ "schema_version": "0.13"
+}

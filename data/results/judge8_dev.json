@@ -1,0 +1,386 @@
+{
+ "split": "dev",
+ "run_at": "2026-10-14T12:56:02+00:00",
+ "bars": {
+  "agreement": 0.97,
+  "flip_rate": 0.02
+ },
+ "repeats": {
+  "reference": 2,
+  "jev": 3,
+  "glm": 3,
+  "decided": 3
+ },
+ "summary": {
+  "within_quote": {
+   "items": 48,
+   "jev": {
+    "agreement_with_reference": {
+     "k": 41,
+     "n": 48,
+     "rate": 0.8542,
+     "ci95": [
+      0.728,
+      0.928
+     ]
+    },
+    "flip_rate": {
+     "k": 0,
+     "n": 48,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.074
+     ]
+    },
+    "below_threshold": 0.4722,
+    "malformed": 0,
+    "ece_vs_reference": 0.1623,
+    "cost_per_verdict_usd": 1.85e-05,
+    "latency_p50_ms": 172.0,
+    "meets_bars": false
+   },
+   "glm": {
+    "agreement_with_reference": {
+     "k": 43,
+     "n": 48,
+     "rate": 0.8958,
+     "ci95": [
+      0.778,
+      0.955
+     ]
+    },
+    "flip_rate": {
+     "k": 1,
+     "n": 48,
+     "rate": 0.0208,
+     "ci95": [
+      0.004,
+      0.109
+     ]
+    },
+    "below_threshold": 0.0069,
+    "malformed": 0,
+    "ece_vs_reference": 0.0887,
+    "cost_per_verdict_usd": 2.73e-05,
+    "latency_p50_ms": 2240.0,
+    "meets_bars": false
+   },
+   "decided": {
+    "agreement_with_reference": {
+     "k": 42,
+     "n": 48,
+     "rate": 0.875,
+     "ci95": [
+      0.753,
+      0.941
+     ]
+    },
+    "flip_rate": {
+     "k": 2,
+     "n": 48,
+     "rate": 0.0417,
+     "ci95": [
+      0.012,
+      0.14
+     ]
+    },
+    "below_threshold": 0.0,
+    "malformed": 0,
+    "ece_vs_reference": 0.1304,
+    "cost_per_verdict_usd": 2.45e-05,
+    "latency_p50_ms": 1468.0,
+    "meets_bars": false
+   },
+   "reference": {
+    "agreement_with_reference": {
+     "k": 48,
+     "n": 48,
+     "rate": 1.0,
+     "ci95": [
+      0.926,
+      1.0
+     ]
+    },
+    "flip_rate": {
+     "k": 2,
+     "n": 48,
+     "rate": 0.0417,
+     "ci95": [
+      0.012,
+      0.14
+     ]
+    },
+    "below_threshold": 0.1562,
+    "malformed": 0,
+    "ece_vs_reference": 0.1292,
+    "cost_per_verdict_usd": 0.0029645,
+    "latency_p50_ms": 2107.0
+   },
+   "jev_glm_disagree": {
+    "k": 4,
+    "n": 48,
+    "rate": 0.0833,
+    "ci95": [
+     0.033,
+     0.196
+    ]
+   },
+   "route": {
+    "backend": "glm",
+    "why": "no backend meets both bars; this one agrees best with the reference"
+   }
+  },
+  "no_fact": {
+   "items": 24,
+   "jev": {
+    "agreement_with_reference": {
+     "k": 22,
+     "n": 24,
+     "rate": 0.9167,
+     "ci95": [
+      0.742,
+      0.977
+     ]
+    },
+    "flip_rate": {
+     "k": 0,
+     "n": 24,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.138
+     ]
+    },
+    "below_threshold": 0.1667,
+    "malformed": 0,
+    "ece_vs_reference": 0.1294,
+    "cost_per_verdict_usd": 1.57e-05,
+    "latency_p50_ms": 171.0,
+    "meets_bars": false
+   },
+   "glm": {
+    "agreement_with_reference": {
+     "k": 20,
+     "n": 24,
+     "rate": 0.8333,
+     "ci95": [
+      0.641,
+      0.933
+     ]
+    },
+    "flip_rate": {
+     "k": 0,
+     "n": 24,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.138
+     ]
+    },
+    "below_threshold": 0.0,
+    "malformed": 0,
+    "ece_vs_reference": 0.1217,
+    "cost_per_verdict_usd": 2.37e-05,
+    "latency_p50_ms": 1921.0,
+    "meets_bars": false
+   },
+   "decided": {
+    "agreement_with_reference": {
+     "k": 23,
+     "n": 24,
+     "rate": 0.9583,
+     "ci95": [
+      0.798,
+      0.993
+     ]
+    },
+    "flip_rate": {
+     "k": 0,
+     "n": 24,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.138
+     ]
+    },
+    "below_threshold": 0.0,
+    "malformed": 0,
+    "ece_vs_reference": 0.0571,
+    "cost_per_verdict_usd": 1.64e-05,
+    "latency_p50_ms": 163.0,
+    "meets_bars": false
+   },
+   "reference": {
+    "agreement_with_reference": {
+     "k": 24,
+     "n": 24,
+     "rate": 1.0,
+     "ci95": [
+      0.862,
+      1.0
+     ]
+    },
+    "flip_rate": {
+     "k": 0,
+     "n": 24,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.138
+     ]
+    },
+    "below_threshold": 0.1458,
+    "malformed": 0,
+    "ece_vs_reference": 0.1381,
+    "cost_per_verdict_usd": 0.0019201,
+    "latency_p50_ms": 1475.0
+   },
+   "jev_glm_disagree": {
+    "k": 6,
+    "n": 24,
+    "rate": 0.25,
+    "ci95": [
+     0.12,
+     0.449
+    ]
+   },
+   "route": {
+    "backend": "decided",
+    "why": "no backend meets both bars; this one agrees best with the reference"
+   }
+  },
+  "inference": {
+   "items": 41,
+   "jev": {
+    "agreement_with_reference": {
+     "k": 32,
+     "n": 41,
+     "rate": 0.7805,
+     "ci95": [
+      0.633,
+      0.88
+     ]
+    },
+    "flip_rate": {
+     "k": 2,
+     "n": 41,
+     "rate": 0.0488,
+     "ci95": [
+      0.013,
+      0.161
+     ]
+    },
+    "below_threshold": 0.6341,
+    "malformed": 0,
+    "ece_vs_reference": 0.1104,
+    "cost_per_verdict_usd": 2.55e-05,
+    "latency_p50_ms": 172.0,
+    "meets_bars": false
+   },
+   "glm": {
+    "agreement_with_reference": {
+     "k": 36,
+     "n": 41,
+     "rate": 0.878,
+     "ci95": [
+      0.745,
+      0.947
+     ]
+    },
+    "flip_rate": {
+     "k": 2,
+     "n": 41,
+     "rate": 0.0488,
+     "ci95": [
+      0.013,
+      0.161
+     ]
+    },
+    "below_threshold": 0.0163,
+    "malformed": 0,
+    "ece_vs_reference": 0.0606,
+    "cost_per_verdict_usd": 5.29e-05,
+    "latency_p50_ms": 2914.0,
+    "meets_bars": false
+   },
+   "decided": {
+    "agreement_with_reference": {
+     "k": 37,
+     "n": 41,
+     "rate": 0.9024,
+     "ci95": [
+      0.775,
+      0.961
+     ]
+    },
+    "flip_rate": {
+     "k": 0,
+     "n": 41,
+     "rate": 0.0,
+     "ci95": [
+      0.0,
+      0.086
+     ]
+    },
+    "below_threshold": 0.0488,
+    "malformed": 0,
+    "ece_vs_reference": 0.092,
+    "cost_per_verdict_usd": 5.37e-05,
+    "latency_p50_ms": 2759.0,
+    "meets_bars": false
+   },
+   "reference": {
+    "agreement_with_reference": {
+     "k": 41,
+     "n": 41,
+     "rate": 1.0,
+     "ci95": [
+      0.914,
+      1.0
+     ]
+    },
+    "flip_rate": {
+     "k": 1,
+     "n": 41,
+     "rate": 0.0244,
+     "ci95": [
+      0.004,
+      0.126
+     ]
+    },
+    "below_threshold": 0.2317,
+    "malformed": 0,
+    "ece_vs_reference": 0.2252,
+    "cost_per_verdict_usd": 0.005308,
+    "latency_p50_ms": 3677.0
+   },
+   "jev_glm_disagree": {
+    "k": 8,
+    "n": 41,
+    "rate": 0.1951,
+    "ci95": [
+     0.102,
+     0.34
+    ]
+   },
+   "route": {
+    "backend": "decided",
+    "why": "no backend meets both bars; this one agrees best with the reference"
+   }
+  },
+  "reference_vs_realcase_labels": {}
+ },
+ "spend_usd_all_judge8": 0.846,
+ "test_sha256": "69ebbd13beefd5927bdf00fc9baae9174a5d4cfdb5bd8a182318b121efc48918",
+ "check_sha256": {
+  "scripts/build_judge_set8.py": "9d102a04de94100ced8563e478cae53d68fc9fabf6e54765772d99799fa97236",
+  "scripts/measure_judge8.py": "5f7679a60c96f6b04309021bfe5f4d7dbde4abcc314f656d8df09cb1b8cb6aa6",
+  "vera/literature/sentence_checks.py": "929a9edf1f1ac5b42563d6863ea0c3dd92ddae09174cc5835730e97aa53034ee",
+  "vera/judge/cheap_path.py": "3b05f1c9efab416b88c657bb387406f9e93828e20e991208982ac4d013543459",
+  "vera/judge/router.py": "018012da961875100c1cbea1e2fe898f3a5928cd5550cc3f61b71aa4e5046e52",
+  "vera/bench/harness.py": "36fc8dcfb1892262316e207cac88ab7a4ea88dd8582d1c538be1e142ca5b4a81",
+  "vera/bench/metrics.py": "38f87aeafdf4b0c4e02946f6f7683d173dd7f2be0039e8a7deae9723d89fef47",
+  "vera/bench/candidates.py": "222d638c03a3c3dbb3bac88abb6d13c6fb60d68c6b1011206a373aeffd7abe59"
+ }
+}

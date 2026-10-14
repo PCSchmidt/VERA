@@ -1,0 +1,14 @@
+{
+ "frozen_at": "2026-10-14T12:57:05+00:00",
+ "test_sha256": "69ebbd13beefd5927bdf00fc9baae9174a5d4cfdb5bd8a182318b121efc48918",
+ "check_sha256": {
+  "scripts/build_judge_set8.py": "9d102a04de94100ced8563e478cae53d68fc9fabf6e54765772d99799fa97236",
+  "scripts/measure_judge8.py": "5f7679a60c96f6b04309021bfe5f4d7dbde4abcc314f656d8df09cb1b8cb6aa6",
+  "vera/literature/sentence_checks.py": "929a9edf1f1ac5b42563d6863ea0c3dd92ddae09174cc5835730e97aa53034ee",
+  "vera/judge/cheap_path.py": "3b05f1c9efab416b88c657bb387406f9e93828e20e991208982ac4d013543459",
+  "vera/judge/router.py": "018012da961875100c1cbea1e2fe898f3a5928cd5550cc3f61b71aa4e5046e52",
+  "vera/bench/harness.py": "36fc8dcfb1892262316e207cac88ab7a4ea88dd8582d1c538be1e142ca5b4a81",
+  "vera/bench/metrics.py": "38f87aeafdf4b0c4e02946f6f7683d173dd7f2be0039e8a7deae9723d89fef47",
+  "vera/bench/candidates.py": "222d638c03a3c3dbb3bac88abb6d13c6fb60d68c6b1011206a373aeffd7abe59"
+ }
+}

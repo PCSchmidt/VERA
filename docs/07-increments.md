@@ -169,10 +169,28 @@ Increment 6 papers turn from green to red; the two papers made with the new chec
 cheap path's two judges disagreed between writing and auditing. The independent scorer still found 4 and 5 claims per paper saying
 more than their quotes (6 in Increment 6's P2), and defects of kinds the new checks pass. Spend $1.33 of $5. No frozen file changed.
 
-## Increment 8 — Optional: P1 on external papers (was Increment 6 until 2026-10-11, Increment 7 until 2026-10-13)
+## Increment 8 — A judge you can trust on the new questions (scoped 2026-10-14; complete 2026-10-14)
+
+Scope, gates and caps proposed in SPEC.md (2026-10-14); `incr8_scoped` is Chris's approval of them.
+
+Increment 7's three new judge questions (`claim.within_quote`, `sentence.no_fact`, the clause-by-clause inference wording) were
+never benchmarked against the reference judge, and the papers made with them were red only where the cheap path's two judges
+disagreed between writing and auditing (docs/reviews/incr-7.md). This increment builds a judge set from the five papers' real
+material, measures Jev, GLM and the decided path against the reference (Claude Sonnet 5.5) on it, frozen before the one test
+run, against the JDG-P-01 and JDG-P-03 bars; routes each new question to one judge chosen by that measurement, the same at write
+time and in the audit; and makes the audit report a disagreement between the write-time and audit verdicts as amber, not red.
+Exit: every new question measured against the reference, with the result stated; each routed; the five papers re-audited and
+their reds counted as failures or disagreements.
+
+Result (docs/reviews/incr-8.md): no backend met the bars on any of the three questions; the decided path agreed with the reference
+on 89%, 95% and 89% of test items, and the reference itself is soft on claims and statements. Chris kept the decided path, with the
+audit confirming a "no" on claims and statements with the reference; a contradiction is now amber. Re-audited, Increment 6's papers
+stay red (61 of 70 no's confirmed); N1 turns amber; N2 stays red on one confirmed and two unsure items. Spend $2.35 of $5.
+
+## Increment 9 — Optional: P1 on external papers (was Increment 6 until 2026-10-11, 7 until 2026-10-13, 8 until 2026-10-14)
 
 The auditor on other people's papers: PDF ingest, claim extraction,
 leakage checks, re-runs, seeded-fault dev/test sets, a batch audit of the
 ScientistTwo corpus, and the portfolio papers (judge benchmark; independent
-audit of an AI-generated corpus). Increments 2-5 are done; the labelled synthesis section became Increment 6 (Chris, 2026-10-11), and checking every sentence became Increment 7
-(proposed 2026-10-13). Whether to take this up, or an independent walkthrough or experiments in the app first, is the owner's decision (candidates in docs/reviews/incr-5.md).
+audit of an AI-generated corpus). Increments 2-5 are done; the labelled synthesis section became Increment 6 (Chris, 2026-10-11), checking every sentence became Increment 7
+(2026-10-13), and benchmarking its judge questions Increment 8 (proposed 2026-10-14). Whether to take this up, or an independent walkthrough or experiments in the app first, is the owner's decision (candidates in docs/reviews/incr-5.md).

@@ -644,7 +644,8 @@ async function readerView(kind, id) {
   const audit = data.audit;
   const findings = (audit && audit.findings) || [];
   const leads = findings.filter((f) => /method|align|novel/i.test(f.check || ""));
-  const real = findings.filter((f) => !leads.includes(f));
+  const disagree = findings.filter((f) => (f.summary || "").startsWith("judges disagree")); // AUD-F-13: listed apart
+  const real = findings.filter((f) => !leads.includes(f) && !disagree.includes(f));
   const auditBox = el("section", { class: "appendix" }, el("h2", {}, "The audit"), el("p", {}, lightBadge(audit && audit.overall)),
     el("p", { class: "small" }, "Checks run: " + ((audit && audit.checks_run) || []).join(", ") + (((audit && audit.checks_run) || []).includes("sentence")
       ? ". Green means the citations are real, each claim is supported by and says no more than the passage it quotes, each synthesis" + (kind === "paper" ? " and interpretation statement" : "") + " was judged by a model other than its writer to follow from the claims it names, and the other sentences were judged to state no facts. Synthesis and interpretation are judged, not checked against quotes. It does not mean the " + (kind === "paper" ? "paper" : "review") + " is complete or its reading is right."
@@ -652,6 +653,7 @@ async function readerView(kind, id) {
       ? ". Green means the citations are real, each claim is supported by the passage it quotes, and each interpretation statement was judged by a model other than its writer to follow from the claims it names. Interpretation is judged, not checked against quotes. It does not mean the paper is complete or its reading is right."
       : ". Green means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete.")),
     real.length ? el("ul", {}, ...real.map((f) => el("li", {}, "[" + f.severity + "] " + f.summary))) : el("p", {}, "No findings."),
+    disagree.length ? el("details", { class: "disagree" }, el("summary", {}, "Judge disagreements (" + disagree.length + "): passed a judge question when written, failed it in the audit"), el("ul", {}, ...disagree.map((f) => el("li", {}, f.summary)))) : "",
     leads.length ? el("details", {}, el("summary", {}, "Leads for a person (" + leads.length + "): a warning here is a lead, not a verdict"), el("ul", {}, ...leads.map((f) => el("li", {}, "[" + f.severity + "] " + f.summary)))) : "");
   if (kind === "paper" && data.inferences && data.inferences.length) {
     const kept = data.inferences.filter((x) => x.status === "pass"), removed = data.inferences.filter((x) => x.status !== "pass");

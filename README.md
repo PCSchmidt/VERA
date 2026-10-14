@@ -1,6 +1,6 @@
 # VERA — literature reviews and research runs you can check, on your own key
 
-**Status: Increments 0 to 7 complete (2026-10-14; Increment 7 checks every sentence, not only the cited ones). Portfolio project.**
+**Status: Increments 0 to 8 complete (2026-10-14; Increment 8 measured the sentence checks' judge questions against a reference judge). Portfolio project.**
 **▶ Read-only showcase: [pcschmidt.github.io/VERA](https://pcschmidt.github.io/VERA/)**: seven finished examples with
 their evidence panel, the exact inputs behind each, and a PDF of each. The app itself runs on your own machine with your
 own model key (see [Quickstart](#quickstart)); a static page cannot run a pipeline, and nothing on that page runs a model
@@ -69,7 +69,8 @@ You can drive it three ways:
 | Models | Claude Sonnet 5.5 writes (via OpenRouter); GLM-5.3 Flash judges (Jev, a typed-decision model, answers first when a key is set) |
 | Cost | $0.11 to $0.21 of model fees per literature review in this project's runs; the cap you set is the limit |
 | Wall time | 7.5 to 15 minutes per review in this project's runs |
-| Tests | 794 passing (`uv run pytest -q`, about 3 minutes), including offline fakes for every model call |
+| Tests | 812 (`uv run pytest -q`, about 3 minutes; 13 of them need Docker running), including offline fakes for every model call |
+| Judge on the sentence checks (Increment 8) | Measured against a reference judge (Claude Sonnet 5.5) on 162 real items: the best cheap route agrees on 89% of claim, 95% of sentence and 89% of statement items, below the 97% bar. The audit therefore asks the reference to confirm a cheap judge's "no" on claims and statements, and shows a disagreement as amber, not red |
 | Sentence checks (Increment 7) | Every sentence of a review or paper is a claim, a synthesis or a transition, each checked, and re-checked by the audit. On 90 real items from earlier papers: old checks flagged 0 of 21 faulty items, the new ones 15 (and 14 of 69 sound ones), against a model's labels |
 | Review paper (Increment 6) | From a finished review: wider reading (up to 15 papers in full), 2,500 to 2,700 words of prose (below its 3,000 target), labelled interpretation judged against its claims; $0.53 to $0.77 per paper in this project's three runs; see [docs/reviews/incr-6.md](docs/reviews/incr-6.md) for what its green audit missed |
 | Audit | Frozen-source test of 52 planted faults: 50 caught; **3 of 6 clean controls failed** (two for a real misstatement, one unexamined) |
@@ -131,7 +132,7 @@ be ignored.
 
 ```bash
 uv sync --group dev --group bench --group corpus
-uv run pytest -q          # 794 tests, offline, no keys needed
+uv run pytest -q          # 812 tests, offline, no keys needed (13 need Docker)
 uv run ruff check .
 ```
 
@@ -200,10 +201,11 @@ Full tables with run ids and caveats are in the reviews: [`docs/reviews/`](docs/
 - **No independent user yet.** MOE-4 is not shown; the walkthrough was the builder. The redesign and the PDF export have been seen
   by no one else.
 - **A green audit is a floor.** Since Increment 7 it re-checks every sentence: each claim against its quote, each synthesis against
-  the claims it names, and every other sentence for stating no fact. It does not check that the review is complete. Its new judge
-  questions are not yet benchmarked against a reference judge, the two cheap judges disagree on some items (so a light can change
-  between writing and auditing), and a careful reader still finds claims that say a little more than their quotes
-  ([docs/reviews/incr-7.md](docs/reviews/incr-7.md)).
+  the claims it names, and every other sentence for stating no fact. It does not check that the review is complete. Its judge
+  questions on claims and statements agree with a reference judge on about 89% of items, under the 97% bar, so since
+  Increment 8 the audit asks the reference to confirm a "no" before it fails and shows a disagreement as amber; the reference
+  itself is unsure on some items, and a careful reader still finds claims that say a little more than their quotes
+  ([docs/reviews/incr-7.md](docs/reviews/incr-7.md), [docs/reviews/incr-8.md](docs/reviews/incr-8.md)).
 - **Retrieval misses papers** (about a third of the key papers on measured topics, before the screen), and a review is limited by
   what the search found. It says so in a paragraph of its own.
 - **Reviews lean on abstracts.** In the runs here, most papers were read at the abstract only; full-text reading needs GROBID.
@@ -242,7 +244,7 @@ are read from your environment. The ScientistTwo corpus is evaluation data: its 
 ### Verify the claims (a reviewer's path)
 
 ```bash
-uv run pytest -q                                          # 794 passed (docs/results/incr7_test_run.txt)
+uv run pytest -q                                          # 799 passed, 13 skipped without Docker (docs/results/incr8_test_run.txt)
 python tools/checks/check_app.py --part secrets           # no key-shaped string, local-only server, no external loads
 python tools/checks/check_carry5.py                       # frozen audit files unchanged since Increment 5 was scoped
 python tools/checks/check_rubric5.py                      # human scores blind and earlier than the independent scorer's
