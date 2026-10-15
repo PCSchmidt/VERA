@@ -480,6 +480,7 @@ async function examplesView() {
     el("p", { class: "kicker" }, "Examples"),
     el("h1", {}, "Finished examples"),
     el("p", { class: "lede" }, "Each example shows the exact inputs that produced it, what it cost, and the audit result. Where we found problems in a review after it passed its audit, they are listed with it. Three reviews also have the review paper made from them, shown with the light its own audit gave it and the deficiencies found in it. The two papers that also ran experiments did not beat their baselines, and say so."),
+    ...paperIndex(),
     ...state.facts.examples.map((e) => el("section", { class: "example" },
       el("div", {},
         el("p", { class: "kicker" }, e.kind === "paper" ? "With experiments" : "Literature review"),
@@ -497,7 +498,7 @@ async function examplesView() {
           e.paper.known_issues ? el("p", { class: "issue" }, el("strong", {}, "Known issues. "), e.paper.known_issues) : "",
           el("div", { class: "row" },
             el("a", { class: "button", href: "#/example-paper/" + e.id }, "Read the paper with its evidence"),
-            el("a", { class: "button", href: S("/api/examples/" + e.id + "/review-paper/pdf"), download: true }, "Paper PDF"))) : ""),
+            el("a", { class: "button", href: S("/api/examples/" + e.id + "/review-paper/pdf"), download: true }, "Download paper PDF"))) : ""),
       el("dl", { class: "inputs" },
         el("h3", { class: "kicker" }, "What went in"),
         el("dt", {}, "Topic"), el("dd", {}, e.topic),
@@ -505,6 +506,20 @@ async function examplesView() {
         el("dt", {}, "Guidance"), el("dd", {}, e.guidance.format + (e.guidance.max_words ? ", up to " + e.guidance.max_words + " words" : "") + (e.guidance.emphasis ? ". " + e.guidance.emphasis : "")),
         el("dt", {}, "Spending cap"), el("dd", {}, money(e.budget_cap_usd)))))
   ];
+}
+
+function withPaper() { return state.facts.examples.filter((e) => e.paper); }
+
+function paperIndex() { // the review papers first: they sit under their reviews further down, which is easy to miss
+  const items = withPaper();
+  if (!items.length) return [];
+  return [el("section", { class: "paper-index" },
+    el("h2", {}, "Review papers"),
+    el("p", { class: "small" }, "Review papers were made from " + items.length + " of the reviews below. Each is shown with the light its own audit gave it and the deficiencies found in it, under Known issues."),
+    el("ul", {}, ...items.map((e) => el("li", {},
+      el("a", { href: "#/example-paper/" + e.id }, e.paper.title), " ", lightBadge(e.paper.audit),
+      el("span", { class: "small" }, " Made in " + e.paper.made + " from the review “" + e.title + "”. "),
+      el("a", { class: "small", href: S("/api/examples/" + e.id + "/review-paper/pdf"), download: true }, "Download paper PDF")))))];
 }
 
 /* ── reader ────────────────────────────────────────────────────────────── */
@@ -688,7 +703,9 @@ async function readerView(kind, id) {
   const head = el("header", { class: "doc-head" },
     el("p", { class: "kicker" }, kind === "example" ? (data.example.kind === "paper" ? "Example · research paper" : "Example · literature review") : exPaper ? "Example · review paper" : kind === "paper" ? "Review paper" : "Literature review"),
     el("h1", {}, title), byline,
-    el("div", { class: "row" }, el("a", { class: "button primary", href: S(base + "/pdf"), download: true }, "Download PDF"), el("a", { class: "button", href: anExample ? "#/examples" : "#/run/" + id }, anExample ? "All examples" : "Back to the run")));
+    el("div", { class: "row" }, el("a", { class: "button primary", href: S(base + "/pdf"), download: true }, exPaper ? "Download paper PDF" : kind === "example" && data.example.paper ? "Download review PDF" : "Download PDF"),
+      kind === "example" && data.example.paper ? el("a", { class: "button", href: S("/api/examples/" + id + "/review-paper/pdf"), download: true }, "Download paper PDF") : "",
+      el("a", { class: "button", href: anExample ? "#/examples" : "#/run/" + id }, anExample ? "All examples" : "Back to the run")));
   if (anExample && data.example.paper) { // an example's review and the paper made from it, as two tabs
     head.append(el("nav", { class: "tabs", "aria-label": "Document" },
       el("a", { href: "#/example/" + id, "aria-current": exPaper ? null : "page" }, "Review"),
@@ -700,6 +717,8 @@ async function readerView(kind, id) {
       el("a", { href: paper === true || paper.state === "complete" ? "#/paper/" + id : "#/paper-run/" + id, "aria-current": kind === "paper" ? "page" : null }, "Paper")));
     else if (["green", "amber"].includes(audit && audit.overall)) head.querySelector(".row").append(el("a", { class: "button", href: "#/make-paper/" + id }, "Make a paper from this review"));
   }
+  if (kind === "example" && data.example.kind === "literature" && !data.example.paper && withPaper().length)
+    head.append(el("p", { class: "small" }, "No review paper was made from this review. Review papers were made from: ", ...withPaper().flatMap((e, i) => [i ? ", " : "", el("a", { href: "#/example-paper/" + e.id }, e.title)]), "."));
   const about = exPaper ? data.example.paper : kind === "example" ? data.example : null;
   if (about) head.append(el("p", { class: "small" }, about.outcome));
   if (about && about.known_issues) head.append(el("p", { class: "issue" }, el("strong", {}, "Known issues. "), about.known_issues));

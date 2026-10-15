@@ -125,12 +125,16 @@ def dom(port: int, route: str, tmp_path: Path) -> str:
 @pytest.mark.parametrize("route, must_have, must_not", [
     ("", "Read-only showcase", "Connect my key"),
     ("examples", "Known issues.", "The app could not start"),
-    ("example/rlm-vs-clm", "Download PDF", "Something went wrong"),
+    ("example/rlm-vs-clm", "Download review PDF", "Something went wrong"),
     ("example/tree-explain", 'class="cite"', "The app could not start"),
     ("example-paper/rlm-vs-clm", "Example · review paper", "Something went wrong"),
     ("example-paper/prompting-evolution", "Interpretation statements", "Something went wrong"),
     ("example/agent-traces-knowledge", 'href="#/example-paper/agent-traces-knowledge"', "Something went wrong"),
     ("examples", "Read the paper with its evidence", "The app could not start"),
+    ("examples", "Review papers", "The app could not start"),
+    ("example/rlm-vs-clm", 'href="pdf/rlm-vs-clm-paper.pdf"', "Something went wrong"),  # the paper's PDF from its review
+    ("example-paper/agent-traces-knowledge", "Download paper PDF", "Something went wrong"),
+    ("example/conformal-shift", "No review paper was made from this review", "Something went wrong"),
     ("run-locally", "uv run vera-app", "Propose a question"),
     ("new", "VERA runs on your own computer", "Propose a question"),  # a run-form route redirects to the run-it-yourself page
     ("runs", "VERA runs on your own computer", "My runs"),
