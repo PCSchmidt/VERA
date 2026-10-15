@@ -136,6 +136,8 @@ def dom(port: int, route: str, tmp_path: Path) -> str:
     ("example-paper/agent-traces-knowledge", "Download paper PDF", "Something went wrong"),
     ("example/conformal-shift", "No review paper was made from this review", "Something went wrong"),
     ("run-locally", "uv run vera-app", "Propose a question"),
+    ("run-locally", "z-ai/glm-5.3-flash", "undefined"),  # the models, filled in from the code
+    ("run-locally", "A review paper, made from a finished review on request, cost a further between $0.64", "undefined"),  # from showcase.json
     ("new", "VERA runs on your own computer", "Propose a question"),  # a run-form route redirects to the run-it-yourself page
     ("runs", "VERA runs on your own computer", "My runs"),
 ])  # fmt: skip

@@ -73,10 +73,22 @@ def examples(root: Path, file: str = "examples.json") -> list[dict]:
     return [example(root, s) for s in specs]
 
 
+def models() -> dict:
+    """The OpenRouter models a run uses by default, read from the code that picks them (the run-it-yourself page shows them)."""
+    from vera.app.pipeline import DEFAULT_MODEL  # noqa: PLC0415  (imported here: the pipeline imports the app)
+    from vera.bench.candidates import OPENROUTER  # noqa: PLC0415
+    from vera.judge.cheap_path import CONFIRM_NO  # noqa: PLC0415
+
+    return {"writer": DEFAULT_MODEL[1], "cheap_judge": OPENROUTER["glm-flash"][0],
+            "reference": OPENROUTER[CONFIRM_NO["claim.within_quote"]][0]}  # fmt: skip
+
+
 def build_facts(root: Path, examples_file: str = "examples.json") -> dict:
     items = examples(root, examples_file)
     lit = [e["spent_usd"] for e in items if e["kind"] == "literature"]
     paper = [e["spent_usd"] for e in items if e["kind"] == "paper"]
+    # review papers: the showcase lists them (the app's own examples have none), so both modes read them from there
+    review_paper = [s["paper"]["spent_usd"] for s in _json(root / "data" / "app" / "showcase.json")["examples"] if s.get("paper")]
     rubric = _json(root / "data" / "results" / "rubric4_chris.json")["entries"]
     reviews = [e["scores"] for e in rubric if e["output"].startswith("L")]
     by_criterion = {c: round(mean(r[c] for r in reviews), 1) for c in CRITERIA}
@@ -85,10 +97,11 @@ def build_facts(root: Path, examples_file: str = "examples.json") -> dict:
     return {
         "literature_cost_usd": {"low": min(lit), "high": max(lit)} if lit else None,
         "paper_cost_usd": {"low": min(paper), "high": max(paper)} if paper else None,
+        "review_paper_cost_usd": {"low": min(review_paper), "high": max(review_paper)} if review_paper else None,
         "review_scores": {
             "n_reviews": len(reviews), "scale": 5, "by_criterion": by_criterion,
             "weakest": CRITERIA[weakest], "weakest_mean": by_criterion[weakest],
             "strongest": CRITERIA[strongest], "strongest_mean": by_criterion[strongest],
         },
-        "examples": items,
+        "examples": items, "models": models(),
     }  # fmt: skip

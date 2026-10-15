@@ -88,7 +88,7 @@ only way a green light can mean something about the text a reader actually reads
 | Measured: sentence checks on real defects | 15 of 21 faulty items flagged (old checks: 0), 14 of 69 sound items flagged, on 90 real items against an AI assistant's labels |
 | Measured: cheap judge against the reference | 89% (claims), 95% (sentences), 89% (statements) agreement on 162 real items; the 97% bar is not met |
 | Stack | Python 3.11, LangGraph, Pydantic v2, FastAPI, plain HTML and JavaScript, fpdf2, GROBID in Docker (optional) |
-| Tests | 846 (`uv run pytest -q`, about 3 minutes; 13 need Docker), with offline fakes for every model call |
+| Tests | 850 (`uv run pytest -q`, about 3 minutes; 13 need Docker), with offline fakes for every model call |
 | Spend for the whole project | $16.05 of model calls over 16 days, inside a $20 monthly ceiling (`data/results/spend_total.json`) |
 
 ## Architecture at a glance
@@ -141,11 +141,29 @@ Optional: GROBID in Docker on port 8070 (`docker run --rm -p 8070:8070 lfoppiano
 `-e JAVA_TOOL_OPTIONS=-XX:-UseContainerSupport`) lets VERA read full texts; without it, it reads abstracts and says so. A
 `SEMANTIC_SCHOLAR_API_KEY` or `OPENALEX_API_KEY` in a `.env` file widens the search.
 
+**Which models it uses.** There is no model choice in the app: the one OpenRouter key pays for all three.
+
+| Role | Default model (OpenRouter id) | Set in |
+| --- | --- | --- |
+| Writer: proposes the question, writes the review and the paper | `anthropic/claude-sonnet-5.5` | `vera/app/pipeline.py` (`DEFAULT_MODEL`) |
+| Cheap judge: answers every check first | `z-ai/glm-5.3-flash` | `vera/judge/cheap_path.py` |
+| Reference judge: confirms a cheap "no" on a claim or an interpretation statement before it can fail | `anthropic/claude-sonnet-5.5` | `vera/judge/cheap_path.py` (`CONFIRM_NO`) |
+
+- **Change the writer** with `VERA_GENERATOR_MODEL=<OpenRouter model id>`, set in the shell before `uv run vera-app`
+  (PowerShell: `$env:VERA_GENERATOR_MODEL = "..."`). It is read from the environment only, not from `.env`. No other writer was
+  measured; the costs above are for the default.
+- **Add Jev** (TypeSafe's decision model, [below](#the-cheap-judge-jev-a-decision-model)) as the first cheap judge with
+  `TYPESAFE_AI_API_KEY` in `.env` (the environment works too): Jev answers first and GLM takes anything below 0.7 confidence.
+  Without it, GLM answers every check alone.
+- **The two routes were measured** against the reference on 162 real items (Increment 8, `data/results/judge8_test.json`):
+  Jev then GLM agreed on 89% (claims), 95% (sentences) and 89% (statements); GLM alone, the default for a new user, on 86%,
+  93% and 87%. Neither meets the 97% bar. The judges cannot be changed without editing the code.
+
 ### 2. Run the tests
 
 ```bash
 uv sync --group dev --group bench --group corpus
-uv run pytest -q          # 846 tests, offline, no keys needed (13 need Docker)
+uv run pytest -q          # 850 tests, offline, no keys needed (13 need Docker)
 uv run ruff check .
 ```
 
@@ -167,6 +185,31 @@ checks on real items), `scripts/measure_judge8.py` (the cheap judge against the 
   not good enough (Increment 8), a reference judge confirms the cheap judge's "no" before anything fails.
 - **Honest by construction.** Seeded faults, real-case sets and controls test the checks; independent readers test the output;
   each review lists what fell short.
+
+### The cheap judge: Jev, a decision model
+
+Most of VERA's checks are small typed questions: does this claim say more than its quote (yes or no)? Is this paper relevant
+(pick one)? How well does this sentence follow (a score)? A chat model answers those by writing text, which then has to be
+parsed, and any confidence it gives is a number it writes about itself. **Jev**, from TypeSafe, is built for this kind of
+question instead: a hosted *decision model* that takes the material and a batch of typed questions (yes/no, choice, score) in
+one call and returns a **probability for each possible answer**, not prose ([`vera/backends/typesafe.py`](vera/backends/typesafe.py)).
+
+That shape is what a cheap-first judge needs:
+
+- **The confidence is the model's own probability**, so the router can trust it to decide when to escalate: VERA sends anything
+  Jev answers below 0.7 to GLM-5.3 Flash. On the Increment 1 benchmark Jev's calibration error was 0.008; the local model
+  that reports its own confidence said 1.0 on 1,149 of 1,150 verdicts, so its errors could never escalate.
+- **No parsing, no malformed answers**: none in the Increment 8 measurement.
+- **Fast and cheap.** Priced on input only ($0.042 per million input tokens, output free): about $0.00005 per item, 1.3% of the
+  reference judge's cost, with a median of 0.19 s against GLM's 1.95 s and Sonnet's 1.26 s (Increment 1, [T1](docs/04-trade-studies.md)).
+  Many questions go in one metered call.
+
+What it does not do, measured: on the Increment 1 benchmark Jev alone agreed with the reference on 97.0%, and its few errors
+on the research loop's gate decisions were confident ones escalation cannot catch, so those questions go straight to GLM. On
+Increment 8's harder sentence-check questions Jev alone agreed on 79% (claims), 93% (sentences) and 77% (statements) and was
+unsure on about half the claims and statements; escalating those to GLM gives the best route measured (89%, 95%, 89%), still
+below the 97% bar. Jev needs its own TypeSafe key; without one VERA uses GLM alone. Under TypeSafe's terms VERA never trains
+on Jev's output.
 
 ## Motivation
 
@@ -292,7 +335,7 @@ and caches are git-ignored. See [`data/README.md`](data/README.md).
 ### Verify the claims (a reviewer's path)
 
 ```bash
-uv run pytest -q                                          # 833 passed, 13 skipped without Docker
+uv run pytest -q                                          # 837 passed, 13 skipped without Docker
 python tools/checks/check_app.py --part secrets           # no key-shaped string, local-only server, no external loads
 python tools/checks/check_carry5.py                       # frozen audit files unchanged since Increment 5 was scoped
 uv run python tools/checks/check_carry7.py --part measured   # the real-case measurement ran once, after its freeze

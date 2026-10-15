@@ -33,6 +33,22 @@ def test_the_recorded_spend_equals_the_ledger_when_the_ledger_is_here(name: str)
             assert facts.ledger_total(ROOT, spec["ledger"]) == pytest.approx(e["spent_usd"], abs=5e-5)
 
 
+def test_the_review_paper_cost_comes_from_the_showcase_papers() -> None:
+    specs = facts._json(ROOT / "data" / "app" / "showcase.json")["examples"]
+    spent = [s["paper"]["spent_usd"] for s in specs if s.get("paper")]
+    assert facts.build_facts(ROOT)["review_paper_cost_usd"] == {"low": min(spent), "high": max(spent)}
+
+
+def test_the_models_shown_are_the_ones_the_code_uses() -> None:
+    from vera.app.pipeline import DEFAULT_MODEL
+    from vera.bench.candidates import OPENROUTER
+
+    m = facts.build_facts(ROOT)["models"]
+    assert m == {"writer": DEFAULT_MODEL[1], "cheap_judge": OPENROUTER["glm-flash"][0], "reference": OPENROUTER["sonnet-ref"][0]}
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert all(f"`{slug}`" in readme for slug in m.values())  # the README's table names the same models
+
+
 def test_the_static_pages_contain_no_figure_of_their_own() -> None:
     """Every number on the landing and examples pages is filled in from /api/facts, so none can drift from the evidence."""
     static = ROOT / "vera" / "app" / "static"
