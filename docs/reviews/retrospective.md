@@ -4,6 +4,14 @@ Written 2026-10-15 by Claude Code at the close of the work, from the increment r
 from a review or a file it names. This is the project's last word on what VERA is and what it showed; the reviews hold the
 detail.
 
+## After the close
+
+On 2026-10-15, after `incr10_review`, Chris asked for the showcase to link the finished papers. Three examples now carry the
+review paper made from their review (the Increment 9 papers on recursive and Context Language Models and on prompting, and the
+Increment 6 paper on agent traces), each with the light its own audit gave it and a note of the deficiencies found in it (the
+red items, the offline re-reads, the independent scorer's notes). A presentation change only: no model call, no gate, no
+change to any audit or frozen file.
+
 ## What was built
 
 VERA (Verifiable, Economical Research Agents) is a local app and a command-line pipeline that take a topic to a checked

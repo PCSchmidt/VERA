@@ -15,6 +15,8 @@ function staticUrl(path) {
   if ((m = path.match(/^\/api\/examples\/([a-z0-9-]+)\/paper$/))) return "data/examples/" + m[1] + "/paper.json";
   if ((m = path.match(/^\/api\/examples\/([a-z0-9-]+)\/files\/(.+)$/))) return "data/examples/" + m[1] + "/files/" + m[2];
   if ((m = path.match(/^\/api\/examples\/([a-z0-9-]+)\/pdf$/))) return "pdf/" + m[1] + ".pdf";
+  if ((m = path.match(/^\/api\/examples\/([a-z0-9-]+)\/review-paper$/))) return "data/examples/" + m[1] + "/review-paper.json";
+  if ((m = path.match(/^\/api\/examples\/([a-z0-9-]+)\/review-paper\/pdf$/))) return "pdf/" + m[1] + "-paper.pdf";
   return path;
 }
 const S = (path) => (STATIC ? staticUrl(path) : path);
@@ -91,6 +93,7 @@ const routes = [
   [/^#\/run-locally$/, runLocally],
   [/^#\/examples$/, examplesView],
   [/^#\/example\/([a-z0-9-]+)$/, (id) => readerView("example", id)],
+  [/^#\/example-paper\/([a-z0-9-]+)$/, (id) => readerView("example-paper", id)],
   [/^#\/make-paper\/([a-z0-9-]+)$/, makePaperView],
   [/^#\/paper-run\/([a-z0-9-]+)$/, paperRunView],
   [/^#\/paper\/([a-z0-9-]+)$/, (id) => readerView("paper", id)],
@@ -476,7 +479,7 @@ async function examplesView() {
   return [
     el("p", { class: "kicker" }, "Examples"),
     el("h1", {}, "Finished examples"),
-    el("p", { class: "lede" }, "Each example shows the exact inputs that produced it, what it cost, and the audit result. Where we found problems in a review after it passed its audit, they are listed with it. The two papers that also ran experiments did not beat their baselines, and say so."),
+    el("p", { class: "lede" }, "Each example shows the exact inputs that produced it, what it cost, and the audit result. Where we found problems in a review after it passed its audit, they are listed with it. Three reviews also have the review paper made from them, shown with the light its own audit gave it and the deficiencies found in it. The two papers that also ran experiments did not beat their baselines, and say so."),
     ...state.facts.examples.map((e) => el("section", { class: "example" },
       el("div", {},
         el("p", { class: "kicker" }, e.kind === "paper" ? "With experiments" : "Literature review"),
@@ -486,7 +489,15 @@ async function examplesView() {
         e.known_issues ? el("p", { class: "issue" }, el("strong", {}, "Known issues. "), e.known_issues) : "",
         el("div", { class: "row" },
           el("a", { class: "button primary", href: "#/example/" + e.id }, "Read it with its evidence"),
-          el("a", { class: "button", href: S("/api/examples/" + e.id + "/pdf"), download: true }, "Download PDF"))),
+          el("a", { class: "button", href: S("/api/examples/" + e.id + "/pdf"), download: true }, "Download PDF")),
+        e.paper ? el("div", { class: "example-paper" },
+          el("h3", {}, "The review paper made from it"),
+          el("p", {}, el("em", {}, e.paper.title)),
+          el("p", {}, lightBadge(e.paper.audit), " ", el("span", { class: "small" }, "Made in " + e.paper.made + "; spent " + money(e.paper.spent_usd) + " of a " + money(e.paper.budget_cap_usd) + " cap")),
+          e.paper.known_issues ? el("p", { class: "issue" }, el("strong", {}, "Known issues. "), e.paper.known_issues) : "",
+          el("div", { class: "row" },
+            el("a", { class: "button", href: "#/example-paper/" + e.id }, "Read the paper with its evidence"),
+            el("a", { class: "button", href: S("/api/examples/" + e.id + "/review-paper/pdf"), download: true }, "Paper PDF"))) : ""),
       el("dl", { class: "inputs" },
         el("h3", { class: "kicker" }, "What went in"),
         el("dt", {}, "Topic"), el("dd", {}, e.topic),
@@ -631,7 +642,9 @@ async function showCell(ctx, text) {
 }
 
 async function readerView(kind, id) {
-  const base = kind === "example" ? "/api/examples/" + id : kind === "paper" ? "/api/runs/" + id + "/review-paper" : "/api/runs/" + id;
+  const exPaper = kind === "example-paper"; // an example's review paper reads like a run's paper
+  if (exPaper) kind = "paper";
+  const base = exPaper ? "/api/examples/" + id + "/review-paper" : kind === "example" ? "/api/examples/" + id : kind === "paper" ? "/api/runs/" + id + "/review-paper" : "/api/runs/" + id;
   const data = await api(kind === "paper" ? base : base + "/paper");
   let paperTitle = null;
   if (kind === "paper" && data.markdown.startsWith("# ")) { // the paper's own title goes in the header, not the body
@@ -667,22 +680,29 @@ async function readerView(kind, id) {
     auditBox.append(el("details", {}, el("summary", {}, "Sentences: " + data.sentences.length + " checked; " + synth.length + " synthesis kept, " + gone.length + " removed by the checks"),
       el("ul", {}, ...[...synth, ...gone].map((s) => el("li", { class: s.status === "pass" ? "" : "small muted" }, s.id + " (" + (s.section ? s.section + "; " : "") + (s.status === "pass" ? "rests on " + s.premises.join(", ") : s.kind + ", removed: " + (s.reason || "failed")) + "): " + s.text)))));
   }
-  const title = kind === "example" ? data.example.title : paperTitle || shortTitle(await titleOf(id));
+  const title = kind === "example" ? data.example.title : paperTitle || (exPaper ? data.example.paper.title : shortTitle(await titleOf(id)));
   const byline = el("div", { class: "byline" }, lightBadge(audit && audit.overall));
   if (kind === "example") byline.append("Spent " + money(data.example.spent_usd) + " of a " + money(data.example.budget_cap_usd) + " cap");
+  if (exPaper) byline.append("Made in " + data.example.paper.made + "; spent " + money(data.example.paper.spent_usd) + " of a " + money(data.example.paper.budget_cap_usd) + " cap");
+  const anExample = kind === "example" || exPaper;
   const head = el("header", { class: "doc-head" },
-    el("p", { class: "kicker" }, kind === "example" ? (data.example.kind === "paper" ? "Example · research paper" : "Example · literature review") : kind === "paper" ? "Review paper" : "Literature review"),
+    el("p", { class: "kicker" }, kind === "example" ? (data.example.kind === "paper" ? "Example · research paper" : "Example · literature review") : exPaper ? "Example · review paper" : kind === "paper" ? "Review paper" : "Literature review"),
     el("h1", {}, title), byline,
-    el("div", { class: "row" }, el("a", { class: "button primary", href: S(base + "/pdf"), download: true }, "Download PDF"), el("a", { class: "button", href: kind === "example" ? "#/examples" : "#/run/" + id }, kind === "example" ? "All examples" : "Back to the run")));
-  if (kind !== "example") { // the review and its paper, as two tabs
+    el("div", { class: "row" }, el("a", { class: "button primary", href: S(base + "/pdf"), download: true }, "Download PDF"), el("a", { class: "button", href: anExample ? "#/examples" : "#/run/" + id }, anExample ? "All examples" : "Back to the run")));
+  if (anExample && data.example.paper) { // an example's review and the paper made from it, as two tabs
+    head.append(el("nav", { class: "tabs", "aria-label": "Document" },
+      el("a", { href: "#/example/" + id, "aria-current": exPaper ? null : "page" }, "Review"),
+      el("a", { href: "#/example-paper/" + id, "aria-current": exPaper ? "page" : null }, "Paper")));
+  } else if (kind !== "example") { // the review and its paper, as two tabs
     const paper = kind === "paper" ? true : await paperStatus(id);
     if (paper) head.append(el("nav", { class: "tabs", "aria-label": "Document" },
       el("a", { href: "#/read/" + id, "aria-current": kind === "run" ? "page" : null }, "Review"),
       el("a", { href: paper === true || paper.state === "complete" ? "#/paper/" + id : "#/paper-run/" + id, "aria-current": kind === "paper" ? "page" : null }, "Paper")));
     else if (["green", "amber"].includes(audit && audit.overall)) head.querySelector(".row").append(el("a", { class: "button", href: "#/make-paper/" + id }, "Make a paper from this review"));
   }
-  if (kind === "example") head.append(el("p", { class: "small" }, data.example.outcome));
-  if (kind === "example" && data.example.known_issues) head.append(el("p", { class: "issue" }, el("strong", {}, "Known issues. "), data.example.known_issues));
+  const about = exPaper ? data.example.paper : kind === "example" ? data.example : null;
+  if (about) head.append(el("p", { class: "small" }, about.outcome));
+  if (about && about.known_issues) head.append(el("p", { class: "issue" }, el("strong", {}, "Known issues. "), about.known_issues));
   return [head, el("div", { class: "cols" }, el("div", {}, doc, auditBox), ctx.side)];
 }
 

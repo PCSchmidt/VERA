@@ -269,11 +269,35 @@ def create_app(
         paper = read_paper(run_dir / "paper", retrieved=f"runs/{run_id}/retrieved.jsonl", root=manager.root)
         return pdf_response(paper, meta, run_dir / "paper", f"vera-{run_id}-paper")
 
+    def example_or_404(example_id: str) -> dict:
+        # the app's own examples first, then the showcase's (the same lookup the static build makes)
+        for file in ("examples.json", "showcase.json"):
+            match = next((e for e in facts.examples(root, file) if e["id"] == example_id), None)
+            if match is not None:
+                return match
+        raise HTTPException(status_code=404, detail="No such example.")
+
+    def example_review_paper(example_id: str) -> tuple[dict, dict]:
+        match = example_or_404(example_id)
+        if not match.get("paper"):
+            raise HTTPException(status_code=404, detail="This example has no review paper.")
+        p = match["paper"]
+        out = read_paper(root / p["dir"], retrieved=p.get("retrieved"), root=root)
+        out["example"] = match
+        return match, out
+
+    @app.get("/api/examples/{example_id}/review-paper")
+    def example_paper_doc(example_id: str) -> dict:
+        return example_review_paper(example_id)[1]
+
+    @app.get("/api/examples/{example_id}/review-paper/pdf")
+    def example_paper_pdf(example_id: str) -> Response:
+        match, paper = example_review_paper(example_id)
+        return pdf_response(paper, example_paper_meta(match), root / match["paper"]["dir"], f"vera-example-{example_id}-paper")
+
     @app.get("/api/examples/{example_id}/paper")
     def example_paper(example_id: str) -> dict:
-        match = next((e for e in facts.examples(root) if e["id"] == example_id), None)
-        if match is None:
-            raise HTTPException(status_code=404, detail="No such example.")
+        match = example_or_404(example_id)
         folder = (root / match["document"]).parent
         out = read_paper(folder, document=Path(match["document"]).name, retrieved=match.get("retrieved"), root=root)
         out["example"] = match
@@ -298,9 +322,7 @@ def create_app(
 
     @app.get("/api/examples/{example_id}/pdf")
     def example_pdf(example_id: str) -> Response:
-        match = next((e for e in facts.examples(root) if e["id"] == example_id), None)
-        if match is None:
-            raise HTTPException(status_code=404, detail="No such example.")
+        match = example_or_404(example_id)
         folder = (root / match["document"]).parent
         paper = read_paper(folder, document=Path(match["document"]).name, retrieved=match.get("retrieved"), root=root)
         meta = {"title": match["title"], "question": match["question"], "kind": match["kind"], "run_id": match["id"],
@@ -315,9 +337,7 @@ def create_app(
 
     @app.get("/api/examples/{example_id}/files/{rel:path}")
     def example_file(example_id: str, rel: str) -> FileResponse:
-        match = next((e for e in facts.examples(root) if e["id"] == example_id), None)
-        if match is None:
-            raise HTTPException(status_code=404, detail="No such example.")
+        match = example_or_404(example_id)
         return safe_file((root / match["document"]).parent, rel)
 
     @app.get("/api/runs/{run_id}/files/{rel:path}")
@@ -331,6 +351,13 @@ def create_app(
 
     app.mount("/static", StaticFiles(directory=STATIC), name="static")
     return app
+
+
+def example_paper_meta(match: dict) -> dict:
+    """The PDF title block of an example's review paper (the server and the static build use the same one)."""
+    p = match["paper"]
+    return {"title": p["title"], "question": match["question"], "kind": "review_paper", "run_id": match["id"] + "-paper",
+            "date": "", "spent_usd": p["spent_usd"], "cap_usd": p["budget_cap_usd"]}  # fmt: skip
 
 
 def _plain(exc: ValidationError) -> str:

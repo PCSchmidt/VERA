@@ -40,7 +40,7 @@ def test_the_site_is_static_relative_and_complete(site: Path) -> None:
     assert (site / ".nojekyll").exists()
     facts = json.loads((site / "data" / "facts.json").read_text(encoding="utf-8"))
     ids = [e["id"] for e in facts["examples"]]
-    assert len(ids) == 7 and {"agentic-traces-walkthrough", "rlm-vs-clm", "agent-traces-first"} <= set(ids)
+    assert len(ids) == 9 and {"agentic-traces-walkthrough", "rlm-vs-clm", "agent-traces-first", "prompting-evolution", "agent-traces-knowledge"} <= set(ids)
     for i in ids:
         paper = json.loads((site / "data" / "examples" / i / "paper.json").read_text(encoding="utf-8"))
         assert paper["markdown"] and paper["claims"] is not None and paper["example"]["id"] == i
@@ -60,9 +60,29 @@ def test_the_three_reviews_with_findings_carry_them_and_the_audited_four_do_not_
     assert "part of the question" in facts["agent-traces-first"]["known_issues"]
     assert all(
         facts[i]["known_issues"] is None
-        for i in ("conformal-shift", "research-agents-eval", "tree-explain", "credal-dro")
+        for i in ("conformal-shift", "research-agents-eval", "tree-explain", "credal-dro", "prompting-evolution", "agent-traces-knowledge")
     )
     assert all(e["audit"] in {"green", "amber", "red"} and e["topic"] and e["question"] for e in facts.values())
+
+
+def test_three_examples_carry_their_review_paper_with_its_own_light_and_its_deficiencies(site: Path) -> None:
+    facts = {e["id"]: e for e in json.loads((site / "data" / "facts.json").read_text(encoding="utf-8"))["examples"]}
+    with_paper = {i for i, e in facts.items() if e["paper"]}
+    assert with_paper == {"rlm-vs-clm", "prompting-evolution", "agent-traces-knowledge"}
+    for i in with_paper:
+        p = facts[i]["paper"]
+        doc = json.loads((site / "data" / "examples" / i / "review-paper.json").read_text(encoding="utf-8"))
+        own = json.loads((ROOT / p["dir"] / "audit_report.json").read_text(encoding="utf-8"))["overall"]
+        assert doc["audit"]["overall"] == own == p["audit"]  # shown as its own audit left it, not re-coloured
+        assert doc["markdown"] and doc["inferences"] and doc["sentences"] is not None and doc["example"]["id"] == i
+        assert p["known_issues"] and p["title"] == json.loads((ROOT / p["dir"] / "paper.json").read_text(encoding="utf-8"))["title"]
+        pdf = (site / "pdf" / f"{i}-paper.pdf").read_bytes()
+        assert pdf[:5] == b"%PDF-" and len(pdf) > 20_000
+    assert facts["rlm-vs-clm"]["paper"]["audit"] == "red" and "C22" in facts["rlm-vs-clm"]["paper"]["known_issues"]
+    assert facts["prompting-evolution"]["paper"]["audit"] == "red" and "C41" in facts["prompting-evolution"]["paper"]["known_issues"]
+    assert "re-audited" in facts["agent-traces-knowledge"]["paper"]["known_issues"].lower()  # green by its own audit, red by the later checks
+    for i in set(facts) - with_paper:
+        assert not (site / "data" / "examples" / i / "review-paper.json").exists()
 
 
 def test_nothing_secret_or_dynamic_is_published(site: Path) -> None:
@@ -107,6 +127,10 @@ def dom(port: int, route: str, tmp_path: Path) -> str:
     ("examples", "Known issues.", "The app could not start"),
     ("example/rlm-vs-clm", "Download PDF", "Something went wrong"),
     ("example/tree-explain", 'class="cite"', "The app could not start"),
+    ("example-paper/rlm-vs-clm", "Example · review paper", "Something went wrong"),
+    ("example-paper/prompting-evolution", "Interpretation statements", "Something went wrong"),
+    ("example/agent-traces-knowledge", 'href="#/example-paper/agent-traces-knowledge"', "Something went wrong"),
+    ("examples", "Read the paper with its evidence", "The app could not start"),
     ("run-locally", "uv run vera-app", "Propose a question"),
     ("new", "VERA runs on your own computer", "Propose a question"),  # a run-form route redirects to the run-it-yourself page
     ("runs", "VERA runs on your own computer", "My runs"),

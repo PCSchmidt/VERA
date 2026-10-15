@@ -30,9 +30,29 @@ def ledger_total(root: Path, ledger: str) -> float:
     return sum(json.loads(ln)["cost_usd"] for ln in path.read_text(encoding="utf-8").splitlines() if ln.strip())
 
 
+def _light(folder: Path) -> str | None:
+    for report in (folder / "audit_report.json", folder / "artifacts" / "audit_report.json"):
+        if report.exists():
+            return _json(report).get("overall")
+    return None
+
+
+def paper_of(root: Path, spec: dict) -> dict | None:
+    """The review paper made from an example's review, if the showcase lists one: its light is its own audit's."""
+    p = spec.get("paper")
+    if not p:
+        return None
+    folder = root / p["dir"]
+    return {
+        "title": _json(folder / "paper.json")["title"], "dir": p["dir"], "retrieved": p.get("retrieved"),
+        "made": p.get("made"), "spent_usd": p["spent_usd"], "budget_cap_usd": p.get("budget_cap_usd"),
+        "audit": _light(folder), "outcome": p["outcome"], "known_issues": p.get("known_issues"),
+    }  # fmt: skip
+
+
 def example(root: Path, spec: dict) -> dict:
     folder = root / spec["dir"]
-    light = _json(folder / "audit_report.json").get("overall") if (folder / "audit_report.json").exists() else None
+    light = _light(folder)
     request = _json(folder / "app_request.json") if (folder / "app_request.json").exists() else {}
     scope_path = root / spec["scope_file"] if spec.get("scope_file") else folder / "scope.json"
     scope = _json(scope_path) if scope_path.exists() else {}
@@ -44,7 +64,7 @@ def example(root: Path, spec: dict) -> dict:
         "spent_usd": spec["spent_usd"], "audit": light,
         "outcome": spec["outcome"], "document": f"{spec['dir']}/{spec['document']}",
         "evidence": [f"{spec['dir']}/{n}" for n in spec.get("evidence", [])], "retrieved": spec.get("retrieved"),
-        "known_issues": spec.get("known_issues"),
+        "known_issues": spec.get("known_issues"), "paper": paper_of(root, spec),
     }  # fmt: skip
 
 

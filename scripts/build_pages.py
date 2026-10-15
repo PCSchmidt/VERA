@@ -3,7 +3,7 @@
 
 The showcase is the app's own front end (`vera/app/static/`) in static mode: no server, no key, nothing that runs a model. Everything it shows
 is generated from files already committed to the repository: `data/app/showcase.json` lists the examples; each example's review or paper,
-claims, quotes, audit and figures come from its folder; the landing page's figures come from the example ledgers and the rubric file
+claims, quotes, audit and figures come from its folder, and so does the review paper made from it where the showcase lists one; the landing page's figures come from the example ledgers and the rubric file
 (`vera.app.facts`); and each example is also rendered to a PDF with the same writer the app uses. Paths are relative, so the site works under
 `https://<user>.github.io/<repo>/`.
 
@@ -20,7 +20,7 @@ from pathlib import Path
 
 from vera.app import facts
 from vera.app.pdf import render_pdf
-from vera.app.server import read_paper
+from vera.app.server import example_paper_meta, read_paper
 
 ROOT = Path(__file__).resolve().parents[1]
 STATIC = ROOT / "vera" / "app" / "static"
@@ -64,6 +64,12 @@ def build(out: Path, root: Path = ROOT) -> dict:
         meta = {"title": ex["title"], "question": ex["question"], "kind": ex["kind"], "run_id": ex["id"], "date": "", "spent_usd": ex["spent_usd"], "cap_usd": ex["budget_cap_usd"]}
         (out / "pdf").mkdir(exist_ok=True)
         (out / "pdf" / f"{ex['id']}.pdf").write_bytes(render_pdf(paper, meta, folder))
+        if ex.get("paper"):  # the review paper made from this review, with the light its own audit gave it
+            p = ex["paper"]
+            doc = read_paper(root / p["dir"], retrieved=p.get("retrieved"), root=root)
+            doc["example"] = ex
+            write_json(out / "data" / "examples" / ex["id"] / "review-paper.json", doc)
+            (out / "pdf" / f"{ex['id']}-paper.pdf").write_bytes(render_pdf(doc, example_paper_meta(ex), root / p["dir"]))
 
     # nothing key-shaped may be published
     for path in out.rglob("*"):

@@ -142,6 +142,17 @@ def test_the_examples_open_with_their_evidence_and_nothing_outside_their_folder(
     assert client.get("/api/examples/not-an-example/paper").status_code == 404
 
 
+def test_an_example_s_review_paper_opens_locally_as_on_the_showcase(tmp_path: Path, monkeypatch) -> None:
+    client, *_ = make(tmp_path, monkeypatch)
+    doc = client.get("/api/examples/rlm-vs-clm/review-paper").json()  # a showcase example, found by the same lookup
+    assert doc["audit"]["overall"] == "red" and doc["inferences"] and doc["example"]["paper"]["known_issues"]
+    assert doc["markdown"].startswith("# ") and doc["sources"]
+    r = client.get("/api/examples/rlm-vs-clm/review-paper/pdf")
+    assert r.status_code == 200 and r.content[:5] == b"%PDF-" and "vera-example-rlm-vs-clm-paper.pdf" in r.headers["content-disposition"]
+    assert client.get("/api/examples/conformal-shift/review-paper").status_code == 404  # no paper listed for it
+    assert client.get("/api/examples/not-an-example/review-paper").status_code == 404
+
+
 def test_the_pdf_of_an_example_carries_its_text_tables_figures_and_evidence(tmp_path: Path, monkeypatch) -> None:
     pymupdf = pytest.importorskip("pymupdf")
     client, *_ = make(tmp_path, monkeypatch)

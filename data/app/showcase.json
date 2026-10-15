@@ -1,5 +1,5 @@
 {
- "note": "The Pages showcase: the four examples of the local app plus three reviews chosen by Chris on 2026-10-09, with the known issues found in each. spent_usd is each run's ledger total.",
+ "note": "The Pages showcase: the four examples of the local app plus three reviews chosen by Chris on 2026-10-09, with the known issues found in each, and (added 2026-10-15, after the close) the review papers made from three of the reviews, shown with the light their own audit gave them and the deficiencies found in them. spent_usd is each run's ledger total; a paper's spent_usd is its share of the run's ledger (the records after the review finished).",
  "examples": [
   {
    "id": "conformal-shift",
@@ -133,7 +133,16 @@
    ],
    "spent_usd": 0.1849,
    "outcome": "A review comparing the two approaches on cost, quality and trace reuse. It found the CLM paper and the RLM paper and says there is no head-to-head result on tokens or latency.",
-   "known_issues": "The audit was green, yet the closing paragraph has one uncited generalisation and uses the pipeline's wording ('the supplied abstract'); and it says the CLM metric is not wall-clock latency without mentioning the paper's reported 65% end-to-end speedup or its 35% server-side compute reduction. Trace reusability is barely addressed and the RLM paper is cited from its abstract only."
+   "known_issues": "The audit was green, yet the closing paragraph has one uncited generalisation and uses the pipeline's wording ('the supplied abstract'); and it says the CLM metric is not wall-clock latency without mentioning the paper's reported 65% end-to-end speedup or its 35% server-side compute reduction. Trace reusability is barely addressed and the RLM paper is cited from its abstract only.",
+   "paper": {
+    "dir": "data/papers9/rlm-vs-clm-2/paper",
+    "retrieved": "data/papers9/rlm-vs-clm-2/retrieved.jsonl",
+    "made": "Increment 9",
+    "spent_usd": 0.6585,
+    "budget_cap_usd": 1.0,
+    "outcome": "A 3,000-word review paper made from this review in Increment 9, with the request to consider Context Language Models explicitly. Its interpretation sections are labelled and each statement names the claims it rests on.",
+    "known_issues": "Red. Two claims about Suffix Cache Reuse (C22 in S28 and C45 in S68) say more than their quotes, and the reference judge confirmed both with a confident no. When those sentences were written the cheap judge said yes, so the reference was not asked then; that gap in the write step was not closed before the project ended. Three more items are unsettled (the reference judge was unsure) and one quote opens with a back-reference. No independent reader scored this version of the paper."
+   }
   },
   {
    "id": "agent-traces-first",
@@ -148,6 +157,52 @@
    "spent_usd": 0.1117,
    "outcome": "A three-part question about how traces record progress, how that differs across agent harnesses, and whether traces are stored in vector databases.",
    "known_issues": "It answers only part of the question: one harness's storage is described, two others get one line each, others are not covered, and the vector-database part rests on one source. It says these gaps exist. One quote's qualifier (that an overhead is negligible) is left out."
+  },
+  {
+   "id": "prompting-evolution",
+   "title": "From prompt engineering to agentic harnesses, 2025 to now",
+   "kind": "literature",
+   "dir": "data/papers9/discuss-the-evolution-of-prompting-guv8",
+   "document": "literature.md",
+   "evidence": [
+    "claims.jsonl",
+    "audit.md"
+   ],
+   "spent_usd": 0.1723,
+   "outcome": "A review of how prompt engineering, context engineering, harnesses and agentic harnesses have been defined since 2025, and which components each stage is credited with.",
+   "known_issues": null,
+   "paper": {
+    "dir": "data/papers9/discuss-the-evolution-of-prompting-guv8/paper",
+    "retrieved": "data/papers9/discuss-the-evolution-of-prompting-guv8/retrieved.jsonl",
+    "made": "Increment 9",
+    "spent_usd": 0.6429,
+    "budget_cap_usd": 1.0,
+    "outcome": "A 3,000-word review paper made from this review in Increment 9. Its interpretation sections are labelled and each statement names the claims it rests on.",
+    "known_issues": "Red on one claim: C41 (S61) says the MemTool paper shows that agent autonomy is a design variable, more than its quote says. The reference judge was unsure when the sentence was written (no at 0.62) and said no at 0.80 in the audit. Under the rule added in Increment 10, which keeps the write-time answer, this item would be unsettled and the light amber (re-read offline, data/results/sticky10.json); the paper was not re-audited. Also listed: one judge disagreement (C22), one unsettled item (C40), one claim the judge was unsure of (C29) and one quote that opens with a back-reference (C10). No independent reader scored this version of the paper."
+   }
+  },
+  {
+   "id": "agent-traces-knowledge",
+   "title": "What coding-agent traces can record about the software they build",
+   "kind": "literature",
+   "dir": "data/paper_demo/how-much-useable-information-about-6x3n",
+   "document": "literature.md",
+   "evidence": [
+    "claims.jsonl",
+    "audit.md"
+   ],
+   "spent_usd": 0.1618,
+   "outcome": "A review of which categories of information about an application (design rationale, requirements traceability, failure and repair history, test intent) the literature shows can be stored in and recovered from a coding agent's traces.",
+   "known_issues": null,
+   "paper": {
+    "dir": "data/paper_demo/how-much-useable-information-about-6x3n/paper",
+    "retrieved": "data/paper_demo/how-much-useable-information-about-6x3n/retrieved.jsonl",
+    "made": "Increment 6",
+    "spent_usd": 0.7737,
+    "budget_cap_usd": 1.0,
+    "outcome": "A 3,000-word review paper made from this review in Increment 6, the first version of the paper writer. Its interpretation sections are labelled and each statement names the claims it rests on.",
+    "known_issues": "Its own audit is green, but that audit came before the sentence checks of Increment 7. Re-audited with them in Increment 8 and re-read under Increment 9's rule it is red: 20 failures and 10 unsettled items (data/reaudit8/P1, data/results/reread9.json). An independent scorer found 4 of 55 claims leaning on context outside their quotes (C14, C28, C41, C53); an uncited sentence that is wrong ('The two studies therefore disagree...': both cited sentences come from one source); two unsupported sentences (on GRL's 42 requirements and SpecRover); interpretation statements that overreach (I3 generalises from length to all surface features of a trace, I8 cites a claim that says patterns are often not reusable); and the experience-reuse literature named in the scope missing. Chris's note: 'a useful, transparent exploratory review, but it needs revision before being treated as authoritative.'"
+   }
   }
  ]
 }

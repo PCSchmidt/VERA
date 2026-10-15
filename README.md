@@ -1,5 +1,8 @@
 # VERA — literature reviews and review papers you can check sentence by sentence, on your own key
 
+**VERA** stands for **V**erifiable, **E**conomical **R**esearch **A**gents: research agents whose output can be checked
+claim by claim (verifiable) and that run cheaply on the user's own key (economical).
+
 **Status: v1.0, closed, portfolio project.** Built in eleven gated increments (2026-09-29 to 2026-10-15) and closed on
 2026-10-15. A local app takes a topic to a confirmed question, a literature review in which every claim is tied to an exact
 quote, and on request a review paper, all on the user's own model key within a cap the user sets; an audit then checks every
@@ -9,8 +12,10 @@ cheap judge met the 97% agreement bar against a reference judge (89%, 95%, 89%),
 say a little more than their quotes, and **making the checks stricter did not make the papers measurably better**
 ([Results](#results), [Limitations](#limitations), [retrospective](docs/reviews/retrospective.md)).
 
-**▶ Read-only showcase: [pcschmidt.github.io/VERA](https://pcschmidt.github.io/VERA/)**: seven finished examples with their
-evidence panel, the exact inputs behind each, and a PDF of each. Nothing on that page runs a model or asks for a key.
+**▶ Read-only showcase: [pcschmidt.github.io/VERA](https://pcschmidt.github.io/VERA/)**: nine finished examples with their
+evidence panel, the exact inputs behind each, and a PDF of each; three of them also carry the review paper made from the
+review, shown with the light its own audit gave it (two red, one green that later checks turn red) and the deficiencies found
+in it. Nothing on that page runs a model or asks for a key.
 
 <div align="center">
 
