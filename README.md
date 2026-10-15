@@ -190,9 +190,18 @@ checks on real items), `scripts/measure_judge8.py` (the cheap judge against the 
 
 Most of VERA's checks are small typed questions: does this claim say more than its quote (yes or no)? Is this paper relevant
 (pick one)? How well does this sentence follow (a score)? A chat model answers those by writing text, which then has to be
-parsed, and any confidence it gives is a number it writes about itself. **Jev**, from TypeSafe, is built for this kind of
-question instead: a hosted *decision model* that takes the material and a batch of typed questions (yes/no, choice, score) in
-one call and returns a **probability for each possible answer**, not prose ([`vera/backends/typesafe.py`](vera/backends/typesafe.py)).
+parsed, and any confidence it gives is a number it writes about itself. **Jev** is built for this kind of question instead.
+TypeSafe describes it as its flagship model and "the first System One model", a class of models "built to make fast, structured
+decisions that software can use directly": "No text generation, no parsing"
+([TypeSafe docs](https://docs.typesafe.ai/introduction)). It takes the material (the *state*) and a batch of typed questions
+(true or false, choose an option, score on a rubric), evaluates each "in parallel and in isolation against the same state", and
+returns a **probability for each possible answer**, not prose ([`vera/backends/typesafe.py`](vera/backends/typesafe.py)).
+
+Jev is also very new. TypeSafe released it on 15 September 2026; by 9 October the company had raised $870 million at a
+$7.5 billion valuation and said a third of Fortune 500 companies were already using the model
+([TechCrunch](https://techcrunch.com/2026/10/09/the-maker-of-non-text-ai-model-jev-valued-at-7-5b-just-weeks-after-launch/)).
+VERA benchmarked it on 1 October, about two weeks after its release, and has used it as the first judge since. The figures
+below are this project's own measurements, not the vendor's.
 
 That shape is what a cheap-first judge needs:
 
