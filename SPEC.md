@@ -1,166 +1,130 @@
-# SPEC — VERA, Increment 8 (a judge you can trust on the new questions)
+# SPEC — VERA, Increment 9 (an unsure judge is not a verdict)
 
-> **Status: scoped 2026-10-14 (`incr8_scoped` approved by Chris).** Passed 2026-10-14: `judge_set_frozen`, `judge_measured`,
-> `routing_ready`, `reaudit8`, `incr8_review` (approved by Chris; [docs/reviews/incr-8.md](docs/reviews/incr-8.md)). Increment 8 is complete. Decided along the way: the
-> 45-item sample labelled by an OpenAI assistant (decision 4); no route met the bars, and Chris chose the decided path with the
-> reference confirming an audit's no (decision 3); the re-audit cap raised to $0.50. The Increment 7 SPEC is in git history; its
-> review is [docs/reviews/incr-7.md](docs/reviews/incr-7.md).
+> **Status: scoped 2026-10-15 (`incr9_scoped` approved by Chris, decisions 1-5 as proposed).** Passed 2026-10-15:
+> `unsure_rule_ready`, `write_confirm_ready`, `papers9` (the papers made by Claude Code at Chris's request). `incr9_review` (approved by Chris;
+> [docs/reviews/incr-9.md](docs/reviews/incr-9.md)). Increment 9 is complete. The Increment 8 SPEC is in git history; its review is
+> [docs/reviews/incr-8.md](docs/reviews/incr-8.md).
 
 ## Overview
 
 Current-increment features only, in build order. Each `##` below becomes a tracked feature (`scripts/features-init.sh`);
-do not add `###` headings. Source: [docs/07-increments.md](docs/07-increments.md) Increment 8; schemas:
+do not add `###` headings. Source: [docs/07-increments.md](docs/07-increments.md) Increment 9; schemas:
 [docs/03-interfaces.md](docs/03-interfaces.md) v0.13 (no schema change is planned; if one is needed it goes into docs/03 first);
-requirements due: JDG-F-07, JDG-P-04, AUD-F-13, plus everything due earlier ([docs/02-requirements.md](docs/02-requirements.md)).
+requirements due: AUD-F-14, RSH-F-17, plus everything due earlier ([docs/02-requirements.md](docs/02-requirements.md)).
 
-**Why this increment.** Increment 7 checked every sentence with three new judge questions (`claim.within_quote`,
-`sentence.no_fact`, and a clause-by-clause wording of `paper.inference_follows`). None was benchmarked against the reference
-judge, as Increment 1's questions were (JDG-P-01). The two papers made with them were red on 2 and 3 items, and every failing
-claim had passed the same question at write time: the cheap path sent one call to Jev and the other to GLM, and they
-disagreed near the 0.7 threshold (docs/reviews/incr-7.md). The cause is in the routing: `cheap_path` sends `lit.` and `loop.` questions
-to GLM alone, and everything else to Jev first, escalating to GLM below 0.7; the new questions carry no such prefix.
-So today a red light can mean "one of two judges said no once". This increment measures the new questions against the
-reference, routes each to one judge chosen by that measurement, and makes the audit say "the judges disagree" instead of
-"failed" when its verdict contradicts the write-time verdict. (The review's next-SPEC candidate 1; candidates 2 to 4 are
-listed under decision 5.)
+**Why this increment.** Increment 8 measured the sentence checks' judge questions against the reference judge (Claude Sonnet
+5.5): no cheap route met the bars, so the audit now asks the reference to confirm a cheap "no" on claims and statements. Its
+re-audits showed the rule is asymmetric (docs/reviews/incr-8.md): any reference no lets a failure stand, even an unsure one
+(14 failures rest on a reference no below 0.7), while only a confident reference yes overrules (6 failures stand on a
+reference yes below 0.7). And the reference is consulted only in the audit, so the writer never repairs what the reference
+would reject: N2 went to its audit with three claims the cheap judges had passed at write time. This increment makes the
+rule symmetric (a failure needs a confident no; anything unsure is a warning that says so) and moves the reference's
+confirmation into the write step, so a sentence the reference rejects is repaired or removed before the audit, and one it
+accepts is not removed on a cheap judge's no. (The review's next-SPEC candidate 1; candidates 2 to 4 under decision 5.)
 
-**The goal is unchanged:** very good research on whatever topic is requested, checkable sentence by sentence. Success here is
-**a red light that means what it says**: every judge question the green light rests on is measured against the reference
-judge, with the result stated whatever it is, and a sentence fails only when the judge of record says no.
+**The goal is unchanged:** very good research on whatever topic is requested, checkable sentence by sentence. Success here
+is **a red light that rests on a confident no**, and papers whose sentences have already met the judge the audit will use.
 
-Who does what: Claude Code builds, runs the offline work and, with Chris's go-ahead on spend, the measurement; Chris approves
-human gates himself (the agent reports readiness and never approves for him). Increment 7's human steps were done by an
-OpenAI assistant at Chris's request; the SPEC names who does each step, and the review records who actually did.
+Who does what: Claude Code builds and runs the offline work, and with Chris's go-ahead the paid runs; Chris approves human
+gates himself (the agent reports readiness and never approves for him). Each step's record names who did it.
 
-Rules carried from the Increment 7 review:
+Rules carried from the Increment 8 review:
 
 - **Spend.** Every model call goes through a `Budget` that raises before a limit is crossed, inside the $20/month ceiling
-  (ConOps §4). Proposed caps for Chris to confirm at `incr8_scoped`: **$0.50** for debugging and smoke runs; **$3** for the
-  judge benchmark (the reference, Claude Sonnet 5.5, is the costly part: Increment 5's re-test cost $0.615 for 150 items);
-  **$0.25** for re-auditing the five papers (raised to **$0.50** by Chris on 2026-10-14, once the reference's
-  confirmation of each "no" was chosen: about 76 confirmations); **$5** for the increment. Increment 7 spent $1.33 of its $5.
-- **Independence and freezing.** The Increment 5 audit freeze (`69890a43f1fc`) and Increment 6's inference hashes hold, and
-  Increment 7's real-case freeze (`realcase_hash_incr7.json`) is not re-run: its test split was measured once. Question
-  wording may change on a dev split only; the test split and the checks' source are hashed before the one test run.
-- **No self-grading.** Producers are unchanged; every verdict on their text comes from the judge path; `StageResult` refuses a
-  judge equal to the producer.
-- **Attribution.** Every label, score and note is recorded under the name of whoever made it; a step done by an assistant says
-  so in its file (as `labels_test.json` and `rubric7_first.json` now do).
-- **Dogfood.** Overhead logged on each day a gate passes: `bash scripts/dogfood.sh overhead <hours> "<date>: <note>"` (hours
-  first; no word between).
+  (ConOps §4). Proposed caps for Chris to confirm at `incr9_scoped`: **$0.50** for debugging and smoke runs; **$2** for the
+  two papers made again (cap $1.00 each on the form; the write step's confirmations add an estimated $0.05 to $0.15 a paper);
+  **$0.25** for their audits beyond what the papers' own caps cover; **$3** for the increment. Increment 8 spent $2.35 of $5.
+- **Independence and freezing.** The Increment 5 audit freeze, Increment 6's inference hashes and Increment 7's real-case
+  hashes hold (`vera/audit/sentences.py`, `sentence_checks.py` and the others they list are not edited). Increment 8's judge
+  set is not re-run: its test split was measured once.
+- **No self-grading.** Producers are unchanged; the reference judge confirms, it never writes.
+- **Attribution.** Every label, score, note and run is recorded under whoever made it.
+- **Dogfood.** Overhead logged on each day a gate passes: `bash scripts/dogfood.sh overhead <hours> "<date>: <note>"`
+  (hours first, then the note; no word between).
 - **Outward-facing actions** need Chris: pushing a commit, publishing on the showcase.
 
-Gate DAG proposed for `.meridian/gates.yaml` after `incr8_scoped` (only `incr8_scoped` is defined now):
+Gate DAG proposed for `.meridian/gates.yaml` after `incr9_scoped` (only `incr9_scoped` is defined now):
 
 ```text
-incr7_review ─► incr8_scoped ─► judge_set_frozen ─► judge_measured ─► routing_ready ─► reaudit8 ─► incr8_review
-                (human)          (automated: set and   (automated: one     (automated: routes  (human: re-audit  (human +
-                                  checks hashed before  test run, every     from the result,    the five papers,  Evaluator)
-                                  any backend runs)     rate reported)      disagreement rule)  Chris's key)
+incr8_review ─► incr9_scoped ─► unsure_rule_ready ─► write_confirm_ready ─► papers9 ─► incr9_review
+                (human)          (automated: the rule,   (automated: the write   (human: two     (human +
+                                  re-read offline on the  step confirms with the  papers made     Evaluator)
+                                  five re-audits)         reference)              again, audited)
 ```
 
-## The judge set for the new questions (JDG-P-04)
+## An unsure judge is not a verdict (AUD-F-14)
 
-`scripts/build_judge_set8.py`, `data/judge8/` (new).
+`vera/audit/disagreement.py`, `vera/app/pipeline.py`, `scripts/reread9.py` (new).
 
-- **Items are the questions as the pipeline asks them**, on real material from the five papers made so far (Increment 6's
-  P1 to P3 in `data/paper_demo/`, Increment 7's N1 and N2 in `data/paper_rerun/`), each built with the same functions the
-  pipeline uses (`sentence_checks.within_quote`, `sentence_checks.no_fact`, `sentence_checks.follows_strict`), so the
-  material is exactly what a judge sees:
-  - `claim.within_quote`: about **120** kept claims with their quotes, stratified by paper;
-  - `sentence.no_fact`: about **80** claim-free evidence sentences (from the old papers, split as the audit splits them, and the
-    new papers' transitions);
-  - `paper.inference_follows` (the clause-by-clause wording): every kept interpretation statement and synthesis sentence with
-    its premises, about **80**.
-- **Split by paper**: dev is P1 and N1; test is P2, P3 and N2. The test items' SHA-256 and the source of the three question
-  builders and the routing code are written to `data/results/judge8_hash.json` before any backend sees a test item.
-- **Reference labels** are the reference judge's modal answer over two repeats, as in Increments 1 and 5. Where an item is
-  also in Increment 7's real-case set, the reference's agreement with those labels is reported too, as a check on the
-  reference itself.
-- **Optional, decision 4: a person's labels** on a stratified 45 of the test items (15 per question), labelled blind to every
-  backend's answer, so the reference is itself measured against a person.
+- **The rule, both ways.** A sentence or statement fails only when the judge of record gives a **confident no**: the
+  reference's confident no where the reference was asked; otherwise the cheap judge's confident no with no confident yes
+  against it (at write time or from the reference). A reference answer below 0.7, either way, makes the finding a warning:
+  "unsettled: the reference judge was unsure (no at 0.62)". A confident reference yes stays a disagreement (amber), as now.
+- **No new spend to see its effect.** Every Increment 8 re-audit finding stores the cheap judge's and the reference's
+  verdicts and confidences, so `scripts/reread9.py` applies the new rule to the five reports in `data/reaudit8/` without a
+  model call and records, per paper, the light and the failures, disagreements and unsettled findings before and after
+  (`data/results/reread9.json`).
+- **Reader and PDF** list unsettled findings apart, beside disagreements; the amber wording names both.
 
-**Acceptance:** `check_carry8.py --part set`: counts within the SPEC's ranges, the split by paper, the hash file written before
-any test result, every item built by the pipeline's own question functions (a test rebuilds a sample and compares).
-**Gate:** `judge_set_frozen`.
+**Acceptance:** offline tests: a confident reference no fails; a reference no or yes below 0.7 is unsettled (warn); a
+confident reference yes is a disagreement; a cheap confident no with no reference asked and no write-time yes still fails; a
+rule failure (no verdict) still fails; the re-read of the five reports is reproducible from the stored files and changes no
+verdict, only severities. `test_AUD_F_14_…` exists. The earlier freezes hold.
+**Gate:** `unsure_rule_ready`.
 
-## Measuring the backends against the reference (JDG-P-04)
+## The write step confirms with the reference (RSH-F-17)
 
-`scripts/measure_judge8.py` (new), using `vera.bench.harness` and `vera.bench.metrics` unchanged.
+`vera/literature/synthesis_stage.py` (`verify_sentences`, shared by the review and the paper), `vera/literature/paper_interpret.py`,
+`vera/app/pipeline.py`.
 
-- **Backends, each on every item:** the reference (Claude Sonnet 5.5, 2 repeats); Jev alone, GLM alone and the decided path
-  as configured today (3 repeats each). Dev may be run more than once (only to read behaviour or change wording); test once.
-- **Reported per question, whatever it shows:** agreement with the reference (Wilson 95%), flip rate across repeats
-  (JDG-P-03's measure), the share of verdicts below the 0.7 threshold, calibration (ECE), cost and latency per item; for the
-  decided path, how often Jev and GLM disagree on the same item. If the person's labels exist, the reference's agreement with
-  them.
-- **The bar is JDG-P-01's** (97% agreement with the reference) **and JDG-P-03's** (flip rate at most 2%), stated now, before
-  the first measurement; the result is reported against them, met or not.
+- When a cheap judge gives a confident **no** on a question in `cheap_path.CONFIRM_NO` (`claim.within_quote`,
+  `paper.inference_follows`) during writing, the reference is asked the same question on the same material.
+  - Reference **confident yes**: the sentence or statement is kept without repair; both verdicts are stored on its record,
+    so the audit sees that the reference already accepted it.
+  - Reference **confident no**: it goes to repair as now, and a repair is re-checked the same way.
+  - Reference **unsure**: kept, stored as unsettled (the audit will report it as such), not repaired on an unsure verdict.
+- The audit, seeing a stored confident reference yes on the same question, does not fail the sentence on a cheap no (the
+  reference is the judge of record for these questions); it asks the reference again only if the text changed.
+- The reference is passed to the write step the way the cheap judge is (`deps.extra["reference"]`); with none (tests, or a
+  user who opts out), the write step behaves as in Increment 8. Every reference call is on the run's ledger and budget.
 
-**Acceptance:** `check_carry8.py --part measured`: the one test run came after the freeze, on the frozen set and code, and
-reports every figure above for every question and backend; spend within the $3 cap, read from its ledger.
-**Gate:** `judge_measured` (requires `judge_set_frozen`).
+**Acceptance:** offline tests with fake judges: a cheap no that the reference overrules is kept without a repair call; a cheap
+no the reference confirms is repaired, then re-checked; an unsure reference keeps the sentence and records it as unsettled;
+no reference given means Increment 8's behaviour; the review and the paper both use it; the producer never judges its own
+text; the stored verdicts carry both judges. `test_RSH_F_17_…` exists. The earlier freezes hold.
+**Gate:** `write_confirm_ready` (requires `unsure_rule_ready`).
 
-## One judge per question, and an audit that says when judges disagree (JDG-F-07, AUD-F-13)
+## Two papers made again (human)
 
-`vera/judge/cheap_path.py`, `vera/audit/disagreement.py` (new), `vera/app/pipeline.py`, `vera/literature/paper_interpret.py`,
-`vera/app/pdf.py`, `vera/app/static/`. `vera/audit/sentences.py` and `sentence_checks.py` are hashed for Increment 7's real-case
-measurement and are not edited: the disagreement rule is applied to the sentence audit's findings in the pipeline.
+The two papers made with Increment 7's checks, made again from the same reviews and requests, cap $1.00 each, in the app with
+Chris's key: N1 (`discuss-the-evolution-of-prompting-guv8`) and N2 (`rlm-vs-clm-2`). The Increment 7 papers are set aside
+first (`scripts/set_aside_paper.py`, which keeps them). Recorded in `data/papers9/` with who made them and notes; spend,
+lights, write-time confirmations and their outcomes, and the audit's failures, disagreements and unsettled findings computed
+from the copied files.
 
-- **A route per question (JDG-F-07).** `cheap_path` takes a routing table, `QUESTION_ROUTES`, mapping a question id to the
-  backends that may answer it, in order (for example `claim.within_quote: ("glm",)`). Each of the three new questions is routed
-  by the measurement: the cheapest route that meets both bars; if none does, the route that agrees best with the reference,
-  and the review says the bar is not met. Questions not in the table keep today's routing. The route that answered is
-  recorded on every verdict (`Verdict.backend`, as now), so a reader can see who judged.
-- **The same judge at write time and in the audit.** Both ask through the same `cheap_path` and table, so a question has one
-  route wherever it is asked.
-- **Disagreement is not failure (AUD-F-13).** The audit compares its verdict on a sentence with the verdict stored on that
-  sentence at write time (`SentenceRecord.verdicts`). When they disagree, the finding is a `warn`, "the judges disagree: passed
-  at write time, failed in the audit", and the light is amber, not red; a sentence fails only when the audit's verdict is a
-  confident no and the write-time verdict is not a confident yes (or there was none: documents made before 0.13). The
-  interpretation stage stores its write-time verdicts on each `Inference` (today it stores none), so the same rule covers
-  statements.
-- **Reader and PDF** list judge disagreements apart from failures, and the light's wording says amber can mean the judges
-  disagreed.
+**Acceptance:** `check_papers9.py`: two papers, each within its cap, each audited with the Increment 9 rule; the record names
+who made them; the write-time confirmations counted from the stored verdicts.
+**Gate:** `papers9` (human, requires `write_confirm_ready`).
 
-**Acceptance:** offline tests with fake backends: each routed question reaches only its route; an unrouted question keeps
-today's path; a write-time yes and an audit no give a `warn`, not a `fail`; a write-time no (repaired) and an audit no give a
-`fail`; an `Inference` keeps its verdicts; documents made before 0.13 are audited as now; headless test of the disagreement
-list. `test_JDG_F_07_…` and `test_AUD_F_13_…` exist. Both freezes still hold.
-**Gate:** `routing_ready` (requires `judge_measured`).
+## Increment 9 review
 
-## The five papers re-audited (human)
-
-Chris (or whoever he asks, named in the record) re-audits the five papers with the new routing and rule
-(`scripts/reaudit8.py`, on temporary copies, as in Increment 7), with his key. Recorded in `data/reaudit8/`: each paper's light
-and findings before (Increment 7's audit) and after, with failures, disagreements and the backends that answered.
-
-**Acceptance:** `check_reaudit8.py`: five reports, each with the sentence check and the routing table's hash; spend within
-$0.50 from the ledger (raised from $0.25); the record names who ran it.
-**Gate:** `reaudit8` (human, requires `routing_ready`).
-
-## Increment 8 review
-
-`docs/reviews/incr-8.md`: what was built; each acceptance criterion met or not; spend against each cap; the measurement per
-question and backend against the bars; the routes chosen and why; what the re-audits show (how many reds were disagreements);
-the person's labels, if made; deviations; what the next increment takes. Plain about what was not shown.
+`docs/reviews/incr-9.md`: what was built; each acceptance criterion met or not; spend against each cap; the offline re-read of
+the five re-audits; the two papers before (Increment 7, re-audited in Increment 8) and after, with the cost of the write-time
+confirmations; deviations; what the next increment takes. Plain about what was not shown.
 
 **Acceptance:** `check_dogfood.py` finds an overhead entry for each day a gate passed; traceability passes; the independent
 Evaluator passes the review.
-**Gate:** `incr8_review` (human + Evaluator).
+**Gate:** `incr9_review` (human + Evaluator).
 
-## Decisions for Chris at incr8_scoped
+## Decisions for Chris at incr9_scoped
 
-1. **Caps:** $0.50 debugging, $3 judge benchmark, $0.25 re-audits, $5 for the increment (above).
-2. **Disagreement is amber, not red** (AUD-F-13). Recommended: a red light should mean the judge of record said no; a
-   disagreement is worth a reader's look, not a failure. The alternative keeps today's rule (any confident no in the audit
-   fails), which is stricter but makes the light depend on which judge answered.
-3. **Routes are chosen by the measurement** under the stated bars, without coming back to you, unless no route meets them; then
-   the agent reports the options and you choose.
-4. **A person's labels on 45 test items** (about 45 minutes): optional, recommended. Without them the reference is the only
-   yardstick, and the review says so. If you have an assistant do it, it is recorded under the assistant's name.
-5. **Out of scope, for later increments:** closing the misses the Increment 7 scorer found (small claim-level additions,
-   statements about the paper itself, more agreement wording); new papers; Increment 9 (the auditor on external papers,
-   renumbered from 8; its requirement rows move with it).
-6. **Freeze:** the plan changes no frozen file and no file hashed for Increment 6's inference measurement or Increment 7's
-   real-case measurement. If building shows one must change, the agent stops and asks before changing it.
+1. **Caps:** $0.50 debugging, $2 papers (cap $1.00 each), $0.25 audits, $3 for the increment (above).
+2. **The symmetric rule** (AUD-F-14): a failure needs a confident no; anything unsure is "unsettled" (amber). Recommended: a
+   red light should rest on a confident judgement. The alternative keeps Increment 8's asymmetry.
+3. **The reference in the write step** (RSH-F-17), on the two questions it already confirms in the audit. Recommended: it
+   costs a few cents a paper and makes the writer meet the judge the audit uses. The alternative leaves the reference to the
+   audit only.
+4. **The papers are made by** Chris in the app, or by whoever he asks (named in the record).
+5. **Out of scope, for later increments:** a better yardstick for claims and statements (a person's labels, or a vote of
+   strong judges); the claim-level misses Increment 7's scorer found; Increment 10, the auditor on external papers
+   (renumbered from 9; its requirement rows move with it).

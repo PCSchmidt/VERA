@@ -20,7 +20,7 @@ import json
 from collections.abc import Callable
 
 from vera.audit import inference
-from vera.literature import paper, sentence_checks
+from vera.literature import confirm, paper, sentence_checks
 from vera.literature.deps import LitDeps
 from vera.literature.paper_stage import _records, paper_dir, request, write_document
 from vera.literature.stages import _confirmed_question
@@ -133,10 +133,18 @@ def interpret_node(deps: LitDeps) -> Callable[[dict], dict]:
         source_of = {c.id: c.source_key for c in doc.claims if c.id}
 
         per: dict[int, list[Verdict]] = {}  # Increment 8 (AUD-F-13): each statement keeps its write-time verdicts
+        unsettled: set[int] = set()  # Increment 9 (RSH-F-17): kept on an unsure reference
 
         def run_checks(text: str, premises: list[str], n: int) -> str | None:
             # Increment 7: the Increment 6 rules, "X and colleagues", the agreement rule, the clause-by-clause judge
             why, vs = sentence_checks.check_statement(text, premises, claims, ask, source_of)
+            if why == "does not follow from its premises" and confirm.enabled(deps):  # RSH-F-17: the reference confirms
+                q, material = sentence_checks.follows_strict(text, premises, claims)
+                said, extra = confirm.confirm_no(deps, q, material, COMPONENT)
+                vs = [*vs, *extra]
+                if said == "unsettled":
+                    unsettled.add(n)
+                why = why if said == "fail" else None
             verdicts.extend(vs)
             per.setdefault(n, []).extend(vs)
             return why
@@ -160,7 +168,8 @@ def interpret_node(deps: LitDeps) -> Callable[[dict], dict]:
                     why = run_checks(st["text"], st["premises"], i)
                     results[i] = (results[i][0], st, None if why is None else f"after repair: {why}")
         inferences = [Inference(id=f"I{n + 1}", section=h, text=st["text"], premises=st["premises"], verdicts=per.get(n, []),
-                                status="pass" if why is None else "removed", reason=why)
+                                status="pass" if why is None else "removed",
+                                reason=why if why is not None else (confirm.UNSETTLED_AT_WRITE if n in unsettled else None))
                       for n, (h, st, why) in enumerate(results)]  # fmt: skip
         kept = [i for i in inferences if i.status == "pass"]
 

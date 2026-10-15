@@ -187,10 +187,28 @@ on 89%, 95% and 89% of test items, and the reference itself is soft on claims an
 audit confirming a "no" on claims and statements with the reference; a contradiction is now amber. Re-audited, Increment 6's papers
 stay red (61 of 70 no's confirmed); N1 turns amber; N2 stays red on one confirmed and two unsure items. Spend $2.35 of $5.
 
-## Increment 9 — Optional: P1 on external papers (was Increment 6 until 2026-10-11, 7 until 2026-10-13, 8 until 2026-10-14)
+## Increment 9 — An unsure judge is not a verdict (scoped 2026-10-15; complete 2026-10-15)
+
+Scope, gates and caps proposed in SPEC.md (2026-10-14); `incr9_scoped` is Chris's approval of them.
+
+Increment 8's audit asks the reference judge to confirm a cheap "no" on claims and statements, but an unsure reference no lets a
+failure stand while an unsure yes does not overrule, and the reference is never asked while the paper is written
+(docs/reviews/incr-8.md). This increment makes the rule symmetric (a failure needs a confident no; an unsure answer either way is
+an "unsettled" warning), re-reads Increment 8's five re-audits under it offline from their stored verdicts, and has the write step
+ask the reference when a cheap judge says no, so the writer repairs what the reference rejects and keeps what it accepts.
+Exit: the rule tested and its effect on the five re-audits recorded; the write step confirming with the reference; the two
+Increment 7 papers made again and audited, with the confirmations' cost.
+
+Result (docs/reviews/incr-9.md): re-read offline, Increment 8's re-audits move 20 failures to "unsettled" (no verdict changed); N2's
+Increment 7 paper is red only on C51. Made again with the write step asking the reference, N1 is red on 1 failure and N2 on 2,
+against 0 and 1 for their Increment 7 versions under the same rule: one paper each cannot separate the change from run-to-run
+variance. Two failures are the write step's blind spot (a cheap yes at write time, a reference no in the audit); one is the
+reference changing its answer between write and audit. The reference cost $0.075 and $0.057 a paper. Spend $1.30 of $3.
+
+## Increment 10 — Optional: P1 on external papers (was Increment 6 until 2026-10-11, 7 until 2026-10-13, 8 and 9 until 2026-10-14)
 
 The auditor on other people's papers: PDF ingest, claim extraction,
 leakage checks, re-runs, seeded-fault dev/test sets, a batch audit of the
 ScientistTwo corpus, and the portfolio papers (judge benchmark; independent
 audit of an AI-generated corpus). Increments 2-5 are done; the labelled synthesis section became Increment 6 (Chris, 2026-10-11), checking every sentence became Increment 7
-(2026-10-13), and benchmarking its judge questions Increment 8 (proposed 2026-10-14). Whether to take this up, or an independent walkthrough or experiments in the app first, is the owner's decision (candidates in docs/reviews/incr-5.md).
+(2026-10-13), benchmarking its judge questions Increment 8 (2026-10-14), and the unsure-judge rule Increment 9 (proposed 2026-10-14). Whether to take this up, or an independent walkthrough or experiments in the app first, is the owner's decision (candidates in docs/reviews/incr-5.md).

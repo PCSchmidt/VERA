@@ -1,0 +1,92 @@
+{
+ "source": "data/reaudit8/*/audit_report.json",
+ "papers": {
+  "P1": {
+   "before": {
+    "light": "red",
+    "fails": 30,
+    "disagreements": 2,
+    "unsettled": 0
+   },
+   "after": {
+    "light": "red",
+    "fails": 20,
+    "disagreements": 2,
+    "unsettled": 10
+   },
+   "failures_resettled": {
+    "unsettled": 10,
+    "fail": 14
+   }
+  },
+  "P2": {
+   "before": {
+    "light": "red",
+    "fails": 29,
+    "disagreements": 1,
+    "unsettled": 0
+   },
+   "after": {
+    "light": "red",
+    "fails": 24,
+    "disagreements": 1,
+    "unsettled": 5
+   },
+   "failures_resettled": {
+    "fail": 23,
+    "unsettled": 5
+   }
+  },
+  "P3": {
+   "before": {
+    "light": "red",
+    "fails": 20,
+    "disagreements": 1,
+    "unsettled": 0
+   },
+   "after": {
+    "light": "red",
+    "fails": 17,
+    "disagreements": 1,
+    "unsettled": 3
+   },
+   "failures_resettled": {
+    "fail": 11,
+    "unsettled": 3
+   }
+  },
+  "N1": {
+   "before": {
+    "light": "amber",
+    "fails": 0,
+    "disagreements": 1,
+    "unsettled": 0
+   },
+   "after": {
+    "light": "amber",
+    "fails": 0,
+    "disagreements": 1,
+    "unsettled": 0
+   },
+   "failures_resettled": {}
+  },
+  "N2": {
+   "before": {
+    "light": "red",
+    "fails": 3,
+    "disagreements": 0,
+    "unsettled": 0
+   },
+   "after": {
+    "light": "red",
+    "fails": 1,
+    "disagreements": 0,
+    "unsettled": 2
+   },
+   "failures_resettled": {
+    "unsettled": 2,
+    "fail": 1
+   }
+  }
+ }
+}

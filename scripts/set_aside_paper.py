@@ -1,9 +1,10 @@
 """Move a review's finished paper aside so the app can make the paper again (Increment 7, `paper_rerun`).
 
-    uv run python scripts/set_aside_paper.py <run_id>
+    uv run python scripts/set_aside_paper.py <run_id> [--as paper_incr7]
 
 The app makes one paper per review (`runs/<run_id>/paper/`). To make P2's paper again with the Increment 7 checks, the
-Increment 6 paper is moved to `runs/<run_id>/paper_incr6/` (nothing is deleted; its copy is also in `data/paper_demo/`).
+Increment 6 paper is moved to `runs/<run_id>/paper_incr6/` (or the folder named by `--as`; Increment 9 sets the
+Increment 7 papers aside as `paper_incr7`) (nothing is deleted; its copy is also in `data/paper_demo/`).
 Refuses while a paper is being made, or if a set-aside paper is already there.
 """
 
@@ -18,10 +19,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> None:
-    if len(sys.argv) != 2:
+    args = sys.argv[1:]
+    name = "paper_incr6"
+    if len(args) == 3 and args[1] == "--as" and args[2].startswith("paper_"):
+        name = args[2]
+    elif len(args) != 1:
         sys.exit(__doc__)
-    run = ROOT / "runs" / sys.argv[1]
-    paper, aside = run / "paper", run / "paper_incr6"
+    run = ROOT / "runs" / args[0]
+    paper, aside = run / "paper", run / name
     if not paper.exists():
         sys.exit(f"{paper} does not exist")
     if aside.exists():

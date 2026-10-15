@@ -1263,3 +1263,82 @@ gates:
         - gate-traceability.sh
         - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
         - run-evaluator.sh          # independent Evaluator verdict on the review
+
+  # ── Increment 9: an unsure judge is not a verdict (SPEC.md) ──────────────────
+  # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
+  # Defined so far: incr9_scoped, unsure_rule_ready, write_confirm_ready, papers9, incr9_review.
+
+  - id: incr9_scoped
+    label: "Increment 9 scope confirmed"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 9 SCOPED"
+    requires:
+      - incr8_review
+    requires_artifacts:
+      - SPEC.md
+      - CONTRACT.md
+      - docs/reviews/incr-8.md
+    hooks:
+      pre:
+        - validate-contract.sh      # Meridian: Purpose + Scope sections present
+        - validate-spec.sh          # Meridian: SPEC.md is structured
+        - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount
+
+  - id: unsure_rule_ready
+    label: "A failure needs a confident no; an unsure judge is unsettled; Increment 8's re-audits re-read offline"
+    type: automated
+    required: true
+    requires:
+      - incr9_scoped
+    requires_artifacts:
+      - data/results/reread9.json
+      - tests/test_unsure.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-unsure9.sh           # one settling function, re-read reproduces, unsettled listed apart, AUD-F-14 tests, freezes
+
+  - id: write_confirm_ready
+    label: "The write step confirms a cheap no with the reference judge"
+    type: automated
+    required: true
+    requires:
+      - unsure_rule_ready
+    requires_artifacts:
+      - vera/literature/confirm.py
+      - tests/test_write_confirm.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-app-secrets.sh
+        - gate-write9.sh            # review, paper and interpretation confirm; the app gives the reference; RSH-F-17 tests; freezes
+
+  - id: papers9
+    label: "N1 and N2 made again with the write step confirming with the reference, each audited under the Increment 9 rule"
+    type: human_approval
+    required: true
+    approval_token: "PAPERS 9"
+    requires:
+      - write_confirm_ready
+    requires_artifacts:
+      - data/papers9/record.json
+    hooks:
+      pre:
+        - gate-papers9.sh           # both papers, notes and who made them, within caps, audited; write-time confirmations counted
+
+  - id: incr9_review
+    label: "Increment 9 review"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 9 COMPLETE"
+    requires:
+      - papers9
+    requires_artifacts:
+      - docs/reviews/incr-9.md
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-traceability.sh
+        - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
+        - run-evaluator.sh          # independent Evaluator verdict on the review

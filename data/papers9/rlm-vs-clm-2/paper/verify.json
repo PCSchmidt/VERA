@@ -1,0 +1,5062 @@
+{
+ "stats": {
+  "drafted": 57,
+  "failed_first": 28,
+  "repaired": 18,
+  "removed": 10,
+  "synthesis_drafted": 6,
+  "synthesis_removed": 3,
+  "transition_drafted": 10,
+  "transition_removed": 2,
+  "loose_repaired": 10,
+  "stray_attributions_removed": 0,
+  "absence_removed": 0,
+  "quotes_widened": 4,
+  "n_claims": 47,
+  "n_sources_cited": 12,
+  "themes_with_claims": 6,
+  "distinct_quotes": 37
+ },
+ "sections": [
+  {
+   "heading": "Introduction",
+   "text": "Long-context serving is moving from short conversations toward applications such as retrieval-augmented generation, long-document question answering and agent reasoning [R3]. In these settings prefill must process the entire context, and its computational cost grows rapidly with input length [R3]. A study of serving cost reports that prefill takes tens of percent of GPU time in production workloads, and more in agentic ones dominated by long, repeated tool and document context [R7]. A transformer's KV representation of a token is a function of its entire prefix, so exact reuse is confined to contexts that share a prefix verbatim [R7]. Long-context serving is moving toward applications such as agent reasoning, and in these settings prefill must process the entire context, with a computational cost that grows rapidly with input length. The agent harness must then manage context, since session history accumulates while each model call sees only a bounded window [R18]. Two approaches to this problem are the focus of the review. Recursive Language Models treat long prompts as part of an external environment and let the LLM programmatically examine, decompose, and recursively call itself over snippets of the prompt [R32]. The RLM authors report that it has comparable cost across four long-context tasks [R32]. Context Language Models (CLMs) are language models that natively manage their own context, implemented by treating the context as a file and allowing the model to make unrestricted updates to it [R17]. The CLM authors also co-design Suffix Cache Reuse for serving, reporting a 35% reduction in server-side compute relative to standard SGLang at matched performance [R17]. The CLM evaluation compares against MEM1, Self-Compact, ACM, and recursive language models (RLM) with a shared Mini-SWE-Agent backbone [R17]. With that motivation in view, the review turns to what these results show about token, cache and latency costs and about trace reuse in coding workloads.",
+   "claims": [
+    {
+     "claim": "Long-context serving is moving from short conversations toward applications such as retrieval-augmented generation, long-document question answering and agent reasoning.",
+     "source_key": "R3",
+     "passage_id": "R3-P1",
+     "quote": "Large language model (LLM) serving is gradually shifting from short conversations to long-context applications such as retrieval-augmented generation (RAG) (Lewis et al., 2020), long-document question answering (Bai et al., 2024), and agent reasoning (Yao et al., 2023).",
+     "locator": "sec. INTRODUCTION, para 1",
+     "id": "C1"
+    },
+    {
+     "claim": "In these settings prefill must process the entire context, and its computational cost grows rapidly with input length.",
+     "source_key": "R3",
+     "passage_id": "R3-P1",
+     "quote": "Prefill must process the entire context, and its computational cost grows rapidly with input length.",
+     "locator": "sec. INTRODUCTION, para 1",
+     "id": "C2"
+    },
+    {
+     "claim": "A study of serving cost reports that prefill takes tens of percent of GPU time in production workloads, and more in agentic ones dominated by long, repeated tool and document context.",
+     "source_key": "R7",
+     "passage_id": "R7-P1",
+     "quote": "Prefill, the encoding of the prompt before the first output token, accounts for a substantial share of the cost of serving language models: tens of percent of GPU time in reported production workloads, and more in agentic ones dominated by long, repeated tool and document context (DeepSeek-AI, 2025;Ayoub et al., 2025).",
+     "locator": "sec. Introduction, para 1",
+     "id": "C3"
+    },
+    {
+     "claim": "A transformer's KV representation of a token is a function of its entire prefix, so exact reuse is confined to contexts that share a prefix verbatim.",
+     "source_key": "R7",
+     "passage_id": "R7-P1",
+     "quote": "a transformer's KV representation of a token is a function of its entire prefix, so exact reuse is confined to contexts that share a prefix verbatim.",
+     "locator": "sec. Introduction, para 1",
+     "id": "C4"
+    },
+    {
+     "claim": "The agent harness must then manage context, since session history accumulates while each model call sees only a bounded window.",
+     "source_key": "R18",
+     "passage_id": "R18-P1",
+     "quote": "As trajectories grow, a central challenge for the agent harness is context management: session history accumulates continuously, while each model invocation operates over a bounded context window.",
+     "locator": "sec. Introduction, para 1",
+     "id": "C5"
+    },
+    {
+     "claim": "Recursive Language Models treat long prompts as part of an external environment and let the LLM programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+     "source_key": "R32",
+     "passage_id": "R32-A",
+     "quote": "We propose Recursive Language Models (RLMs), a general inference paradigm that treats long prompts as part of an external environment and allows the LLM to programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+     "locator": "abstract",
+     "id": "C6"
+    },
+    {
+     "claim": "The RLM authors report that it has comparable cost across four long-context tasks.",
+     "source_key": "R32",
+     "passage_id": "R32-A",
+     "quote": "across four diverse long-context tasks while having comparable cost",
+     "locator": "abstract",
+     "id": "C7"
+    },
+    {
+     "claim": "Context Language Models (CLMs) are language models that natively manage their own context, implemented by treating the context as a file and allowing the model to make unrestricted updates to it.",
+     "source_key": "R17",
+     "passage_id": "R17-A",
+     "quote": "We introduce Context Language Models (CLMs), language models that natively manage their own context. We implement this by treating the context as a file and allowing the model to make unrestricted updates to this file.",
+     "locator": "abstract",
+     "id": "C8"
+    },
+    {
+     "claim": "The CLM authors also co-design Suffix Cache Reuse for serving, reporting a 35% reduction in server-side compute relative to standard SGLang at matched performance.",
+     "source_key": "R17",
+     "passage_id": "R17-A",
+     "quote": "Finally, we co-design Suffix Cache Reuse for CLM serving, further reducing server-side compute by 35% relative to standard SGLang at matched performance.",
+     "locator": "abstract",
+     "id": "C9"
+    },
+    {
+     "claim": "The CLM evaluation compares against MEM1, Self-Compact, ACM, and recursive language models (RLM) with a shared Mini-SWE-Agent backbone.",
+     "source_key": "R17",
+     "passage_id": "R17-P23",
+     "quote": "We compare CLMs against MEM1 (Zhou et al., 2026), Self-Compact (Li et al., 2026b), ACM (Li et al., 2026c), and recursive language models (RLM) (Zhang et al., 2025a) with a shared Mini-SWE-Agent backbone (Merrill et al., 2026).",
+     "locator": "sec. Coding and Deep Research Tasks, para 23",
+     "id": "C10"
+    }
+   ]
+  },
+  {
+   "heading": "Recursive Language Models: paradigm, reproductions, and reported cost on long-context tasks",
+   "text": "The original RLM paper proposes Recursive Language Models as a general inference paradigm that treats long prompts as part of an external environment and lets the LLM programmatically examine, decompose, and recursively call itself over snippets of the prompt [R32].\n\nA reproduction study extends the framework by varying recursion depth, which the original paper left as future work [R112]. The reproduction reports that depth-1 RLMs help on complex reasoning, while deeper recursion or use on simple retrieval degrades performance and inflates time and tokens [R112]. A separate systems extension, RLM-Extended, states that existing reference implementations of RLM have practical limitations in termination, reproducibility, and deployment [R69].\n\nTaken together, the sources can be read side by side on how recursion depth relates to time and token use. Context Language Models are implemented by treating the context as a file and allowing the model to make unrestricted updates to this file [R17]. The CLM study compares CLMs against baselines including recursive language models (RLM) with a shared Mini-SWE-Agent backbone [R17].",
+   "claims": [
+    {
+     "claim": "The original RLM paper proposes Recursive Language Models as a general inference paradigm that treats long prompts as part of an external environment and lets the LLM programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+     "source_key": "R32",
+     "passage_id": "R32-A",
+     "quote": "We propose Recursive Language Models (RLMs), a general inference paradigm that treats long prompts as part of an external environment and allows the LLM to programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+     "locator": "abstract",
+     "id": "C11"
+    },
+    {
+     "claim": "A reproduction study extends the framework by varying recursion depth, which the original paper left as future work.",
+     "source_key": "R112",
+     "passage_id": "R112-A",
+     "quote": "While the original paper relies on a default recursion depth of 1 and suggests deeper recursion as a future direction, this study specifically investigates the impact of scaling the recursion depth.",
+     "locator": "abstract",
+     "id": "C12"
+    },
+    {
+     "claim": "The reproduction reports that depth-1 RLMs help on complex reasoning, while deeper recursion or use on simple retrieval degrades performance and inflates time and tokens.",
+     "source_key": "R112",
+     "passage_id": "R112-A",
+     "quote": "While depth-1 RLMs effectively boost accuracy on complex reasoning tasks, applying deeper recursion (depth=2) or using RLMs on simple retrieval tasks paradoxically degrades performance and exponentially inflates execution time (e.g., from 3.6s to 344.5s) and token costs.",
+     "locator": "abstract",
+     "id": "C13"
+    },
+    {
+     "claim": "A separate systems extension, RLM-Extended, states that existing reference implementations of RLM have practical limitations in termination, reproducibility, and deployment.",
+     "source_key": "R69",
+     "passage_id": "R69-A",
+     "quote": "existing reference implementations have practical limitations in termination, reproducibility, and deployment.",
+     "locator": "abstract",
+     "id": "C14"
+    },
+    {
+     "claim": "Context Language Models are implemented by treating the context as a file and allowing the model to make unrestricted updates to this file.",
+     "source_key": "R17",
+     "passage_id": "R17-A",
+     "quote": "We implement this by treating the context as a file and allowing the model to make unrestricted updates to this file.",
+     "locator": "abstract",
+     "id": "C15"
+    },
+    {
+     "claim": "The CLM study compares CLMs against baselines including recursive language models (RLM) with a shared Mini-SWE-Agent backbone.",
+     "source_key": "R17",
+     "passage_id": "R17-P23",
+     "quote": "We compare CLMs against MEM1 (Zhou et al., 2026), Self-Compact (Li et al., 2026b), ACM (Li et al., 2026c), and recursive language models (RLM) (Zhang et al., 2025a) with a shared Mini-SWE-Agent backbone (Merrill et al., 2026).",
+     "locator": "sec. Coding and Deep Research Tasks, para 23",
+     "id": "C16"
+    }
+   ]
+  },
+  {
+   "heading": "Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings",
+   "text": "The CLM paper introduces Context Language Models as models that natively manage their own context [R17]. Context Language Models implement their approach by treating the context as a file and allowing the model to make unrestricted updates to this file [R17]. The CLM paper compares CLMs against MEM1, Self-Compact, ACM, and recursive language models (RLM) with a shared Mini-SWE-Agent backbone [R17].\n\nOn cost, the CLM authors report matching the strongest baseline's accuracy on TerminalBench 2.1 with fewer FLOPs [R17]. On EdgeBench-10 with Qwen3.6-27B, the paper reports that CLM reached a higher score than summarization at far lower prefix-reuse compute [R17].\n\nSuffix Cache Reuse is the serving co-design that reuses cached states of surviving tokens after an edit [R17]. The authors note that the surviving suffix tokens keep stale cache states encoding the previous prefix [R17]. The reported serving gain is a 35% reduction in server-side compute relative to standard SGLang at matched performance [R17].\n\nThe CLM paper reports prefix-reuse FLOPs under standard serving throughout, with additional SCR savings reported separately [R17].",
+   "claims": [
+    {
+     "claim": "The CLM paper introduces Context Language Models as models that natively manage their own context.",
+     "source_key": "R17",
+     "passage_id": "R17-A",
+     "quote": "We introduce Context Language Models (CLMs), language models that natively manage their own context.",
+     "locator": "abstract",
+     "id": "C17"
+    },
+    {
+     "claim": "Context Language Models implement their approach by treating the context as a file and allowing the model to make unrestricted updates to this file.",
+     "source_key": "R17",
+     "passage_id": "R17-A",
+     "quote": "We implement this by treating the context as a file and allowing the model to make unrestricted updates to this file.",
+     "locator": "abstract",
+     "id": "C18"
+    },
+    {
+     "claim": "The CLM paper compares CLMs against MEM1, Self-Compact, ACM, and recursive language models (RLM) with a shared Mini-SWE-Agent backbone.",
+     "source_key": "R17",
+     "passage_id": "R17-P23",
+     "quote": "We compare CLMs against MEM1 (Zhou et al., 2026), Self-Compact (Li et al., 2026b), ACM (Li et al., 2026c), and recursive language models (RLM) (Zhang et al., 2025a) with a shared Mini-SWE-Agent backbone (Merrill et al., 2026).",
+     "locator": "sec. Coding and Deep Research Tasks, para 23",
+     "id": "C19"
+    },
+    {
+     "claim": "On cost, the CLM authors report matching the strongest baseline's accuracy on TerminalBench 2.1 with fewer FLOPs.",
+     "source_key": "R17",
+     "passage_id": "R17-P4",
+     "quote": "while matching the strongest baseline's accuracy on the terminal-coding benchmark TerminalBench 2.1 (Merrill et al., 2026) with 29.5% fewer FLOPs.",
+     "locator": "sec. Introduction, para 3",
+     "id": "C20"
+    },
+    {
+     "claim": "On EdgeBench-10 with Qwen3.6-27B, the paper reports that CLM reached a higher score than summarization at far lower prefix-reuse compute.",
+     "source_key": "R17",
+     "passage_id": "R17-P30",
+     "quote": "With Qwen3.6-27B, CLM reaches 44.6 using 179 prefix-reuse PFLOPs per trial, versus 42.3 and 437 PFLOPs for summarization; the subagent variant reaches 44.2 at 181 PFLOPs.",
+     "locator": "sec. Open Discovery Problems, para 30",
+     "id": "C21"
+    },
+    {
+     "claim": "Suffix Cache Reuse is the serving co-design that reuses cached states of surviving tokens after an edit.",
+     "source_key": "R17",
+     "passage_id": "R17-P20",
+     "quote": "As shown in Figure 4, when 𝐵 is replaced by 𝐵 ′ after an edit, SCR reuses the cached states of all surviving tokens, including 𝐶 , and only reprefills the newly inserted or appended tokens 𝐵 ′ .",
+     "locator": "sec. (More) Efficient CLM Serving with Suffix Cache Reuse, para 21",
+     "id": "C22"
+    },
+    {
+     "claim": "The authors note that the surviving suffix tokens keep stale cache states encoding the previous prefix.",
+     "source_key": "R17",
+     "passage_id": "R17-P20",
+     "quote": "Surviving suffix tokens 𝐶 thus retain stale cache states that encode the previous prefix, which can even be beneficial in some cases, as it retains richer information from the past.",
+     "locator": "sec. (More) Efficient CLM Serving with Suffix Cache Reuse, para 21",
+     "id": "C23"
+    },
+    {
+     "claim": "The reported serving gain is a 35% reduction in server-side compute relative to standard SGLang at matched performance.",
+     "source_key": "R17",
+     "passage_id": "R17-A",
+     "quote": "Finally, we co-design Suffix Cache Reuse for CLM serving, further reducing server-side compute by 35% relative to standard SGLang at matched performance.",
+     "locator": "abstract",
+     "id": "C24"
+    },
+    {
+     "claim": "The CLM paper reports prefix-reuse FLOPs under standard serving throughout, with additional SCR savings reported separately.",
+     "source_key": "R17",
+     "passage_id": "R17-P20",
+     "quote": "Throughout the paper, we report prefix-reuse FLOPs under standard serving; additional SCR savings are reported separately in Section 5.3.",
+     "locator": "sec. (More) Efficient CLM Serving with Suffix Cache Reuse, para 21",
+     "id": "C25"
+    }
+   ]
+  },
+  {
+   "heading": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "The next step is to turn from the cost of recomputation in general to how cache reuse is handled once contexts are edited rather than only appended. The Leyline authors state that agentic conversations evolve through policy-driven editing, with failed tool calls retried and stale outputs dropped [R118]. Leyline reports that production agentic harnesses fall back to re-prefill on every edit [R118].\n\nThe discussion now moves to approaches that tackle this cost where the reused context is not a prefix. The EPIC authors report up to 8x TTFT improvement and 7x throughput gain over existing systems, with negligible or no accuracy loss [R123]. The CacheTune authors warn that directly reusing KV cache in non-prefix settings causes significant degradation in generation quality [R3]. The SemPIC authors state that, under a standard causal decoder, naively stitched caches are position aligned but contextually incomplete, and their quality can collapse [R109]. The Leyline authors report that their splice kernel lifts replay cache-hit by 11.2 points and cuts latency by up to 241 ms [R118]. The SMem authors report that deletion beats suffix recomputation by 8.5x at 512 blocks, while describing the setting as probing the cost model rather than a served regime [R7]. Taken together, these results show reuse beyond exact prefixes being pursued for latency, with reported gains in time to first token, throughput, cache-hit rate and latency, while the risk of degraded quality from reusing non-prefix or naively stitched caches is acknowledged across sources.",
+   "claims": [
+    {
+     "claim": "The Leyline authors state that agentic conversations evolve through policy-driven editing, with failed tool calls retried and stale outputs dropped.",
+     "source_key": "R118",
+     "passage_id": "R118-A",
+     "quote": "Agentic LLMs break this assumption. Their conversations evolve through policy-driven editing: failed tool calls are retried, stale outputs dropped, trajectories pivoted.",
+     "locator": "abstract",
+     "id": "C26"
+    },
+    {
+     "claim": "Leyline reports that production agentic harnesses fall back to re-prefill on every edit.",
+     "source_key": "R118",
+     "passage_id": "R118-A",
+     "quote": "Production agentic harnesses fall back to re-prefill on every edit, paying full prefix-recomputation cost; kernel-level eviction methods make their own decisions and cannot accept policy directives from outside the kernel.",
+     "locator": "abstract",
+     "id": "C27"
+    },
+    {
+     "claim": "The EPIC authors report up to 8x TTFT improvement and 7x throughput gain over existing systems, with negligible or no accuracy loss.",
+     "source_key": "R123",
+     "passage_id": "R123-A",
+     "quote": "Experiments show that EPIC achieves up to 8x improvements in Time-To-First-Token (TTFT) and 7x throughput gains over existing systems, with negligible or no accuracy loss.",
+     "locator": "abstract",
+     "id": "C28"
+    },
+    {
+     "claim": "The CacheTune authors warn that directly reusing KV cache in non-prefix settings causes significant degradation in generation quality.",
+     "source_key": "R3",
+     "passage_id": "R3-A",
+     "quote": "KV Cache reuse offers a direct path to reduce redundant prefill, yet traditional prefix caching applies only to strict-prefix scenarios; directly reusing KV Cache in non-prefix settings breaks the cross-chunk global attention relationships and causes significant degradation in generation quality.",
+     "locator": "abstract",
+     "id": "C29"
+    },
+    {
+     "claim": "The SemPIC authors state that, under a standard causal decoder, naively stitched caches are position aligned but contextually incomplete, and their quality can collapse.",
+     "source_key": "R109",
+     "passage_id": "R109-P2",
+     "quote": "under a standard causal decoder, naively stitched caches are position aligned but contextually incomplete, and their quality can collapse.",
+     "locator": "sec. Introduction, para 2",
+     "id": "C30"
+    },
+    {
+     "claim": "The Leyline authors report that their splice kernel lifts replay cache-hit by 11.2 points and cuts latency by up to 241 ms.",
+     "source_key": "R118",
+     "passage_id": "R118-A",
+     "quote": "The splice kernel lifts replay cache-hit by +11.2 pp and cuts latency by up to 241 ms.",
+     "locator": "abstract",
+     "id": "C31"
+    },
+    {
+     "claim": "The SMem authors report that deletion beats suffix recomputation by 8.5x at 512 blocks, while describing the setting as probing the cost model rather than a served regime.",
+     "source_key": "R7",
+     "passage_id": "R7-A",
+     "quote": "deletion beats suffix recomputation by 8.5$\\times$ at 512 blocks and 452$\\times$ at 4096 blocks (32-256$\\times$ the trained length, probing the cost model rather than a served regime).",
+     "locator": "abstract",
+     "id": "C32"
+    }
+   ]
+  },
+  {
+   "heading": "Context management in coding agents: token-level evidence and its limits",
+   "text": "The passages on coding-agent context management are considered next, with attention to what they measure. The CAT authors report that SWE-Compressor reaches a 57.6% solved rate on SWE-Bench-Verified under a 32B agent post-training setting [R88]. The CAT authors also report that under a 150-step interaction budget, CAT maintains competitive performance and uses the fewest tokens of all methods [R88]. The ACM authors state that their analysis shows effective context management reduces peak token pressure and yields more consistent solutions across independent trials [R47].\n\nWork on Context Language Models is considered next. The Context Language Models paper describes reinforcement learning in which, because context edits change the input across turns, stepwise GRPO is used [R17]. The Scroll authors describe a setup in which model-written code searches, materializes, and transforms session state through exec, and only explicitly printed projections enter the model's working view for the next call [R18].",
+   "claims": [
+    {
+     "claim": "The CAT authors report that SWE-Compressor reaches a 57.6% solved rate on SWE-Bench-Verified under a 32B agent post-training setting.",
+     "source_key": "R88",
+     "passage_id": "R88-P30",
+     "quote": "On the challenging SWE-Bench-Verified benchmark, SWE-Compressor achieves a 57.6% solved rate, reaching state-of-the-art performance under the setting of agent post-training on a 32B model.",
+     "locator": "sec. Experiments, para 41",
+     "id": "C33"
+    },
+    {
+     "claim": "The CAT authors also report that under a 150-step interaction budget, CAT maintains competitive performance and uses the fewest tokens of all methods.",
+     "source_key": "R88",
+     "passage_id": "R88-P36",
+     "quote": "Under a smaller interaction budget (150 steps), CAT both maintains competitive performance and uses the fewest tokens across all methods.",
+     "locator": "sec. Context Comparison between CAT and ReAct., para 46",
+     "id": "C34"
+    },
+    {
+     "claim": "The ACM authors state that their analysis shows effective context management reduces peak token pressure and yields more consistent solutions across independent trials.",
+     "source_key": "R47",
+     "passage_id": "R47-A",
+     "quote": "Further analysis reveals that effective context management reduces peak token pressure, enables extended explorations, and yields more consistent solutions across independent trials.",
+     "locator": "abstract",
+     "id": "C35"
+    },
+    {
+     "claim": "The Context Language Models paper describes reinforcement learning in which, because context edits change the input across turns, stepwise GRPO is used.",
+     "source_key": "R17",
+     "passage_id": "R17-P17",
+     "quote": "Since context edits change the input across turns, we use stepwise GRPO (Shao et al., 2024).",
+     "locator": "sec. In-Context Learning and Reinforcement Learning for CLMs, para 17",
+     "id": "C36"
+    },
+    {
+     "claim": "The Scroll authors describe a setup in which model-written code searches, materializes, and transforms session state through exec, and only explicitly printed projections enter the model's working view for the next call.",
+     "source_key": "R18",
+     "passage_id": "R18-A",
+     "quote": "Model-written code searches, materializes, and transforms session state through exec; only explicitly printed projections enter the model's working view for the next call.",
+     "locator": "abstract",
+     "id": "C37"
+    }
+   ]
+  },
+  {
+   "heading": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "text": "The CLM paper compares CLMs against MEM1, Self-Compact, ACM, and recursive language models with a shared Mini-SWE-Agent backbone [R17]. The CLM authors report that, on TerminalBench 2.1, CLM matched the strongest baseline's accuracy with 29.5% fewer FLOPs [R17]. The CLM paper reports prefix-reuse FLOPs under standard serving, with additional SCR savings reported separately [R17].\n\nIn the CLM paper, Suffix Cache Reuse (SCR) reuses the cached states of all surviving tokens after an edit and only re-prefills the newly inserted or appended tokens [R17]. The CLM authors report that, when Suffix Cache Reuse is further applied, it reduces server-side compute by 35% with matched performance compared with standard SGLang serving [R17].\n\nThe Leyline authors state that production agentic harnesses fall back to re-prefill on every edit, paying full prefix-recomputation cost [R118].",
+   "claims": [
+    {
+     "claim": "The CLM paper compares CLMs against MEM1, Self-Compact, ACM, and recursive language models with a shared Mini-SWE-Agent backbone.",
+     "source_key": "R17",
+     "passage_id": "R17-P23",
+     "quote": "We compare CLMs against MEM1 (Zhou et al., 2026), Self-Compact (Li et al., 2026b), ACM (Li et al., 2026c), and recursive language models (RLM) (Zhang et al., 2025a) with a shared Mini-SWE-Agent backbone (Merrill et al., 2026).",
+     "locator": "sec. Coding and Deep Research Tasks, para 23",
+     "id": "C38"
+    },
+    {
+     "claim": "The CLM authors report that, on TerminalBench 2.1, CLM matched the strongest baseline's accuracy with 29.5% fewer FLOPs.",
+     "source_key": "R17",
+     "passage_id": "R17-P4",
+     "quote": "while matching the strongest baseline's accuracy on the terminal-coding benchmark TerminalBench 2.1 (Merrill et al., 2026) with 29.5% fewer FLOPs.",
+     "locator": "sec. Introduction, para 3",
+     "id": "C39"
+    },
+    {
+     "claim": "The CLM paper reports prefix-reuse FLOPs under standard serving, with additional SCR savings reported separately.",
+     "source_key": "R17",
+     "passage_id": "R17-P20",
+     "quote": "Throughout the paper, we report prefix-reuse FLOPs under standard serving; additional SCR savings are reported separately in Section 5.3.",
+     "locator": "sec. (More) Efficient CLM Serving with Suffix Cache Reuse, para 21",
+     "id": "C40"
+    },
+    {
+     "claim": "In the CLM paper, Suffix Cache Reuse (SCR) reuses the cached states of all surviving tokens after an edit and only re-prefills the newly inserted or appended tokens.",
+     "source_key": "R17",
+     "passage_id": "R17-P20",
+     "quote": "SCR reuses the cached states of all surviving tokens, including 𝐶 , and only reprefills the newly inserted or appended tokens 𝐵 ′ .",
+     "locator": "sec. (More) Efficient CLM Serving with Suffix Cache Reuse, para 21",
+     "id": "C41"
+    },
+    {
+     "claim": "The CLM authors report that, when Suffix Cache Reuse is further applied, it reduces server-side compute by 35% with matched performance compared with standard SGLang serving.",
+     "source_key": "R17",
+     "passage_id": "R17-P4",
+     "quote": "Moreover, when Suffix Cache Reuse is further applied, it helps reduce server-side compute by 35% with matched performance compared with standard SGLang serving.",
+     "locator": "sec. Introduction, para 3",
+     "id": "C42"
+    },
+    {
+     "claim": "The Leyline authors state that production agentic harnesses fall back to re-prefill on every edit, paying full prefix-recomputation cost.",
+     "source_key": "R118",
+     "passage_id": "R118-A",
+     "quote": "Production agentic harnesses fall back to re-prefill on every edit, paying full prefix-recomputation cost; kernel-level eviction methods make their own decisions and cannot accept policy directives from outside the kernel.",
+     "locator": "abstract",
+     "id": "C43"
+    }
+   ]
+  },
+  {
+   "heading": "Implications for a CPU-scale companion experiment and its transfer limits",
+   "text": "The comparison turns on two distinct ways of changing a long context, and each is introduced in turn below. The RLM authors propose a general inference paradigm that treats long prompts as part of an external environment and lets the model programmatically examine, decompose, and recursively call itself over snippets of the prompt [R32].\n\nThe Context Language Models paper introduces Suffix Cache Reuse (SCR), under which an edit that replaces B with B′ reuses the cached states of all surviving tokens and re-prefills only the newly inserted or appended tokens [R17].\n\nThe Leyline paper asserts that production agentic harnesses fall back to re-prefill on every edit [R118]. The CacheTune authors report that, in their experiments, the optimized CPU-cache path preserves the benefits of reuse despite the additional data movement [R3]. One proposal has the model examine, decompose, and recursively call itself over snippets of a prompt held in an external environment (s2), while another has an edit replacing B with B′ reuse the cached states of surviving tokens and re-prefill only the newly inserted or appended tokens (s4). A further source asserts that production agentic harnesses fall back to re-prefill on every edit (s7), and another reports that an optimized CPU-cache path preserves the benefits of reuse despite additional data movement (s8).",
+   "claims": [
+    {
+     "claim": "The RLM authors propose a general inference paradigm that treats long prompts as part of an external environment and lets the model programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+     "source_key": "R32",
+     "passage_id": "R32-A",
+     "quote": "We propose Recursive Language Models (RLMs), a general inference paradigm that treats long prompts as part of an external environment and allows the LLM to programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+     "locator": "abstract",
+     "id": "C44"
+    },
+    {
+     "claim": "The Context Language Models paper introduces Suffix Cache Reuse (SCR), under which an edit that replaces B with B′ reuses the cached states of all surviving tokens and re-prefills only the newly inserted or appended tokens.",
+     "source_key": "R17",
+     "passage_id": "R17-P20",
+     "quote": "when 𝐵 is replaced by 𝐵 ′ after an edit, SCR reuses the cached states of all surviving tokens, including 𝐶 , and only reprefills the newly inserted or appended tokens 𝐵 ′ .",
+     "locator": "sec. (More) Efficient CLM Serving with Suffix Cache Reuse, para 21",
+     "id": "C45"
+    },
+    {
+     "claim": "The Leyline paper asserts that production agentic harnesses fall back to re-prefill on every edit.",
+     "source_key": "R118",
+     "passage_id": "R118-A",
+     "quote": "Production agentic harnesses fall back to re-prefill on every edit, paying full prefix-recomputation cost",
+     "locator": "abstract",
+     "id": "C46"
+    },
+    {
+     "claim": "The CacheTune authors report that, in their experiments, the optimized CPU-cache path preserves the benefits of reuse despite the additional data movement.",
+     "source_key": "R3",
+     "passage_id": "R3-P44",
+     "quote": "This is because the CPU configuration enables the pipeline that overlaps transfer and recomputation, while sparse loading and deferred RoPE further reduce GPU-side data processing and computation. These end-to-end measurements show that the optimized CPU-cache path preserves the benefits of reuse despite the additional data movement.",
+     "locator": "sec. ADAPTABILITY ACROSS CACHE TIERS, para 49",
+     "id": "C47"
+    }
+   ]
+  }
+ ],
+ "sentences": [
+  {
+   "id": "S1",
+   "section": "Introduction",
+   "text": "Long-context serving is moving from short conversations toward applications such as retrieval-augmented generation, long-document question answering and agent reasoning.",
+   "kind": "claim",
+   "claims": [
+    "C1"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8705e-05,
+     "latency_ms": 2082,
+     "trace_id": "e652f2c229154ea58fccf891a3cea543",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9999485592091115,
+      "false": 5.144079088852645e-05
+     },
+     "confidence": 0.9999485592091115,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.33545e-05,
+     "latency_ms": 1749,
+     "trace_id": "92a83fe8d24d4a9081263cffeffb7de9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.73,
+      "false": 0.27
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9656e-05,
+     "latency_ms": 2271,
+     "trace_id": "8d5f85b04b384463bfe2749f503c23be",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S2",
+   "section": "Introduction",
+   "text": "In these settings prefill must process the entire context, and its computational cost grows rapidly with input length.",
+   "kind": "claim",
+   "claims": [
+    "C2"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9999898709838028,
+      "false": 1.0129016197224006e-05
+     },
+     "confidence": 0.9999898709838028,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.84875e-05,
+     "latency_ms": 1282,
+     "trace_id": "596bae2a4ba24740afedf79a062817ba",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9999832992513096,
+      "false": 1.6700748690394677e-05
+     },
+     "confidence": 0.9999832992513096,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.10925e-05,
+     "latency_ms": 1233,
+     "trace_id": "6d8e43ccae5b4293998c6796beb2c104",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.739e-05,
+     "latency_ms": 12499,
+     "trace_id": "cd284c9033194b09acf141a2ff5d2d5f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.4,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003392,
+     "latency_ms": 2904,
+     "trace_id": "75ef207639264ed0b6d32406428dce88",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": "unsettled at write time: the reference judge was unsure"
+  },
+  {
+   "id": "S3",
+   "section": "Introduction",
+   "text": "A study of serving cost reports that prefill takes tens of percent of GPU time in production workloads, and more in agentic ones dominated by long, repeated tool and document context.",
+   "kind": "claim",
+   "claims": [
+    "C3"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.89765e-05,
+     "latency_ms": 5960,
+     "trace_id": "59a647dbdac24fae97d3cc6ede394a2f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.67805e-05,
+     "latency_ms": 5590,
+     "trace_id": "41d4911a37a44629b332236e9c962653",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.72,
+      "false": 0.28
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.037e-05,
+     "latency_ms": 266,
+     "trace_id": "dc2c966d580d414b9d62ea09b9672304",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S4",
+   "section": "Introduction",
+   "text": "A transformer's KV representation of a token is a function of its entire prefix, so exact reuse is confined to contexts that share a prefix verbatim.",
+   "kind": "claim",
+   "claims": [
+    "C4"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.23155e-05,
+     "latency_ms": 2430,
+     "trace_id": "db16d7ee10ec406eb9076d1ca1c27c59",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.31573e-05,
+     "latency_ms": 1934,
+     "trace_id": "12dadd3bd3de4820893c701b0827713a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.26635e-05,
+     "latency_ms": 2624,
+     "trace_id": "9a6d6a64cf6e45b2ac0db817bd3fb139",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.683675e-05,
+     "latency_ms": 4241,
+     "trace_id": "cd305d9408a0483ba47029961b8fb2ff",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.82,
+      "false": 0.18000000000000005
+     },
+     "confidence": 0.82,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7976e-05,
+     "latency_ms": 161,
+     "trace_id": "5f40ea95646a45bf886d8b36d1fed49a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S5",
+   "section": "Introduction",
+   "text": "Long-context serving is moving toward applications such as agent reasoning, and in these settings prefill must process the entire context, with a computational cost that grows rapidly with input length.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C1",
+    "C2"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.26,
+      "false": 0.74
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5834e-05,
+     "latency_ms": 110,
+     "trace_id": "b111cf16b0b64e59a747b0c99fba6f00",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.89,
+      "false": 0.10999999999999999
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.289e-05,
+     "latency_ms": 103,
+     "trace_id": "f4e8a60248dc4319b3259dae9e239815",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S6",
+   "section": "Introduction",
+   "text": "The agent harness must then manage context, since session history accumulates while each model call sees only a bounded window.",
+   "kind": "claim",
+   "claims": [
+    "C5"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9999646589801632,
+      "false": 3.534101983678597e-05
+     },
+     "confidence": 0.9999646589801632,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.8665e-05,
+     "latency_ms": 11440,
+     "trace_id": "dea3286fc9434286934e609753c8878c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.1832e-05,
+     "latency_ms": 1983,
+     "trace_id": "e2fb8ffe968346ceb16f1df51bfe59bf",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.07793e-05,
+     "latency_ms": 1528,
+     "trace_id": "b950b532d42d4fab93cca94692ba5093",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S7",
+   "section": "Introduction",
+   "text": "Two approaches to this problem are the focus of the review.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.0469e-05,
+     "latency_ms": 2125,
+     "trace_id": "88bca51adfe24ea1869e329047b2fd29",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S8",
+   "section": "Introduction",
+   "text": "Recursive Language Models treat long prompts as part of an external environment and let the LLM programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+   "kind": "claim",
+   "claims": [
+    "C6"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.9107e-05,
+     "latency_ms": 4401,
+     "trace_id": "d3e049a421ba47a185047ed2d7b45d60",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.01703e-05,
+     "latency_ms": 6470,
+     "trace_id": "0c1757acdf5345689a39dd86438f65f4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.86,
+      "false": 0.14
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8816e-05,
+     "latency_ms": 183,
+     "trace_id": "e70b3848ac65448db2d08fe3a154a66a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S9",
+   "section": "Introduction",
+   "text": "The RLM authors report that it has comparable cost across four long-context tasks.",
+   "kind": "claim",
+   "claims": [
+    "C7"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.9944e-05,
+     "latency_ms": 4358,
+     "trace_id": "570c417ed41b49239d2234cb5c37d745",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.2412e-05,
+     "latency_ms": 1963,
+     "trace_id": "00e595852255426cafe634da509543a3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.24635e-05,
+     "latency_ms": 10229,
+     "trace_id": "40969e22c282402fa3bb7d28084a924e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S10",
+   "section": "Introduction",
+   "text": "Context Language Models (CLMs) are language models that natively manage their own context, implemented by treating the context as a file and allowing the model to make unrestricted updates to it.",
+   "kind": "claim",
+   "claims": [
+    "C8"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.4186e-05,
+     "latency_ms": 3991,
+     "trace_id": "7c1c919c9107430191d3798738de0987",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.23105e-05,
+     "latency_ms": 1202,
+     "trace_id": "6bf4051c93cc43b3aeae795bfbe5217b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.8,
+      "false": 0.19999999999999996
+     },
+     "confidence": 0.8,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8438e-05,
+     "latency_ms": 288,
+     "trace_id": "e04497a70fb44502ba1374354a4d1589",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S11",
+   "section": "Introduction",
+   "text": "The CLM authors also co-design Suffix Cache Reuse for serving, reporting a 35% reduction in server-side compute relative to standard SGLang at matched performance.",
+   "kind": "claim",
+   "claims": [
+    "C9"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.18718e-05,
+     "latency_ms": 1282,
+     "trace_id": "0cb3a88c7b274fa8915125f0af0b08b9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.60695e-05,
+     "latency_ms": 5163,
+     "trace_id": "de83c9639a0e4e3eacaab60316a2a061",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.72,
+      "false": 0.28
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8144e-05,
+     "latency_ms": 220,
+     "trace_id": "388c25dbb80a4860b0aa3b082a4a85ae",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S12",
+   "section": "Introduction",
+   "text": "The CLM evaluation compares against MEM1, Self-Compact, ACM, and recursive language models (RLM) with a shared Mini-SWE-Agent backbone.",
+   "kind": "claim",
+   "claims": [
+    "C10"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.9332e-05,
+     "latency_ms": 6551,
+     "trace_id": "61e38ba59cb34f5da68123901af300a6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.038625e-05,
+     "latency_ms": 4676,
+     "trace_id": "424ca28b162b484f86a75e1a5448efdd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.824525e-05,
+     "latency_ms": 5886,
+     "trace_id": "efadd09d8f37418494e4b66db4bbc755",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6542e-05,
+     "latency_ms": 5837,
+     "trace_id": "3c331fdd394b4d7fa7c654be76d2a23d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.83,
+      "false": 0.17000000000000004
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0243999999999998e-05,
+     "latency_ms": 195,
+     "trace_id": "4577cf9abb6143848e92cf8230b27887",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S13",
+   "section": "Introduction",
+   "text": "With that motivation in view, the review turns to what these results show about token, cache and latency costs and about trace reuse in coding workloads.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.18,
+      "false": 0.8200000000000001
+     },
+     "confidence": 0.8200000000000001,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6422e-05,
+     "latency_ms": 86,
+     "trace_id": "d0fb6cb27294454ba499759a4a9bdcd1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.81,
+      "false": 0.18999999999999995
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5876e-05,
+     "latency_ms": 116,
+     "trace_id": "7372ef049bc048c79cbcd573f8fe4882",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S14",
+   "section": "Recursive Language Models: paradigm, reproductions, and reported cost on long-context tasks",
+   "text": "The original RLM paper proposes Recursive Language Models as a general inference paradigm that treats long prompts as part of an external environment and lets the LLM programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+   "kind": "claim",
+   "claims": [
+    "C11"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.10105e-05,
+     "latency_ms": 3305,
+     "trace_id": "89e70cc82adf44ce9f81ca18748b1eda",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 7.0902e-05,
+     "latency_ms": 5157,
+     "trace_id": "5529a92adb6548b991a6c7101f0f218a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.2272e-05,
+     "latency_ms": 1767,
+     "trace_id": "fd60671e8d9947af8d9b56ddb74809b6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.29195e-05,
+     "latency_ms": 1834,
+     "trace_id": "69464c2f488441848321fcd604ecb612",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.75,
+      "false": 0.25
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9319999999999998e-05,
+     "latency_ms": 169,
+     "trace_id": "1a010d08f5d043d189f7adef6df4a228",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S15",
+   "section": "Recursive Language Models: paradigm, reproductions, and reported cost on long-context tasks",
+   "text": "Zhang and colleagues report that RLMs handle inputs far beyond model context windows at comparable cost to baselines.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.3838e-05,
+     "latency_ms": 1672,
+     "trace_id": "fc449d383deb4ee3aacf4f431844fb6b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.7719e-05,
+     "latency_ms": 3507,
+     "trace_id": "228707da6c0748338902a5fba87d624f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.0187e-05,
+     "latency_ms": 6323,
+     "trace_id": "b3fbff876a9f4ea6b7a0142afccde175",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": {
+      "false": 0.9999785552611592,
+      "true": 2.1444738840736388e-05
+     },
+     "confidence": 0.9999785552611592,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.37895e-05,
+     "latency_ms": 1896,
+     "trace_id": "41dbd607d0e4462ca3cde019f55adb38",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S16",
+   "section": "Recursive Language Models: paradigm, reproductions, and reported cost on long-context tasks",
+   "text": "A reproduction study extends the framework by varying recursion depth, which the original paper left as future work.",
+   "kind": "claim",
+   "claims": [
+    "C12"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.84815e-05,
+     "latency_ms": 2125,
+     "trace_id": "42bef0486b3a4b7e8368fc996d496607",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.44565e-05,
+     "latency_ms": 2021,
+     "trace_id": "27f26c9d4dfc4ed8886bd520dd5b2671",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7892e-05,
+     "latency_ms": 159,
+     "trace_id": "f6487e2da9ca4439a6d38fc09f28cba6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S17",
+   "section": "Recursive Language Models: paradigm, reproductions, and reported cost on long-context tasks",
+   "text": "The reproduction reports that depth-1 RLMs help on complex reasoning, while deeper recursion or use on simple retrieval degrades performance and inflates time and tokens.",
+   "kind": "claim",
+   "claims": [
+    "C13"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.0187e-05,
+     "latency_ms": 1715,
+     "trace_id": "fb0383fcb5a24c76bce68ebfad4fc29e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.734975e-05,
+     "latency_ms": 2777,
+     "trace_id": "5e763ef51926438884346a0bd0debd13",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.78,
+      "false": 0.21999999999999997
+     },
+     "confidence": 0.78,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9866e-05,
+     "latency_ms": 143,
+     "trace_id": "085ce0f681e840e3a03f7e465d8d5395",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S18",
+   "section": "Recursive Language Models: paradigm, reproductions, and reported cost on long-context tasks",
+   "text": "A separate systems extension, RLM-Extended, states that existing reference implementations of RLM have practical limitations in termination, reproducibility, and deployment.",
+   "kind": "claim",
+   "claims": [
+    "C14"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.882125e-05,
+     "latency_ms": 1264,
+     "trace_id": "2c15ca18f44f4edaad396b81cb431432",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.620675e-05,
+     "latency_ms": 2753,
+     "trace_id": "6621b78c0d524b8094f1cb51819085d8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.16,
+      "false": 0.84
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.827e-05,
+     "latency_ms": 109,
+     "trace_id": "b5ed12335a794242b3ad2987de89c832",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002908,
+     "latency_ms": 2407,
+     "trace_id": "773405a7603f45b39fe6e888b290b818",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.836225e-05,
+     "latency_ms": 4475,
+     "trace_id": "480ca08f9f3e436c9d68a0ae325da17a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.1571e-05,
+     "latency_ms": 1721,
+     "trace_id": "c1837814479646f8a3eac4b3816158dc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.78205e-05,
+     "latency_ms": 2251,
+     "trace_id": "960a0effc3d54c7ba830225067893590",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S19",
+   "section": "Recursive Language Models: paradigm, reproductions, and reported cost on long-context tasks",
+   "text": "Taken together, the sources can be read side by side on how recursion depth relates to time and token use.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.02635e-05,
+     "latency_ms": 5346,
+     "trace_id": "25cb3c1a583940fcbb6bf827adb7d608",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S20",
+   "section": "Recursive Language Models: paradigm, reproductions, and reported cost on long-context tasks",
+   "text": "Context Language Models are implemented by treating the context as a file and allowing the model to make unrestricted updates to this file.",
+   "kind": "claim",
+   "claims": [
+    "C15"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9988306993296494,
+      "false": 0.001169300670350669
+     },
+     "confidence": 0.9988306993296494,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.34465e-05,
+     "latency_ms": 1162,
+     "trace_id": "ef659cfc0d8e427b8475a8afa2c51138",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.939275e-05,
+     "latency_ms": 5650,
+     "trace_id": "c53876d21aaa494b9176784ca59fb6f6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.581075e-05,
+     "latency_ms": 5511,
+     "trace_id": "965c32a5e9224e7ebd8408dad219afb5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7009999999999998e-05,
+     "latency_ms": 180,
+     "trace_id": "07e78b5e31134e80b029af665229b426",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S21",
+   "section": "Recursive Language Models: paradigm, reproductions, and reported cost on long-context tasks",
+   "text": "The CLM study compares CLMs against baselines including recursive language models (RLM) with a shared Mini-SWE-Agent backbone.",
+   "kind": "claim",
+   "claims": [
+    "C16"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.9512e-05,
+     "latency_ms": 1719,
+     "trace_id": "dddcc5990072417e8f3f71f5b9a96103",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 5.701275e-05,
+     "latency_ms": 5252,
+     "trace_id": "dd5f7c5d9ece461dbc09503768745b69",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.9923e-05,
+     "latency_ms": 1957,
+     "trace_id": "1bb7447b76d146d4a66037607b3acbd8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9997040679666275,
+      "false": 0.00029593203337255363
+     },
+     "confidence": 0.9997040679666275,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.13013e-05,
+     "latency_ms": 5497,
+     "trace_id": "21a2b2cd48ea4eaf916fd1928fa61081",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.78,
+      "false": 0.21999999999999997
+     },
+     "confidence": 0.78,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9992e-05,
+     "latency_ms": 204,
+     "trace_id": "9e37f0bce79843a4be4879be79446c68",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S22",
+   "section": "Recursive Language Models: paradigm, reproductions, and reported cost on long-context tasks",
+   "text": "Its Suffix Cache Reuse reprefills only newly inserted tokens after an edit, whereas standard prefix caching must reprefill everything after the first mismatch.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.97,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.996875e-05,
+     "latency_ms": 5038,
+     "trace_id": "1ae08ec1438841c0bf1ce84b1c3a3ba3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.99575e-05,
+     "latency_ms": 4912,
+     "trace_id": "bd277ec7b69a46b1b50fa67325b610d4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.345425e-05,
+     "latency_ms": 7168,
+     "trace_id": "5ac7c2c98b9e4b338f6312425412787d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the sentence adds 'whereas', which the quote does not say"
+  },
+  {
+   "id": "S23",
+   "section": "Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings",
+   "text": "The CLM paper introduces Context Language Models as models that natively manage their own context.",
+   "kind": "claim",
+   "claims": [
+    "C17"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.907775e-05,
+     "latency_ms": 5189,
+     "trace_id": "bc3d1aecd68b48009d96ed2c00721fc3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.568475e-05,
+     "latency_ms": 8203,
+     "trace_id": "98c31e9b67fe4ec48a2410a7a8b97db4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.87,
+      "false": 0.13
+     },
+     "confidence": 0.87,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6716e-05,
+     "latency_ms": 160,
+     "trace_id": "d309b45c2c8d4ee19c6da6b68bfc9fbd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S24",
+   "section": "Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings",
+   "text": "Context Language Models implement their approach by treating the context as a file and allowing the model to make unrestricted updates to this file.",
+   "kind": "claim",
+   "claims": [
+    "C18"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.32725e-05,
+     "latency_ms": 10101,
+     "trace_id": "8fe2cc952f27474f979c340450c39fb1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9999810766615851,
+      "false": 1.892333841483813e-05
+     },
+     "confidence": 0.9999810766615851,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.14368e-05,
+     "latency_ms": 2299,
+     "trace_id": "8c3d846803c0456899f8c16f989402c2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.5822e-05,
+     "latency_ms": 3620,
+     "trace_id": "47adb862848145b5972c53e6b8bb1d1b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.76,
+      "false": 0.24
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7052e-05,
+     "latency_ms": 131,
+     "trace_id": "5492b9bc86f7419c887ccac45ec45b91",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S25",
+   "section": "Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings",
+   "text": "The CLM paper compares CLMs against MEM1, Self-Compact, ACM, and recursive language models (RLM) with a shared Mini-SWE-Agent backbone.",
+   "kind": "claim",
+   "claims": [
+    "C19"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.95525e-05,
+     "latency_ms": 4912,
+     "trace_id": "a516c2ba5a764d78b28a3f6774e1833d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.12143e-05,
+     "latency_ms": 4586,
+     "trace_id": "3c4a1bad03c9400283489822e9fa0fe4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.9111e-05,
+     "latency_ms": 2389,
+     "trace_id": "9b273448de644429a1d3e2f4ab8851ae",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.88,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002102,
+     "latency_ms": 1326,
+     "trace_id": "ec9dd6bbba0244239e8728961a9cc79d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.02275e-05,
+     "latency_ms": 1337,
+     "trace_id": "e75014a4da944c89bf276986d197e379",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9999832988223329,
+      "false": 1.6701177667028084e-05
+     },
+     "confidence": 0.9999832988223329,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.3833e-05,
+     "latency_ms": 1342,
+     "trace_id": "277bf47f9c3b4d19bd4691b6847007e3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.83,
+      "false": 0.17000000000000004
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0328e-05,
+     "latency_ms": 85,
+     "trace_id": "56ff1361c5d74d8ca2f6a28b6cfd9108",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S26",
+   "section": "Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings",
+   "text": "On cost, the CLM authors report matching the strongest baseline's accuracy on TerminalBench 2.1 with fewer FLOPs.",
+   "kind": "claim",
+   "claims": [
+    "C20"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.0196e-05,
+     "latency_ms": 4274,
+     "trace_id": "33fb7316958045ae8f76e1f1d3aa8e11",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9993737127026093,
+      "false": 0.000626287297390621
+     },
+     "confidence": 0.9993737127026093,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.9125e-05,
+     "latency_ms": 11538,
+     "trace_id": "962d1aa0bc9f4050a1d55a54428fdf76",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.8502e-05,
+     "latency_ms": 2616,
+     "trace_id": "45ebc6e811fd4efa856a20665aa735ca",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S27",
+   "section": "Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings",
+   "text": "On EdgeBench-10 with Qwen3.6-27B, the paper reports that CLM reached a higher score than summarization at far lower prefix-reuse compute.",
+   "kind": "claim",
+   "claims": [
+    "C21"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.63908e-05,
+     "latency_ms": 1546,
+     "trace_id": "1c20d5e7a3a34a1c9169f7ea9708994e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.639575e-05,
+     "latency_ms": 4144,
+     "trace_id": "a3c4f8754f8a446789acc80c2d3296ba",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.8787e-05,
+     "latency_ms": 6957,
+     "trace_id": "c35063489aba4365a009e8dab05aa10b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S28",
+   "section": "Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings",
+   "text": "Suffix Cache Reuse is the serving co-design that reuses cached states of surviving tokens after an edit.",
+   "kind": "claim",
+   "claims": [
+    "C22"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.12535e-05,
+     "latency_ms": 8544,
+     "trace_id": "b9dd74d5879e4854a0d1249d9312918e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.23105e-05,
+     "latency_ms": 1762,
+     "trace_id": "b8e36aa9682c461eb0e9b0c364866719",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.0655e-05,
+     "latency_ms": 3536,
+     "trace_id": "9e622df66c774aa3a25a19091b482bfb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S29",
+   "section": "Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings",
+   "text": "The authors note that the surviving suffix tokens keep stale cache states encoding the previous prefix.",
+   "kind": "claim",
+   "claims": [
+    "C23"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.050425e-05,
+     "latency_ms": 4444,
+     "trace_id": "7a72ab1221b248098202155ab65ec883",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.1223e-05,
+     "latency_ms": 1691,
+     "trace_id": "42f57a634af644e6a5db0794d5d7cd9f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.788075e-05,
+     "latency_ms": 6798,
+     "trace_id": "37d39a4d270b4b96bb3c72ebeb1d78b3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S30",
+   "section": "Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings",
+   "text": "The reported serving gain is a 35% reduction in server-side compute relative to standard SGLang at matched performance.",
+   "kind": "claim",
+   "claims": [
+    "C24"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.36205e-05,
+     "latency_ms": 2515,
+     "trace_id": "314bf326f8fc408181c68d35a763fe52",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.14405e-05,
+     "latency_ms": 1081,
+     "trace_id": "05e597c063c747819a91262beabc935e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9,
+      "false": 0.09999999999999998
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.764e-05,
+     "latency_ms": 162,
+     "trace_id": "6c9bee1a64ec4eba968cd5ea969ca909",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S31",
+   "section": "Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings",
+   "text": "The CLM paper reports prefix-reuse FLOPs under standard serving throughout, with additional SCR savings reported separately.",
+   "kind": "claim",
+   "claims": [
+    "C25"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.994625e-05,
+     "latency_ms": 4810,
+     "trace_id": "c3dd6cb6e6fa4fd4b9b58098a1251814",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.65645e-05,
+     "latency_ms": 5894,
+     "trace_id": "2aee8c9743c54f03bab10a6dc64bffe1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.48828e-05,
+     "latency_ms": 2898,
+     "trace_id": "32a0353ae9e84d8bb3de362e18d00bd6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.78,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003862,
+     "latency_ms": 2801,
+     "trace_id": "aacb40a282e040f58e1c8a62e1ed02ee",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.7811e-05,
+     "latency_ms": 5861,
+     "trace_id": "2405daf57241492faa45b6ba9b7312b0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.587825e-05,
+     "latency_ms": 5441,
+     "trace_id": "534321a22b8543f28c483e5314ed57ee",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.6918e-06,
+     "latency_ms": 1434,
+     "trace_id": "2126885aee094c9d9882793a84a97aaa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S32",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "The next step is to turn from the cost of recomputation in general to how cache reuse is handled once contexts are edited rather than only appended.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.596e-05,
+     "latency_ms": 170,
+     "trace_id": "d4f41d54698e45b59e274f9d9c15f5f3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.88,
+      "false": 0.12
+     },
+     "confidence": 0.88,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6422e-05,
+     "latency_ms": 130,
+     "trace_id": "2efde61dfe48495e918813b54bca8557",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S33",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "The Leyline authors state that agentic conversations evolve through policy-driven editing, with failed tool calls retried and stale outputs dropped.",
+   "kind": "claim",
+   "claims": [
+    "C26"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.33073e-05,
+     "latency_ms": 1238,
+     "trace_id": "833c2680432147399ecf362d02e7fd30",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.18755e-05,
+     "latency_ms": 1788,
+     "trace_id": "f06b8468a84146f18d80a6ce2643df20",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.78,
+      "false": 0.21999999999999997
+     },
+     "confidence": 0.78,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8018e-05,
+     "latency_ms": 68,
+     "trace_id": "d83e079b40ba4ab19262655de41e2349",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S34",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "Leyline reports that production agentic harnesses fall back to re-prefill on every edit.",
+   "kind": "claim",
+   "claims": [
+    "C27"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.33363e-05,
+     "latency_ms": 1416,
+     "trace_id": "0cc6bb7bb4424b6696dc4cc00278f824",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.649925e-05,
+     "latency_ms": 5932,
+     "trace_id": "300b28b2c0254bd88ed240cce2b37352",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.74,
+      "false": 0.26
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8186e-05,
+     "latency_ms": 142,
+     "trace_id": "892c57421a0c49b397aa9e07d795be3b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S35",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "The Context Language Models paper introduces Suffix Cache Reuse for CLM serving.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.155725e-05,
+     "latency_ms": 5097,
+     "trace_id": "6e7e7f0bde3c43498aa40fb73754a772",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.00485e-05,
+     "latency_ms": 1183,
+     "trace_id": "eb27470715b44770bca160ed715f83b5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.174525e-05,
+     "latency_ms": 6352,
+     "trace_id": "2ec8d397c8e44632a4cc5e3a6f0481c8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002052,
+     "latency_ms": 2111,
+     "trace_id": "5a752c886ddf446482362e77dce7a480",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.41773e-05,
+     "latency_ms": 1449,
+     "trace_id": "0d7f85f491fa4fe780fea7dda9155b67",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.30993e-05,
+     "latency_ms": 2112,
+     "trace_id": "ee81520fce3e453c883a285867f02608",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S36",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "Under that method, the surviving suffix keeps stale cache states, whereas standard prefix reuse must re-prefill everything after the first mismatch.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.0889e-05,
+     "latency_ms": 6349,
+     "trace_id": "f0908289ac0c434095b62ee701a0f84f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.45688e-05,
+     "latency_ms": 1588,
+     "trace_id": "915a016059b642258d0d86004f0037c1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.0563e-05,
+     "latency_ms": 6542,
+     "trace_id": "071513c8c3e143049bdb7d0a9b5ec17d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the sentence adds 'whereas', which the quote does not say"
+  },
+  {
+   "id": "S37",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "The discussion now moves to approaches that tackle this cost where the reused context is not a prefix.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.14,
+      "false": 0.86
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5623999999999998e-05,
+     "latency_ms": 105,
+     "trace_id": "545f78ecde5e481f860eec1612f3a22d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.85,
+      "false": 0.15000000000000002
+     },
+     "confidence": 0.85,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5918e-05,
+     "latency_ms": 82,
+     "trace_id": "45a75b4eff8b4f2980ff4867864271eb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S38",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "The EPIC authors report up to 8x TTFT improvement and 7x throughput gain over existing systems, with negligible or no accuracy loss.",
+   "kind": "claim",
+   "claims": [
+    "C28"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.80003e-05,
+     "latency_ms": 9301,
+     "trace_id": "b6e73b4425214a8782adaafb4c7731f2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 1.0,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.02138e-05,
+     "latency_ms": 2342,
+     "trace_id": "0273be673f00411ebbf271eebbf14b7d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.8,
+      "false": 0.19999999999999996
+     },
+     "confidence": 0.8,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8648e-05,
+     "latency_ms": 183,
+     "trace_id": "f50dec2569a941b6865635c221e45cbe",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S39",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "The CacheTune authors warn that directly reusing KV cache in non-prefix settings causes significant degradation in generation quality.",
+   "kind": "claim",
+   "claims": [
+    "C29"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.37423e-05,
+     "latency_ms": 5744,
+     "trace_id": "556ccfb225ee48068c1e1b93910f6585",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.68705e-05,
+     "latency_ms": 7194,
+     "trace_id": "382aaf4e4b2249d1836974b1bbcfec7d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.620925e-05,
+     "latency_ms": 6697,
+     "trace_id": "fe3b23115d354ddea2c1cc5be6bcdf86",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S40",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "The SemPIC authors state that, under a standard causal decoder, naively stitched caches are position aligned but contextually incomplete, and their quality can collapse.",
+   "kind": "claim",
+   "claims": [
+    "C30"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6182e-05,
+     "latency_ms": 2646,
+     "trace_id": "9fc63fa64a6947f38ad25bdd44eab52e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.3717e-05,
+     "latency_ms": 1610,
+     "trace_id": "65b0eef37b0e4f23ac694321ca775d72",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.653e-05,
+     "latency_ms": 1184,
+     "trace_id": "02e6c9500f2c40b7bd08b6e09a97edd3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6002e-05,
+     "latency_ms": 4002,
+     "trace_id": "e8a558abc52348b7ad3e60597dabd508",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.01703e-05,
+     "latency_ms": 2606,
+     "trace_id": "19e8b0e8761942c5a4aeadded135db67",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S41",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "The Leyline authors report that their splice kernel lifts replay cache-hit by 11.2 points and cuts latency by up to 241 ms.",
+   "kind": "claim",
+   "claims": [
+    "C31"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.971e-05,
+     "latency_ms": 7845,
+     "trace_id": "dbc060a5bd8e45918bcfcef1212bc2a7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.601325e-05,
+     "latency_ms": 3549,
+     "trace_id": "29c6746e067244e5854c9df16e810be6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.0554e-05,
+     "latency_ms": 5569,
+     "trace_id": "f6f2092cfc8346e9b5daf2c06d02f324",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S42",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "The SMem authors report that deletion beats suffix recomputation by 8.5x at 512 blocks, while describing the setting as probing the cost model rather than a served regime.",
+   "kind": "claim",
+   "claims": [
+    "C32"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.80923e-05,
+     "latency_ms": 1312,
+     "trace_id": "3970a1f00d474bf0b2ae6e62823237ad",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.7127e-05,
+     "latency_ms": 5419,
+     "trace_id": "ebf592d35e79457183961705b111b53e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.345e-05,
+     "latency_ms": 9531,
+     "trace_id": "451227f4dab9451aac4c0add2082e5f6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S43",
+   "section": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "text": "Taken together, these results show reuse beyond exact prefixes being pursued for latency, with reported gains in time to first token, throughput, cache-hit rate and latency, while the risk of degraded quality from reusing non-prefix or naively stitched caches is acknowledged across sources.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C28",
+    "C29",
+    "C30",
+    "C31"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.4527e-05,
+     "latency_ms": 10045,
+     "trace_id": "d06bcc4d8d72409c94f93aad430c94ab",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S44",
+   "section": "Context management in coding agents: token-level evidence and its limits",
+   "text": "The passages on coding-agent context management are considered next, with attention to what they measure.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.05,
+      "false": 0.95
+     },
+     "confidence": 0.95,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6044e-05,
+     "latency_ms": 94,
+     "trace_id": "7f8bc1121b514bc09eeba9721803dc8f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.74,
+      "false": 0.26
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5792e-05,
+     "latency_ms": 150,
+     "trace_id": "7c54fe9377af44c48671526fe660c010",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S45",
+   "section": "Context management in coding agents: token-level evidence and its limits",
+   "text": "The CAT authors report that SWE-Compressor reaches a 57.6% solved rate on SWE-Bench-Verified under a 32B agent post-training setting.",
+   "kind": "claim",
+   "claims": [
+    "C33"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.949625e-05,
+     "latency_ms": 6721,
+     "trace_id": "bb6457214f3843b2a1b79bf71c5edcab",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.637325e-05,
+     "latency_ms": 6083,
+     "trace_id": "cdd8f1f19c71440e9b4d102e3e2ddf07",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.7505e-05,
+     "latency_ms": 5616,
+     "trace_id": "c9c7b43d191d401e909fd053aeb691d3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S46",
+   "section": "Context management in coding agents: token-level evidence and its limits",
+   "text": "The CAT authors also report that under a 150-step interaction budget, CAT maintains competitive performance and uses the fewest tokens of all methods.",
+   "kind": "claim",
+   "claims": [
+    "C34"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.88268e-05,
+     "latency_ms": 3095,
+     "trace_id": "2781069294014368945417fb18cd6dcd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6803e-05,
+     "latency_ms": 3891,
+     "trace_id": "210937c99ebb48de97665bc80f333c59",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7933999999999998e-05,
+     "latency_ms": 196,
+     "trace_id": "1b029e9cb43d4fc6b406451a5b9ef966",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S47",
+   "section": "Context management in coding agents: token-level evidence and its limits",
+   "text": "The ACM authors state that their analysis shows effective context management reduces peak token pressure and yields more consistent solutions across independent trials.",
+   "kind": "claim",
+   "claims": [
+    "C35"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.909575e-05,
+     "latency_ms": 7250,
+     "trace_id": "d31a5ba581a141deaf01097dd76a661d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.594575e-05,
+     "latency_ms": 5683,
+     "trace_id": "9a25d765514d401e903972d6c71b2e0a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.088e-05,
+     "latency_ms": 2708,
+     "trace_id": "ad8d714ba83646bbbeedd4a275e883e9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S48",
+   "section": "Context management in coding agents: token-level evidence and its limits",
+   "text": "The Focus study reports a 22.7% token reduction with identical accuracy, but on only five SWE-bench Lite instances.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.87965e-05,
+     "latency_ms": 4771,
+     "trace_id": "fe20ba934f18440e90c88ebe22fda55d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.701e-05,
+     "latency_ms": 5056,
+     "trace_id": "f35dc440be2d4914bdd383a7e72bd1b1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.7777e-05,
+     "latency_ms": 2275,
+     "trace_id": "863b0d520d8b43d981fb8274cba6d1cd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.88,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002538,
+     "latency_ms": 1814,
+     "trace_id": "43edc693b50848a593ded0d182e8b73a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.12193e-05,
+     "latency_ms": 1335,
+     "trace_id": "dd6b87d78fac4d31bdcb88a42598e80a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.7197e-05,
+     "latency_ms": 7817,
+     "trace_id": "54347f1464c7445580f2cc6b53342d19",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S49",
+   "section": "Context management in coding agents: token-level evidence and its limits",
+   "text": "The evidence from the three studies points the same way on tokens, yet the sample sizes differ greatly and the token measurements are of context size, not of cache reuse or latency.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C34",
+    "C35"
+   ],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "premise removed or unknown: s5"
+  },
+  {
+   "id": "S50",
+   "section": "Context management in coding agents: token-level evidence and its limits",
+   "text": "Work on Context Language Models is considered next.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.1,
+      "false": 0.9
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5666e-05,
+     "latency_ms": 110,
+     "trace_id": "5e4fa8e8d11b4bcdaa7a8974f4e58335",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.84,
+      "false": 0.16000000000000003
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5414e-05,
+     "latency_ms": 245,
+     "trace_id": "6e9b831da99840c9b584ece374fdf487",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S51",
+   "section": "Context management in coding agents: token-level evidence and its limits",
+   "text": "The Context Language Models paper describes reinforcement learning in which, because context edits change the input across turns, stepwise GRPO is used.",
+   "kind": "claim",
+   "claims": [
+    "C36"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.729125e-05,
+     "latency_ms": 5008,
+     "trace_id": "b2ea2067ecb044d0819d03bf0d75f19e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.11795e-05,
+     "latency_ms": 1313,
+     "trace_id": "65150ccfac3642728bdee75689d79b47",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.2934e-05,
+     "latency_ms": 1849,
+     "trace_id": "a74269fc3f69498b9d9214b95220d148",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S52",
+   "section": "Context management in coding agents: token-level evidence and its limits",
+   "text": "The Scroll authors describe a setup in which model-written code searches, materializes, and transforms session state through exec, and only explicitly printed projections enter the model's working view for the next call.",
+   "kind": "claim",
+   "claims": [
+    "C37"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.15673e-05,
+     "latency_ms": 1236,
+     "trace_id": "77bc913762024422a410d047d2bad623",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9999898714291416,
+      "false": 1.0128570858359409e-05
+     },
+     "confidence": 0.9999898714291416,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.4447e-05,
+     "latency_ms": 1771,
+     "trace_id": "e6b7b47fa03742eeb687c0c1807d1a48",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.672425e-05,
+     "latency_ms": 7534,
+     "trace_id": "45804ebd85534c3196378efed2e4bfa9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.55933e-05,
+     "latency_ms": 2635,
+     "trace_id": "49972e82a82d4e3d936210798ca2bd43",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S53",
+   "section": "Context management in coding agents: token-level evidence and its limits",
+   "text": "The Memory-as-a-cache work reports serving a fully cached context by block-skip against cold prefill, at pilot scale and with an unresolved anomaly at one point.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8675e-05,
+     "latency_ms": 9125,
+     "trace_id": "0e5b96ca07df4d99ae6f0c0c3d571b17",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": {
+      "false": 0.9999038999434382,
+      "true": 9.610005656174489e-05
+     },
+     "confidence": 0.9999038999434382,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.38815e-05,
+     "latency_ms": 3439,
+     "trace_id": "acccb04064a04e8b9006e7bf4fb02512",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S54",
+   "section": "Context management in coding agents: token-level evidence and its limits",
+   "text": "Taken together, the coding-agent studies measure tokens and solve rates, while the cache-reuse evidence comes from separate settings, so a direct token-and-prefix-cache comparison of recursive decomposition against in-place edits on coding workloads remains for the companion experiment.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C34"
+   ],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "premise removed or unknown: s7"
+  },
+  {
+   "id": "S55",
+   "section": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "text": "The Context Language Models paper is the only supplied source that compares CLM against RLM directly on coding tasks.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.638e-05,
+     "latency_ms": 106,
+     "trace_id": "5eb2ddbb1645419aa9950f470c740ef2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S56",
+   "section": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "text": "The CLM paper compares CLMs against MEM1, Self-Compact, ACM, and recursive language models with a shared Mini-SWE-Agent backbone.",
+   "kind": "claim",
+   "claims": [
+    "C38"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.820025e-05,
+     "latency_ms": 3048,
+     "trace_id": "ab46e663d728452ea3a1c88dd0e7efac",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.891575e-05,
+     "latency_ms": 10362,
+     "trace_id": "4ef6bfb544f944249dadb2a233425098",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.65195e-05,
+     "latency_ms": 7003,
+     "trace_id": "5fd0bc317ed54920be5ccdbe5ac37ba5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.82,
+      "false": 0.18000000000000005
+     },
+     "confidence": 0.82,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.016e-05,
+     "latency_ms": 184,
+     "trace_id": "d108d3ba09f746cb9bd2cc274ee33168",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S57",
+   "section": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "text": "The CLM authors report that, on TerminalBench 2.1, CLM matched the strongest baseline's accuracy with 29.5% fewer FLOPs.",
+   "kind": "claim",
+   "claims": [
+    "C39"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.12895e-05,
+     "latency_ms": 7211,
+     "trace_id": "f30fde7fcee5456bb36cbe6b4f7b7300",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.2267e-05,
+     "latency_ms": 1683,
+     "trace_id": "7a2e1d801a6c4f9eb4462297ceb087bd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.73,
+      "false": 0.27
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.848e-05,
+     "latency_ms": 181,
+     "trace_id": "61c0b58efa1547a1b43ea03b69bdf01a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S58",
+   "section": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "text": "The CLM paper reports prefix-reuse FLOPs under standard serving, with additional SCR savings reported separately.",
+   "kind": "claim",
+   "claims": [
+    "C40"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9999898711110057,
+      "false": 1.0128888994324246e-05
+     },
+     "confidence": 0.9999898711110057,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.65785e-05,
+     "latency_ms": 1284,
+     "trace_id": "fc470d27976c430f8314aa7c57c7dd46",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.068425e-05,
+     "latency_ms": 7048,
+     "trace_id": "1a3caa10d0d449fcbb38e7d2b5b415a6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.5867e-05,
+     "latency_ms": 5968,
+     "trace_id": "399430240c804f879f5fbc4fdb149885",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.18233e-05,
+     "latency_ms": 1871,
+     "trace_id": "023dd770e1a64590aba6fe6c0a64dd38",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S59",
+   "section": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "text": "In the CLM paper, Suffix Cache Reuse (SCR) reuses the cached states of all surviving tokens after an edit and only re-prefills the newly inserted or appended tokens.",
+   "kind": "claim",
+   "claims": [
+    "C41"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.09925e-05,
+     "latency_ms": 4709,
+     "trace_id": "115285f61c5947cd8f2c3bb0911a6e58",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.2417e-05,
+     "latency_ms": 5171,
+     "trace_id": "be0cc4619191430da91fee44d01a9e9b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.104875e-05,
+     "latency_ms": 5852,
+     "trace_id": "9b36e0c6e9d14467adb95619cccde8c8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.610325e-05,
+     "latency_ms": 4309,
+     "trace_id": "e340cd7b60064cfa9e851acac0f0afa9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.74,
+      "false": 0.26
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8102e-05,
+     "latency_ms": 191,
+     "trace_id": "66bea0465f504540ab4690d32e84d033",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S60",
+   "section": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "text": "The CLM authors report that, when Suffix Cache Reuse is further applied, it reduces server-side compute by 35% with matched performance compared with standard SGLang serving.",
+   "kind": "claim",
+   "claims": [
+    "C42"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.28765e-05,
+     "latency_ms": 3949,
+     "trace_id": "c9977e2f38714a7ab346e521948e4c79",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.014875e-05,
+     "latency_ms": 4777,
+     "trace_id": "7073168073e84d5ab3ac7efb9c7dbf12",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 9.7353e-06,
+     "latency_ms": 4299,
+     "trace_id": "3a9df2fd771d4c25b9a35fdcc652bd9e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.04748e-05,
+     "latency_ms": 1451,
+     "trace_id": "87a97d2e71564c4b8e689c6595e854db",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S61",
+   "section": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "text": "The RLM paper, by contrast, reports its advantage as quality at comparable cost across four long-context tasks.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.3113e-05,
+     "latency_ms": 2506,
+     "trace_id": "bd1dea17fad041af991240c9557bc0d3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.1054e-05,
+     "latency_ms": 1151,
+     "trace_id": "6dc3d254933546f78b43fd1b27f03c14",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.009475e-05,
+     "latency_ms": 6000,
+     "trace_id": "5e49031ac2fb4952ab1883c6239faa2f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.92763e-05,
+     "latency_ms": 2980,
+     "trace_id": "fc23ed8ed8014c96bf6952b7143454b6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002696,
+     "latency_ms": 2012,
+     "trace_id": "f5dc6728fe8649eca73216c1344632d2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the sentence adds 'by contrast', which the quote does not say"
+  },
+  {
+   "id": "S62",
+   "section": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "text": "Related serving work suggests why in-place edits matter for coding agents.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.12,
+      "false": 0.88
+     },
+     "confidence": 0.88,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6002e-05,
+     "latency_ms": 131,
+     "trace_id": "d9887adf90094ea8908acf6e25089b08",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.638e-05,
+     "latency_ms": 105,
+     "trace_id": "9b502ebb93004a47add863632c74a7ca",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S63",
+   "section": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "text": "The Leyline authors state that production agentic harnesses fall back to re-prefill on every edit, paying full prefix-recomputation cost.",
+   "kind": "claim",
+   "claims": [
+    "C43"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.092275e-05,
+     "latency_ms": 3067,
+     "trace_id": "55a13050b097441f9541de182407e3b5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.70325e-05,
+     "latency_ms": 3577,
+     "trace_id": "422aa94eb46b4e929d5359f67b536057",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.6407e-05,
+     "latency_ms": 5956,
+     "trace_id": "7bc0e49ec474430786c84b29bc9b98ef",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S64",
+   "section": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "text": "The CLM evidence is a single study with its own SCR serving design, and the RLM paper reports cost only as comparable, without wall-clock latency figures or trace reuse. Whether CLM's edge holds for RLM under a common serving setup is therefore left open here.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C38",
+    "C39",
+    "C42"
+   ],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "premise removed or unknown: s7"
+  },
+  {
+   "id": "S65",
+   "section": "Implications for a CPU-scale companion experiment and its transfer limits",
+   "text": "The comparison turns on two distinct ways of changing a long context, and each is introduced in turn below.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.17,
+      "false": 0.83
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6044e-05,
+     "latency_ms": 101,
+     "trace_id": "76c32c6aba5d4914b7c449babaa03772",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.7,
+      "false": 0.30000000000000004
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.596e-05,
+     "latency_ms": 97,
+     "trace_id": "b2a783673aae46bdb51d2f1c7c94fddd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S66",
+   "section": "Implications for a CPU-scale companion experiment and its transfer limits",
+   "text": "The RLM authors propose a general inference paradigm that treats long prompts as part of an external environment and lets the model programmatically examine, decompose, and recursively call itself over snippets of the prompt.",
+   "kind": "claim",
+   "claims": [
+    "C44"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.97838e-05,
+     "latency_ms": 1712,
+     "trace_id": "3d383c1ffce84d4f86bee6bf699710ac",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.631025e-05,
+     "latency_ms": 6567,
+     "trace_id": "772c6437dc294fa98895f945eccc9177",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.83,
+      "false": 0.17000000000000004
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9068e-05,
+     "latency_ms": 185,
+     "trace_id": "9d52bc33e0854ff9bdc77f72fd6fb4f9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S67",
+   "section": "Implications for a CPU-scale companion experiment and its transfer limits",
+   "text": "The RLM-Extended paper adds local LLM backend support through an Ollama-based interface, which is the nearest published route to running an RLM on small local models.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.01028e-05,
+     "latency_ms": 2172,
+     "trace_id": "bf467553d27049c5a3c6b6d9b94d6eb3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.865925e-05,
+     "latency_ms": 6897,
+     "trace_id": "b20d5b0993734decaae0ac2bc5cf0857",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9998415772213165,
+      "false": 0.00015842277868343923
+     },
+     "confidence": 0.9998415772213165,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.0962e-05,
+     "latency_ms": 1978,
+     "trace_id": "428eda0d672c4d9c8522e72210497329",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.611325e-05,
+     "latency_ms": 11452,
+     "trace_id": "b9bd29b255c8407bb4319d647f5bc068",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unsupported"
+  },
+  {
+   "id": "S68",
+   "section": "Implications for a CPU-scale companion experiment and its transfer limits",
+   "text": "The Context Language Models paper introduces Suffix Cache Reuse (SCR), under which an edit that replaces B with B′ reuses the cached states of all surviving tokens and re-prefills only the newly inserted or appended tokens.",
+   "kind": "claim",
+   "claims": [
+    "C45"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.75,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.82655e-05,
+     "latency_ms": 3011,
+     "trace_id": "011bde58fb1f4eaab7519580f3df7e3d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 7.2315e-05,
+     "latency_ms": 8177,
+     "trace_id": "7faa28140f2e46e2a90f8e4e71f48bcd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.14245e-05,
+     "latency_ms": 6005,
+     "trace_id": "d0f0f0aaacc142bb8b646d235b8d0585",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6857e-05,
+     "latency_ms": 5622,
+     "trace_id": "dae653f2f26449cc8aa74ef477f6d58a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.50423e-05,
+     "latency_ms": 2599,
+     "trace_id": "cf96967daf46445d928903278df4301a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S69",
+   "section": "Implications for a CPU-scale companion experiment and its transfer limits",
+   "text": "The Context Language Models paper states that standard prefix-cache reuse must re-prefill all tokens after the first mismatch, which is the baseline an in-place edit arm would be measured against.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.018475e-05,
+     "latency_ms": 7127,
+     "trace_id": "34b8798939fc4ca8b5d19853971bd2b5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.89565e-05,
+     "latency_ms": 5951,
+     "trace_id": "f386e1585a24464dab489b596c1015c6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.042325e-05,
+     "latency_ms": 4274,
+     "trace_id": "dfa6f12101bf4ec2a56ca073c140515e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.75,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.9493e-05,
+     "latency_ms": 4463,
+     "trace_id": "134178495942406698bd92096ca9ced5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.771e-05,
+     "latency_ms": 8310,
+     "trace_id": "39894ed65b5149bea8e0b80cc42d6bea",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.72,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003292,
+     "latency_ms": 5318,
+     "trace_id": "cd803b8f362d4597b981dd6eb726272b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S70",
+   "section": "Implications for a CPU-scale companion experiment and its transfer limits",
+   "text": "Its reported coding and deep-research comparisons used Qwen3.6-27B with a 32K context limit and a 100-turn cap, a much larger model than a CPU-scale test would use.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.010375e-05,
+     "latency_ms": 5048,
+     "trace_id": "243b11b3f96249f6b5e6d775824eb275",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.177125e-05,
+     "latency_ms": 8836,
+     "trace_id": "393f11c4eb504ca693cb025e468aa51a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the sentence refers back ('Its') instead of naming its subject"
+  },
+  {
+   "id": "S71",
+   "section": "Implications for a CPU-scale companion experiment and its transfer limits",
+   "text": "The Leyline paper asserts that production agentic harnesses fall back to re-prefill on every edit.",
+   "kind": "claim",
+   "claims": [
+    "C46"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.69305e-05,
+     "latency_ms": 8603,
+     "trace_id": "86f87d8cdfcb4da58b48cbb580f17938",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 6.734025e-05,
+     "latency_ms": 9389,
+     "trace_id": "72bdf0ac2188425586351cf4df8d8326",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.000150282,
+     "latency_ms": 15761,
+     "trace_id": "2739909658f64592960a33f8420260c4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.962e-05,
+     "latency_ms": 8824,
+     "trace_id": "b1feeada7af14a27b8d94c68d8c1af68",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.65915e-05,
+     "latency_ms": 5486,
+     "trace_id": "d3b95bfc9d814dfab2cb6d8c83d1bfd8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.04458e-05,
+     "latency_ms": 1988,
+     "trace_id": "103e8e2149c84a449665c7939f37c779",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S72",
+   "section": "Implications for a CPU-scale companion experiment and its transfer limits",
+   "text": "The CacheTune authors report that, in their experiments, the optimized CPU-cache path preserves the benefits of reuse despite the additional data movement.",
+   "kind": "claim",
+   "claims": [
+    "C47"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.39105e-05,
+     "latency_ms": 2228,
+     "trace_id": "407e92e147a04b01aee460998d6abe12",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.2295e-05,
+     "latency_ms": 12604,
+     "trace_id": "e078388dd1c9486e90a4d04c8b75978d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.1305e-05,
+     "latency_ms": 10048,
+     "trace_id": "377effb13f9d4cbdb2a38d9533b04f66",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": {
+      "true": 1.0
+     },
+     "confidence": 1.0,
+     "confidence_source": "logprobs",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.73913e-05,
+     "latency_ms": 10652,
+     "trace_id": "6edb2cf6e1a24e44b6c4ca00d61f27b0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.635075e-05,
+     "latency_ms": 6689,
+     "trace_id": "52ce110ac6e5427a89c71beeae09810c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.9111e-05,
+     "latency_ms": 2207,
+     "trace_id": "a1e70225ae884f66965666fcf3707920",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S73",
+   "section": "Implications for a CPU-scale companion experiment and its transfer limits",
+   "text": "One proposal has the model examine, decompose, and recursively call itself over snippets of a prompt held in an external environment (s2), while another has an edit replacing B with B′ reuse the cached states of surviving tokens and re-prefill only the newly inserted or appended tokens (s4). A further source asserts that production agentic harnesses fall back to re-prefill on every edit (s7), and another reports that an optimized CPU-cache path preserves the benefits of reuse despite additional data movement (s8).",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C44",
+    "C45",
+    "C46",
+    "C47"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.82,
+      "false": 0.18000000000000005
+     },
+     "confidence": 0.82,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.0744e-05,
+     "latency_ms": 103,
+     "trace_id": "db4c18049ce34050b44434ef593741a9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  }
+ ]
+}

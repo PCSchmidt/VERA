@@ -16,7 +16,7 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from vera.literature import anchoring, questions, sentence_checks, synthesis
+from vera.literature import anchoring, confirm, questions, sentence_checks, synthesis
 from vera.literature.deps import LitDeps
 from vera.literature.stages import _confirmed_question, _load_screen
 from vera.loop.stages import PRODUCERS, _extract_json, _stop, _write_json, ask_gate, stage_result
@@ -136,6 +136,11 @@ def verify_sentences(
             outcome[s["ref"]] = _outcome(s, "removed", why, [])
     sentences = [[s for s in para if s["ref"] not in outcome] for para in sentences]
 
+    unsettled: set[str] = set()  # refs kept on an unsure reference at write time (RSH-F-17)
+
+    def kept_reason(s: dict) -> str | None:
+        return confirm.UNSETTLED_AT_WRITE if s["ref"] in unsettled else None
+
     def failures(items: list[dict]) -> dict[int, str]:
         """Index in `items` -> why it failed (deterministic checks first, then the judge)."""
         out: dict[int, str] = {}
@@ -180,6 +185,14 @@ def verify_sentences(
             w, w_confident = ask(qw, material)
             verdicts.append(w)
             mine.append(w)
+            if w_confident and w.answer is False:  # Increment 9 (RSH-F-17): the reference confirms a cheap no
+                said, extra = confirm.confirm_no(deps, qw, material, component)
+                verdicts.extend(extra)
+                mine.extend(extra)
+                if said == "unsettled":
+                    unsettled.add(s["ref"])
+                if said != "fail":
+                    continue
             if not (w_confident and w.answer is True):
                 out[i] = "says more than its quote" if w_confident else "judge_unsure"
         return out
@@ -214,11 +227,11 @@ def verify_sentences(
     stats["removed"] = len(removed)
     for i, s in enumerate(claimed):
         if i in replacements:
-            outcome[s["ref"]] = _outcome(replacements[i], "pass", None, per.get(s["ref"], []))
+            outcome[s["ref"]] = _outcome(replacements[i], "pass", kept_reason(s), per.get(s["ref"], []))
         elif i in removed:
             outcome[s["ref"]] = _outcome(s, "removed", first[i], per.get(s["ref"], []))
         else:
-            outcome[s["ref"]] = _outcome(s, "pass", None, per.get(s["ref"], []))
+            outcome[s["ref"]] = _outcome(s, "pass", kept_reason(s), per.get(s["ref"], []))
 
     kept_paragraphs, n = [], 0
     for para in sentences:
@@ -250,7 +263,14 @@ def verify_sentences(
             if missing:
                 return f"premise removed or unknown: {', '.join(missing)}", []
             ids = [temp[p] for p in s["premises"]]
-            return sentence_checks.check_statement(s["text"], ids, claim_text, ask, source_of)
+            why, vs = sentence_checks.check_statement(s["text"], ids, claim_text, ask, source_of)
+            if why == "does not follow from its premises" and confirm.enabled(deps):  # a confident judge no (RSH-F-17)
+                q, material = sentence_checks.follows_strict(s["text"], ids, claim_text)
+                said, extra = confirm.confirm_no(deps, q, material, component)
+                if said == "unsettled":
+                    unsettled.add(s["ref"])
+                return (why if said == "fail" else None), [*vs, *extra]
+            return why, vs
         q, material = sentence_checks.no_fact(s["text"], heading)
         v, confident = ask(q, material)
         if not confident:
@@ -287,11 +307,11 @@ def verify_sentences(
                 loose_fixed[s["ref"]] = cand
     for s in loose:
         if s["ref"] in loose_fixed:
-            outcome[s["ref"]] = _outcome(loose_fixed[s["ref"]], "pass", None, per[s["ref"]])
+            outcome[s["ref"]] = _outcome(loose_fixed[s["ref"]], "pass", kept_reason(s), per[s["ref"]])
         elif s["ref"] in loose_bad:
             outcome[s["ref"]] = _outcome(s, "removed", loose_bad[s["ref"]], per[s["ref"]])
         else:
-            outcome[s["ref"]] = _outcome(s, "pass", None, per[s["ref"]])
+            outcome[s["ref"]] = _outcome(s, "pass", kept_reason(s), per[s["ref"]])
     final = []
     for para in kept_paragraphs:
         keep = [loose_fixed.get(s["ref"], s) for s in para

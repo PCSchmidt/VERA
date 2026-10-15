@@ -1,0 +1,30 @@
+{
+ "title": "From Prompts to Harnesses: How Prompt, Context, and Agentic Harness Engineering Are Defined and What Components Each Stage Is Credited With",
+ "themes": [
+  {
+   "heading": "Prompt engineering: definitions, scope, and terminological fragmentation",
+   "focus": "prompt engineering instruction design patterns techniques taxonomy terminology programming parameters unchanged"
+  },
+  {
+   "heading": "Context engineering: moving from prompt text to system-level context",
+   "focus": "context engineering context window adaptation orchestration instructions evidence retrieval compression rot"
+  },
+  {
+   "heading": "Harness engineering: the structure built around a fixed model",
+   "focus": "harness scaffolding components memory skills orchestration verification governance tools execution"
+  },
+  {
+   "heading": "Agentic harnesses: loops, multi-agent orchestration, and agentic RAG",
+   "focus": "agentic agent loop multi-agent orchestration observe decide act RAG autonomous planning tool use"
+  },
+  {
+   "heading": "Component attribution across stages: retrieval, memory, tool use, and evaluation",
+   "focus": "retrieval memory tool calling selection evaluation benchmark model-harness configuration ranking verification"
+  },
+  {
+   "heading": "Boundary disputes and evidence limitations",
+   "focus": "boundaries definition overlap surveys limitations empirical failure modes generalization untested hypothesis"
+  }
+ ],
+ "dropped": []
+}

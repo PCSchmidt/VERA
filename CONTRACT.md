@@ -37,7 +37,8 @@ independent researchers and small labs (P3). See ConOps §2.
 review paper, with wider reading and labelled, judge-checked interpretation sections (Chris, 2026-10-11). **Increment 7 (check what the green light does not) is complete** ([docs/reviews/incr-7.md](docs/reviews/incr-7.md); `incr7_review`
 approved by Chris 2026-10-14): every sentence of an evidence section has a checked status and the audit re-checks each, measured on real text
 from Increment 6's papers. **Increment 8 (a judge you can trust on the new questions) is complete** ([docs/reviews/incr-8.md](docs/reviews/incr-8.md);
-`incr8_review` approved by Chris 2026-10-14). Auditing external papers is now Increment 9 (optional).
+`incr8_review` approved by Chris 2026-10-14). **Increment 9 (an unsure judge is not a verdict) is complete** ([docs/reviews/incr-9.md](docs/reviews/incr-9.md);
+`incr9_review` approved by Chris 2026-10-15). Auditing external papers is now Increment 10 (optional).
 
 In scope for the project as a whole: the three layers above, their data
 contracts ([docs/03-interfaces.md](docs/03-interfaces.md)), and the

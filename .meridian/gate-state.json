@@ -36,6 +36,8 @@
     "incr7_scoped",
     "incr8_review",
     "incr8_scoped",
+    "incr9_review",
+    "incr9_scoped",
     "inference_measured",
     "inference_set_frozen",
     "inventory_verified",
@@ -53,6 +55,7 @@
     "paper_demo",
     "paper_rerun",
     "paper_stage_ready",
+    "papers9",
     "parser_decided",
     "problem2_ready",
     "protocol_ready",
@@ -79,6 +82,8 @@
     "trades_decided_2",
     "trades_decided_3",
     "ui_ready",
+    "unsure_rule_ready",
+    "write_confirm_ready",
     "writeup2_ready"
   ],
   "approvals": {
@@ -233,6 +238,18 @@
     "incr8_review": {
       "by": "Chris Schmidt",
       "at": "2026-10-14T23:22:41Z"
+    },
+    "incr9_scoped": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-15T11:03:33Z"
+    },
+    "papers9": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-15T16:15:25Z"
+    },
+    "incr9_review": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-15T18:01:56Z"
     }
   }
 }

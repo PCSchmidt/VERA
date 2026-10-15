@@ -1,0 +1,19 @@
+{
+ "targets": [
+  {
+   "kind": "author",
+   "query": "Shao",
+   "author": "Shao",
+   "outcome": "already a source",
+   "key": "R17"
+  },
+  {
+   "kind": "title",
+   "query": "Context Language Models",
+   "title": "Context Language Models",
+   "author": null,
+   "outcome": "already a source",
+   "key": "R17"
+  }
+ ]
+}

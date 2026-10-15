@@ -1,0 +1,20 @@
+{
+ "papers": [
+  {
+   "run_id": "rlm-vs-clm-2",
+   "kind": "remade",
+   "notes": "Red on two claims (C22, C45, Suffix Cache Reuse) that the cheap judge passed at write time and the reference rejected in the audit. Write-time reference verdicts: 9 confident no (items then repaired or removed), 1 confident yes (kept without repair), 2 below 0.7 (kept as unsettled). Audit: 2 failures, 3 unsettled. 47 claims; 15 of 73 sentences removed; $0.659.",
+   "made_by": "Claude Code",
+   "attribution": "made by Claude Code (Claude Opus 5.5) through the app's API at Chris's request, 2026-10-15, with Chris's key; Increment 7's paper set aside as runs/<run>/paper_incr7",
+   "recorded_at": "2026-10-15T12:05:00+00:00"
+  },
+  {
+   "run_id": "discuss-the-evolution-of-prompting-guv8",
+   "kind": "remade",
+   "notes": "Red on one claim (C41, MemTool modes). At write time the cheap judge said no and the reference said no at 0.62 (below the threshold), so it was kept as unsettled; the audit asked the reference again on the same text, got no at 0.80, and failed it: the reference changing its answer, not the blind spot. Write-time reference verdicts: 14 confident no (on 12 items, then repaired or removed), 1 confident yes (kept without repair), 3 below 0.7 (kept as unsettled). Audit: 1 failure, 1 disagreement, 1 unsettled. 57 claims; 11 of 84 sentences removed; $0.643. (Notes corrected 2026-10-15 after papers9 passed: the first notes called C41 the blind spot.)",
+   "made_by": "Claude Code",
+   "attribution": "made by Claude Code (Claude Opus 5.5) through the app's API at Chris's request, 2026-10-15, with Chris's key; Increment 7's paper set aside as runs/<run>/paper_incr7",
+   "recorded_at": "2026-10-15T16:37:34+00:00"
+  }
+ ]
+}

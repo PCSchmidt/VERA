@@ -77,6 +77,7 @@ def real_deps(root: Path, request: RunRequest, *, resume: bool) -> LitDeps:
     )  # fmt: skip
     cache = root / "data" / "cache"
     deps.extra["retriever"] = Retriever(cache=HttpCache(cache / "http"))  # keyed sources join when their keys are set
+    deps.extra["reference"] = confirmer(ledger=ledger, budget=budget)  # RSH-F-17: confirms a cheap no while writing
     deps.extra["fetch_pdf"] = PdfFetcher(cache / "pdf")
     parser = GrobidParser()  # a parser failure falls back to the abstract, and the reading report says so
     deps.extra["parse_pdf"] = lambda pdf: ParseCache(cache / "parsed").parse(pdf, parser)
@@ -199,7 +200,7 @@ def run_audit(deps: LitDeps, judge: Any = None, reference: Any = None) -> str:
     (run_dir / "artifacts" / "audit_report.json").write_text(
         json.dumps(run.report.model_dump(mode="json"), indent=1, ensure_ascii=False), encoding="utf-8"
     )
-    (run_dir / "audit.md").write_text(audit.render_markdown(run) + sentences.note(counts) + disagreement.note(counts["disagreements"]), encoding="utf-8")
+    (run_dir / "audit.md").write_text(audit.render_markdown(run) + sentences.note(counts) + disagreement.note(counts["disagreements"], counts.get("unsettled", 0)), encoding="utf-8")
     return run.report.overall
 
 
@@ -215,6 +216,7 @@ def _with_sentences(
     findings, counts["disagreements"] = disagreement.reconcile(
         [*run.report.findings, *extra], list(records), list(inferences), confirmations
     )
+    counts["unsettled"] = disagreement.count_unsettled(findings)
     report = run.report.model_copy(update={"findings": findings, "overall": overall_of(findings),
                                            "checks_run": [*run.report.checks_run, "sentence"]})  # fmt: skip
     return audit.AuditRun(report, run.claims), counts
@@ -267,7 +269,7 @@ def run_paper_audit(deps: LitDeps, judge: Any = None, reference: Any = None) -> 
         f"\nInterpretation statements re-checked: {n_kept} (judged to follow from the claims they name; "
         "not checked against quotes).\n"
     )
-    (out / "audit.md").write_text(audit.render_markdown(run) + note + sentences.note(counts) + disagreement.note(counts["disagreements"]), encoding="utf-8")
+    (out / "audit.md").write_text(audit.render_markdown(run) + note + sentences.note(counts) + disagreement.note(counts["disagreements"], counts.get("unsettled", 0)), encoding="utf-8")
     return report.overall
 
 

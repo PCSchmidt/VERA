@@ -1,0 +1,30 @@
+{
+ "title": "Cost Efficiency and Trace Reusability of Recursive Language Models and Context Language Models for Production Coding Workloads: What Is Established and What Is Not",
+ "themes": [
+  {
+   "heading": "Recursive Language Models: paradigm, reproductions, and reported cost on long-context tasks",
+   "focus": "recursive language models RLM external environment recursion depth S-NIAH OOLONG token cost execution time reproduction"
+  },
+  {
+   "heading": "Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings",
+   "focus": "Context Language Models CLM context file update Suffix Cache Reuse FLOPs TerminalBench Mini-SWE-Agent SGLang"
+  },
+  {
+   "heading": "Serving-side KV-cache reuse for in-place edits and non-prefix contexts",
+   "focus": "KV cache reuse prefix re-prefill splice deletion suffix recomputation position-independent chunk quality loss latency"
+  },
+  {
+   "heading": "Context management in coding agents: token-level evidence and its limits",
+   "focus": "coding agents context management compression tokens accuracy SWE long-horizon programmatic memory sample size"
+  },
+  {
+   "heading": "Unestablished questions: head-to-head RLM versus CLM comparison, latency, and trace reuse",
+   "focus": "head-to-head latency wall-clock trace reuse production coding workloads common serving setup baseline comparison gap"
+  },
+  {
+   "heading": "Implications for a CPU-scale companion experiment and its transfer limits",
+   "focus": "CPU-scale small open model token cost prefix-cache recursive decomposition in-place edit suffix reuse code repository transfer"
+  }
+ ],
+ "dropped": []
+}

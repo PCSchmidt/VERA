@@ -1,0 +1,276 @@
+{
+ "paper_id": "rlm-vs-clm-2 (paper)",
+ "paper_source": "paper/paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "inference",
+   "severity": "warn",
+   "claim_ids": [
+    "I13"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I13",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I13 (A research agenda): does not follow from its premises: 'Examine whether traces from each approach can be replayed or reused under harnesses that re-prefill on every edit.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.938075e-05,
+     "latency_ms": 8220,
+     "trace_id": "e8418f61c15b459892fd31f6b3ee7534",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003858,
+     "latency_ms": 3239,
+     "trace_id": "8cf4d020515241459d271aa7fac3bd33",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (yes on sonnet-ref at 0.68; the audit's judge said no on glm-flash at 0.90)): I13 (A research agenda): does not follow from its premises: 'Examine whether traces from each approach can be replayed or reused under harnesses that re-prefill on every edit.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C22"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S28",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S28 (Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings, claim): C22 says more than its quote: 'Suffix Cache Reuse is the serving co-design that reuses cached states of surviving tokens after an edit.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.566e-05,
+     "latency_ms": 1949,
+     "trace_id": "05cbef524a084848986f9c457bfb3485",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002608,
+     "latency_ms": 1753,
+     "trace_id": "66137a7e0d4640f2bbb31d03de29c1ec",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S28 (Context Language Models: context as an updatable file, Suffix Cache Reuse, and reported FLOP savings, claim): C22 says more than its quote: 'Suffix Cache Reuse is the serving co-design that reuses cached states of surviving tokens after an edit.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C32"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S42",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S42 (Serving-side KV-cache reuse for in-place edits and non-prefix contexts, claim): C32 says more than its quote: 'The SMem authors report that deletion beats suffix recomputation by 8.5x at 512 blocks, while describing the setting as probing the cost mod'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.965e-05,
+     "latency_ms": 9463,
+     "trace_id": "d7ec6b1f20214166a06b26976e6770f9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.5,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00576,
+     "latency_ms": 5069,
+     "trace_id": "63539d4e72be433f9ddae9d4a6205bf9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.50; the audit's judge said no on glm-flash at 0.70)): S42 (Serving-side KV-cache reuse for in-place edits and non-prefix contexts, claim): C32 says more than its quote: 'The SMem authors report that deletion beats suffix recomputation by 8.5x at 512 blocks, while describing the setting as probing the cost mod'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C36"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S51",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S51 (Context management in coding agents: token-level evidence and its limits, claim): C36 says more than its quote: 'The Context Language Models paper describes reinforcement learning in which, because context edits change the input across turns, stepwise G'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.9459e-05,
+     "latency_ms": 3022,
+     "trace_id": "e03de41bb30449e283df0444b8a30999",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004514,
+     "latency_ms": 3292,
+     "trace_id": "7fad62a1e71145dabe0d337a418768d0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (yes on sonnet-ref at 0.60; the audit's judge said no on glm-flash at 0.70)): S51 (Context management in coding agents: token-level evidence and its limits, claim): C36 says more than its quote: 'The Context Language Models paper describes reinforcement learning in which, because context edits change the input across turns, stepwise G'"
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C45"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S68",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S68 (Implications for a CPU-scale companion experiment and its transfer limits, claim): C45 says more than its quote: 'The Context Language Models paper introduces Suffix Cache Reuse (SCR), under which an edit that replaces B with B′ reuses the cached states '"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.0815e-05,
+     "latency_ms": 13440,
+     "trace_id": "f6ccd2f5f6884f21b78c35a151e585ab",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.72,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002998,
+     "latency_ms": 2335,
+     "trace_id": "23beeb0d7dd54de7a514562ddc4e9979",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S68 (Implications for a CPU-scale companion experiment and its transfer limits, claim): C45 says more than its quote: 'The Context Language Models paper introduces Suffix Cache Reuse (SCR), under which an edit that replaces B with B′ reuses the cached states '"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C47"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S72",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S72 (Implications for a CPU-scale companion experiment and its transfer limits, claim): the quote of C47 opens with a back-reference, so what it is about is outside it: 'The CacheTune authors report that, in their experiments, the optimized CPU-cache path preserves the benefits of reuse despite the additional'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S72 (Implications for a CPU-scale companion experiment and its transfer limits, claim): the quote of C47 opens with a back-reference, so what it is about is outside it: 'The CacheTune authors report that, in their experiments, the optimized CPU-cache path preserves the benefits of reuse despite the additional'"
+  }
+ ],
+ "overall": "red",
+ "checks_run": [
+  "citation",
+  "claim_support",
+  "inference",
+  "sentence"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.0009759582999999999,
+ "wall_seconds": 222,
+ "schema_version": "0.13"
+}

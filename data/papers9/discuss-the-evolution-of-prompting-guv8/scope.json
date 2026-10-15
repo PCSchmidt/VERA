@@ -1,0 +1,11 @@
+{
+ "topic_id": "discuss-the-evolution-of-prompting-guv8",
+ "question": "Between 2025 and the present, how have the definitions, scope, and claimed boundaries of prompt engineering, context engineering, harnesses, and agentic harnesses been articulated in the academic and practitioner literature, and which technical components (e.g., retrieval, memory, tool use, orchestration, evaluation loops) were attributed to each stage?",
+ "why_researchable": "A short literature review can answer this by systematically comparing surveys, arXiv papers, framework documentation, and practitioner write-ups published from 2025 onward. It would extract each source's definition of the terms and the components it assigns to each paradigm, then synthesize a taxonomy and timeline showing how the concepts overlap and build on one another. All the necessary sources are public text, so no experiments are needed.",
+ "empirical": false,
+ "candidate_parent": null,
+ "no_parent_reason": "This is a non-empirical literature review, so no parent method paper with code is needed.",
+ "status": "confirmed",
+ "confirmed_by": "the app user",
+ "confirmed_at": "2026-10-12T11:54:49Z"
+}
