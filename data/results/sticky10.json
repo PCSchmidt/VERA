@@ -1,0 +1,45 @@
+{
+ "source": "data/papers9/*/paper/",
+ "papers": {
+  "N1": {
+   "before": {
+    "light": "red",
+    "fails": 1,
+    "disagreements": 1,
+    "unsettled": 1
+   },
+   "after": {
+    "light": "amber",
+    "fails": 0,
+    "disagreements": 1,
+    "unsettled": 2
+   },
+   "moved": [
+    {
+     "item": "S61",
+     "from": "fail S61 (Agent",
+     "to": "unsettled",
+     "stored_reference": [
+      false,
+      0.62
+     ]
+    }
+   ]
+  },
+  "N2": {
+   "before": {
+    "light": "red",
+    "fails": 2,
+    "disagreements": 0,
+    "unsettled": 3
+   },
+   "after": {
+    "light": "red",
+    "fails": 2,
+    "disagreements": 0,
+    "unsettled": 3
+   },
+   "moved": []
+  }
+ }
+}

@@ -1,12 +1,12 @@
-﻿# 04 â€” Trade studies
+﻿# 04 — Trade studies
 
-Each trade: options â†’ criteria â†’ decision â†’ what would reverse it.
+Each trade: options → criteria → decision → what would reverse it.
 Keep each to one short section. Status: **open** until decided.
 
-## T1 â€” Cheap judge backend (decided 2026-10-01, Increment 1)
+## T1 — Cheap judge backend (decided 2026-10-01, Increment 1)
 
 - **Options:** (a) TypeSafe Jev (hosted decision model); (b) small local
-  model (e.g. a 1â€“8B instruct model with constrained/logprob output);
+  model (e.g. a 1–8B instruct model with constrained/logprob output);
   (c) fine-tuned classifier on labeled judge data; (d) frontier LLM only
   (baseline).
 - **Criteria:** agreement with reference, calibration, consistency, cost,
@@ -31,16 +31,16 @@ Keep each to one short section. Status: **open** until decided.
   is self-reported, and it reported 1.0 on all 10: the router cannot
   escalate on it unless the benchmark shows otherwise.
 - **Jev terms (Master Customer Agreement, typesafe.ai/legal/mca, read
-  2026-09-30):** no benchmarking clause. Â§2.3(b) forbids using Jev output to
+  2026-09-30):** no benchmarking clause. §2.3(b) forbids using Jev output to
   distil or train a model, so option (c) must never train on Jev answers.
-  Â§14.1 counts "non-public information with respect to the Services" as
+  §14.1 counts "non-public information with respect to the Services" as
   TypeSafe's confidential information, which is ambiguous for published
   performance results. **Decision (Chris):** benchmark Jev; get TypeSafe's
   written consent before publishing any Jev results (risk R4).
   **Revised (Chris, 2026-09-30):** publish Jev results, ledgers included,
   without seeking consent: Jev benchmarks and comparisons are already
   public, as are open-source Jev clones, so published performance figures
-  are not treated as TypeSafe confidential information. Â§2.3(b) still
+  are not treated as TypeSafe confidential information. §2.3(b) still
   stands: never train on Jev output.
 - **Smoke run (2026-09-30, 10 dev items each, $0.038 in all):** all five
   answer through the ledger. OpenRouter's endpoints for Sonnet 5.5 and
@@ -51,7 +51,7 @@ Keep each to one short section. Status: **open** until decided.
   the cheap path; the benchmark will measure how much. Settings in
   `vera/bench/candidates.py`. Ledger: `data/ledger/smoke.jsonl`.
 - **Benchmark run (2026-10-01):** the 115-item test split (hash
-  `0ae2c8d6f11aâ€¦`, fixed before any run), cheap backends 10 repeats, Sonnet
+  `0ae2c8d6f11a…`, fixed before any run), cheap backends 10 repeats, Sonnet
   3; 6,095 verdicts, $1.61; 3 failed calls, each retried successfully (`data/benchmark/results.json`,
   `docs/figures/threshold_curve.png`, raw verdicts and ledgers committed).
   OpenRouter routes a model to many providers at different prices (DeepSeek
@@ -94,11 +94,11 @@ Keep each to one short section. Status: **open** until decided.
   working as the offline fallback (R4), not used by default. DeepSeek and
   MiMo are dropped (flip rate above JDG-P-03).
 - **Reverse if:** (1) a harder benchmark (the Increment 2 loop's real gate
-  decisions, or a new test split that is not near ceiling) shows Jev â†’ GLM
+  decisions, or a new test split that is not near ceiling) shows Jev → GLM
   below 95% agreement with the reference; (2) Jev's price, terms or
   availability change (R4), then GLM alone (or Gemma offline); (3) GLM's
   latency starts to matter for a user-facing path, then re-run the sweep
-  with Jev â†’ Sonnet; (4) Ollama returns answer-token log-probabilities,
+  with Jev → Sonnet; (4) Ollama returns answer-token log-probabilities,
   then re-test Gemma, whose agreement is too low only because escalation
   can't see its errors.
 - **Re-test (Increment 2, 2026-10-02):** reverse-if (1) was tested on the loop's
@@ -113,13 +113,13 @@ Keep each to one short section. Status: **open** until decided.
   decisions are now rule verdicts). Cost $0.615. Also: with no Jev key (a bring-your-own-key user usually has only an OpenRouter key) the cheap path is now GLM alone
   (`vera.judge.cheap_path`); that variant was not measured separately.
 
-## T2 â€” Orchestration runtime (decided 2026-10-01, Increment 1)
+## T2 — Orchestration runtime (decided 2026-10-01, Increment 1)
 
 - **Options:** (a) LangGraph directly; (b) Meridian's DAG gates as the
   control layer on top of LangGraph; (c) Meridian standalone.
 - **Criteria:** checkpoint/resume, human-in-the-loop interrupts, tracing,
   reuse of Meridian's evaluator separation, effort.
-- **Leaning:** (b) â€” LangGraph for durability, Meridian for gate semantics.
+- **Leaning:** (b) — LangGraph for durability, Meridian for gate semantics.
 - **Reverse if:** the integration costs more than reimplementing the gates.
 - **Evidence so far (2026-09-30, `vera/graph/`, LangGraph 1.2.12 with the
   SQLite checkpointer):** checkpoint/resume works across a killed process
@@ -137,7 +137,7 @@ Keep each to one short section. Status: **open** until decided.
   | Checkpoint/resume | yes, with `durability="sync"` (tested by killing a run) | same | no run-time checkpointing; Meridian gates whole build stages |
   | Human-in-the-loop | interrupts built in | same | human gates, at build time only |
   | No self-grading, fail-closed routing | not provided | `judge_node`, `route_on_verdict` (tested) | yes, but for build gates, not run-time steps |
-  | Effort | â€” | ~100 lines, about half a session | would mean reimplementing durable execution |
+  | Effort | — | ~100 lines, about half a session | would mean reimplementing durable execution |
   | Tracing | checkpoints + VERA's ledger | same | telemetry of build events only |
 
 - **Decision:** (Chris, 2026-10-01) (b). LangGraph runs the loop with the
@@ -153,7 +153,7 @@ Keep each to one short section. Status: **open** until decided.
   with it as an option; (3) synchronous checkpoints make multi-hour runs too
   slow.
 
-## T3 â€” PDF parsing (decided 2026-09-30, Increment 0)
+## T3 — PDF parsing (decided 2026-09-30, Increment 0)
 
 - **Options:** GROBID (strong on references), a Markdown converter
   (e.g. Marker/Docling), plain PyMuPDF text, LLM-based extraction.
@@ -227,7 +227,7 @@ Keep each to one short section. Status: **open** until decided.
   needs body text, which GROBID supplied. (3) *not fired:* GROBID in Docker stayed up for the whole increment.
   **Decision:** (Chris, 2026-10-03, by approving `trades_decided_3` on the proposal as written) keep both parsers by content as decided; the literature stage uses GROBID only.
 
-## T4 â€” Sandbox (decided 2026-10-01, Increment 2)
+## T4 — Sandbox (decided 2026-10-01, Increment 2)
 
 - **Options:** (a) local Docker (network off by default); (b) a hosted sandbox
   service.
@@ -271,7 +271,7 @@ Keep each to one short section. Status: **open** until decided.
   same image runs under a hosted container service instead, so this decision
   carries over unless that service cannot run it with the network off.
 
-## T5 â€” Bibliographic source for citation checks and literature retrieval (decided 2026-10-01, Increment 2-3)
+## T5 — Bibliographic source for citation checks and literature retrieval (decided 2026-10-01, Increment 2-3)
 
 - **Options:** Crossref, arXiv API, Semantic Scholar, OpenAlex (likely a
   combination with fallbacks).
@@ -374,7 +374,7 @@ Keep each to one short section. Status: **open** until decided.
   (59% to 64%)**; +1 each on research-agents-eval, credal-dro and llm-judge-numbers, 0 on the other three. The screen was not re-run, so kept-by-screen figures are unchanged. A modest gain:
   (5) is not closed, and recall remains the weakest measured stage.
 
-## T6 â€” Tracing/observability (decided 2026-10-02, Increment 2)
+## T6 — Tracing/observability (decided 2026-10-02, Increment 2)
 
 - **Options:** LangSmith; OpenTelemetry + local store; ledger-only.
 - **Criteria:** cost, lock-in, ability to publish traces with results.
@@ -391,7 +391,7 @@ Keep each to one short section. Status: **open** until decided.
   retrieval produced which claim; (2) a failure needs the full prompt and reply of every call, which the ledger
   deliberately does not store; (3) results need to be published with browsable traces.
 
-## T7 â€” Loop context management (decided 2026-10-02, Increment 2)
+## T7 — Loop context management (decided 2026-10-02, Increment 2)
 
 - **Options:** (a) plain LangGraph state plus summarisation; (b) prime-agent style Recursive Language Model patterns:
   papers, logs, and code held as REPL variables instead of in the context window, recursive sub-calls, bounded
@@ -493,7 +493,7 @@ Keep each to one short section. Status: **open** until decided.
   or the new-user walkthrough shows the local install is the point where users give up, then invest in packaging before anything hosted.
 
 
-## T9 â€” Generator model(s) for the loop's producers (decided 2026-10-02, Increment 2)
+## T9 — Generator model(s) for the loop's producers (decided 2026-10-02, Increment 2)
 
 - **Options (arms):** (A) GLM-5.3 Flash for every stage; (B) GLM for ideas and code with Claude Sonnet 5.5 writing the
   report; (C) MiMo-V2.6-Pro for every stage; (D) DeepSeek V4.1 Flash for every stage; (E) Sonnet 5.5 for every stage
@@ -563,7 +563,7 @@ Keep each to one short section. Status: **open** until decided.
   literature review costs $0.11 to $0.21, so a cheaper model saves cents. (1) not fired (those costs are far below a few percent of the $20 ceiling); (3) not tested; (4) the judge is GLM
   (or Jev then GLM) and the writer is Sonnet, so they do not coincide. The app takes its model from `VERA_GENERATOR_MODEL`. Prices and newer models were not re-checked this increment.
 
-## T10 â€” Where a problem's baseline comes from (decided 2026-10-03, Increment 3)
+## T10 — Where a problem's baseline comes from (decided 2026-10-03, Increment 3)
 
 - **Options:** (a) a harness per problem written by hand (what Increment 2 did
   for TreeHFD: `docker/sandbox-treehfd/harness.py`); (b) a model-written baseline
@@ -635,3 +635,22 @@ Keep each to one short section. Status: **open** until decided.
   problems, because its generic share is real (49% of the by-hand harness) but it did not reproduce the baseline here in four
   attempts. Keep **(b)** rejected. The reverse-ifs did not fire: the by-hand harness took under a working day, the candidate ran
   on CPU, and the generic share was above a quarter; the missing part is successful reproduction by the adapter route.
+
+## T11 — Judging the sentence checks (decided 2026-10-14, Increment 8)
+
+**Question.** Which judge answers the three questions Increment 7 added (`claim.within_quote`, `sentence.no_fact`, the
+clause-by-clause `paper.inference_follows`), and what happens when judges disagree?
+
+**Options measured** (162 frozen test items of real text, against the reference Claude Sonnet 5.5; `data/results/judge8_test.json`):
+Jev alone agreed with the reference on 79%, 93% and 77%; GLM-5.3 Flash alone on 86%, 93% and 87%; the decided path (Jev, then
+GLM below 0.7) on 89%, 95% and 89%. No option met JDG-P-01 (97%) or, on claims and statements, JDG-P-03 (2% flips). A "no"
+from the decided path was a reference "no" on 11 of 13 claims, 30 of 31 sentences and 7 of 9 statements.
+
+**Decision (Chris, 2026-10-14):** keep the decided path for all three questions (`cheap_path.QUESTION_ROUTES`), and have the
+audit confirm a cheap "no" on claims and statements with the reference before it can fail (`CONFIRM_NO`); a contradiction
+is a warning, not a failure. Refined in Increment 9 (a failure needs a confident "no"; the writer asks the reference too)
+and Increment 10 (the reference's write-time answer sticks on unchanged text).
+
+**Reverse-if.** (1) A route meets both bars on a new frozen set: route to it and drop the confirmation. (2) The reference's
+cost per paper exceeds a few percent of the $20 ceiling. (3) A person's labels show the reference wrong on more items than
+the cheap path: the yardstick, not the route, is the problem.

@@ -177,3 +177,22 @@ From Increment 2 on the gate log is `.meridian/telemetry.jsonl` and `.meridian/g
   - **`mark-passed` re-runs the whole suite for every automated gate** (2 to 3 minutes each), so three gates in a row cost about eight minutes; one run's test hook failed for a reason never found, and a
     browser-test timeout (a shared profile lock) failed another. Caching a gate's result by tree hash, and a quarantine for flaky hooks, would help.
   - **A gate was recorded by hand once** (`comparison4`, Increment 4, because the engine could not run in that shell); the check passed but the engine's verification and telemetry did not run.
+
+- **Increments 6 to 10 (2026-10-11 to 10-15): what Meridian did and did not do, at the close.**
+  - **The Evaluator caught the worst error of the project's reviews.** Increment 9's first review called the remade papers better
+    on an unfair comparison and misexplained a failure; the Evaluator failed it at 5.5, and round 2 passed at 8.4 after a rewrite.
+    Every review from 6 to 10 needed a second round; each round found unsupported or wrong figures.
+  - **A human gate can be passed by an assistant in the owner's terminal.** In Increment 7 an OpenAI assistant chose the test
+    labels, drafted notes and ran two `--approve` commands; the records said "Chris". M1's fix (operator-only `--approve`) cannot
+    tell who is at the keyboard. The files were corrected and later checks require an attribution when the actor is not Chris;
+    the reviews state it.
+  - **Freezes accumulate, and they shaped the design.** By Increment 8 three hash sets were held (the Increment 5 audit files,
+    Increment 6's inference files, Increment 7's real-case files); new rules had to live in new modules so that earlier
+    measurements stayed reproducible. That kept every result checkable, at the price of code spread across more files.
+  - **The overhead command is easy to mistype.** `dogfood.sh overhead 2 hours "<note>"` stores the note as "hours ..."; the check
+    credits the recorded day either way, but a note meant to name an earlier day fails silently. The command could reject a
+    non-numeric second word.
+  - **The loop's own momentum is not a gate.** Each review's "next SPEC" list proposed the next increment, and Increments 7 to 9
+    followed it, layering checks without making the papers measurably better. Meridian gates check that work meets its SPEC, not
+    whether the SPEC is worth doing; the close-out (Increment 10) was the owner's call, not the harness's.
+  - **Overhead at the close:** 32 hours logged over the 16 days (29.5 after one correction counted twice), with 4 recorded stops.

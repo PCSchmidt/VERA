@@ -265,7 +265,7 @@ def render_pdf(paper: dict, meta: dict, base: Path | None = None) -> bytes:
         for f in split:
             paragraph(pdf, f"•  [{f.get('severity', '')}] {f.get('summary', '')}", size=9.5, indent=4)
         if disagree:  # AUD-F-13: listed apart from failures and other warnings
-            paragraph(pdf, f"Judge disagreements ({len(disagree)}): passed a judge question when written, failed it in the audit.", size=9.5)
+            paragraph(pdf, f"Judge disagreements ({len(disagree)}): a judge said yes, at write time or as the reference, where the audit's judge said no.", size=9.5)
             for f in disagree:
                 paragraph(pdf, f"•  {f.get('summary', '')}", size=9.5, indent=4)
         if unsettled:  # AUD-F-14: the reference judge was unsure; not a failure and not a pass

@@ -1,0 +1,12 @@
+{
+ "computed_at": "2026-10-15T20:15:16Z",
+ "total_usd": 16.0522,
+ "data_ledger_usd": 15.7758,
+ "files_read": 129,
+ "records": 30798,
+ "duplicates_skipped": 6924,
+ "only_in_copies": {
+  "data/app/live/rehearsal-1/ledger.jsonl": 0.1351,
+  "data/walkthrough/research-agentic-traces-and-their-vi-0svs/ledger.jsonl": 0.1414
+ }
+}

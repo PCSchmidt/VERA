@@ -16,7 +16,7 @@ from typing import Any
 
 from vera import audit
 from vera.app.appbudget import STOP_FILE, AppBudget
-from vera.audit import disagreement, sentences
+from vera.audit import disagreement, sentences, sticky
 from vera.backends.generator import OpenRouterGenerator
 from vera.graph import run_config
 from vera.judge.cheap_path import CONFIRM_NO, cheap_path, confirmer
@@ -156,14 +156,18 @@ def _confirming(deps: LitDeps, judge: Any, reference: Any) -> Any:
     return confirmer(ledger=deps.ledger, budget=deps.budget)
 
 
-def _asker(judge: Any, reference: Any, confirmations: dict, producer: str) -> Callable:
+def _asker(judge: Any, reference: Any, confirmations: dict, producer: str, stored: dict | None = None) -> Callable:
     def ask(question, material):
         (verdict,) = judge.ask(material, [question])
         verdict = verdict.model_copy(update={"producer_id": producer})
         confident = verdict.confidence_source != "none" and verdict.confidence >= MIN_CONFIDENCE
         if reference is not None and question.id in CONFIRM_NO and confident and verdict.answer is False:
-            (ref,) = reference.ask(material, [question])  # Increment 8: a "no" the reference must confirm before it fails
-            confirmations[verdict.trace_id] = ref.model_copy(update={"producer_id": producer})
+            kept = sticky.lookup(stored or {}, question.id, material)  # Increment 10: the write-time answer sticks
+            if kept is not None:
+                confirmations[verdict.trace_id] = kept
+            else:
+                (ref,) = reference.ask(material, [question])  # Increment 8: a "no" the reference must confirm
+                confirmations[verdict.trace_id] = ref.model_copy(update={"producer_id": producer})
         return verdict, confident
 
     return ask
@@ -177,7 +181,9 @@ def run_audit(deps: LitDeps, judge: Any = None, reference: Any = None) -> str:
     reference = _confirming(deps, judge, reference)
     judge = judge or cheap_path(ledger=deps.ledger, budget=deps.budget)
     confirmations: dict = {}
-    ask = _asker(judge, reference, confirmations, "p3.synthesize")
+    stored_path = run_dir / "sentences.jsonl"
+    ask = _asker(judge, reference, confirmations, "p3.synthesize",
+                 sticky.index(_jsonl(stored_path)) if stored_path.exists() else {})  # fmt: skip
 
     markdown = (run_dir / "literature.md").read_text(encoding="utf-8")
     claims = _jsonl(run_dir / "claims.jsonl")
@@ -234,8 +240,11 @@ def run_paper_audit(deps: LitDeps, judge: Any = None, reference: Any = None) -> 
     judge = judge or cheap_path(ledger=deps.ledger, budget=deps.budget)
     confirmations: dict = {}
 
+    saved = json.loads((out / "paper.json").read_text(encoding="utf-8")) if (out / "paper.json").exists() else {}
+    stored = sticky.index([*(saved.get("sentences") or []), *(saved.get("inferences") or [])])
+
     def asker(producer: str):
-        return _asker(judge, reference, confirmations, producer)
+        return _asker(judge, reference, confirmations, producer, stored)
 
     run = audit.run_literature_audit(
         (out / "paper.md").read_text(encoding="utf-8"), _jsonl(out / "claims.jsonl"), _jsonl(out / "passages.jsonl"),

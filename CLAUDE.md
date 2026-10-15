@@ -2,6 +2,10 @@
 
 Read `README.md` first, then the doc relevant to your task in `docs/`.
 
+**The project is closed (Increment 10, 2026-10-15).** No increment is planned; the not-planned list and the
+reason for each item are in `docs/07-increments.md`, and `docs/reviews/retrospective.md` is the summary. Reopening
+work is the owner's decision, made with a new SPEC, not a continuation of the last review's list.
+
 ## Context
 
 - Owner: Chris, ML engineer; applied-math background; builds agentic harnesses
@@ -71,6 +75,13 @@ Read `README.md` first, then the doc relevant to your task in `docs/`.
 - **Headless-browser tests** need a fresh `--user-data-dir` per load (a shared profile can lock and time out).
 - **In this Windows shell**, long here-documents containing quotes can fail to parse; write scripts to a file and run them.
 - **Say what was and was not checked.** Reviews and READMEs state limits plainly; a green audit is a floor, not a verdict.
+- **Several hash sets are held** (`audit_hash_incr5.json`, `inference_hash_incr6.json`, `realcase_hash_incr7.json`): files they list are
+  imported, not edited, so earlier measurements stay reproducible. Put new behaviour in new modules (`check_carry8.py` and later check this).
+- **Record who did each human step.** Labels, notes, scores and runs name the actual actor; a check refuses a non-Chris record without an
+  attribution. An assistant working in Chris's terminal is not Chris.
+- **Files saved by other tools may be re-encoded** (a byte-order mark, CRLF, UTF-8 read as cp1252: "Â·", "â€”"). Check before trusting a
+  hash comparison or a diff, and keep the original when repairing.
+- **`dogfood.sh overhead <hours> "<date>: <note>"`**: hours first, then the quoted note with nothing between them.
 
 ## When unsure
 

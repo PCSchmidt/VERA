@@ -159,7 +159,7 @@ async function landing() {
         el("p", {}, "These are working drafts, not finished papers. In the maintainer's own blind scoring of " + s.n_reviews + " reviews, the strongest criterion was " + s.strongest + " (average " + s.strongest_mean + " out of " + s.scale + ") and the weakest was " + s.weakest + " (average " + s.weakest_mean + " out of " + s.scale + "). VERA's search misses papers, and the review says so."),
         el("p", { class: "hint" }, "A run can end without a better method than the one it started from. That is a normal result, and it is reported as one.")),
       el("div", { class: "fact" }, el("h3", {}, "What it will not do"),
-        el("p", {}, "It will not produce wet-lab science, use data you do not have the right to use, or run experiments that need more than a laptop. A green audit means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete or the conclusions are right."))),
+        el("p", {}, "It will not produce wet-lab science, use data you do not have the right to use, or run experiments that need more than a laptop. A green audit means every sentence passed its check: the citations are real, each claim says no more than the passage it quotes, and the other sentences follow from the claims they name or state no fact. It does not mean the review is complete or the conclusions are right."))),
     STATIC ? el("section", {}, el("h2", {}, "Run it yourself"),
       el("p", {}, "VERA runs on your own computer: ", el("a", { href: "#/run-locally" }, "four commands and your own OpenRouter key"), ". Nothing on this site runs a model or asks for a key.")) :
     el("section", {},
@@ -655,7 +655,7 @@ async function readerView(kind, id) {
       : ". Green means the citations are real and each claim is supported by the passage it quotes. It does not mean the review is complete.")),
     real.length ? el("ul", {}, ...real.map((f) => el("li", {}, "[" + f.severity + "] " + f.summary))) : el("p", {}, "No findings."),
     unsettled.length ? el("details", { class: "unsettled" }, el("summary", {}, "Unsettled (" + unsettled.length + "): the reference judge was unsure, so neither failed nor passed"), el("ul", {}, ...unsettled.map((f) => el("li", {}, f.summary)))) : "",
-    disagree.length ? el("details", { class: "disagree" }, el("summary", {}, "Judge disagreements (" + disagree.length + "): passed a judge question when written, failed it in the audit"), el("ul", {}, ...disagree.map((f) => el("li", {}, f.summary)))) : "",
+    disagree.length ? el("details", { class: "disagree" }, el("summary", {}, "Judge disagreements (" + disagree.length + "): a judge said yes, at write time or as the reference, where the audit's judge said no"), el("ul", {}, ...disagree.map((f) => el("li", {}, f.summary)))) : "",
     leads.length ? el("details", {}, el("summary", {}, "Leads for a person (" + leads.length + "): a warning here is a lead, not a verdict"), el("ul", {}, ...leads.map((f) => el("li", {}, "[" + f.severity + "] " + f.summary)))) : "");
   if (kind === "paper" && data.inferences && data.inferences.length) {
     const kept = data.inferences.filter((x) => x.status === "pass"), removed = data.inferences.filter((x) => x.status !== "pass");

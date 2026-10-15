@@ -1342,3 +1342,70 @@ gates:
         - gate-traceability.sh
         - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
         - run-evaluator.sh          # independent Evaluator verdict on the review
+
+  # ── Increment 10: close-out (SPEC.md) ───────────────────────────────────────
+  # The DAG is drawn in SPEC.md; each gate is added with the check script it needs.
+  # Defined so far: incr10_scoped, sticky_answer_ready, closeout_docs_ready, incr10_review.
+
+  - id: incr10_scoped
+    label: "Increment 10 scope confirmed (close-out)"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 10 SCOPED"
+    requires:
+      - incr9_review
+    requires_artifacts:
+      - SPEC.md
+      - CONTRACT.md
+      - docs/reviews/incr-9.md
+    hooks:
+      pre:
+        - validate-contract.sh      # Meridian: Purpose + Scope sections present
+        - validate-spec.sh          # Meridian: SPEC.md is structured
+        - gate-spend-ceiling.sh     # ConOps §4 ceiling is a dollar amount
+
+  - id: sticky_answer_ready
+    label: "The reference's write-time answer sticks in the audit on unchanged text"
+    type: automated
+    required: true
+    requires:
+      - incr10_scoped
+    requires_artifacts:
+      - vera/audit/sticky.py
+      - data/results/sticky10.json
+      - tests/test_sticky.py
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-sticky10.sh          # lookup in both audits, offline re-read recorded, RSH-F-17 tests, freezes
+
+  - id: closeout_docs_ready
+    label: "README states what the light means; retrospective; plan marked closed"
+    type: automated
+    required: true
+    requires:
+      - sticky_answer_ready
+    requires_artifacts:
+      - README.md
+      - docs/reviews/retrospective.md
+      - docs/07-increments.md
+    hooks:
+      pre:
+        - gate-docs10.sh            # light section, retrospective sections, closed plan with its not-planned list
+
+  - id: incr10_review
+    label: "Increment 10 review (close-out; the last planned gate)"
+    type: human_approval
+    required: true
+    approval_token: "INCREMENT 10 COMPLETE"
+    requires:
+      - closeout_docs_ready
+    requires_artifacts:
+      - docs/reviews/incr-10.md
+      - docs/reviews/retrospective.md
+    hooks:
+      pre:
+        - gate-tests.sh
+        - gate-traceability.sh
+        - gate-dogfood.sh           # an overhead entry for each calendar day a gate passed since the last review gate
+        - run-evaluator.sh          # independent Evaluator verdict on the review

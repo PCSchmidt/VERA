@@ -1,0 +1,15 @@
+{
+  "gate": "incr10_review",
+  "requested_at": "2026-10-15T19:54:30Z",
+  "system_prompt": "You did not produce the artifacts you are reviewing. Do not praise. Do not explain. Score the work 0-10 against the gate's spec and flag every gap. Return only JSON: {\"gate\":\"<id>\",\"score\":<0-10>,\"verdict\":\"pass|fail|warn\",\"notes\":\"<terse>\"}.",
+  "artifacts": [
+    "docs/reviews/incr-10.md",
+    "SPEC.md",
+    "docs/reviews/retrospective.md",
+    "README.md",
+    "docs/07-increments.md",
+    "data/results/sticky10.json",
+    "docs/results/incr10_test_run.txt"
+  ],
+  "verdict_path": "incr10_review-verdict.json"
+}

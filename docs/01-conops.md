@@ -1,7 +1,7 @@
 # 01 — Concept of Operations
 
-Version 0.2 · Draft (0.2, 2026-10-01: product direction B, decided by Chris: a topic goes in, a
-paper-shaped write-up comes out; app with bring-your-own-key; 0.3, 2026-10-09, Increment 5 review: T8 decided (the app is local only; a static read-only showcase is published on GitHub Pages); S4 gains a downloadable PDF)
+Version 0.4 · Final (0.2, 2026-10-01: product direction B, decided by Chris: a topic goes in, a
+paper-shaped write-up comes out; app with bring-your-own-key; 0.3, 2026-10-09, Increment 5 review: T8 decided (the app is local only; a static read-only showcase is published on GitHub Pages); S4 gains a downloadable PDF; 0.4, 2026-10-15, at the close: S4b, a review paper from a finished review (Increment 6); §7, where each MOE stands)
 
 ## 1. Problem
 
@@ -60,6 +60,12 @@ user reads it with its evidence, can download it as a PDF, and watches progress 
 reports best-so-far honestly. Where the topic is not empirical, the output
 is a literature-and-analysis paper without experiments.
 
+**S4b — A review paper from a review (P3, Increment 6).** On a finished review, the user presses "Make a paper from this
+review" with a length, an optional emphasis and a cap. VERA reads more of the kept papers in full, writes findings by theme with
+every claim quoted, method and threats to validity from the run's own files, and discussion, conclusions and a research agenda
+boxed as interpretation (each statement names the claims it rests on and is judged to follow from them). Every sentence is
+checked by kind and audited; the reader and the PDF show the paper beside its review.
+
 **S4a — Chosen parent problem (P3, the measured comparison).** As S4, but the
 user names a parent problem directly (as ScientistTwo does); used to
 compare cost and quality with ScientistTwo on the same problems (MOE-3).
@@ -108,3 +114,15 @@ thresholds; publish agreement, calibration, consistency, cost, latency curves.
 - MOE-4: A new user goes from a topic to a paper-shaped write-up through the
   app, with their own key, inside the budget they set, and judges the
   result worth reading.
+
+## 7. Where each measure stands at the close (2026-10-15)
+
+| Measure | Status | Evidence |
+| --- | --- | --- |
+| MOE-1 | Partly: 50 of 52 planted faults caught on a frozen-source test; 15 of 21 real defects flagged by the Increment 7 checks, against an AI assistant's labels; independent readers still find overstated claims in documents the audit passes | docs/reviews/incr-4.md, incr-7.md |
+| MOE-2 | Met for the loop's bounded decisions (about 1 to 2% of the reference's cost at matching decisions); **not met** for the sentence checks, where the best cheap route agrees with the reference on 89 to 95% (bar 97%) | docs/reviews/incr-1.md, incr-8.md |
+| MOE-3 | Not met: the loop beat neither parent's baseline; ScientistTwo's per-run cost is not published | docs/reviews/incr-4.md |
+| MOE-4 | Not shown: the only walkthrough was the builder | docs/reviews/incr-5.md |
+
+S2, S3 and S5 as written (auditing external papers, the batch audit, a published judge benchmark) were not built; they are on the
+not-planned list in docs/07-increments.md.

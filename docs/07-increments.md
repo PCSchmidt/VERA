@@ -11,6 +11,10 @@ quality and the app; the auditor (P1) shrinks to the loop's final gate, and
 auditing external papers moves to Increment 6 (optional). The plan before
 this change is in git history.
 
+**Closed 2026-10-15 (Chris).** Increment 10 is the last planned increment. The plan is closed: what was left is listed under
+"Not planned" at the end, each with the reason it was left and what would justify reopening it. The whole project is
+summarised in [reviews/retrospective.md](reviews/retrospective.md).
+
 ## Increment 0 — Spike: know your data (≈2 weeks) — complete 2026-09-30
 
 Goal: answer "what data do we actually have?" before building anything.
@@ -205,10 +209,29 @@ against 0 and 1 for their Increment 7 versions under the same rule: one paper ea
 variance. Two failures are the write step's blind spot (a cheap yes at write time, a reference no in the audit); one is the
 reference changing its answer between write and audit. The reference cost $0.075 and $0.057 a paper. Spend $1.30 of $3.
 
-## Increment 10 — Optional: P1 on external papers (was Increment 6 until 2026-10-11, 7 until 2026-10-13, 8 and 9 until 2026-10-14)
+## Increment 10 — Close-out (scoped 2026-10-15; complete 2026-10-15)
 
-The auditor on other people's papers: PDF ingest, claim extraction,
-leakage checks, re-runs, seeded-fault dev/test sets, a batch audit of the
-ScientistTwo corpus, and the portfolio papers (judge benchmark; independent
-audit of an AI-generated corpus). Increments 2-5 are done; the labelled synthesis section became Increment 6 (Chris, 2026-10-11), checking every sentence became Increment 7
-(2026-10-13), benchmarking its judge questions Increment 8 (2026-10-14), and the unsure-judge rule Increment 9 (proposed 2026-10-14). Whether to take this up, or an independent walkthrough or experiments in the app first, is the owner's decision (candidates in docs/reviews/incr-5.md).
+Scope, gates and cap proposed in SPEC.md (2026-10-15); `incr10_scoped` is Chris's approval of them. The last planned increment
+(Chris, 2026-10-15: close the work out). It completes the one behaviour Increment 9 promised and did not build (the reference's
+write-time answer sticks in the audit when the text is unchanged), states once what VERA's light means, writes a retrospective,
+and marks the plan closed. No new checks, judge questions or measurement.
+Exit: the sticky answer tested and shown offline on the Increment 9 papers; the canonical light in the README; the retrospective;
+this plan marked closed with the not-planned list.
+
+Result (docs/reviews/incr-10.md): the reference's write-time answer now sticks in the audit on unchanged text; re-read offline, N1
+(Increment 9) turns from red to amber (C41 becomes unsettled) and N2 is unchanged (its two failures are the blind spot, not this
+fix's). The README states once what the light means; the retrospective and the aligned docs close the record. No model spend.
+
+## Not planned (the plan is closed)
+
+None of these is a next increment. Reopening any of them is a new decision by the owner, with its own SPEC.
+
+| Item | Why it was left | What would justify reopening it |
+| --- | --- | --- |
+| **P1 on external papers** (Increment 11 in the requirement rows: PDF ingest, claim extraction, leakage checks, re-runs, the ScientistTwo batch audit, the portfolio papers) | Planned as optional from the start and deferred at each re-plan (it was Increment 6, then 7, 8, 9 and 10); the in-pipeline checks absorbed the effort | A need to audit papers VERA did not write, with someone to use the result |
+| **Ask the reference about every claim at write time** | Closes the write step's blind spot (two of Increment 9's three remaining failures) at about $0.15 to $0.20 a paper, but adds a layer whose benefit to the papers was not shown for the layers before it | Real use showing papers fail the audit on claims the cheap judge passed |
+| **Multi-run measurement** (several papers per review, repeated audits) | Needed to tell a change from run-to-run variance, but open-ended in cost and time | Any future change to the checks, before it is claimed to help |
+| **A person's labels, or a vote of strong judges** | Every measurement since Increment 6 rests on a model's judgement; a better yardstick is the missing measurement, but needs a person's time | A decision that depends on whether a flagged claim is really wrong |
+| **The claim-level misses Increment 7's scorer found** (claims that say a little more than their quotes, statements about the paper itself, more agreement wording) | Each would be another check of the kind that has not reduced what a careful reader finds | Evidence from real use that one kind matters |
+| **Experiments from the app; the research loop beating a baseline** | The loop runs from the command line and beat neither parent problem; the app work went to reviews and papers | A topic whose answer needs an experiment |
+| **An independent new user (MOE-4)** | The one walkthrough was the builder | Anyone who did not build VERA, with a key and a topic |

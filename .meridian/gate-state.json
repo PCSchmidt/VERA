@@ -12,6 +12,7 @@
     "carry5_ready",
     "carry_in_ready",
     "checks_measured",
+    "closeout_docs_ready",
     "comparison4",
     "confirmed",
     "corpus_fetched",
@@ -20,6 +21,8 @@
     "evidence_ready",
     "graph_ready",
     "incr0_review",
+    "incr10_review",
+    "incr10_scoped",
     "incr1_review",
     "incr1_scoped",
     "incr2_review",
@@ -74,6 +77,7 @@
     "scoping_ready",
     "sentence_checks_ready",
     "stages_ready",
+    "sticky_answer_ready",
     "t8_decided",
     "topic_runs",
     "topics4_chosen",
@@ -250,6 +254,14 @@
     "incr9_review": {
       "by": "Chris Schmidt",
       "at": "2026-10-15T18:01:56Z"
+    },
+    "incr10_scoped": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-15T19:17:04Z"
+    },
+    "incr10_review": {
+      "by": "Chris Schmidt",
+      "at": "2026-10-15T20:53:32Z"
     }
   }
 }

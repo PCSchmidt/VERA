@@ -78,3 +78,21 @@ What the plan became, with where each result is recorded:
 - **The app (Increment 5).** Key safety is tested adversarially (a provider that echoes the key; a counterpart test removes the redaction and shows the leak), the server's host and origin rules, the pages in a
   headless browser against fixture runs, the PDF's text, tables and figures, and the static showcase build. No independent person has used it.
 - **User validation (§6).** Not yet done with independent people. One walkthrough was recorded (`data/walkthrough/`), by the builder from a clean clone, and is marked not independent.
+
+## 8. As built (Increments 6 to 10, 2026-10-11 to 2026-10-15; final)
+
+- **Inference check (Increment 6).** A seeded set of 108 items (`data/seeded_inference/`), frozen before its one test run, caught 48 of
+  48 judge-layer faults with 0 of 12 controls failed; the faults were written by the check's author and were blatant, which the review
+  says limits what the result shows (`data/results/inference_incr6_*.json`).
+- **Real-case set (Increment 7).** 140 items of real text from Increment 6's papers (`data/realcase/`), split by paper, hashed with
+  their labels and the checks' source before the one test run: the old checks flagged 0 of 21 faulty items, the new ones 15. The test
+  labels were chosen by an OpenAI assistant at Chris's request, not by Chris (`data/results/realcase_incr7_test.json`).
+- **Judge set (Increment 8).** 275 items asking the new judge questions exactly as the pipeline asks them (`data/judge8/`), frozen
+  before the one test run; the reference (Claude Sonnet 5.5) is the label; no cheap route met the 97% bar; a 45-item sample was
+  labelled by an assistant to check the reference itself (`data/results/judge8_test*.json`).
+- **Offline re-reads (Increments 9 and 10).** Rule changes were measured without model calls on the verdicts stored in earlier
+  audits (`data/results/reread9.json`, `sticky10.json`). A test re-runs Increment 9's re-read from the stored files; Increment 10's
+test checks the recorded result, and its script matches items by id rather than through the audit's text lookup.
+- **Papers made again (Increments 7 and 9).** Each change was shown on one or two papers made once; no run-to-run variance was
+  measured, and the reviews say a single run cannot separate a change from variance.
+- **User validation (§6).** Still not done: no independent person has used the app, and no person labelled a set after Increment 6.

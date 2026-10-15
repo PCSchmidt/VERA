@@ -227,6 +227,138 @@ platform. Treat the rules below as the contract the commit boundary enforces.
    - depends on: rubric5_scored
    - required artifacts: docs/reviews/incr-5.md
    - verified by: gate-tests.sh, gate-traceability.sh, gate-dogfood.sh, run-evaluator.sh
+56. **incr6_scoped** — Increment 6 scope confirmed
+   - depends on: incr5_review
+   - required artifacts: SPEC.md, CONTRACT.md, docs/reviews/incr-5.md
+   - verified by: validate-contract.sh, validate-spec.sh, gate-spend-ceiling.sh
+57. **evidence_ready** — Wider evidence for a paper: superset of the review's passages, SPEC limits, no frozen file changed
+   - depends on: incr6_scoped
+   - required artifacts: vera/literature/paper_evidence.py, tests/test_paper_evidence.py
+   - verified by: gate-tests.sh, gate-schema-version.sh, gate-evidence6.sh
+58. **paper_stage_ready** — Paper stage: outline, evidence sections through the review's checks, record sections from the run's files
+   - depends on: evidence_ready
+   - required artifacts: vera/literature/paper.py, vera/literature/paper_stage.py, tests/test_paper_stage.py, tests/test_paper_pipeline.py
+   - verified by: gate-tests.sh, gate-schema-version.sh, gate-paper6.sh
+59. **inference_set_frozen** — Inference check: seeded set built, test split and check source hashed before the one test run
+   - depends on: incr6_scoped
+   - required artifacts: vera/audit/inference.py, data/seeded_inference/items.jsonl, data/results/inference_hash_incr6.json
+   - verified by: gate-tests.sh, gate-inffrozen6.sh
+60. **inference_measured** — Inference check measured once on the frozen test split: detection, false positives, intervals, spend
+   - depends on: inference_set_frozen
+   - required artifacts: data/results/inference_incr6_test.json
+   - verified by: gate-infmeasured6.sh
+61. **app_paper_ready** — App: Make a paper from this review, its live view, the paper reader with interpretation marked, the PDF
+   - depends on: paper_stage_ready, inference_measured
+   - required artifacts: tests/test_app_paper.py, docs/screenshots/paper-light.png
+   - verified by: gate-tests.sh, gate-app-secrets.sh, gate-app6.sh
+62. **paper_demo** — Three papers made through the app from real reviews, by Chris with his own key, each within its cap and audited
+   - depends on: app_paper_ready
+   - required artifacts: data/paper_demo/record.json
+   - verified by: gate-paper-demo.sh
+63. **rubric6_scored** — The three review papers scored by a person, blind, before the independent scorer
+   - depends on: paper_demo
+   - required artifacts: data/results/rubric6_chris.json, data/results/rubric6_evaluator.json
+   - verified by: gate-rubric6.sh
+64. **incr6_review** — Increment 6 review
+   - depends on: rubric6_scored
+   - required artifacts: docs/reviews/incr-6.md
+   - verified by: gate-tests.sh, gate-traceability.sh, gate-dogfood.sh, run-evaluator.sh
+65. **incr7_scoped** — Increment 7 scope confirmed
+   - depends on: incr6_review
+   - required artifacts: SPEC.md, CONTRACT.md, docs/reviews/incr-6.md
+   - verified by: validate-contract.sh, validate-spec.sh, gate-spend-ceiling.sh
+66. **sentence_checks_ready** — Every sentence has a status: claim, synthesis or transition, each checked; five rules, two judge questions
+   - depends on: incr7_scoped
+   - required artifacts: vera/literature/sentence_checks.py, tests/test_sentence_checks.py, tests/test_sentence_schemas.py
+   - verified by: gate-tests.sh, gate-schema-version.sh, gate-sentences7.sh
+67. **realcase_labelled** — Real-case test split labelled (SPEC: by Chris; in fact by ChatGPT at his request, kept by his decision 2026-10-13)
+   - depends on: incr7_scoped
+   - required artifacts: data/realcase/items.jsonl, data/realcase/test_sheet.md, data/realcase/labels_test.json
+   - verified by: gate-realcase7.sh
+68. **audit_sentences_ready** — The audit lists every sentence (reviews and papers, old and new); reader and PDF say what green covers
+   - depends on: sentence_checks_ready
+   - required artifacts: vera/audit/sentences.py, tests/test_sentence_audit.py
+   - verified by: gate-tests.sh, gate-app-secrets.sh, gate-audit7.sh
+69. **checks_measured** — Old and new checks measured once on the frozen real-case test split, with intervals
+   - depends on: sentence_checks_ready, realcase_labelled
+   - required artifacts: data/results/realcase_hash_incr7.json, data/results/realcase_incr7_test.json, scripts/measure_realcase.py
+   - verified by: gate-tests.sh, gate-measured7.sh
+70. **coverage_search_ready** — A targeted search for works the paper names (at most 3), stated in the threats section
+   - depends on: incr7_scoped
+   - required artifacts: vera/literature/coverage.py, tests/test_coverage.py
+   - verified by: gate-tests.sh, gate-coverage7.sh
+71. **paper_rerun** — Increment 6 papers re-audited; P2's paper made again and a new paper made, each with the Increment 7 checks
+   - depends on: audit_sentences_ready, checks_measured, coverage_search_ready
+   - required artifacts: data/paper_rerun/record.json
+   - verified by: gate-paper-rerun.sh
+72. **rubric7_scored** — The two new papers scored blind by the first scorer, then by the independent scorer with defects by id
+   - depends on: paper_rerun
+   - required artifacts: data/results/rubric7_first.json, data/results/rubric7_evaluator.json
+   - verified by: gate-rubric7.sh
+73. **incr7_review** — Increment 7 review
+   - depends on: rubric7_scored
+   - required artifacts: docs/reviews/incr-7.md
+   - verified by: gate-tests.sh, gate-traceability.sh, gate-dogfood.sh, run-evaluator.sh
+74. **incr8_scoped** — Increment 8 scope confirmed
+   - depends on: incr7_review
+   - required artifacts: SPEC.md, CONTRACT.md, docs/reviews/incr-7.md
+   - verified by: validate-contract.sh, validate-spec.sh, gate-spend-ceiling.sh
+75. **judge_set_frozen** — Judge set for the new questions built from real material, split by paper, frozen before any test run
+   - depends on: incr8_scoped
+   - required artifacts: data/judge8/items.jsonl, data/results/judge8_hash.json, tests/test_judge_set8.py
+   - verified by: gate-tests.sh, gate-judgeset8.sh
+76. **judge_measured** — Jev, GLM and the decided path measured once against the reference on the frozen test split, every rate reported
+   - depends on: judge_set_frozen
+   - required artifacts: data/results/judge8_test.json, data/results/judge8_test_posthoc.json, scripts/measure_judge8.py
+   - verified by: gate-tests.sh, gate-judgemeasured8.sh
+77. **routing_ready** — One route per measured question; the audit confirms a no with the reference; disagreement is amber
+   - depends on: judge_measured
+   - required artifacts: vera/audit/disagreement.py, tests/test_routes.py, tests/test_disagreement.py
+   - verified by: gate-tests.sh, gate-app-secrets.sh, gate-routing8.sh
+78. **reaudit8** — The five papers re-audited with the Increment 8 routing, confirmation and disagreement rule
+   - depends on: routing_ready
+   - required artifacts: data/reaudit8/record.json
+   - verified by: gate-reaudit8.sh
+79. **incr8_review** — Increment 8 review
+   - depends on: reaudit8
+   - required artifacts: docs/reviews/incr-8.md
+   - verified by: gate-tests.sh, gate-traceability.sh, gate-dogfood.sh, run-evaluator.sh
+80. **incr9_scoped** — Increment 9 scope confirmed
+   - depends on: incr8_review
+   - required artifacts: SPEC.md, CONTRACT.md, docs/reviews/incr-8.md
+   - verified by: validate-contract.sh, validate-spec.sh, gate-spend-ceiling.sh
+81. **unsure_rule_ready** — A failure needs a confident no; an unsure judge is unsettled; Increment 8's re-audits re-read offline
+   - depends on: incr9_scoped
+   - required artifacts: data/results/reread9.json, tests/test_unsure.py
+   - verified by: gate-tests.sh, gate-unsure9.sh
+82. **write_confirm_ready** — The write step confirms a cheap no with the reference judge
+   - depends on: unsure_rule_ready
+   - required artifacts: vera/literature/confirm.py, tests/test_write_confirm.py
+   - verified by: gate-tests.sh, gate-app-secrets.sh, gate-write9.sh
+83. **papers9** — N1 and N2 made again with the write step confirming with the reference, each audited under the Increment 9 rule
+   - depends on: write_confirm_ready
+   - required artifacts: data/papers9/record.json
+   - verified by: gate-papers9.sh
+84. **incr9_review** — Increment 9 review
+   - depends on: papers9
+   - required artifacts: docs/reviews/incr-9.md
+   - verified by: gate-tests.sh, gate-traceability.sh, gate-dogfood.sh, run-evaluator.sh
+85. **incr10_scoped** — Increment 10 scope confirmed (close-out)
+   - depends on: incr9_review
+   - required artifacts: SPEC.md, CONTRACT.md, docs/reviews/incr-9.md
+   - verified by: validate-contract.sh, validate-spec.sh, gate-spend-ceiling.sh
+86. **sticky_answer_ready** — The reference's write-time answer sticks in the audit on unchanged text
+   - depends on: incr10_scoped
+   - required artifacts: vera/audit/sticky.py, data/results/sticky10.json, tests/test_sticky.py
+   - verified by: gate-tests.sh, gate-sticky10.sh
+87. **closeout_docs_ready** — README states what the light means; retrospective; plan marked closed
+   - depends on: sticky_answer_ready
+   - required artifacts: README.md, docs/reviews/retrospective.md, docs/07-increments.md
+   - verified by: gate-docs10.sh
+88. **incr10_review** — Increment 10 review (close-out; the last planned gate)
+   - depends on: closeout_docs_ready
+   - required artifacts: docs/reviews/incr-10.md, docs/reviews/retrospective.md
+   - verified by: gate-tests.sh, gate-traceability.sh, gate-dogfood.sh, run-evaluator.sh
 
 A gate's work is not done until its verifier passes. Before committing, run:
 

@@ -38,7 +38,9 @@ review paper, with wider reading and labelled, judge-checked interpretation sect
 approved by Chris 2026-10-14): every sentence of an evidence section has a checked status and the audit re-checks each, measured on real text
 from Increment 6's papers. **Increment 8 (a judge you can trust on the new questions) is complete** ([docs/reviews/incr-8.md](docs/reviews/incr-8.md);
 `incr8_review` approved by Chris 2026-10-14). **Increment 9 (an unsure judge is not a verdict) is complete** ([docs/reviews/incr-9.md](docs/reviews/incr-9.md);
-`incr9_review` approved by Chris 2026-10-15). Auditing external papers is now Increment 10 (optional).
+`incr9_review` approved by Chris 2026-10-15). **Increment 10 (close-out) is complete** ([docs/reviews/incr-10.md](docs/reviews/incr-10.md); `incr10_review` approved by Chris
+2026-10-15). **The project is closed.**
+Auditing external papers (Increment 11) is not planned.
 
 In scope for the project as a whole: the three layers above, their data
 contracts ([docs/03-interfaces.md](docs/03-interfaces.md)), and the
