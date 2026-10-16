@@ -130,7 +130,11 @@ def dom(port: int, route: str, tmp_path: Path) -> str:
     ("example-paper/rlm-vs-clm", "Example · review paper", "Something went wrong"),
     ("example-paper/prompting-evolution", "Interpretation statements", "Something went wrong"),
     ("example/agent-traces-knowledge", 'href="#/example-paper/agent-traces-knowledge"', "Something went wrong"),
-    ("examples", "Read the paper with its evidence", "The app could not start"),
+    ("examples", "Read the review paper", "The app could not start"),
+    ("", "The audit, and why it matters", "The app could not start"),
+    ("", "Make a paper (optional)", "The app could not start"),
+    ("", 'href="https://github.com/PCSchmidt/VERA"', "The app could not start"),
+    ("run-locally", "New to this? What the words below mean", "undefined"),
     ("examples", "Review papers", "The app could not start"),
     ("example/rlm-vs-clm", 'href="pdf/rlm-vs-clm-paper.pdf"', "Something went wrong"),  # the paper's PDF from its review
     ("example-paper/agent-traces-knowledge", "Download paper PDF", "Something went wrong"),

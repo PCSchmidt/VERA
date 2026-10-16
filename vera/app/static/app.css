@@ -123,7 +123,7 @@ summary { cursor: pointer; font-weight: 600; font-size: 0.9rem; }
 .hero { padding: 1.5rem 0 1rem; }
 .hero h1 { font-size: 2.9rem; max-width: 18ch; margin-bottom: 0.35em; }
 .hero .row { margin-top: 1.6rem; }
-.steps { list-style: none; counter-reset: step; margin: 1rem 0 0; padding: 0; display: grid; gap: 1.6rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
+.steps { list-style: none; counter-reset: step; margin: 1rem 0 0; padding: 0; display: grid; gap: 1.6rem; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr)); }
 .steps li { counter-increment: step; border-top: 2px solid var(--accent); padding-top: 0.7rem; }
 .steps li::before { content: counter(step, upper-roman); font-family: var(--serif); color: var(--accent); font-size: 0.95rem; letter-spacing: 0.1em; }
 .steps h3 { margin: 0.15em 0 0.3em; font-size: 1.1rem; }
@@ -229,6 +229,13 @@ code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fo
 .interp p { margin: 0.4em 0; }
 button.premise { font: inherit; font-size: 0.85em; padding: 0 0.15em; border: 0; border-bottom: 1px dotted var(--accent); background: none; color: var(--accent); cursor: pointer; }
 button.premise:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.primer { max-width: 40rem; }
+.primer summary { cursor: pointer; font-weight: 600; }
+.primer dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.5rem 1rem; margin: 0.8rem 0 0; font-size: 0.92rem; }
+.primer dt { font-weight: 600; }
+.primer dd { margin: 0; color: var(--muted); }
+.audit-explainer { max-width: 44rem; margin-top: 2.2rem; }
+.audit-explainer ul { padding-left: 1.2rem; }
 .models { max-width: 40rem; margin-top: 2rem; }
 .models dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.4rem 1rem; margin: 0.6rem 0; }
 .models dt { font-weight: 600; }
