@@ -12,6 +12,13 @@ Increment 6 paper on agent traces), each with the light its own audit gave it an
 red items, the offline re-reads, the independent scorer's notes). A presentation change only: no model call, no gate, no
 change to any audit or frozen file.
 
+On 2026-10-16 Chris asked for a paper for each example. Three more were made through the app with the earlier papers'
+settings (3,000 words, $1.00 cap each): from the agent-traces review (red, one failed claim) and from the two Increment 4
+command-line reviews, conformal prediction and research agents (both amber), which `scripts/register_cli_review.py`
+registered with the app first. They cost $1.88 in all, inside the $20 monthly ceiling, and are recorded in
+`data/papers_showcase/` (`scripts/record_showcase_paper.py`). The new-user walkthrough's review kept no passages, so no
+paper can be made from it without re-running it; the two runs with experiments are papers already. No gate was reopened.
+
 ## What was built
 
 VERA (Verifiable, Economical Research Agents) is a local app and a command-line pipeline that take a topic to a checked
@@ -58,7 +65,7 @@ At the close: 836 tests (13 need Docker), schemas v0.13, requirements v0.11, 231
 
 ## Spend
 
-$16.05 of model spend over the 16 days, inside the $20 monthly ceiling set in Increment 0: every record in every ledger
+$16.05 of model spend over the 16 days to the close (and $1.88 after it, for the showcase papers), inside the $20 monthly ceiling set in Increment 0: every record in every ledger
 file in the repository, counted once by its trace id (`scripts/spend_total.py`, `data/results/spend_total.json`; $15.78 in
 `data/ledger/` and $0.28 from two runs whose ledgers exist only as copies, the app rehearsal and the new-user walkthrough).
 The increment reviews' own totals sum to about $15.98; they were each read over a window of dates, so they differ by cents. The ledgers in

@@ -1,0 +1,30 @@
+{
+ "title": "How Automated Research Agents Are Judged: Operational Measures of Correctness, Reproducibility, and Novelty, and Their Validity Weaknesses",
+ "themes": [
+  {
+   "heading": "Correctness and reproducibility measures in agent benchmarks",
+   "focus": "CORE-Bench PaperBench SciReplicate-Bench MLE-bench rubric manual reproduction answers execution accuracy"
+  },
+  {
+   "heading": "LLM-as-judge reliability and bias in grading agent outputs",
+   "focus": "LLM judge F1 human labels agreement consistency position bias flip prompt reliability validity"
+  },
+  {
+   "heading": "Rubric design, manual criteria, and construct validity concerns",
+   "focus": "rubric leniency manual assessment criteria construct validity saturation inconsistencies partial credit grading"
+  },
+  {
+   "heading": "Test-set contamination and data leakage",
+   "focus": "contamination leakage memorization publication date public repositories private benchmark rephrased samples evaluator"
+  },
+  {
+   "heading": "Run-to-run variance and threshold or medal cutoffs",
+   "focus": "variance repeated runs single run medal threshold reliability high variance seeds cutoff"
+  },
+  {
+   "heading": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "focus": "novelty LLM-judged ideas retrieval prior work OpenNovelty HindSight future impact expert human study instability"
+  }
+ ],
+ "dropped": []
+}

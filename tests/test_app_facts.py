@@ -30,7 +30,10 @@ def test_the_recorded_spend_equals_the_ledger_when_the_ledger_is_here(name: str)
         spec = next(s for s in facts._json(ROOT / "data" / "app" / "examples.json")["examples"] if s["id"] == e["id"])
         ledger = ROOT / spec["ledger"]
         if e["kind"] == name and ledger.exists():  # ledgers other than the named result ones are git-ignored
-            assert facts.ledger_total(ROOT, spec["ledger"]) == pytest.approx(e["spent_usd"], abs=5e-5)
+            # a paper made later from the review adds to the same ledger; the review's spend is what it held before
+            made = ROOT / "runs" / ledger.stem.removeprefix("run_") / "paper" / "app_paper_request.json"
+            total = facts._json(made)["spent_before_usd"] if made.exists() else facts.ledger_total(ROOT, spec["ledger"])
+            assert total == pytest.approx(e["spent_usd"], abs=5e-5)
 
 
 def test_the_review_paper_cost_comes_from_the_showcase_papers() -> None:

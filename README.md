@@ -13,9 +13,9 @@ say a little more than their quotes, and **making the checks stricter did not ma
 ([Results](#results), [Limitations](#limitations), [retrospective](docs/reviews/retrospective.md)).
 
 **▶ Read-only showcase: [pcschmidt.github.io/VERA](https://pcschmidt.github.io/VERA/)**: nine finished examples with their
-evidence panel, the exact inputs behind each, and a PDF of each; three of them also carry the review paper made from the
-review, shown with the light its own audit gave it (two red, one green that later checks turn red) and the deficiencies found
-in it. Nothing on that page runs a model or asks for a key.
+evidence panel, the exact inputs behind each, and a PDF of each; six of them also carry the review paper made from the
+review, shown with the light its own audit gave it (three red, two amber, one green that later checks turn red) and the
+deficiencies found in it. Nothing on that page runs a model or asks for a key.
 
 <div align="center">
 
@@ -88,7 +88,7 @@ only way a green light can mean something about the text a reader actually reads
 | Measured: sentence checks on real defects | 15 of 21 faulty items flagged (old checks: 0), 14 of 69 sound items flagged, on 90 real items against an AI assistant's labels |
 | Measured: cheap judge against the reference | 89% (claims), 95% (sentences), 89% (statements) agreement on 162 real items; the 97% bar is not met |
 | Stack | Python 3.11, LangGraph, Pydantic v2, FastAPI, plain HTML and JavaScript, fpdf2, GROBID in Docker (optional) |
-| Tests | 850 (`uv run pytest -q`, about 3 minutes; 13 need Docker), with offline fakes for every model call |
+| Tests | 855 (`uv run pytest -q`, about 3 minutes; 13 need Docker), with offline fakes for every model call |
 | Spend for the whole project | $16.05 of model calls over 16 days, inside a $20 monthly ceiling (`data/results/spend_total.json`) |
 
 ## Architecture at a glance
@@ -163,7 +163,7 @@ Optional: GROBID in Docker on port 8070 (`docker run --rm -p 8070:8070 lfoppiano
 
 ```bash
 uv sync --group dev --group bench --group corpus
-uv run pytest -q          # 850 tests, offline, no keys needed (13 need Docker)
+uv run pytest -q          # 855 tests, offline, no keys needed (13 need Docker)
 uv run ruff check .
 ```
 
@@ -344,7 +344,7 @@ and caches are git-ignored. See [`data/README.md`](data/README.md).
 ### Verify the claims (a reviewer's path)
 
 ```bash
-uv run pytest -q                                          # 837 passed, 13 skipped without Docker
+uv run pytest -q                                          # 842 passed, 13 skipped without Docker
 python tools/checks/check_app.py --part secrets           # no key-shaped string, local-only server, no external loads
 python tools/checks/check_carry5.py                       # frozen audit files unchanged since Increment 5 was scoped
 uv run python tools/checks/check_carry7.py --part measured   # the real-case measurement ran once, after its freeze

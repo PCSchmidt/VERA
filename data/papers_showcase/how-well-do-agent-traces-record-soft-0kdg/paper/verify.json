@@ -1,0 +1,5510 @@
+{
+ "stats": {
+  "drafted": 64,
+  "failed_first": 20,
+  "repaired": 15,
+  "removed": 5,
+  "synthesis_drafted": 7,
+  "synthesis_removed": 2,
+  "transition_drafted": 10,
+  "transition_removed": 5,
+  "loose_repaired": 8,
+  "stray_attributions_removed": 0,
+  "absence_removed": 1,
+  "quotes_widened": 5,
+  "n_claims": 59,
+  "n_sources_cited": 14,
+  "themes_with_claims": 6,
+  "distinct_quotes": 43
+ },
+ "sections": [
+  {
+   "heading": "Introduction",
+   "text": "AI-assisted software development has moved from autocomplete-style tools toward agentic systems [R12]. Many software engineering tasks are performed in terminal-based environments, where agents interact directly with repositories, dependencies, and build systems through the command line [R15]. The reliability stakes are described in terms of silent error propagation [R15]. Because agents act through terminal commands on repositories and trajectory analysis is described as an emerging paradigm for understanding and improving them, the records of what an agent did become a natural object of study alongside its final result.\n\nTrajectory analysis has been described as an emerging paradigm for understanding and improving agents [R15]. One early study normalized agent logs into thought-action-result triples over 120 trajectories [R15]. A study of failure trajectories collected runs from OpenHands, MiniSWE, and Terminus2 on Terminal-Bench [R15].\n\nSWE-agent introduced a custom agent-computer interface (ACI) that, according to its authors, significantly enhances an agent's ability to create and edit code files, navigate entire repositories, and execute tests and other programs [R5]. The SWE-agent authors also released trajectories and evaluation execution traces as open artifacts [R5]. OpenHands is presented as a platform for agents that write code, use a command line, and browse the web [R27]. Claude Code's architecture has been described by analyzing its publicly available source code and comparing it with two open-source agent systems, OpenClaw and Hermes Agent [R12].\n\nStorage choices are framed as design trade-offs. Session persistence in coding agents involves a choice among append-only logs, structured databases, checkpoint snapshots, and stateless architectures [R12]. For memory, one analysis notes that embedding-based retrieval gains flexibility at the cost of inspectability [R12]. From an observability angle, a taxonomy of AgentOps tools identifies the artifacts and data that should be traced across an agent's lifecycle [R3]. The AgentOps taxonomy lists task status, such as pending, in progress, or completed, among the traced data [R3]. The sections that follow take up how these threads bear on trace content, format, granularity, and storage.",
+   "claims": [
+    {
+     "claim": "AI-assisted software development has moved from autocomplete-style tools toward agentic systems.",
+     "source_key": "R12",
+     "passage_id": "R12-P1",
+     "quote": "AI-assisted software development has evolved from autocomplete-style tools such as GitHub Copilot (Chen et al., 2021), through IDE-integrated assistants like Cursor (Cursor, 2026), to fully agentic systems that autonomously plan multi-step modifications, execute shell commands, read and write files, and iterate on their own outputs.",
+     "locator": "sec. Introduction, para 1",
+     "id": "C1"
+    },
+    {
+     "claim": "Many software engineering tasks are performed in terminal-based environments, where agents interact directly with repositories, dependencies, and build systems through the command line.",
+     "source_key": "R15",
+     "passage_id": "R15-P1",
+     "quote": "Many of these tasks are performed in terminal-based environments, where agents interact directly with repositories, dependencies, and build systems through the command line.",
+     "locator": "sec. I. INTRODUCTION, para 1",
+     "id": "C2"
+    },
+    {
+     "claim": "The reliability stakes are described in terms of silent error propagation.",
+     "source_key": "R15",
+     "passage_id": "R15-P1",
+     "quote": "Products such as Claude Code [5], Codex [6], and Gemini CLI [7] exemplify this trend. However, such autonomy also introduces new reliability challenges: a single incorrect decision can silently propagate through many subsequent actions before the final outcome becomes apparent [8], [9].",
+     "locator": "sec. I. INTRODUCTION, para 1",
+     "id": "C3"
+    },
+    {
+     "claim": "Trajectory analysis has been described as an emerging paradigm for understanding and improving agents.",
+     "source_key": "R15",
+     "passage_id": "R15-P68",
+     "quote": "Recent work has identified trajectory analysis as an emerging paradigm for understanding and improving LLM-based agents [33].",
+     "locator": "sec. A. Trajectory and Failure Analysis of LLM Agents, para 83",
+     "id": "C4"
+    },
+    {
+     "claim": "One early study normalized agent logs into thought-action-result triples over 120 trajectories.",
+     "source_key": "R15",
+     "passage_id": "R15-P68",
+     "quote": "Bouzenia et al. [10] pioneered this by normalizing agent logs into thoughtaction-result triples over 120 trajectories",
+     "locator": "sec. A. Trajectory and Failure Analysis of LLM Agents, para 83",
+     "id": "C5"
+    },
+    {
+     "claim": "A study of failure trajectories collected runs from OpenHands, MiniSWE, and Terminus2 on Terminal-Bench.",
+     "source_key": "R15",
+     "passage_id": "R15-A",
+     "quote": "We first collect 3,843 execution trajectories generated by seven frontier models across three coding-agent scaffolds (OpenHands, MiniSWE, and Terminus2) on Terminal-Bench",
+     "locator": "abstract",
+     "id": "C6"
+    },
+    {
+     "claim": "SWE-agent introduced a custom agent-computer interface (ACI) that, according to its authors, significantly enhances an agent's ability to create and edit code files, navigate entire repositories, and execute tests and other programs.",
+     "source_key": "R5",
+     "passage_id": "R5-A",
+     "quote": "SWE-agent's custom agent-computer interface (ACI) significantly enhances an agent's ability to create and edit code files, navigate entire repositories, and execute tests and other programs.",
+     "locator": "abstract",
+     "id": "C7"
+    },
+    {
+     "claim": "The SWE-agent authors also released trajectories and evaluation execution traces as open artifacts.",
+     "source_key": "R5",
+     "passage_id": "R5-P223",
+     "quote": "We also open source all inference and evaluation artifacts (e.g., trajectories, code generations, evaluation execution traces, analysis notebooks).",
+     "locator": "sec. E.2 Reproducibility, para 276",
+     "id": "C8"
+    },
+    {
+     "claim": "OpenHands is presented as a platform for agents that write code, use a command line, and browse the web.",
+     "source_key": "R27",
+     "passage_id": "R27-A",
+     "quote": "we introduce OpenHands (f.k.a. OpenDevin), a platform for the development of powerful and flexible AI agents that interact with the world in similar ways to those of a human developer: by writing code, interacting with a command line, and browsing the web.",
+     "locator": "abstract",
+     "id": "C9"
+    },
+    {
+     "claim": "Claude Code's architecture has been described by analyzing its publicly available source code and comparing it with two open-source agent systems, OpenClaw and Hermes Agent.",
+     "source_key": "R12",
+     "passage_id": "R12-A",
+     "quote": "Claude Code is an agentic coding tool that can run shell commands, edit files, and call external services on behalf of the user. This study describes its architecture by analyzing the publicly available source code and comparing it with two independent open-source AI agent systems, OpenClaw and Hermes Agent, that answer many of similar or even the same design questions.",
+     "locator": "abstract",
+     "id": "C10"
+    },
+    {
+     "claim": "Storage choices are framed as design trade-offs. Session persistence in coding agents involves a choice among append-only logs, structured databases, checkpoint snapshots, and stateless architectures.",
+     "source_key": "R12",
+     "passage_id": "R12-P115",
+     "quote": "Session persistence in coding agents involves a design choice between append-only logs, structured databases, checkpoint-based snapshots, and stateless architectures, each with different trade-offs in auditability, query power, and deployment complexity.",
+     "locator": "sec. Session Persistence and Recovery, para 158",
+     "id": "C11"
+    },
+    {
+     "claim": "For memory, one analysis notes that embedding-based retrieval gains flexibility at the cost of inspectability.",
+     "source_key": "R12",
+     "passage_id": "R12-P94",
+     "quote": "Retrieval-augmented approaches use embedding-based lookup to surface relevant prior context, gaining flexibility at the cost of inspectability: the user cannot easily see or edit what the retrieval system considers relevant.",
+     "locator": "sec. CLAUDE.md Hierarchy and Auto Memory, para 131",
+     "id": "C12"
+    },
+    {
+     "claim": "From an observability angle, a taxonomy of AgentOps tools identifies the artifacts and data that should be traced across an agent's lifecycle.",
+     "source_key": "R3",
+     "passage_id": "R3-A",
+     "quote": "we present a comprehensive taxonomy of AgentOps, identifying the artifacts and associated data that should be traced throughout the entire lifecycle of agents to achieve effective observability.",
+     "locator": "abstract",
+     "id": "C13"
+    },
+    {
+     "claim": "The AgentOps taxonomy lists task status, such as pending, in progress, or completed, among the traced data.",
+     "source_key": "R3",
+     "passage_id": "R3-P60",
+     "quote": "Task Status: The current status (e.g., pending, in progress, completed) and the result of the task, which could include success, failure, or a specific output generated by the task.",
+     "locator": "sec. Taxonomy of AgentOps, para 72",
+     "id": "C14"
+    }
+   ]
+  },
+  {
+   "heading": "How traces represent development progress: edits, tests, and task state",
+   "text": "The passages below illustrate several ways in which traces encode what an agent did and how its task is progressing. A later study of CLI coding agent trajectories reports that Bouzenia et al. normalized agent logs into thought-action-result triples over 120 trajectories [R15]. In the SWE-bench construction pipeline, repository-specific parsers convert validation logs into mappings from each test to a fail or pass status [R68]. SWE-agent's failure analysis found that Failed Edit Recovery, where models fail to generate well-formed edits, made up 23.4% of unresolved instances [R5]. For explicit task state, the AgentOps taxonomy defines a Task Status field holding states such as pending, in progress or completed, together with the task's result [R3]. Trace representations in the passages include normalized thought-action-result triples over agent trajectories, per-test fail or pass mappings parsed from validation logs, and an explicit task-status field with states such as pending, in progress or completed.",
+   "claims": [
+    {
+     "claim": "A later study of CLI coding agent trajectories reports that Bouzenia et al. normalized agent logs into thought-action-result triples over 120 trajectories.",
+     "source_key": "R15",
+     "passage_id": "R15-P68",
+     "quote": "Bouzenia et al. [10] pioneered this by normalizing agent logs into thoughtaction-result triples over 120 trajectories",
+     "locator": "sec. A. Trajectory and Failure Analysis of LLM Agents, para 83",
+     "id": "C15"
+    },
+    {
+     "claim": "In the SWE-bench construction pipeline, repository-specific parsers convert validation logs into mappings from each test to a fail or pass status.",
+     "source_key": "R68",
+     "passage_id": "R68-P81",
+     "quote": "we first define several repository-specific parsers to convert log pre and log post into mappings of test t i ∈ T to a status s ∈ [fail,pass].",
+     "locator": "sec. Group task instances by version., para 88",
+     "id": "C16"
+    },
+    {
+     "claim": "SWE-agent's failure analysis found that Failed Edit Recovery, where models fail to generate well-formed edits, made up 23.4% of unresolved instances.",
+     "source_key": "R5",
+     "passage_id": "R5-P116",
+     "quote": "Another significant category is the Failed Edit Recovery category, making up 23.4% of instances, which happens when models fail to generate well-formed edits to files, which can seriously inhibit their performance.",
+     "locator": "sec. B.4 Failure Modes, para 133",
+     "id": "C17"
+    },
+    {
+     "claim": "For explicit task state, the AgentOps taxonomy defines a Task Status field holding states such as pending, in progress or completed, together with the task's result.",
+     "source_key": "R3",
+     "passage_id": "R3-P60",
+     "quote": "Task Status: The current status (e.g., pending, in progress, completed) and the result of the task, which could include success, failure, or a specific output generated by the task.",
+     "locator": "sec. Taxonomy of AgentOps, para 72",
+     "id": "C18"
+    }
+   ]
+  },
+  {
+   "heading": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "Bouzenia and colleagues unified the interaction logs of RepairAgent, AutoCodeRover, and OpenHands into a common format, capturing 120 trajectories and 2,822 LLM interactions [R114]. A later study describes that earlier work as normalizing agent logs into thought-action-result triples over 120 trajectories [R15]. The OpenHands Software Agent SDK paper reports that production deployment data show negligible event-sourcing overhead [R72]. The authors of Graphectory use it to automatically analyze 4000 trajectories from SWE-agent and OpenHands, run with a combination of four backbone LLMs on SWE-bench Verified issues [R28]. A survey of provenance states that logs give chronological observability but may not show which tool output changed the plan [R40]. A study of CLI agents collected 3,843 trajectories across OpenHands, MiniSWE, and Terminus2 on Terminal-Bench [R15]. Coordination records can also live in version control, as in grite, whose append-only signed event log is stored inside git [R84]. On storage, a software-engineering agent survey reports that DroidAgent embeds textual history into vectors held in an external embedding database [R41]. On storage, one software-engineering agent survey reports that DroidAgent embeds textual history into vectors held in an external embedding database.",
+   "claims": [
+    {
+     "claim": "Bouzenia and colleagues unified the interaction logs of RepairAgent, AutoCodeRover, and OpenHands into a common format, capturing 120 trajectories and 2,822 LLM interactions.",
+     "source_key": "R114",
+     "passage_id": "R114-A",
+     "quote": "We unify their interaction logs into a common format, capturing 120 trajectories and 2,822 LLM interactions focused on program repair and issue resolution.",
+     "locator": "abstract",
+     "id": "C19"
+    },
+    {
+     "claim": "A later study describes that earlier work as normalizing agent logs into thought-action-result triples over 120 trajectories.",
+     "source_key": "R15",
+     "passage_id": "R15-P68",
+     "quote": "Bouzenia et al. [10] pioneered this by normalizing agent logs into thoughtaction-result triples over 120 trajectories",
+     "locator": "sec. A. Trajectory and Failure Analysis of LLM Agents, para 83",
+     "id": "C20"
+    },
+    {
+     "claim": "The OpenHands Software Agent SDK paper reports that production deployment data show negligible event-sourcing overhead.",
+     "source_key": "R72",
+     "passage_id": "R72-A",
+     "quote": "We validate the architecture empirically: production deployment data shows that V1 substantially reduces system-attributable failures over V0 with negligible event-sourcing overhead, and evaluations across multiple models and benchmarks demonstrate strong agent performance.",
+     "locator": "abstract",
+     "id": "C21"
+    },
+    {
+     "claim": "The authors of Graphectory use it to automatically analyze 4000 trajectories from SWE-agent and OpenHands, run with a combination of four backbone LLMs on SWE-bench Verified issues.",
+     "source_key": "R28",
+     "passage_id": "R28-A",
+     "quote": "Using Graphectory , we automatically analyze 4000 trajectories of two dominant agentic programming workflows, namely SWE-agent and OpenHands, with a combination of four backbone Large Language Models (LLMs), attempting to resolve SWE-bench Verified issues.",
+     "locator": "abstract",
+     "id": "C22"
+    },
+    {
+     "claim": "A survey of provenance states that logs give chronological observability but may not show which tool output changed the plan.",
+     "source_key": "R40",
+     "passage_id": "R40-P29",
+     "quote": "A log can show that a retrieval, tool call, and memory write occurred; it may not show which retrieved passage supported a claim, which tool output changed the plan, or which memory item influenced an action.",
+     "locator": "sec. From Logs to Execution Graphs, para 33",
+     "id": "C23"
+    },
+    {
+     "claim": "A study of CLI agents collected 3,843 trajectories across OpenHands, MiniSWE, and Terminus2 on Terminal-Bench.",
+     "source_key": "R15",
+     "passage_id": "R15-A",
+     "quote": "We first collect 3,843 execution trajectories generated by seven frontier models across three coding-agent scaffolds (OpenHands, MiniSWE, and Terminus2) on Terminal-Bench",
+     "locator": "abstract",
+     "id": "C24"
+    },
+    {
+     "claim": "Coordination records can also live in version control, as in grite, whose append-only signed event log is stored inside git.",
+     "source_key": "R84",
+     "passage_id": "R84-A",
+     "quote": "We study this process through grite, our open-source coordination substrate that needs no central server and stores its records inside git itself, so its append-only, signed event log captures the coordination process directly.",
+     "locator": "abstract",
+     "id": "C25"
+    },
+    {
+     "claim": "On storage, a software-engineering agent survey reports that DroidAgent embeds textual history into vectors held in an external embedding database.",
+     "source_key": "R41",
+     "passage_id": "R41-P186",
+     "quote": "Representative work like DroidAgent [181] embeds the textual history into vectors and stores them in an external embedding database.",
+     "locator": "sec. Memory, para 191",
+     "id": "C26"
+    }
+   ]
+  },
+  {
+   "heading": "Claude Code session storage and memory retrieval without vector indexes",
+   "text": "The Claude Code source analysis states that session persistence in coding agents involves a design choice between append-only logs, structured databases, checkpoint-based snapshots, and stateless architectures [R12]. The same analysis states that Claude Code's persistence design implements the append-only durable state principle [R12]. The abstract of that study lists append-oriented session storage among the systems surrounding the core loop [R12].\n\nFor memory retrieval, the Claude Code analysis reports that the system avoids embeddings and uses an LLM scan of file headers [R12]. The analysis states that CLAUDE.md files are plain-text Markdown rather than structured configuration or opaque database entries [R12]. The Claude Code analysis characterises retrieval-augmented approaches as gaining flexibility at the cost of inspectability [R12].\n\nA broader software-engineering survey describes embedding-based memory as a storage format used by other agents [R41]. The survey describes a key-value pair memory format in which information received from agents is stored in an external memory, with a key extracted for the agents to query required history memories [R41]. Taken together, the sources place Claude Code's file-based, non-vector approach alongside vector-database memory that the survey documents in other agents.\n\nThe Claude Code analysis describes the experiential tier, meaning automatically curated playbooks of strategies learned from past sessions, as the natural next step [R12].",
+   "claims": [
+    {
+     "claim": "The Claude Code source analysis states that session persistence in coding agents involves a design choice between append-only logs, structured databases, checkpoint-based snapshots, and stateless architectures.",
+     "source_key": "R12",
+     "passage_id": "R12-P115",
+     "quote": "Session persistence in coding agents involves a design choice between append-only logs, structured databases, checkpoint-based snapshots, and stateless architectures, each with different trade-offs in auditability, query power, and deployment complexity.",
+     "locator": "sec. Session Persistence and Recovery, para 158",
+     "id": "C27"
+    },
+    {
+     "claim": "The same analysis states that Claude Code's persistence design implements the append-only durable state principle.",
+     "source_key": "R12",
+     "passage_id": "R12-P115",
+     "quote": "Claude Code's persistence design implements the append-only durable state principle from Table 1.",
+     "locator": "sec. Session Persistence and Recovery, para 158",
+     "id": "C28"
+    },
+    {
+     "claim": "The abstract of that study lists append-oriented session storage among the systems surrounding the core loop.",
+     "source_key": "R12",
+     "passage_id": "R12-A",
+     "quote": "Most of the code, however, lives in the systems around this loop: a permission system with seven modes and an ML-based classifier, a five-layer compaction pipeline for context management, four extensibility mechanisms (MCP, plugins, skills, and hooks), a subagent delegation and orchestration mechanism, and append-oriented session storage.",
+     "locator": "abstract",
+     "id": "C29"
+    },
+    {
+     "claim": "For memory retrieval, the Claude Code analysis reports that the system avoids embeddings and uses an LLM scan of file headers.",
+     "source_key": "R12",
+     "passage_id": "R12-P94",
+     "quote": "The system does not use embeddings or a vector similarity index for memory retrieval; instead it uses an LLM-based scan of memory-file headers to select up to five relevant files on demand, surfacing them at file granularity rather than entry granularity.",
+     "locator": "sec. CLAUDE.md Hierarchy and Auto Memory, para 131",
+     "id": "C30"
+    },
+    {
+     "claim": "The analysis states that CLAUDE.md files are plain-text Markdown rather than structured configuration or opaque database entries.",
+     "source_key": "R12",
+     "passage_id": "R12-P94",
+     "quote": "CLAUDE.md files are plain-text Markdown rather than structured configuration or opaque database entries.",
+     "locator": "sec. CLAUDE.md Hierarchy and Auto Memory, para 131",
+     "id": "C31"
+    },
+    {
+     "claim": "The Claude Code analysis characterises retrieval-augmented approaches as gaining flexibility at the cost of inspectability.",
+     "source_key": "R12",
+     "passage_id": "R12-P94",
+     "quote": "Retrieval-augmented approaches use embedding-based lookup to surface relevant prior context, gaining flexibility at the cost of inspectability: the user cannot easily see or edit what the retrieval system considers relevant.",
+     "locator": "sec. CLAUDE.md Hierarchy and Auto Memory, para 131",
+     "id": "C32"
+    },
+    {
+     "claim": "A broader software-engineering survey describes embedding-based memory as a storage format used by other agents.",
+     "source_key": "R41",
+     "passage_id": "R41-P186",
+     "quote": "Representative work like DroidAgent [181] embeds the textual history into vectors and stores them in an external embedding database.",
+     "locator": "sec. Memory, para 191",
+     "id": "C33"
+    },
+    {
+     "claim": "The survey describes a key-value pair memory format in which information received from agents is stored in an external memory, with a key extracted for the agents to query required history memories.",
+     "source_key": "R41",
+     "passage_id": "R41-P186",
+     "quote": "In this format, information received from the agents is stored in an external memory, with a key extracted for the agents to query required history memories [233], [239], [222].",
+     "locator": "sec. Memory, para 191",
+     "id": "C34"
+    },
+    {
+     "claim": "The Claude Code analysis describes the experiential tier, meaning automatically curated playbooks of strategies learned from past sessions, as the natural next step.",
+     "source_key": "R12",
+     "passage_id": "R12-P181",
+     "quote": "The experiential tier (accumulated, automatically curated playbooks of strategies learned from past sessions) is the natural next step, and the context-engineering literature (Zhang et al., 2025a) has started to provide mechanisms for that accumulation.",
+     "locator": "sec. Emerging Directions, para 227",
+     "id": "C35"
+    }
+   ]
+  },
+  {
+   "heading": "Observability platforms and tracing standards for agents",
+   "text": "The following paragraphs turn to how observability for agents is described across general frameworks and in coding-agent settings. The AgentOps study states that by adding traces, AgentOps captures the entire process from the moment a user sends a prompt to the final output [R3]. The same study reports that all tools listed in its Table 3 have implemented tracing functionality [R3]. The survey on evidence tracing says distributed observability frameworks such as OpenTelemetry model executions as traces and spans, which is useful for describing multi-step agent runs [R40].\n\nAgentTelemetry reports that OpenTelemetry's GenAI semantic conventions leave five agent orchestration phases without span-level representation [R117]. The provenance survey likewise states that LLM agents add semantic and procedural objects that existing provenance and observability traditions do not fully capture [R40]. Two sources treat standard tracing as a base, with one reporting that AgentOps adds traces to capture the whole process from user prompt to final output, and the other noting that OpenTelemetry models executions as traces and spans that suit multi-step agent runs. Two further sources report that this base is incomplete, with one finding that OpenTelemetry's GenAI semantic conventions leave five agent orchestration phases without span-level representation, and the other stating that LLM agents add semantic and procedural objects that existing provenance and observability traditions do not fully capture.\n\nFor coding agents specifically, the AgentTelemetry case study on SWE-bench Lite reports that 84 of 112 runs exhausted the 8-iteration limit and were classified as reasoning loops [R117]. The grite study reports that its append-only, signed event log is stored inside git itself [R84]. The SWE-agent authors state that they open source inference and evaluation artifacts such as trajectories and evaluation execution traces [R5].\n\nThe Claude Code analysis says its cited sources do not settle whether evaluation scaffolding belongs inside the harness or outside it as a separate layer [R12].",
+   "claims": [
+    {
+     "claim": "The AgentOps study states that by adding traces, AgentOps captures the entire process from the moment a user sends a prompt to the final output.",
+     "source_key": "R3",
+     "passage_id": "R3-P40",
+     "quote": "By adding traces, AgentOps captures the entire process-from the moment a user sends a prompt to the final output-helping developers understand each step and identify the root causes of any issues.",
+     "locator": "sec. Tracing, para 42",
+     "id": "C36"
+    },
+    {
+     "claim": "The same study reports that all tools listed in its Table 3 have implemented tracing functionality.",
+     "source_key": "R3",
+     "passage_id": "R3-P40",
+     "quote": "All tools listed in the Table 3 have implemented tracing functionality.",
+     "locator": "sec. Tracing, para 42",
+     "id": "C37"
+    },
+    {
+     "claim": "The survey on evidence tracing says distributed observability frameworks such as OpenTelemetry model executions as traces and spans, which is useful for describing multi-step agent runs.",
+     "source_key": "R40",
+     "passage_id": "R40-P13",
+     "quote": "Distributed observability frameworks such as Open-Telemetry model executions as traces and spans, which is useful for describing multi-step agent runs OpenTelemetry [2026].",
+     "locator": "sec. Taxonomy of Evidence Tracing and Execution Provenance, para 16",
+     "id": "C38"
+    },
+    {
+     "claim": "AgentTelemetry reports that OpenTelemetry's GenAI semantic conventions leave five agent orchestration phases without span-level representation.",
+     "source_key": "R117",
+     "passage_id": "R117-A",
+     "quote": "OpenTelemetry’s GenAI semantic conventions cover LLM invocation and tool execution but leave five critical agent orchestration phases—planning, reasoning, safety monitoring, inter-agent delegation, and memory management—without span-level representation.",
+     "locator": "abstract",
+     "id": "C39"
+    },
+    {
+     "claim": "The provenance survey likewise states that LLM agents add semantic and procedural objects that existing provenance and observability traditions do not fully capture.",
+     "source_key": "R40",
+     "passage_id": "R40-P13",
+     "quote": "LLM agents, however, add semantic and procedural objects that these traditions do not fully capture: retrieved passages, generated claims, tool-call rationales, memory items, natural-language observations, external state changes, and inter-agent messages.",
+     "locator": "sec. Taxonomy of Evidence Tracing and Execution Provenance, para 16",
+     "id": "C40"
+    },
+    {
+     "claim": "For coding agents specifically, the AgentTelemetry case study on SWE-bench Lite reports that 84 of 112 runs exhausted the 8-iteration limit and were classified as reasoning loops.",
+     "source_key": "R117",
+     "passage_id": "R117-A",
+     "quote": "A case study on 112 SWE-bench Lite instances reveals that 84/112 agent runs (75%) exhausted the 8-iteration limit and are classified as reasoning loops by structural pattern (a definitional partition of the failed-trace population, not a sampling estimate)—a failure mode invisible to vanilla OTel—and a telemetry-guided intervention improves the patch rate by +12.5 pp over a matched control (Fisher’s exact p=0.53, two-sided; demonstrative not statistically significant at n=24).",
+     "locator": "abstract",
+     "id": "C41"
+    },
+    {
+     "claim": "The grite study reports that its append-only, signed event log is stored inside git itself.",
+     "source_key": "R84",
+     "passage_id": "R84-A",
+     "quote": "We study this process through grite, our open-source coordination substrate that needs no central server and stores its records inside git itself, so its append-only, signed event log captures the coordination process directly.",
+     "locator": "abstract",
+     "id": "C42"
+    },
+    {
+     "claim": "The SWE-agent authors state that they open source inference and evaluation artifacts such as trajectories and evaluation execution traces.",
+     "source_key": "R5",
+     "passage_id": "R5-P223",
+     "quote": "We also open source all inference and evaluation artifacts (e.g., trajectories, code generations, evaluation execution traces, analysis notebooks).",
+     "locator": "sec. E.2 Reproducibility, para 276",
+     "id": "C43"
+    },
+    {
+     "claim": "The Claude Code analysis says its cited sources do not settle whether evaluation scaffolding belongs inside the harness or outside it as a separate layer.",
+     "source_key": "R12",
+     "passage_id": "R12-P190",
+     "quote": "First, whether the scaffolding the paper cites from Rajasekaran (2026) (generatorevaluator separation, sprint contracts, post-hoc checks, building on Madaan et al. (2023)'s self-refine pattern) belongs inside the harness (e.g., as additional hook events alongside the 27 documented in Section 6) or outside it as a separate evaluation layer is not settled by the cited sources.",
+     "locator": "sec. Silent Failure and the Observability-Evaluation Gap, para 237",
+     "id": "C44"
+    }
+   ]
+  },
+  {
+   "heading": "Git-native and structured-log approaches to history and coordination",
+   "text": "The following discussion turns to how coordination and persistence designs are described across the available material. The grite study describes a coordination substrate that needs no central server and stores its records inside git itself [R84]. The grite authors report that the log is a mineable artefact from which failure modes such as conflicting edits and lock starvation are automatically recoverable with provenance, several invisible in pull-request history [R84]. The grite study also reports that every agent's copy of the log converges to the same state with no write silently dropped, where a file-based tracker loses concurrent writes [R84].\n\nClaude Code's documentation-based analysis frames session persistence as a choice among several designs [R12]. The same analysis states that Claude Code's persistence design implements the append-only durable state principle [R12]. The analysis adds that Claude Code's project-level memory can be version-controlled alongside the codebase [R12]. The OpenHands SDK paper reports negligible event-sourcing overhead in production deployment data [R72].",
+   "claims": [
+    {
+     "claim": "The grite study describes a coordination substrate that needs no central server and stores its records inside git itself.",
+     "source_key": "R84",
+     "passage_id": "R84-A",
+     "quote": "We study this process through grite, our open-source coordination substrate that needs no central server and stores its records inside git itself, so its append-only, signed event log captures the coordination process directly.",
+     "locator": "abstract",
+     "id": "C45"
+    },
+    {
+     "claim": "The grite authors report that the log is a mineable artefact from which failure modes such as conflicting edits and lock starvation are automatically recoverable with provenance, several invisible in pull-request history.",
+     "source_key": "R84",
+     "passage_id": "R84-A",
+     "quote": "(iii) the log is a mineable artefact from which concrete failure modes - conflicting edits, lock starvation, redundant rediscovery, race-to-close - are automatically recoverable with provenance, several invisible in pull-request history.",
+     "locator": "abstract",
+     "id": "C46"
+    },
+    {
+     "claim": "The grite study also reports that every agent's copy of the log converges to the same state with no write silently dropped, where a file-based tracker loses concurrent writes.",
+     "source_key": "R84",
+     "passage_id": "R84-A",
+     "quote": "(ii) every agent's copy of the log converges to the same state with no write silently dropped, where a file-based tracker loses concurrent writes;",
+     "locator": "abstract",
+     "id": "C47"
+    },
+    {
+     "claim": "Claude Code's documentation-based analysis frames session persistence as a choice among several designs.",
+     "source_key": "R12",
+     "passage_id": "R12-P115",
+     "quote": "Session persistence in coding agents involves a design choice between append-only logs, structured databases, checkpoint-based snapshots, and stateless architectures, each with different trade-offs in auditability, query power, and deployment complexity.",
+     "locator": "sec. Session Persistence and Recovery, para 158",
+     "id": "C48"
+    },
+    {
+     "claim": "The same analysis states that Claude Code's persistence design implements the append-only durable state principle.",
+     "source_key": "R12",
+     "passage_id": "R12-P115",
+     "quote": "Claude Code's persistence design implements the append-only durable state principle from Table 1.",
+     "locator": "sec. Session Persistence and Recovery, para 158",
+     "id": "C49"
+    },
+    {
+     "claim": "The analysis adds that Claude Code's project-level memory can be version-controlled alongside the codebase.",
+     "source_key": "R12",
+     "passage_id": "R12-P94",
+     "quote": "project-level memory can be version-controlled alongside the codebase",
+     "locator": "sec. CLAUDE.md Hierarchy and Auto Memory, para 131",
+     "id": "C50"
+    },
+    {
+     "claim": "The OpenHands SDK paper reports negligible event-sourcing overhead in production deployment data.",
+     "source_key": "R72",
+     "passage_id": "R72-A",
+     "quote": "We validate the architecture empirically: production deployment data shows that V1 substantially reduces system-attributable failures over V0 with negligible event-sourcing overhead, and evaluations across multiple models and benchmarks demonstrate strong agent performance.",
+     "locator": "abstract",
+     "id": "C51"
+    }
+   ]
+  },
+  {
+   "heading": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "The Codex CLI entry describes the tool as a command-line interface that acts like a coding assistant directly in the terminal [R107]. A study of CLI agent failures names Codex alongside Claude Code and Gemini CLI as examples of terminal-based products [R15].\n\nThe software-engineering agent survey reports that DroidAgent embeds textual history into vectors and stores them in an external embedding database [R41]. The Claude Code analysis states that the system does not use embeddings or a vector similarity index for memory retrieval [R12]. The Claude Code analysis also says that CLAUDE.md files are plain-text Markdown rather than structured configuration or opaque database entries [R12]. One survey reports that a research agent embeds textual history into vectors and keeps them in an external embedding database, while an analysis of a coding harness states that its memory retrieval uses no embeddings or vector similarity index and that its memory files are plain-text Markdown; the two differ on vector storage, and both address agent memory.\n\nThe provenance survey reports that it reviewed key provenance representations, including structured logs, execution graphs, evidence graphs, tool dependency graphs, memory provenance, and multi-agent communication traces [R40]. The grite work stores coordination records inside git as an append-only, signed event log [R84]. The SWE-agent paper releases trajectories and evaluation execution traces as open artifacts [R5].",
+   "claims": [
+    {
+     "claim": "The Codex CLI entry describes the tool as a command-line interface that acts like a coding assistant directly in the terminal.",
+     "source_key": "R107",
+     "passage_id": "R107-A",
+     "quote": "One tool that puts this shift into action is the &lt;strong&gt; OpenAI Codex CLI &lt;/strong&gt; , a command-line interface powered by the same model driving GitHub Copilot. It acts like a coding assistant directly in your terminal.",
+     "locator": "abstract",
+     "id": "C52"
+    },
+    {
+     "claim": "A study of CLI agent failures names Codex alongside Claude Code and Gemini CLI as examples of terminal-based products.",
+     "source_key": "R15",
+     "passage_id": "R15-P1",
+     "quote": "Products such as Claude Code [5], Codex [6], and Gemini CLI [7] exemplify this trend.",
+     "locator": "sec. I. INTRODUCTION, para 1",
+     "id": "C53"
+    },
+    {
+     "claim": "The software-engineering agent survey reports that DroidAgent embeds textual history into vectors and stores them in an external embedding database.",
+     "source_key": "R41",
+     "passage_id": "R41-P186",
+     "quote": "Representative work like DroidAgent [181] embeds the textual history into vectors and stores them in an external embedding database.",
+     "locator": "sec. Memory, para 191",
+     "id": "C54"
+    },
+    {
+     "claim": "The Claude Code analysis states that the system does not use embeddings or a vector similarity index for memory retrieval.",
+     "source_key": "R12",
+     "passage_id": "R12-P94",
+     "quote": "The system does not use embeddings or a vector similarity index for memory retrieval;",
+     "locator": "sec. CLAUDE.md Hierarchy and Auto Memory, para 131",
+     "id": "C55"
+    },
+    {
+     "claim": "The Claude Code analysis also says that CLAUDE.md files are plain-text Markdown rather than structured configuration or opaque database entries.",
+     "source_key": "R12",
+     "passage_id": "R12-P94",
+     "quote": "CLAUDE.md files are plain-text Markdown rather than structured configuration or opaque database entries.",
+     "locator": "sec. CLAUDE.md Hierarchy and Auto Memory, para 131",
+     "id": "C56"
+    },
+    {
+     "claim": "The provenance survey reports that it reviewed key provenance representations, including structured logs, execution graphs, evidence graphs, tool dependency graphs, memory provenance, and multi-agent communication traces.",
+     "source_key": "R40",
+     "passage_id": "R40-P113",
+     "quote": "We reviewed key provenance representations, including structured logs, execution graphs, evidence graphs, tool dependency graphs, memory provenance, and multi-agent communication traces,",
+     "locator": "sec. Conclusion, para 133",
+     "id": "C57"
+    },
+    {
+     "claim": "The grite work stores coordination records inside git as an append-only, signed event log.",
+     "source_key": "R84",
+     "passage_id": "R84-A",
+     "quote": "stores its records inside git itself, so its append-only, signed event log captures the coordination process directly.",
+     "locator": "abstract",
+     "id": "C58"
+    },
+    {
+     "claim": "The SWE-agent paper releases trajectories and evaluation execution traces as open artifacts.",
+     "source_key": "R5",
+     "passage_id": "R5-P223",
+     "quote": "We also open source all inference and evaluation artifacts (e.g., trajectories, code generations, evaluation execution traces, analysis notebooks).",
+     "locator": "sec. E.2 Reproducibility, para 276",
+     "id": "C59"
+    }
+   ]
+  }
+ ],
+ "sentences": [
+  {
+   "id": "S1",
+   "section": "Introduction",
+   "text": "AI-assisted software development has moved from autocomplete-style tools toward agentic systems.",
+   "kind": "claim",
+   "claims": [
+    "C1"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8126e-05,
+     "latency_ms": 1846,
+     "trace_id": "e0873de256fd4869921e3bc4c0f95ce5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6362e-05,
+     "latency_ms": 2217,
+     "trace_id": "e56908138e4b404f951d61fe023e6caf",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.72,
+      "false": 0.28
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9488e-05,
+     "latency_ms": 220,
+     "trace_id": "ba2baf8c454f48518e816dd14e5f48f0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S2",
+   "section": "Introduction",
+   "text": "Many software engineering tasks are performed in terminal-based environments, where agents interact directly with repositories, dependencies, and build systems through the command line.",
+   "kind": "claim",
+   "claims": [
+    "C2"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 6.3153e-05,
+     "latency_ms": 2212,
+     "trace_id": "99cc4df527b34c029a61e254080c657a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.1257e-05,
+     "latency_ms": 1582,
+     "trace_id": "f292ef9fa2a1450db2fc78a23227ad28",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.730025e-05,
+     "latency_ms": 1275,
+     "trace_id": "3d7dbfa8c2934a93a0f7aeb7850e739a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.600425e-05,
+     "latency_ms": 835,
+     "trace_id": "6602cb92f00c434cbb83a4f2c51c4742",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.75,
+      "false": 0.25
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7892e-05,
+     "latency_ms": 250,
+     "trace_id": "4baf9f8a41844540ac46a7b7cc72375b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S3",
+   "section": "Introduction",
+   "text": "The reliability stakes are described in terms of silent error propagation.",
+   "kind": "claim",
+   "claims": [
+    "C3"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.716075e-05,
+     "latency_ms": 1611,
+     "trace_id": "0eb317a423cc40bb8fdb8941dcf7ef54",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.615275e-05,
+     "latency_ms": 893,
+     "trace_id": "3f7d53ade0304d658c5ac26c53069c2a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.78,
+      "false": 0.21999999999999997
+     },
+     "confidence": 0.78,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.848e-05,
+     "latency_ms": 174,
+     "trace_id": "266d111aa20e41469b02472a4b2f70fc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S4",
+   "section": "Introduction",
+   "text": "Because agents act through terminal commands on repositories and trajectory analysis is described as an emerging paradigm for understanding and improving them, the records of what an agent did become a natural object of study alongside its final result.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C2",
+    "C4"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.29,
+      "false": 0.71
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5582e-05,
+     "latency_ms": 121,
+     "trace_id": "ad9bb9ceb40e4804802b88097a344d7c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.75,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.095675e-05,
+     "latency_ms": 2996,
+     "trace_id": "35770534daba43abab5479bad0b799a3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S5",
+   "section": "Introduction",
+   "text": "Trajectory analysis has been described as an emerging paradigm for understanding and improving agents.",
+   "kind": "claim",
+   "claims": [
+    "C4"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.865925e-05,
+     "latency_ms": 1267,
+     "trace_id": "0333c24379074b55895368d4b8863f84",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.58265e-05,
+     "latency_ms": 1578,
+     "trace_id": "fae95280c13841c993648e5598cae8dd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.60065e-05,
+     "latency_ms": 1427,
+     "trace_id": "11f51748429d45a2ab7544f4ce6ab4d8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S6",
+   "section": "Introduction",
+   "text": "One early study normalized agent logs into thought-action-result triples over 120 trajectories.",
+   "kind": "claim",
+   "claims": [
+    "C5"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.865925e-05,
+     "latency_ms": 1185,
+     "trace_id": "4ff13ce0ae8b441ca6dc4bb90ea2d21a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.5822e-05,
+     "latency_ms": 1371,
+     "trace_id": "21151de07dbe435899d3c2cc45663353",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.602225e-05,
+     "latency_ms": 742,
+     "trace_id": "9caaa085203e4a32858537476ca664d0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S7",
+   "section": "Introduction",
+   "text": "A study of failure trajectories collected runs from OpenHands, MiniSWE, and Terminus2 on Terminal-Bench.",
+   "kind": "claim",
+   "claims": [
+    "C6"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8549e-05,
+     "latency_ms": 1078,
+     "trace_id": "d4f66a556bba4473b1bca2edc832b8fc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61145e-05,
+     "latency_ms": 777,
+     "trace_id": "a13006dc0ea84fc0a03a18f287ed991c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.986075e-05,
+     "latency_ms": 2051,
+     "trace_id": "8d5d0fa3a5df4d74844181049a2fcc7d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S8",
+   "section": "Introduction",
+   "text": "SWE-agent introduced a custom agent-computer interface (ACI) that, according to its authors, significantly enhances an agent's ability to create and edit code files, navigate entire repositories, and execute tests and other programs.",
+   "kind": "claim",
+   "claims": [
+    "C7"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 8.58465e-05,
+     "latency_ms": 3213,
+     "trace_id": "d349c3ae517947e29b11e1a962e51625",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.84815e-05,
+     "latency_ms": 800,
+     "trace_id": "a126c19bf75d4dac8fbfe429caaa487a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6272e-05,
+     "latency_ms": 1999,
+     "trace_id": "17b09a9c59924dbdbd5b1b3562e282ff",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.65285e-05,
+     "latency_ms": 721,
+     "trace_id": "a1058ca1c4a4473aaef27a4b3fe2cf69",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S9",
+   "section": "Introduction",
+   "text": "The SWE-agent authors also released trajectories and evaluation execution traces as open artifacts.",
+   "kind": "claim",
+   "claims": [
+    "C8"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.769868e-05,
+     "latency_ms": 3706,
+     "trace_id": "1b4d0c75c47347cb8b3c54fc9dee156c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.582893e-05,
+     "latency_ms": 2650,
+     "trace_id": "5ead996c2c084d8597b460b615607340",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.9602e-05,
+     "latency_ms": 1123,
+     "trace_id": "9110e29d692c4e669755cf35129c0e8c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S10",
+   "section": "Introduction",
+   "text": "OpenHands is presented as a platform for agents that write code, use a command line, and browse the web.",
+   "kind": "claim",
+   "claims": [
+    "C9"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.833525e-05,
+     "latency_ms": 1279,
+     "trace_id": "27b92c76f6d34f5e9211b86fbd7c35a5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6281e-05,
+     "latency_ms": 1558,
+     "trace_id": "9e1c5120968b41f6b439c8d39cdf547e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8942e-05,
+     "latency_ms": 151,
+     "trace_id": "cdb3b7747c02405b996b16fdbbefd566",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S11",
+   "section": "Introduction",
+   "text": "Claude Code's architecture has been described by analyzing its publicly available source code and comparing it with two open-source agent systems, OpenClaw and Hermes Agent.",
+   "kind": "claim",
+   "claims": [
+    "C10"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.963125e-05,
+     "latency_ms": 1465,
+     "trace_id": "df824798fa9e41c5a807e74519552ca0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.525425e-05,
+     "latency_ms": 2284,
+     "trace_id": "2ded17c229894829ac5fb41900da22a9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.994175e-05,
+     "latency_ms": 1159,
+     "trace_id": "653ea188a2874f59a1a76274ef823705",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6542e-05,
+     "latency_ms": 1287,
+     "trace_id": "b0708895cc8e4794bc2fd516c9b03665",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.81,
+      "false": 0.18999999999999995
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.995e-05,
+     "latency_ms": 104,
+     "trace_id": "9dfe4956fa1d47e29529043a088836a3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S12",
+   "section": "Introduction",
+   "text": "Storage choices are framed as design trade-offs. Session persistence in coding agents involves a choice among append-only logs, structured databases, checkpoint snapshots, and stateless architectures.",
+   "kind": "claim",
+   "claims": [
+    "C11"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.709325e-05,
+     "latency_ms": 1594,
+     "trace_id": "1d5927f9aaee442091e884ef284fd1e3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.626525e-05,
+     "latency_ms": 1329,
+     "trace_id": "eed0fab74c8f45d28fddd8425a8ccbfa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.798125e-05,
+     "latency_ms": 1587,
+     "trace_id": "e2c8e2cdc4fe493c8a38804976e79417",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S13",
+   "section": "Introduction",
+   "text": "For memory, one analysis notes that embedding-based retrieval gains flexibility at the cost of inspectability.",
+   "kind": "claim",
+   "claims": [
+    "C12"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8774e-05,
+     "latency_ms": 911,
+     "trace_id": "9d5e5924eb5a44ecb8f2e5cbe0a863ca",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.605825e-05,
+     "latency_ms": 749,
+     "trace_id": "be836172b3974d11a2604ac19f29d11d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.80495e-05,
+     "latency_ms": 1141,
+     "trace_id": "3c3b299ac2954e8592a1de95183bbeda",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S14",
+   "section": "Introduction",
+   "text": "From an observability angle, a taxonomy of AgentOps tools identifies the artifacts and data that should be traced across an agent's lifecycle.",
+   "kind": "claim",
+   "claims": [
+    "C13"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.7721e-05,
+     "latency_ms": 1500,
+     "trace_id": "f176f94ebe954cd290ec2708f1ff6a32",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.604925e-05,
+     "latency_ms": 770,
+     "trace_id": "a8c0d26b334d4ed7861083015193fd3b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.7,
+      "false": 0.30000000000000004
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8144e-05,
+     "latency_ms": 104,
+     "trace_id": "df2b0224bbde4ce8a5c523b95283a727",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S15",
+   "section": "Introduction",
+   "text": "The AgentOps taxonomy lists task status, such as pending, in progress, or completed, among the traced data.",
+   "kind": "claim",
+   "claims": [
+    "C14"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6704e-05,
+     "latency_ms": 1231,
+     "trace_id": "d1a0b76240584ba8a8ece487b7d6fc03",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.670175e-05,
+     "latency_ms": 1109,
+     "trace_id": "6e4964e443cc4ed2be1b827e5f6da055",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6083e-05,
+     "latency_ms": 1444,
+     "trace_id": "7d299a254e97447bb79a6b3e459653ff",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.991475e-05,
+     "latency_ms": 1030,
+     "trace_id": "dfcce8f9c765413fb8957ea7496f095d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S16",
+   "section": "Introduction",
+   "text": "The sections that follow take up how these threads bear on trace content, format, granularity, and storage.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.92,
+      "false": 0.07999999999999996
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.554e-05,
+     "latency_ms": 93,
+     "trace_id": "9db0a3ffc4a04ee786340fa94ded5eba",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S17",
+   "section": "How traces represent development progress: edits, tests, and task state",
+   "text": "The passages below illustrate several ways in which traces encode what an agent did and how its task is progressing.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.13,
+      "false": 0.87
+     },
+     "confidence": 0.87,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5876e-05,
+     "latency_ms": 164,
+     "trace_id": "4e69eef8f85940ca93673354711ef3a2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.57005e-05,
+     "latency_ms": 1649,
+     "trace_id": "36b0be5854044324a033b55ea736790e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S18",
+   "section": "How traces represent development progress: edits, tests, and task state",
+   "text": "The Bouzenia study of RepairAgent, AutoCodeRover and OpenHands unified their interaction logs into a common format covering 120 trajectories and 2,822 LLM interactions.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.876275e-05,
+     "latency_ms": 1451,
+     "trace_id": "767ade68755042158f4cde52126bdde7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.614825e-05,
+     "latency_ms": 1177,
+     "trace_id": "170c628c5f124c38b6397ddb30c6624d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.26,
+      "false": 0.74
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.89e-05,
+     "latency_ms": 209,
+     "trace_id": "372af866b33a4192bd59208fbefb4f4d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00359,
+     "latency_ms": 2943,
+     "trace_id": "be2f41eb91a5438ea0d73d25a6045aad",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8774e-05,
+     "latency_ms": 912,
+     "trace_id": "ac27138cf77941bea00b0babd5973d37",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.623375e-05,
+     "latency_ms": 1315,
+     "trace_id": "5a894b8e57464dae874a0b5d6b03e24e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.22,
+      "false": 0.78
+     },
+     "confidence": 0.78,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8942e-05,
+     "latency_ms": 247,
+     "trace_id": "5da385a1ed164280a222d86c20c17a25",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.72,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003444,
+     "latency_ms": 2707,
+     "trace_id": "fbfb9f050e5a490f985abda3c6224411",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S19",
+   "section": "How traces represent development progress: edits, tests, and task state",
+   "text": "A later study of CLI coding agent trajectories reports that Bouzenia et al. normalized agent logs into thought-action-result triples over 120 trajectories.",
+   "kind": "claim",
+   "claims": [
+    "C15"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.891125e-05,
+     "latency_ms": 1189,
+     "trace_id": "1ee961befa9d4e5592a4c899b25889f4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.599525e-05,
+     "latency_ms": 1396,
+     "trace_id": "40f915f38a854c5ba6a6cf96f9a5c101",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.651575e-05,
+     "latency_ms": 4151,
+     "trace_id": "ccae149070e544519dc1bda4ed1addbc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.93,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002662,
+     "latency_ms": 1986,
+     "trace_id": "379b9d5bd298487ca47edeadae543400",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S20",
+   "section": "How traces represent development progress: edits, tests, and task state",
+   "text": "Graphectory encodes the temporal and semantic relations of agent trajectories as graphs, and was applied to 4000 SWE-agent and OpenHands trajectories.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.062575e-05,
+     "latency_ms": 1361,
+     "trace_id": "7c514b253a2e4dd19a7d5cdd206ec10f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.871675e-05,
+     "latency_ms": 1018,
+     "trace_id": "8b14237ba50b49bca6d4569e3f997867",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.04435e-05,
+     "latency_ms": 1418,
+     "trace_id": "8144470b858a44e89c8f562ed0da7da2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 6.7041e-05,
+     "latency_ms": 3204,
+     "trace_id": "6ea47bf8081c4e4a9a0bbef688b43950",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S21",
+   "section": "How traces represent development progress: edits, tests, and task state",
+   "text": "In the SWE-bench construction pipeline, repository-specific parsers convert validation logs into mappings from each test to a fail or pass status.",
+   "kind": "claim",
+   "claims": [
+    "C16"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.854918e-05,
+     "latency_ms": 3589,
+     "trace_id": "1aa9d35ead6f4a7faff41320b4f0c6be",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.60965e-05,
+     "latency_ms": 1145,
+     "trace_id": "675f0b3c70f44e3fa10e986cc6e90c9a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.982412e-05,
+     "latency_ms": 1728,
+     "trace_id": "35dd9461720748e590c2efc22a51338c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S22",
+   "section": "How traces represent development progress: edits, tests, and task state",
+   "text": "Terminal-Bench, by contrast, scores outcome only, so that a run passes only if the final environment state satisfies the tests.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.7919e-05,
+     "latency_ms": 1040,
+     "trace_id": "02b1647345e442a68778a983fd41a514",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unresolved_source"
+  },
+  {
+   "id": "S23",
+   "section": "How traces represent development progress: edits, tests, and task state",
+   "text": "SWE-agent's failure analysis combined the agent's trajectory with the patch generated by its changes and the gold patch, so that an LM could categorize unresolved instances.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.747575e-05,
+     "latency_ms": 1472,
+     "trace_id": "26fed9a50b3049bf938fdd436647cc1f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.60965e-05,
+     "latency_ms": 1480,
+     "trace_id": "ac206d1bbfdf4aa38e7aad0fcb277a00",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.771475e-05,
+     "latency_ms": 3593,
+     "trace_id": "fee9a068e1624446b8b4649abc4770ae",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002858,
+     "latency_ms": 2224,
+     "trace_id": "81fc49f35a884199a87f3b0cfd0928c8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.7613e-05,
+     "latency_ms": 747,
+     "trace_id": "bd1a44c7196746009b088b4c357f4974",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6155e-05,
+     "latency_ms": 962,
+     "trace_id": "9ebb38607fcb4821b647355f4bb90829",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.787325e-05,
+     "latency_ms": 3518,
+     "trace_id": "752fe4b734624119a170a0394d6cdd41",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.72,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003456,
+     "latency_ms": 2994,
+     "trace_id": "a1a45ff800fb40de9bf12eb0cea1013e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S24",
+   "section": "How traces represent development progress: edits, tests, and task state",
+   "text": "SWE-agent's failure analysis found that Failed Edit Recovery, where models fail to generate well-formed edits, made up 23.4% of unresolved instances.",
+   "kind": "claim",
+   "claims": [
+    "C17"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.7289e-05,
+     "latency_ms": 1913,
+     "trace_id": "8e5d0a33d9ff4b4b9a525d2375599209",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.740375e-05,
+     "latency_ms": 1181,
+     "trace_id": "b571be4156f1485d94ce3de9b23746d5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.620225e-05,
+     "latency_ms": 1215,
+     "trace_id": "aacd5579320d481f89fe37540754ac54",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.26,
+      "false": 0.74
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.869e-05,
+     "latency_ms": 267,
+     "trace_id": "b5d209448e19433089f8e75b65b76c4f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.62,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004074,
+     "latency_ms": 2803,
+     "trace_id": "d66d6418947d4f35b0552e3189cbfff1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": "unsettled at write time: the reference judge was unsure"
+  },
+  {
+   "id": "S25",
+   "section": "How traces represent development progress: edits, tests, and task state",
+   "text": "For explicit task state, the AgentOps taxonomy defines a Task Status field holding states such as pending, in progress or completed, together with the task's result.",
+   "kind": "claim",
+   "claims": [
+    "C18"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.67895e-05,
+     "latency_ms": 1066,
+     "trace_id": "3f067d786dcf4549bba4385cea79dad1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.62225e-05,
+     "latency_ms": 2125,
+     "trace_id": "3b28477a5e294201a7bc79537479c2bc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.99575e-05,
+     "latency_ms": 1056,
+     "trace_id": "5e876dfafcd94f4d8f5ecba31d303ca9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S26",
+   "section": "How traces represent development progress: edits, tests, and task state",
+   "text": "Coordination records offer a different view: grite stores an append-only, signed event log inside git itself.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8279e-05,
+     "latency_ms": 989,
+     "trace_id": "53437e65d4be4993a68087d7a0b4f830",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.742245e-05,
+     "latency_ms": 2192,
+     "trace_id": "0a7d9119b1884121bba363e8745e3166",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.839825e-05,
+     "latency_ms": 1191,
+     "trace_id": "8401dba9da934f1ebe01bbb09527747a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 6.0021e-05,
+     "latency_ms": 2561,
+     "trace_id": "f43ce277fbc040a2bd813061fbdcdfa2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.22,
+      "false": 0.78
+     },
+     "confidence": 0.78,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7682e-05,
+     "latency_ms": 198,
+     "trace_id": "5a195f302b6144d1936a903c67be2d31",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.0031,
+     "latency_ms": 3936,
+     "trace_id": "a7efa23590654029ad4bfaccad485717",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S27",
+   "section": "How traces represent development progress: edits, tests, and task state",
+   "text": "Trace representations in the passages include normalized thought-action-result triples over agent trajectories, per-test fail or pass mappings parsed from validation logs, and an explicit task-status field with states such as pending, in progress or completed.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C15",
+    "C16",
+    "C18"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.75,
+      "false": 0.25
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.5956e-05,
+     "latency_ms": 115,
+     "trace_id": "a3b723d4ccc344b3bb50aecfc0e719b1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S28",
+   "section": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "The sources describe several ways of representing coding-agent traces, beginning with efforts to unify heterogeneous logs.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6128e-05,
+     "latency_ms": 148,
+     "trace_id": "56cfad73a81846a2a33cb8fedefe00be",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.3,
+      "false": 0.7
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6254e-05,
+     "latency_ms": 99,
+     "trace_id": "7fff214906df4e82bfa0bee332969695",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S29",
+   "section": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "Bouzenia and colleagues unified the interaction logs of RepairAgent, AutoCodeRover, and OpenHands into a common format, capturing 120 trajectories and 2,822 LLM interactions.",
+   "kind": "claim",
+   "claims": [
+    "C19"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.927521e-05,
+     "latency_ms": 2086,
+     "trace_id": "525f3a86458841d59c1eabba515ee342",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.633257e-05,
+     "latency_ms": 728,
+     "trace_id": "d481a3d83ef448a48e358255f34e7e35",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.000114543,
+     "latency_ms": 3753,
+     "trace_id": "0cf65e8079674a238832c32531f45f5e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S30",
+   "section": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "A later study describes that earlier work as normalizing agent logs into thought-action-result triples over 120 trajectories.",
+   "kind": "claim",
+   "claims": [
+    "C20"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.873377e-05,
+     "latency_ms": 1233,
+     "trace_id": "b510e9f8d45b4f32b77d6f8d27259a35",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.591011e-05,
+     "latency_ms": 1202,
+     "trace_id": "dc388d4e82b846569bc795cb0f889cab",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.29,
+      "false": 0.71
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.785e-05,
+     "latency_ms": 152,
+     "trace_id": "673efd5e446e49c1b09e01f236576d8b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002992,
+     "latency_ms": 2430,
+     "trace_id": "df294a79bce647a48bd371773d5a893b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S31",
+   "section": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "The OpenHands Software Agent SDK paper reports that production deployment data show negligible event-sourcing overhead.",
+   "kind": "claim",
+   "claims": [
+    "C21"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.93419e-05,
+     "latency_ms": 1671,
+     "trace_id": "5c34c98b17664168b6178cf2796843aa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.610325e-05,
+     "latency_ms": 1201,
+     "trace_id": "4236d4143b154bcdbf6aff76d3f469b9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.79,
+      "false": 0.20999999999999996
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8648e-05,
+     "latency_ms": 207,
+     "trace_id": "a6eda01632724ff5aa2732291d7ad51f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S32",
+   "section": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "Other work builds graph structures over trajectories from these harnesses.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5876e-05,
+     "latency_ms": 146,
+     "trace_id": "0387a78731c948298afb9cf6337ac24f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.1,
+      "false": 0.9
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5792e-05,
+     "latency_ms": 92,
+     "trace_id": "919c6aeeb8894db594d6a207c66b9f47",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S33",
+   "section": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "The authors of Graphectory use it to automatically analyze 4000 trajectories from SWE-agent and OpenHands, run with a combination of four backbone LLMs on SWE-bench Verified issues.",
+   "kind": "claim",
+   "claims": [
+    "C22"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.075256e-05,
+     "latency_ms": 1564,
+     "trace_id": "c47edc1d1637485392f3439e59c43745",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.263256e-05,
+     "latency_ms": 1765,
+     "trace_id": "8d6c88a9913042ceaa21a77014efe92b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.154285e-05,
+     "latency_ms": 1494,
+     "trace_id": "62af430c4f064f56abcad44334aa9457",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.641501e-05,
+     "latency_ms": 1207,
+     "trace_id": "19b00f6d76a24f038d126dc38f1deae2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9404e-05,
+     "latency_ms": 203,
+     "trace_id": "425105f58ae4445ca38f1f3387a3153e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S34",
+   "section": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "A survey of provenance states that logs give chronological observability but may not show which tool output changed the plan.",
+   "kind": "claim",
+   "claims": [
+    "C23"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.815147e-05,
+     "latency_ms": 834,
+     "trace_id": "aa64d406f26d4d4bb3c469e0936405a0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.641447e-05,
+     "latency_ms": 1145,
+     "trace_id": "8e50e5768eb44e6aab1e62a960abe05a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.770376e-05,
+     "latency_ms": 2158,
+     "trace_id": "12655fb37b94410cbe37646d743948e9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003494,
+     "latency_ms": 3093,
+     "trace_id": "782bf7a858b649a58b5ea74f0c0dc9b8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": "unsettled at write time: the reference judge was unsure"
+  },
+  {
+   "id": "S35",
+   "section": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "A study of CLI agents collected 3,843 trajectories across OpenHands, MiniSWE, and Terminus2 on Terminal-Bench.",
+   "kind": "claim",
+   "claims": [
+    "C24"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.929033e-05,
+     "latency_ms": 1413,
+     "trace_id": "80673eec159c49f8a08cb5f00f9f7564",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.652517e-05,
+     "latency_ms": 1862,
+     "trace_id": "ac28ccf4437440308e57625ae0aeae2a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.72,
+      "false": 0.28
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8564e-05,
+     "latency_ms": 261,
+     "trace_id": "0edf2180934b484aa0ad4fca5f886967",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S36",
+   "section": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "Coordination records can also live in version control, as in grite, whose append-only signed event log is stored inside git.",
+   "kind": "claim",
+   "claims": [
+    "C25"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.841004e-05,
+     "latency_ms": 792,
+     "trace_id": "cf1f8208fb9d4dbca0e43bb15654c258",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.646892e-05,
+     "latency_ms": 745,
+     "trace_id": "3c11d6970ae4421f9b2b8e5d4e93d271",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.988001e-05,
+     "latency_ms": 2280,
+     "trace_id": "147bd9afed4b4a70aaafe7579c1074f5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S37",
+   "section": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "On storage, a software-engineering agent survey reports that DroidAgent embeds textual history into vectors held in an external embedding database.",
+   "kind": "claim",
+   "claims": [
+    "C26"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.956222e-05,
+     "latency_ms": 728,
+     "trace_id": "5ad70937347049d3acfa128e5cfb2e8b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.629891e-05,
+     "latency_ms": 742,
+     "trace_id": "ae7a46eb3325466581c87d22a3fba718",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.73,
+      "false": 0.27
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7724e-05,
+     "latency_ms": 129,
+     "trace_id": "fc7467f8d2ea4d36af77fdf5ac060893",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S38",
+   "section": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "text": "On storage, one software-engineering agent survey reports that DroidAgent embeds textual history into vectors held in an external embedding database.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C26"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.25,
+      "false": 0.75
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.6249999999999998e-05,
+     "latency_ms": 123,
+     "trace_id": "ae8f805cd486495ba1ef640175fd6523",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003484,
+     "latency_ms": 2566,
+     "trace_id": "a7ddb8ff13ad4a078c368307bd70c109",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.92,
+      "false": 0.07999999999999996
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0664e-05,
+     "latency_ms": 114,
+     "trace_id": "dc069c6a3fcd43b09f6c06938ff41a14",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S39",
+   "section": "Claude Code session storage and memory retrieval without vector indexes",
+   "text": "The Claude Code source analysis states that session persistence in coding agents involves a design choice between append-only logs, structured databases, checkpoint-based snapshots, and stateless architectures.",
+   "kind": "claim",
+   "claims": [
+    "C27"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.742085e-05,
+     "latency_ms": 1146,
+     "trace_id": "48224039bf574f26951b18be0d37167a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.608876e-05,
+     "latency_ms": 1444,
+     "trace_id": "ed95bc35d95a46ab8e8092b1f8cd12df",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.569881e-05,
+     "latency_ms": 3157,
+     "trace_id": "d14be74b36d9460eb7379b59294ab0a3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.720881e-05,
+     "latency_ms": 774,
+     "trace_id": "4f643e0b119a40da9bdd2eac5d3939fd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.626876e-05,
+     "latency_ms": 816,
+     "trace_id": "409264e55a3a441d84e22101d1f61da8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.78,
+      "false": 0.21999999999999997
+     },
+     "confidence": 0.78,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8816e-05,
+     "latency_ms": 164,
+     "trace_id": "cf7b41d36a6f4bfc9f35ea41e5d799db",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S40",
+   "section": "Claude Code session storage and memory retrieval without vector indexes",
+   "text": "The same analysis states that Claude Code's persistence design implements the append-only durable state principle.",
+   "kind": "claim",
+   "claims": [
+    "C28"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.693314e-05,
+     "latency_ms": 1736,
+     "trace_id": "9c68f0238a674b078b3e7802223aa4ed",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.598508e-05,
+     "latency_ms": 1168,
+     "trace_id": "bb1be89c092c4f32a16801a311b96af4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.73,
+      "false": 0.27
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7094e-05,
+     "latency_ms": 178,
+     "trace_id": "816099e487984a9ab63c7410fc79554f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S41",
+   "section": "Claude Code session storage and memory retrieval without vector indexes",
+   "text": "The abstract of that study lists append-oriented session storage among the systems surrounding the core loop.",
+   "kind": "claim",
+   "claims": [
+    "C29"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.972755e-05,
+     "latency_ms": 1300,
+     "trace_id": "e6e587d572a343799d9b44623179e23e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.638126e-05,
+     "latency_ms": 886,
+     "trace_id": "aa8f9966e619477ea51b6f8fbf0d08b1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.457251e-05,
+     "latency_ms": 1496,
+     "trace_id": "f0585f3f90b54c4f99d7dc892a155417",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S42",
+   "section": "Claude Code session storage and memory retrieval without vector indexes",
+   "text": "For memory retrieval, the Claude Code analysis reports that the system avoids embeddings and uses an LLM scan of file headers.",
+   "kind": "claim",
+   "claims": [
+    "C30"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.885752e-05,
+     "latency_ms": 918,
+     "trace_id": "928feef193e5409f8c79475a05bad00f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.623501e-05,
+     "latency_ms": 738,
+     "trace_id": "ebeb7d46b1b34df594555863776ced51",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8816e-05,
+     "latency_ms": 110,
+     "trace_id": "efbf18c882484daf992d8f891b5270f9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S43",
+   "section": "Claude Code session storage and memory retrieval without vector indexes",
+   "text": "The analysis states that CLAUDE.md files are plain-text Markdown rather than structured configuration or opaque database entries.",
+   "kind": "claim",
+   "claims": [
+    "C31"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.900701e-05,
+     "latency_ms": 1134,
+     "trace_id": "edb17542dcc94c07902fc1e90f67f821",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.68064e-05,
+     "latency_ms": 1653,
+     "trace_id": "c5c859f824954664abd48d84e278fa64",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.912014e-05,
+     "latency_ms": 1343,
+     "trace_id": "d8b9fbd76542471c83ec803608d0b790",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.601757e-05,
+     "latency_ms": 1221,
+     "trace_id": "b64d838050164865a4100bb7cb1d6756",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.81,
+      "false": 0.18999999999999995
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7304e-05,
+     "latency_ms": 99,
+     "trace_id": "cc97e0b455e847a8a23a4cb42e17cdc7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S44",
+   "section": "Claude Code session storage and memory retrieval without vector indexes",
+   "text": "The Claude Code analysis characterises retrieval-augmented approaches as gaining flexibility at the cost of inspectability.",
+   "kind": "claim",
+   "claims": [
+    "C32"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.879002e-05,
+     "latency_ms": 2253,
+     "trace_id": "41c45f042ea24f918d00a19ab4caa3c0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.944153e-05,
+     "latency_ms": 1681,
+     "trace_id": "bb3506e0370a4546b2dde97ec22f9f4d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.620693e-05,
+     "latency_ms": 1126,
+     "trace_id": "7b6f1795a18e4acdb07ecc738a096879",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.73,
+      "false": 0.27
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8395999999999998e-05,
+     "latency_ms": 133,
+     "trace_id": "8047fce3e4e542429d0b5817b1aea451",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S45",
+   "section": "Claude Code session storage and memory retrieval without vector indexes",
+   "text": "A broader software-engineering survey describes embedding-based memory as a storage format used by other agents.",
+   "kind": "claim",
+   "claims": [
+    "C33"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.310002e-05,
+     "latency_ms": 1255,
+     "trace_id": "fa5a5c51296443d985767d215fec687a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.742379e-05,
+     "latency_ms": 1577,
+     "trace_id": "998eb590ac9f42d086f7d71ac2275e78",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.29,
+      "false": 0.71
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7388e-05,
+     "latency_ms": 135,
+     "trace_id": "b7444f05fa4b4ac0a98b44bb931ea280",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004332,
+     "latency_ms": 3153,
+     "trace_id": "2d65213762764865a3e434858f5b7302",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": "unsettled at write time: the reference judge was unsure"
+  },
+  {
+   "id": "S46",
+   "section": "Claude Code session storage and memory retrieval without vector indexes",
+   "text": "The survey describes a key-value pair memory format in which information received from agents is stored in an external memory, with a key extracted for the agents to query required history memories.",
+   "kind": "claim",
+   "claims": [
+    "C34"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.930842e-05,
+     "latency_ms": 1058,
+     "trace_id": "8c940d9d7f5e4d5280c0c93a47e1dcf5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.116501e-05,
+     "latency_ms": 1732,
+     "trace_id": "e0847396f1ad47619e16203bac88da41",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.961658e-05,
+     "latency_ms": 1661,
+     "trace_id": "96c66e5853d4476aba668a5b0343e389",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.624941e-05,
+     "latency_ms": 1271,
+     "trace_id": "985b77fc978f41dc8cee136338909645",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.194954e-05,
+     "latency_ms": 2322,
+     "trace_id": "5a6320ffcdb4421fb7c2876a9f582ce8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.62,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00328,
+     "latency_ms": 2693,
+     "trace_id": "897dda4dd9684908b1759f315209bba0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": "unsettled at write time: the reference judge was unsure"
+  },
+  {
+   "id": "S47",
+   "section": "Claude Code session storage and memory retrieval without vector indexes",
+   "text": "Taken together, the sources place Claude Code's file-based, non-vector approach alongside vector-database memory that the survey documents in other agents.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C30",
+    "C33"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.235064e-05,
+     "latency_ms": 2298,
+     "trace_id": "0125633866264b2b88d0da1604628da0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S48",
+   "section": "Claude Code session storage and memory retrieval without vector indexes",
+   "text": "The Claude Code analysis describes the experiential tier, meaning automatically curated playbooks of strategies learned from past sessions, as the natural next step.",
+   "kind": "claim",
+   "claims": [
+    "C35"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.942407e-05,
+     "latency_ms": 949,
+     "trace_id": "0929e29126454e8da4a14705da1c23f1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.896201e-05,
+     "latency_ms": 759,
+     "trace_id": "0d622163810942f0a2bfd0d4c2c50256",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.633626e-05,
+     "latency_ms": 1502,
+     "trace_id": "dda8a35407664166af8f9adc6d3dd5a0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.022255e-05,
+     "latency_ms": 1429,
+     "trace_id": "2aa22639892e491f84998491ad3e0dca",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S49",
+   "section": "Observability platforms and tracing standards for agents",
+   "text": "The following paragraphs turn to how observability for agents is described across general frameworks and in coding-agent settings.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6044e-05,
+     "latency_ms": 160,
+     "trace_id": "23ab2d5481234a72a6f127d0c3f773e8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9,
+      "false": 0.09999999999999998
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5918e-05,
+     "latency_ms": 187,
+     "trace_id": "a3d1b0d6bf344b898364bda3b723c341",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S50",
+   "section": "Observability platforms and tracing standards for agents",
+   "text": "The AgentOps study states that by adding traces, AgentOps captures the entire process from the moment a user sends a prompt to the final output.",
+   "kind": "claim",
+   "claims": [
+    "C36"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.810638e-05,
+     "latency_ms": 770,
+     "trace_id": "c5a22b81849540b3aad6fbefabbd7544",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.639701e-05,
+     "latency_ms": 827,
+     "trace_id": "8e42d74b9c584509b7fc13c762c38b97",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.86,
+      "false": 0.14
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8354e-05,
+     "latency_ms": 97,
+     "trace_id": "3a0b1432790243d6a1858dcb0c8c6f1f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S51",
+   "section": "Observability platforms and tracing standards for agents",
+   "text": "The same study reports that all tools listed in its Table 3 have implemented tracing functionality.",
+   "kind": "claim",
+   "claims": [
+    "C37"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.770939e-05,
+     "latency_ms": 1330,
+     "trace_id": "0576b6b4ce0a404d81b58a978addaa9b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.569438e-05,
+     "latency_ms": 1641,
+     "trace_id": "15dd65b33c3646db9048f4056bdd6369",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.299751e-05,
+     "latency_ms": 3784,
+     "trace_id": "6ef05a95dd344478852630d9d73620aa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S52",
+   "section": "Observability platforms and tracing standards for agents",
+   "text": "The survey on evidence tracing says distributed observability frameworks such as OpenTelemetry model executions as traces and spans, which is useful for describing multi-step agent runs.",
+   "kind": "claim",
+   "claims": [
+    "C38"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.857825e-05,
+     "latency_ms": 780,
+     "trace_id": "7105fec3ab1640c7809acacd6c9fbf93",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.621251e-05,
+     "latency_ms": 792,
+     "trace_id": "958a041eba9040818b81826226da19db",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.037204e-05,
+     "latency_ms": 1534,
+     "trace_id": "41790e31fbaa450f87cd69057e2a064e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S53",
+   "section": "Observability platforms and tracing standards for agents",
+   "text": "AgentTelemetry reports that OpenTelemetry's GenAI semantic conventions leave five agent orchestration phases without span-level representation.",
+   "kind": "claim",
+   "claims": [
+    "C39"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.050713e-05,
+     "latency_ms": 2125,
+     "trace_id": "f23cc69ffc9648c0a965ba50514a67ff",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.619001e-05,
+     "latency_ms": 1173,
+     "trace_id": "db972d84d0ca4ae39a13a909daa2dfa8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.82,
+      "false": 0.18000000000000005
+     },
+     "confidence": 0.82,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9026e-05,
+     "latency_ms": 123,
+     "trace_id": "186b1c144b06418caee64cf75e3cdfc2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S54",
+   "section": "Observability platforms and tracing standards for agents",
+   "text": "The provenance survey likewise states that LLM agents add semantic and procedural objects that existing provenance and observability traditions do not fully capture.",
+   "kind": "claim",
+   "claims": [
+    "C40"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.862829e-05,
+     "latency_ms": 992,
+     "trace_id": "91357b7d0bb64d8b97cbf3549547db74",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.631376e-05,
+     "latency_ms": 1180,
+     "trace_id": "0ef672a1455644e38b86543c68f487dd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.663569e-05,
+     "latency_ms": 876,
+     "trace_id": "5de902e53c094c9da6c95b334363c6a4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S55",
+   "section": "Observability platforms and tracing standards for agents",
+   "text": "Two sources treat standard tracing as a base, with one reporting that AgentOps adds traces to capture the whole process from user prompt to final output, and the other noting that OpenTelemetry models executions as traces and spans that suit multi-step agent runs. Two further sources report that this base is incomplete, with one finding that OpenTelemetry's GenAI semantic conventions leave five agent orchestration phases without span-level representation, and the other stating that LLM agents add semantic and procedural objects that existing provenance and observability traditions do not fully capture.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C36",
+    "C38",
+    "C39",
+    "C40"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.008264e-05,
+     "latency_ms": 2700,
+     "trace_id": "363a22995a7d471bb38cc9910c8721fa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003214,
+     "latency_ms": 2883,
+     "trace_id": "5ae99b6c9b984689bb217387cecd727b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.8,
+      "false": 0.19999999999999996
+     },
+     "confidence": 0.8,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.213e-05,
+     "latency_ms": 94,
+     "trace_id": "56c633d7d1874539b3beafb54f62cf5c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S56",
+   "section": "Observability platforms and tracing standards for agents",
+   "text": "For coding agents specifically, the AgentTelemetry case study on SWE-bench Lite reports that 84 of 112 runs exhausted the 8-iteration limit and were classified as reasoning loops.",
+   "kind": "claim",
+   "claims": [
+    "C41"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.110356e-05,
+     "latency_ms": 1000,
+     "trace_id": "825e1fff514d4233aaf57a2cde400299",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.737639e-05,
+     "latency_ms": 777,
+     "trace_id": "bddd1640575f40f3b3862cd313a0428e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.727064e-05,
+     "latency_ms": 1403,
+     "trace_id": "c7912084646f4af2b40fdf8e71173eb6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S57",
+   "section": "Observability platforms and tracing standards for agents",
+   "text": "The grite study reports that its append-only, signed event log is stored inside git itself.",
+   "kind": "claim",
+   "claims": [
+    "C42"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.887777e-05,
+     "latency_ms": 836,
+     "trace_id": "a37eb11fd06b44f6899e050bc8c9ab23",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.608129e-05,
+     "latency_ms": 790,
+     "trace_id": "acce6eabc4db4ab4b61d0b71600c0707",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7933999999999998e-05,
+     "latency_ms": 96,
+     "trace_id": "ab7ed8afcff94c8c9c4f6cb465a7ee87",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S58",
+   "section": "Observability platforms and tracing standards for agents",
+   "text": "The SWE-agent authors state that they open source inference and evaluation artifacts such as trajectories and evaluation execution traces.",
+   "kind": "claim",
+   "claims": [
+    "C43"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.842903e-05,
+     "latency_ms": 1249,
+     "trace_id": "ec49db61a0d649e692650b770d04ef20",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.604007e-05,
+     "latency_ms": 729,
+     "trace_id": "4ec39d9aadfc4b93a3007a8276bfa580",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.76,
+      "false": 0.24
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7388e-05,
+     "latency_ms": 159,
+     "trace_id": "809ec82f97bf495fbdcff503a1dd4ab3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S59",
+   "section": "Observability platforms and tracing standards for agents",
+   "text": "The Claude Code analysis says its cited sources do not settle whether evaluation scaffolding belongs inside the harness or outside it as a separate layer.",
+   "kind": "claim",
+   "claims": [
+    "C44"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.023101e-05,
+     "latency_ms": 1317,
+     "trace_id": "3126429c11a048aab4934c4b140c4e78",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.689696e-05,
+     "latency_ms": 1738,
+     "trace_id": "53b5f33df64244adaee2cd783d7be0e4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.7,
+      "false": 0.30000000000000004
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0832e-05,
+     "latency_ms": 149,
+     "trace_id": "385f9c79604d4cf394ab212174750f23",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S60",
+   "section": "Git-native and structured-log approaches to history and coordination",
+   "text": "The following discussion turns to how coordination and persistence designs are described across the available material.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.12,
+      "false": 0.88
+     },
+     "confidence": 0.88,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6212e-05,
+     "latency_ms": 119,
+     "trace_id": "91f6822444a647a798a04a0050ce07a7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.84,
+      "false": 0.16000000000000003
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5666e-05,
+     "latency_ms": 186,
+     "trace_id": "98c9871651e841c9994afb0e387755e1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S61",
+   "section": "Git-native and structured-log approaches to history and coordination",
+   "text": "The grite study describes a coordination substrate that needs no central server and stores its records inside git itself.",
+   "kind": "claim",
+   "claims": [
+    "C45"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.875771e-05,
+     "latency_ms": 934,
+     "trace_id": "b227d0142571481493a93395e8b6005c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.603251e-05,
+     "latency_ms": 943,
+     "trace_id": "f38ac594d2fb4d37a1879ae4993d4ede",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.87,
+      "false": 0.13
+     },
+     "confidence": 0.87,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8018e-05,
+     "latency_ms": 150,
+     "trace_id": "ef1b00c97e104ba68a73cd99d6691378",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S62",
+   "section": "Git-native and structured-log approaches to history and coordination",
+   "text": "The grite authors report that the log is a mineable artefact from which failure modes such as conflicting edits and lock starvation are automatically recoverable with provenance, several invisible in pull-request history.",
+   "kind": "claim",
+   "claims": [
+    "C46"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.852002e-05,
+     "latency_ms": 1269,
+     "trace_id": "f1e1f3a2683d45c08892a4216c1385c9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.991376e-05,
+     "latency_ms": 935,
+     "trace_id": "cd2463165aff4d21a0ef386f4947ddef",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.720005e-05,
+     "latency_ms": 2119,
+     "trace_id": "971c00a91fd542cab18a87dac284b181",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S63",
+   "section": "Git-native and structured-log approaches to history and coordination",
+   "text": "The grite study also reports that every agent's copy of the log converges to the same state with no write silently dropped, where a file-based tracker loses concurrent writes.",
+   "kind": "claim",
+   "claims": [
+    "C47"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.846377e-05,
+     "latency_ms": 915,
+     "trace_id": "35e4fe2a1ad04a7097480071458e0416",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.608876e-05,
+     "latency_ms": 1900,
+     "trace_id": "b571a3aae1dc4f7790fcda6bca4d28e0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.192453e-05,
+     "latency_ms": 1192,
+     "trace_id": "4b3eb5cd021f42e1a65ab54e1fe36254",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.62,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004834,
+     "latency_ms": 4946,
+     "trace_id": "93d508bc88894ef693896cc30dcf99ce",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": "unsettled at write time: the reference judge was unsure"
+  },
+  {
+   "id": "S64",
+   "section": "Git-native and structured-log approaches to history and coordination",
+   "text": "Claude Code's documentation-based analysis frames session persistence as a choice among several designs.",
+   "kind": "claim",
+   "claims": [
+    "C48"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.23532e-05,
+     "latency_ms": 1553,
+     "trace_id": "466adca369574c439db478fdd82e0c96",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.639827e-05,
+     "latency_ms": 1519,
+     "trace_id": "481afdbc9c634e0e9016d97a45da9f3e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.506876e-05,
+     "latency_ms": 2324,
+     "trace_id": "167761e036fd4b6b87cdbd3da9c6075a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S65",
+   "section": "Git-native and structured-log approaches to history and coordination",
+   "text": "The same analysis states that Claude Code's persistence design implements the append-only durable state principle.",
+   "kind": "claim",
+   "claims": [
+    "C49"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.693314e-05,
+     "latency_ms": 1736,
+     "trace_id": "9c68f0238a674b078b3e7802223aa4ed",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61514e-05,
+     "latency_ms": 757,
+     "trace_id": "ae53873d350b42e1b2f94a4a356e60a3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.73,
+      "false": 0.27
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7094e-05,
+     "latency_ms": 114,
+     "trace_id": "e9fb9bc3af5f465f8d2ccfaf0b1ae44f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S66",
+   "section": "Git-native and structured-log approaches to history and coordination",
+   "text": "The analysis adds that Claude Code's project-level memory can be version-controlled alongside the codebase.",
+   "kind": "claim",
+   "claims": [
+    "C50"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.900134e-05,
+     "latency_ms": 794,
+     "trace_id": "fbdbbd94c67144efb29b9e457babb4b5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.954133e-05,
+     "latency_ms": 1145,
+     "trace_id": "b63949b8f5584120ae89b31ec11ff829",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.913391e-05,
+     "latency_ms": 744,
+     "trace_id": "8369bff95e01422e8fff800ffbb99c49",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61064e-05,
+     "latency_ms": 915,
+     "trace_id": "ba1cc4c7f4974c44aa25c823b325dbb5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.612141e-05,
+     "latency_ms": 1218,
+     "trace_id": "39a8c0487a074c8eabf27df40dabafca",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S67",
+   "section": "Git-native and structured-log approaches to history and coordination",
+   "text": "The OpenHands SDK paper reports negligible event-sourcing overhead in production deployment data.",
+   "kind": "claim",
+   "claims": [
+    "C51"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.930815e-05,
+     "latency_ms": 772,
+     "trace_id": "7817bdb02aff4c688043199f0d62235d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.608876e-05,
+     "latency_ms": 868,
+     "trace_id": "707723865772406f8739beeacd9a7593",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.79,
+      "false": 0.20999999999999996
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8522e-05,
+     "latency_ms": 148,
+     "trace_id": "2176e8b33d174de29fb241faab13bd69",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S68",
+   "section": "Git-native and structured-log approaches to history and coordination",
+   "text": "Git-native histories and event logs thus appear in both the grite study and the Claude Code and OpenHands documentation, though in different roles.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C45",
+    "C48",
+    "C51"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.19,
+      "false": 0.81
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.4066e-05,
+     "latency_ms": 146,
+     "trace_id": "f2a51a0365474fd3a3926a5115a64e7e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003826,
+     "latency_ms": 3736,
+     "trace_id": "6d3c48452eb048bcbc118ceb6d905e45",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00025276761,
+     "latency_ms": 7467,
+     "trace_id": "1ac53a1437ba4bbd82b41ce57873e471",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "does not follow from its premises"
+  },
+  {
+   "id": "S69",
+   "section": "Git-native and structured-log approaches to history and coordination",
+   "text": "The passages do not show whether SWE-agent, Aider or Codex CLI use git history as a trace format, and the evidence does not compare the mining of these logs with the mining of pull requests across harnesses.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C46",
+    "C48"
+   ],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "absence: 'passages do not show' belongs in the record sections, not the evidence"
+  },
+  {
+   "id": "S70",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "The supplied passages say little that is specific to Aider or Codex CLI, and the one Codex CLI source gives only a general description.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6547999999999998e-05,
+     "latency_ms": 193,
+     "trace_id": "98a6df7114894aa997f6e06801bd6b32",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S71",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "The Codex CLI entry describes the tool as a command-line interface that acts like a coding assistant directly in the terminal.",
+   "kind": "claim",
+   "claims": [
+    "C52"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.655946e-05,
+     "latency_ms": 1115,
+     "trace_id": "712783790a914f2f83903edaaaeeafa4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.615626e-05,
+     "latency_ms": 1675,
+     "trace_id": "72723215ba5c4c56a686d697143abd6f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.89,
+      "false": 0.10999999999999999
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8564e-05,
+     "latency_ms": 210,
+     "trace_id": "472b2ad8dc9841e5a56ac1962c8543f1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S72",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "A study of CLI agent failures names Codex alongside Claude Code and Gemini CLI as examples of terminal-based products.",
+   "kind": "claim",
+   "claims": [
+    "C53"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.720314e-05,
+     "latency_ms": 1239,
+     "trace_id": "e611bb485ef7493387ba1c76be6122d0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.589751e-05,
+     "latency_ms": 1352,
+     "trace_id": "0730a96416fa4ecd89daaf0e5d02f7f4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.587192e-05,
+     "latency_ms": 2783,
+     "trace_id": "4a757b0846ac4033b8bef24fe96744cb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003524,
+     "latency_ms": 3456,
+     "trace_id": "434b70019ff545aa93fd5d6ea7f74655",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": "unsettled at write time: the reference judge was unsure"
+  },
+  {
+   "id": "S73",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "For vector databases, the evidence comes from general agent-memory work and from a Claude Code analysis, not from harness trace documentation.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.638e-05,
+     "latency_ms": 114,
+     "trace_id": "8f052673c1034cce8d97b5c176681362",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S74",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "The software-engineering agent survey reports that DroidAgent embeds textual history into vectors and stores them in an external embedding database.",
+   "kind": "claim",
+   "claims": [
+    "C54"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.877877e-05,
+     "latency_ms": 738,
+     "trace_id": "bbaa2e2a9486427684ae71c72ff9efe1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.593126e-05,
+     "latency_ms": 1074,
+     "trace_id": "919a9ca4a130450ca573852537ac377b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7682e-05,
+     "latency_ms": 220,
+     "trace_id": "eefef93a83b5474f81ec2218c110c4ef",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S75",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "The Claude Code analysis states that the system does not use embeddings or a vector similarity index for memory retrieval.",
+   "kind": "claim",
+   "claims": [
+    "C55"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.948905e-05,
+     "latency_ms": 724,
+     "trace_id": "1611a06a31fa4291b76eccd3b50103f7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.594881e-05,
+     "latency_ms": 899,
+     "trace_id": "ace4c2f74a7f47dbb5158280de60fc31",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.72,
+      "false": 0.28
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7136e-05,
+     "latency_ms": 99,
+     "trace_id": "dc092305d8c24f638b63fab8978bebc7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S76",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "The Claude Code analysis also says that CLAUDE.md files are plain-text Markdown rather than structured configuration or opaque database entries.",
+   "kind": "claim",
+   "claims": [
+    "C56"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.937961e-05,
+     "latency_ms": 1183,
+     "trace_id": "d35a5ec64f9e4a96b75804ea33c867ec",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.593252e-05,
+     "latency_ms": 706,
+     "trace_id": "9b0c6cdad3bc4c8a9453a279a3c3a300",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.612377e-05,
+     "latency_ms": 1065,
+     "trace_id": "2e34087520d04d77b6a8eff5bef12f92",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S77",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "One survey reports that a research agent embeds textual history into vectors and keeps them in an external embedding database, while an analysis of a coding harness states that its memory retrieval uses no embeddings or vector similarity index and that its memory files are plain-text Markdown; the two differ on vector storage, and both address agent memory.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C54",
+    "C55",
+    "C56"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.6082e-05,
+     "latency_ms": 189,
+     "trace_id": "ea68fb8aafc747d7aaa27ce98abcdf55",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S78",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "The provenance survey reports that it reviewed key provenance representations, including structured logs, execution graphs, evidence graphs, tool dependency graphs, memory provenance, and multi-agent communication traces.",
+   "kind": "claim",
+   "claims": [
+    "C57"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 0.00011232639,
+     "latency_ms": 4184,
+     "trace_id": "1e739f38978742b89bf9671073bf6f7d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.604376e-05,
+     "latency_ms": 750,
+     "trace_id": "3afc3558209440c09e65dfd20c818827",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.011817e-05,
+     "latency_ms": 3328,
+     "trace_id": "9fe8606f9f55453080a94f009a037818",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002742,
+     "latency_ms": 2591,
+     "trace_id": "c46718f8ca574c888dd7085909548ad7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.834965e-05,
+     "latency_ms": 1417,
+     "trace_id": "d0b45a1b87ad4533bc3703a4861a2e6e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.638882e-05,
+     "latency_ms": 1438,
+     "trace_id": "eb3c221d09d643dab9337d84b7376327",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.643751e-05,
+     "latency_ms": 786,
+     "trace_id": "c5e31a19878f4c9dadd83a6964c60f2c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S79",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "The grite work stores coordination records inside git as an append-only, signed event log.",
+   "kind": "claim",
+   "claims": [
+    "C58"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.877148e-05,
+     "latency_ms": 1097,
+     "trace_id": "86ea752a484145ed923ffbbd988fd1be",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.611765e-05,
+     "latency_ms": 721,
+     "trace_id": "007344d0cadf4040bb6c8caea050f5fa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.960002e-05,
+     "latency_ms": 1161,
+     "trace_id": "61907b4defed4b639d5f76270856ad04",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S80",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "The SWE-agent paper releases trajectories and evaluation execution traces as open artifacts.",
+   "kind": "claim",
+   "claims": [
+    "C59"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.785132e-05,
+     "latency_ms": 809,
+     "trace_id": "77390aa184a447be9c58ae1e340e6c1f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.608012e-05,
+     "latency_ms": 1570,
+     "trace_id": "bb62d377790f404f94e6930f100f1bf3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.75,
+      "false": 0.25
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7094e-05,
+     "latency_ms": 119,
+     "trace_id": "b1f39d8d0fad4ccb941963c58c45e969",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S81",
+   "section": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "text": "Aider's trace format and any head-to-head comparison of vector stores against relational stores or observability platforms across these harnesses remain unaddressed by the supplied passages.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6884e-05,
+     "latency_ms": 180,
+     "trace_id": "b1209c8cc5364d96803ad2f3d1fa974f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  }
+ ]
+}

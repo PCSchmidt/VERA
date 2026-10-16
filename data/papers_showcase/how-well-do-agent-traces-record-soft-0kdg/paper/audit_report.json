@@ -1,0 +1,555 @@
+{
+ "paper_id": "how-well-do-agent-traces-record-soft-0kdg (paper)",
+ "paper_source": "paper/paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "inference",
+   "severity": "warn",
+   "claim_ids": [
+    "I11"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I11",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I11 (Conclusions): does not follow from its premises: \"How edits, test results, and commit history are encoded in each harness's own trace remains unanswered, although one benchmark pipeline maps\""
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.741825e-05,
+     "latency_ms": 2958,
+     "trace_id": "98bfa6e032e144bfb1b53950baeeef39",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.005088,
+     "latency_ms": 4836,
+     "trace_id": "2bf63dbcdd5d4425a7124bcd2bb98397",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.68; the audit's judge said no on glm-flash at 0.80)): I11 (Conclusions): does not follow from its premises: \"How edits, test results, and commit history are encoded in each harness's own trace remains unanswered, although one benchmark pipeline maps\""
+  },
+  {
+   "check": "inference",
+   "severity": "warn",
+   "claim_ids": [
+    "I12"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I12",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I12 (A research agenda): does not follow from its premises: 'Compare the native trace schemas of the named harnesses field by field, covering edits, test outcomes, task status, and commits, since the c'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.127379e-05,
+     "latency_ms": 2708,
+     "trace_id": "349dae147dd441d2aed6b657deb3d362",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.005688,
+     "latency_ms": 4215,
+     "trace_id": "b4e3a0ff39b84636934adc934d934d4e",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.68; the audit's judge said no on glm-flash at 0.90)): I12 (A research agenda): does not follow from its premises: 'Compare the native trace schemas of the named harnesses field by field, covering edits, test outcomes, task status, and commits, since the c'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C15"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S19",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S19 (How traces represent development progress: edits, tests, and task state, claim): C15 says more than its quote: 'A later study of CLI coding agent trajectories reports that Bouzenia et al. normalized agent logs into thought-action-result triples over 12'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.663383e-05,
+     "latency_ms": 5443,
+     "trace_id": "f85657e8b0774223a0e26c4f6462ef17",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.93,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002662,
+     "latency_ms": 1986,
+     "trace_id": "379b9d5bd298487ca47edeadae543400",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "judges disagree (failed in the audit, no on glm-flash at 0.80; the reference judge says yes, yes on sonnet-ref at 0.93): S19 (How traces represent development progress: edits, tests, and task state, claim): C15 says more than its quote: 'A later study of CLI coding agent trajectories reports that Bouzenia et al. normalized agent logs into thought-action-result triples over 12'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C17"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S24",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S24 (How traces represent development progress: edits, tests, and task state, claim): C17 says more than its quote: \"SWE-agent's failure analysis found that Failed Edit Recovery, where models fail to generate well-formed edits, made up 23.4% of unresolved i\""
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.26,
+      "false": 0.74
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.869e-05,
+     "latency_ms": 172,
+     "trace_id": "3b0d5b2988dd4a35837ae326fdcb02fd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.62,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004074,
+     "latency_ms": 2803,
+     "trace_id": "d66d6418947d4f35b0552e3189cbfff1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.62; the audit's judge said no on jev at 0.74)): S24 (How traces represent development progress: edits, tests, and task state, claim): C17 says more than its quote: \"SWE-agent's failure analysis found that Failed Edit Recovery, where models fail to generate well-formed edits, made up 23.4% of unresolved i\""
+  },
+  {
+   "check": "sentence",
+   "severity": "fail",
+   "claim_ids": [
+    "C19"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S29",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S29 (Trajectory and log formats across SWE-agent, OpenHands, and other harnesses, claim): C19 says more than its quote: 'Bouzenia and colleagues unified the interaction logs of RepairAgent, AutoCodeRover, and OpenHands into a common format, capturing 120 trajec'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.19,
+      "false": 0.81
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8984e-05,
+     "latency_ms": 159,
+     "trace_id": "b0311e2e6f9644e3995af18440256184",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003362,
+     "latency_ms": 2673,
+     "trace_id": "a67abdcab62e4debb578486fc6525837",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "S29 (Trajectory and log formats across SWE-agent, OpenHands, and other harnesses, claim): C19 says more than its quote: 'Bouzenia and colleagues unified the interaction logs of RepairAgent, AutoCodeRover, and OpenHands into a common format, capturing 120 trajec'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C20"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S30",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S30 (Trajectory and log formats across SWE-agent, OpenHands, and other harnesses, claim): C20 says more than its quote: 'A later study describes that earlier work as normalizing agent logs into thought-action-result triples over 120 trajectories.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.28,
+      "false": 0.72
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.785e-05,
+     "latency_ms": 60,
+     "trace_id": "56b64240ab8649f9934131c8def531fa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002992,
+     "latency_ms": 2430,
+     "trace_id": "df294a79bce647a48bd371773d5a893b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "judges disagree (failed in the audit, no on jev at 0.72; the reference judge says yes, yes on sonnet-ref at 0.90): S30 (Trajectory and log formats across SWE-agent, OpenHands, and other harnesses, claim): C20 says more than its quote: 'A later study describes that earlier work as normalizing agent logs into thought-action-result triples over 120 trajectories.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C23"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S34",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S34 (Trajectory and log formats across SWE-agent, OpenHands, and other harnesses, claim): C23 says more than its quote: 'A survey of provenance states that logs give chronological observability but may not show which tool output changed the plan.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.79176e-05,
+     "latency_ms": 2513,
+     "trace_id": "406527a6f13e474ab828c27d967bf13e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003494,
+     "latency_ms": 3093,
+     "trace_id": "782bf7a858b649a58b5ea74f0c0dc9b8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.68; the audit's judge said no on glm-flash at 0.85)): S34 (Trajectory and log formats across SWE-agent, OpenHands, and other harnesses, claim): C23 says more than its quote: 'A survey of provenance states that logs give chronological observability but may not show which tool output changed the plan.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C33"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S45",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S45 (Claude Code session storage and memory retrieval without vector indexes, claim): C33 says more than its quote: 'A broader software-engineering survey describes embedding-based memory as a storage format used by other agents.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.29,
+      "false": 0.71
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7388e-05,
+     "latency_ms": 97,
+     "trace_id": "42abefa5818247e28743402bbf65a20a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004332,
+     "latency_ms": 3153,
+     "trace_id": "2d65213762764865a3e434858f5b7302",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.68; the audit's judge said no on jev at 0.71)): S45 (Claude Code session storage and memory retrieval without vector indexes, claim): C33 says more than its quote: 'A broader software-engineering survey describes embedding-based memory as a storage format used by other agents.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C34"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S46",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S46 (Claude Code session storage and memory retrieval without vector indexes, claim): C34 says more than its quote: 'The survey describes a key-value pair memory format in which information received from agents is stored in an external memory, with a key ex'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.164066e-05,
+     "latency_ms": 1898,
+     "trace_id": "102102764fd74f428b2c560e3fe34c28",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.62,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00328,
+     "latency_ms": 2693,
+     "trace_id": "897dda4dd9684908b1759f315209bba0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.62; the audit's judge said no on glm-flash at 0.90)): S46 (Claude Code session storage and memory retrieval without vector indexes, claim): C34 says more than its quote: 'The survey describes a key-value pair memory format in which information received from agents is stored in an external memory, with a key ex'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C47"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S63",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S63 (Git-native and structured-log approaches to history and coordination, claim): C47 says more than its quote: \"The grite study also reports that every agent's copy of the log converges to the same state with no write silently dropped, where a file-bas\""
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.163941e-05,
+     "latency_ms": 1438,
+     "trace_id": "5a2c7e0092ac4d81944e932bc2630cf6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.62,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004834,
+     "latency_ms": 4946,
+     "trace_id": "93d508bc88894ef693896cc30dcf99ce",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (yes on sonnet-ref at 0.62; the audit's judge said no on glm-flash at 0.90)): S63 (Git-native and structured-log approaches to history and coordination, claim): C47 says more than its quote: \"The grite study also reports that every agent's copy of the log converges to the same state with no write silently dropped, where a file-bas\""
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C53"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S72",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S72 (Gaps in the evidence: Aider, Codex CLI, and vector-database mining, claim): C53 says more than its quote: 'A study of CLI agent failures names Codex alongside Claude Code and Gemini CLI as examples of terminal-based products.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.29,
+      "false": 0.71
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7514e-05,
+     "latency_ms": 131,
+     "trace_id": "16e388376df0471a9e77dbbfbd4abf30",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003524,
+     "latency_ms": 3456,
+     "trace_id": "434b70019ff545aa93fd5d6ea7f74655",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.68; the audit's judge said no on jev at 0.71)): S72 (Gaps in the evidence: Aider, Codex CLI, and vector-database mining, claim): C53 says more than its quote: 'A study of CLI agent failures names Codex alongside Claude Code and Gemini CLI as examples of terminal-based products.'"
+  }
+ ],
+ "overall": "red",
+ "checks_run": [
+  "citation",
+  "claim_support",
+  "inference",
+  "sentence"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.0011481391799999996,
+ "wall_seconds": 71,
+ "schema_version": "0.13"
+}

@@ -1,0 +1,414 @@
+{
+ "paper_id": "topic4-conformal-2 (paper)",
+ "paper_source": "paper/paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "inference",
+   "severity": "warn",
+   "claim_ids": [
+    "I14"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I14",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I14 (A research agenda): does not follow from its premises: 'Reconcile the training-conditional extension to estimated ratios with the reports of degradation by stating which coverage notion and condit'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00017407377,
+     "latency_ms": 5642,
+     "trace_id": "777248877a074edf803517b55b586bd3",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.62,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.007636,
+     "latency_ms": 5860,
+     "trace_id": "4ef1f2decc1e4118b6011646112ce019",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.62; the audit's judge said no on glm-flash at 0.70)): I14 (A research agenda): does not follow from its premises: 'Reconcile the training-conditional extension to estimated ratios with the reports of degradation by stating which coverage notion and condit'"
+  },
+  {
+   "check": "inference",
+   "severity": "warn",
+   "claim_ids": [
+    "I15"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I15",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I15 (A research agenda): does not follow from its premises: 'Study label-shift reweighting where density ratios come from pseudo-labels, measuring coverage loss as shift strengthens.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.090064e-05,
+     "latency_ms": 2455,
+     "trace_id": "f58d47440afd4372a3c080a484ca19d7",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.005024,
+     "latency_ms": 3485,
+     "trace_id": "ae7fca0817174d83beda84449e0aeecb",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "judges disagree (failed in the audit, no on glm-flash at 0.85; the reference judge says yes, yes on sonnet-ref at 0.80): I15 (A research agenda): does not follow from its premises: 'Study label-shift reweighting where density ratios come from pseudo-labels, measuring coverage loss as shift strengthens.'"
+  },
+  {
+   "check": "inference",
+   "severity": "warn",
+   "claim_ids": [
+    "I17"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I17",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I17 (A research agenda): does not follow from its premises: 'Evaluate in the same experiments the fine-grained approach, which pairs identifiable covariate shift with an f-divergence ball on the condit'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": {
+      "true": 0.2,
+      "false": 0.8
+     },
+     "confidence": 0.8,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.7132e-05,
+     "latency_ms": 76,
+     "trace_id": "e9d554d583bd4397b70eea05e09722f9",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.006054,
+     "latency_ms": 4375,
+     "trace_id": "63710a461dfd42f8a063f5352dea19cc",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (yes on sonnet-ref at 0.68; the audit's judge said no on jev at 0.80)): I17 (A research agenda): does not follow from its premises: 'Evaluate in the same experiments the fine-grained approach, which pairs identifiable covariate shift with an f-divergence ball on the condit'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C14"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S17",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S17 (Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios, claim): C14 says more than its quote: 'A later tabular-regression paper restates the known-ratio result as marginal coverage of at least 1 - alpha under covariate shift, provided '"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.24,
+      "false": 0.76
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.953e-05,
+     "latency_ms": 74,
+     "trace_id": "2871686ff54047aa84d5a8c238651063",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.62,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004206,
+     "latency_ms": 3512,
+     "trace_id": "c11061356e5e42349655e34ed6d8c192",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.62; the audit's judge said no on jev at 0.76)): S17 (Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios, claim): C14 says more than its quote: 'A later tabular-regression paper restates the known-ratio result as marginal coverage of at least 1 - alpha under covariate shift, provided '"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C35"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S51",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S51 (Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions, claim): C35 says more than its quote: 'The abstract of the follow-up work by Gibbs and Candès states that ACI requires knowledge of the rate of change of the data-generating mecha'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.16,
+      "false": 0.84
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7724e-05,
+     "latency_ms": 79,
+     "trace_id": "206714d002c64538935a7bf47d72705b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004316,
+     "latency_ms": 3042,
+     "trace_id": "2f5723466b284187885b8695164a3fd9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.60; the audit's judge said no on jev at 0.84)): S51 (Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions, claim): C35 says more than its quote: 'The abstract of the follow-up work by Gibbs and Candès states that ACI requires knowledge of the rate of change of the data-generating mecha'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C42"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S60",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S60 (Robust conformal methods under f-divergence and worst-case shift, claim): C42 says more than its quote: 'The fine-grained framework splits the problem differently, reweighting training samples for an identifiable covariate shift while protecting'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.16,
+      "false": 0.84
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8942e-05,
+     "latency_ms": 148,
+     "trace_id": "26957d248d5940eb8866dc7d7d956836",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00323,
+     "latency_ms": 3058,
+     "trace_id": "4a99ebfd242048e1b8f6b45f875e806d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (no on sonnet-ref at 0.68; the audit's judge said no on jev at 0.84)): S60 (Robust conformal methods under f-divergence and worst-case shift, claim): C42 says more than its quote: 'The fine-grained framework splits the problem differently, reweighting training samples for an identifiable covariate shift while protecting'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C44"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S63",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S63 (Robust conformal methods under f-divergence and worst-case shift, claim): C44 says more than its quote: 'Gibbs and Candès describe the f-divergence method of Cauchois et al. as forming prediction sets that are valid whenever P 1 and P 0 are clos'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.23,
+      "false": 0.77
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8732e-05,
+     "latency_ms": 129,
+     "trace_id": "6686c87c9f0f47189041425e6c4ce0ad",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002988,
+     "latency_ms": 2252,
+     "trace_id": "e6c85abe09c14adb9ff45b89ee0bd9cb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "judges disagree (failed in the audit, no on jev at 0.77; the reference judge says yes, yes on sonnet-ref at 0.85): S63 (Robust conformal methods under f-divergence and worst-case shift, claim): C44 says more than its quote: 'Gibbs and Candès describe the f-divergence method of Cauchois et al. as forming prediction sets that are valid whenever P 1 and P 0 are clos'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C49"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S70",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S70 (Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift, claim): C49 says more than its quote: 'A label-shift Bayesian score paper reports coverage loss under stronger shift because density ratios are estimated from pseudo-labels.'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.587444e-05,
+     "latency_ms": 1803,
+     "trace_id": "ec1724a7aabf47abbdab5c93b44922b2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003906,
+     "latency_ms": 3175,
+     "trace_id": "5c4b9768eb9b455da7f1a718e7a63621",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "judges disagree (failed in the audit, no on glm-flash at 0.90; the reference judge says yes, yes on sonnet-ref at 0.80): S70 (Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift, claim): C49 says more than its quote: 'A label-shift Bayesian score paper reports coverage loss under stronger shift because density ratios are estimated from pseudo-labels.'"
+  }
+ ],
+ "overall": "amber",
+ "checks_run": [
+  "citation",
+  "claim_support",
+  "inference",
+  "sentence"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.0009431613900000003,
+ "wall_seconds": 57,
+ "schema_version": "0.13"
+}

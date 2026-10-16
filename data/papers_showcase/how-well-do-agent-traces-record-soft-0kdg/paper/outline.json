@@ -1,0 +1,30 @@
+{
+ "title": "Trace Representation and Storage in Coding-Agent Harnesses: Evidence on Progress Signals, Log Formats, and Retrieval Backends",
+ "themes": [
+  {
+   "heading": "How traces represent development progress: edits, tests, and task state",
+   "focus": "trajectory action observation edit test result task status patch thought resolved"
+  },
+  {
+   "heading": "Trajectory and log formats across SWE-agent, OpenHands, and other harnesses",
+   "focus": "trajectories event stream event sourcing thought-action-result unified format interaction logs released SDK"
+  },
+  {
+   "heading": "Claude Code session storage and memory retrieval without vector indexes",
+   "focus": "Claude Code session append-only transcript memory files LLM scan embeddings vector similarity retrieval"
+  },
+  {
+   "heading": "Observability platforms and tracing standards for agents",
+   "focus": "AgentOps OpenTelemetry spans traces observability telemetry GenAI conventions provenance tracing"
+  },
+  {
+   "heading": "Git-native and structured-log approaches to history and coordination",
+   "focus": "git commit history append-only signed event log coordination structured logs mining pull request"
+  },
+  {
+   "heading": "Gaps in the evidence: Aider, Codex CLI, and vector-database mining",
+   "focus": "Aider Codex CLI documentation vector database not reported comparison missing limitation relational store"
+  }
+ ],
+ "dropped": []
+}

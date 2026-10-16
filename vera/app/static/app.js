@@ -507,7 +507,7 @@ async function examplesView() {
   return [
     el("p", { class: "kicker" }, "Examples"),
     el("h1", {}, "Finished examples"),
-    el("p", { class: "lede" }, "Each example shows the exact inputs that produced it, what it cost, and the audit result. Where we found problems in a review after it passed its audit, they are listed with it. Three reviews also have the review paper made from them, shown with the light its own audit gave it and the deficiencies found in it. The two papers that also ran experiments did not beat their baselines, and say so."),
+    el("p", { class: "lede" }, "Each example shows the exact inputs that produced it, what it cost, and the audit result. Where we found problems in a review after it passed its audit, they are listed with it. Where a review paper was made from a review, it is shown with the review, with the light its own audit gave it and the deficiencies found in it. The two papers that also ran experiments did not beat their baselines, and say so."),
     ...paperIndex(),
     ...state.facts.examples.map((e) => el("section", { class: "example" },
       el("div", {},

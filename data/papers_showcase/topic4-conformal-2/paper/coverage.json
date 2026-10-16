@@ -1,0 +1,18 @@
+{
+ "targets": [
+  {
+   "kind": "author",
+   "query": "Tibshirani",
+   "author": "Tibshirani",
+   "outcome": "already a source",
+   "key": "R12"
+  },
+  {
+   "kind": "author",
+   "query": "Barber",
+   "author": "Barber",
+   "outcome": "already a source",
+   "key": "R12"
+  }
+ ]
+}

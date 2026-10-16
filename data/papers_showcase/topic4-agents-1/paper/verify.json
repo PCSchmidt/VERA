@@ -1,0 +1,5667 @@
+{
+ "stats": {
+  "drafted": 63,
+  "failed_first": 24,
+  "repaired": 10,
+  "removed": 14,
+  "synthesis_drafted": 6,
+  "synthesis_removed": 2,
+  "transition_drafted": 18,
+  "transition_removed": 7,
+  "loose_repaired": 9,
+  "stray_attributions_removed": 0,
+  "absence_removed": 2,
+  "quotes_widened": 6,
+  "n_claims": 49,
+  "n_sources_cited": 20,
+  "themes_with_claims": 6,
+  "distinct_quotes": 42
+ },
+ "sections": [
+  {
+   "heading": "Introduction",
+   "text": "The RQ-Bench study states in its introduction that LLMs are now used not only to generate scientific ideas, but also to judge them [R2]. The same study notes that if LLMs generate a scientific artifact and other LLMs judge its novelty, the whole pipeline depends on whether LLM-as-judge is reliable [R2].\n\nReproducibility benchmarks form one strand of this work. CORE-Bench asks whether AI agents can automate computational reproducibility of published scientific research [R11]. The CORE-Bench authors decide that an agent solves a task correctly if its reported results for all questions fall within a 95% prediction interval of the results from three manual runs [R11]. The CORE-Bench authors suggest that building the benchmark on public repositories enables periodic updates, which could mitigate concerns about contamination and saturation [R11].\n\nPaperBench grades replication attempts with rubrics that hierarchically decompose each task into smaller sub-tasks with clear grading criteria, and its authors report that grading a single attempt can take a human expert tens of hours given the complexity of ML research papers. PaperBench develops rubrics that hierarchically decompose each replication task into smaller sub-tasks with clear grading criteria [R24]. The PaperBench authors report that, given the complexity of ML research papers, grading a single replication attempt can take tens of hours for a human expert [R24].\n\nOther concerns about validity come from outside the research-agent literature. The survey on benchmark data contamination defines it as occurring when language models inadvertently incorporate evaluation benchmark information from their training data [R10]. A clinical-agent study observes that benchmarks typically score one run per task and rarely ask whether identical inputs produce identical actions [R27].",
+   "claims": [
+    {
+     "claim": "The RQ-Bench study states in its introduction that LLMs are now used not only to generate scientific ideas, but also to judge them.",
+     "source_key": "R2",
+     "passage_id": "R2-P1",
+     "quote": "LLMs are now used not only to generate scientific ideas, but also to judge them.",
+     "locator": "sec. Introduction, para 1",
+     "id": "C1"
+    },
+    {
+     "claim": "The same study notes that if LLMs generate a scientific artifact and other LLMs judge its novelty, the whole pipeline depends on whether LLM-as-judge is reliable.",
+     "source_key": "R2",
+     "passage_id": "R2-P1",
+     "quote": "If LLMs generate a scientific artifact and other LLMs judge its novelty, the whole pipeline depends on whether LLM-as-judge is reliable.",
+     "locator": "sec. Introduction, para 1",
+     "id": "C2"
+    },
+    {
+     "claim": "CORE-Bench asks whether AI agents can automate computational reproducibility of published scientific research.",
+     "source_key": "R11",
+     "passage_id": "R11-P9",
+     "quote": "In this paper, we ask: Can AI agents automate computational reproducibility of published scientific research?",
+     "locator": "sec. Introduction, para 9",
+     "id": "C3"
+    },
+    {
+     "claim": "The CORE-Bench authors decide that an agent solves a task correctly if its reported results for all questions fall within a 95% prediction interval of the results from three manual runs.",
+     "source_key": "R11",
+     "passage_id": "R11-P29",
+     "quote": "We determine if an agent correctly solves a task if the agent's reported results for all questions fall within a 95% prediction interval for every task question of the results from the three manual runs",
+     "locator": "sec. Why use CORE-Bench?, para 46",
+     "id": "C4"
+    },
+    {
+     "claim": "The CORE-Bench authors suggest that building the benchmark on public repositories enables periodic updates, which could mitigate concerns about contamination and saturation.",
+     "source_key": "R11",
+     "passage_id": "R11-P9",
+     "quote": "CORE-Bench's foundation in public repositories enables periodic updates of the benchmark tasks, which could mitigate concerns about contamination and saturation.",
+     "locator": "sec. Introduction, para 9",
+     "id": "C5"
+    },
+    {
+     "claim": "PaperBench develops rubrics that hierarchically decompose each replication task into smaller sub-tasks with clear grading criteria.",
+     "source_key": "R24",
+     "passage_id": "R24-A",
+     "quote": "For objective evaluation, we develop rubrics that hierarchically decompose each replication task into smaller sub-tasks with clear grading criteria.",
+     "locator": "abstract",
+     "id": "C6"
+    },
+    {
+     "claim": "The PaperBench authors report that, given the complexity of ML research papers, grading a single replication attempt can take tens of hours for a human expert.",
+     "source_key": "R24",
+     "passage_id": "R24-P4",
+     "quote": "Given the complexity of ML research papers, we found that even grading a single replication attempt can take tens of hours for a human expert.",
+     "locator": "sec. Introduction, para 4",
+     "id": "C7"
+    },
+    {
+     "claim": "The survey on benchmark data contamination defines it as occurring when language models inadvertently incorporate evaluation benchmark information from their training data.",
+     "source_key": "R10",
+     "passage_id": "R10-A",
+     "quote": "However, it has also resulted in a significant issue known as Benchmark Data Contamination (BDC). This occurs when language models inadvertently incorporate evaluation benchmark information from their training data, leading to inaccurate or unreliable performance during the evaluation phase of the process.",
+     "locator": "abstract",
+     "id": "C8"
+    },
+    {
+     "claim": "A clinical-agent study observes that benchmarks typically score one run per task and rarely ask whether identical inputs produce identical actions.",
+     "source_key": "R27",
+     "passage_id": "R27-A",
+     "quote": "benchmarks typically score one run per task and rarely ask whether identical inputs produce identical actions",
+     "locator": "abstract",
+     "id": "C9"
+    }
+   ]
+  },
+  {
+   "heading": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "This section reviews how the supplied sources decide whether an agent's output is correct or reproducible. CORE-Bench judges a task correct only if the agent's reported results for all questions fall within a 95% prediction interval of three manual runs [R11]. The CORE-Bench authors say that building the benchmark on public repositories enables periodic updates that could mitigate concerns about contamination and saturation [R11]. A later case study of CORE-Bench Hard reports surfacing threats to construct validity that were difficult to anticipate with less capable agents [R52].\n\nThe PaperBench authors report that expert human grading took on the order of tens of hours per paper, which motivated the automated judge [R24]. PaperBench also reports high variance on the same paper for most agents and recommends several seeds [R24].\n\nSciReplicate-Bench instead prioritizes execution accuracy, and its authors criticize PaperBench-style approaches for relying on manual criteria and LLM judgments [R28]. SciReplicate-Bench chose a 2024 publication window to minimize the risk of data leakage [R28]. The benchmarks differ in how they decide correctness and in how they handle variance and leakage. One benchmark counts a task as correct only when reported results fall within a 95% prediction interval of three manual runs and points to periodic updates on public repositories as a way to mitigate contamination. Another reports high variance on the same paper for most agents and recommends several seeds. A third prioritizes execution accuracy, criticizes manual criteria and LLM judgments, and restricts its papers to a 2024 publication window to minimize data leakage.",
+   "claims": [
+    {
+     "claim": "CORE-Bench judges a task correct only if the agent's reported results for all questions fall within a 95% prediction interval of three manual runs.",
+     "source_key": "R11",
+     "passage_id": "R11-P29",
+     "quote": "We determine if an agent correctly solves a task if the agent's reported results for all questions fall within a 95% prediction interval for every task question of the results from the three manual runs (although only 17 / 181 task questions have stochastic answers).",
+     "locator": "sec. Why use CORE-Bench?, para 46",
+     "id": "C10"
+    },
+    {
+     "claim": "The CORE-Bench authors say that building the benchmark on public repositories enables periodic updates that could mitigate concerns about contamination and saturation.",
+     "source_key": "R11",
+     "passage_id": "R11-P9",
+     "quote": "CORE-Bench's foundation in public repositories enables periodic updates of the benchmark tasks, which could mitigate concerns about contamination and saturation.",
+     "locator": "sec. Introduction, para 9",
+     "id": "C11"
+    },
+    {
+     "claim": "A later case study of CORE-Bench Hard reports surfacing threats to construct validity that were difficult to anticipate with less capable agents.",
+     "source_key": "R52",
+     "passage_id": "R52-A",
+     "quote": "First, we surface threats to construct validity in CORE-Bench Hard that are difficult to anticipate with less capable agents.",
+     "locator": "abstract",
+     "id": "C12"
+    },
+    {
+     "claim": "The PaperBench authors report that expert human grading took on the order of tens of hours per paper, which motivated the automated judge.",
+     "source_key": "R24",
+     "passage_id": "R24-P37",
+     "quote": "In preliminary experiments, we found that manual grading using expert humans took on the order of tens of hours per paper, so having an automated way to perform the evaluation is necessary for the practical application of PaperBench.",
+     "locator": "sec. LLM Judge, para 50",
+     "id": "C13"
+    },
+    {
+     "claim": "PaperBench also reports high variance on the same paper for most agents and recommends several seeds.",
+     "source_key": "R24",
+     "passage_id": "R24-P109",
+     "quote": "Notably, for most agents, we see high variance in results on the same paper. Due to the high variance, we recommend others to use several seeds when evaluating PaperBench to get an accurate measure of agent performance.",
+     "locator": "sec. I. Full Results, para 143",
+     "id": "C14"
+    },
+    {
+     "claim": "SciReplicate-Bench instead prioritizes execution accuracy, and its authors criticize PaperBench-style approaches for relying on manual criteria and LLM judgments.",
+     "source_key": "R28",
+     "passage_id": "R28-P5",
+     "quote": "This represents a unique challenge at the intersection of scientific literature comprehension and executable code synthesis. While recent parallel efforts such as PaperBench (Starace et al., 2025) and Paper2CodeBench (Seo et al., 2025) have tackled related problems by exploring full codebase reconstruction, these evaluation approaches rely substantially on manual assessment criteria and LLM-based correctness judgments, introducing potential inconsistencies and reliability concerns. Our approach prioritizes objective evaluation through execution accuracy, providing more rigorous validation than non-executable assessment methodologies (Wang et al., 2022;Chen et al., 2021).",
+     "locator": "sec. Our work makes the following contributions:, para 5",
+     "id": "C15"
+    },
+    {
+     "claim": "SciReplicate-Bench chose a 2024 publication window to minimize the risk of data leakage.",
+     "source_key": "R28",
+     "passage_id": "R28-P3",
+     "quote": "It consists of 100 code reproduction tasks derived from 36 papers published in leading conferences in 2024. This recent publication window was deliberately chosen to minimize the risk of data leakage.",
+     "locator": "sec. Introduction, para 3",
+     "id": "C16"
+    }
+   ]
+  },
+  {
+   "heading": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "The sources reviewed here bear on how far LLM judges can be trusted to grade agent outputs, starting with the judge used in PaperBench. PaperBench's authors report that their best LLM-based judge, which uses o3-mini-high with custom scaffolding, achieves an F1 score of 0.83 on the auxiliary evaluation, suggesting it is a reasonable stand-in for a human judge [R24]. The PaperBench authors state that more work is needed to improve judge accuracy and understand judges' strengths and weaknesses [R24].\n\nA large-scale evaluation found that judge validation relying on exact-match agreement does not correct for chance and systematically overstates discriminative ability [R62]. The PaperBench authors report an F1 of 0.83 for their best judge and call it a reasonable stand-in for a human judge, while also stating that more work is needed to understand judges' strengths and weaknesses. A large-scale evaluation found that validating judges by exact-match agreement does not correct for chance and overstates discriminative ability. Together, these sources suggest that a single agreement score may not capture how well a judge discriminates.\n\nTurning to novelty judging, the evidence on judge validity needs separate consideration. A controlled study of novelty judges found that telling the judge that reviewers found one idea novel and the other not can change its verdict on more than half of identical idea pairs [R58]. HindSight reports that its scores are negatively correlated with LLM-judged novelty [R87].",
+   "claims": [
+    {
+     "claim": "PaperBench's authors report that their best LLM-based judge, which uses o3-mini-high with custom scaffolding, achieves an F1 score of 0.83 on the auxiliary evaluation, suggesting it is a reasonable stand-in for a human judge.",
+     "source_key": "R24",
+     "passage_id": "R24-P4",
+     "quote": "Our best LLM-based judge, which uses o3-mini-high with custom scaffolding, achieves an F1 score of 0.83 on the auxiliary evaluation, suggesting that this judge is a reasonable stand-in for a human judge.",
+     "locator": "sec. Introduction, para 4",
+     "id": "C17"
+    },
+    {
+     "claim": "The PaperBench authors state that more work is needed to improve judge accuracy and understand judges' strengths and weaknesses.",
+     "source_key": "R24",
+     "passage_id": "R24-P79",
+     "quote": "We've taken an early step with JudgeEval (Section 4.2) to measure the accuracy of model-based judges on tasks with huge complex outputs, but more work is needed to improve accuracy and understand their strengths and weaknesses.",
+     "locator": "sec. A.2. Improving automated judges, para 104",
+     "id": "C18"
+    },
+    {
+     "claim": "A large-scale evaluation found that judge validation relying on exact-match agreement does not correct for chance and systematically overstates discriminative ability.",
+     "source_key": "R62",
+     "passage_id": "R62-A",
+     "quote": "judge validation in practice relies on exact-match agreement, a metric that does not correct for chance and systematically overstates discriminative ability.",
+     "locator": "abstract",
+     "id": "C19"
+    },
+    {
+     "claim": "A controlled study of novelty judges found that telling the judge that reviewers found one idea novel and the other not can change its verdict on more than half of identical idea pairs.",
+     "source_key": "R58",
+     "passage_id": "R58-A",
+     "quote": "simply telling the judge that reviewers found one idea novel and the other not can change its verdict on more than half of the identical idea pairs it is shown, shifting pairwise accuracy by over 50 points and occasionally pushing it below chance.",
+     "locator": "abstract",
+     "id": "C20"
+    },
+    {
+     "claim": "HindSight reports that its scores are negatively correlated with LLM-judged novelty.",
+     "source_key": "R87",
+     "passage_id": "R87-A",
+     "quote": "Moreover, HindSight scores are \\emph{negatively} correlated with LLM-judged novelty ($ρ{=}{-}0.29$, $p{<}0.01$), suggesting that LLMs systematically overvalue novel-sounding ideas that never materialize in real research.",
+     "locator": "abstract",
+     "id": "C21"
+    }
+   ]
+  },
+  {
+   "heading": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "PaperBench pairs each paper with manually created, hierarchical rubrics that allow partial progress toward replication to be measured at a fine grain, and its authors report that its best LLM-based judge reaches an F1 score of 0.83 on the auxiliary evaluation. PaperBench pairs each paper with manually created rubrics that specify the outcomes needed for replication [R24]. PaperBench rubrics are hierarchical, so that partial progress toward replication can be measured at a fine grain [R24]. The PaperBench authors report that grading a single replication attempt can take tens of hours for a human expert [R24]. The PaperBench authors report that their best LLM-based judge, which uses o3-mini-high with custom scaffolding, achieves an F1 score of 0.83 on the auxiliary evaluation [R24].\n\nSciReplicate-Bench criticizes this design, saying PaperBench-style approaches depend on manual criteria and LLM judgments [R28]. CORE-Bench takes another route, scoring an agent as correct when its answers fall within a 95% prediction interval of three manual runs [R11]. A later CORE-Bench study reports surfacing threats to construct validity in CORE-Bench Hard that are difficult to anticipate with less capable agents [R52].\n\nThe PaperBench authors acknowledge that judge accuracy on large, complex outputs needs more work [R24]. A survey of agentic evaluation papers reports that about 82% of its sample use structurally mismatched, incomplete, or absent inter-rater reliability metrics [R55].",
+   "claims": [
+    {
+     "claim": "PaperBench pairs each paper with manually created rubrics that specify the outcomes needed for replication.",
+     "source_key": "R24",
+     "passage_id": "R24-P3",
+     "quote": "Each paper is accompanied by a manually created rubric, which specifies all the necessary outcomes for replicating the paper in detail; resulting in a total of 8,316 individually gradable outcomes across 20 papers.",
+     "locator": "sec. Introduction, para 3",
+     "id": "C22"
+    },
+    {
+     "claim": "PaperBench rubrics are hierarchical, so that partial progress toward replication can be measured at a fine grain.",
+     "source_key": "R24",
+     "passage_id": "R24-P3",
+     "quote": "Rubrics are constructed in a hierarchical manner, such that outcomes can be decomposed into finegrained sub-outcomes, allowing granular measurement of partial progress towards replicating papers.",
+     "locator": "sec. Introduction, para 3",
+     "id": "C23"
+    },
+    {
+     "claim": "The PaperBench authors report that grading a single replication attempt can take tens of hours for a human expert.",
+     "source_key": "R24",
+     "passage_id": "R24-P4",
+     "quote": "even grading a single replication attempt can take tens of hours for a human expert",
+     "locator": "sec. Introduction, para 4",
+     "id": "C24"
+    },
+    {
+     "claim": "The PaperBench authors report that their best LLM-based judge, which uses o3-mini-high with custom scaffolding, achieves an F1 score of 0.83 on the auxiliary evaluation.",
+     "source_key": "R24",
+     "passage_id": "R24-P4",
+     "quote": "Our best LLM-based judge, which uses o3-mini-high with custom scaffolding, achieves an F1 score of 0.83 on the auxiliary evaluation",
+     "locator": "sec. Introduction, para 4",
+     "id": "C25"
+    },
+    {
+     "claim": "SciReplicate-Bench criticizes this design, saying PaperBench-style approaches depend on manual criteria and LLM judgments.",
+     "source_key": "R28",
+     "passage_id": "R28-P5",
+     "quote": "While recent parallel efforts such as PaperBench (Starace et al., 2025) and Paper2CodeBench (Seo et al., 2025) have tackled related problems by exploring full codebase reconstruction, these evaluation approaches rely substantially on manual assessment criteria and LLM-based correctness judgments, introducing potential inconsistencies and reliability concerns.",
+     "locator": "sec. Our work makes the following contributions:, para 5",
+     "id": "C26"
+    },
+    {
+     "claim": "CORE-Bench takes another route, scoring an agent as correct when its answers fall within a 95% prediction interval of three manual runs.",
+     "source_key": "R11",
+     "passage_id": "R11-P29",
+     "quote": "We determine if an agent correctly solves a task if the agent's reported results for all questions fall within a 95% prediction interval for every task question of the results from the three manual runs (although only 17 / 181 task questions have stochastic answers).",
+     "locator": "sec. Why use CORE-Bench?, para 46",
+     "id": "C27"
+    },
+    {
+     "claim": "A later CORE-Bench study reports surfacing threats to construct validity in CORE-Bench Hard that are difficult to anticipate with less capable agents.",
+     "source_key": "R52",
+     "passage_id": "R52-A",
+     "quote": "we surface threats to construct validity in CORE-Bench Hard that are difficult to anticipate with less capable agents.",
+     "locator": "abstract",
+     "id": "C28"
+    },
+    {
+     "claim": "The PaperBench authors acknowledge that judge accuracy on large, complex outputs needs more work.",
+     "source_key": "R24",
+     "passage_id": "R24-P79",
+     "quote": "We've taken an early step with JudgeEval (Section 4.2) to measure the accuracy of model-based judges on tasks with huge complex outputs, but more work is needed to improve accuracy and understand their strengths and weaknesses.",
+     "locator": "sec. A.2. Improving automated judges, para 104",
+     "id": "C29"
+    },
+    {
+     "claim": "A survey of agentic evaluation papers reports that about 82% of its sample use structurally mismatched, incomplete, or absent inter-rater reliability metrics.",
+     "source_key": "R55",
+     "passage_id": "R55-A",
+     "quote": "We examine the model's predictions against a structured survey of 55 published agentic evaluation papers, finding that approximately 82% of papers in this purposive sample apply structurally mismatched, incomplete, or absent inter-rater reliability (IRR) metrics, a pattern consistent with systematic $V_3$ collapse.",
+     "locator": "abstract",
+     "id": "C30"
+    }
+   ]
+  },
+  {
+   "heading": "Test-set contamination and data leakage",
+   "text": "The TRUCE authors state that the majority of open source benchmarks available today have been contaminated or leaked into LLMs [R154]. The rephrased-samples study reports that simple variations of test data, such as paraphrasing and translation, can bypass n-gram decontamination [R63].\n\nSeveral research-agent benchmarks, namely SciReplicate-Bench, ResearchBench and CORE-Bench, rely on publication date or public repositories as their safeguard against contamination, as the sources report. SciReplicate-Bench selected 2024 papers with public code to mitigate leakage, ResearchBench restricts itself to 2024-onward publications to minimize overlap with pretraining data, and CORE-Bench says its public-repository foundation allows periodic updates that could mitigate contamination. SciReplicate-Bench selected papers published in 2024 with public code repositories to mitigate the risk of data leakage [R28]. ResearchBench states that, to prevent data contamination, it focuses exclusively on publications from 2024 onward, which it says ensures minimal overlap with LLM pretraining data [R136]. CORE-Bench states that its foundation in public repositories enables periodic updates that could mitigate concerns about contamination and saturation [R11].\n\nThe next passages turn to evidence of memorization and to alternatives to public test sets. The tabular-data study finds that LLMs perform better on datasets seen during training, indicating that memorization leads to overfitting [R150]. The open-source contamination report finds that data contamination does not necessarily lead to increased model metrics [R76]. TRUCE proposes keeping test datasets private and evaluating models without revealing the test data to the model [R154].",
+   "claims": [
+    {
+     "claim": "The TRUCE authors state that the majority of open source benchmarks available today have been contaminated or leaked into LLMs.",
+     "source_key": "R154",
+     "passage_id": "R154-A",
+     "quote": "However, recent work has pointed out that the majority of the open source benchmarks available today have been contaminated or leaked into LLMs, meaning that LLMs have access to test data during pretraining and/or fine-tuning.",
+     "locator": "abstract",
+     "id": "C31"
+    },
+    {
+     "claim": "The rephrased-samples study reports that simple variations of test data, such as paraphrasing and translation, can bypass n-gram decontamination.",
+     "source_key": "R63",
+     "passage_id": "R63-A",
+     "quote": "While most data decontamination efforts apply string matching (e.g., n-gram overlap) to remove benchmark data, we show that these methods are insufficient, and simple variations of test data (e.g., paraphrasing, translation) can easily bypass these decontamination measures.",
+     "locator": "abstract",
+     "id": "C32"
+    },
+    {
+     "claim": "SciReplicate-Bench selected papers published in 2024 with public code repositories to mitigate the risk of data leakage.",
+     "source_key": "R28",
+     "passage_id": "R28-P16",
+     "quote": "To mitigate the risk of data leakage, we selected papers published in 2024 that provide publicly available code repositories.",
+     "locator": "sec. Benchmark Construction, para 22",
+     "id": "C33"
+    },
+    {
+     "claim": "ResearchBench states that, to prevent data contamination, it focuses exclusively on publications from 2024 onward, which it says ensures minimal overlap with LLM pretraining data.",
+     "source_key": "R136",
+     "passage_id": "R136-A",
+     "quote": "To prevent data contamination, we focus exclusively on publications from 2024 onward, ensuring minimal overlap with LLM pretraining data;",
+     "locator": "abstract",
+     "id": "C34"
+    },
+    {
+     "claim": "CORE-Bench states that its foundation in public repositories enables periodic updates that could mitigate concerns about contamination and saturation.",
+     "source_key": "R11",
+     "passage_id": "R11-P9",
+     "quote": "CORE-Bench's foundation in public repositories enables periodic updates of the benchmark tasks, which could mitigate concerns about contamination and saturation.",
+     "locator": "sec. Introduction, para 9",
+     "id": "C35"
+    },
+    {
+     "claim": "The tabular-data study finds that LLMs perform better on datasets seen during training, indicating that memorization leads to overfitting.",
+     "source_key": "R150",
+     "passage_id": "R150-A",
+     "quote": "We find that LLMs perform better on datasets seen during training, indicating that memorization leads to overfitting.",
+     "locator": "abstract",
+     "id": "C36"
+    },
+    {
+     "claim": "The open-source contamination report finds that data contamination does not necessarily lead to increased model metrics.",
+     "source_key": "R76",
+     "passage_id": "R76-A",
+     "quote": "Performance analysis of large language models indicates that data contamination does not necessarily lead to increased model metrics:",
+     "locator": "abstract",
+     "id": "C37"
+    },
+    {
+     "claim": "TRUCE proposes keeping test datasets private and evaluating models without revealing the test data to the model.",
+     "source_key": "R154",
+     "passage_id": "R154-A",
+     "quote": "To solve this problem, we propose Private Benchmarking, a solution where test datasets are kept private and models are evaluated without revealing the test data to the model.",
+     "locator": "abstract",
+     "id": "C38"
+    }
+   ]
+  },
+  {
+   "heading": "Run-to-run variance and threshold or medal cutoffs",
+   "text": "Evidence on run-to-run variance in agent evaluation comes from several benchmarks, which report high variance across runs and recommend repeating evaluations. A related rerun study of LLM judging found single-trial judging to be too noisy for high-stakes use. PaperBench reports that for most agents there is high variance in results on the same paper, and its authors recommend using several seeds when evaluating [R24]. FIRE-Bench reports that even its strongest agents achieve limited rediscovery success and exhibit high variance across runs [R113]. The two benchmark papers therefore both report high run-to-run variance for research agents. The same study concludes that single-trial LLM judging is often too noisy for high-stakes evaluation [R30]. In a clinical agent benchmark, a rerun study found that the benchmark reports the same failing verdict for materially different behaviour in 22 of 43 divergent groups [R27]. Taken together, these sources point toward repeated runs rather than a single run as the basis for any pass or fail verdict.",
+   "claims": [
+    {
+     "claim": "PaperBench reports that for most agents there is high variance in results on the same paper, and its authors recommend using several seeds when evaluating.",
+     "source_key": "R24",
+     "passage_id": "R24-P109",
+     "quote": "Notably, for most agents, we see high variance in results on the same paper. Due to the high variance, we recommend others to use several seeds when evaluating PaperBench to get an accurate measure of agent performance.",
+     "locator": "sec. I. Full Results, para 143",
+     "id": "C39"
+    },
+    {
+     "claim": "FIRE-Bench reports that even its strongest agents achieve limited rediscovery success and exhibit high variance across runs.",
+     "source_key": "R113",
+     "passage_id": "R113-A",
+     "quote": "Our results show that full-cycle scientific research remains challenging for current agent systems: even the strongest agents achieve limited rediscovery success (<50 F1), exhibit high variance across runs, and display recurring failure modes in experimental design, execution, and evidence-based reasoning.",
+     "locator": "abstract",
+     "id": "C40"
+    },
+    {
+     "claim": "The same study concludes that single-trial LLM judging is often too noisy for high-stakes evaluation.",
+     "source_key": "R30",
+     "passage_id": "R30-A",
+     "quote": "A reliability curve analysis shows that, in our dataset, 11 repeated trials are needed for a majority vote to recover the 50-trial reference verdict with 95% probability on average, rising to 15 for high-variance questions. These findings suggest that single-trial LLM judging is often too noisy for high-stakes evaluation, and that multi-trial aggregation, position randomization, and explicit uncertainty reporting should be standard practice.",
+     "locator": "abstract",
+     "id": "C41"
+    },
+    {
+     "claim": "In a clinical agent benchmark, a rerun study found that the benchmark reports the same failing verdict for materially different behaviour in 22 of 43 divergent groups.",
+     "source_key": "R27",
+     "passage_id": "R27-A",
+     "quote": "In 22 of those 43 the benchmark reports the same failing verdict for materially different behaviour, as it does for all 10 divergent groups of the 4B model at 0.7.",
+     "locator": "abstract",
+     "id": "C42"
+    }
+   ]
+  },
+  {
+   "heading": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "Novelty assessment has been approached through several routes, including human expert judgment, LLM judges, grounding in retrieved real papers, and scoring against later publications, and the sources reflect different findings about how far each can be trusted. The human study with over 100 NLP researchers reports that LLM-generated ideas were judged more novel than human expert ideas while being judged slightly weaker on feasibility [R107]. The same study acknowledges that human novelty judgments are hard [R107]. RQ-Bench reports that LLM judges rate model-generated research questions as highly novel, a pattern its authors call a novelty mirage [R2]. A study of novelty-judge design found that simply telling the judge that reviewers found one idea novel and the other not can change its verdict on more than half of the identical idea pairs it is shown, shifting pairwise accuracy by over 50 points and occasionally pushing it below chance [R58]. The study of novelty-judge design reported that retrieval and larger reasoning budgets help little, and that two purpose-built novelty evaluators are outperformed by its cheapest prompted baseline [R58]. OpenNovelty takes a grounding approach, tying novelty assessments to retrieved real papers [R59]. HindSight instead scores ideas against future publications, and it found HindSight scores negatively correlated with LLM-judged novelty [R87].",
+   "claims": [
+    {
+     "claim": "The human study with over 100 NLP researchers reports that LLM-generated ideas were judged more novel than human expert ideas while being judged slightly weaker on feasibility.",
+     "source_key": "R107",
+     "passage_id": "R107-A",
+     "quote": "we find LLM-generated ideas are judged as more novel (p < 0.05) than human expert ideas while being judged slightly weaker on feasibility.",
+     "locator": "abstract",
+     "id": "C43"
+    },
+    {
+     "claim": "The same study acknowledges that human novelty judgments are hard.",
+     "source_key": "R107",
+     "passage_id": "R107-A",
+     "quote": "Finally, we acknowledge that human judgements of novelty can be difficult, even by experts, and propose an end-to-end study design which recruits researchers to execute these ideas into full projects, enabling us to study whether these novelty and feasibility judgements result in meaningful differences in research outcome.",
+     "locator": "abstract",
+     "id": "C44"
+    },
+    {
+     "claim": "RQ-Bench reports that LLM judges rate model-generated research questions as highly novel, a pattern its authors call a novelty mirage.",
+     "source_key": "R2",
+     "passage_id": "R2-A",
+     "quote": "LLM judges consistently rate model-generated RQs as highly novel, producing a novelty mirage; in comparative evaluations, this preference becomes even stronger.",
+     "locator": "abstract",
+     "id": "C45"
+    },
+    {
+     "claim": "A study of novelty-judge design found that simply telling the judge that reviewers found one idea novel and the other not can change its verdict on more than half of the identical idea pairs it is shown, shifting pairwise accuracy by over 50 points and occasionally pushing it below chance.",
+     "source_key": "R58",
+     "passage_id": "R58-A",
+     "quote": "simply telling the judge that reviewers found one idea novel and the other not can change its verdict on more than half of the identical idea pairs it is shown, shifting pairwise accuracy by over 50 points and occasionally pushing it below chance.",
+     "locator": "abstract",
+     "id": "C46"
+    },
+    {
+     "claim": "The study of novelty-judge design reported that retrieval and larger reasoning budgets help little, and that two purpose-built novelty evaluators are outperformed by its cheapest prompted baseline.",
+     "source_key": "R58",
+     "passage_id": "R58-A",
+     "quote": "Retrieval and larger reasoning budgets help little, and two purpose-built novelty evaluators are outperformed by our cheapest prompted baseline.",
+     "locator": "abstract",
+     "id": "C47"
+    },
+    {
+     "claim": "OpenNovelty takes a grounding approach, tying novelty assessments to retrieved real papers.",
+     "source_key": "R59",
+     "passage_id": "R59-A",
+     "quote": "Unlike naive LLM-based approaches, \\textsc{OpenNovelty} grounds all assessments in retrieved real papers, ensuring verifiable judgments.",
+     "locator": "abstract",
+     "id": "C48"
+    },
+    {
+     "claim": "HindSight instead scores ideas against future publications, and it found HindSight scores negatively correlated with LLM-judged novelty.",
+     "source_key": "R87",
+     "passage_id": "R87-A",
+     "quote": "Moreover, HindSight scores are \\emph{negatively} correlated with LLM-judged novelty ($ρ{=}{-}0.29$, $p{<}0.01$), suggesting that LLMs systematically overvalue novel-sounding ideas that never materialize in real research.",
+     "locator": "abstract",
+     "id": "C49"
+    }
+   ]
+  }
+ ],
+ "sentences": [
+  {
+   "id": "S1",
+   "section": "Introduction",
+   "text": "Automated research agents are now expected to propose ideas, write code, run experiments and draft papers, and deciding whether their output is correct, reproducible or novel has become a central measurement problem.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.16,
+      "false": 0.84
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6254e-05,
+     "latency_ms": 131,
+     "trace_id": "98517473df6f4d279d796361e31be2a2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.29,
+      "false": 0.71
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6044e-05,
+     "latency_ms": 112,
+     "trace_id": "6009e6ef5c174400b335a4e52dc733dc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S2",
+   "section": "Introduction",
+   "text": "The RQ-Bench study states in its introduction that LLMs are now used not only to generate scientific ideas, but also to judge them.",
+   "kind": "claim",
+   "claims": [
+    "C1"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.717425e-05,
+     "latency_ms": 2245,
+     "trace_id": "65d8c94c8d97498192b363324b9392ca",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.591011e-05,
+     "latency_ms": 3606,
+     "trace_id": "c75ccccedf784fe58e84343f633fae1f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00010882125,
+     "latency_ms": 4284,
+     "trace_id": "da9601b7896a49c487041f25cfa78163",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002592,
+     "latency_ms": 1842,
+     "trace_id": "c434a8e8dd894599bde5969a5164d5c5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.727325e-05,
+     "latency_ms": 994,
+     "trace_id": "54948dc888bf4dc29c08e4d1d2bd2d63",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.598625e-05,
+     "latency_ms": 854,
+     "trace_id": "8ede514743a4487db43da20c66a907d3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.7755e-05,
+     "latency_ms": 2487,
+     "trace_id": "53284c4addc742ed8cbc5179bb51b511",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S3",
+   "section": "Introduction",
+   "text": "The same study notes that if LLMs generate a scientific artifact and other LLMs judge its novelty, the whole pipeline depends on whether LLM-as-judge is reliable.",
+   "kind": "claim",
+   "claims": [
+    "C2"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.738125e-05,
+     "latency_ms": 1107,
+     "trace_id": "2d7ba75f0ac44ecf8f0a1399f4ad9474",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.612287e-05,
+     "latency_ms": 1521,
+     "trace_id": "47a0d1be258a4accb2d83e85c1b9c0e9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.8,
+      "false": 0.19999999999999996
+     },
+     "confidence": 0.8,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8522e-05,
+     "latency_ms": 223,
+     "trace_id": "d70351948661457ebdf6546266e388a9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S4",
+   "section": "Introduction",
+   "text": "Reproducibility benchmarks form one strand of this work.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.512e-05,
+     "latency_ms": 72,
+     "trace_id": "e0507af096864eed91b65abe7701a3af",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S5",
+   "section": "Introduction",
+   "text": "CORE-Bench asks whether AI agents can automate computational reproducibility of published scientific research.",
+   "kind": "claim",
+   "claims": [
+    "C3"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.917e-05,
+     "latency_ms": 1716,
+     "trace_id": "a91e12f2fa9345c6aaa8f0ba462c0b98",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.590759e-05,
+     "latency_ms": 4529,
+     "trace_id": "1302f988e7f2464ab070e32392131fde",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.05325e-05,
+     "latency_ms": 2661,
+     "trace_id": "9a27935229cf4406bfda53ca542ac7dc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S6",
+   "section": "Introduction",
+   "text": "The CORE-Bench authors decide that an agent solves a task correctly if its reported results for all questions fall within a 95% prediction interval of the results from three manual runs.",
+   "kind": "claim",
+   "claims": [
+    "C4"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8504e-05,
+     "latency_ms": 1614,
+     "trace_id": "c5db571dd2854325a872aa233cdf07b5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.63395e-05,
+     "latency_ms": 1458,
+     "trace_id": "ba17f1ef698d4e4e8ba3a1f84bc2c68b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.74,
+      "false": 0.26
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9152e-05,
+     "latency_ms": 328,
+     "trace_id": "d869c080b2ec43788a09446dc524892e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S7",
+   "section": "Introduction",
+   "text": "The CORE-Bench authors suggest that building the benchmark on public repositories enables periodic updates, which could mitigate concerns about contamination and saturation.",
+   "kind": "claim",
+   "claims": [
+    "C5"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.926e-05,
+     "latency_ms": 1151,
+     "trace_id": "f1821d7a61874f03a8c9ce5b027cf2fa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.60875e-05,
+     "latency_ms": 1166,
+     "trace_id": "f6e6cf379f29478697adf3ca5818cc66",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.72,
+      "false": 0.28
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8102e-05,
+     "latency_ms": 248,
+     "trace_id": "28e72c0541f84afea0ca218989181c32",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S8",
+   "section": "Introduction",
+   "text": "PaperBench grades replication attempts with rubrics that hierarchically decompose each task into smaller sub-tasks with clear grading criteria, and its authors report that grading a single attempt can take a human expert tens of hours given the complexity of ML research papers.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C6",
+    "C7"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.13,
+      "false": 0.87
+     },
+     "confidence": 0.87,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5456e-05,
+     "latency_ms": 105,
+     "trace_id": "62ae3db1517b4f2cb811b10d4e0dca86",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.91,
+      "false": 0.08999999999999997
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.4528e-05,
+     "latency_ms": 87,
+     "trace_id": "841ff9e723854ac9ade25e301f7facaf",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S9",
+   "section": "Introduction",
+   "text": "PaperBench develops rubrics that hierarchically decompose each replication task into smaller sub-tasks with clear grading criteria.",
+   "kind": "claim",
+   "claims": [
+    "C6"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.863675e-05,
+     "latency_ms": 1502,
+     "trace_id": "00f15e8604584b178e7df963c53cc9c6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.5957e-05,
+     "latency_ms": 1903,
+     "trace_id": "130e3db431864f19a47afbf08fb94aa3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.80225e-05,
+     "latency_ms": 1515,
+     "trace_id": "8c5b56b0b33543fb9238d0c1ce02788d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S10",
+   "section": "Introduction",
+   "text": "The PaperBench authors report that, given the complexity of ML research papers, grading a single replication attempt can take tens of hours for a human expert.",
+   "kind": "claim",
+   "claims": [
+    "C7"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.706175e-05,
+     "latency_ms": 792,
+     "trace_id": "dc417fb1c1134743843a6906c0becc54",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.582675e-05,
+     "latency_ms": 1803,
+     "trace_id": "62096ec5ac514c9388e7748c0c8479fe",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.710189e-05,
+     "latency_ms": 793,
+     "trace_id": "9ccd8c13f1dc4b07a8672ca7bc1072ca",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.608525e-05,
+     "latency_ms": 1158,
+     "trace_id": "e7c64f4623b74ba3b4c7d8bb433583ad",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.82,
+      "false": 0.18000000000000005
+     },
+     "confidence": 0.82,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8144e-05,
+     "latency_ms": 139,
+     "trace_id": "631253238cbc4c18aed88debb7cd7bcc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S11",
+   "section": "Introduction",
+   "text": "Their best judge reaches an F1 score of 0.83 on the auxiliary JudgeEval, which the authors take to suggest a reasonable stand-in for a human judge.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.710675e-05,
+     "latency_ms": 1594,
+     "trace_id": "2568f09d06ae4a45b8cca790a948e041",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.73925e-05,
+     "latency_ms": 1105,
+     "trace_id": "380889aee3d74f9280d5cbf447849498",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the sentence refers back ('Their') instead of naming its subject"
+  },
+  {
+   "id": "S12",
+   "section": "Introduction",
+   "text": "Other concerns about validity come from outside the research-agent literature.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.26755e-05,
+     "latency_ms": 2687,
+     "trace_id": "fe229904118548c8ba15276ed77b81c7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S13",
+   "section": "Introduction",
+   "text": "The survey on benchmark data contamination defines it as occurring when language models inadvertently incorporate evaluation benchmark information from their training data.",
+   "kind": "claim",
+   "claims": [
+    "C8"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.731375e-05,
+     "latency_ms": 1475,
+     "trace_id": "4820051ff11e486caf0c9600ae42ade4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.614825e-05,
+     "latency_ms": 1075,
+     "trace_id": "2c590ec76c7144579e42012970053861",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.83,
+      "false": 0.17000000000000004
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.848e-05,
+     "latency_ms": 243,
+     "trace_id": "2a571281b4cf4582963ce3e3252a6c1e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S14",
+   "section": "Introduction",
+   "text": "A clinical-agent study observes that benchmarks typically score one run per task and rarely ask whether identical inputs produce identical actions.",
+   "kind": "claim",
+   "claims": [
+    "C9"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.97,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.927125e-05,
+     "latency_ms": 1158,
+     "trace_id": "534b6b84b2e442ec89fe6680ca57274f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.587825e-05,
+     "latency_ms": 952,
+     "trace_id": "9cbece88538645cc9491067482022e5b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.606662e-05,
+     "latency_ms": 1971,
+     "trace_id": "fb9b4fcad5104e6e9ba5e398616f7dc1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S15",
+   "section": "Introduction",
+   "text": "The RQ-Bench study reports that LLM judges consistently rate model-generated research questions as highly novel, while domain experts prefer the author-anchored reference questions.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.907325e-05,
+     "latency_ms": 1382,
+     "trace_id": "900032c291a94b0a921583bcf283f155",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.958075e-05,
+     "latency_ms": 1858,
+     "trace_id": "06fd206bdde94e01bd54f342a2eefa09",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8999e-05,
+     "latency_ms": 1738,
+     "trace_id": "ba560a61619f40e8b8b7faca21056a85",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S16",
+   "section": "Introduction",
+   "text": "The passages supplied here do not describe MLE-bench or SciReplicate-Bench in detail, so this review treats those benchmarks only through what other sources say about them.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.15,
+      "false": 0.85
+     },
+     "confidence": 0.85,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6085999999999998e-05,
+     "latency_ms": 108,
+     "trace_id": "3e37e035174a453283d252eaf44762bc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S17",
+   "section": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "This section reviews how the supplied sources decide whether an agent's output is correct or reproducible.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.596e-05,
+     "latency_ms": 141,
+     "trace_id": "0f7074b47afd476c8988c5a8fad8193d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S18",
+   "section": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "CORE-Bench judges a task correct only if the agent's reported results for all questions fall within a 95% prediction interval of three manual runs.",
+   "kind": "claim",
+   "claims": [
+    "C10"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.84365e-05,
+     "latency_ms": 1290,
+     "trace_id": "ee135ef227034034918e7b6cec80bebd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.640988e-05,
+     "latency_ms": 1103,
+     "trace_id": "db364ca18a8647bea9c1a5d5fa8d5829",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.82,
+      "false": 0.18000000000000005
+     },
+     "confidence": 0.82,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9614e-05,
+     "latency_ms": 106,
+     "trace_id": "54aeefe677a54ddd900c83116d75e92f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S19",
+   "section": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "The CORE-Bench authors say that building the benchmark on public repositories enables periodic updates that could mitigate concerns about contamination and saturation.",
+   "kind": "claim",
+   "claims": [
+    "C11"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.92618e-05,
+     "latency_ms": 4530,
+     "trace_id": "27c51d0c38fe4c61b0136a355614f2b0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6092e-05,
+     "latency_ms": 1077,
+     "trace_id": "77d8e750a5fa4f538d0e59b8a47ed194",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.82,
+      "false": 0.18000000000000005
+     },
+     "confidence": 0.82,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.806e-05,
+     "latency_ms": 142,
+     "trace_id": "eadb40a0a20d40cab74f61fe57f4073f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S20",
+   "section": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "A later case study of CORE-Bench Hard reports surfacing threats to construct validity that were difficult to anticipate with less capable agents.",
+   "kind": "claim",
+   "claims": [
+    "C12"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.885275e-05,
+     "latency_ms": 1396,
+     "trace_id": "6464c68867e445bc9e79d6d621b0eb7d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.59795e-05,
+     "latency_ms": 1164,
+     "trace_id": "f4c9329f1a224ce5bec63653094954a5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.777525e-05,
+     "latency_ms": 2088,
+     "trace_id": "72bf9810acaf4aed8bc0004a63b301fa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S21",
+   "section": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "PaperBench grades replications with hierarchical rubrics, and an LLM-based judge assigns the grades.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6812e-05,
+     "latency_ms": 1359,
+     "trace_id": "552936bd96974b6d88760804b9ed1403",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6092e-05,
+     "latency_ms": 849,
+     "trace_id": "4355854e7f22404099792fcb13983185",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.881475e-05,
+     "latency_ms": 2278,
+     "trace_id": "3c22d2d09fcb485e98763b41aa9148bb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002044,
+     "latency_ms": 1634,
+     "trace_id": "b08fa2d367214788b19f09d9cf498d49",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.683126e-05,
+     "latency_ms": 839,
+     "trace_id": "4e41d2ed154946038d1b35243616f459",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.611765e-05,
+     "latency_ms": 1152,
+     "trace_id": "5762cd26ad0a472f8f686bcca7d1589e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.28,
+      "false": 0.72
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.722e-05,
+     "latency_ms": 157,
+     "trace_id": "e0760955b4f24b028d59639eb7a2e5ac",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00212,
+     "latency_ms": 2061,
+     "trace_id": "6d59a89c4dd546d09354d7b0d4fa149a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S22",
+   "section": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "The PaperBench authors report that expert human grading took on the order of tens of hours per paper, which motivated the automated judge.",
+   "kind": "claim",
+   "claims": [
+    "C13"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.681425e-05,
+     "latency_ms": 1281,
+     "trace_id": "61af06ed21ff4928a3e6934b00b5c0cf",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61595e-05,
+     "latency_ms": 775,
+     "trace_id": "02b9249de6724638a880150abc44633d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.7,
+      "false": 0.30000000000000004
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.869e-05,
+     "latency_ms": 155,
+     "trace_id": "d60fcdb270fd4a96afd0ad59ae5d1421",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S23",
+   "section": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "PaperBench validates its judge against human-graded leaf nodes from partial replications in JudgeEval.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.497625e-05,
+     "latency_ms": 1561,
+     "trace_id": "cd7fd626bbb5457ba4f6fecab91d241f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.847275e-05,
+     "latency_ms": 2389,
+     "trace_id": "d46299609f65446babd5ce3dba28701d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.497625e-05,
+     "latency_ms": 1561,
+     "trace_id": "cd7fd626bbb5457ba4f6fecab91d241f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.845376e-05,
+     "latency_ms": 2728,
+     "trace_id": "2425f7d6414e4e2b859c10678ecfa2ae",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S24",
+   "section": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "PaperBench also reports high variance on the same paper for most agents and recommends several seeds.",
+   "kind": "claim",
+   "claims": [
+    "C14"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.707768e-05,
+     "latency_ms": 1466,
+     "trace_id": "739341860c0544768ef107fa3413328f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 6.4521e-05,
+     "latency_ms": 2619,
+     "trace_id": "edf9856ba6794b78aa6520158fad9a9d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.707768e-05,
+     "latency_ms": 1466,
+     "trace_id": "739341860c0544768ef107fa3413328f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.649142e-05,
+     "latency_ms": 1775,
+     "trace_id": "54f9efc203c24ffc8b7ceb0222721d4b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.72,
+      "false": 0.28
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8438e-05,
+     "latency_ms": 178,
+     "trace_id": "123b2b0aca1946d39b56a26ccf181c60",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S25",
+   "section": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "SciReplicate-Bench instead prioritizes execution accuracy, and its authors criticize PaperBench-style approaches for relying on manual criteria and LLM judgments.",
+   "kind": "claim",
+   "claims": [
+    "C15"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.840887e-05,
+     "latency_ms": 885,
+     "trace_id": "8b1b2eccde9c479e9b87c59fca41584d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 5.34645e-05,
+     "latency_ms": 2364,
+     "trace_id": "bc41b59c110242ea8a2a6637352f5929",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.840887e-05,
+     "latency_ms": 885,
+     "trace_id": "8b1b2eccde9c479e9b87c59fca41584d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.175136e-05,
+     "latency_ms": 2038,
+     "trace_id": "2de8c3f7d9a64916b88879ddc6846802",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.161689e-05,
+     "latency_ms": 1698,
+     "trace_id": "807cf57664e54fe487788b58d93d0e16",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S26",
+   "section": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "SciReplicate-Bench chose a 2024 publication window to minimize the risk of data leakage.",
+   "kind": "claim",
+   "claims": [
+    "C16"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.812627e-05,
+     "latency_ms": 1249,
+     "trace_id": "70adc2e7d19c483cad9c3f1742fd1226",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.609236e-05,
+     "latency_ms": 771,
+     "trace_id": "0f0aa98272a047be8ca1084f749e9a3a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.87,
+      "false": 0.13
+     },
+     "confidence": 0.87,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8816e-05,
+     "latency_ms": 178,
+     "trace_id": "a610cc97f1e2490db76ad5e5fa7c2b27",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S27",
+   "section": "Correctness and reproducibility measures in agent benchmarks",
+   "text": "The benchmarks differ in how they decide correctness and in how they handle variance and leakage. One benchmark counts a task as correct only when reported results fall within a 95% prediction interval of three manual runs and points to periodic updates on public repositories as a way to mitigate contamination. Another reports high variance on the same paper for most agents and recommends several seeds. A third prioritizes execution accuracy, criticizes manual criteria and LLM judgments, and restricts its papers to a 2024 publication window to minimize data leakage.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C10",
+    "C11",
+    "C14",
+    "C15",
+    "C16"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.83,
+      "false": 0.17000000000000004
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.4314e-05,
+     "latency_ms": 128,
+     "trace_id": "4901792232454f7bbde095c2b61e4a0c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S28",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "The sources reviewed here bear on how far LLM judges can be trusted to grade agent outputs, starting with the judge used in PaperBench.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.029626e-05,
+     "latency_ms": 2190,
+     "trace_id": "abc6975571c74479a7a60cb15abe5ef0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S29",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "PaperBench's authors report that their best LLM-based judge, which uses o3-mini-high with custom scaffolding, achieves an F1 score of 0.83 on the auxiliary evaluation, suggesting it is a reasonable stand-in for a human judge.",
+   "kind": "claim",
+   "claims": [
+    "C17"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.76589e-05,
+     "latency_ms": 1238,
+     "trace_id": "e31483e8f6f34055bfbb16f8499c0a31",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.673073e-05,
+     "latency_ms": 1071,
+     "trace_id": "62352f5ee50f4f22a7fe47f1d5c433fd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.849626e-05,
+     "latency_ms": 785,
+     "trace_id": "da98eb58b4a84767aa8bdcc499eb683b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S30",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "PaperBench's JudgeEval treats human-graded leaf nodes from partial replications of five papers as ground truth labels.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.70982e-05,
+     "latency_ms": 1074,
+     "trace_id": "92de90d47b1141968dfa41033fc076e8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.140568e-05,
+     "latency_ms": 2184,
+     "trace_id": "39faa63401124dabb2b2a3d943c4a995",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.739889e-05,
+     "latency_ms": 806,
+     "trace_id": "598d2c0356d94819bcb7b9d2b67fde96",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.652517e-05,
+     "latency_ms": 1021,
+     "trace_id": "fb9c1263ba4d4c819eb38f5b2b331da9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.26,
+      "false": 0.74
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8606e-05,
+     "latency_ms": 145,
+     "trace_id": "4760dc63cdb9437b8d4634db131c3a47",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.72,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00305,
+     "latency_ms": 2347,
+     "trace_id": "2e30e0c38b99494da9986afb4a1093f4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S31",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "The PaperBench authors state that more work is needed to improve judge accuracy and understand judges' strengths and weaknesses.",
+   "kind": "claim",
+   "claims": [
+    "C18"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.806651e-05,
+     "latency_ms": 1436,
+     "trace_id": "01ae818a72a14398ac4a4dcbfb3c29fe",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.622691e-05,
+     "latency_ms": 2932,
+     "trace_id": "8d4492927ce9471aa31e62cab3fe0d53",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.869e-05,
+     "latency_ms": 161,
+     "trace_id": "43b874b3dbc641ad9a7ab88b0aa59500",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S32",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "General studies of judge reliability report instability that a single F1 figure would not reveal.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5792e-05,
+     "latency_ms": 91,
+     "trace_id": "e89a9f3c120f455c999601368eb26b50",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.16,
+      "false": 0.84
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6044e-05,
+     "latency_ms": 128,
+     "trace_id": "4c4dae307b4443f29a6f58b0bc47d1da",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S33",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "A repeated-trial study found that pairwise preferences flip on average 13.6% of the time across two judges.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.026764e-05,
+     "latency_ms": 1883,
+     "trace_id": "2211a978d3714032a9e4d7e9c4282201",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.611126e-05,
+     "latency_ms": 940,
+     "trace_id": "fddd5b13ed2e4d0d91192e8100832198",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.968567e-05,
+     "latency_ms": 1955,
+     "trace_id": "0ec48e78c8b945fe97361dec114319b1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002048,
+     "latency_ms": 1657,
+     "trace_id": "4ef2a5a5fa3449f5b9af9c228d51f028",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 1.0,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.043378e-05,
+     "latency_ms": 1667,
+     "trace_id": "3b47a674fddd49e3b3a3e95edaa430ff",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.666944e-05,
+     "latency_ms": 1354,
+     "trace_id": "2cda29fb22744d00a7fb015b95e80d0f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.15,
+      "false": 0.85
+     },
+     "confidence": 0.85,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0286e-05,
+     "latency_ms": 234,
+     "trace_id": "5a5f3cf7ccaa41cebe7df2e95b5df3f5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.93,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00184,
+     "latency_ms": 1185,
+     "trace_id": "f343cfb425e94cfca15205db8564156e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S34",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "A study of position bias across 15 judges found that it varies significantly across judges and tasks.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.801314e-05,
+     "latency_ms": 1370,
+     "trace_id": "547f6ad14b2e45a384ef3c916e3e4528",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.5876e-05,
+     "latency_ms": 1036,
+     "trace_id": "5ae74c06b01a454e814038117612fd55",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.24,
+      "false": 0.76
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7514e-05,
+     "latency_ms": 214,
+     "trace_id": "e3f4840bb4754436817a939c441395a8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.93,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002094,
+     "latency_ms": 1472,
+     "trace_id": "1b02860768cb41ea8462b3a18eabf20c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.875087e-05,
+     "latency_ms": 757,
+     "trace_id": "4265379a46f1497c923c12ab2be256bb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.365767e-05,
+     "latency_ms": 984,
+     "trace_id": "b746d14b45114483a52ca594a8a1cf5d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S35",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "A large-scale evaluation found that judge validation relying on exact-match agreement does not correct for chance and systematically overstates discriminative ability.",
+   "kind": "claim",
+   "claims": [
+    "C19"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.862946e-05,
+     "latency_ms": 1041,
+     "trace_id": "77dcde408d3b47e38ac840f3154a0a4c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.615626e-05,
+     "latency_ms": 998,
+     "trace_id": "9fa1238f95f54966b6c2400a29329457",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.712571e-05,
+     "latency_ms": 2324,
+     "trace_id": "28f1ddb54bc84313a5d90868480d7eeb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S36",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "The PaperBench authors report an F1 of 0.83 for their best judge and call it a reasonable stand-in for a human judge, while also stating that more work is needed to understand judges' strengths and weaknesses. A large-scale evaluation found that validating judges by exact-match agreement does not correct for chance and overstates discriminative ability. Together, these sources suggest that a single agreement score may not capture how well a judge discriminates.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C17",
+    "C18",
+    "C19"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.8,
+      "false": 0.19999999999999996
+     },
+     "confidence": 0.8,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.9904e-05,
+     "latency_ms": 90,
+     "trace_id": "ab5f51814113402888e95a4b876858d6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S37",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "Turning to novelty judging, the evidence on judge validity needs separate consideration.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5498e-05,
+     "latency_ms": 66,
+     "trace_id": "7051bee43bc64e6295bdcae24bb7396a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.566315e-05,
+     "latency_ms": 747,
+     "trace_id": "8c4b9e9cabef45b2b4891cf2993747e2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S38",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "A controlled study of novelty judges found that telling the judge that reviewers found one idea novel and the other not can change its verdict on more than half of identical idea pairs.",
+   "kind": "claim",
+   "claims": [
+    "C20"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.867752e-05,
+     "latency_ms": 817,
+     "trace_id": "99a171e24da145289bba056604bf9d24",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.631376e-05,
+     "latency_ms": 1428,
+     "trace_id": "1480337690f6487d86e6033c2b8568f2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.054457e-05,
+     "latency_ms": 873,
+     "trace_id": "9e9e7ef8dde04bd9837c402be2283bac",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S39",
+   "section": "LLM-as-judge reliability and bias in grading agent outputs",
+   "text": "HindSight reports that its scores are negatively correlated with LLM-judged novelty.",
+   "kind": "claim",
+   "claims": [
+    "C21"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.826127e-05,
+     "latency_ms": 777,
+     "trace_id": "97dc31a360cd4005bfff3d68d719943d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.674081e-05,
+     "latency_ms": 754,
+     "trace_id": "6aa25de98b454b74b24210695cbca4a6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.87,
+      "false": 0.13
+     },
+     "confidence": 0.87,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9319999999999998e-05,
+     "latency_ms": 74,
+     "trace_id": "42ae1f3d18644a79a9a8d2466c614e50",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S40",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "PaperBench pairs each paper with manually created, hierarchical rubrics that allow partial progress toward replication to be measured at a fine grain, and its authors report that its best LLM-based judge reaches an F1 score of 0.83 on the auxiliary evaluation.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C22",
+    "C23",
+    "C25"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5708e-05,
+     "latency_ms": 219,
+     "trace_id": "b2195af6467e48a8998f177d1f7c0396",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.92,
+      "false": 0.07999999999999996
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.6628e-05,
+     "latency_ms": 110,
+     "trace_id": "f080a97cc6cb4f1091c3eea5143275a6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S41",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "PaperBench pairs each paper with manually created rubrics that specify the outcomes needed for replication.",
+   "kind": "claim",
+   "claims": [
+    "C22"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.757439e-05,
+     "latency_ms": 824,
+     "trace_id": "d1facd0a51ea4d778296a0c8222a2afc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.648017e-05,
+     "latency_ms": 774,
+     "trace_id": "394205b5fd664c0fb6b66c582ca5cfce",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.84,
+      "false": 0.16000000000000003
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.848e-05,
+     "latency_ms": 122,
+     "trace_id": "fcb3b13d459243a19d8b6b5079f2ab86",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S42",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "PaperBench rubrics are hierarchical, so that partial progress toward replication can be measured at a fine grain.",
+   "kind": "claim",
+   "claims": [
+    "C23"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.790514e-05,
+     "latency_ms": 1014,
+     "trace_id": "227f84d591f841f989aa5842f6cd48cc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.604376e-05,
+     "latency_ms": 1589,
+     "trace_id": "c033d2b5cd98484782dd6aca255fabba",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.827e-05,
+     "latency_ms": 114,
+     "trace_id": "823543aa4b3f4eb4a3f9e99d59111f3c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S43",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "The PaperBench authors report that grading a single replication attempt can take tens of hours for a human expert.",
+   "kind": "claim",
+   "claims": [
+    "C24"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.712817e-05,
+     "latency_ms": 734,
+     "trace_id": "9b58a61beb7c47b5a443fcacdde47ccc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.224628e-05,
+     "latency_ms": 1267,
+     "trace_id": "879a09dd7a3f4738b74abc140b4b6f01",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.735704e-05,
+     "latency_ms": 804,
+     "trace_id": "b631a2e762624747aeb99d92efde0f2c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61514e-05,
+     "latency_ms": 1044,
+     "trace_id": "0c8396b21a064b5ebd3ff690927604fe",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.79,
+      "false": 0.20999999999999996
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7262e-05,
+     "latency_ms": 141,
+     "trace_id": "97bc2ce4754742ce80abc0f808ef3361",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S44",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "The PaperBench authors report that their best LLM-based judge, which uses o3-mini-high with custom scaffolding, achieves an F1 score of 0.83 on the auxiliary evaluation.",
+   "kind": "claim",
+   "claims": [
+    "C25"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.723509e-05,
+     "latency_ms": 779,
+     "trace_id": "ff104086639e4e74a48899d5f9fe30c0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.648512e-05,
+     "latency_ms": 1906,
+     "trace_id": "5d8479127bd7476aaef0aaa6d1f94f22",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.28,
+      "false": 0.72
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9068e-05,
+     "latency_ms": 127,
+     "trace_id": "e4377dd020184b0aa1e84766c77df56c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003124,
+     "latency_ms": 2663,
+     "trace_id": "4bd75c61eb884ad79ae1651bebcef8ca",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.773774e-05,
+     "latency_ms": 1778,
+     "trace_id": "18c12edce7c84bc5a8ffd66c4ab3a737",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.643823e-05,
+     "latency_ms": 864,
+     "trace_id": "72815052b53448ee9b40c42e7aa2a5bf",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.76,
+      "false": 0.24
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8984e-05,
+     "latency_ms": 162,
+     "trace_id": "bdf72358262d47e29c791b9aa16d2ba1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S45",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "SciReplicate-Bench criticizes this design, saying PaperBench-style approaches depend on manual criteria and LLM judgments.",
+   "kind": "claim",
+   "claims": [
+    "C26"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.811502e-05,
+     "latency_ms": 1188,
+     "trace_id": "89c6c5c03890439d9d98001edeb078a1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.652751e-05,
+     "latency_ms": 1080,
+     "trace_id": "c499425266c54236aea5e2d34196a990",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.09544e-05,
+     "latency_ms": 2577,
+     "trace_id": "f5233256a48e45fba550001f73fba7bf",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S46",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "SciReplicate-Bench instead prioritizes execution accuracy as its objective measure.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.865592e-05,
+     "latency_ms": 837,
+     "trace_id": "7b18236093ea4cf9b2774216af6e4f33",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.419135e-05,
+     "latency_ms": 1901,
+     "trace_id": "49a37b370aec498497c295a28e1016d2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.838502e-05,
+     "latency_ms": 962,
+     "trace_id": "1a55bfd6912941ad9bed7ec735bd9386",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 5.750064e-05,
+     "latency_ms": 2047,
+     "trace_id": "e820710ba35e4cc4b6fc1e58f43b8bdb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S47",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "CORE-Bench takes another route, scoring an agent as correct when its answers fall within a 95% prediction interval of three manual runs.",
+   "kind": "claim",
+   "claims": [
+    "C27"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.896336e-05,
+     "latency_ms": 929,
+     "trace_id": "8cba20677bf34fb3a1a5233f4f78f126",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.010139e-05,
+     "latency_ms": 1536,
+     "trace_id": "a28256d261ca4c7695f8247d0fd7a73f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.391144e-05,
+     "latency_ms": 2641,
+     "trace_id": "0be3963c8b804d6982ef933c78c6d47b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S48",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "A later CORE-Bench study reports surfacing threats to construct validity in CORE-Bench Hard that are difficult to anticipate with less capable agents.",
+   "kind": "claim",
+   "claims": [
+    "C28"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.922454e-05,
+     "latency_ms": 1277,
+     "trace_id": "56c01be41b884985b9b1ec6da5c7affe",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.954377e-05,
+     "latency_ms": 912,
+     "trace_id": "451f6bc68975410cb9230bb68e78a58c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.786074e-05,
+     "latency_ms": 2301,
+     "trace_id": "59886f0915954a7f890a611a35859a75",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.93,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00269,
+     "latency_ms": 2185,
+     "trace_id": "934066b071b04feba0130544ac56d5e3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.891377e-05,
+     "latency_ms": 3108,
+     "trace_id": "a08c2b4fade742a2a10cb90504635148",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.593126e-05,
+     "latency_ms": 2040,
+     "trace_id": "fce500795ff34f40a20611b1fcb5248d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.132943e-05,
+     "latency_ms": 2203,
+     "trace_id": "c9bb96855aa745a7a3b20152fa795a7c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00415,
+     "latency_ms": 3453,
+     "trace_id": "3834cd73f4184649b6d772212a3b281c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": "unsettled at write time: the reference judge was unsure"
+  },
+  {
+   "id": "S49",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "The PaperBench authors acknowledge that judge accuracy on large, complex outputs needs more work.",
+   "kind": "claim",
+   "claims": [
+    "C29"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.742814e-05,
+     "latency_ms": 1369,
+     "trace_id": "0adb0f7ee9dc47a2b608154a31815be5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.611126e-05,
+     "latency_ms": 823,
+     "trace_id": "6bd2d4f5b8ab4916a9b7b07e169f99ee",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.848e-05,
+     "latency_ms": 141,
+     "trace_id": "9e782510a2574cabba40b027c70ef2cc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S50",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "A survey of agentic evaluation papers reports that about 82% of its sample use structurally mismatched, incomplete, or absent inter-rater reliability metrics.",
+   "kind": "claim",
+   "claims": [
+    "C30"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.065041e-05,
+     "latency_ms": 1496,
+     "trace_id": "28e16725ec024bb8a05eb39de335e7c1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.682703e-05,
+     "latency_ms": 1319,
+     "trace_id": "dd7eaffc76b344f286b0bc1571380952",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.7,
+      "false": 0.30000000000000004
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0202e-05,
+     "latency_ms": 123,
+     "trace_id": "131015c60cf54a07ac98651a255311dd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S51",
+   "section": "Rubric design, manual criteria, and construct validity concerns",
+   "text": "The sources leave open how partial-credit rubric scores compare with execution-based scores on the same tasks.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5876e-05,
+     "latency_ms": 167,
+     "trace_id": "35491266df0e47bea7523c5dc7dce463",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S52",
+   "section": "Test-set contamination and data leakage",
+   "text": "The passages treat contamination as a threat to benchmark validity in general, and a few apply it to research-agent benchmarks.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.575e-05,
+     "latency_ms": 152,
+     "trace_id": "0daa39c3099b4179a8e79eebdf939d8e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.09,
+      "false": 0.91
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5918e-05,
+     "latency_ms": 89,
+     "trace_id": "5bd1421486bc4b2ba4050c9cbb36dfac",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S53",
+   "section": "Test-set contamination and data leakage",
+   "text": "The TRUCE authors state that the majority of open source benchmarks available today have been contaminated or leaked into LLMs.",
+   "kind": "claim",
+   "claims": [
+    "C31"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.899018e-05,
+     "latency_ms": 1818,
+     "trace_id": "b705a9610f4e4b4b9219f1c4c68ba7d0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.650888e-05,
+     "latency_ms": 830,
+     "trace_id": "ab08e0f19ab34718b1b12cfab31486a3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.75,
+      "false": 0.25
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.89e-05,
+     "latency_ms": 90,
+     "trace_id": "efb7fb8764e34e04a076eeb0253fb126",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S54",
+   "section": "Test-set contamination and data leakage",
+   "text": "The rephrased-samples study reports that simple variations of test data, such as paraphrasing and translation, can bypass n-gram decontamination.",
+   "kind": "claim",
+   "claims": [
+    "C32"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.030724e-05,
+     "latency_ms": 853,
+     "trace_id": "36d266af15934167ac75d7bac554fc15",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.639251e-05,
+     "latency_ms": 1023,
+     "trace_id": "d1516d8c4c6c4409be82a9a55e68eaca",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.7,
+      "false": 0.30000000000000004
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9571999999999998e-05,
+     "latency_ms": 185,
+     "trace_id": "d66c3511841f466aa869c89b81885a83",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S55",
+   "section": "Test-set contamination and data leakage",
+   "text": "The survey on benchmark data contamination notes that, for code generation, excluding semantic-level related content such as problem-solving tutorials is challenging.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.985013e-05,
+     "latency_ms": 1981,
+     "trace_id": "7bb080ad30e54eb6bc6ad44d995f4a99",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.622376e-05,
+     "latency_ms": 750,
+     "trace_id": "3e78ddad35e74f90b479167d0a38074a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.172389e-05,
+     "latency_ms": 2482,
+     "trace_id": "0ae811dd83d9470da16636b445e3ff87",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002168,
+     "latency_ms": 1851,
+     "trace_id": "3d47c6e023bd48a48b9af1272cf735b5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.973565e-05,
+     "latency_ms": 885,
+     "trace_id": "e1fb210c31664946878965f7bed7ca5d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.631007e-05,
+     "latency_ms": 1260,
+     "trace_id": "030a11268ab0429ba920573fb8c907d1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.985876e-05,
+     "latency_ms": 2698,
+     "trace_id": "f7ae27acb5594849a176f1ac7e035589",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.72,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003118,
+     "latency_ms": 2488,
+     "trace_id": "123661bf73e14cd7afddf738a8c5bed1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S56",
+   "section": "Test-set contamination and data leakage",
+   "text": "Several research-agent benchmarks, namely SciReplicate-Bench, ResearchBench and CORE-Bench, rely on publication date or public repositories as their safeguard against contamination, as the sources report. SciReplicate-Bench selected 2024 papers with public code to mitigate leakage, ResearchBench restricts itself to 2024-onward publications to minimize overlap with pretraining data, and CORE-Bench says its public-repository foundation allows periodic updates that could mitigate contamination.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C33",
+    "C34",
+    "C35"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.08,
+      "false": 0.92
+     },
+     "confidence": 0.92,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5414e-05,
+     "latency_ms": 122,
+     "trace_id": "a33c31ba71124db585ed2ed78f2451c4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.76,
+      "false": 0.24
+     },
+     "confidence": 0.76,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.9987999999999998e-05,
+     "latency_ms": 72,
+     "trace_id": "4accd1b441fd4891a72b828cd35d7a52",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S57",
+   "section": "Test-set contamination and data leakage",
+   "text": "SciReplicate-Bench selected papers published in 2024 with public code repositories to mitigate the risk of data leakage.",
+   "kind": "claim",
+   "claims": [
+    "C33"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.734264e-05,
+     "latency_ms": 979,
+     "trace_id": "4dfa16977e814721a2938066da30484e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.630764e-05,
+     "latency_ms": 757,
+     "trace_id": "1865ee4b4405431cb75b81a84e6d7e19",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.827e-05,
+     "latency_ms": 167,
+     "trace_id": "dfd11eeae614494f85c51155ef423749",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S58",
+   "section": "Test-set contamination and data leakage",
+   "text": "ResearchBench states that, to prevent data contamination, it focuses exclusively on publications from 2024 onward, which it says ensures minimal overlap with LLM pretraining data.",
+   "kind": "claim",
+   "claims": [
+    "C34"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.889406e-05,
+     "latency_ms": 1216,
+     "trace_id": "50f060f9fea046f6ad84fce3505e1a4c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.619946e-05,
+     "latency_ms": 873,
+     "trace_id": "14445a3390114053b8058fd656eed78e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00011001447,
+     "latency_ms": 3965,
+     "trace_id": "bdf134e75939470c85e063aa90953486",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.900719e-05,
+     "latency_ms": 1252,
+     "trace_id": "0dad00a2d8d04ed68c033dad820a8598",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.647891e-05,
+     "latency_ms": 1696,
+     "trace_id": "5be029283dba43a189e7fc72acea0a68",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.7,
+      "false": 0.30000000000000004
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8984e-05,
+     "latency_ms": 166,
+     "trace_id": "2781005fcf5e40868c27fc825d07bf25",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S59",
+   "section": "Test-set contamination and data leakage",
+   "text": "CORE-Bench states that its foundation in public repositories enables periodic updates that could mitigate concerns about contamination and saturation.",
+   "kind": "claim",
+   "claims": [
+    "C35"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.010663e-05,
+     "latency_ms": 1274,
+     "trace_id": "ac279bc5219446d08857d1223687e7a1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.636578e-05,
+     "latency_ms": 832,
+     "trace_id": "5bfc36bae4654e00a36117d3397d01dc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.89,
+      "false": 0.10999999999999999
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7933999999999998e-05,
+     "latency_ms": 240,
+     "trace_id": "8eee0e8b3f8742ea978a43ddb580a5db",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S60",
+   "section": "Test-set contamination and data leakage",
+   "text": "The date-based approach is open to the concern, raised by the rephrasing study, that string-level filtering misses variants of test data, and that concern applies to public code.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C32"
+   ],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "premise removed or unknown: s4"
+  },
+  {
+   "id": "S61",
+   "section": "Test-set contamination and data leakage",
+   "text": "The next passages turn to evidence of memorization and to alternatives to public test sets.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.17,
+      "false": 0.83
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5414e-05,
+     "latency_ms": 131,
+     "trace_id": "131ce33a727843dfa1a82657941f5619",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.9,
+      "false": 0.09999999999999998
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.554e-05,
+     "latency_ms": 142,
+     "trace_id": "393cd086e4fe4aa0ba8b7707b4b76606",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S62",
+   "section": "Test-set contamination and data leakage",
+   "text": "The tabular-data study finds that LLMs perform better on datasets seen during training, indicating that memorization leads to overfitting.",
+   "kind": "claim",
+   "claims": [
+    "C36"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.981215e-05,
+     "latency_ms": 811,
+     "trace_id": "33b0b853ea5248a7ae7cddaa5f85fd14",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.601001e-05,
+     "latency_ms": 1181,
+     "trace_id": "f118e66fc56b4d30b7b6006a4bdd864e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.651014e-05,
+     "latency_ms": 881,
+     "trace_id": "e128eb0425e94beeaedbf7815971c483",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S63",
+   "section": "Test-set contamination and data leakage",
+   "text": "The open-source contamination report finds that data contamination does not necessarily lead to increased model metrics.",
+   "kind": "claim",
+   "claims": [
+    "C37"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.816002e-05,
+     "latency_ms": 691,
+     "trace_id": "3776e4826a1346a690cf2f7904effb87",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61064e-05,
+     "latency_ms": 1486,
+     "trace_id": "23370a1dcf4b42d280b4cf93c0f2e283",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.596501e-05,
+     "latency_ms": 820,
+     "trace_id": "2dd57d98a922481ea8a889b7dbf6ea61",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S64",
+   "section": "Test-set contamination and data leakage",
+   "text": "TRUCE proposes keeping test datasets private and evaluating models without revealing the test data to the model.",
+   "kind": "claim",
+   "claims": [
+    "C38"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.918341e-05,
+     "latency_ms": 1381,
+     "trace_id": "49c06e8ced0d41c1b0075c6ea6bbbcb9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.601001e-05,
+     "latency_ms": 685,
+     "trace_id": "dfea1228af75485c8420be44b74ed117",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.79,
+      "false": 0.20999999999999996
+     },
+     "confidence": 0.79,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.806e-05,
+     "latency_ms": 127,
+     "trace_id": "c68cf6f436c94f56818ab7ab10ad0ff9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S65",
+   "section": "Test-set contamination and data leakage",
+   "text": "The passages do not show whether the date cutoffs or repository-based updates used by these agent benchmarks were checked against any contamination audit.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "absence: 'passages do not show' belongs in the record sections, not the evidence"
+  },
+  {
+   "id": "S66",
+   "section": "Run-to-run variance and threshold or medal cutoffs",
+   "text": "Evidence on run-to-run variance in agent evaluation comes from several benchmarks, which report high variance across runs and recommend repeating evaluations. A related rerun study of LLM judging found single-trial judging to be too noisy for high-stakes use.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C39",
+    "C40",
+    "C41"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.14,
+      "false": 0.86
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6212e-05,
+     "latency_ms": 190,
+     "trace_id": "f5c66c32789444dc808f5d0fe1b47c3b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.7,
+      "false": 0.30000000000000004
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.5914e-05,
+     "latency_ms": 172,
+     "trace_id": "8cd431069e5d4391aa68d2e057b22224",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S67",
+   "section": "Run-to-run variance and threshold or medal cutoffs",
+   "text": "PaperBench reports that for most agents there is high variance in results on the same paper, and its authors recommend using several seeds when evaluating.",
+   "kind": "claim",
+   "claims": [
+    "C39"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.689318e-05,
+     "latency_ms": 1133,
+     "trace_id": "92705eacd0a1429cb4a4b3116b8c18d4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.622376e-05,
+     "latency_ms": 731,
+     "trace_id": "a7e66c86cd7a49ae9b64675479b461b2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.82,
+      "false": 0.18000000000000005
+     },
+     "confidence": 0.82,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8857999999999998e-05,
+     "latency_ms": 133,
+     "trace_id": "bc5dd8fecf354b999d8eb2e4d9d93b83",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S68",
+   "section": "Run-to-run variance and threshold or medal cutoffs",
+   "text": "FIRE-Bench reports that even its strongest agents achieve limited rediscovery success and exhibit high variance across runs.",
+   "kind": "claim",
+   "claims": [
+    "C40"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.877013e-05,
+     "latency_ms": 1239,
+     "trace_id": "03e3e08dc7464e989361065b2d3d3ff3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.662768e-05,
+     "latency_ms": 1848,
+     "trace_id": "525ad71f8d764e93b7987f44d435082b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.81,
+      "false": 0.18999999999999995
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8857999999999998e-05,
+     "latency_ms": 124,
+     "trace_id": "0b7b13de0060455e9e6b6c7575576502",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S69",
+   "section": "Run-to-run variance and threshold or medal cutoffs",
+   "text": "The two benchmark papers therefore both report high run-to-run variance for research agents.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C39",
+    "C40"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.82,
+      "false": 0.18000000000000005
+     },
+     "confidence": 0.82,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.2512e-05,
+     "latency_ms": 136,
+     "trace_id": "98204d5cf4154e0592f928c912a42f5e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S70",
+   "section": "Run-to-run variance and threshold or medal cutoffs",
+   "text": "The judge itself can also be unstable: a study of repeated identical evaluations found that pairwise preferences flip on average 13.6% of the time across two OpenAI judges.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.011815e-05,
+     "latency_ms": 783,
+     "trace_id": "cf219af7153f49f38c41abb8e252585c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 9.273501e-05,
+     "latency_ms": 3505,
+     "trace_id": "391453711c074942a2d92dd89ba82f10",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.01294e-05,
+     "latency_ms": 971,
+     "trace_id": "5c18199e97f542d4981a36fde616e7a4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 0.00010624626,
+     "latency_ms": 3170,
+     "trace_id": "213f3c9dbefe402388fb166725b0761b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S71",
+   "section": "Run-to-run variance and threshold or medal cutoffs",
+   "text": "The same study concludes that single-trial LLM judging is often too noisy for high-stakes evaluation.",
+   "kind": "claim",
+   "claims": [
+    "C41"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.083977e-05,
+     "latency_ms": 771,
+     "trace_id": "8ee41b02ae92407a82b13930aa62f35b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.665126e-05,
+     "latency_ms": 1381,
+     "trace_id": "6b3fa07662b945f98c5e2c393cd263f2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.86,
+      "false": 0.14
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.0622e-05,
+     "latency_ms": 230,
+     "trace_id": "e14233cf389b473491151285b8d52e30",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S72",
+   "section": "Run-to-run variance and threshold or medal cutoffs",
+   "text": "In a clinical agent benchmark, a rerun study found that the benchmark reports the same failing verdict for materially different behaviour in 22 of 43 divergent groups.",
+   "kind": "claim",
+   "claims": [
+    "C42"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.83319e-05,
+     "latency_ms": 1689,
+     "trace_id": "9690953eddf3488da81ee576a040993e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.630377e-05,
+     "latency_ms": 787,
+     "trace_id": "d48b14195bfd40bbad106908009e6e4d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.035638e-05,
+     "latency_ms": 2037,
+     "trace_id": "5c13a078034b48adacf6ee0acd1629b0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S73",
+   "section": "Run-to-run variance and threshold or medal cutoffs",
+   "text": "That study also notes that its benchmark, MedAgentBench, scores a single attempt per task.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.928565e-05,
+     "latency_ms": 980,
+     "trace_id": "3ecf7303f0144d8986b741eaef2a1e83",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.95957e-05,
+     "latency_ms": 948,
+     "trace_id": "d19cf8cef8f148a49b4c254b3c638570",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.406626e-05,
+     "latency_ms": 1470,
+     "trace_id": "f6a11debf26343a88596135a2a2be14c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the sentence refers back ('That') instead of naming its subject"
+  },
+  {
+   "id": "S74",
+   "section": "Run-to-run variance and threshold or medal cutoffs",
+   "text": "Taken together, these sources point toward repeated runs rather than a single run as the basis for any pass or fail verdict.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C39",
+    "C41",
+    "C42"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00011095254,
+     "latency_ms": 3574,
+     "trace_id": "f5832f8a8c1e4a07b8ebf4df82642772",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S75",
+   "section": "Run-to-run variance and threshold or medal cutoffs",
+   "text": "The passages contain little on how medal or acceptance cutoffs behave under such variance, and the MLE-bench medal rates they mention come from a single reported figure per setting.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6422e-05,
+     "latency_ms": 111,
+     "trace_id": "2cfe6e17005b4c97be0d963dcef4a1bb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S76",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "Novelty assessment has been approached through several routes, including human expert judgment, LLM judges, grounding in retrieved real papers, and scoring against later publications, and the sources reflect different findings about how far each can be trusted.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C43",
+    "C44",
+    "C45",
+    "C48",
+    "C49"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.14,
+      "false": 0.86
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.617e-05,
+     "latency_ms": 170,
+     "trace_id": "d6ff340c48e9446189bc33d3d469fef9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.0492e-05,
+     "latency_ms": 150,
+     "trace_id": "fc9c4644baec42219f8312b5ab9b82b0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S77",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "The human study with over 100 NLP researchers reports that LLM-generated ideas were judged more novel than human expert ideas while being judged slightly weaker on feasibility.",
+   "kind": "claim",
+   "claims": [
+    "C43"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.942209e-05,
+     "latency_ms": 1222,
+     "trace_id": "fb2c7cfb92734d9589caca3fe37be5b5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.619001e-05,
+     "latency_ms": 695,
+     "trace_id": "6f726806ffdd46129cef8e48207ec51a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.869e-05,
+     "latency_ms": 82,
+     "trace_id": "0ef044e39216495088331e99d7681b11",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S78",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "The same study acknowledges that human novelty judgments are hard.",
+   "kind": "claim",
+   "claims": [
+    "C44"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.872252e-05,
+     "latency_ms": 716,
+     "trace_id": "39920fbd9e714167b49bc5b4e12c73e4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.657953e-05,
+     "latency_ms": 1105,
+     "trace_id": "12ab3b21545740e08a19836143c3739c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.83,
+      "false": 0.17000000000000004
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8857999999999998e-05,
+     "latency_ms": 127,
+     "trace_id": "988c4eada3f94c51a3a07007b2bf540d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S79",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "RQ-Bench reports that LLM judges rate model-generated research questions as highly novel, a pattern its authors call a novelty mirage.",
+   "kind": "claim",
+   "claims": [
+    "C45"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.97,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.972098e-05,
+     "latency_ms": 826,
+     "trace_id": "cb9af28014bc4b2aa5c46bbd327eddac",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.604376e-05,
+     "latency_ms": 817,
+     "trace_id": "612e1b951f15451ca89a6039263f085a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.013893e-05,
+     "latency_ms": 1947,
+     "trace_id": "b9c0bb3eba5b4e338a9343ba869c5d2c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S80",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "In that benchmark, domain experts reached the opposite conclusion.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.950597e-05,
+     "latency_ms": 1150,
+     "trace_id": "d59954a13bef46d3a181a5de32fba813",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 6.251688e-05,
+     "latency_ms": 2401,
+     "trace_id": "65dd6487a7174e4d8441115b23ff9b0f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.986849e-05,
+     "latency_ms": 764,
+     "trace_id": "68eeff27e76944eabaaf63ba8c06b1ca",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.992888e-05,
+     "latency_ms": 2202,
+     "trace_id": "90e19e9036344e288b4030ac62b68be1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.2,
+      "false": 0.8
+     },
+     "confidence": 0.8,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.806e-05,
+     "latency_ms": 185,
+     "trace_id": "ab2006a0881341428c7e1f40f1bb9146",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.93,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00215,
+     "latency_ms": 2193,
+     "trace_id": "0944bac4885f461c8634c1c6d7c1ce3d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S81",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "A study of novelty-judge design found that simply telling the judge that reviewers found one idea novel and the other not can change its verdict on more than half of the identical idea pairs it is shown, shifting pairwise accuracy by over 50 points and occasionally pushing it below chance.",
+   "kind": "claim",
+   "claims": [
+    "C46"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.297752e-05,
+     "latency_ms": 1412,
+     "trace_id": "06ac99d0686d4954a3cd1bf03b866780",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.891377e-05,
+     "latency_ms": 1452,
+     "trace_id": "30c1308f902b4cfba27790663ed85606",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.658565e-05,
+     "latency_ms": 3129,
+     "trace_id": "94d65db6c7354d2c8664547d718654d0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.681254e-05,
+     "latency_ms": 1246,
+     "trace_id": "2bd9363f3b66454aac620fdbc2f0deae",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S82",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "The study of novelty-judge design reported that retrieval and larger reasoning budgets help little, and that two purpose-built novelty evaluators are outperformed by its cheapest prompted baseline.",
+   "kind": "claim",
+   "claims": [
+    "C47"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.870263e-05,
+     "latency_ms": 1805,
+     "trace_id": "360e6857f098409584f70a7f484d1a89",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.885509e-05,
+     "latency_ms": 1645,
+     "trace_id": "652e55b8ee7b4f6da1f1e20d4da67272",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.620693e-05,
+     "latency_ms": 894,
+     "trace_id": "1a851973e6db42648b439ac2e50cdf07",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.021202e-05,
+     "latency_ms": 1628,
+     "trace_id": "376226688cd64fb9a30c36e1bb11d999",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S83",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "A general study of judge reliability found that pairwise preferences flip on average 13.6% of the time across repeated identical evaluations.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 0.00011998818,
+     "latency_ms": 3498,
+     "trace_id": "cffa57dda4d94013a342a189371a4be8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.02644e-05,
+     "latency_ms": 818,
+     "trace_id": "eb54ffb4a1524fb3a8f66e6feb86560e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.644066e-05,
+     "latency_ms": 834,
+     "trace_id": "9385a54bdf1a4e34b3e17a37e9b8d8b0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.29,
+      "false": 0.71
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9781999999999998e-05,
+     "latency_ms": 97,
+     "trace_id": "52468c0eedac4bcea63be7622551a62f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.93,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002216,
+     "latency_ms": 1803,
+     "trace_id": "d47dd1ad1cb3492986e1c9ec59fc0d4e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "judge_unsure"
+  },
+  {
+   "id": "S84",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "OpenNovelty takes a grounding approach, tying novelty assessments to retrieved real papers.",
+   "kind": "claim",
+   "claims": [
+    "C48"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.837008e-05,
+     "latency_ms": 1240,
+     "trace_id": "e8ef5fa0a32647f49c522dd55d1b23a2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.633266e-05,
+     "latency_ms": 1881,
+     "trace_id": "742b2a9f22b248d1b1c1330953b9f56d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.995759e-05,
+     "latency_ms": 819,
+     "trace_id": "6226fc36cbaa4eb3a16eb66aed3e9dd3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S85",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "Its evidence so far is described as preliminary.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.691468e-05,
+     "latency_ms": 1523,
+     "trace_id": "13d3a3ec28a247a9bd045b428a512507",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.885203e-05,
+     "latency_ms": 2167,
+     "trace_id": "b35c7c3071cd47068820f4fbd44882d6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.701007e-05,
+     "latency_ms": 1316,
+     "trace_id": "9494bdbcdda64e58b743e439f3c26b7f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the sentence refers back ('Its') instead of naming its subject"
+  },
+  {
+   "id": "S86",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "HindSight instead scores ideas against future publications, and it found HindSight scores negatively correlated with LLM-judged novelty.",
+   "kind": "claim",
+   "claims": [
+    "C49"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.836252e-05,
+     "latency_ms": 1109,
+     "trace_id": "cd7e0b43d3dd477b88de9165babec23e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.685394e-05,
+     "latency_ms": 764,
+     "trace_id": "216f0598ee854b089a952a878fedcf59",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.055015e-05,
+     "latency_ms": 1816,
+     "trace_id": "a88434e266b84d7aa3ca57ba470d2270",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S87",
+   "section": "Novelty evaluation: LLM judges, human judgment, and prior-literature grounding",
+   "text": "The sources converge on doubting LLM novelty judgments, while differing in the remedy: expert panels, retrieval grounding, or future-impact matching. Their results are not directly comparable, and the passages do not show retrieval-grounded novelty reports validated against experts or later outcomes.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C43",
+    "C45",
+    "C48",
+    "C49"
+   ],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "absence: 'passages do not show' belongs in the record sections, not the evidence"
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "title": "Coverage Guarantees and Assumptions of Conformal Prediction Under Distribution Shift: What Is Proved and Where the Proofs Stop",
+ "themes": [
+  {
+   "heading": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "focus": "weighted conformal covariate shift likelihood ratio density ratio known estimated marginal coverage finite-sample approximation error"
+  },
+  {
+   "heading": "Label shift extensions and the role of estimated density ratios",
+   "focus": "label shift reweighting unlabeled target data pseudo-labels confusion matrix density ratio calibration class-conditional coverage loss"
+  },
+  {
+   "heading": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "focus": "nonexchangeable weighted quantiles randomization nonsymmetric algorithms drift coverage gap robustness total variation"
+  },
+  {
+   "heading": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "focus": "adaptive conformal inference online long-run coverage frequency arbitrary shift step size learning rate time series miscoverage"
+  },
+  {
+   "heading": "Robust conformal methods under f-divergence and worst-case shift",
+   "focus": "f-divergence worst-case robust validation divergence ball conditional shift finite-sample nearly valid fine-grained covariate shift"
+  },
+  {
+   "heading": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "focus": "open challenge estimated weights mixed covariate label shift partially identifiable posterior drift unrestricted conditional shift not established lower bound"
+  }
+ ],
+ "dropped": []
+}

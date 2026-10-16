@@ -1,0 +1,4831 @@
+{
+ "stats": {
+  "drafted": 58,
+  "failed_first": 16,
+  "repaired": 10,
+  "removed": 6,
+  "synthesis_drafted": 6,
+  "synthesis_removed": 3,
+  "transition_drafted": 12,
+  "transition_removed": 4,
+  "loose_repaired": 8,
+  "stray_attributions_removed": 2,
+  "absence_removed": 0,
+  "quotes_widened": 5,
+  "n_claims": 52,
+  "n_sources_cited": 20,
+  "themes_with_claims": 6,
+  "distinct_quotes": 39
+ },
+ "sections": [
+  {
+   "heading": "Introduction",
+   "text": "Conformal prediction converts almost any predictive algorithm into prediction intervals or sets with finite-sample marginal coverage under exchangeability [R3]. Deployment data, however, are rarely exchangeable with development data [R3]. Geographic transfer, changing case mix, sensor replacement, policy changes, and temporal drift can alter the covariate distribution P X , the conditional outcome law P Y |X , or both [R3]. One source describes the difficulty for covariate shift directly: exchangeability of calibration and test points fails, which makes the standard coverage argument void [R4].\n\nWeighted conformal prediction extends validity to covariate shift by weighting calibration scores with the density ratio [R3]. A review of Tibshirani et al. describes the method as designed for covariate shift where the likelihood ratio between training and test covariate distributions is known [R2]. Gibbs and Candès describe Tibshirani et al.'s reweighting approach as requiring the conditional distribution of Y|X to be constant between training and testing and the likelihood ratio to be either known or very accurately estimated [R8]. A further source states that when likelihood ratios must be estimated, coverage degrades at a rate controlled by the estimation error [R4].\n\nAdaptive conformal inference is presented as achieving the desired coverage frequency over long-time intervals irrespective of the true data generating process [R8]. The same paper describes Cauchois et al. as developing prediction sets valid whenever the two distributions are close in f-divergence [R8].\n\nWhen likelihood ratios must be estimated, coverage is reported to degrade at a rate controlled by the estimation error, and for estimated weighted conformal prediction the bound inherits an approximation term and is not relabeled exact. Simultaneous covariate and label shift, with partially identifiable likelihood ratios, is listed as an open challenge. One source reports that, for estimated weighted conformal prediction, the bound inherits an approximation term and is not relabeled exact [R3]. Another lists simultaneous covariate and label shift, with partially identifiable likelihood ratios, as an open challenge [R4].",
+   "claims": [
+    {
+     "claim": "Conformal prediction converts almost any predictive algorithm into prediction intervals or sets with finite-sample marginal coverage under exchangeability.",
+     "source_key": "R3",
+     "passage_id": "R3-P1",
+     "quote": "Conformal prediction (CP) converts almost any predictive algorithm into prediction intervals or sets with finite-sample marginal coverage under exchangeability [1][2][3].",
+     "locator": "sec. Introduction, para 1",
+     "id": "C1"
+    },
+    {
+     "claim": "Deployment data, however, are rarely exchangeable with development data.",
+     "source_key": "R3",
+     "passage_id": "R3-P1",
+     "quote": "Deployment data, however, are rarely exchangeable with development data.",
+     "locator": "sec. Introduction, para 1",
+     "id": "C2"
+    },
+    {
+     "claim": "Geographic transfer, changing case mix, sensor replacement, policy changes, and temporal drift can alter the covariate distribution P X , the conditional outcome law P Y |X , or both.",
+     "source_key": "R3",
+     "passage_id": "R3-P1",
+     "quote": "Geographic transfer, changing case mix, sensor replacement, policy changes, and temporal drift can alter the covariate distribution P X , the conditional outcome law P Y |X , or both",
+     "locator": "sec. Introduction, para 1",
+     "id": "C3"
+    },
+    {
+     "claim": "One source describes the difficulty for covariate shift directly: exchangeability of calibration and test points fails, which makes the standard coverage argument void.",
+     "source_key": "R4",
+     "passage_id": "R4-P7",
+     "quote": "The fundamental challenge for conformal prediction is that exchangeability of calibration and test points fails, making the standard coverage argument void.",
+     "locator": "sec. Covariate Shift, para 12",
+     "id": "C4"
+    },
+    {
+     "claim": "Weighted conformal prediction extends validity to covariate shift by weighting calibration scores with the density ratio.",
+     "source_key": "R3",
+     "passage_id": "R3-P2",
+     "quote": "Weighted conformal prediction (WCP) extends validity to covariate shift by weighting calibration scores with the density ratio w(x) = dQ X (x)/dP X (x) [5].",
+     "locator": "sec. Introduction, para 2",
+     "id": "C5"
+    },
+    {
+     "claim": "A review of Tibshirani et al. describes the method as designed for covariate shift where the likelihood ratio between training and test covariate distributions is known.",
+     "source_key": "R2",
+     "passage_id": "R2-P11",
+     "quote": "Specifically, they propose weighted conformal prediction (WCP) to deal with covariate shifts where the likelihood ratio between the training P X and test PX covariate distributions is known.",
+     "locator": "sec. Covariate Shift, para 14",
+     "id": "C6"
+    },
+    {
+     "claim": "Gibbs and Candès describe Tibshirani et al.'s reweighting approach as requiring the conditional distribution of Y|X to be constant between training and testing and the likelihood ratio to be either known or very accurately estimated.",
+     "source_key": "R8",
+     "passage_id": "R8-P27",
+     "quote": "[33] showed that valid prediction sets can be obtained by re-weighting the calibration data using the likelihood ratio between P 1 and P 0 . However, this requires the conditional distribution of Y |X to be constant between training and testing and the likelihood ratio P 1 (X)/P 0 (X) to be either known or very accurately estimated.",
+     "locator": "sec. Related Work, para 40",
+     "id": "C7"
+    },
+    {
+     "claim": "A further source states that when likelihood ratios must be estimated, coverage degrades at a rate controlled by the estimation error.",
+     "source_key": "R4",
+     "passage_id": "R4-P9",
+     "quote": "When likelihood ratios must be estimated, coverage degrades at a rate controlled by the estimation error (Barber et al., 2023).",
+     "locator": "sec. Weighted Conformal Prediction, para 16",
+     "id": "C8"
+    },
+    {
+     "claim": "Adaptive conformal inference is presented as achieving the desired coverage frequency over long-time intervals irrespective of the true data generating process.",
+     "source_key": "R8",
+     "passage_id": "R8-A",
+     "quote": "our adaptive approach provably achieves the desired coverage frequency over long-time intervals irrespective of the true data generating process.",
+     "locator": "abstract",
+     "id": "C9"
+    },
+    {
+     "claim": "The same paper describes Cauchois et al. as developing prediction sets valid whenever the two distributions are close in f-divergence.",
+     "source_key": "R8",
+     "passage_id": "R8-P27",
+     "quote": "On the other hand, Cauchois et al. [10] develop methods for forming prediction sets that are valid whenever P 1 and P 0 are close in f -divergence.",
+     "locator": "sec. Related Work, para 40",
+     "id": "C10"
+    },
+    {
+     "claim": "One source reports that, for estimated weighted conformal prediction, the bound inherits an approximation term and is not relabeled exact.",
+     "source_key": "R3",
+     "passage_id": "R3-P8",
+     "quote": "oracle test-point WCP has its stated finite-sample guarantee; estimated WCP inherits an approximation term and is not relabeled \"exact.\"",
+     "locator": "sec. Setting and conformal baselines, para 9",
+     "id": "C11"
+    },
+    {
+     "claim": "Another lists simultaneous covariate and label shift, with partially identifiable likelihood ratios, as an open challenge.",
+     "source_key": "R4",
+     "passage_id": "R4-P30",
+     "quote": "Extending the framework to simultaneous covariate and label shift with partially identifiable likelihood ratios is an open challenge.",
+     "locator": "sec. Open Problems, para 39",
+     "id": "C12"
+    }
+   ]
+  },
+  {
+   "heading": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "This section reviews what the supplied sources establish about weighted conformal prediction under covariate shift when the likelihood ratio is known and when it is estimated. The original work states that a weighted version of conformal prediction yields distribution-free prediction intervals when the likelihood ratio between test and training covariate distributions is known, or can be estimated accurately with a large set of unlabeled test covariates [R29]. A later tabular-regression paper restates the known-ratio result as marginal coverage of at least 1 - alpha under covariate shift, provided the likelihood ratios are exactly known [R4]. The same paper says that when ratios must be estimated, coverage degrades at a rate controlled by the estimation error [R4]. The adaptive conformal inference paper adds that reweighting requires Y|X to be constant between training and testing and the ratio to be known or very accurately estimated [R8]. The DriftGuard audit paper says that with estimated ratios, finite-sample validity generally needs additional conditions or doubly robust constructions [R3]. The DriftGuard paper (R3) separates oracle from estimated weighting: it states that oracle test-point weighted conformal prediction has its stated finite-sample guarantee, while estimated weighted conformal prediction inherits an approximation term and is not relabeled \"exact.\" [R3]. A weight-clipping study reports that weighted conformal prediction can suffer significant undercoverage when the density ratio is unbounded or must be learned [R32]. A training-conditional analysis reports that its treatment extends to estimated likelihood ratios [R67]. The sources agree that known ratios give the clean guarantee and that estimation error weakens it, but they differ on how far estimated-ratio results can be pushed toward finite-sample statements. The tabular-regression paper lists simultaneous covariate and label shift, with partially identifiable ratios, as an open challenge [R4].",
+   "claims": [
+    {
+     "claim": "The original work states that a weighted version of conformal prediction yields distribution-free prediction intervals when the likelihood ratio between test and training covariate distributions is known, or can be estimated accurately with a large set of unlabeled test covariates.",
+     "source_key": "R29",
+     "passage_id": "R29-A",
+     "quote": "we show that a weighted version of conformal prediction can be used to compute distribution-free prediction intervals for problems in which the test and training covariate distributions differ, but the likelihood ratio between these two distributions is known---or, in practice, can be estimated accurately with access to a large set of unlabeled data (test covariate points).",
+     "locator": "abstract",
+     "id": "C13"
+    },
+    {
+     "claim": "A later tabular-regression paper restates the known-ratio result as marginal coverage of at least 1 - alpha under covariate shift, provided the likelihood ratios are exactly known.",
+     "source_key": "R4",
+     "passage_id": "R4-P9",
+     "quote": "The weighted quantile of this distribution yields a prediction set with marginal coverage guarantee P^{test} (Y_{n+1} in C_w(X_{n+1})) >= 1 -alpha, even under covariate shift, provided the likelihood ratios are exactly known.",
+     "locator": "sec. Weighted Conformal Prediction, para 16",
+     "id": "C14"
+    },
+    {
+     "claim": "The same paper says that when ratios must be estimated, coverage degrades at a rate controlled by the estimation error.",
+     "source_key": "R4",
+     "passage_id": "R4-P9",
+     "quote": "When likelihood ratios must be estimated, coverage degrades at a rate controlled by the estimation error (Barber et al., 2023).",
+     "locator": "sec. Weighted Conformal Prediction, para 16",
+     "id": "C15"
+    },
+    {
+     "claim": "The adaptive conformal inference paper adds that reweighting requires Y|X to be constant between training and testing and the ratio to be known or very accurately estimated.",
+     "source_key": "R8",
+     "passage_id": "R8-P27",
+     "quote": "[33] showed that valid prediction sets can be obtained by re-weighting the calibration data using the likelihood ratio between P 1 and P 0 . However, this requires the conditional distribution of Y |X to be constant between training and testing and the likelihood ratio P 1 (X)/P 0 (X) to be either known or very accurately estimated.",
+     "locator": "sec. Related Work, para 40",
+     "id": "C16"
+    },
+    {
+     "claim": "The DriftGuard audit paper says that with estimated ratios, finite-sample validity generally needs additional conditions or doubly robust constructions.",
+     "source_key": "R3",
+     "passage_id": "R3-P6",
+     "quote": "When ratios are estimated, finitesample validity generally needs additional conditions or doubly robust constructions [11]; our estimated-weight results are therefore empirical rather than advertised as exact guarantees.",
+     "locator": "sec. Setting and conformal baselines, para 6",
+     "id": "C17"
+    },
+    {
+     "claim": "The DriftGuard paper (R3) separates oracle from estimated weighting: it states that oracle test-point weighted conformal prediction has its stated finite-sample guarantee, while estimated weighted conformal prediction inherits an approximation term and is not relabeled \"exact.\"",
+     "source_key": "R3",
+     "passage_id": "R3-P8",
+     "quote": "oracle test-point WCP has its stated finite-sample guarantee; estimated WCP inherits an approximation term and is not relabeled \"exact.\"",
+     "locator": "sec. Setting and conformal baselines, para 9",
+     "id": "C18"
+    },
+    {
+     "claim": "A weight-clipping study reports that weighted conformal prediction can suffer significant undercoverage when the density ratio is unbounded or must be learned.",
+     "source_key": "R32",
+     "passage_id": "R32-A",
+     "quote": "While weighted conformal prediction (WCP) is designed to handle such shifts, it can suffer from significant undercoverage when the density ratio between the distributions is unbounded and/or must be learned.",
+     "locator": "abstract",
+     "id": "C19"
+    },
+    {
+     "claim": "A training-conditional analysis reports that its treatment extends to estimated likelihood ratios.",
+     "source_key": "R67",
+     "passage_id": "R67-A",
+     "quote": "The analysis extends to estimated likelihood ratios and to tail functionals estimated from an unlabeled source sample, which yields a fully finite-sample certificate.",
+     "locator": "abstract",
+     "id": "C20"
+    },
+    {
+     "claim": "The tabular-regression paper lists simultaneous covariate and label shift, with partially identifiable ratios, as an open challenge.",
+     "source_key": "R4",
+     "passage_id": "R4-P30",
+     "quote": "Extending the framework to simultaneous covariate and label shift with partially identifiable likelihood ratios is an open challenge.",
+     "locator": "sec. Open Problems, para 39",
+     "id": "C21"
+    }
+   ]
+  },
+  {
+   "heading": "Label shift extensions and the role of estimated density ratios",
+   "text": "The label-shift classification study examines reweighting of conformal and calibration procedures whenever some unlabeled data from the target distribution is available [R153]. The Bayesian-score paper reports that, under stronger shift, all methods incur some coverage loss due to pseudo-label-based density-ratio estimation [R84]. The conformal Bayes study states that its two approaches restore nominal target-domain coverage through importance-weighted conformal calibration [R111].",
+   "claims": [
+    {
+     "claim": "The label-shift classification study examines reweighting of conformal and calibration procedures whenever some unlabeled data from the target distribution is available.",
+     "source_key": "R153",
+     "passage_id": "R153-A",
+     "quote": "we examine the right way to achieve UQ by reweighting the aforementioned conformal and calibration procedures whenever some unlabeled data from the target distribution is available.",
+     "locator": "abstract",
+     "id": "C22"
+    },
+    {
+     "claim": "The Bayesian-score paper reports that, under stronger shift, all methods incur some coverage loss due to pseudo-label-based density-ratio estimation.",
+     "source_key": "R84",
+     "passage_id": "R84-A",
+     "quote": "Under stronger shift, all methods incur some coverage loss due to pseudo-label-based density-ratio estimation.",
+     "locator": "abstract",
+     "id": "C23"
+    },
+    {
+     "claim": "The conformal Bayes study states that its two approaches restore nominal target-domain coverage through importance-weighted conformal calibration.",
+     "source_key": "R111",
+     "passage_id": "R111-A",
+     "quote": "identifying two complementary approaches that restore nominal target-domain coverage through importance-weighted conformal calibration but operate through independent mechanisms.",
+     "locator": "abstract",
+     "id": "C24"
+    }
+   ]
+  },
+  {
+   "heading": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "Barber and coauthors state that conformal prediction's validity relies on exchangeability of the data and symmetry of the model fitting algorithm [R12]. The paper introduces weighted quantiles to provide robustness against distribution drift [R12]. The authors claim substantially less loss of coverage under drift, while matching existing coverage guarantees when the data are exchangeable [R12].\n\nA covariate-shift paper that cites this work states that weighted conformal prediction gives marginal coverage of at least 1 - alpha when the likelihood ratios are exactly known [R4]. The same paper says coverage degrades at a rate controlled by the estimation error when the ratios must be estimated, and attributes this to Barber et al [R4]. The auditing paper takes a similar position, saying that estimated weighted conformal prediction inherits an approximation term and is not relabeled exact [R3]. The Wasserstein paper notes that prior studies bound the coverage gap with total variation distance, which it says cannot identify how the gap changes under distribution shift at a given alpha [R120].\n\nSeveral statements bear on how weighting is used to handle departures from exchangeability: one account ties conformal validity to exchangeability and symmetric model fitting, and another reports that weighted conformal prediction yields marginal coverage of at least 1 - alpha when likelihood ratios are exactly known but degrades with estimation error when they must be estimated.",
+   "claims": [
+    {
+     "claim": "Barber and coauthors state that conformal prediction's validity relies on exchangeability of the data and symmetry of the model fitting algorithm.",
+     "source_key": "R12",
+     "passage_id": "R12-A",
+     "quote": "Conformal prediction is a popular, modern technique for providing valid predictive inference for arbitrary machine learning models. Its validity relies on the assumptions of exchangeability of the data, and symmetry of the given model fitting algorithm as a function of the data.",
+     "locator": "abstract",
+     "id": "C25"
+    },
+    {
+     "claim": "The paper introduces weighted quantiles to provide robustness against distribution drift.",
+     "source_key": "R12",
+     "passage_id": "R12-A",
+     "quote": "we employ weighted quantiles to introduce robustness against distribution drift, and design a new randomization technique to allow for algorithms that do not treat data points symmetrically.",
+     "locator": "abstract",
+     "id": "C26"
+    },
+    {
+     "claim": "The authors claim substantially less loss of coverage under drift, while matching existing coverage guarantees when the data are exchangeable.",
+     "source_key": "R12",
+     "passage_id": "R12-A",
+     "quote": "Our new methods are provably robust, with substantially less loss of coverage when exchangeability is violated due to distribution drift or other challenging features of real data, while also achieving the same coverage guarantees as existing conformal prediction methods if the data points are in fact exchangeable.",
+     "locator": "abstract",
+     "id": "C27"
+    },
+    {
+     "claim": "A covariate-shift paper that cites this work states that weighted conformal prediction gives marginal coverage of at least 1 - alpha when the likelihood ratios are exactly known.",
+     "source_key": "R4",
+     "passage_id": "R4-P9",
+     "quote": "The weighted quantile of this distribution yields a prediction set with marginal coverage guarantee P^{test} (Y_{n+1} in C_w(X_{n+1})) >= 1 -alpha, even under covariate shift, provided the likelihood ratios are exactly known.",
+     "locator": "sec. Weighted Conformal Prediction, para 16",
+     "id": "C28"
+    },
+    {
+     "claim": "The same paper says coverage degrades at a rate controlled by the estimation error when the ratios must be estimated, and attributes this to Barber et al.",
+     "source_key": "R4",
+     "passage_id": "R4-P9",
+     "quote": "When likelihood ratios must be estimated, coverage degrades at a rate controlled by the estimation error (Barber et al., 2023).",
+     "locator": "sec. Weighted Conformal Prediction, para 16",
+     "id": "C29"
+    },
+    {
+     "claim": "The auditing paper takes a similar position, saying that estimated weighted conformal prediction inherits an approximation term and is not relabeled exact.",
+     "source_key": "R3",
+     "passage_id": "R3-P8",
+     "quote": "oracle test-point WCP has its stated finite-sample guarantee; estimated WCP inherits an approximation term and is not relabeled \"exact.\"",
+     "locator": "sec. Setting and conformal baselines, para 9",
+     "id": "C30"
+    },
+    {
+     "claim": "The Wasserstein paper notes that prior studies bound the coverage gap with total variation distance, which it says cannot identify how the gap changes under distribution shift at a given alpha.",
+     "source_key": "R120",
+     "passage_id": "R120-A",
+     "quote": "Prior studies bound the gap using total variation distance, which cannot identify the gap changes under distribution shift at a given $α$.",
+     "locator": "abstract",
+     "id": "C31"
+    }
+   ]
+  },
+  {
+   "heading": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "The next question is what guarantee adaptive methods for temporal drift provide, and under what conditions. Gibbs and Candès state that, while previous conformal inference methods rely on the assumption that the data points are exchangeable, their adaptive approach provably achieves the desired coverage frequency over long-time intervals irrespective of the true data generating process [R8]. The ACI authors describe their Proposition 4.1 as an agnostic guarantee of correct long-term empirical coverage frequency and as an approximately tight bound on worst-case behaviour right after initialization [R8]. The same paper says that, when the distribution shift is small and the prediction algorithm takes a certain simple form, ACI additionally obtains approximate marginal coverage at most time steps [R8].\n\nSubsequent work builds on this line of research, and the following passages turn to it. The abstract of the follow-up work by Gibbs and Candès states that ACI requires knowledge of the rate of change of the data-generating mechanism [R11]. Error-quantified Conformal Inference establishes a long-term coverage guarantee under arbitrary dependence and distribution shift [R57]. A dropout-informed variant reports that its long-run coverage guarantee is score-agnostic, inherited from ACI itself rather than a new property of studentization [R28]. Another study notes that ACI only adapts the quantile threshold and cannot shift the interval center [R74].",
+   "claims": [
+    {
+     "claim": "Gibbs and Candès state that, while previous conformal inference methods rely on the assumption that the data points are exchangeable, their adaptive approach provably achieves the desired coverage frequency over long-time intervals irrespective of the true data generating process.",
+     "source_key": "R8",
+     "passage_id": "R8-A",
+     "quote": "While previous conformal inference methods rely on the assumption that the data points are exchangeable, our adaptive approach provably achieves the desired coverage frequency over long-time intervals irrespective of the true data generating process.",
+     "locator": "abstract",
+     "id": "C32"
+    },
+    {
+     "claim": "The ACI authors describe their Proposition 4.1 as an agnostic guarantee of correct long-term empirical coverage frequency and as an approximately tight bound on worst-case behaviour right after initialization.",
+     "source_key": "R8",
+     "passage_id": "R8-P33",
+     "quote": "So, we view Proposition 4.1 as both an agnostic guarantee that shows that our method gives the correct long-term empirical coverage frequency irrespective of the true data generating process, and as an approximately tight bound on the worst-case behaviour immediately after initialization.",
+     "locator": "sec. Coverage guarantees 4.1 Distribution-free results, para 51",
+     "id": "C33"
+    },
+    {
+     "claim": "The same paper says that, when the distribution shift is small and the prediction algorithm takes a certain simple form, ACI additionally obtains approximate marginal coverage at most time steps.",
+     "source_key": "R8",
+     "passage_id": "R8-P4",
+     "quote": "Moreover, when the distribution shift is small and the prediction algorithm takes a certain simple form we show that ACI will additionally obtain approximate marginal coverage at most time steps.",
+     "locator": "sec. Introduction, para 4",
+     "id": "C34"
+    },
+    {
+     "claim": "The abstract of the follow-up work by Gibbs and Candès states that ACI requires knowledge of the rate of change of the data-generating mechanism.",
+     "source_key": "R11",
+     "passage_id": "R11-A",
+     "quote": "unlike ACI, which requires knowledge of the rate of change of the data-generating mechanism",
+     "locator": "abstract",
+     "id": "C35"
+    },
+    {
+     "claim": "Error-quantified Conformal Inference establishes a long-term coverage guarantee under arbitrary dependence and distribution shift.",
+     "source_key": "R57",
+     "passage_id": "R57-A",
+     "quote": "We establish a long-term coverage guarantee for ECI under arbitrary dependence and distribution shift.",
+     "locator": "abstract",
+     "id": "C36"
+    },
+    {
+     "claim": "A dropout-informed variant reports that its long-run coverage guarantee is score-agnostic, inherited from ACI itself rather than a new property of studentization.",
+     "source_key": "R28",
+     "passage_id": "R28-A",
+     "quote": "the resulting long-run coverage guarantee is scoreagnostic-inherited from ACI itself rather than a new property of studentization (Lemma 1)",
+     "locator": "abstract",
+     "id": "C37"
+    },
+    {
+     "claim": "Another study notes that ACI only adapts the quantile threshold and cannot shift the interval center.",
+     "source_key": "R74",
+     "passage_id": "R74-A",
+     "quote": "However, ACI only adapts the quantile threshold -- it cannot shift the interval center.",
+     "locator": "abstract",
+     "id": "C38"
+    }
+   ]
+  },
+  {
+   "heading": "Robust conformal methods under f-divergence and worst-case shift",
+   "text": "This section turns to conformal methods built for worst-case shifts, and to what their proofs cover. The robust validation work presents a method whose prediction sets give almost exactly the right coverage level for any test distribution in an f-divergence ball around the training population [R139]. Robust validation achieves nearly valid coverage in finite samples, under only the condition that the training data be exchangeable [R139]. Robust validation also estimates the amount of expected future shift, and its authors prove consistency of the estimators [R139].\n\nThe fine-grained framework splits the problem differently, reweighting training samples for an identifiable covariate shift while protecting against worst-case conditional shift bounded in an f-divergence ball [R23].\n\nAdaptive conformal inference is described by its authors as an agnostic guarantee of correct long-term empirical coverage frequency irrespective of the true data generating process [R8]. Gibbs and Candès describe the f-divergence method of Cauchois et al. as forming prediction sets that are valid whenever P 1 and P 0 are close in f -divergence [R8]. A robust conformal runtime-verification study assumes a known upper bound on the f-divergence between deployment and design distributions [R51]. The sources differ in what they require. The ball-based robust validation method relies on exchangeable training data and covers test distributions within an f-divergence ball. A runtime-verification study of robust conformal prediction assumes a known upper bound on the f-divergence between deployment and design distributions. Adaptive conformal inference is described by its authors as an agnostic guarantee of long-term empirical coverage frequency irrespective of the true data generating process. The fine-grained framework instead reweights for an identifiable covariate shift while protecting against worst-case conditional shift in an f-divergence ball.",
+   "claims": [
+    {
+     "claim": "The robust validation work presents a method whose prediction sets give almost exactly the right coverage level for any test distribution in an f-divergence ball around the training population.",
+     "source_key": "R139",
+     "passage_id": "R139-A",
+     "quote": "We present a method that produces prediction sets (almost exactly) giving the right coverage level for any test distribution in an f-divergence ball around the training population.",
+     "locator": "abstract",
+     "id": "C39"
+    },
+    {
+     "claim": "Robust validation achieves nearly valid coverage in finite samples, under only the condition that the training data be exchangeable.",
+     "source_key": "R139",
+     "passage_id": "R139-A",
+     "quote": "The method, based on conformal inference, achieves (nearly) valid coverage in finite samples, under only the condition that the training data be exchangeable.",
+     "locator": "abstract",
+     "id": "C40"
+    },
+    {
+     "claim": "Robust validation also estimates the amount of expected future shift, and its authors prove consistency of the estimators.",
+     "source_key": "R139",
+     "passage_id": "R139-A",
+     "quote": "An essential component of our methodology is to estimate the amount of expected future data shift and build robustness to it; we develop estimators and prove their consistency for protection and validity of uncertainty estimates under shifts.",
+     "locator": "abstract",
+     "id": "C41"
+    },
+    {
+     "claim": "The fine-grained framework splits the problem differently, reweighting training samples for an identifiable covariate shift while protecting against worst-case conditional shift bounded in an f-divergence ball.",
+     "source_key": "R23",
+     "passage_id": "R23-A",
+     "quote": "We propose to reweight the training samples to adjust for an identifiable covariate shift while protecting against worst-case conditional distribution shift bounded in an $f$-divergence ball.",
+     "locator": "abstract",
+     "id": "C42"
+    },
+    {
+     "claim": "Adaptive conformal inference is described by its authors as an agnostic guarantee of correct long-term empirical coverage frequency irrespective of the true data generating process.",
+     "source_key": "R8",
+     "passage_id": "R8-P33",
+     "quote": "So, we view Proposition 4.1 as both an agnostic guarantee that shows that our method gives the correct long-term empirical coverage frequency irrespective of the true data generating process, and as an approximately tight bound on the worst-case behaviour immediately after initialization.",
+     "locator": "sec. Coverage guarantees 4.1 Distribution-free results, para 51",
+     "id": "C43"
+    },
+    {
+     "claim": "Gibbs and Candès describe the f-divergence method of Cauchois et al. as forming prediction sets that are valid whenever P 1 and P 0 are close in f -divergence.",
+     "source_key": "R8",
+     "passage_id": "R8-P27",
+     "quote": "Cauchois et al. [10] develop methods for forming prediction sets that are valid whenever P 1 and P 0 are close in f -divergence.",
+     "locator": "sec. Related Work, para 40",
+     "id": "C44"
+    },
+    {
+     "claim": "A robust conformal runtime-verification study assumes a known upper bound on the f-divergence between deployment and design distributions.",
+     "source_key": "R51",
+     "passage_id": "R51-A",
+     "quote": "To address these challenges, we assume to know an upper bound on the statistical distance (in terms of an f-divergence) between the distributions at deployment and design time, and we utilize techniques based on robust conformal prediction.",
+     "locator": "abstract",
+     "id": "C45"
+    }
+   ]
+  },
+  {
+   "heading": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "The next passages turn to what happens to coverage guarantees once the weights must be estimated rather than known. One audit paper states that when density ratios are estimated, finite-sample validity generally needs additional conditions or doubly robust constructions [R3]. A study of training-conditional coverage reports that its analysis extends to estimated likelihood ratios [R67]. A tabular-regression paper reports adaptive prediction sets that achieve near-optimal conditional coverage rates whenever the likelihood ratio is estimable at a sufficient rate [R26]. A label-shift Bayesian score paper reports coverage loss under stronger shift because density ratios are estimated from pseudo-labels [R84]. The sources differ on estimated weights: one states that finite-sample validity generally needs additional conditions or doubly robust constructions, another reports that its training-conditional coverage analysis extends to estimated likelihood ratios, and a third reports near-optimal conditional coverage rates whenever the likelihood ratio is estimable at a sufficient rate. A further question is how these guarantees fare when covariate and label shift occur together. A tabular-regression paper on covariate shift lists extending the framework to simultaneous covariate and label shift with partially identifiable likelihood ratios as an open challenge [R4]. The audit paper establishes a sharp [0,1] identified set for target coverage under unrestricted conditional shift [R3]. A fine-grained robust method handles an identifiable covariate shift while protecting against worst-case conditional shift bounded in an f-divergence ball [R23].",
+   "claims": [
+    {
+     "claim": "One audit paper states that when density ratios are estimated, finite-sample validity generally needs additional conditions or doubly robust constructions.",
+     "source_key": "R3",
+     "passage_id": "R3-P6",
+     "quote": "When ratios are estimated, finitesample validity generally needs additional conditions or doubly robust constructions [11]; our estimated-weight results are therefore empirical rather than advertised as exact guarantees.",
+     "locator": "sec. Setting and conformal baselines, para 6",
+     "id": "C46"
+    },
+    {
+     "claim": "A study of training-conditional coverage reports that its analysis extends to estimated likelihood ratios.",
+     "source_key": "R67",
+     "passage_id": "R67-A",
+     "quote": "The analysis extends to estimated likelihood ratios and to tail functionals estimated from an unlabeled source sample, which yields a fully finite-sample certificate.",
+     "locator": "abstract",
+     "id": "C47"
+    },
+    {
+     "claim": "A tabular-regression paper reports adaptive prediction sets that achieve near-optimal conditional coverage rates whenever the likelihood ratio is estimable at a sufficient rate.",
+     "source_key": "R26",
+     "passage_id": "R26-A",
+     "quote": "paired with adaptive prediction sets (APS) that achieve near-optimal conditional coverage rates whenever the likelihood ratio is estimable at a sufficient rate (Theorem 4.3).",
+     "locator": "abstract",
+     "id": "C48"
+    },
+    {
+     "claim": "A label-shift Bayesian score paper reports coverage loss under stronger shift because density ratios are estimated from pseudo-labels.",
+     "source_key": "R84",
+     "passage_id": "R84-A",
+     "quote": "Under stronger shift, all methods incur some coverage loss due to pseudo-label-based density-ratio estimation.",
+     "locator": "abstract",
+     "id": "C49"
+    },
+    {
+     "claim": "A tabular-regression paper on covariate shift lists extending the framework to simultaneous covariate and label shift with partially identifiable likelihood ratios as an open challenge.",
+     "source_key": "R4",
+     "passage_id": "R4-P30",
+     "quote": "Extending the framework to simultaneous covariate and label shift with partially identifiable likelihood ratios is an open challenge.",
+     "locator": "sec. Open Problems, para 39",
+     "id": "C50"
+    },
+    {
+     "claim": "The audit paper establishes a sharp [0,1] identified set for target coverage under unrestricted conditional shift.",
+     "source_key": "R3",
+     "passage_id": "R3-A",
+     "quote": "We establish exact and approximate detectability bounds, a minimax testing consequence, and a sharp $[0,1]$ identified set for target coverage under unrestricted conditional shift.",
+     "locator": "abstract",
+     "id": "C51"
+    },
+    {
+     "claim": "A fine-grained robust method handles an identifiable covariate shift while protecting against worst-case conditional shift bounded in an f-divergence ball.",
+     "source_key": "R23",
+     "passage_id": "R23-A",
+     "quote": "We propose to reweight the training samples to adjust for an identifiable covariate shift while protecting against worst-case conditional distribution shift bounded in an $f$-divergence ball.",
+     "locator": "abstract",
+     "id": "C52"
+    }
+   ]
+  }
+ ],
+ "sentences": [
+  {
+   "id": "S1",
+   "section": "Introduction",
+   "text": "Conformal prediction converts almost any predictive algorithm into prediction intervals or sets with finite-sample marginal coverage under exchangeability.",
+   "kind": "claim",
+   "claims": [
+    "C1"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.69155e-05,
+     "latency_ms": 1275,
+     "trace_id": "45342704243247668a8f1e41fbbc19b0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6092e-05,
+     "latency_ms": 1404,
+     "trace_id": "2d7546ba752b4cf7b9a3f1ec8020f386",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.74,
+      "false": 0.26
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.869e-05,
+     "latency_ms": 206,
+     "trace_id": "efecc9d18b34489887d2735a345c8abb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S2",
+   "section": "Introduction",
+   "text": "Deployment data, however, are rarely exchangeable with development data.",
+   "kind": "claim",
+   "claims": [
+    "C2"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.7064e-05,
+     "latency_ms": 1177,
+     "trace_id": "5274c3394f234fc282ce9d55f24f45d7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.5938e-05,
+     "latency_ms": 1417,
+     "trace_id": "a2ab66b9bf8043bcb3f6e09ecfc0ebb0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.680075e-05,
+     "latency_ms": 791,
+     "trace_id": "f6140d17bd584255997905c808cfd7e7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.578501e-05,
+     "latency_ms": 1991,
+     "trace_id": "b96375fdc8e24f2aa3d34cbb79e1e23d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.93,
+      "false": 0.06999999999999995
+     },
+     "confidence": 0.93,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.722e-05,
+     "latency_ms": 186,
+     "trace_id": "bcd9a41ff7f14381a7a9b7f549f9c745",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S3",
+   "section": "Introduction",
+   "text": "Geographic transfer, changing case mix, sensor replacement, policy changes, and temporal drift can alter the covariate distribution P X , the conditional outcome law P Y |X , or both.",
+   "kind": "claim",
+   "claims": [
+    "C3"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.687275e-05,
+     "latency_ms": 826,
+     "trace_id": "2730da63afe74e77a5ffc100a5f3d9d4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.762461e-05,
+     "latency_ms": 1090,
+     "trace_id": "70d129b972834d71959f75a61bd0f7fb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.640817e-05,
+     "latency_ms": 2218,
+     "trace_id": "b89bdb60d4114585b9241246e7585134",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.93,
+      "false": 0.06999999999999995
+     },
+     "confidence": 0.93,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9194e-05,
+     "latency_ms": 163,
+     "trace_id": "f97850c9f3e44394aa841dbf04b27ce1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S4",
+   "section": "Introduction",
+   "text": "One source describes the difficulty for covariate shift directly: exchangeability of calibration and test points fails, which makes the standard coverage argument void.",
+   "kind": "claim",
+   "claims": [
+    "C4"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.692675e-05,
+     "latency_ms": 1038,
+     "trace_id": "975197d6b68d408a9b43226c0e201408",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.5957e-05,
+     "latency_ms": 739,
+     "trace_id": "95cb601aaba04201b5633720757dac99",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.9764e-05,
+     "latency_ms": 887,
+     "trace_id": "6c1b180fba724b9fbe19103c454b5f61",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S5",
+   "section": "Introduction",
+   "text": "Weighted conformal prediction extends validity to covariate shift by weighting calibration scores with the density ratio.",
+   "kind": "claim",
+   "claims": [
+    "C5"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.696725e-05,
+     "latency_ms": 1162,
+     "trace_id": "39f0ac7bd83240618398d3211f68b8e5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.617075e-05,
+     "latency_ms": 747,
+     "trace_id": "cdf42d9dc9c04e6b92d9f0e644547d41",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.91,
+      "false": 0.08999999999999997
+     },
+     "confidence": 0.91,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.89e-05,
+     "latency_ms": 170,
+     "trace_id": "d47c3036cf9f47d8902da815b7ad2ec7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S6",
+   "section": "Introduction",
+   "text": "A review of Tibshirani et al. describes the method as designed for covariate shift where the likelihood ratio between training and test covariate distributions is known.",
+   "kind": "claim",
+   "claims": [
+    "C6"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.730925e-05,
+     "latency_ms": 1313,
+     "trace_id": "869e48412fe74e84b48d6f99656c9987",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.617525e-05,
+     "latency_ms": 1037,
+     "trace_id": "a2fbac94c34f47269387e1e9d851ec9d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 7.30665e-05,
+     "latency_ms": 2351,
+     "trace_id": "790d2fefe0424bd38b22524250bead64",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S7",
+   "section": "Introduction",
+   "text": "Gibbs and Candès describe Tibshirani et al.'s reweighting approach as requiring the conditional distribution of Y|X to be constant between training and testing and the likelihood ratio to be either known or very accurately estimated.",
+   "kind": "claim",
+   "claims": [
+    "C7"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.7305e-05,
+     "latency_ms": 3193,
+     "trace_id": "2ccd15e13a89413cb571323cd6595900",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.8621e-05,
+     "latency_ms": 851,
+     "trace_id": "3acf087065f9499893c1d64ddf9df29c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.686258e-05,
+     "latency_ms": 802,
+     "trace_id": "37fd50b8f40147289f902c2141c57ab1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.122315e-05,
+     "latency_ms": 1681,
+     "trace_id": "b56d3e9b66214df989c6df5bc88ec9b6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S8",
+   "section": "Introduction",
+   "text": "A further source states that when likelihood ratios must be estimated, coverage degrades at a rate controlled by the estimation error.",
+   "kind": "claim",
+   "claims": [
+    "C8"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.66995e-05,
+     "latency_ms": 1226,
+     "trace_id": "ede866789b764d97bb8b2b61aa38861d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.595925e-05,
+     "latency_ms": 1223,
+     "trace_id": "31edd7a7bfc8447f9d64093f5800aef9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.74,
+      "false": 0.26
+     },
+     "confidence": 0.74,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7808e-05,
+     "latency_ms": 146,
+     "trace_id": "220bcc78644846b7be65f7963a8ae2a6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S9",
+   "section": "Introduction",
+   "text": "Other lines of work drop the fixed-shift setting.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.13,
+      "false": 0.87
+     },
+     "confidence": 0.87,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5036e-05,
+     "latency_ms": 81,
+     "trace_id": "4740b3abdebd426694aa30fdde133b73",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.15,
+      "false": 0.85
+     },
+     "confidence": 0.85,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5792e-05,
+     "latency_ms": 143,
+     "trace_id": "ba16956134214698a4497d0dfcefc7d6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S10",
+   "section": "Introduction",
+   "text": "Adaptive conformal inference is presented as achieving the desired coverage frequency over long-time intervals irrespective of the true data generating process.",
+   "kind": "claim",
+   "claims": [
+    "C9"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.75725e-05,
+     "latency_ms": 760,
+     "trace_id": "1dbd4e0fda014543b59801bffd291960",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.58445e-05,
+     "latency_ms": 649,
+     "trace_id": "338d87df0bb34313a1482cbd0ff536dd",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.77,
+      "false": 0.22999999999999998
+     },
+     "confidence": 0.77,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.743e-05,
+     "latency_ms": 98,
+     "trace_id": "35fba60febdf44f0b4352801d0cbea9a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S11",
+   "section": "Introduction",
+   "text": "The same paper describes Cauchois et al. as developing prediction sets valid whenever the two distributions are close in f-divergence.",
+   "kind": "claim",
+   "claims": [
+    "C10"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.841175e-05,
+     "latency_ms": 688,
+     "trace_id": "f5a7153f46054487aa2af75d3a484192",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6119e-05,
+     "latency_ms": 1590,
+     "trace_id": "380c2d3e3cc14ca58bc6dd8fd0d604b9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.897325e-05,
+     "latency_ms": 1608,
+     "trace_id": "dc9bbfe8b3e04528a8a33282c82b8e95",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S12",
+   "section": "Introduction",
+   "text": "When likelihood ratios must be estimated, coverage is reported to degrade at a rate controlled by the estimation error, and for estimated weighted conformal prediction the bound inherits an approximation term and is not relabeled exact. Simultaneous covariate and label shift, with partially identifiable likelihood ratios, is listed as an open challenge.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C8",
+    "C11",
+    "C12"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.5288e-05,
+     "latency_ms": 128,
+     "trace_id": "fb92ca7bf4e84e8a8c6e778f5af3a871",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.75,
+      "false": 0.25
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.6711999999999998e-05,
+     "latency_ms": 117,
+     "trace_id": "5ccff6d682284688a39b77c592044634",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S13",
+   "section": "Introduction",
+   "text": "One source reports that, for estimated weighted conformal prediction, the bound inherits an approximation term and is not relabeled exact.",
+   "kind": "claim",
+   "claims": [
+    "C11"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6893e-05,
+     "latency_ms": 1340,
+     "trace_id": "d2d8e45d42b148b8ab2070bcde9c36a0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.609425e-05,
+     "latency_ms": 1159,
+     "trace_id": "70c56e10eeaf4f028a91ac28ba40b6ce",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.629225e-05,
+     "latency_ms": 893,
+     "trace_id": "1d9e4b9e4ad84da493a0134d518578a3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S14",
+   "section": "Introduction",
+   "text": "Another lists simultaneous covariate and label shift, with partially identifiable likelihood ratios, as an open challenge.",
+   "kind": "claim",
+   "claims": [
+    "C12"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.70955e-05,
+     "latency_ms": 906,
+     "trace_id": "6d714bbe5ac4480db39113535f5e5384",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.5849e-05,
+     "latency_ms": 1415,
+     "trace_id": "7dcca77386954bf3ad7c5b7e14603b6e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.6083e-05,
+     "latency_ms": 1360,
+     "trace_id": "dd55861b892643d3a8b369da333be655",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S15",
+   "section": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "This section reviews what the supplied sources establish about weighted conformal prediction under covariate shift when the likelihood ratio is known and when it is estimated.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.75,
+      "false": 0.25
+     },
+     "confidence": 0.75,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6674e-05,
+     "latency_ms": 99,
+     "trace_id": "b9e52db3aabc4b4ca74ccc25266deeef",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S16",
+   "section": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "The original work states that a weighted version of conformal prediction yields distribution-free prediction intervals when the likelihood ratio between test and training covariate distributions is known, or can be estimated accurately with a large set of unlabeled test covariates.",
+   "kind": "claim",
+   "claims": [
+    "C13"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.760949e-05,
+     "latency_ms": 1393,
+     "trace_id": "3c2320549c284d74970e2842e350faef",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.709208e-05,
+     "latency_ms": 1008,
+     "trace_id": "b01cfd1e17a949bf874272f250fe8c2a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.070513e-05,
+     "latency_ms": 1087,
+     "trace_id": "9b12b744f7ff48fb959ab5946f0b856b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S17",
+   "section": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "A later tabular-regression paper restates the known-ratio result as marginal coverage of at least 1 - alpha under covariate shift, provided the likelihood ratios are exactly known.",
+   "kind": "claim",
+   "claims": [
+    "C14"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.736397e-05,
+     "latency_ms": 766,
+     "trace_id": "e2fdb601a3d440af8bb891027282626a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.754269e-05,
+     "latency_ms": 1783,
+     "trace_id": "2bf930b80a6949a7a9fca648acb0e07c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 6.52419e-05,
+     "latency_ms": 2964,
+     "trace_id": "f8001f76aee34e669ce21f443387faf1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S18",
+   "section": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "The same paper says that when ratios must be estimated, coverage degrades at a rate controlled by the estimation error.",
+   "kind": "claim",
+   "claims": [
+    "C15"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.681443e-05,
+     "latency_ms": 1695,
+     "trace_id": "9639442800634e23bfc5fcd63ee3774d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.613196e-05,
+     "latency_ms": 744,
+     "trace_id": "092b40a758564194994e88f0821f59f7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.8,
+      "false": 0.19999999999999996
+     },
+     "confidence": 0.8,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7766e-05,
+     "latency_ms": 148,
+     "trace_id": "0c74d883a98a418f81d87b82d31a853d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S19",
+   "section": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "The adaptive conformal inference paper adds that reweighting requires Y|X to be constant between training and testing and the ratio to be known or very accurately estimated.",
+   "kind": "claim",
+   "claims": [
+    "C16"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.837377e-05,
+     "latency_ms": 998,
+     "trace_id": "2901c11c6ea04550a62ddd300a5c5063",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.655001e-05,
+     "latency_ms": 811,
+     "trace_id": "e448a33b5f4e44b5ac7cd3d9d14ddfa5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.89927e-05,
+     "latency_ms": 1244,
+     "trace_id": "11843c21fd814a7786fd2ed430f37ade",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S20",
+   "section": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "The DriftGuard audit paper says that with estimated ratios, finite-sample validity generally needs additional conditions or doubly robust constructions.",
+   "kind": "claim",
+   "claims": [
+    "C17"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.755648e-05,
+     "latency_ms": 846,
+     "trace_id": "dc78b742fe0f477a9d3812b94198fa57",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.652517e-05,
+     "latency_ms": 883,
+     "trace_id": "f1e4ef491a4a430e91beb8032bfe9444",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.63719e-05,
+     "latency_ms": 840,
+     "trace_id": "edb7a459336944a6bf6501bdf139790a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S21",
+   "section": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "The DriftGuard paper (R3) separates oracle from estimated weighting: it states that oracle test-point weighted conformal prediction has its stated finite-sample guarantee, while estimated weighted conformal prediction inherits an approximation term and is not relabeled \"exact.\"",
+   "kind": "claim",
+   "claims": [
+    "C18"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.72314e-05,
+     "latency_ms": 1358,
+     "trace_id": "731cd08970fe47108839f26ad3095342",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.77021e-05,
+     "latency_ms": 1157,
+     "trace_id": "ba4a2afc4c9149f497c4e93f39078f2d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.64538e-05,
+     "latency_ms": 889,
+     "trace_id": "6a974ffa36eb4f03b8b1abe582411c99",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.943017e-05,
+     "latency_ms": 1307,
+     "trace_id": "2ce8c72d4d9b49388b8912f813be2f94",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S22",
+   "section": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "A weight-clipping study reports that weighted conformal prediction can suffer significant undercoverage when the density ratio is unbounded or must be learned.",
+   "kind": "claim",
+   "claims": [
+    "C19"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.921275e-05,
+     "latency_ms": 1044,
+     "trace_id": "621c88c245454dc8b938f3237f662740",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.658205e-05,
+     "latency_ms": 1166,
+     "trace_id": "714a87a8be1e470d87765b5d3bfb09bc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.638126e-05,
+     "latency_ms": 1809,
+     "trace_id": "997a8735aa894e4194768e6e434ed5fe",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S23",
+   "section": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "A training-conditional analysis reports that its treatment extends to estimated likelihood ratios.",
+   "kind": "claim",
+   "claims": [
+    "C20"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.855827e-05,
+     "latency_ms": 1379,
+     "trace_id": "cc88270cc6f5494385f5527122f1cdef",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.600632e-05,
+     "latency_ms": 987,
+     "trace_id": "fb85b233ec454a0a8e57a37d4695126e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.887877e-05,
+     "latency_ms": 3809,
+     "trace_id": "6a29fa5dedbc45129fc0f9ccb6d44e57",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S24",
+   "section": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "The sources agree that known ratios give the clean guarantee and that estimation error weakens it, but they differ on how far estimated-ratio results can be pushed toward finite-sample statements.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C13",
+    "C14",
+    "C16",
+    "C17",
+    "C19"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00010165815,
+     "latency_ms": 3725,
+     "trace_id": "f1480ed9d44b49a2bb6fb4ca99cc6c15",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S25",
+   "section": "Weighted conformal prediction under covariate shift: guarantees with known versus estimated likelihood ratios",
+   "text": "The tabular-regression paper lists simultaneous covariate and label shift, with partially identifiable ratios, as an open challenge.",
+   "kind": "claim",
+   "claims": [
+    "C21"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.763586e-05,
+     "latency_ms": 880,
+     "trace_id": "c9d5c6cc7b6c45dcbde3c798734c0d42",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.588626e-05,
+     "latency_ms": 1237,
+     "trace_id": "103efe0cc339421cafcf179774e9a025",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.618443e-05,
+     "latency_ms": 713,
+     "trace_id": "7cc6015dc55541c49d2f43167c3d3a91",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S26",
+   "section": "Label shift extensions and the role of estimated density ratios",
+   "text": "The label shift passages describe a line of work that reweights conformal procedures, and each source states its guarantees and limits differently.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6128e-05,
+     "latency_ms": 69,
+     "trace_id": "b59cca3bc252428da5f89f60fbdba218",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.16,
+      "false": 0.84
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6002e-05,
+     "latency_ms": 110,
+     "trace_id": "93b4c1eae7094cc4a3de0af5f8da6999",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S27",
+   "section": "Label shift extensions and the role of estimated density ratios",
+   "text": "The label-shift classification study examines reweighting of conformal and calibration procedures whenever some unlabeled data from the target distribution is available.",
+   "kind": "claim",
+   "claims": [
+    "C22"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.863342e-05,
+     "latency_ms": 1357,
+     "trace_id": "6aa8612a47cd4b95810a8122b2b7a1ae",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.605753e-05,
+     "latency_ms": 1243,
+     "trace_id": "7ec8130c077f434cb2671c2f21d1a66e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.988442e-05,
+     "latency_ms": 1497,
+     "trace_id": "3a9594d4dcd24e87bd48be0026bf0360",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S28",
+   "section": "Label shift extensions and the role of estimated density ratios",
+   "text": "The Bayesian-score paper reports that, under stronger shift, all methods incur some coverage loss due to pseudo-label-based density-ratio estimation.",
+   "kind": "claim",
+   "claims": [
+    "C23"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.888002e-05,
+     "latency_ms": 933,
+     "trace_id": "9ab732bdde7e445293eecf1092c53eb6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.590876e-05,
+     "latency_ms": 1289,
+     "trace_id": "eabeb20ecf4a4dc99957840230af07d8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.631385e-05,
+     "latency_ms": 1292,
+     "trace_id": "29a4538b23354321acdd4f9a9661c7d2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S29",
+   "section": "Label shift extensions and the role of estimated density ratios",
+   "text": "The conformal Bayes study states that its two approaches restore nominal target-domain coverage through importance-weighted conformal calibration.",
+   "kind": "claim",
+   "claims": [
+    "C24"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.849131e-05,
+     "latency_ms": 828,
+     "trace_id": "f971b218c3d44928a236399290a967fb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.598751e-05,
+     "latency_ms": 1429,
+     "trace_id": "fc8264f376b24435b505c18220a9db48",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.863816e-05,
+     "latency_ms": 2777,
+     "trace_id": "ab2b7eeb1f6547d2b31857c341da8a4c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S30",
+   "section": "Label shift extensions and the role of estimated density ratios",
+   "text": "The pseudo-calibration analysis derives a lower bound on target coverage in terms of the source-domain loss of the classifier and a Wasserstein measure of the shift, under a bounded label-conditional covariate shift model.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.807002e-05,
+     "latency_ms": 772,
+     "trace_id": "b8793d1c3f844af5adfba8797b17fae5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.605751e-05,
+     "latency_ms": 1211,
+     "trace_id": "10b8e6fbf8cd45c2bcbd2cc11903f42a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.809252e-05,
+     "latency_ms": 2246,
+     "trace_id": "7c6152cac5d1437b90837c8d7ad9accb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.636317e-05,
+     "latency_ms": 810,
+     "trace_id": "6d7b03293d5545fdaaa6353dd1eb9312",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9319999999999998e-05,
+     "latency_ms": 191,
+     "trace_id": "58004befacc341c3a40772c76caf0148",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.001958,
+     "latency_ms": 1975,
+     "trace_id": "44f8e1d23c494d559f65d8bb5bbf5c74",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S31",
+   "section": "Label shift extensions and the role of estimated density ratios",
+   "text": "The audit paper, which concerns covariate shift, says that when ratios are estimated, finite-sample validity generally needs additional conditions or doubly robust constructions.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.724445e-05,
+     "latency_ms": 674,
+     "trace_id": "fb453a05818949cba8e9aa71758035a0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.651014e-05,
+     "latency_ms": 699,
+     "trace_id": "4623fc082d31491eb2ee024cf3484acc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.27,
+      "false": 0.73
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8984e-05,
+     "latency_ms": 178,
+     "trace_id": "52b6e59990cf4a5ba9fd1787bd4dd87b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003002,
+     "latency_ms": 2178,
+     "trace_id": "af0cb5f230c24693ac95001122ac40fc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.763829e-05,
+     "latency_ms": 831,
+     "trace_id": "f938fcb3588f4d51940012dceaf2d387",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.644066e-05,
+     "latency_ms": 1773,
+     "trace_id": "a41ace213cc241f69417099640e59356",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.478831e-05,
+     "latency_ms": 1766,
+     "trace_id": "833cc510a8054a0090b67c2cb8703470",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003244,
+     "latency_ms": 2375,
+     "trace_id": "80727cdc1a384ffeb8ca32006039f38f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "says more than its quote"
+  },
+  {
+   "id": "S32",
+   "section": "Label shift extensions and the role of estimated density ratios",
+   "text": "Taken together, the label-shift sources agree that estimated density ratios, including those from pseudo-labels, weaken the coverage obtained with known ratios, and they offer empirical or bound-based rather than exact remedies.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C23"
+   ],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "premise removed or unknown: s5, s6"
+  },
+  {
+   "id": "S33",
+   "section": "Label shift extensions and the role of estimated density ratios",
+   "text": "The passages do not supply a class-conditional coverage guarantee under estimated label-shift weights.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.06,
+      "false": 0.94
+     },
+     "confidence": 0.94,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.575e-05,
+     "latency_ms": 94,
+     "trace_id": "5611536335d74c8e8d8c2667cb100aff",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "a transition that states a fact"
+  },
+  {
+   "id": "S34",
+   "section": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "The sources describe the Barber et al. framework mainly through its abstract and through later papers that cite it.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "names a source without a claim: 'et al'"
+  },
+  {
+   "id": "S35",
+   "section": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "Barber and coauthors state that conformal prediction's validity relies on exchangeability of the data and symmetry of the model fitting algorithm.",
+   "kind": "claim",
+   "claims": [
+    "C25"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.886904e-05,
+     "latency_ms": 765,
+     "trace_id": "c7c634f15d5e47aea85031c06d352d78",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.618002e-05,
+     "latency_ms": 1148,
+     "trace_id": "63f6f5e975204b9cac5cc0c0e660df59",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.662075e-05,
+     "latency_ms": 753,
+     "trace_id": "19e43c43388f4078baccaddde2c9f966",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S36",
+   "section": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "The paper introduces weighted quantiles to provide robustness against distribution drift.",
+   "kind": "claim",
+   "claims": [
+    "C26"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.837764e-05,
+     "latency_ms": 1202,
+     "trace_id": "59ecd1f1e0e243b6bcefee3f5ef4f197",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.61739e-05,
+     "latency_ms": 1211,
+     "trace_id": "79a1566171da4182b3e5cc47cda9e63e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.81,
+      "false": 0.18999999999999995
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7556e-05,
+     "latency_ms": 200,
+     "trace_id": "ab8cabd60c354f7288e8ea58c05fe33c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S37",
+   "section": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "The authors claim substantially less loss of coverage under drift, while matching existing coverage guarantees when the data are exchangeable.",
+   "kind": "claim",
+   "claims": [
+    "C27"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.819377e-05,
+     "latency_ms": 972,
+     "trace_id": "c33b58070e2444f88f012028d1c2608b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.617876e-05,
+     "latency_ms": 1382,
+     "trace_id": "1540b96af52b42408f88dc109d4353e2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.81,
+      "false": 0.18999999999999995
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8774e-05,
+     "latency_ms": 142,
+     "trace_id": "015edf68c7324175a5a18768e03f7a0f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S38",
+   "section": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "A covariate-shift paper that cites this work states that weighted conformal prediction gives marginal coverage of at least 1 - alpha when the likelihood ratios are exactly known.",
+   "kind": "claim",
+   "claims": [
+    "C28"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.728333e-05,
+     "latency_ms": 2043,
+     "trace_id": "3734b925dcef4a48ba54dba7f9fc1e21",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.637001e-05,
+     "latency_ms": 1215,
+     "trace_id": "3eb3853405294cca925591e4f03c3589",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.636126e-05,
+     "latency_ms": 1353,
+     "trace_id": "0522d2658e1a41b0a038d1b8d53eb849",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S39",
+   "section": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "The same paper says coverage degrades at a rate controlled by the estimation error when the ratios must be estimated, and attributes this to Barber et al.",
+   "kind": "claim",
+   "claims": [
+    "C29"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.713078e-05,
+     "latency_ms": 1464,
+     "trace_id": "e0e774ab8deb4af38055af2f8c519aa8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.631763e-05,
+     "latency_ms": 696,
+     "trace_id": "d84c033aa2284fd19770faeb4d47631b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.622376e-05,
+     "latency_ms": 1158,
+     "trace_id": "e055f4e94be341f1956ded546fa5a32c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S40",
+   "section": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "The auditing paper takes a similar position, saying that estimated weighted conformal prediction inherits an approximation term and is not relabeled exact.",
+   "kind": "claim",
+   "claims": [
+    "C30"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.704006e-05,
+     "latency_ms": 1621,
+     "trace_id": "82b54671d6bd429a895eaa1752b681e9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.6362e-05,
+     "latency_ms": 947,
+     "trace_id": "cd593bb9e7614b03abecaa5bd9503b5a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.206317e-05,
+     "latency_ms": 2748,
+     "trace_id": "94149fa4032d4ba8b738101318f9b644",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.62,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004372,
+     "latency_ms": 3599,
+     "trace_id": "36c20ea79bbb4b03b37af8529545f09d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": "unsettled at write time: the reference judge was unsure"
+  },
+  {
+   "id": "S41",
+   "section": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "That paper also bounds the coverage difference between two distributions by their total variation distance.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.70226e-05,
+     "latency_ms": 749,
+     "trace_id": "12466431ab0f413cb37d0c8573c43b35",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.754388e-05,
+     "latency_ms": 1920,
+     "trace_id": "8ca73922759a429fa517730505ac9d6c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the sentence refers back ('That') instead of naming its subject"
+  },
+  {
+   "id": "S42",
+   "section": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "The Wasserstein paper notes that prior studies bound the coverage gap with total variation distance, which it says cannot identify how the gap changes under distribution shift at a given alpha.",
+   "kind": "claim",
+   "claims": [
+    "C31"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.907397e-05,
+     "latency_ms": 1603,
+     "trace_id": "b2a47a0f3a644c65804406b59a86983d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.643454e-05,
+     "latency_ms": 991,
+     "trace_id": "83eef529d2b34c729a9c6acda069d001",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.7,
+      "false": 0.30000000000000004
+     },
+     "confidence": 0.7,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8144e-05,
+     "latency_ms": 232,
+     "trace_id": "e0995e807de94006aa1027831b7d8ca8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S43",
+   "section": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "The two citing sources agree that exact weights give a guarantee and estimated weights weaken it, but they cite only the abstract-level claims of Barber et al. rather than its proofs.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C27",
+    "C28",
+    "C29"
+   ],
+   "verdicts": [],
+   "status": "removed",
+   "reason": "names a source without a claim: 'et al'"
+  },
+  {
+   "id": "S44",
+   "section": "Beyond exchangeability: weighted quantiles and randomization (Barber et al.)",
+   "text": "Several statements bear on how weighting is used to handle departures from exchangeability: one account ties conformal validity to exchangeability and symmetric model fitting, and another reports that weighted conformal prediction yields marginal coverage of at least 1 - alpha when likelihood ratios are exactly known but degrades with estimation error when they must be estimated.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C25",
+    "C28",
+    "C29"
+   ],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.1,
+      "false": 0.9
+     },
+     "confidence": 0.9,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6254e-05,
+     "latency_ms": 93,
+     "trace_id": "b89611d0f55a45f68bb81e30ae414ce2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.85,
+      "false": 0.15000000000000002
+     },
+     "confidence": 0.85,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.7173999999999998e-05,
+     "latency_ms": 112,
+     "trace_id": "d11975b6c7464ab7bb53149d1f2d3073",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S45",
+   "section": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "The next question is what guarantee adaptive methods for temporal drift provide, and under what conditions.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6464e-05,
+     "latency_ms": 112,
+     "trace_id": "5ea0b9f90b2140849632fd0dd08bf332",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.81,
+      "false": 0.18999999999999995
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6044e-05,
+     "latency_ms": 178,
+     "trace_id": "08053a589c8e43d2a1afc198d860c5de",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S46",
+   "section": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "Gibbs and Candès state that, while previous conformal inference methods rely on the assumption that the data points are exchangeable, their adaptive approach provably achieves the desired coverage frequency over long-time intervals irrespective of the true data generating process.",
+   "kind": "claim",
+   "claims": [
+    "C32"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.781316e-05,
+     "latency_ms": 746,
+     "trace_id": "67469f6f6ec84d3a87601ba03492b9a5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.674081e-05,
+     "latency_ms": 1199,
+     "trace_id": "b70dbd5bcabc4605b71ed96e6c81b406",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.674198e-05,
+     "latency_ms": 1084,
+     "trace_id": "6020d2e982d440d2a0cc63210a24c137",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S47",
+   "section": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "The ACI authors describe their Proposition 4.1 as an agnostic guarantee of correct long-term empirical coverage frequency and as an approximately tight bound on worst-case behaviour right after initialization.",
+   "kind": "claim",
+   "claims": [
+    "C33"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.823652e-05,
+     "latency_ms": 896,
+     "trace_id": "ce96ab8c0ef74dbaa7c11d3a2495bada",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.675206e-05,
+     "latency_ms": 695,
+     "trace_id": "f02dddb761954f0a8e95534036ba9110",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.73,
+      "false": 0.27
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.9152e-05,
+     "latency_ms": 91,
+     "trace_id": "574055a363b14a0984b20ec30f0b9733",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S48",
+   "section": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "For tighter guarantees at large time steps, the ACI authors say they must make simplifying assumptions about the data generating process.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.084814e-05,
+     "latency_ms": 934,
+     "trace_id": "abf95a19111848c3aea4decd2ed756c2",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 6.084126e-05,
+     "latency_ms": 3720,
+     "trace_id": "c201e93a151743eab0816df14a567e4e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 5.777064e-05,
+     "latency_ms": 2582,
+     "trace_id": "4bc4e705dc0b4aa08394dccf69bf91d0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 5.546376e-05,
+     "latency_ms": 1834,
+     "trace_id": "50d6ca89af4548ad980e363327ef0971",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the quote alone does not state the claim"
+  },
+  {
+   "id": "S49",
+   "section": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "The same paper says that, when the distribution shift is small and the prediction algorithm takes a certain simple form, ACI additionally obtains approximate marginal coverage at most time steps.",
+   "kind": "claim",
+   "claims": [
+    "C34"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.825002e-05,
+     "latency_ms": 1082,
+     "trace_id": "ccd313fcbb9a4385b342fcc44b0fbab5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.620693e-05,
+     "latency_ms": 1455,
+     "trace_id": "a72e8b34c9c34174b64ec8a30f5cfe53",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.827e-05,
+     "latency_ms": 230,
+     "trace_id": "ac7df0351e884eec88dbaaa1b85f5979",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S50",
+   "section": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "Subsequent work builds on this line of research, and the following passages turn to it.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.14,
+      "false": 0.86
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.575e-05,
+     "latency_ms": 153,
+     "trace_id": "81a1679cc9d04f1087b814f9299ec534",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.572939e-05,
+     "latency_ms": 851,
+     "trace_id": "0ee240375a2d437f93ae3b524536e6ab",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S51",
+   "section": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "The abstract of the follow-up work by Gibbs and Candès states that ACI requires knowledge of the rate of change of the data-generating mechanism.",
+   "kind": "claim",
+   "claims": [
+    "C35"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.924533e-05,
+     "latency_ms": 704,
+     "trace_id": "956ca5da70c747f8bc0632f10b2a25aa",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.876644e-05,
+     "latency_ms": 1064,
+     "trace_id": "2a2c3d21eb944e10b7be3d7332c9df5a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.967382e-05,
+     "latency_ms": 1132,
+     "trace_id": "6d34b7b0e39643d7b9bc9e54db7a1c1d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.19,
+      "false": 0.81
+     },
+     "confidence": 0.81,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7724e-05,
+     "latency_ms": 220,
+     "trace_id": "c16d72ac2c24469a8ce192fbe4637a47",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.004316,
+     "latency_ms": 3042,
+     "trace_id": "2f5723466b284187885b8695164a3fd9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": "unsettled at write time: the reference judge was unsure"
+  },
+  {
+   "id": "S52",
+   "section": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "Error-quantified Conformal Inference establishes a long-term coverage guarantee under arbitrary dependence and distribution shift.",
+   "kind": "claim",
+   "claims": [
+    "C36"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.880343e-05,
+     "latency_ms": 1105,
+     "trace_id": "509bdd20133d49729631101a0275e9fe",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.585503e-05,
+     "latency_ms": 1044,
+     "trace_id": "fc3d5c8bb2ff4e759f610592360b04b5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.72,
+      "false": 0.28
+     },
+     "confidence": 0.72,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.7178e-05,
+     "latency_ms": 143,
+     "trace_id": "950091a1193641b099f044e91fdba1d8",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S53",
+   "section": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "A dropout-informed variant reports that its long-run coverage guarantee is score-agnostic, inherited from ACI itself rather than a new property of studentization.",
+   "kind": "claim",
+   "claims": [
+    "C37"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.35062e-05,
+     "latency_ms": 1323,
+     "trace_id": "37a2e08e4b86437593d0ffc53c108383",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.63026e-05,
+     "latency_ms": 1354,
+     "trace_id": "04705bbb8d974f319b242d16b009816b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 9.382257e-05,
+     "latency_ms": 2913,
+     "trace_id": "f03ad32215d54b199aa7d52dae9a9999",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 2.351304e-05,
+     "latency_ms": 850,
+     "trace_id": "0b15fcd617104f38a22bf8d345da39ec",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.65708e-05,
+     "latency_ms": 744,
+     "trace_id": "f6c426c845c94cbd9d4499ed506ec99c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.038581e-05,
+     "latency_ms": 1209,
+     "trace_id": "c5028ce21ca841c6a8e3c645b4016ac5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S54",
+   "section": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "Another study notes that ACI only adapts the quantile threshold and cannot shift the interval center.",
+   "kind": "claim",
+   "claims": [
+    "C38"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.920708e-05,
+     "latency_ms": 1225,
+     "trace_id": "2652c8d3174e46bfbc25236e3466a926",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 7.120512e-05,
+     "latency_ms": 2463,
+     "trace_id": "8db7c1bea7e8449da6b5af33eab8fcad",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.99,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.935846e-05,
+     "latency_ms": 1015,
+     "trace_id": "e533a2bec09746fe89d10555e661784a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.588626e-05,
+     "latency_ms": 1709,
+     "trace_id": "8f35dac30c1d4459a3d1cfe52f7a5d42",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.807751e-05,
+     "latency_ms": 3184,
+     "trace_id": "3237562860244e5cb75acf7269770b5b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S55",
+   "section": "Adaptive conformal inference for temporal drift: long-run coverage without data-process assumptions",
+   "text": "These sources agree that the guarantee is a long-run frequency property and the later work concerns step-size tuning, feedback scale and centering, while the passages supplied here do not show a conditional or finite-window guarantee without added assumptions.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C32",
+    "C35"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00017757846,
+     "latency_ms": 5265,
+     "trace_id": "b97469d80c9941498381ad69cf5ac6db",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.96,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00533,
+     "latency_ms": 2288,
+     "trace_id": "2a10accedbdc4161ae393dd4fe2225d1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "premise removed or unknown: s6"
+  },
+  {
+   "id": "S56",
+   "section": "Robust conformal methods under f-divergence and worst-case shift",
+   "text": "This section turns to conformal methods built for worst-case shifts, and to what their proofs cover.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.78,
+      "false": 0.21999999999999997
+     },
+     "confidence": 0.78,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6044e-05,
+     "latency_ms": 189,
+     "trace_id": "8cf23efe27e043cf89692e51175e3e93",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S57",
+   "section": "Robust conformal methods under f-divergence and worst-case shift",
+   "text": "The robust validation work presents a method whose prediction sets give almost exactly the right coverage level for any test distribution in an f-divergence ball around the training population.",
+   "kind": "claim",
+   "claims": [
+    "C39"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.91547e-05,
+     "latency_ms": 1336,
+     "trace_id": "70cfdc1b896e4629abd79e96f38d9d2b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.631259e-05,
+     "latency_ms": 3274,
+     "trace_id": "ccb1e1e3347148c3ba7716fe2d9b36b4",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": {
+      "true": 0.73,
+      "false": 0.27
+     },
+     "confidence": 0.73,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8354e-05,
+     "latency_ms": 268,
+     "trace_id": "09c147ded867418ea8d4ce1ecf2ad94a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S58",
+   "section": "Robust conformal methods under f-divergence and worst-case shift",
+   "text": "Robust validation achieves nearly valid coverage in finite samples, under only the condition that the training data be exchangeable.",
+   "kind": "claim",
+   "claims": [
+    "C40"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.831752e-05,
+     "latency_ms": 719,
+     "trace_id": "9b4749d12ca843b9a92d4997942a7319",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.602252e-05,
+     "latency_ms": 1681,
+     "trace_id": "a0050b9015b4486dac3afe259836b291",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.979001e-05,
+     "latency_ms": 2007,
+     "trace_id": "97ac2bccb9064e7cac0ce0b75a6bcefc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S59",
+   "section": "Robust conformal methods under f-divergence and worst-case shift",
+   "text": "Robust validation also estimates the amount of expected future shift, and its authors prove consistency of the estimators.",
+   "kind": "claim",
+   "claims": [
+    "C41"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.900719e-05,
+     "latency_ms": 1700,
+     "trace_id": "65b8826240324b5ea5077ad032ba4f13",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.608876e-05,
+     "latency_ms": 924,
+     "trace_id": "a892f80436d34ebba80bc76a6df08bac",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.988001e-05,
+     "latency_ms": 1285,
+     "trace_id": "ddde1b4f1452455495531cfcb83dc3c9",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S60",
+   "section": "Robust conformal methods under f-divergence and worst-case shift",
+   "text": "The fine-grained framework splits the problem differently, reweighting training samples for an identifiable covariate shift while protecting against worst-case conditional shift bounded in an f-divergence ball.",
+   "kind": "claim",
+   "claims": [
+    "C42"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.813581e-05,
+     "latency_ms": 720,
+     "trace_id": "244bd14ea4324a9ba2bf26bf1f14e27f",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.642572e-05,
+     "latency_ms": 735,
+     "trace_id": "e04a8dc9219047fbbaa86b88ce24cb7c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": {
+      "true": 0.17,
+      "false": 0.83
+     },
+     "confidence": 0.83,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.8942e-05,
+     "latency_ms": 149,
+     "trace_id": "55776328366a4e1ea8b329d9588aba04",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00323,
+     "latency_ms": 3058,
+     "trace_id": "4a99ebfd242048e1b8f6b45f875e806d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": "unsettled at write time: the reference judge was unsure"
+  },
+  {
+   "id": "S61",
+   "section": "Robust conformal methods under f-divergence and worst-case shift",
+   "text": "Its algorithm outputs approximately valid prediction intervals, not exactly valid ones.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.762821e-05,
+     "latency_ms": 2205,
+     "trace_id": "c3b0088cce4345c7b06a0e3cb8b8da15",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.790064e-05,
+     "latency_ms": 1365,
+     "trace_id": "a9b7beb42e934b9ba8f6406767ea467b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 3.902013e-05,
+     "latency_ms": 1695,
+     "trace_id": "096bc6688b87484fbc9f1cbea0fbff13",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "unanchored: the sentence refers back ('Its') instead of naming its subject"
+  },
+  {
+   "id": "S62",
+   "section": "Robust conformal methods under f-divergence and worst-case shift",
+   "text": "Adaptive conformal inference is described by its authors as an agnostic guarantee of correct long-term empirical coverage frequency irrespective of the true data generating process.",
+   "kind": "claim",
+   "claims": [
+    "C43"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.754064e-05,
+     "latency_ms": 1201,
+     "trace_id": "241af29e8c7544ecac5dbd0b9a917a86",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.624626e-05,
+     "latency_ms": 1144,
+     "trace_id": "887ce094137a4923b5e4ca78cfbe79c5",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.643751e-05,
+     "latency_ms": 806,
+     "trace_id": "4cc66fd6e8ae440e9cfe0fa644bb3945",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S63",
+   "section": "Robust conformal methods under f-divergence and worst-case shift",
+   "text": "Gibbs and Candès describe the f-divergence method of Cauchois et al. as forming prediction sets that are valid whenever P 1 and P 0 are close in f -divergence.",
+   "kind": "claim",
+   "claims": [
+    "C44"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.885527e-05,
+     "latency_ms": 743,
+     "trace_id": "5d9dce1bd4aa4b4b8289e56db34a2a00",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.848627e-05,
+     "latency_ms": 1230,
+     "trace_id": "dd99921a587248f48fcfc54f4438b4da",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.629441e-05,
+     "latency_ms": 688,
+     "trace_id": "be624eba5f4647688d0157b4edb8df79",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.65807e-05,
+     "latency_ms": 797,
+     "trace_id": "2158af0e3e4542c783d19fa092a98a58",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S64",
+   "section": "Robust conformal methods under f-divergence and worst-case shift",
+   "text": "A robust conformal runtime-verification study assumes a known upper bound on the f-divergence between deployment and design distributions.",
+   "kind": "claim",
+   "claims": [
+    "C45"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.880127e-05,
+     "latency_ms": 1062,
+     "trace_id": "da8a7f2d02b547ff82645f060b227748",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.632132e-05,
+     "latency_ms": 1283,
+     "trace_id": "558d63942e8c446894fd34df53df9014",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 3.992445e-05,
+     "latency_ms": 1352,
+     "trace_id": "a06f7acb9607488b9da564648d169465",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S65",
+   "section": "Robust conformal methods under f-divergence and worst-case shift",
+   "text": "The sources differ in what they require. The ball-based robust validation method relies on exchangeable training data and covers test distributions within an f-divergence ball. A runtime-verification study of robust conformal prediction assumes a known upper bound on the f-divergence between deployment and design distributions. Adaptive conformal inference is described by its authors as an agnostic guarantee of long-term empirical coverage frequency irrespective of the true data generating process. The fine-grained framework instead reweights for an identifiable covariate shift while protecting against worst-case conditional shift in an f-divergence ball.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C39",
+    "C40",
+    "C42",
+    "C43",
+    "C45"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.71,
+      "false": 0.29000000000000004
+     },
+     "confidence": 0.71,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 3.3894e-05,
+     "latency_ms": 101,
+     "trace_id": "23c0227c893a4b428645515d4beb812c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S66",
+   "section": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "The next passages turn to what happens to coverage guarantees once the weights must be estimated rather than known.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.11,
+      "false": 0.89
+     },
+     "confidence": 0.89,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.6085999999999998e-05,
+     "latency_ms": 191,
+     "trace_id": "9be69eb797a249b4a9d5376b937952ef",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": {
+      "true": 0.84,
+      "false": 0.16000000000000003
+     },
+     "confidence": 0.84,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.617e-05,
+     "latency_ms": 105,
+     "trace_id": "845e83ebe4724626b4c17994c9116fed",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S67",
+   "section": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "One audit paper states that when density ratios are estimated, finite-sample validity generally needs additional conditions or doubly robust constructions.",
+   "kind": "claim",
+   "claims": [
+    "C46"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.717695e-05,
+     "latency_ms": 748,
+     "trace_id": "76aa1b4d1a4b40eb967aa05a7c9cc58a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.651392e-05,
+     "latency_ms": 775,
+     "trace_id": "43e7d1d48e8e48509f5f7db50f1f3ef1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.632501e-05,
+     "latency_ms": 1182,
+     "trace_id": "534e6578d918460084c52ec998289a2d",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S68",
+   "section": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "A study of training-conditional coverage reports that its analysis extends to estimated likelihood ratios.",
+   "kind": "claim",
+   "claims": [
+    "C47"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.898469e-05,
+     "latency_ms": 1455,
+     "trace_id": "4e9578f6a84c4bc8a924ce0d523673a3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.613574e-05,
+     "latency_ms": 1089,
+     "trace_id": "3aef22c9b8f3403b906e7f708f4526be",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.863195e-05,
+     "latency_ms": 1591,
+     "trace_id": "149420ce14764de4bd6d394482f59a11",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S69",
+   "section": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "A tabular-regression paper reports adaptive prediction sets that achieve near-optimal conditional coverage rates whenever the likelihood ratio is estimable at a sufficient rate.",
+   "kind": "claim",
+   "claims": [
+    "C48"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.912266e-05,
+     "latency_ms": 929,
+     "trace_id": "807a777b7c5a48b2bae1e06ea79a6f97",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.985751e-05,
+     "latency_ms": 781,
+     "trace_id": "f385a1936cfd49f889ba47b3e7de4f7a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 8.58438e-05,
+     "latency_ms": 2924,
+     "trace_id": "047cea603b0d453b8a1e64dc2ac7eeaf",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.88,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.002906,
+     "latency_ms": 2535,
+     "trace_id": "c2cc479a62ef45598ca8b0e3dc8557c3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.913139e-05,
+     "latency_ms": 731,
+     "trace_id": "c4b7646a3ccb48039b8fb2e2eba3dcd6",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.631376e-05,
+     "latency_ms": 885,
+     "trace_id": "66c1ecfec585413e801da76ad89bf323",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.733073e-05,
+     "latency_ms": 1521,
+     "trace_id": "3420e87b421b43d29371fa5a2426c339",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S70",
+   "section": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "A label-shift Bayesian score paper reports coverage loss under stronger shift because density ratios are estimated from pseudo-labels.",
+   "kind": "claim",
+   "claims": [
+    "C49"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.927521e-05,
+     "latency_ms": 721,
+     "trace_id": "5e628f35788a49038c6e28a156e6a003",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.613763e-05,
+     "latency_ms": 1187,
+     "trace_id": "dde0660bb5e4453fab2cbd6f3e47812c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.574376e-05,
+     "latency_ms": 2631,
+     "trace_id": "521c7207c12243218adf58bb778338ff",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.003906,
+     "latency_ms": 3175,
+     "trace_id": "5c4b9768eb9b455da7f1a718e7a63621",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S71",
+   "section": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "The sources differ on estimated weights: one states that finite-sample validity generally needs additional conditions or doubly robust constructions, another reports that its training-conditional coverage analysis extends to estimated likelihood ratios, and a third reports near-optimal conditional coverage rates whenever the likelihood ratio is estimable at a sufficient rate.",
+   "kind": "synthesis",
+   "claims": [],
+   "premises": [
+    "C46",
+    "C47",
+    "C48"
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": {
+      "true": 0.86,
+      "false": 0.14
+     },
+     "confidence": 0.86,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 2.7552e-05,
+     "latency_ms": 181,
+     "trace_id": "97c9189b8c4348048aa0913f0dd051c1",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S72",
+   "section": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "A further question is how these guarantees fare when covariate and label shift occur together.",
+   "kind": "transition",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "sentence.no_fact",
+     "answer": false,
+     "probabilities": {
+      "true": 0.07,
+      "false": 0.9299999999999999
+     },
+     "confidence": 0.9299999999999999,
+     "confidence_source": "logprobs",
+     "backend": "jev",
+     "escalated": false,
+     "cost_usd": 1.596e-05,
+     "latency_ms": 140,
+     "trace_id": "f692887e3f6149eea374b0df53507a42",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "sentence.no_fact",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.9,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.581192e-05,
+     "latency_ms": 1095,
+     "trace_id": "6e90a6960594463cb7a67deb837bc70b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S73",
+   "section": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "A tabular-regression paper on covariate shift lists extending the framework to simultaneous covariate and label shift with partially identifiable likelihood ratios as an open challenge.",
+   "kind": "claim",
+   "claims": [
+    "C50"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.710189e-05,
+     "latency_ms": 676,
+     "trace_id": "5e688a608249464a9922d949715fb4ee",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.719189e-05,
+     "latency_ms": 875,
+     "trace_id": "550be67c077d4467b58d10e6d268aa0b",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.632141e-05,
+     "latency_ms": 802,
+     "trace_id": "29e224e6123841a88ca353424a0a5af0",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 4.25889e-05,
+     "latency_ms": 1696,
+     "trace_id": "19364368a75740709578d7b98858989a",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S74",
+   "section": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "The audit paper establishes a sharp [0,1] identified set for target coverage under unrestricted conditional shift.",
+   "kind": "claim",
+   "claims": [
+    "C51"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.993815e-05,
+     "latency_ms": 1374,
+     "trace_id": "b8891447bcf743e89cd9b0701152d7ef",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.611126e-05,
+     "latency_ms": 1276,
+     "trace_id": "42ba11ba6608466b8693349bebb60c25",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 2.031831e-05,
+     "latency_ms": 943,
+     "trace_id": "0d4973c0c5f6475fbf586dae533bea8e",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S75",
+   "section": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "A fine-grained robust method handles an identifiable covariate shift while protecting against worst-case conditional shift bounded in an f-divergence ball.",
+   "kind": "claim",
+   "claims": [
+    "C52"
+   ],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.793952e-05,
+     "latency_ms": 1159,
+     "trace_id": "c21c2fbc950c4c9996788b4ae0cd1640",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.617003e-05,
+     "latency_ms": 1570,
+     "trace_id": "0373f67dddc5415096fb6a7fbf77e867",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 1.649196e-05,
+     "latency_ms": 1084,
+     "trace_id": "e1c830bc186a46579e564bf2bf4e9730",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "pass",
+   "reason": null
+  },
+  {
+   "id": "S76",
+   "section": "Gaps in the proofs: estimated weights, mixed shifts, and unidentifiable conditional shift",
+   "text": "A Wasserstein-based paper gives only an upper bound on the coverage gap under general joint shift.",
+   "kind": "claim",
+   "claims": [],
+   "premises": [],
+   "verdicts": [
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.95,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 4.07547e-05,
+     "latency_ms": 1503,
+     "trace_id": "3f3d159be693491d9efa164be6cfbdcb",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.6,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 0.00011325888,
+     "latency_ms": 4537,
+     "trace_id": "62066d34724140d2846108985eb5cbe7",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.claim_supported",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.98,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 1.905651e-05,
+     "latency_ms": 769,
+     "trace_id": "e1b7f59146044ec89f963d9d70ff2d84",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "lit.quote_covers_claim",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": false,
+     "cost_usd": 8.709633e-05,
+     "latency_ms": 3990,
+     "trace_id": "f93bdfbdf7d04d15bb73b46e47aa94d3",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "status": "removed",
+   "reason": "judge_unsure"
+  }
+ ]
+}

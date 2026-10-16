@@ -1,5 +1,5 @@
 {
- "note": "The Pages showcase: the four examples of the local app plus three reviews chosen by Chris on 2026-10-09, with the known issues found in each, and (added 2026-10-15, after the close) the review papers made from three of the reviews, shown with the light their own audit gave them and the deficiencies found in them. spent_usd is each run's ledger total; a paper's spent_usd is its share of the run's ledger (the records after the review finished).",
+ "note": "The Pages showcase: the four examples of the local app plus three reviews chosen by Chris on 2026-10-09, with the known issues found in each, and (added 2026-10-15, after the close) the review papers made from the reviews (three on 2026-10-15 from earlier increments, three more made on 2026-10-16), shown with the light their own audit gave them and the deficiencies found in them. spent_usd is each run's ledger total; a paper's spent_usd is its share of the run's ledger (the records after the review finished).",
  "examples": [
   {
    "id": "conformal-shift",
@@ -22,7 +22,16 @@
    "ledger": "data/ledger/run_topic4-conformal-2.jsonl",
    "outcome": "A literature review with no experiments; the audit found every cited claim supported by its quoted passage.",
    "spent_usd": 0.1649,
-   "retrieved": "data/retrieval/conformal-shift/retrieved.jsonl"
+   "retrieved": "data/retrieval/conformal-shift/retrieved.jsonl",
+   "paper": {
+    "dir": "data/papers_showcase/topic4-conformal-2/paper",
+    "retrieved": "data/papers_showcase/topic4-conformal-2/retrieved.jsonl",
+    "made": "the post-close update (2026-10-16)",
+    "spent_usd": 0.6207,
+    "budget_cap_usd": 1.0,
+    "outcome": "A 3,000-word review paper made from this review on 2026-10-16, after the project closed, with the same settings as the earlier showcase papers. Its interpretation sections are labelled and each statement names the claims it rests on.",
+    "known_issues": "Amber: nothing failed, but eight items need a reader's look. Three judge disagreements (claims C44 and C49 and the research-agenda statement I15: the audit's judge said no, the reference judge yes) and five unsettled items where the reference judge was unsure (three claims, including C35 and C42, and the statements I14 and I17). Two of eighteen interpretation statements were removed by the checks. No independent reader scored this paper."
+   }
   },
   {
    "id": "research-agents-eval",
@@ -45,7 +54,16 @@
    "ledger": "data/ledger/run_topic4-agents-1.jsonl",
    "outcome": "A literature review; retrieval missed most of the key papers fixed beforehand for this topic, and the review says what it could not establish.",
    "spent_usd": 0.1664,
-   "retrieved": "data/retrieval/research-agents-eval/retrieved.jsonl"
+   "retrieved": "data/retrieval/research-agents-eval/retrieved.jsonl",
+   "paper": {
+    "dir": "data/papers_showcase/topic4-agents-1/paper",
+    "retrieved": "data/papers_showcase/topic4-agents-1/retrieved.jsonl",
+    "made": "the post-close update (2026-10-16)",
+    "spent_usd": 0.6449,
+    "budget_cap_usd": 1.0,
+    "outcome": "A 3,000-word review paper made from this review on 2026-10-16, after the project closed, with the same settings as the earlier showcase papers. Its interpretation sections are labelled and each statement names the claims it rests on.",
+    "known_issues": "Amber: nothing failed. One judge disagreement (the research-agenda statement I12: the audit's judge said no, the reference judge yes), one unsettled claim (C28), and three quotes (C8, C15, C16) that open with a back-reference, so what they are about is outside the quote. All sixteen interpretation statements passed. No independent reader scored this paper."
+   }
   },
   {
    "id": "tree-explain",
@@ -156,7 +174,16 @@
    ],
    "spent_usd": 0.1117,
    "outcome": "A three-part question about how traces record progress, how that differs across agent harnesses, and whether traces are stored in vector databases.",
-   "known_issues": "It answers only part of the question: one harness's storage is described, two others get one line each, others are not covered, and the vector-database part rests on one source. It says these gaps exist. One quote's qualifier (that an overhead is negligible) is left out."
+   "known_issues": "It answers only part of the question: one harness's storage is described, two others get one line each, others are not covered, and the vector-database part rests on one source. It says these gaps exist. One quote's qualifier (that an overhead is negligible) is left out.",
+   "paper": {
+    "dir": "data/papers_showcase/how-well-do-agent-traces-record-soft-0kdg/paper",
+    "retrieved": "data/papers_showcase/how-well-do-agent-traces-record-soft-0kdg/retrieved.jsonl",
+    "made": "the post-close update (2026-10-16)",
+    "spent_usd": 0.6137,
+    "budget_cap_usd": 1.0,
+    "outcome": "A 3,000-word review paper made from this review on 2026-10-16, after the project closed, with the same settings as the earlier showcase papers. Its interpretation sections are labelled and each statement names the claims it rests on.",
+    "known_issues": "Red on one claim: C19 (S29), on Bouzenia and colleagues unifying the logs of RepairAgent, AutoCodeRover and OpenHands into a common format, was judged to say more than its quote, and the reference judge did not overrule it. Also listed: two judge disagreements (C15 and C20: the audit's judge said no, the reference judge yes) and eight unsettled items where the reference judge was unsure (six claims and the statements I11 and I12). One of sixteen interpretation statements was removed by the checks. No independent reader scored this paper."
+   }
   },
   {
    "id": "prompting-evolution",

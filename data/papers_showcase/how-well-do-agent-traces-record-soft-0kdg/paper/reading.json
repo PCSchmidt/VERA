@@ -1,0 +1,161 @@
+{
+ "n_full_text": 8,
+ "n_abstract_only": 12,
+ "n_passages": 98,
+ "n_review_passages": 48,
+ "n_new_passages": 50,
+ "read_top": 15,
+ "per_paper": 10,
+ "papers": [
+  {
+   "key": "R3",
+   "title": "AgentOps: Enabling Observability of LLM Agents",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R5",
+   "title": "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R12",
+   "title": "Dive into Claude Code: The Design Space of Today's and Future AI Agent Systems",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R15",
+   "title": "Failure as a Process: An Anatomy of CLI Coding Agent Trajectories",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R27",
+   "title": "OpenHands: An Open Platform for AI Software Developers as Generalist Agents",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R28",
+   "title": "Process-Centric Analysis of Agentic Software Systems",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R40",
+   "title": "From Agent Traces to Trust: A Survey of Evidence Tracing and Execution Provenance in LLM Agents",
+   "mode": "fulltext",
+   "n_new": 5,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R41",
+   "title": "Large Language Model-Based Agents for Software Engineering: A Survey",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 0.1,
+   "n_passages": 11
+  },
+  {
+   "key": "R42",
+   "title": "Training Software Engineering Agents and Verifiers with SWE-Gym",
+   "mode": "abstract",
+   "reason": "ConnectError: [WinError 10061] No connection could be made because the target machine actively refused it",
+   "seconds": 4.2,
+   "n_passages": 1
+  },
+  {
+   "key": "R62",
+   "title": "OpenDevin: An Open Platform for AI Software Developers as Generalist Agents",
+   "mode": "abstract",
+   "n_passages": 0
+  },
+  {
+   "key": "R68",
+   "title": "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?",
+   "mode": "fulltext",
+   "n_new": 10,
+   "seconds": 0.0,
+   "n_passages": 11
+  },
+  {
+   "key": "R71",
+   "title": "The Agent Loop: A Survey of Control Strategies, Skills, and Harnesses for LLM Agents",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R72",
+   "title": "The OpenHands Software Agent SDK: A Composable and Extensible Foundation for Production Agents",
+   "mode": "abstract",
+   "reason": "ConnectError: [WinError 10061] No connection could be made because the target machine actively refused it",
+   "seconds": 4.2,
+   "n_passages": 1
+  },
+  {
+   "key": "R77",
+   "title": "Watson: A Cognitive Observability Framework for the Reasoning of LLM-Powered Agents",
+   "mode": "abstract",
+   "reason": "ConnectError: [WinError 10061] No connection could be made because the target machine actively refused it",
+   "seconds": 4.1,
+   "n_passages": 1
+  },
+  {
+   "key": "R81",
+   "title": "Agentic Software Issue Resolution with Large Language Models: A Survey",
+   "mode": "abstract",
+   "reason": "no PDF: HTTP 403",
+   "seconds": 0.1,
+   "n_passages": 1
+  },
+  {
+   "key": "R84",
+   "title": "Before the Pull Request: Mining Multi-Agent Coordination",
+   "mode": "abstract",
+   "reason": "ConnectError: [WinError 10061] No connection could be made because the target machine actively refused it",
+   "seconds": 7.2,
+   "n_passages": 1
+  },
+  {
+   "key": "R107",
+   "title": "OpenAI Codex CLI",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R114",
+   "title": "Understanding Software Engineering Agents: A Study of Thought-Action-Result Trajectories",
+   "mode": "abstract",
+   "n_passages": 1
+  },
+  {
+   "key": "R117",
+   "title": "AgentTelemetry: A Fault Detection Benchmark and Toolkit for LLM Agent Observability",
+   "mode": "abstract",
+   "reason": "no PDF: HTTP 403",
+   "seconds": 0.2,
+   "n_passages": 1
+  },
+  {
+   "key": "R132",
+   "title": "Guidelines for including grey literature and conducting multivocal literature reviews in software engineering",
+   "mode": "abstract",
+   "reason": "no PDF: transport error ConnectError",
+   "seconds": 21.1,
+   "n_passages": 0
+  }
+ ]
+}

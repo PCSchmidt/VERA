@@ -65,10 +65,10 @@ def test_the_three_reviews_with_findings_carry_them_and_the_audited_four_do_not_
     assert all(e["audit"] in {"green", "amber", "red"} and e["topic"] and e["question"] for e in facts.values())
 
 
-def test_three_examples_carry_their_review_paper_with_its_own_light_and_its_deficiencies(site: Path) -> None:
+def test_six_examples_carry_their_review_paper_with_its_own_light_and_its_deficiencies(site: Path) -> None:
     facts = {e["id"]: e for e in json.loads((site / "data" / "facts.json").read_text(encoding="utf-8"))["examples"]}
     with_paper = {i for i, e in facts.items() if e["paper"]}
-    assert with_paper == {"rlm-vs-clm", "prompting-evolution", "agent-traces-knowledge"}
+    assert with_paper == {"rlm-vs-clm", "prompting-evolution", "agent-traces-knowledge", "agent-traces-first", "conformal-shift", "research-agents-eval"}
     for i in with_paper:
         p = facts[i]["paper"]
         doc = json.loads((site / "data" / "examples" / i / "review-paper.json").read_text(encoding="utf-8"))
@@ -138,10 +138,11 @@ def dom(port: int, route: str, tmp_path: Path) -> str:
     ("examples", "Review papers", "The app could not start"),
     ("example/rlm-vs-clm", 'href="pdf/rlm-vs-clm-paper.pdf"', "Something went wrong"),  # the paper's PDF from its review
     ("example-paper/agent-traces-knowledge", "Download paper PDF", "Something went wrong"),
-    ("example/conformal-shift", "No review paper was made from this review", "Something went wrong"),
+    ("example/agentic-traces-walkthrough", "No review paper was made from this review", "Something went wrong"),
+    ("example-paper/conformal-shift", "Download paper PDF", "Something went wrong"),
     ("run-locally", "uv run vera-app", "Propose a question"),
     ("run-locally", "z-ai/glm-5.3-flash", "undefined"),  # the models, filled in from the code
-    ("run-locally", "A review paper, made from a finished review on request, cost a further between $0.64", "undefined"),  # from showcase.json
+    ("run-locally", "A review paper, made from a finished review on request, cost a further between $0.61", "undefined"),  # from showcase.json
     ("new", "VERA runs on your own computer", "Propose a question"),  # a run-form route redirects to the run-it-yourself page
     ("runs", "VERA runs on your own computer", "My runs"),
 ])  # fmt: skip

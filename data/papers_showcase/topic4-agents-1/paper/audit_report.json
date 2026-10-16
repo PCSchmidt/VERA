@@ -1,0 +1,171 @@
+{
+ "paper_id": "topic4-agents-1 (paper)",
+ "paper_source": "paper/paper.md",
+ "repo": null,
+ "findings": [
+  {
+   "check": "inference",
+   "severity": "warn",
+   "claim_ids": [
+    "I12"
+   ],
+   "evidence": [
+    {
+     "claim_id": "I12",
+     "source": "log",
+     "reference": "paper/inferences.jsonl",
+     "matched": false,
+     "detail": "I12 (A research agenda): does not follow from its premises: 'Benchmarks typically score one run per task, and PaperBench reports high variance on the same paper for most agents and recommends several s'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "paper.inference_follows",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.7,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 0.00012019878,
+     "latency_ms": 4028,
+     "trace_id": "83bffe073a424df0a0a39e224c29e77e",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "paper.inference_follows",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.85,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.005918,
+     "latency_ms": 3615,
+     "trace_id": "dbc11a6a491746e382745b9a6062c928",
+     "producer_id": "p3.paper.interpret",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "judges disagree (failed in the audit, no on glm-flash at 0.70; the reference judge says yes, yes on sonnet-ref at 0.85): I12 (A research agenda): does not follow from its premises: 'Benchmarks typically score one run per task, and PaperBench reports high variance on the same paper for most agents and recommends several s'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C8"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S13",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S13 (Introduction, claim): the quote of C8 opens with a back-reference, so what it is about is outside it: 'The survey on benchmark data contamination defines it as occurring when language models inadvertently incorporate evaluation benchmark infor'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S13 (Introduction, claim): the quote of C8 opens with a back-reference, so what it is about is outside it: 'The survey on benchmark data contamination defines it as occurring when language models inadvertently incorporate evaluation benchmark infor'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C15"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S25",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S25 (Correctness and reproducibility measures in agent benchmarks, claim): the quote of C15 opens with a back-reference, so what it is about is outside it: 'SciReplicate-Bench instead prioritizes execution accuracy, and its authors criticize PaperBench-style approaches for relying on manual crite'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S25 (Correctness and reproducibility measures in agent benchmarks, claim): the quote of C15 opens with a back-reference, so what it is about is outside it: 'SciReplicate-Bench instead prioritizes execution accuracy, and its authors criticize PaperBench-style approaches for relying on manual crite'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C16"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S26",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S26 (Correctness and reproducibility measures in agent benchmarks, claim): the quote of C16 opens with a back-reference, so what it is about is outside it: 'SciReplicate-Bench chose a 2024 publication window to minimize the risk of data leakage.'"
+    }
+   ],
+   "verdicts": [],
+   "summary": "S26 (Correctness and reproducibility measures in agent benchmarks, claim): the quote of C16 opens with a back-reference, so what it is about is outside it: 'SciReplicate-Bench chose a 2024 publication window to minimize the risk of data leakage.'"
+  },
+  {
+   "check": "sentence",
+   "severity": "warn",
+   "claim_ids": [
+    "C28"
+   ],
+   "evidence": [
+    {
+     "claim_id": "S48",
+     "source": "log",
+     "reference": "paper/paper.json",
+     "matched": false,
+     "detail": "S48 (Rubric design, manual criteria, and construct validity concerns, claim): C28 says more than its quote: 'A later CORE-Bench study reports surfacing threats to construct validity in CORE-Bench Hard that are difficult to anticipate with less capab'"
+    }
+   ],
+   "verdicts": [
+    {
+     "question_id": "claim.within_quote",
+     "answer": false,
+     "probabilities": null,
+     "confidence": 0.8,
+     "confidence_source": "self_report",
+     "backend": "glm-flash",
+     "escalated": true,
+     "cost_usd": 5.127003e-05,
+     "latency_ms": 1820,
+     "trace_id": "416844eabdbb4151acd58f95578a75dc",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    },
+    {
+     "question_id": "claim.within_quote",
+     "answer": true,
+     "probabilities": null,
+     "confidence": 0.68,
+     "confidence_source": "self_report",
+     "backend": "sonnet-ref",
+     "escalated": false,
+     "cost_usd": 0.00415,
+     "latency_ms": 3453,
+     "trace_id": "3834cd73f4184649b6d772212a3b281c",
+     "producer_id": "p3.paper.write",
+     "judge_id": "p2.judge"
+    }
+   ],
+   "summary": "unsettled (the reference judge was unsure (yes on sonnet-ref at 0.68; the audit's judge said no on glm-flash at 0.80)): S48 (Rubric design, manual criteria, and construct validity concerns, claim): C28 says more than its quote: 'A later CORE-Bench study reports surfacing threats to construct validity in CORE-Bench Hard that are difficult to anticipate with less capab'"
+  }
+ ],
+ "overall": "amber",
+ "checks_run": [
+  "citation",
+  "claim_support",
+  "inference",
+  "sentence"
+ ],
+ "checks_skipped": {
+  "method_code": "AUD-F-05: method-code alignment arrives in Increment 4",
+  "spec_leakage": "AUD-F-06: leakage checks arrive in Increment 6",
+  "novelty": "AUD-F-07: novelty against retrieved literature arrives in Increment 4",
+  "rerun": "AUD-F-08: re-running experiments is optional, Increment 6"
+ },
+ "total_cost_usd": 0.0009333177299999999,
+ "wall_seconds": 58,
+ "schema_version": "0.13"
+}
